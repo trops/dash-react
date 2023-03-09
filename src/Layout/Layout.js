@@ -1,0 +1,36 @@
+/**
+ * Layout
+ * 
+ * Manage the Layout of Workspaces
+ */
+import React, { useContext, useEffect } from "react";
+import { withPlugins } from "@dash/Plugin/Plugin";
+import { WorkspaceContext, AppContext} from "@dash/Context";
+import { LayoutBuilder } from "@dash/Layout";
+
+export const Layout = ({ children, preview, scrollable = false }) => {
+
+    const { debugMode, debugStyles } = useContext(AppContext);
+    const workspaceDataFromContext = useContext(WorkspaceContext);
+
+    useEffect(() => {
+        console.log('LAYOUT effect', workspaceDataFromContext);
+    });
+
+    function debugClasses() {
+        const styles = debugStyles['layout']['classes'];
+        return debugMode === true && `space-y-4 ${styles}`
+    }
+
+    return !children && workspaceDataFromContext 
+        ? (<LayoutBuilder workspace={workspaceDataFromContext} preview={preview} type={workspaceDataFromContext['type']} controls={false} />) 
+        : (
+        <div className={`flex flex-col w-full space-y-4 ${scrollable === true ? 'overflow-y-auto h-full':'overflow-hidden h-full'} ${debugClasses()} p-4`}>
+            {debugMode && (<span className={`text-white uppercase text-xs`}>LAYOUT has children and {scrollable === true ? 'is scrollable':'is not scrollable'}</span>)}
+            {/* extensible menu for plugins, like a grid editor for the layout */}
+            <div className={`flex flex-col w-full space-y-4 p-0 h-full ${scrollable === false ? 'overflow-hidden':''}`}>
+                {children}
+            </div>
+        </div>
+    );
+}

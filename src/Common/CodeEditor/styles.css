@@ -1,0 +1,15 @@
+/* .codeEditor {
+
+    font-size: 14px;
+    white-space: pre;
+    min-width: 100%;
+    min-height: 100%;
+    float: left;
+}
+
+/* 
+& > textarea,
+& > pre {
+  outline: none;
+  white-space: pre !important;
+} */

@@ -1,0 +1,304 @@
+import React, { useState, useEffect, useContext } from "react";
+import { Panel } from "@dash/Common";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { deepCopy, replaceItemInLayout} from "@dash/Utils";
+import deepEqual from "deep-equal";
+import { ThemeContext } from "@dash/Context";
+
+
+export const PanelEditItemHandlers = ({ workspace, open, setIsOpen, onSave, onUpdate, item = null }) => {
+
+    const { theme } = useContext(ThemeContext);
+    const [itemSelected, setItemSelected] = useState(item);
+    const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
+    const [componentsSelected, setComponentsSelected] = useState({});
+    // const [eventSelected, setEventSelected] = useState(null);
+    const [eventsSelected, setEventsSelected] = useState({});
+    const [eventHandlerSelected, setEventHandlerSelected] = useState(null);
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+
+    useEffect(() => {
+
+        console.log('event workspace ', workspaceSelected, workspace);
+
+        // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
+        //     setWorkspaceSelected(() => workspace);
+        //     loadExistingListeners(workspace);
+        // }
+
+        if (deepEqual(item, itemSelected) === false) {
+            setItemSelected(() => item);
+            loadExistingListeners(workspace);
+        }
+
+        if (deepEqual(workspace, workspaceSelected) === false) {
+            setWorkspaceSelected(() => workspace);
+            loadExistingListeners(workspace);
+        }
+
+        // if (open === false) {
+        //     setItemSelected(() => null);
+        //     // setComponentsSelected(() => []);
+        //     setEventsSelected(() => {});
+        //     setEventHandlerSelected(() => null);
+        // }
+
+        // if (Object.keys(componentsSelected).length < 1) {
+        //     loadExistingListeners(workspace);
+        // }
+
+    }, [open, workspace, item])
+
+    useEffect(() => {
+        console.log('event and handler change effect', eventHandlerSelected, eventsSelected);
+        handleSaveChanges();
+    }, [eventsSelected, eventHandlerSelected]);
+
+    function loadExistingListeners(ws) {
+        console.log('loading existing ');
+        if (ws !== null) {
+            const existingListeners = {};
+            ws.layout.forEach(layoutItem => {
+                if ('listeners' in layoutItem) {
+                    Object.keys(layoutItem['listeners']).forEach(key => {
+                        const events = layoutItem['listeners'][key];
+                        existingListeners[key] = events;
+                    });
+                }
+            });
+
+            setEventsSelected(() => existingListeners);
+
+            // let's select one for the user
+            if (Object.keys(existingListeners).length > 0) {
+                setEventHandlerSelected(() => Object.keys(existingListeners)[0]);
+            }
+
+            forceUpdate();
+        }
+    }
+
+    function handleSelectEvent(eventString) {
+        try {
+            console.log('event selected ', eventString, eventHandlerSelected);
+            if (eventsSelected && eventHandlerSelected !== null) {
+                // check if we have the hander "key" in the events object
+                let tempEvents = [];
+                let tempEventsSelected = deepCopy(eventsSelected);
+
+                console.log('temp events selected ', tempEventsSelected);
+                if (eventHandlerSelected in tempEventsSelected) {
+                    tempEvents = tempEventsSelected[eventHandlerSelected];
+                }
+                
+                console.log('temp events selected ', tempEvents);
+                
+                tempEvents.push(eventString);
+                const uniqueEventsSelected = tempEvents.filter((value, index, array) => array.indexOf(value) === index) // remove any possible duplicates;
+                tempEventsSelected[eventHandlerSelected] = uniqueEventsSelected;
+
+                setEventsSelected(() => tempEventsSelected);
+
+                console.log('DONE ', tempEventsSelected);
+
+                handleSaveChanges();
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    function handleRemoveEvent(eventString) {
+        const eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(event => event !== eventString);
+        setEventsSelected(() => eventsSelectedTemp);
+        handleSaveChanges();
+    }
+
+    function handleSelectEventHandler(handler) {
+        setEventHandlerSelected(() => handler);
+        handleSaveChanges();
+    }
+
+    function handleRemoveEventHandler() {
+        setEventHandlerSelected(() => null);
+        setEventsSelected(() => {});
+        handleSaveChanges();
+    }
+
+    function getLayoutItemById(id) {
+        if (workspaceSelected !== null) {
+            const layoutItems = workspaceSelected.layout.filter(layoutItem => {
+                return layoutItem['id'] === parseInt(id, 10);
+            });
+            if (layoutItems.length > 0) {
+                return layoutItems[0];
+            }
+        }
+        return null;
+    }
+
+    function handleSaveChanges() {
+        try {
+            if (workspaceSelected !== null && eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0) {
+
+                console.log('saving changes');
+                const tempWorkspace = deepCopy(workspaceSelected);
+                
+                // craft the event handler + listeners 
+                // and add to the layout item
+                const layoutItem = getLayoutItemById(itemSelected['id']);
+
+                // now lets add to it...
+                layoutItem['listeners'] = eventsSelected;
+                tempWorkspace['layout'] = replaceItemInLayout(tempWorkspace.layout, layoutItem['id'], layoutItem);
+
+                // save the new workspace
+                onUpdate(layoutItem, tempWorkspace);
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    /**
+     * isSelected 
+     * Check to see if the event for the component is selected
+     * 
+     * @param {String} eventString the string containing {component}[{id}].{event}
+     * @returns 
+     */
+
+    function isSelectedEvent(event) {
+        try {
+            if (eventsSelected !== null && eventHandlerSelected) {
+                console.log('checking is event selected ', eventsSelected, eventsSelected[eventHandlerSelected], event);
+                return eventsSelected[eventHandlerSelected].includes(event);
+            } 
+            return false;
+        } catch(e) {
+            return false;
+        }
+    }
+
+    function renderAvailableEvents() {
+        if (workspaceSelected !== null) {
+            console.log('available events ', workspaceSelected);
+            return workspaceSelected.layout
+                .filter(l => l['component'] !== 'Container')
+                .filter(e => e.events.length > 0)
+                .filter(li => li['component'] !== itemSelected['component'])
+                .map(layout => {
+                    return (
+                        <div className={`flex flex-col text-base font-bold text-gray-400 p-2`}>
+                            <div className="flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4">
+                                <span className="text-lg">{layout['component']}&nbsp;[{layout['id']}]</span>
+                            </div>
+                            <div className="flex flex-col space-y-1 py-1">
+                                {layout.events
+                                    .filter((value, index, array) => array.indexOf(value) === index) // remove any possible duplicates
+                                    .map(event => {
+                                        const eventString = `${layout['component']}[${layout['id']}].${event}`;
+                                        const selected = isSelectedEvent(eventString);
+                                        console.log('SELECTED ', eventString, selected);
+
+                                        return (
+                                            <div 
+                                                onClick={() => selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString)}
+                                                className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 font-bold items-center space-x-2 ${selected === true ? 'bg-blue-800' : ''} `}
+                                            >
+                                                <FontAwesomeIcon icon={'square-check'} className={`${selected === true ? 'text-blue-500' : 'text-gray-700'} text-xl`} />
+                                                <div className="flex flex-col">
+                                                    <span className={`text-base hover:text-gray-300 ${selected === true ? 'text-gray-300':'text-gray-400'}`}>{event}</span>
+                                                    {/* <span className="text-indigo-600 text-xs font-normal">{eventString}</span> */}
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </div>
+                        </div>
+                    );
+            });
+        }
+    }
+
+    function renderAvailableHandlers() {
+        if (workspaceSelected !== null) {
+            return workspaceSelected.layout
+                .filter(li => li['id'] === itemSelected['id'])
+                .map(layout => {
+                    return layout.eventHandlers.length > 0 && (
+                        <div className={`flex flex-col text-base font-bold text-gray-400 p-2`}>
+                            <div className="flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4">
+                                <span className="text-lg">{layout['component']}&nbsp;[{layout['id']}]</span>
+                            </div>
+                            <div className="flex flex-col space-y-1 py-1">
+                                {layout.eventHandlers
+                                    .filter((value, index, array) => array.indexOf(value) === index) // remove any possible duplicates
+                                    .map(handler => {
+                                        const selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false;//isHandlerSelected(handler);
+                                        console.log('selected handler ', selected, eventHandlerSelected);
+                                        return (
+                                            <div 
+                                                onClick={() => selected ? handleRemoveEventHandler(handler) : handleSelectEventHandler(handler)}
+                                                className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 font-bold items-center space-x-2 ${selected === true && 'bg-indigo-700'}`}
+                                            >
+                                                <div className="flex flex-col px-2">
+                                                    <span className={`text-base hover:text-gray-300 ${selected === true ? 'text-gray-300':'text-gray-400'}`}>{handler}</span>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </div>
+                        </div>
+                    );
+            });
+        }
+    }
+
+
+    return itemSelected !== null && (
+            <Panel theme={false}>
+                <div className={`flex flex-col w-full h-full overflow-hidden`}>
+                   
+                    <div className='flex flex-col w-full h-full overflow-hidden'>
+                        <div className="flex flex-row w-full h-full overflow-hidden space-x-4 justify-between">
+                            {/* <div className='flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3'> */}
+                            <div className='flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3'>
+                                {/* render the widget item here. */}
+                                {itemSelected !== null && (
+                                    <div className="flex flex-col rounded p-4 py-10 space-y-4">
+                                        <p className={`text-5xl font-bold ${theme['text-secondary-very-light']}`}>Listen Up.</p>
+                                        <p className={`text-xl font-normal ${theme['text-secondary-light']}`}>Widgets and Workspaces can talk, but we have to setup the phone wires.</p>
+                                        <p className={`text-xl font-normal ${theme['text-secondary-light']}`}>Select the method to handle the message first, then select the message it will handle.</p>
+                                        
+                                        {/* <p className="text-xl font-normal text-gray-300">Widgets and Workspaces can talk, but we have to setup the phone wires.</p>
+                                        <p className="text-xl font-normal text-gray-300">Select the method to handle the message first, then select the message it will handle.</p> */}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3">
+                                <span className="uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2">Available Handlers </span>
+                                <div className="flex flex-col h-full overflow-y-scroll p-2">
+                                    {itemSelected.eventHandlers.length > 0 && renderAvailableHandlers()}
+                                    {itemSelected.eventHandlers.length === 0 && (
+                                        <div className="flex flex-col text-yellow-600 font-bold p-4">No available Handlers found.</div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3">
+                                <span className="uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2">Available Events </span>
+                                <div className="flex flex-col h-full overflow-y-scroll p-2">
+                                    {eventHandlerSelected !== null && renderAvailableEvents()}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Panel>
+    )
+}
+
+export default PanelEditItemHandlers;
