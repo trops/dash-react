@@ -1,5 +1,8 @@
-import { Button, Button2, Button3 } from './Button';
+import { ButtonIcon, ButtonIcon2, ButtonIcon3 } from './ButtonIcon';
 import '../tailwind.css';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer } from '@fortawesome/free-solid-svg-icons'
+library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot,faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -7,15 +10,15 @@ export default {
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
   */
-  title: 'Button',
-  component: Button,
+  title: 'ButtonIcon',
+  component: ButtonIcon,
 };
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
   return (
       <div className='flex flex-col space-y-2'>
-        <Button {...args} />
+        <ButtonIcon {...args} />
       </div>
   );
 }
@@ -23,7 +26,7 @@ const Template = (args) => {
 const Template2 = (args) => {
   return (
       <div className='flex flex-col space-y-2'>
-        <Button2 {...args} />
+        <ButtonIcon2 {...args} />
       </div>
   );
 }
@@ -31,7 +34,7 @@ const Template2 = (args) => {
 const Template3 = (args) => {
   return (
       <div className='flex flex-col space-y-2'>
-        <Button3 {...args} />
+        <ButtonIcon3 {...args} />
       </div>
   );
 }
@@ -41,7 +44,8 @@ export const Tertiary = Template3.bind({});
 
 Primary.args =  {
   //👇 The args you need here will depend on your component
-  title: "Button",
+  text: "ButtonIcon",
+  icon: "pencil",
   theme: false,
   backgroundColor: 'bg-blue-500',
   textColor: 'text-white',
@@ -50,7 +54,8 @@ Primary.args =  {
 
 Secondary.args =  {
   //👇 The args you need here will depend on your component
-  title: "Button 2",
+  text: "ButtonIcon 2",
+  icon: 'pencil',
   theme: false,
   backgroundColor: 'bg-blue-500',
   textColor: 'text-white',
@@ -59,7 +64,8 @@ Secondary.args =  {
 
 Tertiary.args =  {
   //👇 The args you need here will depend on your component
-  title: "Button 3",
+  text: "ButtonIcon 3",
+  icon: 'pencil',
   theme: false,
   backgroundColor: 'bg-blue-500',
   textColor: 'text-white',

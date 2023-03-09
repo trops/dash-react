@@ -28,4 +28,5 @@ yarn-error.log*
 /dist
 /package
 .storybook/
+storybook-static/
 webpack.config.js
