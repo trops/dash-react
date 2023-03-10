@@ -58,6 +58,7 @@ export const ThemeWrapper = ({ children }) => {
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
+        console.log('ThemeWrapper ', creds);
         if (theme === null && themesForApplication !== null) {
             const themeKeyDefault = Object.keys(themesForApplication)[0];
             const defaultTheme = ThemeModel(themesForApplication[themeKeyDefault]);

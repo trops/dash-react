@@ -10,8 +10,9 @@
     "access": "restricted"
   },
   "scripts": {
-    "dry1": "npm version patch && rm -r ./dist/* && rm -r ./package/* && npm run roll && npm run copy1 && npm run pack-local-esm",
+    "dry1": "npm version patch && rm -r ./dist/* && rm -r ./package/* && npm run roll && npm run copy1 && npm run pack-local-esm && npm run copy-package",
     "copy1": "cp package.json dist/ && cp README.md dist/ && cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css",
+    "copy-package": "cp ./package/dash-{$npm_package_version}.tgz ./package/dash.tgz",
     "pack-local-esm": "cd ./dist && npm pack --pack-destination ../package",
     "link-package-1": "cd ./dist && npm link",
     "build": "npm run build:css && npm run dry1",

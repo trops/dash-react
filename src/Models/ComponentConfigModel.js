@@ -48,12 +48,43 @@ export const ComponentConfigModel = (o = {}) => {
 
     const obj = deepCopy(o);
 
+    /**
+     * id
+     * The unique identifer for the component
+     */
     obj.id = 'id' in obj ? obj['id'] : null;
+
+    /**
+     * name
+     * The name of the component for display purposes
+     */
     obj.name = 'name' in obj ? obj['name'] : 'My Workspace';
+
+    /**
+     * type
+     * The type of component (widget|workspace)
+     */
     obj.type = 'type' in obj ? obj['type'] : 'workspace';
+
+    /**
+     * workspace
+     * The workspace this component belongs to
+     */
     obj.workspace = 'workspace' in obj ? obj['workspace'] : "workspace-dash";
+
+    /**
+     * userConfig
+     * Allow the end users to edit/input parameters into the edit widget layout panel
+     */
     obj.userConfig = 'userConfig' in obj ? obj['userConfig'] : 'workspace';
-    obj.styles = 'styles' in obj ? obj['styles'] : {};
+
+    /**
+     * layout builder styles
+     */
+    obj.styles = 'styles' in obj ? obj['styles'] : {
+        "backgroundColor": "bg-blue-800",
+        "borderColor": "border-blue-900"
+    };
 
     return o;
 };

@@ -63,7 +63,7 @@ const PreviewColorsPane = ({ styles = null, theme, itemType = null, onClickItem 
                     const shade = parts[2];
 
                     return key !== 'string' && (
-                        <div className="flex flex-row justify-between py-2 items-center border-b border-gray-700 px-2">
+                        <div key={`preview-color-${key}`} className="flex flex-row justify-between py-2 items-center border-b border-gray-700 px-2">
                             <span className="text-sm font-bold text-gray-300">{key}</span>
                             <ColorTile 
                                 width={'w-1/2'} 
