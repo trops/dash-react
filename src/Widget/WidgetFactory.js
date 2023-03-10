@@ -3,7 +3,6 @@
  * Get the "component" and params and dynamically generate the Component
  */
 import React from 'react';
-import { componentMap } from "@dash/componentMap.config.js";
 import { Container } from "@dash/Common";
 import { ComponentManager } from '@dash';
 
@@ -17,10 +16,12 @@ const WidgetFactory = {
     },
     render: (component, key, params = {}, children = null ) => {
         try {
-            if (component && componentMap) {
+            const m = ComponentManager.componentMap();
+            console.log('factory ', m);
+            if (component && m) {
                 // grab the component from the map
                 const WidgetComponent = component !== "Container"
-                    ? componentMap[component]['component']
+                    ? m[component]['component']
                     : Container;
 
                 const config = ComponentManager.config(component, params);

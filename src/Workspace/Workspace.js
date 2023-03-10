@@ -7,25 +7,26 @@
  */
 import React, { useContext } from "react";
 import { LayoutContainer } from "@dash/Layout";
-import { AppContext, WorkspaceContext, ThemeContext } from "@dash/Context";
+import { AppContext, WorkspaceContext } from "@dash/Context";
 
 
 export const Workspace = ({ theme = false, workspaceData, children = null, width = 'w-full', height = '', direction = 'col', scrollable = true, ...props }) => {
 
-    const { debugMode, debugStyles } = useContext(AppContext);
-    const { currentTheme } = useContext(ThemeContext);
+    // const { debugMode, debugStyles } = useContext(AppContext);
+
+    // console.log('workspace ', debugMode);
 
     function debugClasses() {
-        const styles = debugStyles['workspace']['classes'];
-        return debugMode === true && `space-y-4 ${styles}`
+        // const styles = debugStyles['workspace']['classes'];
+        return '';//debug === true && `space-y-4 ${styles}`
     }
 
-    console.log('Workspace props ', { theme, workspaceData, children, width, height, direction, scrollable, ...props })
+    // console.log('Workspace props ', { theme, workspaceData, children, width, height, direction, scrollable, ...props })
     
     return (
         <WorkspaceContext.Provider value={workspaceData}>
             <LayoutContainer theme={theme} direction={direction} scrollable={scrollable} width={width} height={height} className={`${debugClasses()}`}>
-                {debugMode === true && (<span className="text-white uppercase text-xs">WORKSPACE {children && 'children'}</span>)}
+                {/* {debugMode === true && (<span className="text-white uppercase text-xs">WORKSPACE {children && 'children'}</span>)} */}
                 {children}
             </LayoutContainer>
         </WorkspaceContext.Provider>

@@ -133,8 +133,6 @@ export const PanelApplicationSettings = ({ settings, workspaces, setIsOpen }) =>
             case "workspace":
                 if (Object.keys(args).length > 0) {
                     if (args[0] === 'list') {
-                        // const w = ComponentManager.map();
-                        // const workspaces = Object.keys(w).filter(key => w[key]['type'] === 'workspace');
                         stringObject = `${JSON.stringify(workspaces.map(ws => ws['name']), null, 2)}`;
                     }
                 }

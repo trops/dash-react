@@ -1,14 +1,38 @@
 // TODO, move this into a argument as opposed to a file...
-import { componentMap } from "./componentMap.config";
 import { LayoutContainer } from "@dash/Layout";
 import { deepCopy } from "@dash/Utils";
+import { ComponentConfigModel } from "@dash/Models";
 
-const ComponentManager = {
+let _componentMap = {};
 
-    _componentMap: null,
+export const ComponentManager = {
+
+    // _componentMap: {},
     
-    setComponentMap: function(cm) {
+    /**
+     * init 
+     * @param {object} configs 
+     */
+    init: function(configs) {
+        if (configs) {
+            Object.keys(configs).forEach(key => {
+                this.registerWidget(configs[key], key);
+            })
+        }
+    },
 
+    setComponentMap: function(cm) {
+        _componentMap = cm;
+    },
+
+    componentMap: function() {
+        return _componentMap;
+    },
+
+    registerWidget: function(widgetConfig, widgetKey) {
+        const tempComponentMap = this.componentMap();
+        tempComponentMap[widgetKey] = ComponentConfigModel(widgetConfig.default);
+        this.setComponentMap(tempComponentMap);
     },
 
     /**
@@ -16,9 +40,9 @@ const ComponentManager = {
      * Get a map of all of the registered components in the application
      * @returns object
      */
-    map: () => {
+    map: function() {
         // copy
-        let componentsCopy = deepCopy(componentMap);
+        let componentsCopy = deepCopy(this.componentMap());
         if (componentsCopy) {
             // additional INTERNAL components that we need
             componentsCopy["Container"] = {
@@ -39,15 +63,16 @@ const ComponentManager = {
      * @param {string} component 
      * @returns 
      */
-    getComponent: (component, data = {}) => {
+    getComponent: function(component, data = {}) {
         try {
-            if (component && componentMap) {
+            if (component && this.componentMap()) {
                 if (ComponentManager.isLayoutContainer(component) === false) {
-                    const cmp = componentMap[component];
-                    cmp['componentName'] = component;
-                    return cmp;
-                    // const layoutModel = LayoutModel(cmp);
-                    // return layoutModel;
+                    const m = this.componentMap();
+                    const cmp = component in m ? m[component] : null;
+                    if (cmp !== null) {
+                        cmp['componentName'] = component;
+                        return cmp;
+                    }
                 } else {
                     return {
                         "component": LayoutContainer,
@@ -63,11 +88,9 @@ const ComponentManager = {
             return null;
         }
     },
-    config: (component, data = {}) => {
+    config: function(component, data = {}) {
         
         if (component) {
-            const isLayout = ComponentManager.isLayoutContainer(component);
-            
             const requiredFields = {
                 "type": { "value": "text" },
                 "required": { "value": false },
@@ -136,7 +159,7 @@ const ComponentManager = {
      * @param {object} config the current configuration object
      * @returns 
      */
-    userPrefsForItem: (item, key, config) => {
+    userPrefsForItem: function(item, key, config) {
         try {
             let prefsForItem = {};
             if ('userPrefs' in item) {
@@ -162,9 +185,7 @@ const ComponentManager = {
      * @param {string} component the string name of the component to be matched in the component config file
      * @returns boolean
      */
-    isLayoutContainer: (component) => {
+    isLayoutContainer: function(component) {
         return component === 'LayoutContainer' || component === 'Container';
     },
 };
-
-export { ComponentManager };

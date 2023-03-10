@@ -1,6 +1,6 @@
 {
   "name": "dash",
-  "version": "0.1.3",
+  "version": "0.0.11",
   "description": "A Dashboard Generator.",
   "module": "dist/index.esm.js",
   "main": "dist/index.cjs.js",
@@ -10,7 +10,7 @@
     "access": "restricted"
   },
   "scripts": {
-    "dry1": "rm -rf ./dist && npm run roll && npm run copy1 && npm run pack-local-esm",
+    "dry1": "npm version patch && rm -r ./dist/* && rm -r ./package/* && npm run roll && npm run copy1 && npm run pack-local-esm",
     "copy1": "cp package.json dist/ && cp README.md dist/ && cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css",
     "pack-local-esm": "cd ./dist && npm pack --pack-destination ../package",
     "link-package-1": "cd ./dist && npm link",

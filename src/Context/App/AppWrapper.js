@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { AppContext } from "./AppContext";
-import algoliasearch from 'algoliasearch/lite';
+// import algoliasearch from 'algoliasearch/lite';
 import { SettingsModel } from "@dash/Models";
 import { deepCopy } from "@dash/Utils";
 
@@ -27,13 +27,14 @@ const debugStyles = {
     }
 }
 
-const searchClientAlgolia = algoliasearch(process.env.REACT_APP_APP_ID, process.env.REACT_APP_ALGOLIA_KEY);
+export const AppWrapper = ({ children, api, ...rest }) => {
 
-export const AppWrapper = ({ children, api }) => {
-
-    const [creds, setCreds] = useState({ appId: process.env.REACT_APP_APP_ID, apiKey: process.env.REACT_APP_ALGOLIA_KEY });
-    const [debugMode, setDebugmode] = useState(process.env.REACT_APP_DEBUG === "false" ? true : false);
-    const [searchClient, setSearchClient] = useState(searchClientAlgolia);
+    const [creds, setCreds] = useState({ 
+        appId: '',
+        apiKey: ''
+    });
+    const [debugMode, setDebugmode] = useState(false);
+    const [searchClient, setSearchClient] = useState(null);
 
     const [settings, setSettings] = useState(null);
     const [isLoadingSettings, setIsLoadingSettings] = useState(false);

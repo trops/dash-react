@@ -9,8 +9,8 @@ const Widget = ({ id, uuid, children, height, width, scrollable = true, directio
     const { pub, settings } = useContext(DashboardContext);
 
     function debugClasses() {
-        const styles = debugStyles['widget']['classes'];
-        return debugMode === true ? `space-y-4 p-4 ${styles}` : ''
+        // const styles = debugStyles['widget']['classes'];
+        // return debugMode === true ? `space-y-4 p-4 ${styles}` : ''
     }
 
     // inject the publisher into the api for the developer to use

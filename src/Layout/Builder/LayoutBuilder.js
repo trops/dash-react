@@ -37,7 +37,7 @@ import {
 
 export const LayoutBuilder = ({ workspace, preview = false, onTogglePreview, onWorkspaceChange = null, dashboardId }) => {
 
-    const { debugMode, api } = useContext(AppContext);
+    const { debugMode} = useContext(AppContext);
     
     const [isConfigOpen, setIsConfigOpen] = useState(false);
     const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
