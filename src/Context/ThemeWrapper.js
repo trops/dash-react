@@ -69,9 +69,9 @@ export const ThemeWrapper = ({ children }) => {
     });
 
     function loadThemes() {
-        console.log('loading themes ', api);
+        console.log('loading themes api: ', api);
         if (api) {
-            // api.removeAllListeners();
+            api.removeAllListeners();
             api.on(api.events.THEME_LIST_COMPLETE, handleLoadThemesComplete);
             api.on(api.events.THEME_LIST_ERROR, handleLoadThemesError);
             api.themes.listThemesForApplication(creds.appId);

@@ -30,7 +30,7 @@ const debugStyles = {
 export const AppWrapper = ({ children, api, ...rest }) => {
 
     const [creds, setCreds] = useState({ 
-        appId: '',
+        appId: 'ZHSCSP4LMX', // change to some uuid of some sort, not algolia specific
         apiKey: ''
     });
     const [debugMode, setDebugmode] = useState(false);
