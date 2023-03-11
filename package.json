@@ -22,7 +22,7 @@
         "roll": "rollup -c",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "bump": "npm version --no-git-tag-version patch"
+        "bump": "npm version -m patch"
     },
     "keywords": [
         "Dash"
