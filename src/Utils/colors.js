@@ -3,7 +3,7 @@
  * This file contains utility functions and values to be used for Themeing
  */
 
-import { themeObjects, styleClassNames } from "./themeObjects";
+import { themeObjects, styleClassNames } from "@dash/Utils";
 
 const objectTypes = ['bg','text','hover-bg','hover-text', 'border'];
 
@@ -66,7 +66,6 @@ const colorMap = {
         [styleClassNames.HOVER_BACKGROUND_COLOR]: 'hover-bg-primary-medium',
         [styleClassNames.HOVER_TEXT_COLOR]: 'hover-text-primary-dark',
         [styleClassNames.HOVER_BORDER_COLOR]: 'border-primary-dark',
-
     },
     [themeObjects.BUTTON_2]: {
         [styleClassNames.BACKGROUND_COLOR]: 'bg-secondary-medium',
@@ -237,6 +236,10 @@ const colorMap = {
         [styleClassNames.HOVER_TEXT_COLOR]: 'hover-text-tertiary-dark',
         [styleClassNames.HOVER_BORDER_COLOR]: 'hover-border-none',
     },
+    [themeObjects.DASHBOARD_FOOTER]: {
+        [styleClassNames.BACKGROUND_COLOR]: 'bg-primary-very-dark',
+        [styleClassNames.BORDER_COLOR]: 'border-primary-dark',
+    },
 };
 
 /**
@@ -244,21 +247,27 @@ const colorMap = {
  * @param {string} itemName the name of the component (button, panel, etc)
  * 
  */
-const getStylesForItem = (itemName = themeObjects.BUTTON, theme, overrides = {}) => {
+const getStylesForItem = (itemName = themeObjects.BUTTON, theme = null, overrides = {}) => {
     const defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
     let styles = {};
+    // console.log('overrides ', overrides);
+
     if (defaultStyles !== null) {
         // check for the item styles in the user theme
-        const stylesForItem = itemName in theme ? theme[itemName] : null;
+        const stylesForItem = theme !== null && itemName in theme ? theme[itemName] : null;
         // now we have to handle the overrides
         Object.keys(defaultStyles).forEach(className => {
-            styles[className] = getStyleForClass(className, stylesForItem, overrides, theme[defaultStyles[className]]);
+            styles[className] = theme !== null 
+                ? getStyleForClass(className, stylesForItem, overrides, theme !== null ? theme[defaultStyles[className]] : null) 
+                : '';
         });
+
+        // console.log(styles);
     }
     return { string: Object.keys(styles).map(key => styles[key]).join(' '), ...styles };
 };
 
-const getStyleForClass = (className, customStyles, overrides, fallbackStyle) => {
+const getStyleForClass = (className, customStyles, overrides, fallbackStyle = '') => {
     const style = className in overrides && overrides[className] !== null 
         ? overrides[className] 
         : (customStyles !== null ? (className in customStyles ? customStyles[className] : fallbackStyle) : fallbackStyle);

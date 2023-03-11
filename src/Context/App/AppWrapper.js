@@ -79,10 +79,12 @@ export const AppWrapper = ({ children, api, ...rest }) => {
     function loadSettings() {
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
-        api.removeAllListeners();
-        api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
-        api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
-        api.settings.getSettingsForApplication();
+        if (api) {
+            api.removeAllListeners();
+            api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
+            api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
+            api.settings.getSettingsForApplication();
+        }
     }
 
     function handleGetSettingsComplete(e, message) {
@@ -115,36 +117,46 @@ export const AppWrapper = ({ children, api, ...rest }) => {
         api.settings.saveSettingsForApplication(settings);
     }
 
-    function handleSaveSettingsComplete(e, message) {
-        if ('settings' in message) {
-            let settingsObject;
-            if (Object.keys(message['settings']).length === 0) {
-                // nothing in settings so we should set some things....
-                // set a default theme for the user
-                settingsObject = SettingsModel({ theme: 'theme-1' });
-            } else {
-                settingsObject = SettingsModel(message['settings']);
-            }
-            setSettings(() => settingsObject);
-        }
-        // set the settings model to the context
-        setIsSavingSettings(() => false);
-    }
+    // function handleSaveSettingsComplete(e, message) {
+    //     if ('settings' in message) {
+    //         let settingsObject;
+    //         if (Object.keys(message['settings']).length === 0) {
+    //             // nothing in settings so we should set some things....
+    //             // set a default theme for the user
+    //             settingsObject = SettingsModel({ theme: 'theme-1' });
+    //         } else {
+    //             settingsObject = SettingsModel(message['settings']);
+    //         }
+    //         setSettings(() => settingsObject);
+    //     }
+    //     // set the settings model to the context
+    //     setIsSavingSettings(() => false);
+    // }
 
-    function handleSaveSettingsError(e, message) {
-        console.log('settings load error ', e, message);
-        setIsSavingSettings(() => false);
-    }    
+    // function handleSaveSettingsError(e, message) {
+    //     console.log('settings load error ', e, message);
+    //     setIsSavingSettings(() => false);
+    // }    
 
     function getValue() {
+
+        console.log('app context value ', {
+            debugMode: debugMode,
+            debugStyles: debugStyles,
+            creds: creds,
+            searchClient: searchClient,
+            api: api,
+            settings: settings
+        });
+
         return { 
             key: Date.now(),
-            debugMode,
-            debugStyles,
-            creds,
-            searchClient,
-            api,
-            settings,
+            debugMode: debugMode,
+            debugStyles: debugStyles,
+            creds: creds,
+            searchClient: searchClient,
+            api: api,
+            settings: settings,
             changeSearchClient,
             changeCreds,
             changeDebugMode,

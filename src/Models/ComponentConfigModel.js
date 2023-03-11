@@ -44,9 +44,10 @@ import { deepCopy } from "@dash/Utils";
  * @param {object} o the data passed in to generate the model
  * @returns <ComponentConfigModel>Object
  */
-export const ComponentConfigModel = (o = {}) => {
+export const ComponentConfigModel = (obj = {}) => {
 
-    const obj = deepCopy(o);
+    console.log('config model in ', obj);
+    // const obj = deepCopy(o);
 
     /**
      * id
@@ -76,7 +77,7 @@ export const ComponentConfigModel = (o = {}) => {
      * userConfig
      * Allow the end users to edit/input parameters into the edit widget layout panel
      */
-    obj.userConfig = 'userConfig' in obj ? obj['userConfig'] : 'workspace';
+    obj.userConfig = 'userConfig' in obj ? obj['userConfig'] : {};
 
     /**
      * layout builder styles
@@ -86,5 +87,7 @@ export const ComponentConfigModel = (o = {}) => {
         "borderColor": "border-blue-900"
     };
 
-    return o;
+    console.log('config: ', obj);
+
+    return obj;
 };

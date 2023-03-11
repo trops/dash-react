@@ -4,7 +4,6 @@
  * Manage the Layout of Workspaces
  */
 import React, { useContext, useEffect } from "react";
-import { withPlugins } from "@dash/Plugin/Plugin";
 import { WorkspaceContext, AppContext} from "@dash/Context";
 import { LayoutBuilder } from "@dash/Layout";
 
@@ -18,8 +17,9 @@ export const Layout = ({ children, preview, scrollable = false }) => {
     });
 
     function debugClasses() {
-        const styles = debugStyles['layout']['classes'];
-        return debugMode === true && `space-y-4 ${styles}`
+        // const styles = debugStyles !== null && debugStyles !== undefined 
+        //     ? ('layout' in debugStyles ? debugStyles['layout']['classes'] : null) : null;
+        return debugMode === true && `space-y-4`;// ${styles}`
     }
 
     return !children && workspaceDataFromContext 

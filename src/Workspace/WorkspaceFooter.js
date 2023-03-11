@@ -9,8 +9,9 @@ export const WorkspaceFooter = ({ title = 'Footer Title', onClick, children }) =
     const { currentTheme } = useContext(ThemeContext);
 
     function debugClasses() {
-        const styles = debugStyles['workspace-footer']['classes'];
-        return debugMode === true && `space-y-4 ${styles}`
+        // const styles = debugStyles['workspace-footer']['classes'];
+        // return debugMode === true && `space-y-4 ${styles}`
+        return '';
     }
 
     function renderMenu() {

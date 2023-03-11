@@ -43,12 +43,12 @@ const themes = {
     }
 };
 
-export const ThemeWrapper = ({ children }) => {
+export const ThemeWrapper = ({ theme = null, children }) => {
 
     // changeApplicationTheme will save this to the settings config
     const { api, creds, changeApplicationTheme } = useContext(AppContext);
 
-    const [theme, setTheme] = useState(null);
+    const [chosenTheme, setChosenTheme] = useState(null);
     const [themeName, setThemeName] = useState(null);
     const [themeVariant, setThemeVariant] = useState('dark');
     const [themesForApplication, setThemesForApplication] = useState(null);
@@ -58,15 +58,37 @@ export const ThemeWrapper = ({ children }) => {
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log('ThemeWrapper ', creds);
-        if (theme === null && themesForApplication !== null) {
-            const themeKeyDefault = Object.keys(themesForApplication)[0];
-            const defaultTheme = ThemeModel(themesForApplication[themeKeyDefault]);
-            setThemeVariant(() => 'dark');
-            setTheme(() => defaultTheme);
+
+        // If the user has provided a theme as a override, 
+        // we can skip loading the themes...
+
+        if (chosenTheme === null) {//&& themesForApplication !== null) {
+            if (theme !== null) {
+                const defaultTheme = ThemeModel(theme);
+                setThemeVariant(() => 'dark');
+                setChosenTheme(() => defaultTheme);
+            } else {
+                // if the themes for application is null...
+                // we have to load the themes...
+                if (themesForApplication === null) {
+                    // finally 
+                    themesForApplication === null && loadThemes();
+                } else {
+                    const themeKeyDefault = themesForApplication !== null
+                        ? Object.keys(themesForApplication)[0] 
+                        : 'theme-1';
+                    const defaultTheme = ThemeModel(themesForApplication !== null ? themesForApplication[themeKeyDefault] : themes[themeKeyDefault]);
+                    setThemeVariant(() => 'dark');
+                    setChosenTheme(() => defaultTheme);
+                }
+            }
+        } else {
+            console.log('we have a theme!', chosenTheme);
+            // setThemesForApplication([chosenTheme]);
+            
+            // themesForApplication === null && loadThemes();
         }
-        console.log('loading themes');
-        themesForApplication === null && loadThemes();
+        
     });
 
     function loadThemes() {
@@ -78,6 +100,7 @@ export const ThemeWrapper = ({ children }) => {
             api.themes.listThemesForApplication(creds.appId);
         } else {
             console.log('no api found');
+            checkThemes(api.themes.listThemesForApplication());
         }
     }
 
@@ -136,7 +159,7 @@ export const ThemeWrapper = ({ children }) => {
                 setRawThemes(() => rawThemes);
                 forceUpdate();
 
-                if (theme === null) {
+                if (chosenTheme === null) {
                     changeCurrentTheme(Object.keys(themesForApplication)[0]);
                 }
                 
@@ -153,9 +176,8 @@ export const ThemeWrapper = ({ children }) => {
         if (rawThemes !== null) {
             console.log('changing theme to ', themeKey);
             const themeData = ThemeModel(rawThemes[themeKey]);
-            // console.log('theme data ', themeData, themes[themeKey]);
             if (themeKey !== null) {
-                setTheme(() => themeData);
+                setChosenTheme(() => themeData);
                 setThemeName(() => themeKey);
                 changeApplicationTheme(themeKey);
                 forceUpdate();
@@ -174,9 +196,9 @@ export const ThemeWrapper = ({ children }) => {
     const getValue = () => {
         return { 
                 key: Date.now(),
-                currentTheme: theme !== null ? (themeVariant in theme ? theme[themeVariant] : null) : null, 
+                currentTheme: chosenTheme !== null ? (themeVariant in chosenTheme ? chosenTheme[themeVariant] : null) : null, 
                 currentThemeKey: themeName,
-                theme: theme !== null ? (themeVariant in theme ? theme[themeVariant] : null) : null, 
+                theme: chosenTheme !== null ? (themeVariant in chosenTheme ? chosenTheme[themeVariant] : null) : null, 
                 themeKey: themeName,
                 themeVariant, 
                 changeCurrentTheme, 
@@ -189,8 +211,8 @@ export const ThemeWrapper = ({ children }) => {
     }
 
       return (
-        <ThemeContext.Provider 
-            value={getValue()}
-        >{children}</ThemeContext.Provider>
+        <ThemeContext.Provider value={getValue()}>
+            {children}
+        </ThemeContext.Provider>
       );
 }

@@ -44,7 +44,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log(menuItems);
+        console.log('DASHBOARD ', menuItems, api, settings);
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
@@ -302,11 +302,11 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                     <div className="flex flex-col h-full w-full justify-between">
                         <DashboardHeader workspace={workspaceSelected} preview={previewMode} onNameChange={handleWorkspaceNameChange} />
                         <div className="flex flex-col w-full h-full overflow-y-scroll">{renderComponent(workspaceSelected)}</div>
-                        <DashboardFooter theme={currentTheme} onClickEdit={() => setPreviewMode(!previewMode)} workspace={workspaceSelected} preview={previewMode} onSaveChanges={handleClickSaveWorkspace} />
+                        <DashboardFooter onClickEdit={() => setPreviewMode(!previewMode)} workspace={workspaceSelected} preview={previewMode} onSaveChanges={handleClickSaveWorkspace} />
                     </div>
                 )}
                 {workspaceSelected === null && (
-                    <PanelWelcome theme={currentTheme} menuItems={menuItems} workspaces={workspaceConfig} onClickWorkspace={handleClick} onClickCreateMenuItem={() => setIsAddWidgetModalOpen(true)} />
+                    <PanelWelcome menuItems={menuItems} workspaces={workspaceConfig} onClickWorkspace={handleClick} onClickCreateMenuItem={() => setIsAddWidgetModalOpen(true)} />
                 )}
                 <MenuSlideOverlay workspaces={workspaceConfig} open={isShowing} setOpen={setIsShowing} selectedMainItem={selectedMainItem} handleClick={handleClick}>
                     <MainMenu menuItems={menuItems} workspaces={workspaceConfig} onClickNew={handleClickNew} onClick={handleClick} selectedMainItem={selectedMainItem} onWorkspaceMenuChange={handleWorkspaceMenuChange} />

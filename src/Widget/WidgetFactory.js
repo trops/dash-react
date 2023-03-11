@@ -17,7 +17,7 @@ const WidgetFactory = {
     render: (component, key, params = {}, children = null ) => {
         try {
             const m = ComponentManager.componentMap();
-            console.log('factory ', m);
+            //console.log('factory ', m);
             if (component && m) {
                 // grab the component from the map
                 const WidgetComponent = component !== "Container"

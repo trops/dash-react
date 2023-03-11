@@ -34,6 +34,10 @@ const TOGGLE = 'toggle';
 const TOGGLE_2 = 'toggle-2';
 const TOGGLE_3 = 'toggle-3';
 
+const DASHBOARD_FOOTER = 'dashboard-footer';
+const DASHBOARD_FOOTER_2 = 'dashboard-footer-2';
+const DASHBOARD_FOOTER_3 = 'dashboard-footer-3';
+
 const themeObjects = {
     BUTTON,
     BUTTON_2,
@@ -61,7 +65,10 @@ const themeObjects = {
     TAG_3,
     TOGGLE,
     TOGGLE_2,
-    TOGGLE_3
+    TOGGLE_3,
+    DASHBOARD_FOOTER,
+    DASHBOARD_FOOTER_2,
+    DASHBOARD_FOOTER_3
 };
 
 const BACKGROUND_COLOR = "backgroundColor";

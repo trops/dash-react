@@ -35,13 +35,21 @@ export const WidgetApi = {
     },
     
     setElectronApi: function(api) {
-        // we should trim this to only the bare essentials that a dev would need.
-        const minified = {};
-        minified['data'] = api.data;
-        minified['algolia'] = api.algolia;
-        minified['events'] = api.publicEvents;
+        try {
+            /**
+             * include the main electron apis that we want to expose ONLY
+             */
+            if (api !== undefined && api !== null) {
+                const minified = {};
+                minified['data'] = 'data' in api ? api.data : null;
+                minified['algolia'] = 'algolia' in api ? api.algolia : null;
+                minified['events'] = 'publicEvents' in api ? api.publicEvents : null;
 
-        this._electronApi = minified;
+                this._electronApi = minified;
+            }
+        } catch(e) {
+            console.log('Error Setting Electron API ', e.message);
+        }
     },
 
     setSettings: function(settings) {

@@ -31,6 +31,7 @@ export const ComponentManager = {
 
     registerWidget: function(widgetConfig, widgetKey) {
         const tempComponentMap = this.componentMap();
+        console.log('register widget ', widgetConfig, widgetKey);
         tempComponentMap[widgetKey] = ComponentConfigModel(widgetConfig.default);
         this.setComponentMap(tempComponentMap);
     },
@@ -43,6 +44,7 @@ export const ComponentManager = {
     map: function() {
         // copy
         let componentsCopy = deepCopy(this.componentMap());
+        console.log('copy map: ', componentsCopy);
         if (componentsCopy) {
             // additional INTERNAL components that we need
             componentsCopy["Container"] = {

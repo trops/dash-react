@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import { AppContext } from "@dash/Context/App/AppContext";
-import { DashboardContext } from "@dash/Context/DashboardContext";
+import React, { useContext, useEffect } from "react";
+import { AppContext, DashboardContext } from "@dash/Context";
 import { LayoutContainer } from "@dash/Layout";
 
 const Widget = ({ id, uuid, children, height, width, scrollable = true, direction = "col", className = '', ...props}) => {
@@ -8,16 +7,23 @@ const Widget = ({ id, uuid, children, height, width, scrollable = true, directio
     const { debugMode, debugStyles, api } = useContext(AppContext);
     const { pub, settings } = useContext(DashboardContext);
 
+    useEffect(() => {
+        console.log('use effect in Widget ', api, debugMode, debugStyles);
+    });
+
     function debugClasses() {
         // const styles = debugStyles['widget']['classes'];
         // return debugMode === true ? `space-y-4 p-4 ${styles}` : ''
+        return '';
     }
 
     // inject the publisher into the api for the developer to use
     if ('api' in props) {
-        props['api'].setPublisher(pub);
-        props['api'].setElectronApi(api);
-        props['api'].setSettings(settings);
+        if (props['api'] !== null) {
+            props['api'].setPublisher(pub);
+            props['api'].setElectronApi(api);
+            props['api'].setSettings(settings);
+        }
     }
     
     return (

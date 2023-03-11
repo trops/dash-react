@@ -8,8 +8,9 @@ export const WorkspaceMenu = ({ title = 'Menu Title', onClick, children }) => {
     const { debugMode, debugStyles } = useContext(AppContext);
 
     function debugClasses() {
-        const styles = debugStyles['workspace-menu']['classes'];
-        return debugMode === true && `space-y-4 ${styles}`
+        // const styles = debugStyles['workspace-menu']['classes'];
+        // return debugMode === true && `space-y-4 ${styles}`
+        return '';
     }
 
     return (

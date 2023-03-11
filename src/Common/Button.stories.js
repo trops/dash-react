@@ -1,67 +1,69 @@
-import { Button, Button2, Button3 } from './Button';
-import '../tailwind.css';
+import { Button, Button2, Button3 } from "./Button";
+import { mock, MockWrapper } from "@dash";
+
+import "../tailwind.css";
 
 //👇 This default export determines where your story goes in the story list
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
-  title: 'Button',
+   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: "Button",
   component: Button,
 };
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
   return (
-      <div className='flex flex-col space-y-2'>
-        <Button {...args} />
-      </div>
+    <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+      <Button {...args} />
+    </MockWrapper>
   );
-}
+};
 
 const Template2 = (args) => {
   return (
-      <div className='flex flex-col space-y-2'>
-        <Button2 {...args} />
-      </div>
+    <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+      <Button2 {...args} />
+    </MockWrapper>
   );
-}
+};
 
 const Template3 = (args) => {
   return (
-      <div className='flex flex-col space-y-2'>
-        <Button3 {...args} />
-      </div>
+    <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+      <Button3 {...args} />
+    </MockWrapper>
   );
-}
+};
 export const Primary = Template.bind({});
 export const Secondary = Template2.bind({});
 export const Tertiary = Template3.bind({});
 
-Primary.args =  {
+Primary.args = {
   //👇 The args you need here will depend on your component
   title: "Button",
   theme: false,
-  backgroundColor: 'bg-blue-500',
-  textColor: 'text-white',
-  hoverBackgroundColor: 'hover:bg-blue-600'
-}
+  backgroundColor: "bg-blue-500",
+  textColor: "text-white",
+  hoverBackgroundColor: "hover:bg-blue-600",
+};
 
-Secondary.args =  {
+Secondary.args = {
   //👇 The args you need here will depend on your component
   title: "Button 2",
   theme: false,
-  backgroundColor: 'bg-blue-500',
-  textColor: 'text-white',
-  hoverBackgroundColor: 'hover:bg-blue-600'
-}
+  backgroundColor: "bg-blue-500",
+  textColor: "text-white",
+  hoverBackgroundColor: "hover:bg-blue-600",
+};
 
-Tertiary.args =  {
+Tertiary.args = {
   //👇 The args you need here will depend on your component
   title: "Button 3",
   theme: false,
-  backgroundColor: 'bg-blue-500',
-  textColor: 'text-white',
-  hoverBackgroundColor: 'hover:bg-blue-600'
-}
+  backgroundColor: "bg-blue-500",
+  textColor: "text-white",
+  hoverBackgroundColor: "hover:bg-blue-600",
+};
