@@ -1,9 +1,14 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import { Tag } from "@dash/Common";
 import { getContainerColor } from "@dash/Utils";
 
-const LayoutBuilderConfigMenuItem = ({ id, component, onClick, onMouseOver, item }) => {
-
+const LayoutBuilderConfigMenuItem = ({
+    id,
+    component,
+    onClick,
+    onMouseOver,
+    item,
+}) => {
     const [isMouseOver, setIsMouseOver] = useState(false);
 
     function handleMouseOver(e) {
@@ -20,13 +25,30 @@ const LayoutBuilderConfigMenuItem = ({ id, component, onClick, onMouseOver, item
     }
 
     return (
-        <div className={`flex flex-row w-full border border-gray-900 space-x-2 p-2 cursor-pointer justify-between items-center ${isMouseOver === true ? 'bg-green-600':''} rounded`} onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        <div
+            className={`flex flex-row w-full border border-gray-900 space-x-2 p-2 cursor-pointer justify-between items-center ${
+                isMouseOver === true ? "bg-green-600" : ""
+            } rounded`}
+            onClick={handleClick}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+        >
             <div className="flex flex-row space-x-2">
-                <Tag textSize={'text-xs'} text={`${id}`} color={getContainerColor(item['parentWorkspace'])} />
-                <span className={`text-sm font-medium ${isMouseOver === true ? 'text-gray-200':'text-gray-200'}`}>{component}</span>
+                <Tag
+                    textSize={"text-xs"}
+                    text={`${id}`}
+                    color={getContainerColor(item["parentWorkspace"])}
+                />
+                <span
+                    className={`text-sm font-medium ${
+                        isMouseOver === true ? "text-gray-200" : "text-gray-200"
+                    }`}
+                >
+                    {component}
+                </span>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export { LayoutBuilderConfigMenuItem };

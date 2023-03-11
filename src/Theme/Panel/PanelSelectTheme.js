@@ -10,9 +10,13 @@ import { deepCopy } from "@dash/Utils/objects";
 import { InputText } from "@dash/Common/Form";
 import { ColorModel } from "@dash/Models";
 
-export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
-
-    const { themeVariant, rawThemes} = useContext(ThemeContext);
+export const PanelSelectTheme = ({
+    onUpdate,
+    theme = null,
+    themeKey,
+    rawTheme,
+}) => {
+    const { themeVariant, rawThemes } = useContext(ThemeContext);
 
     const [themeSelected, setThemeSelected] = useState(theme);
     // const [themeMainColor, setThemeMainColor] = useState(null);
@@ -28,7 +32,7 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
             setThemeSelected(() => theme);
             forceUpdate();
         }
-    }, [theme, rawThemes, themeSelected, forceUpdate])
+    }, [theme, rawThemes, themeSelected, forceUpdate]);
 
     // function handleSelectThemeColor(colorType, variant, objectType) {
     //     const themeToEdit = { colorType, variant, objectType };
@@ -50,21 +54,22 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
         const newTheme = deepCopy(rawTheme);
         const replacementColorModel = ColorModel(colorReplacement);
         // set the MAIN color
-        if (themeNameToEdit['panelType'] === 'main') {
+        if (themeNameToEdit["panelType"] === "main") {
             // use the type we added on in the main panel, not from the model
-            newTheme[color['colorType']] = replacementColorModel['colorName'];
+            newTheme[color["colorType"]] = replacementColorModel["colorName"];
             onUpdate(newTheme, themeKey);
             // setThemeMainColor(() => null);
             forceUpdate();
         }
 
         // set the generated value (override)
-        if (themeNameToEdit['panelType'] === 'sub') {
+        if (themeNameToEdit["panelType"] === "sub") {
             // make sure we have the variant in the RAW THEME
             if (themeVariant in newTheme === false) {
                 newTheme[themeVariant] = {};
             }
-            newTheme[themeVariant][themeNameToEdit['themeClass']] = replacementColorModel['class'];
+            newTheme[themeVariant][themeNameToEdit["themeClass"]] =
+                replacementColorModel["class"];
             onUpdate(newTheme, themeKey);
             // setThemeMainColor(() => null);
             forceUpdate();
@@ -75,12 +80,12 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
         try {
             if (rawTheme) {
                 const newTheme = deepCopy(rawTheme);
-                newTheme['name'] = e.target.value;
+                newTheme["name"] = e.target.value;
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
             }
-        } catch(e) {
-            console.log('error selecting ', e.message);
+        } catch (e) {
+            console.log("error selecting ", e.message);
         }
     }
 
@@ -98,13 +103,15 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
                 if (itemType in newTheme[themeVariant] === false) {
                     newTheme[themeVariant][itemType] = {};
                 }
-                newTheme[themeVariant][itemType][styleName] = `${objectType}-${colorName}-${shade}`;
+                newTheme[themeVariant][itemType][
+                    styleName
+                ] = `${objectType}-${colorName}-${shade}`;
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
                 setItemColorSelected(null);
             }
-        } catch(e) {
-            console.log('error selecting ', e.message);
+        } catch (e) {
+            console.log("error selecting ", e.message);
         }
     }
 
@@ -122,12 +129,14 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
                 if (itemType && itemType in newTheme[themeVariant] === false) {
                     newTheme[themeVariant][itemType] = {};
                 }
-                newTheme[themeVariant][itemType][styleName] = `${objectType}-${colorName}-${shade}`;
+                newTheme[themeVariant][itemType][
+                    styleName
+                ] = `${objectType}-${colorName}-${shade}`;
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
             }
-        } catch(e) {
-            console.log('error selecting ', e.message);
+        } catch (e) {
+            console.log("error selecting ", e.message);
         }
     }
 
@@ -143,8 +152,8 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
             }
-        } catch(e) {
-            console.log('error selecting ', e.message);
+        } catch (e) {
+            console.log("error selecting ", e.message);
         }
     }
 
@@ -152,75 +161,133 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
         try {
             if (rawTheme !== null && rawTheme !== undefined) {
                 const newTheme = deepCopy(rawTheme);
-                
+
                 // remove all of the custom colors for each variant...
-                newTheme['dark'] = {};
-                newTheme['light'] = {};
-                
+                newTheme["dark"] = {};
+                newTheme["light"] = {};
+
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
             }
-        } catch(e) {
-            console.log('error selecting ', e.message);
+        } catch (e) {
+            console.log("error selecting ", e.message);
         }
     }
-    
 
     return (
-        <Panel theme={false} backgroundColor={''}>
-            <div className='flex flex-row w-full h-full space-x-4 overflow-hidden'>
-                <div className='flex flex-row h-full rounded space-x-2 w-full'>
+        <Panel theme={false} backgroundColor={""}>
+            <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
+                <div className="flex flex-row h-full rounded space-x-2 w-full">
                     <div className="flex flex-row w-full space-x-2">
-                        <div className={`flex flex-col h-full rounded w-full overflow-hidden space-y-2`}>
+                        <div
+                            className={`flex flex-col h-full rounded w-full overflow-hidden space-y-2`}
+                        >
                             <div className="flex flex-row space-x-2">
                                 {themeSelected !== null && (
-                                    <InputText name="name" padding={'p-4'} value={themeSelected.name} onChange={handleThemeNameChange} textSize={'text-lg'} placeholder="Colorama ;-)" bgColor={'bg-gray-900'} textColor={'text-gray-400'} hasBorder={false} />
+                                    <InputText
+                                        name="name"
+                                        padding={"p-4"}
+                                        value={themeSelected.name}
+                                        onChange={handleThemeNameChange}
+                                        textSize={"text-lg"}
+                                        placeholder="Colorama ;-)"
+                                        bgColor={"bg-gray-900"}
+                                        textColor={"text-gray-400"}
+                                        hasBorder={false}
+                                    />
                                 )}
-                                <ButtonIcon onClick={handleResetStylesForTheme} icon="trash" text={"Reset Theme"}/>
+                                <ButtonIcon
+                                    onClick={handleResetStylesForTheme}
+                                    icon="trash"
+                                    text={"Reset Theme"}
+                                />
                             </div>
                             <div className="flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1">
                                 <div className="flex flex-col min-w-1/4 w-1/4">
-                                    <ThemeMenuPane 
-                                        theme={themeSelected} 
+                                    <ThemeMenuPane
+                                        theme={themeSelected}
                                         onChooseColor={handleSelectColor}
-                                        onChooseReplacementColor={handleSelectReplacementColor}
+                                        onChooseReplacementColor={
+                                            handleSelectReplacementColor
+                                        }
                                     />
                                 </div>
                                 {themeSelected && (
-                                    <div className={`flex flex-col ${itemSelected === null ? 'w-3/4':'w-1/2'}`}>
-                                        <PreviewComponentsPane theme={themeSelected} themeVariant={themeVariant} onClick={handleSelectComponent} />
+                                    <div
+                                        className={`flex flex-col ${
+                                            itemSelected === null
+                                                ? "w-3/4"
+                                                : "w-1/2"
+                                        }`}
+                                    >
+                                        <PreviewComponentsPane
+                                            theme={themeSelected}
+                                            themeVariant={themeVariant}
+                                            onClick={handleSelectComponent}
+                                        />
                                     </div>
                                 )}
                                 <div className="flex flex-col w-1/4 min-w-1/4 p-1 space-y-1">
                                     {itemSelected !== null && (
-                                        <div className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${itemColorSelected !== null ? 'h-1/2':'h-full'}`}>
-                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">{itemSelected['item']}</div>
+                                        <div
+                                            className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${
+                                                itemColorSelected !== null
+                                                    ? "h-1/2"
+                                                    : "h-full"
+                                            }`}
+                                        >
+                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
+                                                {itemSelected["item"]}
+                                            </div>
                                             <div className="flex flex-col p-2 overflow-y-scroll">
-                                            <PreviewColorsPane
-                                                styles={itemSelected['styles']}
-                                                theme={themeSelected}
-                                                itemType={itemSelected['item']}
-                                                onClickItem={(i) => {
-                                                    setItemColorSelected(i);
-                                                    forceUpdate();
-                                                }}
-                                                onResetStyles={handleResetStylesForItem}
-                                            />
+                                                <PreviewColorsPane
+                                                    styles={
+                                                        itemSelected["styles"]
+                                                    }
+                                                    theme={themeSelected}
+                                                    itemType={
+                                                        itemSelected["item"]
+                                                    }
+                                                    onClickItem={(i) => {
+                                                        setItemColorSelected(i);
+                                                        forceUpdate();
+                                                    }}
+                                                    onResetStyles={
+                                                        handleResetStylesForItem
+                                                    }
+                                                />
                                             </div>
                                         </div>
                                     )}
                                     {itemSelected === null && (
-                                        <div className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${itemColorSelected !== null ? 'h-1/2':'h-full'}`}>
-                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">Inspector</div>
-                                            <div className="flex flex-col p-2 overflow-y-scroll">
+                                        <div
+                                            className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${
+                                                itemColorSelected !== null
+                                                    ? "h-1/2"
+                                                    : "h-full"
+                                            }`}
+                                        >
+                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
+                                                Inspector
                                             </div>
+                                            <div className="flex flex-col p-2 overflow-y-scroll"></div>
                                         </div>
                                     )}
                                     {itemColorSelected !== null && (
                                         <div className="flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-1/2">
-                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">Available Colors</div>
+                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
+                                                Available Colors
+                                            </div>
                                             <div className="flex flex-col p-2 overflow-y-scroll">
-                                                <AvailableColorsGridPane itemType={itemSelected} onMouseOver={handleSelectColorForItemTemp} onClick={handleSelectColorForItem} />
+                                                <AvailableColorsGridPane
+                                                    itemType={itemSelected}
+                                                    onMouseOver={
+                                                        handleSelectColorForItemTemp
+                                                    }
+                                                    onClick={
+                                                        handleSelectColorForItem
+                                                    }
+                                                />
                                             </div>
                                         </div>
                                     )}
@@ -231,7 +298,7 @@ export const PanelSelectTheme = ({ onUpdate, theme = null, themeKey, rawTheme })
                 </div>
             </div>
         </Panel>
-    )
-}
+    );
+};
 
 export default PanelSelectTheme;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // import Editor from 'react-simple-code-editor';
 // // import Prism from "prismjs";
 // import { highlight, languages } from 'prismjs/components/prism-core';
@@ -8,11 +8,9 @@ import React from 'react';
 // import 'prismjs/components/prism-css';
 // import './prism.css';
 
-
-
 class CodeEditorSimple extends React.Component {
     render() {
-      return (<div>test</div>);
+        return <div>test</div>;
         // const { onChange, code } = this.props;
         // const codeString = JSON.stringify(code);
         // return (
@@ -33,8 +31,8 @@ class CodeEditorSimple extends React.Component {
 }
 
 CodeEditorSimple.defaultProps = {
-    onChange(){},
-    code: ''
-}
+    onChange() {},
+    code: "",
+};
 
 export default CodeEditorSimple;

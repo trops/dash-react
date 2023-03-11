@@ -1,1 +1,1 @@
-export * from './ThemeManagerModal';
+export * from "./ThemeManagerModal";

@@ -19,31 +19,29 @@
 // import { MenuItem, MenuItem2, MenuItem3 } from './MenuItem';
 // import { Modal } from "./Modal";
 
-export * from './Panel';
-export * from './Modal';
-export * from './Text/Paragraph';
-export * from './MenuItem';
-export * from './Text/Heading';
-export * from './Button';
-export * from './ButtonIcon';
-export * from './Toggle';
-export * from './CodeEditor';
-export * from './WrappedComponent';
-export * from './Tag';
+export * from "./Panel";
+export * from "./Modal";
+export * from "./Text/Paragraph";
+export * from "./MenuItem";
+export * from "./Text/Heading";
+export * from "./Button";
+export * from "./ButtonIcon";
+export * from "./Toggle";
+export * from "./CodeEditor";
+export * from "./WrappedComponent";
+export * from "./Tag";
 
-export * from './Container';
-export * from './ErrorMessage';
-export * from './Footer';
-export * from './Header';
-export * from './MainSection';
-export * from './SubHeader';
-export * from './MainContent';
-export * from './SlidePanelOverlay';
-export * from './WrappedComponent';
+export * from "./Container";
+export * from "./ErrorMessage";
+export * from "./Footer";
+export * from "./Header";
+export * from "./MainSection";
+export * from "./SubHeader";
+export * from "./MainContent";
+export * from "./SlidePanelOverlay";
+export * from "./WrappedComponent";
 
-export * from './Form';
-
-
+export * from "./Form";
 
 // export {
 //     Container,

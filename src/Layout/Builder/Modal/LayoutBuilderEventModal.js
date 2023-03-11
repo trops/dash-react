@@ -3,9 +3,13 @@ import { Button, Panel, Modal } from "@dash/Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { replaceItemInLayout, deepCopy } from "@dash/Utils";
 
-
-export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, item = null }) => {
-
+export const LayoutBuilderEventModal = ({
+    workspace,
+    open,
+    setIsOpen,
+    onSave,
+    item = null,
+}) => {
     const [itemSelected, setItemSelected] = useState(item);
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [componentsSelected, setComponentsSelected] = useState({});
@@ -16,10 +20,13 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
+        console.log("event workspace ", workspaceSelected, workspace);
 
-        console.log('event workspace ', workspaceSelected, workspace);
-
-        if (open === true && workspaceSelected === null && workspaceSelected !== workspace) {
+        if (
+            open === true &&
+            workspaceSelected === null &&
+            workspaceSelected !== workspace
+        ) {
             setWorkspaceSelected(() => workspace);
             loadExistingListeners(workspace);
         }
@@ -44,16 +51,15 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
         if (Object.keys(componentsSelected).length < 1) {
             loadExistingListeners(workspace);
         }
-
-    }, [open, workspace, item])
+    }, [open, workspace, item]);
 
     function loadExistingListeners(ws) {
         if (ws !== null) {
             const existingListeners = {};
-            ws.layout.forEach(layoutItem => {
-                if ('listeners' in layoutItem) {
-                    Object.keys(layoutItem['listeners']).forEach(key => {
-                        const events = layoutItem['listeners'][key];
+            ws.layout.forEach((layoutItem) => {
+                if ("listeners" in layoutItem) {
+                    Object.keys(layoutItem["listeners"]).forEach((key) => {
+                        const events = layoutItem["listeners"][key];
                         existingListeners[key] = events;
                     });
                 }
@@ -63,7 +69,9 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
 
             // let's select one for the user
             if (Object.keys(existingListeners).length > 0) {
-                setEventHandlerSelected(() => Object.keys(existingListeners)[0]);
+                setEventHandlerSelected(
+                    () => Object.keys(existingListeners)[0]
+                );
             }
 
             forceUpdate();
@@ -97,7 +105,7 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     //         selected[`${itemSelected['id']}`].push(eventString);
     //         selected[`${itemSelected['id']}`].filter((value, index, array) => array.indexOf(value) === index);
 
-    //         // let's set the current event selected so that we can tie this to the handler 
+    //         // let's set the current event selected so that we can tie this to the handler
     //         // when the user chooses that as well...
     //         const payload = { event, eventString };
     //         setEventSelected(() => payload);
@@ -115,28 +123,32 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
                 let tempEvents = [];
                 let tempEventsSelected = deepCopy(eventsSelected);
 
-                console.log('temp events selected ', tempEventsSelected);
+                console.log("temp events selected ", tempEventsSelected);
                 if (eventHandlerSelected in tempEventsSelected) {
                     tempEvents = tempEventsSelected[eventHandlerSelected];
                 }
-                
-                console.log('temp events selected ', tempEvents);
-                
+
+                console.log("temp events selected ", tempEvents);
+
                 tempEvents.push(eventString);
-                const uniqueEventsSelected = tempEvents.filter((value, index, array) => array.indexOf(value) === index) // remove any possible duplicates;
+                const uniqueEventsSelected = tempEvents.filter(
+                    (value, index, array) => array.indexOf(value) === index
+                ); // remove any possible duplicates;
                 tempEventsSelected[eventHandlerSelected] = uniqueEventsSelected;
 
                 setEventsSelected(() => tempEventsSelected);
 
-                console.log('DONE ', tempEventsSelected);
+                console.log("DONE ", tempEventsSelected);
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
 
     function handleRemoveEvent(eventString) {
-        const eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(event => event !== eventString);
+        const eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(
+            (event) => event !== eventString
+        );
         setEventsSelected(() => eventsSelectedTemp);
     }
 
@@ -151,9 +163,11 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
 
     function getLayoutItemById(id) {
         if (workspaceSelected !== null) {
-            const layoutItems = workspaceSelected.layout.filter(layoutItem => {
-                return layoutItem['id'] === parseInt(id, 10);
-            });
+            const layoutItems = workspaceSelected.layout.filter(
+                (layoutItem) => {
+                    return layoutItem["id"] === parseInt(id, 10);
+                }
+            );
             if (layoutItems.length > 0) {
                 return layoutItems[0];
             }
@@ -177,16 +191,19 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     function handleSaveChanges(itemData) {
         try {
             if (workspaceSelected !== null) {
-
                 const tempWorkspace = deepCopy(workspaceSelected);
-                
-                // craft the event handler + listeners 
+
+                // craft the event handler + listeners
                 // and add to the layout item
-                const layoutItem = getLayoutItemById(itemSelected['id']);
+                const layoutItem = getLayoutItemById(itemSelected["id"]);
 
                 // now lets add to it...
-                layoutItem['listeners'] = eventsSelected;
-                tempWorkspace['layout'] = replaceItemInLayout(tempWorkspace.layout, layoutItem['id'], layoutItem);
+                layoutItem["listeners"] = eventsSelected;
+                tempWorkspace["layout"] = replaceItemInLayout(
+                    tempWorkspace.layout,
+                    layoutItem["id"],
+                    layoutItem
+                );
 
                 // save the new workspace
                 onSave(tempWorkspace);
@@ -198,7 +215,7 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
                 setEventHandlerSelected(() => null);
                 setIsOpen(false);
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
@@ -237,11 +254,11 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     // }
 
     /**
-     * isSelected 
+     * isSelected
      * Check to see if the event for the component is selected
-     * 
+     *
      * @param {String} eventString the string containing {component}[{id}].{event}
-     * @returns 
+     * @returns
      */
     // function isSelected(eventString) {
     //     let selected = false;
@@ -259,11 +276,16 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     function isSelectedEvent(event) {
         try {
             if (eventsSelected !== null && eventHandlerSelected) {
-                console.log('checking is event selected ', eventsSelected, eventsSelected[eventHandlerSelected], event);
+                console.log(
+                    "checking is event selected ",
+                    eventsSelected,
+                    eventsSelected[eventHandlerSelected],
+                    event
+                );
                 return eventsSelected[eventHandlerSelected].includes(event);
-            } 
+            }
             return false;
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     }
@@ -274,7 +296,7 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     //         .map(li => {
     //             const selected = itemSelected['id'] === li['id'];
     //             return (
-    //                 <div 
+    //                 <div
     //                     onClick={() => handleSelectWorkspaceItem(li)}
     //                     className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 px-4 font-bold items-center space-x-2 ${selected === true ? 'bg-blue-800 text-gray-300' : 'text-gray-400'} hover:text-gray-300`}
     //                 >
@@ -291,124 +313,229 @@ export const LayoutBuilderEventModal = ({ workspace, open, setIsOpen, onSave, it
     function renderAvailableEvents() {
         if (workspaceSelected !== null) {
             return workspaceSelected.layout
-                .filter(l => l['component'] !== 'Container')
-                .filter(e => e.events.length > 0)
-                .filter(li => li['component'] !== itemSelected['component'])
-                .map(layout => {
+                .filter((l) => l["component"] !== "Container")
+                .filter((e) => e.events.length > 0)
+                .filter((li) => li["component"] !== itemSelected["component"])
+                .map((layout) => {
                     return (
-                        <div className={`flex flex-col text-base font-bold text-gray-400 p-2`}>
+                        <div
+                            className={`flex flex-col text-base font-bold text-gray-400 p-2`}
+                        >
                             <div className="flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4">
-                                <span className="text-lg">{layout['component']}&nbsp;[{layout['id']}]</span>
+                                <span className="text-lg">
+                                    {layout["component"]}&nbsp;[{layout["id"]}]
+                                </span>
                             </div>
                             <div className="flex flex-col space-y-1 py-1">
                                 {layout.events
-                                    .filter((value, index, array) => array.indexOf(value) === index) // remove any possible duplicates
-                                    .map(event => {
-                                        const eventString = `${layout['component']}[${layout['id']}].${event}`;
-                                        const selected = isSelectedEvent(eventString);
+                                    .filter(
+                                        (value, index, array) =>
+                                            array.indexOf(value) === index
+                                    ) // remove any possible duplicates
+                                    .map((event) => {
+                                        const eventString = `${layout["component"]}[${layout["id"]}].${event}`;
+                                        const selected =
+                                            isSelectedEvent(eventString);
                                         return (
-                                            <div 
-                                                onClick={() => selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString)}
-                                                className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 font-bold items-center space-x-2 ${selected === true ? 'bg-blue-800' : ''} `}
+                                            <div
+                                                onClick={() =>
+                                                    selected === true
+                                                        ? handleRemoveEvent(
+                                                              eventString
+                                                          )
+                                                        : handleSelectEvent(
+                                                              eventString
+                                                          )
+                                                }
+                                                className={`flex flex-row ${
+                                                    selected === false &&
+                                                    "hover:bg-gray-800"
+                                                } rounded cursor-pointer p-2 font-bold items-center space-x-2 ${
+                                                    selected === true
+                                                        ? "bg-blue-800"
+                                                        : ""
+                                                } `}
                                             >
-                                                <FontAwesomeIcon icon={'square-check'} className={`${selected === true ? 'text-blue-500' : 'text-gray-700'} text-xl`} />
+                                                <FontAwesomeIcon
+                                                    icon={"square-check"}
+                                                    className={`${
+                                                        selected === true
+                                                            ? "text-blue-500"
+                                                            : "text-gray-700"
+                                                    } text-xl`}
+                                                />
                                                 <div className="flex flex-col">
-                                                    <span className={`text-base hover:text-gray-300 ${selected === true ? 'text-gray-300':'text-gray-400'}`}>{event}</span>
+                                                    <span
+                                                        className={`text-base hover:text-gray-300 ${
+                                                            selected === true
+                                                                ? "text-gray-300"
+                                                                : "text-gray-400"
+                                                        }`}
+                                                    >
+                                                        {event}
+                                                    </span>
                                                     {/* <span className="text-indigo-600 text-xs font-normal">{eventString}</span> */}
                                                 </div>
                                             </div>
                                         );
-                                    })
-                                }
+                                    })}
                             </div>
                         </div>
                     );
-            });
+                });
         }
     }
 
     function renderAvailableHandlers() {
         if (workspaceSelected !== null) {
             return workspaceSelected.layout
-                .filter(li => li['id'] === itemSelected['id'])
-                .map(layout => {
+                .filter((li) => li["id"] === itemSelected["id"])
+                .map((layout) => {
                     return (
-                        <div className={`flex flex-col text-base font-bold text-gray-400 p-2`}>
+                        <div
+                            className={`flex flex-col text-base font-bold text-gray-400 p-2`}
+                        >
                             <div className="flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4">
-                                <span className="text-lg">{layout['component']}&nbsp;[{layout['id']}]</span>
+                                <span className="text-lg">
+                                    {layout["component"]}&nbsp;[{layout["id"]}]
+                                </span>
                             </div>
                             <div className="flex flex-col space-y-1 py-1">
                                 {layout.eventHandlers
-                                    .filter((value, index, array) => array.indexOf(value) === index) // remove any possible duplicates
-                                    .map(handler => {
-                                        const selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false;//isHandlerSelected(handler);
+                                    .filter(
+                                        (value, index, array) =>
+                                            array.indexOf(value) === index
+                                    ) // remove any possible duplicates
+                                    .map((handler) => {
+                                        const selected =
+                                            eventHandlerSelected !== null
+                                                ? eventHandlerSelected ===
+                                                  handler
+                                                : false; //isHandlerSelected(handler);
                                         return (
-                                            <div 
-                                                onClick={() => selected ? handleRemoveEventHandler(handler) : handleSelectEventHandler(handler)}
-                                                className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 font-bold items-center space-x-2 ${selected === true && 'bg-indigo-700'}`}
+                                            <div
+                                                onClick={() =>
+                                                    selected
+                                                        ? handleRemoveEventHandler(
+                                                              handler
+                                                          )
+                                                        : handleSelectEventHandler(
+                                                              handler
+                                                          )
+                                                }
+                                                className={`flex flex-row ${
+                                                    selected === false &&
+                                                    "hover:bg-gray-800"
+                                                } rounded cursor-pointer p-2 font-bold items-center space-x-2 ${
+                                                    selected === true &&
+                                                    "bg-indigo-700"
+                                                }`}
                                             >
                                                 <div className="flex flex-col px-2">
-                                                    <span className={`text-base hover:text-gray-300 ${selected === true ? 'text-gray-300':'text-gray-400'}`}>{handler}</span>
+                                                    <span
+                                                        className={`text-base hover:text-gray-300 ${
+                                                            selected === true
+                                                                ? "text-gray-300"
+                                                                : "text-gray-400"
+                                                        }`}
+                                                    >
+                                                        {handler}
+                                                    </span>
                                                 </div>
                                             </div>
                                         );
-                                    })
-                                }
+                                    })}
                             </div>
                         </div>
                     );
-            });
+                });
         }
     }
 
-
-    return itemSelected !== null && (
-            <Modal isOpen={open} setIsOpen={setIsOpen} width={'w-5/6 2xl:w-3/4'} height="h-5/6">
+    return (
+        itemSelected !== null && (
+            <Modal
+                isOpen={open}
+                setIsOpen={setIsOpen}
+                width={"w-5/6 2xl:w-3/4"}
+                height="h-5/6"
+            >
                 <Panel>
-                <div className={`flex flex-col w-full h-full  overflow-hidden bg-blue-800`}>
-                    
-                    <div className='flex flex-col w-full h-full overflow-hidden'>
-                        <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-6">
-                            <div className='flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3'>
-                                {/* render the widget item here. */}
-                                {itemSelected !== null && (
-                                    <div className="flex flex-col border border-blue-800 rounded p-4 py-10 space-y-4">
-                                    <p className="text-5xl font-bold text-gray-200">Listen Up.</p>
-                                    <p className="text-xl font-normal text-gray-300">Widgets and Workspaces can talk, but we have to setup the phone wires.</p>
-                                    <p className="text-xl font-normal text-gray-300">Select the method to handle the message first, then select the message it will handle.</p>
-                                    </div>
-                                )}
-                            </div>
-                            {/* <div className="flex flex-col h-full overflow-y-scroll bg-gray-900 h-full rounded w-1/3 min-w-1/3">
+                    <div
+                        className={`flex flex-col w-full h-full  overflow-hidden bg-blue-800`}
+                    >
+                        <div className="flex flex-col w-full h-full overflow-hidden">
+                            <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-6">
+                                <div className="flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3">
+                                    {/* render the widget item here. */}
+                                    {itemSelected !== null && (
+                                        <div className="flex flex-col border border-blue-800 rounded p-4 py-10 space-y-4">
+                                            <p className="text-5xl font-bold text-gray-200">
+                                                Listen Up.
+                                            </p>
+                                            <p className="text-xl font-normal text-gray-300">
+                                                Widgets and Workspaces can talk,
+                                                but we have to setup the phone
+                                                wires.
+                                            </p>
+                                            <p className="text-xl font-normal text-gray-300">
+                                                Select the method to handle the
+                                                message first, then select the
+                                                message it will handle.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                                {/* <div className="flex flex-col h-full overflow-y-scroll bg-gray-900 h-full rounded w-1/3 min-w-1/3">
                                 <span className="uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 px-4">Layout Items</span>
                                 <div className="flex flex-col h-full overflow-y-scroll p-4 space-y-1">
                                     {renderWorkspaceLayoutItems()}
                                 </div>
                             </div> */}
-                            <div className="flex flex-col bg-gray-900 h-full rounded w-1/3">
-                                <span className="uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4">Available Handlers </span>
-                                {/* {eventSelected !== null && (<div className="text-gray-300 text-lg p-4">Choose the method below that will listen and process the message from the {eventSelected['event']} event.</div>)} */}
-                                <div className="flex flex-col h-full overflow-y-scroll p-4">
-                                    {renderAvailableHandlers()}
+                                <div className="flex flex-col bg-gray-900 h-full rounded w-1/3">
+                                    <span className="uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4">
+                                        Available Handlers{" "}
+                                    </span>
+                                    {/* {eventSelected !== null && (<div className="text-gray-300 text-lg p-4">Choose the method below that will listen and process the message from the {eventSelected['event']} event.</div>)} */}
+                                    <div className="flex flex-col h-full overflow-y-scroll p-4">
+                                        {renderAvailableHandlers()}
+                                    </div>
+                                </div>
+                                <div className="flex flex-col bg-gray-900 h-full rounded w-1/3">
+                                    <span className="uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4">
+                                        Available Events{" "}
+                                    </span>
+                                    <div className="flex flex-col h-full overflow-y-scroll p-4">
+                                        {eventHandlerSelected &&
+                                            renderAvailableEvents()}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col bg-gray-900 h-full rounded w-1/3">
-                                <span className="uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4">Available Events </span>
-                                <div className="flex flex-col h-full overflow-y-scroll p-4">
-                                    {eventHandlerSelected && renderAvailableEvents()}
+                            <div className="flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800">
+                                <div className="flex flex-row space-x-2">
+                                    <Button
+                                        title={"Cancel"}
+                                        bgColor={"bg-gray-800"}
+                                        textSize={"text-lg"}
+                                        padding={"py-2 px-4"}
+                                        onClick={() => setIsOpen(false)}
+                                    />
+                                    <Button
+                                        title={"Save Changes"}
+                                        bgColor={"bg-gray-800"}
+                                        hoverBackgroundColor={
+                                            "hover:bg-green-700"
+                                        }
+                                        textSize={"text-lg"}
+                                        padding={"py-2 px-4"}
+                                        onClick={handleSaveChanges}
+                                    />
                                 </div>
-                            </div>
-                            
-                        </div>
-                        <div className="flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800">
-                            <div className="flex flex-row space-x-2">
-                                <Button title={'Cancel'} bgColor={'bg-gray-800'} textSize={'text-lg'} padding={'py-2 px-4'} onClick={() => setIsOpen(false)} />
-                                <Button title={'Save Changes'} bgColor={'bg-gray-800'} hoverBackgroundColor={'hover:bg-green-700'} textSize={'text-lg'} padding={'py-2 px-4'} onClick={handleSaveChanges} />
                             </div>
                         </div>
                     </div>
-                </div>
-            </Panel>
-        </Modal>
-    )
-}
+                </Panel>
+            </Modal>
+        )
+    );
+};

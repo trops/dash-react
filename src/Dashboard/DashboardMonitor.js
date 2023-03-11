@@ -5,13 +5,9 @@ import { DashboardContext } from "@dash/Context";
 export const DashboardMonitor = () => {
     const { pub } = useContext(DashboardContext);
 
-    useEffect(() => {
-        
-    });
+    useEffect(() => {});
 
     return (
-        <LayoutContainer direction="col" scrollable={true}>
-            
-        </LayoutContainer>
-    )
-}
+        <LayoutContainer direction="col" scrollable={true}></LayoutContainer>
+    );
+};

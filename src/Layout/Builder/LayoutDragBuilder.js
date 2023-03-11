@@ -2,12 +2,66 @@ import { renderLayout } from "@dash/Utils";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const LayoutDragBuilder = ({layout, dashboardId, parentKey, debugMode, previewMode, onClickAdd, onDropItem, onClickRemove, onClickShrink, onClickExpand, onChangeDirection, onChangeOrder, onOpenConfig, onOpenEvents, onSaveConfiguration, workspace, isDraggable = true}) => {
+const LayoutDragBuilder = ({
+    layout,
+    dashboardId,
+    parentKey,
+    debugMode,
+    previewMode,
+    onClickAdd,
+    onDropItem,
+    onClickRemove,
+    onClickShrink,
+    onClickExpand,
+    onChangeDirection,
+    onChangeOrder,
+    onOpenConfig,
+    onOpenEvents,
+    onSaveConfiguration,
+    workspace,
+    isDraggable = true,
+}) => {
     return isDraggable === true ? (
         <DndProvider backend={HTML5Backend}>
-            {renderLayout({ dashboardId, layout, parentKey, debugMode, previewMode, onClickAdd, onClickRemove, onClickShrink, onClickExpand, onChangeDirection, onChangeOrder, onOpenConfig, onOpenEvents, onSaveConfiguration, onDropItem, workspace })}
+            {renderLayout({
+                dashboardId,
+                layout,
+                parentKey,
+                debugMode,
+                previewMode,
+                onClickAdd,
+                onClickRemove,
+                onClickShrink,
+                onClickExpand,
+                onChangeDirection,
+                onChangeOrder,
+                onOpenConfig,
+                onOpenEvents,
+                onSaveConfiguration,
+                onDropItem,
+                workspace,
+            })}
         </DndProvider>
-    ) : renderLayout({ dashboardId, layout, parentKey, debugMode, previewMode, onClickAdd, onClickRemove, onClickShrink, onClickExpand, onChangeDirection, onChangeOrder, onOpenConfig, onOpenEvents, onSaveConfiguration, onDropItem, workspace });
-}
+    ) : (
+        renderLayout({
+            dashboardId,
+            layout,
+            parentKey,
+            debugMode,
+            previewMode,
+            onClickAdd,
+            onClickRemove,
+            onClickShrink,
+            onClickExpand,
+            onChangeDirection,
+            onChangeOrder,
+            onOpenConfig,
+            onOpenEvents,
+            onSaveConfiguration,
+            onDropItem,
+            workspace,
+        })
+    );
+};
 
 export { LayoutDragBuilder };

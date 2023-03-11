@@ -3,8 +3,12 @@ import { colorNames, shades } from "@dash/Utils/colors";
 import ThemePane from "./ThemePane";
 import ColorTile from "../MenuItem/ColorTile";
 
-const AvailableColorsGridPane = ({ colorType, onClick = null, onMouseOver = null, shade = null }) => {
-
+const AvailableColorsGridPane = ({
+    colorType,
+    onClick = null,
+    onMouseOver = null,
+    shade = null,
+}) => {
     function handleChooseColor(data) {
         onClick !== null && onClick(data);
     }
@@ -14,21 +18,27 @@ const AvailableColorsGridPane = ({ colorType, onClick = null, onMouseOver = null
     }
 
     function renderAvailableColors() {
-        return colorNames
-            .sort()
-            .map(colorName => {
-                return shades
-                    .filter(c => shade === null ? true : (c === shade))
-                    .map(shadeLevel => {
-                        return (
-                            <div className="flex flex-row justify-between items-center">
-                                <span className="font-bold">{colorName} {shadeLevel}</span>
-                                <ColorTile width={'w-2/3'} colorType={colorType} colorName={colorName} shade={shadeLevel} onClick={handleChooseColor} onMouseOver={handleChooseColorTemp} />
-                            </div>
-                        );
-                    })
-                }
-            );
+        return colorNames.sort().map((colorName) => {
+            return shades
+                .filter((c) => (shade === null ? true : c === shade))
+                .map((shadeLevel) => {
+                    return (
+                        <div className="flex flex-row justify-between items-center">
+                            <span className="font-bold">
+                                {colorName} {shadeLevel}
+                            </span>
+                            <ColorTile
+                                width={"w-2/3"}
+                                colorType={colorType}
+                                colorName={colorName}
+                                shade={shadeLevel}
+                                onClick={handleChooseColor}
+                                onMouseOver={handleChooseColorTemp}
+                            />
+                        </div>
+                    );
+                });
+        });
     }
 
     return (
@@ -38,6 +48,6 @@ const AvailableColorsGridPane = ({ colorType, onClick = null, onMouseOver = null
             </div>
         </ThemePane>
     );
-}
+};
 
 export default AvailableColorsGridPane;

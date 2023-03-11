@@ -2,19 +2,27 @@ import React from "react";
 import ThemeMainColorMenuItem from "../MenuItem/ThemeMainColorMenuItem";
 import { colorTypes } from "@dash/Utils/colors";
 
-const MainColorsPane = ({ theme, variant, mainColor, onChooseColor, useSelected = true }) => {
-
+const MainColorsPane = ({
+    theme,
+    variant,
+    mainColor,
+    onChooseColor,
+    useSelected = true,
+}) => {
     function renderThemeMainColors() {
         const themePreview = theme[variant];
 
-        console.log('render theme ', theme, variant);
+        console.log("render theme ", theme, variant);
 
-        return colorTypes.map(colorType => {
-            const selected = useSelected === true && mainColor !== null ? colorType === mainColor : true;
+        return colorTypes.map((colorType) => {
+            const selected =
+                useSelected === true && mainColor !== null
+                    ? colorType === mainColor
+                    : true;
             return (
                 <ThemeMainColorMenuItem
                     key={`item-${colorType}`}
-                    mainColorType={colorType} 
+                    mainColorType={colorType}
                     onClick={onChooseColor}
                     theme={themePreview}
                     selected={selected}
@@ -29,7 +37,7 @@ const MainColorsPane = ({ theme, variant, mainColor, onChooseColor, useSelected 
                 {theme && renderThemeMainColors()}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default MainColorsPane;

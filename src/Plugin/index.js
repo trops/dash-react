@@ -6,5 +6,5 @@
 //     Plugins
 // };
 
-export * from './Plugins';
-export * from './Plugin';
+export * from "./Plugins";
+export * from "./Plugin";

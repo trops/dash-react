@@ -6,5 +6,5 @@
 //     WidgetFactory
 // };
 
-export * from './Widget';
-export * from './WidgetFactory';
+export * from "./Widget";
+export * from "./WidgetFactory";

@@ -1,9 +1,9 @@
-// import { 
-//     colorTypes, 
-//     colorNames, 
-//     shades, 
-//     themeVariants, 
-//     objectTypes, 
+// import {
+//     colorTypes,
+//     colorNames,
+//     shades,
+//     themeVariants,
+//     objectTypes,
 //     getStylesForItem,
 //     getClassForObjectType,
 //     getStyleName
@@ -66,20 +66,19 @@
 //     themeObjects,
 //     styleClassNames,
 //     capitalizeFirstLetter,
-     
-//     colorTypes, 
-//     colorNames, 
-//     shades, 
-//     themeVariants, 
-//     objectTypes, 
+
+//     colorTypes,
+//     colorNames,
+//     shades,
+//     themeVariants,
+//     objectTypes,
 //     getStylesForItem,
 //     getClassForObjectType,
 //     getStyleName
 // }
 
-
-export * from './colors';
-export * from './objects';
-export * from './strings';
-export * from './layout';
-export * from './themeObjects';
+export * from "./colors";
+export * from "./objects";
+export * from "./strings";
+export * from "./layout";
+export * from "./themeObjects";

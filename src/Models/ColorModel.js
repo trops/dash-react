@@ -1,40 +1,41 @@
 /**
  * ColorModel
- * 
+ *
  * Handle all of the data for a color (theme)
  */
-import colors from 'tailwindcss/colors';
-import { deepCopy } from "../Utils/objects"
+import colors from "tailwindcss/colors";
+import { deepCopy } from "../Utils/objects";
 import { capitalizeFirstLetter } from "../Utils/strings";
 import { getStyleName } from "../Utils/colors";
 
 /**
- * 
+ *
  * @param {Object} obj
- * @returns 
+ * @returns
  */
 const ColorModel = (obj = {}) => {
-
     if (obj) {
-
         const temp = deepCopy(obj);
         const color = {};
 
-        color.panelType = 'panelType' in temp ? temp.panelType : 'main';
-        color.colorName = 'colorName' in temp ? temp.colorName : 'white';
-        color.colorType = 'colorType' in temp ? temp.colorType : 'primary';
-        color.shade     = 'shade' in temp ? temp.shade : 500;
-        color.variant   = 'variant' in temp ? temp.variant : 'dark';
-        color.level     = 'level' in temp ? temp.level : 'light';
+        color.panelType = "panelType" in temp ? temp.panelType : "main";
+        color.colorName = "colorName" in temp ? temp.colorName : "white";
+        color.colorType = "colorType" in temp ? temp.colorType : "primary";
+        color.shade = "shade" in temp ? temp.shade : 500;
+        color.variant = "variant" in temp ? temp.variant : "dark";
+        color.level = "level" in temp ? temp.level : "light";
 
-        color.objectType = 'objectType' in temp ? temp.objectType : 'bg';
+        color.objectType = "objectType" in temp ? temp.objectType : "bg";
 
-        color.styleName = getStyleName(color.objectType);//'background';
+        color.styleName = getStyleName(color.objectType); //'background';
 
         /**
-         * generate the display name 
+         * generate the display name
          */
-        color.displayName = 'displayName' in temp ? temp.name : capitalizeFirstLetter(color.colorName);
+        color.displayName =
+            "displayName" in temp
+                ? temp.name
+                : capitalizeFirstLetter(color.colorName);
 
         /**
          * Strings for the theme class name and the class to be used in className
@@ -51,6 +52,6 @@ const ColorModel = (obj = {}) => {
         return color;
     }
     return null;
-}
+};
 
 export { ColorModel };

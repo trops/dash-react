@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import ThemePane from './ThemePane';
+import React, { useEffect } from "react";
+import ThemePane from "./ThemePane";
 
-import { 
+import {
     Button,
     Button2,
     Button3,
-    ButtonIcon, 
+    ButtonIcon,
     Panel,
     Panel2,
     Panel3,
-    Heading, 
-    Heading2, 
-    Heading3, 
+    Heading,
+    Heading2,
+    Heading3,
     SubHeading,
     SubHeading2,
     SubHeading3,
@@ -25,16 +25,15 @@ import {
     ButtonIcon3,
     Tag,
     Tag2,
-    Tag3
+    Tag3,
 } from "@dash/Common";
 
 import { getStylesForItem } from "@dash/Utils/colors";
-import { themeObjects } from '@dash/Utils/themeObjects';
+import { themeObjects } from "@dash/Utils/themeObjects";
 
 const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
-
     useEffect(() => {
-        console.log('EFFECT ', theme[themeVariant]);
+        console.log("EFFECT ", theme[themeVariant]);
     }, [theme]);
 
     function handleClickItem(itemType, styles) {
@@ -46,302 +45,1467 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
     }
 
     function renderButtons() {
-        const buttonStyles = getStylesForItem(themeObjects.BUTTON, theme[themeVariant]);
-        const button2Styles = getStylesForItem(themeObjects.BUTTON_2, theme[themeVariant]);
-        const button3Styles = getStylesForItem(themeObjects.BUTTON_3, theme[themeVariant]);
+        const buttonStyles = getStylesForItem(
+            themeObjects.BUTTON,
+            theme[themeVariant]
+        );
+        const button2Styles = getStylesForItem(
+            themeObjects.BUTTON_2,
+            theme[themeVariant]
+        );
+        const button3Styles = getStylesForItem(
+            themeObjects.BUTTON_3,
+            theme[themeVariant]
+        );
         return (
             <div className="flex flex-col space-y-4">
-                <Button title="Button" {...buttonStyles} onClick={() => handleClickItem(themeObjects.BUTTON, buttonStyles)} />
-                <Button2 title="Button 2" {...button2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_2, button2Styles)} />
-                <Button3 title="Button 3" {...button3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_3, button3Styles)} />
+                <Button
+                    title="Button"
+                    {...buttonStyles}
+                    onClick={() =>
+                        handleClickItem(themeObjects.BUTTON, buttonStyles)
+                    }
+                />
+                <Button2
+                    title="Button 2"
+                    {...button2Styles}
+                    onClick={() =>
+                        handleClickItem(themeObjects.BUTTON_2, button2Styles)
+                    }
+                />
+                <Button3
+                    title="Button 3"
+                    {...button3Styles}
+                    onClick={() =>
+                        handleClickItem(themeObjects.BUTTON_3, button3Styles)
+                    }
+                />
             </div>
         );
     }
 
     function renderTags() {
         const styles = getStylesForItem(themeObjects.TAG, theme[themeVariant]);
-        const styles2 = getStylesForItem(themeObjects.TAG_2, theme[themeVariant]);
-        const styles3 = getStylesForItem(themeObjects.TAG_3, theme[themeVariant]);
-        
+        const styles2 = getStylesForItem(
+            themeObjects.TAG_2,
+            theme[themeVariant]
+        );
+        const styles3 = getStylesForItem(
+            themeObjects.TAG_3,
+            theme[themeVariant]
+        );
+
         return (
             <div className="flex flex-row space-x-2 w-full justify-center items-center">
                 <div className="flex flex-row space-x-2">
-                    <Tag text="Tag" icon="pencil" {...styles} onClick={() => handleClickItem(themeObjects.TAG, styles)} />
+                    <Tag
+                        text="Tag"
+                        icon="pencil"
+                        {...styles}
+                        onClick={() =>
+                            handleClickItem(themeObjects.TAG, styles)
+                        }
+                    />
                 </div>
                 <div className="flex flex-row space-x-2">
-                    <Tag2 text="Tag 2" icon="pencil" {...styles2} onClick={() => handleClickItem(themeObjects.TAG_2, styles2)} />
+                    <Tag2
+                        text="Tag 2"
+                        icon="pencil"
+                        {...styles2}
+                        onClick={() =>
+                            handleClickItem(themeObjects.TAG_2, styles2)
+                        }
+                    />
                 </div>
                 <div className="flex flex-row space-x-2">
-                    <Tag3 text="Tag 3" icon="pencil" {...styles3} onClick={() => handleClickItem(themeObjects.TAG_3, styles3)} />
+                    <Tag3
+                        text="Tag 3"
+                        icon="pencil"
+                        {...styles3}
+                        onClick={() =>
+                            handleClickItem(themeObjects.TAG_3, styles3)
+                        }
+                    />
                 </div>
             </div>
         );
     }
     function renderButtonIcon() {
-        const styles = getStylesForItem(themeObjects.BUTTON_ICON, theme[themeVariant]);
-        const styles2 = getStylesForItem(themeObjects.BUTTON_ICON_2, theme[themeVariant]);
-        const styles3 = getStylesForItem(themeObjects.BUTTON_ICON_3, theme[themeVariant]);
-        
+        const styles = getStylesForItem(
+            themeObjects.BUTTON_ICON,
+            theme[themeVariant]
+        );
+        const styles2 = getStylesForItem(
+            themeObjects.BUTTON_ICON_2,
+            theme[themeVariant]
+        );
+        const styles3 = getStylesForItem(
+            themeObjects.BUTTON_ICON_3,
+            theme[themeVariant]
+        );
+
         return (
             <div className="flex flex-col space-y-2 w-full justify-center items-center">
                 <div className="flex flex-row space-x-2">
-                    <ButtonIcon text="Button Icon" icon="pencil" {...styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, styles)} />
-                    <ButtonIcon icon="pencil" {...styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, styles)} />
+                    <ButtonIcon
+                        text="Button Icon"
+                        icon="pencil"
+                        {...styles}
+                        onClick={() =>
+                            handleClickItem(themeObjects.BUTTON_ICON, styles)
+                        }
+                    />
+                    <ButtonIcon
+                        icon="pencil"
+                        {...styles}
+                        onClick={() =>
+                            handleClickItem(themeObjects.BUTTON_ICON, styles)
+                        }
+                    />
                 </div>
                 <div className="flex flex-row space-x-2">
-                    <ButtonIcon2 text="Button Icon 2" icon="pencil" {...styles2} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, styles2)} />
-                    <ButtonIcon2 icon="pencil" {...styles2} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, styles2)} />
+                    <ButtonIcon2
+                        text="Button Icon 2"
+                        icon="pencil"
+                        {...styles2}
+                        onClick={() =>
+                            handleClickItem(themeObjects.BUTTON_ICON_2, styles2)
+                        }
+                    />
+                    <ButtonIcon2
+                        icon="pencil"
+                        {...styles2}
+                        onClick={() =>
+                            handleClickItem(themeObjects.BUTTON_ICON_2, styles2)
+                        }
+                    />
                 </div>
                 <div className="flex flex-row space-x-2">
-                    <ButtonIcon3 text="Button Icon 3" icon="pencil" {...styles3} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, styles3)} />
-                    <ButtonIcon3 icon="pencil" {...styles3} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, styles3)} />
+                    <ButtonIcon3
+                        text="Button Icon 3"
+                        icon="pencil"
+                        {...styles3}
+                        onClick={() =>
+                            handleClickItem(themeObjects.BUTTON_ICON_3, styles3)
+                        }
+                    />
+                    <ButtonIcon3
+                        icon="pencil"
+                        {...styles3}
+                        onClick={() =>
+                            handleClickItem(themeObjects.BUTTON_ICON_3, styles3)
+                        }
+                    />
                 </div>
             </div>
         );
     }
 
     function renderMenuItem() {
-        const styles = getStylesForItem(themeObjects.MENU_ITEM, theme[themeVariant]);
-        const styles2 = getStylesForItem(themeObjects.MENU_ITEM_2, theme[themeVariant]);
-        const styles3 = getStylesForItem(themeObjects.MENU_ITEM_3, theme[themeVariant]);
+        const styles = getStylesForItem(
+            themeObjects.MENU_ITEM,
+            theme[themeVariant]
+        );
+        const styles2 = getStylesForItem(
+            themeObjects.MENU_ITEM_2,
+            theme[themeVariant]
+        );
+        const styles3 = getStylesForItem(
+            themeObjects.MENU_ITEM_3,
+            theme[themeVariant]
+        );
         return (
             <div className="flex flex-col space-y-2">
-                <MenuItem {...styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM, styles)}>Menu Item</MenuItem>
-                <MenuItem2 {...styles2} onClick={() => handleClickItem(themeObjects.MENU_ITEM_2, styles2)}>Menu Item 2</MenuItem2>
-                <MenuItem3 {...styles3} onClick={() => handleClickItem(themeObjects.MENU_ITEM_3, styles3)}>Menu Item 3</MenuItem3>
+                <MenuItem
+                    {...styles}
+                    onClick={() =>
+                        handleClickItem(themeObjects.MENU_ITEM, styles)
+                    }
+                >
+                    Menu Item
+                </MenuItem>
+                <MenuItem2
+                    {...styles2}
+                    onClick={() =>
+                        handleClickItem(themeObjects.MENU_ITEM_2, styles2)
+                    }
+                >
+                    Menu Item 2
+                </MenuItem2>
+                <MenuItem3
+                    {...styles3}
+                    onClick={() =>
+                        handleClickItem(themeObjects.MENU_ITEM_3, styles3)
+                    }
+                >
+                    Menu Item 3
+                </MenuItem3>
             </div>
         );
     }
 
     function renderText() {
+        const headingStyles = getStylesForItem(
+            themeObjects.HEADING,
+            theme[themeVariant]
+        );
+        const heading2Styles = getStylesForItem(
+            themeObjects.HEADING_2,
+            theme[themeVariant]
+        );
+        const heading3Styles = getStylesForItem(
+            themeObjects.HEADING_3,
+            theme[themeVariant]
+        );
 
-        const headingStyles = getStylesForItem(themeObjects.HEADING, theme[themeVariant]);
-        const heading2Styles = getStylesForItem(themeObjects.HEADING_2, theme[themeVariant]);
-        const heading3Styles = getStylesForItem(themeObjects.HEADING_3, theme[themeVariant]);
+        const subHeadingStyles = getStylesForItem(
+            themeObjects.SUBHEADING,
+            theme[themeVariant]
+        );
+        const subHeading2Styles = getStylesForItem(
+            themeObjects.SUBHEADING_2,
+            theme[themeVariant]
+        );
+        const subHeading3Styles = getStylesForItem(
+            themeObjects.SUBHEADING_3,
+            theme[themeVariant]
+        );
 
-        const subHeadingStyles = getStylesForItem(themeObjects.SUBHEADING, theme[themeVariant]);
-        const subHeading2Styles = getStylesForItem(themeObjects.SUBHEADING_2, theme[themeVariant]);
-        const subHeading3Styles = getStylesForItem(themeObjects.SUBHEADING_3, theme[themeVariant]);
-
-        const paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH, theme[themeVariant]);
-        const paragraph2Styles = getStylesForItem(themeObjects.PARAGRAPH_2, theme[themeVariant]);
-        const paragraph3Styles = getStylesForItem(themeObjects.PARAGRAPH_3, theme[themeVariant]);
+        const paragraphStyles = getStylesForItem(
+            themeObjects.PARAGRAPH,
+            theme[themeVariant]
+        );
+        const paragraph2Styles = getStylesForItem(
+            themeObjects.PARAGRAPH_2,
+            theme[themeVariant]
+        );
+        const paragraph3Styles = getStylesForItem(
+            themeObjects.PARAGRAPH_3,
+            theme[themeVariant]
+        );
 
         return (
             <div className="flex flex-col space-y-4 p-4">
-                <Heading title={'Heading'} {...headingStyles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING, headingStyles)}/>
-                <Heading2 title={'Heading 2'} {...heading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_2, heading2Styles)}/>
-                <Heading3 title={'Heading 3'} {...heading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_3, heading3Styles)}/>
-                <SubHeading title={'Subheading'} {...subHeadingStyles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING, subHeadingStyles)}/>
-                <SubHeading2 title={'Subheading 2'} {...subHeading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles)}/>
-                <SubHeading3 title={'Subheading 3'} {...subHeading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles)}/>
-                <Paragraph text={"The quick brown fox jumps over the lazy dog."} {...paragraphStyles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH, paragraphStyles)}/>
-                <Paragraph2 text={"The quick brown fox jumps over the lazy dog."} {...paragraph2Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles)}/>
-                <Paragraph3 text={"The quick brown fox jumps over the lazy dog."} {...paragraph3Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles)}/>
+                <Heading
+                    title={"Heading"}
+                    {...headingStyles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(themeObjects.HEADING, headingStyles)
+                    }
+                />
+                <Heading2
+                    title={"Heading 2"}
+                    {...heading2Styles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(themeObjects.HEADING_2, heading2Styles)
+                    }
+                />
+                <Heading3
+                    title={"Heading 3"}
+                    {...heading3Styles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(themeObjects.HEADING_3, heading3Styles)
+                    }
+                />
+                <SubHeading
+                    title={"Subheading"}
+                    {...subHeadingStyles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(
+                            themeObjects.SUBHEADING,
+                            subHeadingStyles
+                        )
+                    }
+                />
+                <SubHeading2
+                    title={"Subheading 2"}
+                    {...subHeading2Styles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(
+                            themeObjects.SUBHEADING_2,
+                            subHeading2Styles
+                        )
+                    }
+                />
+                <SubHeading3
+                    title={"Subheading 3"}
+                    {...subHeading3Styles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(
+                            themeObjects.SUBHEADING_3,
+                            subHeading3Styles
+                        )
+                    }
+                />
+                <Paragraph
+                    text={"The quick brown fox jumps over the lazy dog."}
+                    {...paragraphStyles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(themeObjects.PARAGRAPH, paragraphStyles)
+                    }
+                />
+                <Paragraph2
+                    text={"The quick brown fox jumps over the lazy dog."}
+                    {...paragraph2Styles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(
+                            themeObjects.PARAGRAPH_2,
+                            paragraph2Styles
+                        )
+                    }
+                />
+                <Paragraph3
+                    text={"The quick brown fox jumps over the lazy dog."}
+                    {...paragraph3Styles}
+                    padding={false}
+                    onClick={() =>
+                        handleClickItem(
+                            themeObjects.PARAGRAPH_3,
+                            paragraph3Styles
+                        )
+                    }
+                />
             </div>
         );
     }
 
     function renderPanels() {
-        const styles = getStylesForItem(themeObjects.PANEL, theme[themeVariant]);
-        const styles2 = getStylesForItem(themeObjects.PANEL_2, theme[themeVariant]);
-        const styles3 = getStylesForItem(themeObjects.PANEL_3, theme[themeVariant]);
+        const styles = getStylesForItem(
+            themeObjects.PANEL,
+            theme[themeVariant]
+        );
+        const styles2 = getStylesForItem(
+            themeObjects.PANEL_2,
+            theme[themeVariant]
+        );
+        const styles3 = getStylesForItem(
+            themeObjects.PANEL_3,
+            theme[themeVariant]
+        );
 
         // Panel 1
-        const headingStyles = getStylesForItem(themeObjects.HEADING, theme[themeVariant]);
-        const subHeadingStyles = getStylesForItem(themeObjects.SUBHEADING, theme[themeVariant]);
-        const paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH, theme[themeVariant]);
-        const buttonStyles = getStylesForItem(themeObjects.BUTTON, theme[themeVariant]);
-        const buttonIconStyles = getStylesForItem(themeObjects.BUTTON_ICON, theme[themeVariant]);
-        const menuItemStyles = getStylesForItem(themeObjects.MENU_ITEM, theme[themeVariant]);
-        const tagStyles = getStylesForItem(themeObjects.TAG, theme[themeVariant]);
+        const headingStyles = getStylesForItem(
+            themeObjects.HEADING,
+            theme[themeVariant]
+        );
+        const subHeadingStyles = getStylesForItem(
+            themeObjects.SUBHEADING,
+            theme[themeVariant]
+        );
+        const paragraphStyles = getStylesForItem(
+            themeObjects.PARAGRAPH,
+            theme[themeVariant]
+        );
+        const buttonStyles = getStylesForItem(
+            themeObjects.BUTTON,
+            theme[themeVariant]
+        );
+        const buttonIconStyles = getStylesForItem(
+            themeObjects.BUTTON_ICON,
+            theme[themeVariant]
+        );
+        const menuItemStyles = getStylesForItem(
+            themeObjects.MENU_ITEM,
+            theme[themeVariant]
+        );
+        const tagStyles = getStylesForItem(
+            themeObjects.TAG,
+            theme[themeVariant]
+        );
 
-        const heading2Styles = getStylesForItem(themeObjects.HEADING_2, theme[themeVariant]);
-        const subHeading2Styles = getStylesForItem(themeObjects.SUBHEADING_2, theme[themeVariant]);
-        const paragraph2Styles = getStylesForItem(themeObjects.PARAGRAPH_2, theme[themeVariant]);
-        const button2Styles = getStylesForItem(themeObjects.BUTTON_2, theme[themeVariant]);
-        const buttonIcon2Styles = getStylesForItem(themeObjects.BUTTON_ICON_2, theme[themeVariant]);
-        const menuItem2Styles = getStylesForItem(themeObjects.MENU_ITEM_2, theme[themeVariant]);
-        const tag2Styles = getStylesForItem(themeObjects.TAG_2, theme[themeVariant]);
+        const heading2Styles = getStylesForItem(
+            themeObjects.HEADING_2,
+            theme[themeVariant]
+        );
+        const subHeading2Styles = getStylesForItem(
+            themeObjects.SUBHEADING_2,
+            theme[themeVariant]
+        );
+        const paragraph2Styles = getStylesForItem(
+            themeObjects.PARAGRAPH_2,
+            theme[themeVariant]
+        );
+        const button2Styles = getStylesForItem(
+            themeObjects.BUTTON_2,
+            theme[themeVariant]
+        );
+        const buttonIcon2Styles = getStylesForItem(
+            themeObjects.BUTTON_ICON_2,
+            theme[themeVariant]
+        );
+        const menuItem2Styles = getStylesForItem(
+            themeObjects.MENU_ITEM_2,
+            theme[themeVariant]
+        );
+        const tag2Styles = getStylesForItem(
+            themeObjects.TAG_2,
+            theme[themeVariant]
+        );
 
-        const heading3Styles = getStylesForItem(themeObjects.HEADING_3, theme[themeVariant]);
-        const subHeading3Styles = getStylesForItem(themeObjects.SUBHEADING_3, theme[themeVariant]);
-        const paragraph3Styles = getStylesForItem(themeObjects.PARAGRAPH_3, theme[themeVariant]);
-        const button3Styles = getStylesForItem(themeObjects.BUTTON_3, theme[themeVariant]);
-        const buttonIcon3Styles = getStylesForItem(themeObjects.BUTTON_ICON_3, theme[themeVariant]);
-        const menuItem3Styles = getStylesForItem(themeObjects.MENU_ITEM_3, theme[themeVariant]);
-        const tag3Styles = getStylesForItem(themeObjects.TAG_3, theme[themeVariant]);
+        const heading3Styles = getStylesForItem(
+            themeObjects.HEADING_3,
+            theme[themeVariant]
+        );
+        const subHeading3Styles = getStylesForItem(
+            themeObjects.SUBHEADING_3,
+            theme[themeVariant]
+        );
+        const paragraph3Styles = getStylesForItem(
+            themeObjects.PARAGRAPH_3,
+            theme[themeVariant]
+        );
+        const button3Styles = getStylesForItem(
+            themeObjects.BUTTON_3,
+            theme[themeVariant]
+        );
+        const buttonIcon3Styles = getStylesForItem(
+            themeObjects.BUTTON_ICON_3,
+            theme[themeVariant]
+        );
+        const menuItem3Styles = getStylesForItem(
+            themeObjects.MENU_ITEM_3,
+            theme[themeVariant]
+        );
+        const tag3Styles = getStylesForItem(
+            themeObjects.TAG_3,
+            theme[themeVariant]
+        );
 
         return (
             <div className="flex flex-col space-y-4 h-100 p-4">
-
                 <div className="flex flex-row bg-gray-900 p-6 space-x-4 rounded justify-between">
-                    <Panel className={'p-6 rounded border-4 space-y-4 cursor-pointer'} height="h-40"  {...styles} onClick={() => handleClickItem(themeObjects.PANEL, styles)}>
-                        <span className="uppercase text-gray-50 font-bold">Panel</span>
+                    <Panel
+                        className={
+                            "p-6 rounded border-4 space-y-4 cursor-pointer"
+                        }
+                        height="h-40"
+                        {...styles}
+                        onClick={() =>
+                            handleClickItem(themeObjects.PANEL, styles)
+                        }
+                    >
+                        <span className="uppercase text-gray-50 font-bold">
+                            Panel
+                        </span>
                     </Panel>
-                    <Panel2 className={'p-6 rounded border-4 space-y-4 cursor-pointer'}  {...styles2} onClick={() => handleClickItem(themeObjects.PANEL_2, styles2)}>
-                        <span className="uppercase text-gray-50 font-bold">Panel 2</span>
+                    <Panel2
+                        className={
+                            "p-6 rounded border-4 space-y-4 cursor-pointer"
+                        }
+                        {...styles2}
+                        onClick={() =>
+                            handleClickItem(themeObjects.PANEL_2, styles2)
+                        }
+                    >
+                        <span className="uppercase text-gray-50 font-bold">
+                            Panel 2
+                        </span>
                     </Panel2>
-                    <Panel3 className={'p-6 rounded border-4 space-y-4 w-full cursor-pointer'}  {...styles3} onClick={() => handleClickItem(themeObjects.PANEL_3, styles3)}>
-                        <span className="uppercase text-gray-50 font-bold">Panel 3</span>
+                    <Panel3
+                        className={
+                            "p-6 rounded border-4 space-y-4 w-full cursor-pointer"
+                        }
+                        {...styles3}
+                        onClick={() =>
+                            handleClickItem(themeObjects.PANEL_3, styles3)
+                        }
+                    >
+                        <span className="uppercase text-gray-50 font-bold">
+                            Panel 3
+                        </span>
                     </Panel3>
                 </div>
-                
 
-                <Panel className={'p-6 rounded border-4 space-y-4'} {...styles}>
-                    <Heading title={'Heading'} {...headingStyles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING, headingStyles)}/>
-                    <Heading2 title={'Heading 2'} {...heading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_2, heading2Styles)}/>
-                    <Heading3 title={'Heading 3'} {...heading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_3, heading3Styles)}/>
-                    <SubHeading title={'Subheading'} {...subHeadingStyles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING, subHeadingStyles)}/>
-                    <SubHeading2 title={'Subheading 2'} {...subHeading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles)}/>
-                    <SubHeading3 title={'Subheading'} {...subHeading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles)}/>
-                    <Paragraph text={"The quick brown fox jumps over the lazy dog."} {...paragraphStyles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH, paragraphStyles)}/>
-                    <Paragraph2 text={"The quick brown fox jumps over the lazy dog."} {...paragraph2Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles)}/>
-                    <Paragraph3 text={"The quick brown fox jumps over the lazy dog."} {...paragraph3Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles)}/>
-                    <div className='flex flex-row space-x-2 w-full'>
-                        <Button title="Button" {...buttonStyles} onClick={() => handleClickItem(themeObjects.BUTTON, buttonStyles)} />
-                        <Button2 title="Button 2" {...button2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_2, button2Styles)} />
-                        <Button3 title="Button 3" {...button3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_3, button3Styles)} />
+                <Panel className={"p-6 rounded border-4 space-y-4"} {...styles}>
+                    <Heading
+                        title={"Heading"}
+                        {...headingStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(themeObjects.HEADING, headingStyles)
+                        }
+                    />
+                    <Heading2
+                        title={"Heading 2"}
+                        {...heading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_2,
+                                heading2Styles
+                            )
+                        }
+                    />
+                    <Heading3
+                        title={"Heading 3"}
+                        {...heading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_3,
+                                heading3Styles
+                            )
+                        }
+                    />
+                    <SubHeading
+                        title={"Subheading"}
+                        {...subHeadingStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING,
+                                subHeadingStyles
+                            )
+                        }
+                    />
+                    <SubHeading2
+                        title={"Subheading 2"}
+                        {...subHeading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_2,
+                                subHeading2Styles
+                            )
+                        }
+                    />
+                    <SubHeading3
+                        title={"Subheading"}
+                        {...subHeading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_3,
+                                subHeading3Styles
+                            )
+                        }
+                    />
+                    <Paragraph
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraphStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH,
+                                paragraphStyles
+                            )
+                        }
+                    />
+                    <Paragraph2
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraph2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_2,
+                                paragraph2Styles
+                            )
+                        }
+                    />
+                    <Paragraph3
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraph3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_3,
+                                paragraph3Styles
+                            )
+                        }
+                    />
+                    <div className="flex flex-row space-x-2 w-full">
+                        <Button
+                            title="Button"
+                            {...buttonStyles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON,
+                                    buttonStyles
+                                )
+                            }
+                        />
+                        <Button2
+                            title="Button 2"
+                            {...button2Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON_2,
+                                    button2Styles
+                                )
+                            }
+                        />
+                        <Button3
+                            title="Button 3"
+                            {...button3Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON_3,
+                                    button3Styles
+                                )
+                            }
+                        />
                     </div>
-                    <div className='flex flex-row space-x-4 w-full'>
+                    <div className="flex flex-row space-x-4 w-full">
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon" icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles)} />
-                            <ButtonIcon icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles)} />
+                            <ButtonIcon
+                                text="Button Icon"
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON,
+                                        buttonIconStyles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON,
+                                        buttonIconStyles
+                                    )
+                                }
+                            />
                         </div>
 
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon 2" icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
-                            <ButtonIcon icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
+                            <ButtonIcon
+                                text="Button Icon 2"
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_2,
+                                        buttonIcon2Styles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_2,
+                                        buttonIcon2Styles
+                                    )
+                                }
+                            />
                         </div>
 
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon 3" icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
-                            <ButtonIcon icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
+                            <ButtonIcon
+                                text="Button Icon 3"
+                                icon="pencil"
+                                {...buttonIcon3Styles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_3,
+                                        buttonIcon3Styles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIcon3Styles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_3,
+                                        buttonIcon3Styles
+                                    )
+                                }
+                            />
                         </div>
                     </div>
-                    <div className='flex flex-col space-y-2 w-full'>
-                        <MenuItem {...menuItemStyles} onClick={() => handleClickItem(themeObjects.MENU_ITEM, menuItemStyles)}>Menu Item</MenuItem>    
-                        <MenuItem2 {...menuItem2Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles)}>Menu Item 2</MenuItem2>
-                        <MenuItem3 {...menuItem3Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles)}>Menu Item 3</MenuItem3>
+                    <div className="flex flex-col space-y-2 w-full">
+                        <MenuItem
+                            {...menuItemStyles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM,
+                                    menuItemStyles
+                                )
+                            }
+                        >
+                            Menu Item
+                        </MenuItem>
+                        <MenuItem2
+                            {...menuItem2Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM_2,
+                                    menuItem2Styles
+                                )
+                            }
+                        >
+                            Menu Item 2
+                        </MenuItem2>
+                        <MenuItem3
+                            {...menuItem3Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM_3,
+                                    menuItem3Styles
+                                )
+                            }
+                        >
+                            Menu Item 3
+                        </MenuItem3>
                     </div>
-                    <div className='flex flex-row space-x-2 w-full'>
-                        <Tag text="Tag" icon="pencil" {...tagStyles} onClick={() => handleClickItem(themeObjects.TAG, tagStyles)} />
-                        <Tag2 text="Tag 2" icon="pencil" {...tag2Styles} onClick={() => handleClickItem(themeObjects.TAG_2, tag2Styles)} />
-                        <Tag3 text="Tag 3" icon="pencil" {...tag3Styles} onClick={() => handleClickItem(themeObjects.TAG_3, tag3Styles)} />
+                    <div className="flex flex-row space-x-2 w-full">
+                        <Tag
+                            text="Tag"
+                            icon="pencil"
+                            {...tagStyles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG, tagStyles)
+                            }
+                        />
+                        <Tag2
+                            text="Tag 2"
+                            icon="pencil"
+                            {...tag2Styles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG_2, tag2Styles)
+                            }
+                        />
+                        <Tag3
+                            text="Tag 3"
+                            icon="pencil"
+                            {...tag3Styles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG_3, tag3Styles)
+                            }
+                        />
                     </div>
-                    
                 </Panel>
 
-                <Panel2 className={'p-6 rounded border-4 space-y-4'} {...styles2}>
-                    <Heading title={'Heading'} {...headingStyles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING, headingStyles)}/>
-                    <Heading2 title={'Heading 2'} {...heading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_2, heading2Styles)}/>
-                    <Heading3 title={'Heading 3'} {...heading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_3, heading3Styles)}/>
-                    <SubHeading title={'Subheading'} {...subHeadingStyles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING, subHeadingStyles)}/>
-                    <SubHeading2 title={'Subheading 2'} {...subHeading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles)}/>
-                    <SubHeading3 title={'Subheading'} {...subHeading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles)}/>
-                    <Paragraph text={"The quick brown fox jumps over the lazy dog."} {...paragraphStyles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH, paragraphStyles)}/>
-                    <Paragraph2 text={"The quick brown fox jumps over the lazy dog."} {...paragraph2Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles)}/>
-                    <Paragraph3 text={"The quick brown fox jumps over the lazy dog."} {...paragraph3Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles)}/>
-                    <div className='flex flex-row space-x-2 w-full'>
-                        <Button title="Button" {...buttonStyles} onClick={() => handleClickItem(themeObjects.BUTTON, buttonStyles)} />
-                        <Button2 title="Button 2" {...button2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_2, button2Styles)} />
-                        <Button3 title="Button 3" {...button3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_3, button3Styles)} />
+                <Panel2
+                    className={"p-6 rounded border-4 space-y-4"}
+                    {...styles2}
+                >
+                    <Heading
+                        title={"Heading"}
+                        {...headingStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(themeObjects.HEADING, headingStyles)
+                        }
+                    />
+                    <Heading2
+                        title={"Heading 2"}
+                        {...heading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_2,
+                                heading2Styles
+                            )
+                        }
+                    />
+                    <Heading3
+                        title={"Heading 3"}
+                        {...heading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_3,
+                                heading3Styles
+                            )
+                        }
+                    />
+                    <SubHeading
+                        title={"Subheading"}
+                        {...subHeadingStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING,
+                                subHeadingStyles
+                            )
+                        }
+                    />
+                    <SubHeading2
+                        title={"Subheading 2"}
+                        {...subHeading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_2,
+                                subHeading2Styles
+                            )
+                        }
+                    />
+                    <SubHeading3
+                        title={"Subheading"}
+                        {...subHeading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_3,
+                                subHeading3Styles
+                            )
+                        }
+                    />
+                    <Paragraph
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraphStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH,
+                                paragraphStyles
+                            )
+                        }
+                    />
+                    <Paragraph2
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraph2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_2,
+                                paragraph2Styles
+                            )
+                        }
+                    />
+                    <Paragraph3
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraph3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_3,
+                                paragraph3Styles
+                            )
+                        }
+                    />
+                    <div className="flex flex-row space-x-2 w-full">
+                        <Button
+                            title="Button"
+                            {...buttonStyles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON,
+                                    buttonStyles
+                                )
+                            }
+                        />
+                        <Button2
+                            title="Button 2"
+                            {...button2Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON_2,
+                                    button2Styles
+                                )
+                            }
+                        />
+                        <Button3
+                            title="Button 3"
+                            {...button3Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON_3,
+                                    button3Styles
+                                )
+                            }
+                        />
                     </div>
-                    <div className='flex flex-row space-x-4 w-full'>
+                    <div className="flex flex-row space-x-4 w-full">
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon" icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles)} />
-                            <ButtonIcon icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles)} />
+                            <ButtonIcon
+                                text="Button Icon"
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON,
+                                        buttonIconStyles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON,
+                                        buttonIconStyles
+                                    )
+                                }
+                            />
                         </div>
 
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon 2" icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
-                            <ButtonIcon icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
+                            <ButtonIcon
+                                text="Button Icon 2"
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_2,
+                                        buttonIcon2Styles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_2,
+                                        buttonIcon2Styles
+                                    )
+                                }
+                            />
                         </div>
 
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon 3" icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
-                            <ButtonIcon icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
+                            <ButtonIcon
+                                text="Button Icon 3"
+                                icon="pencil"
+                                {...buttonIcon3Styles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_3,
+                                        buttonIcon3Styles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIcon3Styles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_3,
+                                        buttonIcon3Styles
+                                    )
+                                }
+                            />
                         </div>
                     </div>
-                    <div className='flex flex-col space-y-2 w-full'>
-                        <MenuItem {...menuItemStyles} onClick={() => handleClickItem(themeObjects.MENU_ITEM, menuItemStyles)}>Menu Item</MenuItem>    
-                        <MenuItem2 {...menuItem2Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles)}>Menu Item 2</MenuItem2>
-                        <MenuItem3 {...menuItem3Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles)}>Menu Item 3</MenuItem3>
+                    <div className="flex flex-col space-y-2 w-full">
+                        <MenuItem
+                            {...menuItemStyles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM,
+                                    menuItemStyles
+                                )
+                            }
+                        >
+                            Menu Item
+                        </MenuItem>
+                        <MenuItem2
+                            {...menuItem2Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM_2,
+                                    menuItem2Styles
+                                )
+                            }
+                        >
+                            Menu Item 2
+                        </MenuItem2>
+                        <MenuItem3
+                            {...menuItem3Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM_3,
+                                    menuItem3Styles
+                                )
+                            }
+                        >
+                            Menu Item 3
+                        </MenuItem3>
                     </div>
-                    <div className='flex flex-row space-x-2 w-full'>
-                        <Tag text="Tag" icon="pencil" {...tagStyles} onClick={() => handleClickItem(themeObjects.TAG, tagStyles)} />
-                        <Tag2 text="Tag 2" icon="pencil" {...tag2Styles} onClick={() => handleClickItem(themeObjects.TAG_2, tag2Styles)} />
-                        <Tag3 text="Tag 3" icon="pencil" {...tag3Styles} onClick={() => handleClickItem(themeObjects.TAG_3, tag3Styles)} />
+                    <div className="flex flex-row space-x-2 w-full">
+                        <Tag
+                            text="Tag"
+                            icon="pencil"
+                            {...tagStyles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG, tagStyles)
+                            }
+                        />
+                        <Tag2
+                            text="Tag 2"
+                            icon="pencil"
+                            {...tag2Styles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG_2, tag2Styles)
+                            }
+                        />
+                        <Tag3
+                            text="Tag 3"
+                            icon="pencil"
+                            {...tag3Styles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG_3, tag3Styles)
+                            }
+                        />
                     </div>
-                    
                 </Panel2>
 
-                <Panel3 className={'p-6 rounded border-4 space-y-4'} {...styles3}>
-                    <Heading title={'Heading'} {...headingStyles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING, headingStyles)}/>
-                    <Heading2 title={'Heading 2'} {...heading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_2, heading2Styles)}/>
-                    <Heading3 title={'Heading 3'} {...heading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_3, heading3Styles)}/>
-                    <SubHeading title={'Subheading'} {...subHeadingStyles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING, subHeadingStyles)}/>
-                    <SubHeading2 title={'Subheading 2'} {...subHeading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles)}/>
-                    <SubHeading3 title={'Subheading'} {...subHeading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles)}/>
-                    <Paragraph text={"The quick brown fox jumps over the lazy dog."} {...paragraphStyles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH, paragraphStyles)}/>
-                    <Paragraph2 text={"The quick brown fox jumps over the lazy dog."} {...paragraph2Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH, paragraph2Styles)}/>
-                    <Paragraph3 text={"The quick brown fox jumps over the lazy dog."} {...paragraph3Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles)}/>
-                    <div className='flex flex-row space-x-2 w-full'>
-                        <Button title="Button" {...buttonStyles} onClick={() => handleClickItem(themeObjects.BUTTON, buttonStyles)} />
-                        <Button2 title="Button 2" {...button2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_2, button2Styles)} />
-                        <Button3 title="Button 3" {...button3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_3, button3Styles)} />
+                <Panel3
+                    className={"p-6 rounded border-4 space-y-4"}
+                    {...styles3}
+                >
+                    <Heading
+                        title={"Heading"}
+                        {...headingStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(themeObjects.HEADING, headingStyles)
+                        }
+                    />
+                    <Heading2
+                        title={"Heading 2"}
+                        {...heading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_2,
+                                heading2Styles
+                            )
+                        }
+                    />
+                    <Heading3
+                        title={"Heading 3"}
+                        {...heading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_3,
+                                heading3Styles
+                            )
+                        }
+                    />
+                    <SubHeading
+                        title={"Subheading"}
+                        {...subHeadingStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING,
+                                subHeadingStyles
+                            )
+                        }
+                    />
+                    <SubHeading2
+                        title={"Subheading 2"}
+                        {...subHeading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_2,
+                                subHeading2Styles
+                            )
+                        }
+                    />
+                    <SubHeading3
+                        title={"Subheading"}
+                        {...subHeading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_3,
+                                subHeading3Styles
+                            )
+                        }
+                    />
+                    <Paragraph
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraphStyles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH,
+                                paragraphStyles
+                            )
+                        }
+                    />
+                    <Paragraph2
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraph2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH,
+                                paragraph2Styles
+                            )
+                        }
+                    />
+                    <Paragraph3
+                        text={"The quick brown fox jumps over the lazy dog."}
+                        {...paragraph3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_3,
+                                paragraph3Styles
+                            )
+                        }
+                    />
+                    <div className="flex flex-row space-x-2 w-full">
+                        <Button
+                            title="Button"
+                            {...buttonStyles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON,
+                                    buttonStyles
+                                )
+                            }
+                        />
+                        <Button2
+                            title="Button 2"
+                            {...button2Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON_2,
+                                    button2Styles
+                                )
+                            }
+                        />
+                        <Button3
+                            title="Button 3"
+                            {...button3Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.BUTTON_3,
+                                    button3Styles
+                                )
+                            }
+                        />
                     </div>
-                    <div className='flex flex-row space-x-4 w-full'>
+                    <div className="flex flex-row space-x-4 w-full">
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon" icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles)} />
-                            <ButtonIcon icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles)} />
+                            <ButtonIcon
+                                text="Button Icon"
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON,
+                                        buttonIconStyles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON,
+                                        buttonIconStyles
+                                    )
+                                }
+                            />
                         </div>
 
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon 2" icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
-                            <ButtonIcon icon="pencil" {...buttonIconStyles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
+                            <ButtonIcon
+                                text="Button Icon 2"
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_2,
+                                        buttonIcon2Styles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIconStyles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_2,
+                                        buttonIcon2Styles
+                                    )
+                                }
+                            />
                         </div>
 
                         <div className="flex flex-row space-x-2">
-                            <ButtonIcon text="Button Icon 3" icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
-                            <ButtonIcon icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
+                            <ButtonIcon
+                                text="Button Icon 3"
+                                icon="pencil"
+                                {...buttonIcon3Styles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_3,
+                                        buttonIcon3Styles
+                                    )
+                                }
+                            />
+                            <ButtonIcon
+                                icon="pencil"
+                                {...buttonIcon3Styles}
+                                onClick={() =>
+                                    handleClickItem(
+                                        themeObjects.BUTTON_ICON_3,
+                                        buttonIcon3Styles
+                                    )
+                                }
+                            />
                         </div>
                     </div>
-                    <div className='flex flex-col space-y-2 w-full'>
-                        <MenuItem {...menuItemStyles} onClick={() => handleClickItem(themeObjects.MENU_ITEM, menuItemStyles)}>Menu Item</MenuItem>    
-                        <MenuItem2 {...menuItem2Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles)}>Menu Item 2</MenuItem2>
-                        <MenuItem3 {...menuItem3Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles)}>Menu Item 3</MenuItem3>
+                    <div className="flex flex-col space-y-2 w-full">
+                        <MenuItem
+                            {...menuItemStyles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM,
+                                    menuItemStyles
+                                )
+                            }
+                        >
+                            Menu Item
+                        </MenuItem>
+                        <MenuItem2
+                            {...menuItem2Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM_2,
+                                    menuItem2Styles
+                                )
+                            }
+                        >
+                            Menu Item 2
+                        </MenuItem2>
+                        <MenuItem3
+                            {...menuItem3Styles}
+                            onClick={() =>
+                                handleClickItem(
+                                    themeObjects.MENU_ITEM_3,
+                                    menuItem3Styles
+                                )
+                            }
+                        >
+                            Menu Item 3
+                        </MenuItem3>
                     </div>
-                    <div className='flex flex-row space-x-2 w-full'>
-                        <Tag text="Tag" icon="pencil" {...tagStyles} onClick={() => handleClickItem(themeObjects.TAG, tagStyles)} />
-                        <Tag2 text="Tag 2" icon="pencil" {...tag2Styles} onClick={() => handleClickItem(themeObjects.TAG_2, tag2Styles)} />
-                        <Tag3 text="Tag 3" icon="pencil" {...tag3Styles} onClick={() => handleClickItem(themeObjects.TAG_3, tag3Styles)} />
+                    <div className="flex flex-row space-x-2 w-full">
+                        <Tag
+                            text="Tag"
+                            icon="pencil"
+                            {...tagStyles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG, tagStyles)
+                            }
+                        />
+                        <Tag2
+                            text="Tag 2"
+                            icon="pencil"
+                            {...tag2Styles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG_2, tag2Styles)
+                            }
+                        />
+                        <Tag3
+                            text="Tag 3"
+                            icon="pencil"
+                            {...tag3Styles}
+                            onClick={() =>
+                                handleClickItem(themeObjects.TAG_3, tag3Styles)
+                            }
+                        />
                     </div>
-                    
                 </Panel3>
 
-                <Panel2 className={'p-6 rounded border-4 space-y-4'} {...styles2}>
-                    <Heading2 title={'Heading 2'} {...heading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_2, heading2Styles)}/>
-                    <SubHeading2 title={'Subheading 2'} {...subHeading2Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles)}/>
-                    <Paragraph2 text={"Paragraph 2 - The quick brown fox jumps over the lazy dog."} {...paragraph2Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles)}/>
-                    <Button2 title="Button" {...button2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_2, button2Styles)} />
-                    <ButtonIcon2 text="Button Icon" icon="pencil" {...buttonIcon2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles)} />
-                    <ButtonIcon2 icon="pencil" {...buttonIcon2Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_2, buttonIconStyles)} />
-                    <MenuItem2 {...menuItem2Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles)}>Menu Item</MenuItem2>
-                    <Tag2 text="Tag 2" icon="pencil" {...tag2Styles} onClick={() => handleClickItem(themeObjects.TAG_2, tag2Styles)} />
+                <Panel2
+                    className={"p-6 rounded border-4 space-y-4"}
+                    {...styles2}
+                >
+                    <Heading2
+                        title={"Heading 2"}
+                        {...heading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_2,
+                                heading2Styles
+                            )
+                        }
+                    />
+                    <SubHeading2
+                        title={"Subheading 2"}
+                        {...subHeading2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_2,
+                                subHeading2Styles
+                            )
+                        }
+                    />
+                    <Paragraph2
+                        text={
+                            "Paragraph 2 - The quick brown fox jumps over the lazy dog."
+                        }
+                        {...paragraph2Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_2,
+                                paragraph2Styles
+                            )
+                        }
+                    />
+                    <Button2
+                        title="Button"
+                        {...button2Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.BUTTON_2,
+                                button2Styles
+                            )
+                        }
+                    />
+                    <ButtonIcon2
+                        text="Button Icon"
+                        icon="pencil"
+                        {...buttonIcon2Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.BUTTON_ICON_2,
+                                buttonIcon2Styles
+                            )
+                        }
+                    />
+                    <ButtonIcon2
+                        icon="pencil"
+                        {...buttonIcon2Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.BUTTON_ICON_2,
+                                buttonIconStyles
+                            )
+                        }
+                    />
+                    <MenuItem2
+                        {...menuItem2Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.MENU_ITEM_2,
+                                menuItem2Styles
+                            )
+                        }
+                    >
+                        Menu Item
+                    </MenuItem2>
+                    <Tag2
+                        text="Tag 2"
+                        icon="pencil"
+                        {...tag2Styles}
+                        onClick={() =>
+                            handleClickItem(themeObjects.TAG_2, tag2Styles)
+                        }
+                    />
                 </Panel2>
 
-                <Panel3 className={'p-6 rounded border-4 space-y-4'} {...styles3}>
-                    <Heading3 title={'Heading 3'} {...heading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.HEADING_3, heading3Styles)}/>
-                    <SubHeading3 title={'Subheading'} {...subHeading3Styles} padding={false} onClick={() => handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles)}/>
-                    <Paragraph3 text={"Paragraph 3 - The quick brown fox jumps over the lazy dog."} {...paragraph3Styles} padding={false} onClick={() => handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles)}/>
-                    <Button3 title="Button" {...button3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_3, button3Styles)} />
-                    <ButtonIcon3 text="Button Icon 3" icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
-                    <ButtonIcon3 icon="pencil" {...buttonIcon3Styles} onClick={() => handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles)} />
-                    <MenuItem3 {...menuItem3Styles} onClick={() => handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles)}>Menu Item</MenuItem3>
-                    <Tag3 text="Tag" icon="pencil" {...tag3Styles} onClick={() => handleClickItem(themeObjects.TAG_3, tag3Styles)} />
+                <Panel3
+                    className={"p-6 rounded border-4 space-y-4"}
+                    {...styles3}
+                >
+                    <Heading3
+                        title={"Heading 3"}
+                        {...heading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.HEADING_3,
+                                heading3Styles
+                            )
+                        }
+                    />
+                    <SubHeading3
+                        title={"Subheading"}
+                        {...subHeading3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.SUBHEADING_3,
+                                subHeading3Styles
+                            )
+                        }
+                    />
+                    <Paragraph3
+                        text={
+                            "Paragraph 3 - The quick brown fox jumps over the lazy dog."
+                        }
+                        {...paragraph3Styles}
+                        padding={false}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.PARAGRAPH_3,
+                                paragraph3Styles
+                            )
+                        }
+                    />
+                    <Button3
+                        title="Button"
+                        {...button3Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.BUTTON_3,
+                                button3Styles
+                            )
+                        }
+                    />
+                    <ButtonIcon3
+                        text="Button Icon 3"
+                        icon="pencil"
+                        {...buttonIcon3Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.BUTTON_ICON_3,
+                                buttonIcon3Styles
+                            )
+                        }
+                    />
+                    <ButtonIcon3
+                        icon="pencil"
+                        {...buttonIcon3Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.BUTTON_ICON_3,
+                                buttonIcon3Styles
+                            )
+                        }
+                    />
+                    <MenuItem3
+                        {...menuItem3Styles}
+                        onClick={() =>
+                            handleClickItem(
+                                themeObjects.MENU_ITEM_3,
+                                menuItem3Styles
+                            )
+                        }
+                    >
+                        Menu Item
+                    </MenuItem3>
+                    <Tag3
+                        text="Tag"
+                        icon="pencil"
+                        {...tag3Styles}
+                        onClick={() =>
+                            handleClickItem(themeObjects.TAG_3, tag3Styles)
+                        }
+                    />
                 </Panel3>
-
             </div>
         );
     }
@@ -349,11 +1513,11 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
     return (
         <ThemePane>
             {renderPanels()}
-            <Panel className={'p-10 rounded space-y-4 h-fit'} >
+            <Panel className={"p-10 rounded space-y-4 h-fit"}>
                 {renderText()}
             </Panel>
         </ThemePane>
-    )
-}
+    );
+};
 
 export default PreviewComponentsPane;

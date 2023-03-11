@@ -1,12 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
 // import { Listbox, Transition } from '@headlessui/react'
 // import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
-export const SelectMenu = ({ name, onChange, selectedValue, children, textSize = 'text-base 2xl:text-lg', bgColor = 'bg-gray-300', textColor = 'text-gray-600' }) => (
+export const SelectMenu = ({
+    name,
+    onChange,
+    selectedValue,
+    children,
+    textSize = "text-base 2xl:text-lg",
+    bgColor = "bg-gray-300",
+    textColor = "text-gray-600",
+}) => (
     <select
         className={`p-2 rounded ${textSize} ${textColor} font-bold ${bgColor} focus:outline-none cursor-pointer min-w-lg w-full`}
         name={name}
-        onChange={onChange} 
+        onChange={onChange}
         value={selectedValue}
     >
         {children}
@@ -39,16 +47,14 @@ export const SelectMenu = ({ name, onChange, selectedValue, children, textSize =
 //     )
 // }
 
-
-
 const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-  { name: 'Tom Cook' },
-  { name: 'Tanya Fox' },
-  { name: 'Hellen Schmidt' },
-]
+    { name: "Wade Cooper" },
+    { name: "Arlene Mccoy" },
+    { name: "Devon Webb" },
+    { name: "Tom Cook" },
+    { name: "Tanya Fox" },
+    { name: "Hellen Schmidt" },
+];
 
 // export const MultiSelectMenuOptions = ({ selected = { name: 'Wade Cooper' }, setSelected }) => {
 
@@ -107,6 +113,3 @@ const people = [
 //     </div>
 //   )
 // }
-
-
-  

@@ -11,5 +11,5 @@ export {
     AlgoliaSearchBox,
     AlgoliaUIFactory,
     AlgoliaCurrentRefinements,
-    AlgoliaRefinementList
-}
+    AlgoliaRefinementList,
+};

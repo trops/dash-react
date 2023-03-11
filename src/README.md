@@ -15,7 +15,7 @@ Dashboard (main application)
 
 Each Workspace is in essence a new "page" or "canvas" that as user can create using the Dashboard.
 
-Each Workspace has a custom Layout, configured by the user and stored in the Workspace json configuration file. 
+Each Workspace has a custom Layout, configured by the user and stored in the Workspace json configuration file.
 
 Each Workspace may contain different Widgets depending on the "type" of Workspace (potentially).
 
@@ -27,7 +27,7 @@ Each Widget is a Child of the Base Widget Component. Widgets are extensible via 
 
 ### Types of Widgets
 
-- Search (Query)
-- Analytics (Reporting)
-- Ingest (Indexing)
-- Configure (Admin)
+-   Search (Query)
+-   Analytics (Reporting)
+-   Ingest (Indexing)
+-   Configure (Admin)

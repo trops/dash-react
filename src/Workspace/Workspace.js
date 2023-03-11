@@ -1,34 +1,48 @@
 /**
  * Workspace
- * 
+ *
  * The Workspace is comprised of the Layout, and Widgets that are configured by the User.
- * There may be multiple Workspaces of "Pages" that the user can create by dragging widgets into the Layout, 
+ * There may be multiple Workspaces of "Pages" that the user can create by dragging widgets into the Layout,
  * also defined by the user.
  */
 import React, { useContext } from "react";
 import { LayoutContainer } from "@dash/Layout";
 import { AppContext, WorkspaceContext } from "@dash/Context";
 
-
-export const Workspace = ({ theme = false, workspaceData, children = null, width = 'w-full', height = '', direction = 'col', scrollable = true, ...props }) => {
-
+export const Workspace = ({
+    theme = false,
+    workspaceData,
+    children = null,
+    width = "w-full",
+    height = "",
+    direction = "col",
+    scrollable = true,
+    ...props
+}) => {
     // const { debugMode, debugStyles } = useContext(AppContext);
 
     // console.log('workspace ', debugMode);
 
     function debugClasses() {
         // const styles = debugStyles['workspace']['classes'];
-        return '';//debug === true && `space-y-4 ${styles}`
+        return ""; //debug === true && `space-y-4 ${styles}`
     }
 
     // console.log('Workspace props ', { theme, workspaceData, children, width, height, direction, scrollable, ...props })
-    
+
     return (
         <WorkspaceContext.Provider value={workspaceData}>
-            <LayoutContainer theme={theme} direction={direction} scrollable={scrollable} width={width} height={height} className={`${debugClasses()}`}>
+            <LayoutContainer
+                theme={theme}
+                direction={direction}
+                scrollable={scrollable}
+                width={width}
+                height={height}
+                className={`${debugClasses()}`}
+            >
                 {/* {debugMode === true && (<span className="text-white uppercase text-xs">WORKSPACE {children && 'children'}</span>)} */}
                 {children}
             </LayoutContainer>
         </WorkspaceContext.Provider>
-    )
-}
+    );
+};

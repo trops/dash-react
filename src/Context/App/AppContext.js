@@ -1,6 +1,6 @@
 /**
  * AppContext
- * 
+ *
  * {
  *      seearchClient,
  *      api
