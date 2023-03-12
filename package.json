@@ -1,6 +1,6 @@
 {
     "name": "dash",
-    "version": "0.0.43",
+    "version": "0.0.48",
     "description": "A Dashboard Generator.",
     "module": "dist/index.esm.js",
     "main": "dist/index.cjs.js",
@@ -10,19 +10,22 @@
         "access": "restricted"
     },
     "scripts": {
-        "dry1": "yarn prettier --write . && npm version --no-git-tag-version patch && rm -r ./dist/* && rm -r ./package/* && npm run roll && npm run copy1 && npm run pack-local-esm && npm run copy-package && npm run move-to-accelerator && npm run move-to-dash-widgets",
-        "copy1": "cp package.json dist/ && cp README.md dist/ && cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css",
+        "build": "yarn prettify && yarn build:css && yarn prod",
+        "build:css": "tailwindcss -i src/index.css -o src/tailwind.css -m",
+        "prod": "yarn prettify && yarn bump-tag && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package && yarn move-to-accelerator && yarn move-to-dash-widgets",
+        "dry": "yarn prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package && yarn move-to-accelerator && yarn move-to-dash-widgets",
+        "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css",
         "copy-package": "\\cp ./package/$npm_package_name-$npm_package_version.tgz ./package/$npm_package_name.tgz",
-        "move-to-accelerator": "\\cp ./package/$npm_package_name.tgz ../algolia/electron-skeleton-accelerator/$npm_package_name.tgz",
-        "move-to-dash-widgets": "\\cp ./package/$npm_package_name.tgz ../electron-skeleton-accelerator-widgets/$npm_package_name.tgz",
+        "move-to-accelerator": "rm ../algolia/electron-skeleton-accelerator/$npm_package_name.tgz && \\cp ./package/$npm_package_name.tgz ../algolia/electron-skeleton-accelerator/$npm_package_name.tgz",
+        "move-to-dash-widgets": "rm ../electron-skeleton-accelerator-widgets/$npm_package_name.tgz && \\cp ./package/$npm_package_name.tgz ../electron-skeleton-accelerator-widgets/$npm_package_name.tgz",
         "pack-local-esm": "cd ./dist && npm pack --pack-destination ../package",
         "link-package-1": "cd ./dist && npm link",
-        "build": "npm run build:css && npm run dry1",
-        "build:css": "tailwindcss -i src/index.css -o src/tailwind.css -m",
         "roll": "rollup -c",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "bump": "npm version -m patch"
+        "bump": "npm version --no-git-tag-version patch",
+        "bump-tag": "npm version -m patch",
+        "prettify": "yarn prettier --write . "
     },
     "keywords": [
         "Dash"

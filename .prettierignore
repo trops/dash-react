@@ -35,3 +35,5 @@ yarn-error.log*
 storybook-static/
 webpack.config.js
 
+tailwind.css
+
