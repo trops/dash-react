@@ -8,6 +8,7 @@ function Heading({
     padding = true,
     theme = true,
     onClick = null,
+    textColor = null,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);

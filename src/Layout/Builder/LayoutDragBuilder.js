@@ -2,7 +2,7 @@ import { renderLayout } from "@dash/Utils";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const LayoutDragBuilder = ({
+export const LayoutDragBuilder = ({
     layout,
     dashboardId,
     parentKey,
@@ -63,5 +63,3 @@ const LayoutDragBuilder = ({
         })
     );
 };
-
-export { LayoutDragBuilder };

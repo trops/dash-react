@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
 
-const LayoutContainer = ({
+export const LayoutContainer = ({
     theme = false,
     id,
     children,
@@ -49,4 +49,3 @@ const LayoutContainer = ({
         </div>
     );
 };
-export { LayoutContainer };

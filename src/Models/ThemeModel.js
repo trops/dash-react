@@ -294,13 +294,13 @@ export const ThemeModel = (themeItem = {}) => {
     theme["dark"]["name"] = theme.name;
 
     // transparent colors
-    theme["dark"]["background-none"] = "bg-transparent";
+    theme["dark"]["bg-none"] = "bg-transparent";
     theme["dark"]["border-none"] = "border-transparent";
     theme["dark"]["hover-border-none"] = "hover:border-transparent";
     theme["dark"]["hover-bg-none"] = "hover:bg-transparent";
     theme["dark"]["hover-text-none"] = "hover:text-transparent";
 
-    theme["light"]["background-none"] = "bg-transparent";
+    theme["light"]["bg-none"] = "bg-transparent";
     theme["light"]["border-none"] = "border-transparent";
     theme["light"]["hover-border-none"] = "hover:border-transparent";
     theme["light"]["hover-bg-none"] = "hover:bg-transparent";

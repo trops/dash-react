@@ -77,9 +77,11 @@ const PreviewColorsPane = ({
                                 key={`preview-color-${key}`}
                                 className="flex flex-row justify-between py-2 items-center border-b border-gray-700 px-2"
                             >
-                                <span className="text-sm font-bold text-gray-300">
-                                    {key}
-                                </span>
+                                <div className="flex flex-col space-y-1">
+                                    <span className="text-sm font-bold text-gray-300">
+                                        {key}
+                                    </span>
+                                </div>
                                 <ColorTile
                                     width={"w-1/2"}
                                     colorFromTheme={`${parts[0]}-${parts[1]}-${parts[2]}`}
