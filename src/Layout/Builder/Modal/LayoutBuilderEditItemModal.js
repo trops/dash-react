@@ -48,6 +48,7 @@ export const LayoutBuilderEditItemModal = ({
     }
 
     function handleUpdate(data) {
+        console.log("handle update widget panel ", data);
         const workspaceTemp = WorkspaceModel(workspaceSelected);
         const newLayout = replaceItemInLayout(
             workspaceTemp.layout,
