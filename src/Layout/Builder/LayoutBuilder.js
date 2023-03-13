@@ -115,6 +115,7 @@ export const LayoutBuilder = ({
         console.log(" new workspace ", newWorkspace);
         setCurrentWorkspace(() => newWorkspace);
         setIsConfigModalOpen(false);
+        onWorkspaceChange(newWorkspace);
         forceUpdate();
     }
 

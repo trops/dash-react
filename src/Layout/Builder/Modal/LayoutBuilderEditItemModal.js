@@ -183,7 +183,7 @@ export const LayoutBuilderEditItemModal = ({
                                     </div>
                                 </div>
                             </div>
-                            {item && (
+                            {itemSelected && (
                                 <div className="flex flex-col w-1/4">
                                     <WidgetConfigPanel
                                         item={itemSelected}
