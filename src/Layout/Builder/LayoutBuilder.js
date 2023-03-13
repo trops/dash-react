@@ -112,11 +112,11 @@ export const LayoutBuilder = ({
     }
 
     function handleSaveNewWorkspace(newWorkspace) {
-        console.log(" new workspace ", newWorkspace);
+        console.log("builder save workspace ", newWorkspace);
         setCurrentWorkspace(() => newWorkspace);
         setIsConfigModalOpen(false);
         onWorkspaceChange(newWorkspace);
-        forceUpdate();
+        //forceUpdate();
     }
 
     function onClickRemove(id) {

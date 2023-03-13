@@ -144,7 +144,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function handleWorkspaceChange(ws) {
-        console.log("workspace change", ws);
+        console.log(" dashboard workspace change", ws);
         if (ws) setWorkspaceSelected(() => ws);
         loadWorkspaces();
         pub.removeAllListeners();
@@ -253,11 +253,13 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function handleClickSaveWorkspace() {
+        console.log("dashboard clicked save workspace ", workspaceSelected);
         // we have to remove the widgetConfig which contains the component
         // sanitize the workspace layout remove widgetConfig items
         const workspaceToSave = JSON.parse(JSON.stringify(workspaceSelected));
         const layout = workspaceToSave["layout"].map((layoutItem) => {
             delete layoutItem["widgetConfig"];
+            delete layoutItem["api"];
             return layoutItem;
         });
         workspaceToSave["layout"] = layout;

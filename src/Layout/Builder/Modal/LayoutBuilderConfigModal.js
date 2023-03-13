@@ -51,7 +51,13 @@ export const LayoutBuilderConfigModal = ({
         console.log("handle edit ", itemChanged, workspaceChanged);
         setItemSelected(() => itemChanged);
         setWorkspaceSelected(() => workspaceChanged);
+        // onSaveWorkspace(workspaceChanged);
         forceUpdate();
+    }
+
+    function handleSaveConfig() {
+        console.log("saving from config panel ", workspaceSelected);
+        onSaveWorkspace(workspaceSelected);
     }
 
     return (
@@ -162,9 +168,7 @@ export const LayoutBuilderConfigModal = ({
                                     hoverBackgroundColor={"hover:bg-green-700"}
                                     textSize={"text-lg"}
                                     padding={"py-2 px-4"}
-                                    onClick={() =>
-                                        onSaveWorkspace(workspaceSelected)
-                                    }
+                                    onClick={handleSaveConfig}
                                 />
                             </div>
                         </div>
