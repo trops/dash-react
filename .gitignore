@@ -28,7 +28,6 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock
 
-/dist
 /package
 .storybook/
 storybook-static/
