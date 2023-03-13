@@ -242,7 +242,7 @@ export const LayoutBuilder = ({
     }
 
     function handleSaveWidgetChanges(data) {
-        console.log("SAVE WIDGET CHANGES ", data);
+        console.log("LayoutBuilder SAVE WIDGET CHANGES ", data);
         const newWorkspace = saveItemToWorkspace(data);
         console.log("NEW WORKSPACE ", newWorkspace);
 

@@ -39,6 +39,7 @@ export const LayoutBuilderEditItemModal = ({
     }, [open, workspace, item]);
 
     function handleSaveChanges(itemData) {
+        console.log("edit modal save changes ", itemData);
         if (itemData !== null) {
             console.log("handleSaveChanges ", itemData);
             onUpdate(itemData);
@@ -55,6 +56,7 @@ export const LayoutBuilderEditItemModal = ({
             data["id"],
             data
         );
+        console.log("new layout ", newLayout);
         workspaceTemp.layout = newLayout;
 
         setWorkspaceSelected(() => workspaceTemp);
