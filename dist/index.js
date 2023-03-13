@@ -4876,7 +4876,7 @@ var Dashboard = function Dashboard(_ref) {
     });
   }
   function handleWorkspaceChange(ws) {
-    console.log("workspace change", ws);
+    console.log(" dashboard workspace change", ws);
     if (ws) setWorkspaceSelected(function () {
       return ws;
     });
@@ -4979,11 +4979,13 @@ var Dashboard = function Dashboard(_ref) {
     });
   }
   function handleClickSaveWorkspace() {
+    console.log("dashboard clicked save workspace ", workspaceSelected);
     // we have to remove the widgetConfig which contains the component
     // sanitize the workspace layout remove widgetConfig items
     var workspaceToSave = JSON.parse(JSON.stringify(workspaceSelected));
     var layout = workspaceToSave["layout"].map(function (layoutItem) {
       delete layoutItem["widgetConfig"];
+      delete layoutItem["api"];
       return layoutItem;
     });
     workspaceToSave["layout"] = layout;
@@ -6853,7 +6855,12 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
     setWorkspaceSelected(function () {
       return workspaceChanged;
     });
+    // onSaveWorkspace(workspaceChanged);
     forceUpdate();
+  }
+  function handleSaveConfig() {
+    console.log("saving from config panel ", workspaceSelected);
+    onSaveWorkspace(workspaceSelected);
   }
   return itemSelected !== null && /*#__PURE__*/jsx(Modal, {
     isOpen: open,
@@ -6926,9 +6933,7 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
               hoverBackgroundColor: "hover:bg-green-700",
               textSize: "text-lg",
               padding: "py-2 px-4",
-              onClick: function onClick() {
-                return onSaveWorkspace(workspaceSelected);
-              }
+              onClick: handleSaveConfig
             })]
           })]
         })]
@@ -6983,6 +6988,7 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
     }
   }, [open, workspace, item]);
   function handleSaveChanges(itemData) {
+    console.log("edit modal save changes ", itemData);
     if (itemData !== null) {
       console.log("handleSaveChanges ", itemData);
       onUpdate(itemData);
@@ -6991,8 +6997,10 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
     }
   }
   function handleUpdate(data) {
+    console.log("handle update widget panel ", data);
     var workspaceTemp = WorkspaceModel(workspaceSelected);
     var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
+    console.log("new layout ", newLayout);
     workspaceTemp.layout = newLayout;
     setWorkspaceSelected(function () {
       return workspaceTemp;
@@ -7097,7 +7105,7 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
                 children: itemSelected !== null && workspaceSelected !== null && renderEditContainer()
               })]
             })
-          }), item && /*#__PURE__*/jsx("div", {
+          }), itemSelected && /*#__PURE__*/jsx("div", {
             className: "flex flex-col w-1/4",
             children: /*#__PURE__*/jsx(WidgetConfigPanel, {
               item: itemSelected,
@@ -7975,9 +7983,10 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   var workspace = _ref.workspace,
     _ref$preview = _ref.preview,
     preview = _ref$preview === void 0 ? false : _ref$preview,
-    onTogglePreview = _ref.onTogglePreview;
-    _ref.onWorkspaceChange;
-    var dashboardId = _ref.dashboardId;
+    onTogglePreview = _ref.onTogglePreview,
+    _ref$onWorkspaceChang = _ref.onWorkspaceChange,
+    onWorkspaceChange = _ref$onWorkspaceChang === void 0 ? null : _ref$onWorkspaceChang,
+    dashboardId = _ref.dashboardId;
   var _useContext = useContext$1(AppContext),
     debugMode = _useContext.debugMode;
   var _useState = useState(false),
@@ -8054,13 +8063,15 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     forceUpdate();
   }
   function handleSaveNewWorkspace(newWorkspace) {
-    console.log(" new workspace ", newWorkspace);
+    console.log("builder save workspace ", newWorkspace);
     setCurrentWorkspace(function () {
       return newWorkspace;
     });
     setIsConfigModalOpen(false);
-    forceUpdate();
+    onWorkspaceChange(newWorkspace);
+    //forceUpdate();
   }
+
   function onClickRemove(id) {
     var layout = currentWorkspace["layout"];
     var newLayout = removeItemFromLayout(layout, id);
@@ -8167,7 +8178,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   }
 
   function handleSaveWidgetChanges(data) {
-    console.log("SAVE WIDGET CHANGES ", data);
+    console.log("LayoutBuilder SAVE WIDGET CHANGES ", data);
     var newWorkspace = saveItemToWorkspace(data);
     console.log("NEW WORKSPACE ", newWorkspace);
     setCurrentWorkspace(function () {
