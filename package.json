@@ -1,7 +1,7 @@
 {
-    "name": "@trops/dash",
+    "name": "@trops/dash-react",
     "version": "0.0.60",
-    "description": "A Dashboard Generator.",
+    "description": "A Dashboard Generator Package.",
     "module": "dist/index.esm.js",
     "main": "dist/index.cjs.js",
     "browser": "dist/index.js",
@@ -32,7 +32,10 @@
     ],
     "author": "John P. Giatropoulos <john.giatropoulos@gmail.com>",
     "license": "ISC",
-    "repository": "",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
     "peerDependencies": {
         "@fortawesome/fontawesome-free": "^6.1.1",
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
