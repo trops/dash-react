@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { AppContext } from "./AppContext";
-// import algoliasearch from 'algoliasearch/lite';
 import { SettingsModel } from "@dash/Models";
 import { deepCopy } from "@dash/Utils";
-
-// const debugMode = process.env.REACT_APP_DEBUG === "false" ? true : false;
 
 // TODO
 // make theme files or have a Theme context which we can populate with a plugin or config
@@ -27,14 +24,15 @@ const debugStyles = {
     },
 };
 
-export const AppWrapper = ({ children, api, ...rest }) => {
-    const [creds, setCreds] = useState({
-        appId: "ZHSCSP4LMX", // change to some uuid of some sort, not algolia specific
-        apiKey: "",
-    });
+export const AppWrapper = ({
+    children,
+    credentials = { appId: "my-app-id" },
+    api,
+    ...rest
+}) => {
+    const [creds, setCreds] = useState(credentials);
     const [debugMode, setDebugmode] = useState(false);
     const [searchClient, setSearchClient] = useState(null);
-
     const [settings, setSettings] = useState(null);
     const [isLoadingSettings, setIsLoadingSettings] = useState(false);
     const [isSavingSettings, setIsSavingSettings] = useState(false);
@@ -50,10 +48,10 @@ export const AppWrapper = ({ children, api, ...rest }) => {
     }
 
     function changeCreds(appId, apiKey) {
-        const credentials = { appId, apiKey };
+        const credentialsTemp = { appId, apiKey };
         const s = deepCopy(settings);
-        s["creds"] = credentials;
-        setCreds(() => credentials);
+        s["creds"] = credentialsTemp;
+        setCreds(() => credentialsTemp);
         changeSettings(s);
     }
 
@@ -138,14 +136,14 @@ export const AppWrapper = ({ children, api, ...rest }) => {
     // }
 
     function getValue() {
-        console.log("app context value ", {
-            debugMode: debugMode,
-            debugStyles: debugStyles,
-            creds: creds,
-            searchClient: searchClient,
-            api: api,
-            settings: settings,
-        });
+        // console.log("app context value ", {
+        //     debugMode: debugMode,
+        //     debugStyles: debugStyles,
+        //     creds: creds,
+        //     searchClient: searchClient,
+        //     api: api,
+        //     settings: settings,
+        // });
 
         return {
             key: Date.now(),

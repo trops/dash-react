@@ -19,14 +19,17 @@ import { PanelWelcome } from "./Panel/PanelWelcome";
 import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
 
 export const Dashboard = ({ workspace = null, preview = true }) => {
-    const { api, settings } = useContext(AppContext);
+    const { api, settings, creds } = useContext(AppContext);
     const { pub } = useContext(DashboardContext);
     const { currentTheme, changeCurrentTheme, themesForApplication } =
         useContext(ThemeContext);
 
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [isShowing, setIsShowing] = useState(false);
-    const [selectedMainItem, setSelectedMainItem] = useState({ name: "home" });
+    const [selectedMainItem, setSelectedMainItem] = useState({
+        name: "home",
+        id: 1,
+    });
     const [previewMode, setPreviewMode] = useState(preview);
 
     // Workspace Management (loading)
@@ -44,7 +47,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log("DASHBOARD ", menuItems, api, settings);
+        console.log("DASHBOARD ", menuItems, api, settings, workspaceConfig);
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
@@ -82,9 +85,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         api.on(api.events.WORKSPACE_LIST_ERROR, handleLoadWorkspacesError);
 
         // API
-        api.workspace.listWorkspacesForApplication(
-            process.env.REACT_APP_APP_ID
-        );
+        api.workspace.listWorkspacesForApplication(creds.appId);
     }
 
     function handleLoadWorkspacesComplete(e, message) {
@@ -110,7 +111,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function handleClickMainMenu(menuItem) {
-        console.log("clicked ", menuItem);
+        console.log("clicked ", menuItem, selectedMainItem);
         if (selectedMainItem === null) {
             setSelectedMainItem(() => menuItem);
         } else {
@@ -120,9 +121,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                 setSelectedMainItem(() => menuItem);
             }
         }
-        // setSelectedMainItem(() => menuItem);
-        // if (selectedMainItem !== menuItem) setSelectedMainItem(() => menuItem);
-        // if (selectedMainItem === menuItem) setSelectedMainItem(() => null);
+
         if (!isShowing && menuItem.name !== "home") {
             setIsShowing(!isShowing);
         }
@@ -139,6 +138,8 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function handleClickNew(workspaceItem) {
+        console.log("clicked add new ", workspaceItem, previewMode);
+        setPreviewMode(() => false);
         setWorkspaceSelected(() => workspaceItem);
     }
 
@@ -206,7 +207,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         api.on(api.events.MENU_ITEMS_LIST_COMPLETE, handleListMenuItemComplete);
         api.on(api.events.MENU_ITEMS_LIST_ERROR, handleListMenuItemError);
 
-        api.menuItems.listMenuItems(process.env.REACT_APP_APP_ID);
+        api.menuItems.listMenuItems(creds.appId);
     }
 
     function handleListMenuItemComplete(e, message) {
@@ -227,7 +228,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         api.removeAllListeners();
         api.on(api.events.MENU_ITEMS_SAVE_COMPLETE, handleSaveMenuItemComplete);
         api.on(api.events.MENU_ITEMS_SAVE_ERROR, handleSaveMenuItemError);
-        api.menuItems.saveMenuItem(process.env.REACT_APP_APP_ID, menuItem);
+        api.menuItems.saveMenuItem(creds.appId, menuItem);
     }
 
     function handleSaveMenuItemComplete(e, message) {
@@ -265,10 +266,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         api.on(api.events.WORKSPACE_SAVE_COMPLETE, handleSaveWorkspaceComplete);
         api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
-        api.workspace.saveWorkspaceForApplication(
-            process.env.REACT_APP_APP_ID,
-            workspaceToSave
-        );
+        api.workspace.saveWorkspaceForApplication(creds.appId, workspaceToSave);
     }
 
     function handleSaveWorkspaceComplete(e, message) {

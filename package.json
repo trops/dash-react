@@ -1,6 +1,6 @@
 {
-    "name": "dash",
-    "version": "0.0.50",
+    "name": "@trops/dash",
+    "version": "0.0.60",
     "description": "A Dashboard Generator.",
     "module": "dist/index.esm.js",
     "main": "dist/index.cjs.js",
@@ -12,11 +12,10 @@
     "scripts": {
         "build": "yarn prettify && yarn build:css && yarn prod",
         "build:css": "tailwindcss -i src/index.css -o src/tailwind.css -m",
-        "prod": "yarn prettify && yarn bump-tag && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package && yarn move-to-accelerator && yarn move-to-dash && yarn move-to-dash-widgets",
-        "dry": "yarn prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package && yarn move-to-accelerator && yarn move-to-dash && yarn move-to-dash-widgets",
+        "prod": "yarn prettify && yarn bump-tag && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package  && yarn move-to-dash && yarn move-to-dash-widgets",
+        "dry": "yarn prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package  && yarn move-to-dash && yarn move-to-dash-widgets",
         "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css",
         "copy-package": "\\cp ./package/$npm_package_name-$npm_package_version.tgz ./package/$npm_package_name.tgz",
-        "move-to-accelerator": "rm ../algolia/electron-skeleton-accelerator/$npm_package_name.tgz && \\cp ./package/$npm_package_name.tgz ../algolia/electron-skeleton-accelerator/$npm_package_name.tgz",
         "move-to-dash": "rm ../dash/$npm_package_name.tgz && \\cp ./package/$npm_package_name.tgz ../dash/$npm_package_name.tgz",
         "move-to-dash-widgets": "rm ../electron-skeleton-accelerator-widgets/$npm_package_name.tgz && \\cp ./package/$npm_package_name.tgz ../electron-skeleton-accelerator-widgets/$npm_package_name.tgz",
         "pack-local-esm": "cd ./dist && npm pack --pack-destination ../package",
@@ -33,6 +32,7 @@
     ],
     "author": "John P. Giatropoulos <john.giatropoulos@gmail.com>",
     "license": "ISC",
+    "repository": "",
     "peerDependencies": {
         "@fortawesome/fontawesome-free": "^6.1.1",
         "@fortawesome/fontawesome-svg-core": "^6.1.1",

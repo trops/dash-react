@@ -33,3 +33,4 @@ yarn-error.log*
 storybook-static/
 webpack.config.js
 ws.bak
+.npmrc

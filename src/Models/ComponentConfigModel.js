@@ -1,5 +1,3 @@
-import { deepCopy } from "@dash/Utils";
-
 /*
  "component": AnalyticsReportsWidget,
     "type":"widget",
@@ -89,7 +87,7 @@ export const ComponentConfigModel = (obj = {}) => {
                   borderColor: "border-blue-900",
               };
 
-    console.log("config: ", obj);
+    // console.log("config: ", obj);
 
     return obj;
 };

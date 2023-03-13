@@ -95,8 +95,7 @@ export const ThemeWrapper = ({ theme = null, children }) => {
     });
 
     function loadThemes() {
-        console.log("loading themes api: ", api);
-        if (api) {
+        if (api && creds) {
             api.removeAllListeners();
             api.on(api.events.THEME_LIST_COMPLETE, handleLoadThemesComplete);
             api.on(api.events.THEME_LIST_ERROR, handleLoadThemesError);

@@ -21,7 +21,7 @@ const MainMenuConst = ({
     selectedMainItem = null,
     onWorkspaceMenuChange,
 }) => {
-    const { api } = useContext(AppContext);
+    const { api, creds } = useContext(AppContext);
     const { currentTheme } = useContext(ThemeContext);
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -213,7 +213,7 @@ const MainMenuConst = ({
             api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
             api.workspace.saveWorkspaceForApplication(
-                process.env.REACT_APP_APP_ID,
+                creds.appId,
                 newWorkspace
             );
         }

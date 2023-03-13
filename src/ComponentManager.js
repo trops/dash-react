@@ -45,7 +45,6 @@ export const ComponentManager = {
     map: function () {
         // copy
         let componentsCopy = deepCopy(this.componentMap());
-        console.log("copy map: ", componentsCopy);
         if (componentsCopy) {
             // additional INTERNAL components that we need
             componentsCopy["Container"] = {
