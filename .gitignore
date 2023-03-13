@@ -34,3 +34,4 @@ storybook-static/
 webpack.config.js
 ws.bak
 .npmrc
+tailwind.css
