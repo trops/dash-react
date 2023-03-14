@@ -33,5 +33,5 @@ yarn.lock
 storybook-static/
 webpack.config.js
 ws.bak
-.npmrc
 src/tailwind.css
+dist/.npmrc
