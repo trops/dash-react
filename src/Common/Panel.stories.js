@@ -1,7 +1,8 @@
-import { ButtonIcon, ButtonIcon2, ButtonIcon3 } from "./ButtonIcon";
+import { Panel, Panel2, Panel3 } from "./Panel";
 import { mock, MockWrapper } from "@dash";
 
-import "../tailwind.css";
+import "@dash/tailwind.css";
+import { Heading2 } from "./Text/Heading";
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -9,15 +10,22 @@ export default {
      * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
      * to learn how to generate automatic titles
      */
-    title: "ButtonIcon",
-    component: ButtonIcon,
+    title: "Panel",
+    component: Panel,
 };
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon {...args} />
+            <Panel
+                className={"rounded p-10"}
+                {...args}
+                width={"w-full"}
+                height={"h-full"}
+            >
+                <Heading2 title={args.text} />
+            </Panel>
         </MockWrapper>
     );
 };
@@ -25,7 +33,14 @@ const Template = (args) => {
 const Template2 = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon2 {...args} />
+            <Panel2
+                className={"rounded p-10"}
+                {...args}
+                width={"w-full"}
+                height={"h-full"}
+            >
+                <Heading2 title={args.text} />
+            </Panel2>
         </MockWrapper>
     );
 };
@@ -33,7 +48,14 @@ const Template2 = (args) => {
 const Template3 = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon3 {...args} />
+            <Panel3
+                className={"rounded p-10"}
+                {...args}
+                width={"w-full"}
+                height={"h-full"}
+            >
+                <Heading2 title={args.text} />
+            </Panel3>
         </MockWrapper>
     );
 };
@@ -43,18 +65,15 @@ export const Tertiary = Template3.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon",
-    icon: "pencil",
+    text: "Panel",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon 2",
-    icon: "pencil",
+    text: "Panel 2",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon 3",
-    icon: "cog",
+    text: "Panel 3",
 };

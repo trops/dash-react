@@ -25,30 +25,15 @@ const Template = (args) => {
 };
 
 export const ThemedPreview = Template.bind({});
-export const NotThemedPreview = Template.bind({});
 export const ThemedPreviewNo = Template.bind({});
-export const NotThemedPreviewNo = Template.bind({});
 
 ThemedPreview.args = {
-    theme: true,
-    preview: true,
-    backgroundColor: "bg-gray-800",
-};
-
-NotThemedPreview.args = {
-    theme: false,
     preview: true,
     backgroundColor: "bg-gray-800",
 };
 
 ThemedPreviewNo.args = {
     theme: true,
-    preview: false,
-    backgroundColor: "bg-gray-800",
-};
-
-NotThemedPreviewNo.args = {
-    theme: false,
     preview: false,
     backgroundColor: "bg-gray-800",
 };

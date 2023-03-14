@@ -7,37 +7,20 @@ const Panel = ({
     className,
     horizontal,
     children,
-    theme = true,
-    backgroundColor = null,
-    textColor = null,
-    borderColor = null,
     onClick = null,
     width = "w-full",
     height = "h-full",
+    ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL, currentTheme, {
-        backgroundColor,
-        borderColor,
-        textColor,
+        ...props,
     });
-
-    return theme === true ? (
+    return (
         <div
             className={`flex ${className !== "" && className} ${
                 styles.string
             } ${
-                horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height}`}
-            onClick={onClick}
-        >
-            {children}
-        </div>
-    ) : (
-        <div
-            className={`flex ${
-                className !== "" && className
-            } ${backgroundColor} ${textColor} ${borderColor} ${
                 horizontal === true ? "flex-row" : "flex-col"
             } ${width} ${height}`}
             onClick={onClick}
@@ -51,37 +34,21 @@ const Panel2 = ({
     className,
     horizontal,
     children,
-    theme = true,
-    backgroundColor = null,
-    textColor = null,
-    borderColor = null,
     onClick = null,
     width = "w-full",
     height = "h-full",
+    ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, {
-        backgroundColor,
-        borderColor,
-        textColor,
+        ...props,
     });
 
-    return theme === true ? (
+    return (
         <div
             className={`flex ${className !== "" && className} ${
                 styles.string
             } ${
-                horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height}`}
-            onClick={onClick}
-        >
-            {children}
-        </div>
-    ) : (
-        <div
-            className={`flex ${
-                className !== "" && className
-            } ${backgroundColor} ${textColor} ${borderColor} ${
                 horizontal === true ? "flex-row" : "flex-col"
             } ${width} ${height}`}
             onClick={onClick}
@@ -95,37 +62,21 @@ const Panel3 = ({
     className,
     horizontal,
     children,
-    theme = true,
-    backgroundColor = null,
-    textColor = null,
-    borderColor = null,
     onClick = null,
     width = "w-full",
     height = "h-full",
+    ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
-        backgroundColor,
-        borderColor,
-        textColor,
+        ...props,
     });
 
-    return theme === true ? (
+    return (
         <div
             className={`flex ${className !== "" && className} ${
                 styles.string
             } ${
-                horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height}`}
-            onClick={onClick}
-        >
-            {children}
-        </div>
-    ) : (
-        <div
-            className={`flex ${
-                className !== "" && className
-            } ${backgroundColor} ${textColor} ${borderColor} ${
                 horizontal === true ? "flex-row" : "flex-col"
             } ${width} ${height}`}
             onClick={onClick}

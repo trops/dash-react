@@ -1,7 +1,7 @@
-import { ButtonIcon, ButtonIcon2, ButtonIcon3 } from "./ButtonIcon";
+import { Heading, Heading2, Heading3 } from "@dash";
 import { mock, MockWrapper } from "@dash";
 
-import "../tailwind.css";
+import "@dash/tailwind.css";
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -9,31 +9,46 @@ export default {
      * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
      * to learn how to generate automatic titles
      */
-    title: "ButtonIcon",
-    component: ButtonIcon,
+    title: "Heading",
+    component: Heading,
 };
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon {...args} />
+        <MockWrapper
+            api={mock.api}
+            theme={mock.themes}
+            args={args}
+            backgroundColor={"bg-gray-900"}
+        >
+            <Heading {...args} />
         </MockWrapper>
     );
 };
 
 const Template2 = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon2 {...args} />
+        <MockWrapper
+            api={mock.api}
+            theme={mock.themes}
+            args={args}
+            backgroundColor={"bg-gray-900"}
+        >
+            <Heading2 {...args} />
         </MockWrapper>
     );
 };
 
 const Template3 = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon3 {...args} />
+        <MockWrapper
+            api={mock.api}
+            theme={mock.themes}
+            args={args}
+            backgroundColor={"bg-gray-900"}
+        >
+            <Heading3 {...args} />
         </MockWrapper>
     );
 };
@@ -43,18 +58,15 @@ export const Tertiary = Template3.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon",
-    icon: "pencil",
+    title: "Heading",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon 2",
-    icon: "pencil",
+    title: "Heading 2",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon 3",
-    icon: "cog",
+    title: "Heading 3",
 };

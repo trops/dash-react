@@ -255,48 +255,89 @@ const colorMap = {
  * @param {string} itemName the name of the component (button, panel, etc)
  *
  */
-const getStylesForItem = (
-    itemName = themeObjects.BUTTON,
-    theme = null,
-    overrides = {}
-) => {
-    const defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
-    let styles = {};
+const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
+    if (itemName !== null) {
+        // get the colors from the theme by default
+        // this is a MAP like "bg-primary-dark" which needs to
+        // fetch its value from the actual theme based on this key mapping
+        const defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
 
-    if (defaultStyles !== null) {
-        // check for the item styles in the user theme
-        const stylesForItem =
-            theme !== null && itemName in theme ? theme[itemName] : null;
-        // now we have to handle the overrides
-        Object.keys(defaultStyles).forEach((className) => {
-            const n =
-                theme !== null ? theme[defaultStyles[className]] : className;
+        // then we have to determine if this item has any theme overrides
+        const themeOverrides =
+            theme !== null && itemName in theme ? theme[itemName] : {};
 
-            console.log("N ", n, className, defaultStyles[className], theme);
+        // then we have to determine if the component has any MANUAL overrides
+        const manualOverrides =
+            Object.keys(overrides).length > 0 ? overrides : {};
 
-            styles[className] =
-                theme !== null
-                    ? getStyleForClass(
-                          className,
-                          stylesForItem,
-                          overrides,
-                          theme !== null
-                              ? theme[defaultStyles[className]]
-                              : null
-                      )
-                    : "";
+        // and this is the styles we shall return
+        let styles = {};
+
+        // First set all of the defaults
+        Object.keys(defaultStyles).forEach((key) => {
+            console.log(
+                "trying to set ",
+                key,
+                defaultStyles[key],
+                theme[defaultStyles[key]]
+            );
+            styles[key] = theme[defaultStyles[key]];
         });
 
-        // console.log(styles);
+        // we have to begin with the defaults for the theme so we have access
+        // and knowledge of what keys in the theme to return.
+        // the trick is applying the overrides to those theme keys
+        // if they exist.
+
+        if (defaultStyles !== null) {
+            // now we have to handle the overrides
+            // if the user has passed in any
+            Object.keys(defaultStyles).forEach((className) => {
+                // check manual override
+                if (
+                    className in manualOverrides &&
+                    manualOverrides[className] !== null
+                ) {
+                    styles[className] = manualOverrides[className];
+                }
+
+                // check theme override
+                if (className in themeOverrides) {
+                    const themeOverrideKey = themeOverrides[className];
+                    styles[className] = theme[themeOverrideKey];
+                }
+            });
+        }
+
+        console.log(
+            "final",
+            itemName,
+            Object.keys(styles)
+                .map((key) => styles[key])
+                .join(" ")
+        );
+
+        return {
+            string:
+                Object.keys(styles).length > 0
+                    ? Object.keys(styles)
+                          .map((key) => styles[key])
+                          .join(" ")
+                    : "",
+            ...styles,
+        };
     }
-    return {
-        string: Object.keys(styles)
-            .map((key) => styles[key])
-            .join(" "),
-        ...styles,
-    };
+    return null;
 };
 
+/**
+ * getStyleForClass
+ * @param {string} className the name of the css class i.e. - textColor, backgroundColor
+ * @param {object} customStyles any custom styles that the user has for the component (button, panel, etc)
+ * @param {object} overrides any user overrides above and beyond what is in the theme
+ * @param {*} fallbackStyle
+ * @returns
+ */
 const getStyleForClass = (
     className,
     customStyles,

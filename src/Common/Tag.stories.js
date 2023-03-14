@@ -1,7 +1,7 @@
-import { ButtonIcon, ButtonIcon2, ButtonIcon3 } from "./ButtonIcon";
+import { Tag, Tag2, Tag3 } from "./Tag";
 import { mock, MockWrapper } from "@dash";
 
-import "../tailwind.css";
+import "@dash/tailwind.css";
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -9,15 +9,15 @@ export default {
      * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
      * to learn how to generate automatic titles
      */
-    title: "ButtonIcon",
-    component: ButtonIcon,
+    title: "Tag",
+    component: Tag,
 };
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon {...args} />
+            <Tag {...args} />
         </MockWrapper>
     );
 };
@@ -25,7 +25,7 @@ const Template = (args) => {
 const Template2 = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon2 {...args} />
+            <Tag2 {...args} />
         </MockWrapper>
     );
 };
@@ -33,7 +33,7 @@ const Template2 = (args) => {
 const Template3 = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <ButtonIcon3 {...args} />
+            <Tag3 {...args} />
         </MockWrapper>
     );
 };
@@ -43,18 +43,17 @@ export const Tertiary = Template3.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon",
-    icon: "pencil",
+    text: "Tag",
+    backgroundColor: "bg-indigo-800",
+    textColor: "text-gray-200",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon 2",
-    icon: "pencil",
+    text: "Tag 2",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
-    text: "ButtonIcon 3",
-    icon: "cog",
+    text: "Tag 3",
 };

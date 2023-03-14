@@ -44,26 +44,14 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     title: "Button",
-    theme: false,
-    backgroundColor: "bg-blue-500",
-    textColor: "text-white",
-    hoverBackgroundColor: "hover:bg-blue-600",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
     title: "Button 2",
-    theme: false,
-    backgroundColor: "bg-blue-500",
-    textColor: "text-white",
-    hoverBackgroundColor: "hover:bg-blue-600",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     title: "Button 3",
-    theme: false,
-    backgroundColor: "bg-blue-500",
-    textColor: "text-white",
-    hoverBackgroundColor: "hover:bg-blue-600",
 };

@@ -33,15 +33,16 @@ export const mock = {
 
 export const MockWrapper = ({
     apiMock = null,
-    theme = null,
+    theme = mock.themes["theme-1"],
     children,
     backgroundColor = "bg-transparent",
 }) => {
-    console.log("mock wrapper", apiMock, theme);
+    const themeObject = ThemeModel(theme);
+    console.log("mock wrapper", apiMock, themeObject);
     return (
         <div className="flex flex-col h-full w-full m-auto justify-center items-center">
             <AppWrapper api={apiMock}>
-                <ThemeWrapper theme={ThemeModel(theme)}>
+                <ThemeWrapper theme={themeObject}>
                     <div
                         className={`flex flex-col space-y-2 w-full h-full p-6 border rounded-lg ${backgroundColor}`}
                     >
