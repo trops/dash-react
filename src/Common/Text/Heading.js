@@ -9,11 +9,12 @@ function Heading({
     theme = true,
     onClick = null,
     textColor = null,
-    ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-    const styles = getStylesForItem(themeObjects.HEADING, currentTheme, props);
+    const styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
+        textColor,
+    });
 
     return theme === true ? (
         <div
@@ -41,15 +42,13 @@ function Heading2({
     padding = true,
     theme = true,
     onClick = null,
-    ...props
+    textColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-    const styles = getStylesForItem(
-        themeObjects.HEADING_2,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
+        textColor,
+    });
     return theme === true ? (
         <div
             className={`flex flex-row w-full ${paddingStyles} text-5xl font-bold ${
@@ -76,15 +75,13 @@ function Heading3({
     padding = true,
     theme = true,
     onClick = null,
-    ...props
+    textColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-    const styles = getStylesForItem(
-        themeObjects.HEADING_3,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
+        textColor,
+    });
     return theme === true ? (
         <div
             className={`flex flex-row w-full ${paddingStyles} text-4xl font-bold ${
@@ -111,15 +108,13 @@ function SubHeading({
     padding = true,
     theme = true,
     onClick = null,
-    ...props
+    textColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-    const styles = getStylesForItem(
-        themeObjects.SUBHEADING,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
+        textColor,
+    });
     return theme === true ? (
         <div
             className={`flex flex-row w-full ${paddingStyles} text-3xl font-medium ${
@@ -146,15 +141,13 @@ function SubHeading2({
     padding = true,
     theme = true,
     onClick = null,
-    ...props
+    textColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-    const styles = getStylesForItem(
-        themeObjects.SUBHEADING_2,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
+        textColor,
+    });
     return theme === true ? (
         <div
             className={`flex flex-row w-full ${paddingStyles} text-2xl font-medium ${
@@ -181,15 +174,13 @@ function SubHeading3({
     padding = true,
     theme = true,
     onClick = null,
-    ...props
+    textColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-    const styles = getStylesForItem(
-        themeObjects.SUBHEADING_3,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
+        textColor,
+    });
 
     return theme === true ? (
         <div
