@@ -278,7 +278,7 @@ export const PanelSelectTheme = ({
                                             <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
                                                 Available Colors
                                             </div>
-                                            <div className="flex flex-col p-2 overflow-y-scroll">
+                                            <div className="flex flex-col overflow-y-scroll">
                                                 <AvailableColorsGridPane
                                                     itemType={itemSelected}
                                                     onMouseOver={

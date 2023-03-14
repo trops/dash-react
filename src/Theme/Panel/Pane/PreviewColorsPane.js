@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ThemePane from "./ThemePane";
 import ColorTile from "../MenuItem/ColorTile";
 import { ThemeContext } from "@dash/Context";
-import { deepCopy } from "@dash/Utils/objects";
+import { deepCopy } from "@dash/Utils";
 import { Tag3 } from "@dash/Common";
 
 const PreviewColorsPane = ({

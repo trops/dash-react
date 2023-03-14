@@ -69,7 +69,7 @@ export const WidgetApi = {
     },
 
     /**
-     * publish
+     * publishEvent
      * @param {string} name the name of the widget (TODO - uuid + handler)
      * @param {object} events the payload for the event published
      */
