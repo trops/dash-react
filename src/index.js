@@ -93,6 +93,7 @@ export * from "./Menu";
 export * from "./Plugin";
 export * from "./ComponentManager";
 export * from "./Utils";
+export * from "./Models";
 export * from "./window";
 
 // mock for stories

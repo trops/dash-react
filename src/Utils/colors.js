@@ -240,6 +240,14 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
         [styleClassNames.BORDER_COLOR]: "border-primary-dark",
     },
+    [themeObjects.DASHBOARD_FOOTER_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
+    },
+    [themeObjects.DASHBOARD_FOOTER_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
+    },
 };
 
 /**
@@ -254,7 +262,6 @@ const getStylesForItem = (
 ) => {
     const defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
     let styles = {};
-    // console.log('overrides ', overrides);
 
     if (defaultStyles !== null) {
         // check for the item styles in the user theme
@@ -262,6 +269,11 @@ const getStylesForItem = (
             theme !== null && itemName in theme ? theme[itemName] : null;
         // now we have to handle the overrides
         Object.keys(defaultStyles).forEach((className) => {
+            const n =
+                theme !== null ? theme[defaultStyles[className]] : className;
+
+            console.log("N ", n, className, defaultStyles[className], theme);
+
             styles[className] =
                 theme !== null
                     ? getStyleForClass(

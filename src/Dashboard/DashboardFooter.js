@@ -14,6 +14,8 @@ export const DashboardFooter = ({
 }) => {
     const { currentTheme } = useContext(ThemeContext);
 
+    console.log("current theme ", currentTheme);
+
     const stylesFooter = getStylesForItem(
         themeObjects.DASHBOARD_FOOTER,
         currentTheme,
@@ -41,7 +43,7 @@ export const DashboardFooter = ({
                             textSize={"text-lg"}
                             padding={"py-2 px-4"}
                             onClick={onClickEdit}
-                            {...stylesButton}
+                            {...stylesButton.string}
                         />
                     </div>
                 )}
@@ -53,7 +55,7 @@ export const DashboardFooter = ({
                             textSize={"text-lg"}
                             padding={"py-2 px-4"}
                             onClick={onClickEdit}
-                            {...stylesButton}
+                            {...stylesButton.string}
                         />
                         <Button
                             theme={theme}
@@ -61,7 +63,7 @@ export const DashboardFooter = ({
                             textSize={"text-lg"}
                             padding={"py-2 px-4"}
                             onClick={onSaveChanges}
-                            {...stylesButton}
+                            {...stylesButton.string}
                         />
                     </div>
                 )}

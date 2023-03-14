@@ -1,6 +1,6 @@
 import { DashboardFooter } from "./DashboardFooter";
 import { MockWrapper, mock } from "@dash";
-import "../tailwind.css";
+import "@dash/tailwind.css";
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -12,7 +12,12 @@ export default {
 const Template = (args) => {
     return (
         <div className="flex flex-col h-full w-full">
-            <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <MockWrapper
+                api={mock.api}
+                theme={mock.themes["theme-1"]}
+                args={args}
+                backgroundColor={"bg-gray-900"}
+            >
                 <DashboardFooter {...args} />
             </MockWrapper>
         </div>
@@ -27,19 +32,23 @@ export const NotThemedPreviewNo = Template.bind({});
 ThemedPreview.args = {
     theme: true,
     preview: true,
+    backgroundColor: "bg-gray-800",
 };
 
 NotThemedPreview.args = {
     theme: false,
     preview: true,
+    backgroundColor: "bg-gray-800",
 };
 
 ThemedPreviewNo.args = {
     theme: true,
     preview: false,
+    backgroundColor: "bg-gray-800",
 };
 
 NotThemedPreviewNo.args = {
     theme: false,
     preview: false,
+    backgroundColor: "bg-gray-800",
 };

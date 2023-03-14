@@ -1,4 +1,4 @@
-import { ThemeWrapper, AppWrapper } from "@dash";
+import { ThemeWrapper, AppWrapper, ThemeModel } from "@dash";
 import "./tailwind.css";
 
 export const mock = {
@@ -31,13 +31,20 @@ export const mock = {
     },
 };
 
-export const MockWrapper = ({ apiMock = null, theme = null, children }) => {
+export const MockWrapper = ({
+    apiMock = null,
+    theme = null,
+    children,
+    backgroundColor = "bg-transparent",
+}) => {
     console.log("mock wrapper", apiMock, theme);
     return (
         <div className="flex flex-col h-full w-full m-auto justify-center items-center">
             <AppWrapper api={apiMock}>
-                <ThemeWrapper theme={theme}>
-                    <div className="flex flex-col space-y-2 w-full h-full bg-gray-50 p-6 border border-gray-100 rounded-lg">
+                <ThemeWrapper theme={ThemeModel(theme)}>
+                    <div
+                        className={`flex flex-col space-y-2 w-full h-full p-6 border rounded-lg ${backgroundColor}`}
+                    >
                         {children}
                     </div>
                 </ThemeWrapper>

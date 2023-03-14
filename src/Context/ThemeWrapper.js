@@ -47,7 +47,7 @@ export const ThemeWrapper = ({ theme = null, children }) => {
     // changeApplicationTheme will save this to the settings config
     const { api, creds, changeApplicationTheme } = useContext(AppContext);
 
-    const [chosenTheme, setChosenTheme] = useState(null);
+    const [chosenTheme, setChosenTheme] = useState(theme);
     const [themeName, setThemeName] = useState(null);
     const [themeVariant, setThemeVariant] = useState("dark");
     const [themesForApplication, setThemesForApplication] = useState(null);
