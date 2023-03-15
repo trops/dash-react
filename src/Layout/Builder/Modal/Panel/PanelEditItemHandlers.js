@@ -64,7 +64,12 @@ export const PanelEditItemHandlers = ({
             eventHandlerSelected,
             eventsSelected
         );
-        handleSaveChanges();
+        if (
+            eventHandlerSelected !== null &&
+            Object.keys(eventsSelected).length > 0
+        ) {
+            handleSaveChanges();
+        }
     }, [eventsSelected, eventHandlerSelected]);
 
     function loadExistingListeners(ws) {

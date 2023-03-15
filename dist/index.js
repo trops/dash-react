@@ -6389,7 +6389,9 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   }, [open, workspace, item]);
   useEffect(function () {
     console.log("event and handler change effect", eventHandlerSelected, eventsSelected);
-    handleSaveChanges();
+    if (eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0) {
+      handleSaveChanges();
+    }
   }, [eventsSelected, eventHandlerSelected]);
   function loadExistingListeners(ws) {
     console.log("loading existing ");
