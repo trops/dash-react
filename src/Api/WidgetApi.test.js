@@ -31,7 +31,6 @@ describe("WidgetApi tests ", () => {
             handleSearchChange: (data) => console.log(data),
         };
         api.registerListeners(listeners, handlerMap);
-        console.log(api.pub().listeners());
         expect(api.pub().listeners).not.toBe(null);
     });
 
@@ -40,20 +39,16 @@ describe("WidgetApi tests ", () => {
             handleSearchChange: (data) => console.log(data),
         };
         api.registerListeners(listeners, handlerMap);
-
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
-
         const handlersForKey = api.pub().listeners().get(eventType)[uuid];
-
-        expect(handlersForKey.length).not.toEqual(2);
+        expect(handlersForKey.length).toEqual(1);
     });
 
     test("emit event from pub ", () => {
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
         api.publishEvent(eventType, { test: "hello" });
-
         expect();
     });
 });

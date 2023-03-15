@@ -3,7 +3,8 @@ import { isObject } from "@dash/Utils/objects";
 const event = {
     list: new Map(),
 
-    //  Map(1) { '12345' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
+    //  Map(1) { '<widget-UUID>' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
+
     /**
      * on
      *
@@ -38,13 +39,8 @@ const event = {
             subscriptionsToEvent &&
             Object.keys(subscriptionsToEvent).length > 0
         ) {
-            console.log(subscriptionsToEvent);
             Object.keys(subscriptionsToEvent).forEach((subscriber) => {
                 subscriptionsToEvent[subscriber](...args);
-                //console.log("emitting ", eventType, cb);
-                // if (typeof cb === 'Function') {
-                // cb(...args);
-                // }
             });
         }
     },
@@ -83,16 +79,9 @@ export const DashboardPublisher = {
 
     removeAllListeners: () => {
         // we want to begin fresh when we switch workspaces...
-        console.log("CURRENT LISTENERS ", event.list);
-        Array(event.list).forEach((event) => {
-            console.log("remove event ", event);
-        });
-        // this.list.get(`${eventType}`) && this.list.get(`${eventType}`).forEach((cb) => {
-        //     // lets only remove the workspace and widget listeners
-        //     // not the main application dashboard listeners
-        //     console.log('remove listeners ', eventType, cb);
-        // });
+        event = newMap();
     },
+
     clearAllMessage: () => {
         event.emit("clearAllMessage");
     },

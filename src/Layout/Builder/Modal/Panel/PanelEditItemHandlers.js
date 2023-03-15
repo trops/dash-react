@@ -76,7 +76,7 @@ export const PanelEditItemHandlers = ({
             });
 
             setEventsSelected(() => existingListeners);
-
+            console.log("existing listeners ", existingListeners);
             // let's select one for the user
             if (Object.keys(existingListeners).length > 0) {
                 setEventHandlerSelected(

@@ -5237,9 +5237,10 @@ var DashboardMonitor = function DashboardMonitor() {
   });
 };
 
+function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 var event = {
   list: new Map(),
-  //  Map(1) { '12345' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
+  //  Map(1) { '<widget-UUID>' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
   /**
    * on
    *
@@ -5274,18 +5275,12 @@ var event = {
     }
     var subscriptionsToEvent = this.list.get(eventType);
     if (subscriptionsToEvent && Object.keys(subscriptionsToEvent).length > 0) {
-      console.log(subscriptionsToEvent);
       Object.keys(subscriptionsToEvent).forEach(function (subscriber) {
         subscriptionsToEvent[subscriber].apply(subscriptionsToEvent, args);
-        //console.log("emitting ", eventType, cb);
-        // if (typeof cb === 'Function') {
-        // cb(...args);
-        // }
       });
     }
   }
 };
-
 var DashboardPublisher = {
   sub: function sub(eventType, action, uuid) {
     event.on(eventType, action, uuid);
@@ -5317,17 +5312,8 @@ var DashboardPublisher = {
   },
   removeAllListeners: function removeAllListeners() {
     // we want to begin fresh when we switch workspaces...
-    console.log("CURRENT LISTENERS ", event.list);
-    Array(event.list).forEach(function (event) {
-      console.log("remove event ", event);
-    });
-    // this.list.get(`${eventType}`) && this.list.get(`${eventType}`).forEach((cb) => {
-    //     // lets only remove the workspace and widget listeners
-    //     // not the main application dashboard listeners
-    //     console.log('remove listeners ', eventType, cb);
-    // });
+    newMap(), _readOnlyError("event");
   },
-
   clearAllMessage: function clearAllMessage() {
     event.emit("clearAllMessage");
   }
@@ -6421,7 +6407,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       setEventsSelected(function () {
         return existingListeners;
       });
-
+      console.log("existing listeners ", existingListeners);
       // let's select one for the user
       if (Object.keys(existingListeners).length > 0) {
         setEventHandlerSelected(function () {
