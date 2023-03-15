@@ -16,6 +16,7 @@ export const PanelEditItemHandlers = ({
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [eventsSelected, setEventsSelected] = useState({});
     const [eventHandlerSelected, setEventHandlerSelected] = useState(null);
+    const [loadedExisting, setLoadedExisting] = useState(false);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -43,7 +44,8 @@ export const PanelEditItemHandlers = ({
             loadExistingListeners(workspace);
         }
 
-        if (workspace) {
+        if (workspace && loadedExisting === false) {
+            setLoadedExisting(() => true);
             loadExistingListeners(workspace);
         }
         // if (open === false) {

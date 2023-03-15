@@ -6346,6 +6346,10 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     _useState8 = _slicedToArray$a(_useState7, 2),
     eventHandlerSelected = _useState8[0],
     setEventHandlerSelected = _useState8[1];
+  var _useState9 = useState(false),
+    _useState10 = _slicedToArray$a(_useState9, 2),
+    loadedExisting = _useState10[0],
+    setLoadedExisting = _useState10[1];
   var _React$useState = React.useState(),
     _React$useState2 = _slicedToArray$a(_React$useState, 2),
     updateState = _React$useState2[1];
@@ -6373,7 +6377,10 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       });
       loadExistingListeners(workspace);
     }
-    if (workspace) {
+    if (workspace && loadedExisting === false) {
+      setLoadedExisting(function () {
+        return true;
+      });
       loadExistingListeners(workspace);
     }
     // if (open === false) {
