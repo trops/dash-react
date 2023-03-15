@@ -7,7 +7,6 @@ export * from "./Button";
 export * from "./ButtonIcon";
 export * from "./Toggle";
 export * from "./CodeEditor";
-export * from "./WrappedComponent";
 export * from "./Tag";
 
 export * from "./Container";
