@@ -74,6 +74,7 @@ export const WidgetApi = {
      * @param {object} events the payload for the event published
      */
     publishEvent: function (name, events) {
+        // const uniqueName = `${this.uuid()}-
         this._pub.pub(name, events);
         // pub.pub(uniqueIdentifier, events);
     },
