@@ -63,6 +63,8 @@ export const PanelEditItemHandlers = ({
     useEffect(() => {
         if (
             eventHandlerSelected !== null &&
+            eventsSelected !== null &&
+            eventsSelected !== undefined &&
             Object.keys(eventsSelected).length > 0
         ) {
             handleSaveChanges();

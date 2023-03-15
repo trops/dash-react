@@ -6395,7 +6395,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     // }
   }, [open, workspace, item]);
   useEffect(function () {
-    if (eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0) {
+    if (eventHandlerSelected !== null && eventsSelected !== null && eventsSelected !== undefined && Object.keys(eventsSelected).length > 0) {
       handleSaveChanges();
     }
   }, [eventsSelected, eventHandlerSelected]);
