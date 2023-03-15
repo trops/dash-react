@@ -8,8 +8,6 @@ import { ThemeContext } from "@dash/Context";
 export const PanelEditItemHandlers = ({
     workspace,
     open,
-    setIsOpen,
-    onSave,
     onUpdate,
     item = null,
 }) => {
@@ -22,7 +20,13 @@ export const PanelEditItemHandlers = ({
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log("event workspace ", workspaceSelected, workspace);
+        console.log(
+            "event workspace ",
+            item,
+            itemSelected,
+            workspace,
+            workspaceSelected
+        );
 
         // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
         //     setWorkspaceSelected(() => workspace);
@@ -31,7 +35,7 @@ export const PanelEditItemHandlers = ({
 
         if (deepEqual(item, itemSelected) === false) {
             setItemSelected(() => item);
-            loadExistingListeners(workspace);
+            // loadExistingListeners(workspace);
         }
 
         if (deepEqual(workspace, workspaceSelected) === false) {
@@ -39,7 +43,7 @@ export const PanelEditItemHandlers = ({
             loadExistingListeners(workspace);
         }
 
-        if (open === true && eventsSelected === null) {
+        if (open === true && item && workspace) {
             loadExistingListeners(workspace);
         }
         // if (open === false) {

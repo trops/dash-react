@@ -6324,10 +6324,8 @@ function _iterableToArrayLimit$a(arr, i) { var _i = null == arr ? null : "undefi
 function _arrayWithHoles$a(arr) { if (Array.isArray(arr)) return arr; }
 var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   var workspace = _ref.workspace,
-    open = _ref.open;
-    _ref.setIsOpen;
-    _ref.onSave;
-    var onUpdate = _ref.onUpdate,
+    open = _ref.open,
+    onUpdate = _ref.onUpdate,
     _ref$item = _ref.item,
     item = _ref$item === void 0 ? null : _ref$item;
   var _useContext = useContext$1(ThemeContext),
@@ -6355,7 +6353,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    console.log("event workspace ", workspaceSelected, workspace);
+    console.log("event workspace ", item, itemSelected, workspace, workspaceSelected);
 
     // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
     //     setWorkspaceSelected(() => workspace);
@@ -6366,15 +6364,16 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       setItemSelected(function () {
         return item;
       });
-      loadExistingListeners(workspace);
+      // loadExistingListeners(workspace);
     }
+
     if (deepEqual(workspace, workspaceSelected) === false) {
       setWorkspaceSelected(function () {
         return workspace;
       });
       loadExistingListeners(workspace);
     }
-    if (open === true && eventsSelected === null) {
+    if (open === true && item && workspace) {
       loadExistingListeners(workspace);
     }
     // if (open === false) {
