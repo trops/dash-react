@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSearchBox } from "react-instantsearch-hooks-web";
 
-const AlgoliaSearchBox = ({ props, onQueryChange = null }) => {
+export const AlgoliaSearchBox = ({ props, onQueryChange = null }) => {
     const {
         currentRefinement,
         refine,
@@ -29,5 +29,3 @@ const AlgoliaSearchBox = ({ props, onQueryChange = null }) => {
         </div>
     );
 };
-
-export default AlgoliaSearchBox;

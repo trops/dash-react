@@ -2,7 +2,7 @@ import React from "react";
 import { useRefinementList } from "react-instantsearch-hooks-web";
 import { Tag } from "../Tag";
 
-const AlgoliaRefinementsList = (props) => {
+export const AlgoliaRefinementsList = (props) => {
     // return null;
     const { attribute } = props;
     console.log("attribute ", attribute);
@@ -41,5 +41,3 @@ const AlgoliaRefinementsList = (props) => {
         )
     );
 };
-
-export default AlgoliaRefinementsList;

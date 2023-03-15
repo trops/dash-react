@@ -89,4 +89,4 @@ AlgoliaHits.defaultProps = {
     dropData: null,
     isDraggable: true,
 };
-export default AlgoliaHits;
+export { AlgoliaHits };

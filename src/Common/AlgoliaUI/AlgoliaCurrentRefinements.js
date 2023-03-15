@@ -2,7 +2,7 @@ import React from "react";
 import { useCurrentRefinements } from "react-instantsearch-hooks-web";
 import { Tag } from "../Tag";
 
-const AlgoliaCurrentRefinements = (props) => {
+export const AlgoliaCurrentRefinements = (props) => {
     const { items } = useCurrentRefinements(props);
     return (
         <ul className="flex flex-row space-x-2">
@@ -38,5 +38,3 @@ const AlgoliaCurrentRefinements = (props) => {
         </ul>
     );
 };
-
-export default AlgoliaCurrentRefinements;
