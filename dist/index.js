@@ -6341,18 +6341,13 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     workspaceSelected = _useState4[0],
     setWorkspaceSelected = _useState4[1];
   var _useState5 = useState({}),
-    _useState6 = _slicedToArray$a(_useState5, 2);
-    _useState6[0];
-    _useState6[1];
-  // const [eventSelected, setEventSelected] = useState(null);
-  var _useState7 = useState({}),
+    _useState6 = _slicedToArray$a(_useState5, 2),
+    eventsSelected = _useState6[0],
+    setEventsSelected = _useState6[1];
+  var _useState7 = useState(null),
     _useState8 = _slicedToArray$a(_useState7, 2),
-    eventsSelected = _useState8[0],
-    setEventsSelected = _useState8[1];
-  var _useState9 = useState(null),
-    _useState10 = _slicedToArray$a(_useState9, 2),
-    eventHandlerSelected = _useState10[0],
-    setEventHandlerSelected = _useState10[1];
+    eventHandlerSelected = _useState8[0],
+    setEventHandlerSelected = _useState8[1];
   var _React$useState = React.useState(),
     _React$useState2 = _slicedToArray$a(_React$useState, 2),
     updateState = _React$useState2[1];
@@ -6379,7 +6374,9 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       });
       loadExistingListeners(workspace);
     }
-
+    if (open === true && eventsSelected === null) {
+      loadExistingListeners(workspace);
+    }
     // if (open === false) {
     //     setItemSelected(() => null);
     //     // setComponentsSelected(() => []);

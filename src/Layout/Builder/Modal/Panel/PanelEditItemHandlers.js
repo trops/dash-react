@@ -16,8 +16,6 @@ export const PanelEditItemHandlers = ({
     const { theme } = useContext(ThemeContext);
     const [itemSelected, setItemSelected] = useState(item);
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
-    const [componentsSelected, setComponentsSelected] = useState({});
-    // const [eventSelected, setEventSelected] = useState(null);
     const [eventsSelected, setEventsSelected] = useState({});
     const [eventHandlerSelected, setEventHandlerSelected] = useState(null);
     const [, updateState] = React.useState();
@@ -41,6 +39,9 @@ export const PanelEditItemHandlers = ({
             loadExistingListeners(workspace);
         }
 
+        if (open === true && eventsSelected === null) {
+            loadExistingListeners(workspace);
+        }
         // if (open === false) {
         //     setItemSelected(() => null);
         //     // setComponentsSelected(() => []);
@@ -83,7 +84,6 @@ export const PanelEditItemHandlers = ({
                     () => Object.keys(existingListeners)[0]
                 );
             }
-
             forceUpdate();
         }
     }
