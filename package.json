@@ -26,6 +26,7 @@
         "bump": "npm version --no-git-tag-version patch",
         "bump-tag": "npm version -m patch",
         "prettify": "yarn prettier --write . ",
+        "test-jest": "jest",
         "test": "exit 0"
     },
     "keywords": [
@@ -124,6 +125,7 @@
         "fast-mhtml": "^2.1.0",
         "fs": "^0.0.1-security",
         "instantsearch.js": "^4.41.0",
+        "jest": "^29.5.0",
         "jsdom": "^19.0.0",
         "live-plugin-manager": "^0.17.1",
         "mhtml2html": "^3.0.0",
@@ -166,10 +168,10 @@
         "react-dom": "18.2.0"
     },
     "dependencies": {
-        "tailwindcss": "^3.2.7",
         "@fortawesome/fontawesome-free": "^6.1.1",
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
-        "@fortawesome/react-fontawesome": "^0.1.18"
+        "@fortawesome/react-fontawesome": "^0.1.18",
+        "tailwindcss": "^3.2.7"
     }
 }

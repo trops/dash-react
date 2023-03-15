@@ -68,14 +68,18 @@ export const WidgetApi = {
         return this._electronApi;
     },
 
+    pub: function () {
+        return this._pub;
+    },
+
     /**
      * publishEvent
      * @param {string} name the name of the widget (TODO - uuid + handler)
      * @param {object} events the payload for the event published
      */
     publishEvent: function (name, events) {
-        console.log("publish event ", `${this.uuid()}-${name}`);
-        const uniqueName = `${this.uuid()}-${name}`;
+        // console.log("publish event ", `${this.uuid()}-${name}`);
+        // const uniqueName = `${${name}`;
         this._pub.pub(name, events);
     },
 
@@ -90,7 +94,7 @@ export const WidgetApi = {
      * @param {object} handlers
      */
     registerListeners: function (listeners, handlers) {
-        this._pub.registerListeners(listeners, handlers);
+        this._pub.registerListeners(listeners, handlers, this.uuid());
     },
 
     /**

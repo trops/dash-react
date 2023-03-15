@@ -75,14 +75,17 @@ var WidgetApi = {
   electronApi: function electronApi() {
     return this._electronApi;
   },
+  pub: function pub() {
+    return this._pub;
+  },
   /**
    * publishEvent
    * @param {string} name the name of the widget (TODO - uuid + handler)
    * @param {object} events the payload for the event published
    */
   publishEvent: function publishEvent(name, events) {
-    console.log("publish event ", "".concat(this.uuid(), "-").concat(name));
-    "".concat(this.uuid(), "-").concat(name);
+    // console.log("publish event ", `${this.uuid()}-${name}`);
+    // const uniqueName = `${${name}`;
     this._pub.pub(name, events);
   },
   /**
@@ -96,7 +99,7 @@ var WidgetApi = {
    * @param {object} handlers
    */
   registerListeners: function registerListeners(listeners, handlers) {
-    this._pub.registerListeners(listeners, handlers);
+    this._pub.registerListeners(listeners, handlers, this.uuid());
   },
   /**
    * storeData
@@ -5236,15 +5239,31 @@ var DashboardMonitor = function DashboardMonitor() {
 
 var event = {
   list: new Map(),
-  // register the event types to listen for...
-  // We have to limit the registration to only once
-  // per UUID + handler configuration
+  //  Map(1) { '12345' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
+  /**
+   * on
+   *
+   * Register a unique event to a unique widget
+   * Widgets can ONLY listen to an event ONCE, you cannot have
+   * multiple handlers in the same widget.
+   *
+   * @param {string} eventType the unique event type for a widget
+   * @param {*} eventAction the handler for the event type
+   * @param {*} uuid the UUID of the widget listening
+   * @returns
+   */
   on: function on(eventType, eventAction) {
-    console.log("subscribing check ", eventType, this.list.keys);
-    this.list.has(eventType) || this.list.set(eventType, []);
+    var uuid = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    this.list.has(eventType) || this.list.set(eventType, {});
+    // this.list.has(uuid) || this.list.set(uuid, {});
     if (this.list.get(eventType)) {
-      //const eventActions = this.list.get(eventType);
-      this.list.get("".concat(eventType)).push(eventAction);
+      // this is key:value pair mapping
+      // each key is a widget UUID
+      var currentActionsForEvent = this.list.get(eventType);
+      if (uuid in currentActionsForEvent === false) {
+        currentActionsForEvent[uuid] = eventAction;
+        this.list.set(eventType, currentActionsForEvent);
+      }
     }
     return this;
   },
@@ -5253,18 +5272,23 @@ var event = {
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
-    this.list.get("".concat(eventType)) && this.list.get("".concat(eventType)).forEach(function (cb) {
-      console.log("emitting ", eventType, cb);
-      // if (typeof cb === 'Function') {
-      cb.apply(void 0, args);
-      // }
-    });
+    var subscriptionsToEvent = this.list.get(eventType);
+    if (subscriptionsToEvent && Object.keys(subscriptionsToEvent).length > 0) {
+      console.log(subscriptionsToEvent);
+      Object.keys(subscriptionsToEvent).forEach(function (subscriber) {
+        subscriptionsToEvent[subscriber].apply(subscriptionsToEvent, args);
+        //console.log("emitting ", eventType, cb);
+        // if (typeof cb === 'Function') {
+        // cb(...args);
+        // }
+      });
+    }
   }
 };
 
 var DashboardPublisher = {
-  sub: function sub(eventType, action) {
-    event.on(eventType, action);
+  sub: function sub(eventType, action, uuid) {
+    event.on(eventType, action, uuid);
   },
   pub: function pub(eventType, content) {
     event.emit(eventType, content);
@@ -5274,14 +5298,17 @@ var DashboardPublisher = {
       content: content
     });
   },
-  registerListeners: function registerListeners(listeners, handlerMap) {
+  listeners: function listeners() {
+    return event.list;
+  },
+  registerListeners: function registerListeners(listeners, handlerMap, uuid) {
     if (listeners !== undefined) {
       if (isObject(listeners) === true) {
         Object.keys(listeners).forEach(function (handlerKey) {
           if (handlerKey in listeners) {
             listeners[handlerKey].forEach(function (event) {
               // subscribe our listeners
-              DashboardPublisher.sub(event, handlerMap[handlerKey]);
+              DashboardPublisher.sub(event, handlerMap[handlerKey], uuid);
             });
           }
         });

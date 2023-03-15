@@ -1,36 +1,58 @@
-import { isObject } from "@dash/Utils";
+import { isObject } from "@dash/Utils/objects";
 
 const event = {
     list: new Map(),
 
-    // register the event types to listen for...
-    // We have to limit the registration to only once
-    // per UUID + handler configuration
-    on(eventType, eventAction, widgetId = null) {
-        console.log("subscribing check ", eventType, this.list.keys);
-        this.list.has(eventType) || this.list.set(eventType, []);
+    //  Map(1) { '12345' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
+    /**
+     * on
+     *
+     * Register a unique event to a unique widget
+     * Widgets can ONLY listen to an event ONCE, you cannot have
+     * multiple handlers in the same widget.
+     *
+     * @param {string} eventType the unique event type for a widget
+     * @param {*} eventAction the handler for the event type
+     * @param {*} uuid the UUID of the widget listening
+     * @returns
+     */
+    on(eventType, eventAction, uuid = null) {
+        this.list.has(eventType) || this.list.set(eventType, {});
+        // this.list.has(uuid) || this.list.set(uuid, {});
         if (this.list.get(eventType)) {
-            //const eventActions = this.list.get(eventType);
-            this.list.get(`${eventType}`).push(eventAction);
+            // this is key:value pair mapping
+            // each key is a widget UUID
+            let currentActionsForEvent = this.list.get(eventType);
+            if (uuid in currentActionsForEvent === false) {
+                currentActionsForEvent[uuid] = eventAction;
+                this.list.set(eventType, currentActionsForEvent);
+            }
         }
         return this;
     },
 
     // publish events...
     emit(eventType, ...args) {
-        this.list.get(`${eventType}`) &&
-            this.list.get(`${eventType}`).forEach((cb) => {
-                console.log("emitting ", eventType, cb);
+        const subscriptionsToEvent = this.list.get(eventType);
+        if (
+            subscriptionsToEvent &&
+            Object.keys(subscriptionsToEvent).length > 0
+        ) {
+            console.log(subscriptionsToEvent);
+            Object.keys(subscriptionsToEvent).forEach((subscriber) => {
+                subscriptionsToEvent[subscriber](...args);
+                //console.log("emitting ", eventType, cb);
                 // if (typeof cb === 'Function') {
-                cb(...args);
+                // cb(...args);
                 // }
             });
+        }
     },
 };
 
 export const DashboardPublisher = {
-    sub: (eventType, action) => {
-        event.on(eventType, action);
+    sub: (eventType, action, uuid) => {
+        event.on(eventType, action, uuid);
     },
     pub: (eventType, content) => {
         event.emit(eventType, content);
@@ -38,7 +60,9 @@ export const DashboardPublisher = {
         event.emit("DashboardPublisher.monitor", { eventType, content });
     },
 
-    registerListeners: (listeners, handlerMap) => {
+    listeners: () => event.list,
+
+    registerListeners: (listeners, handlerMap, uuid) => {
         if (listeners !== undefined) {
             if (isObject(listeners) === true) {
                 Object.keys(listeners).forEach((handlerKey) => {
@@ -47,7 +71,8 @@ export const DashboardPublisher = {
                             // subscribe our listeners
                             DashboardPublisher.sub(
                                 event,
-                                handlerMap[handlerKey]
+                                handlerMap[handlerKey],
+                                uuid
                             );
                         });
                     }
