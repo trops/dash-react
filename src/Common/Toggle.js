@@ -1,24 +1,11 @@
 import { useContext } from "react";
 import { Switch } from "@headlessui/react";
-import { ThemeContext } from "@dash/Context/ThemeContext";
-import { getStylesForItem } from "@dash/Utils/colors";
-import { themeObjects } from "@dash/Utils/themeObjects";
+import { ThemeContext, getStylesForItem, themeObjects } from "@dash";
 
-function Toggle({
-    theme = true,
-    text = "",
-    enabled = false,
-    setEnabled,
-    backgroundColor = null,
-    textColor = null,
-    hoverBackgroundColor = null,
-    ...props
-}) {
+function Toggle({ text = "", enabled = false, setEnabled, ...props }) {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TOGGLE, currentTheme, {
-        backgroundColor,
-        textColor,
-        hoverBackgroundColor,
+        ...props,
     });
 
     return "toggle";

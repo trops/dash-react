@@ -14,7 +14,7 @@
         "build": "yarn prettify && yarn build:css && yarn prod",
         "build:css": "tailwindcss -i src/index.css -o src/tailwind.css -m",
         "release-workflow": "",
-        "prod": "npm run prettify && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package",
+        "prod": "npm run prettify && rm -r ./dist/* || exit 0 && rm -r ./package/* || 0 && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package",
         "dry": "npm run prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package",
         "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css && \\cp .npmrc dist/.npmrc",
         "copy-package": "\\cp ./package/$npm_package_name-$npm_package_version.tgz ./package/$npm_package_name.tgz || exit 0",

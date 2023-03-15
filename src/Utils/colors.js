@@ -236,6 +236,11 @@ const colorMap = {
         [styleClassNames.HOVER_TEXT_COLOR]: "hover-text-tertiary-dark",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
     },
+    [themeObjects.TOGGLE]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-tertiary-medium",
+    },
     [themeObjects.DASHBOARD_FOOTER]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
         [styleClassNames.BORDER_COLOR]: "border-primary-dark",
