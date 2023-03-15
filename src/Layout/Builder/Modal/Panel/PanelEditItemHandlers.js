@@ -43,7 +43,7 @@ export const PanelEditItemHandlers = ({
             loadExistingListeners(workspace);
         }
 
-        if (open === true && item && workspace) {
+        if (workspace) {
             loadExistingListeners(workspace);
         }
         // if (open === false) {
@@ -59,11 +59,6 @@ export const PanelEditItemHandlers = ({
     }, [open, workspace, item]);
 
     useEffect(() => {
-        console.log(
-            "event and handler change effect",
-            eventHandlerSelected,
-            eventsSelected
-        );
         if (
             eventHandlerSelected !== null &&
             Object.keys(eventsSelected).length > 0
@@ -73,7 +68,7 @@ export const PanelEditItemHandlers = ({
     }, [eventsSelected, eventHandlerSelected]);
 
     function loadExistingListeners(ws) {
-        console.log("loading existing ");
+        console.log("loading existing ", ws);
         if (ws !== null) {
             const existingListeners = {};
             ws.layout.forEach((layoutItem) => {

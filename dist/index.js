@@ -6373,7 +6373,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       });
       loadExistingListeners(workspace);
     }
-    if (open === true && item && workspace) {
+    if (workspace) {
       loadExistingListeners(workspace);
     }
     // if (open === false) {
@@ -6388,13 +6388,12 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     // }
   }, [open, workspace, item]);
   useEffect(function () {
-    console.log("event and handler change effect", eventHandlerSelected, eventsSelected);
     if (eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0) {
       handleSaveChanges();
     }
   }, [eventsSelected, eventHandlerSelected]);
   function loadExistingListeners(ws) {
-    console.log("loading existing ");
+    console.log("loading existing ", ws);
     if (ws !== null) {
       var existingListeners = {};
       ws.layout.forEach(function (layoutItem) {
