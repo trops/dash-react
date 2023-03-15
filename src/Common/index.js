@@ -21,4 +21,4 @@ export * from "./WrappedComponent";
 
 export * from "./Form";
 
-// export * from "./AlgoliaUI";
+export * from "./AlgoliaUI";
