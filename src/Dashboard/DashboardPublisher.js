@@ -44,6 +44,10 @@ const event = {
             });
         }
     },
+
+    clear() {
+        this.list = new Map();
+    },
 };
 
 export const DashboardPublisher = {
@@ -79,7 +83,8 @@ export const DashboardPublisher = {
 
     removeAllListeners: () => {
         // we want to begin fresh when we switch workspaces...
-        event = new Map();
+        // event = new Map();
+        event.clear();
     },
 
     clearAllMessage: () => {

@@ -5237,7 +5237,6 @@ var DashboardMonitor = function DashboardMonitor() {
   });
 };
 
-function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 var event = {
   list: new Map(),
   //  Map(1) { '<widget-UUID>' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
@@ -5279,6 +5278,9 @@ var event = {
         subscriptionsToEvent[subscriber].apply(subscriptionsToEvent, args);
       });
     }
+  },
+  clear: function clear() {
+    this.list = new Map();
   }
 };
 var DashboardPublisher = {
@@ -5312,7 +5314,8 @@ var DashboardPublisher = {
   },
   removeAllListeners: function removeAllListeners() {
     // we want to begin fresh when we switch workspaces...
-    _readOnlyError("event");
+    // event = new Map();
+    event.clear();
   },
   clearAllMessage: function clearAllMessage() {
     event.emit("clearAllMessage");
