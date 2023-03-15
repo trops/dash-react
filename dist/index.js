@@ -5312,7 +5312,7 @@ var DashboardPublisher = {
   },
   removeAllListeners: function removeAllListeners() {
     // we want to begin fresh when we switch workspaces...
-    newMap(), _readOnlyError("event");
+    _readOnlyError("event");
   },
   clearAllMessage: function clearAllMessage() {
     event.emit("clearAllMessage");
