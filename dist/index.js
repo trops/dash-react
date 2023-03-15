@@ -8451,10 +8451,9 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-1",
             children: [item.eventHandlers.length > 0 && /*#__PURE__*/jsx(ButtonIcon, {
-              theme: false,
               icon: "phone",
               onClick: handleClickEvents,
-              bgColor: getContainerColor(item["parentWorkspace"]),
+              backgroundColor: getContainerColor(item["parentWorkspace"]),
               hoverBackgroundColor: "",
               text: item.eventHandlers.length > 0 ? item.eventHandlers.length : "",
               textSize: "text-xs"
@@ -8464,7 +8463,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
               onClick: function onClick() {
                 return handleChangeOrder("down");
               },
-              bgColor: "bg-green-700",
+              backgroundColor: "bg-green-700",
               hoverBackgroundColor: "hover:bg-blue-700"
             }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
               theme: false,
@@ -8472,13 +8471,13 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
               onClick: function onClick() {
                 return handleChangeOrder("up");
               },
-              bgColor: "bg-green-700",
+              backgroundColor: "bg-green-700",
               hoverBackgroundColor: "hover:bg-blue-700"
             }), /*#__PURE__*/jsx(ButtonIcon, {
               theme: false,
               icon: "trash",
               onClick: handleClickRemove,
-              bgColor: getContainerColor(item["parentWorkspace"]),
+              backgroundColor: getContainerColor(item["parentWorkspace"]),
               hoverBackgroundColor: "hover:bg-red-900"
             })]
           })]
@@ -8491,22 +8490,19 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
         children: /*#__PURE__*/jsxs("div", {
           className: "hidden xl:flex flex-row space-x-1 w-full justify-end p-2",
           children: [numChildren > 1 && /*#__PURE__*/jsx(ButtonIcon, {
-            theme: false,
             icon: "".concat(parentDirection === "col" ? "arrows-left-right" : "arrows-up-down"),
             onClick: handleChangeDirection,
-            bgColor: "bg-green-700",
+            backgroundColor: "bg-transparent",
             hoverBackgroundColor: "hover:bg-blue-700"
           }), /*#__PURE__*/jsx(ButtonIcon, {
-            theme: false,
             icon: "cog",
             onClick: handleOpenConfig,
-            bgColor: "bg-green-700",
+            backgroundColor: "bg-transparent",
             hoverBackgroundColor: "hover:bg-blue-700"
           }), /*#__PURE__*/jsx(ButtonIcon, {
-            theme: false,
             icon: "trash",
             onClick: handleClickRemove,
-            bgColor: "bg-green-700",
+            backgroundColor: "bg-transparent",
             hoverBackgroundColor: "hover:bg-red-900"
           })]
         })
@@ -8530,23 +8526,21 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
           }), /*#__PURE__*/jsx(ButtonIcon, {
             icon: "trash",
             onClick: handleClickRemove,
-            bgColor: getContainerColor(item["parentWorkspace"]),
+            backgroundColor: getContainerColor(item["parentWorkspace"]),
             hoverBackgroundColor: "hover:bg-red-900"
           }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-            theme: false,
             icon: "".concat(parentDirection === "col" ? "arrow-left" : "arrow-up"),
             onClick: function onClick() {
               return handleChangeOrder("down");
             },
-            bgColor: "bg-green-700",
+            backgroundColor: "bg-transparent",
             hoverBackgroundColor: "hover:bg-blue-700"
           }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-            theme: false,
             icon: "".concat(parentDirection === "col" ? "arrow-right" : "arrow-down"),
             onClick: function onClick() {
               return handleChangeOrder("up");
             },
-            bgColor: "bg-green-700",
+            backgroundColor: "bg-green-700",
             hoverBackgroundColor: "hover:bg-blue-700"
           })]
         })]

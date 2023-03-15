@@ -11,7 +11,7 @@ import {
     isMinOrderForItem,
 } from "@dash/Utils";
 
-const LayoutBuilderGridItem = ({
+export const LayoutBuilderGridItem = ({
     item,
     workspace,
     id,
@@ -195,10 +195,9 @@ const LayoutBuilderGridItem = ({
                         <div className="flex flex-row space-x-1">
                             {item.eventHandlers.length > 0 && (
                                 <ButtonIcon
-                                    theme={false}
                                     icon="phone"
                                     onClick={handleClickEvents}
-                                    bgColor={getContainerColor(
+                                    backgroundColor={getContainerColor(
                                         item["parentWorkspace"]
                                     )}
                                     hoverBackgroundColor=""
@@ -223,7 +222,7 @@ const LayoutBuilderGridItem = ({
                                         onClick={() =>
                                             handleChangeOrder("down")
                                         }
-                                        bgColor="bg-green-700"
+                                        backgroundColor="bg-green-700"
                                         hoverBackgroundColor="hover:bg-blue-700"
                                     />
                                 )}
@@ -238,7 +237,7 @@ const LayoutBuilderGridItem = ({
                                                 : "arrow-down"
                                         }`}
                                         onClick={() => handleChangeOrder("up")}
-                                        bgColor="bg-green-700"
+                                        backgroundColor="bg-green-700"
                                         hoverBackgroundColor="hover:bg-blue-700"
                                     />
                                 )}
@@ -246,7 +245,7 @@ const LayoutBuilderGridItem = ({
                                 theme={false}
                                 icon="trash"
                                 onClick={handleClickRemove}
-                                bgColor={getContainerColor(
+                                backgroundColor={getContainerColor(
                                     item["parentWorkspace"]
                                 )}
                                 hoverBackgroundColor="hover:bg-red-900"
@@ -263,29 +262,26 @@ const LayoutBuilderGridItem = ({
                     <div className="hidden xl:flex flex-row space-x-1 w-full justify-end p-2">
                         {numChildren > 1 && (
                             <ButtonIcon
-                                theme={false}
                                 icon={`${
                                     parentDirection === "col"
                                         ? "arrows-left-right"
                                         : "arrows-up-down"
                                 }`}
                                 onClick={handleChangeDirection}
-                                bgColor="bg-green-700"
+                                backgroundColor="bg-transparent"
                                 hoverBackgroundColor="hover:bg-blue-700"
                             />
                         )}
                         <ButtonIcon
-                            theme={false}
                             icon={"cog"}
                             onClick={handleOpenConfig}
-                            bgColor="bg-green-700"
+                            backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-blue-700"
                         />
                         <ButtonIcon
-                            theme={false}
                             icon="trash"
                             onClick={handleClickRemove}
-                            bgColor="bg-green-700"
+                            backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-red-900"
                         />
                     </div>
@@ -321,21 +317,22 @@ const LayoutBuilderGridItem = ({
                         <ButtonIcon
                             icon="trash"
                             onClick={handleClickRemove}
-                            bgColor={getContainerColor(item["parentWorkspace"])}
+                            backgroundColor={getContainerColor(
+                                item["parentWorkspace"]
+                            )}
                             hoverBackgroundColor="hover:bg-red-900"
                         />
                         {order > 1 &&
                             numChildren > 1 &&
                             isMinOrder === false && (
                                 <ButtonIcon
-                                    theme={false}
                                     icon={`${
                                         parentDirection === "col"
                                             ? "arrow-left"
                                             : "arrow-up"
                                     }`}
                                     onClick={() => handleChangeOrder("down")}
-                                    bgColor="bg-green-700"
+                                    backgroundColor="bg-transparent"
                                     hoverBackgroundColor="hover:bg-blue-700"
                                 />
                             )}
@@ -343,14 +340,13 @@ const LayoutBuilderGridItem = ({
                             numChildren > 1 &&
                             isMaxOrder === false && (
                                 <ButtonIcon
-                                    theme={false}
                                     icon={`${
                                         parentDirection === "col"
                                             ? "arrow-right"
                                             : "arrow-down"
                                     }`}
                                     onClick={() => handleChangeOrder("up")}
-                                    bgColor="bg-green-700"
+                                    backgroundColor="bg-green-700"
                                     hoverBackgroundColor="hover:bg-blue-700"
                                 />
                             )}
@@ -366,5 +362,3 @@ const LayoutBuilderGridItem = ({
         ? renderEditView()
         : renderComponentData();
 };
-
-export { LayoutBuilderGridItem };
