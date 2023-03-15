@@ -179,5 +179,5 @@ const PluginsC = ({ navigate }) => {
     );
 };
 
-const Plugins = withRouter(withPlugins(PluginsC));
+const Plugins = withPlugins(PluginsC);
 export { Plugins };

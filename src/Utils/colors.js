@@ -253,6 +253,24 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
         [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
     },
+    [themeObjects.CODE_EDITOR]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+    },
+    [themeObjects.INPUT_TEXT]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
+        [styleClassNames.BORDER_COLOR]: "border-primary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-primary-dark",
+    },
+    [themeObjects.SELECT_MENU]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
+        [styleClassNames.BORDER_COLOR]: "border-primary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-primary-dark",
+    },
+    [themeObjects.FORM_LABEL]: {
+        [styleClassNames.TEXT_COLOR]: "text-primary-dark",
+    },
 };
 
 /**
@@ -280,12 +298,6 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
 
         // First set all of the defaults
         Object.keys(defaultStyles).forEach((key) => {
-            console.log(
-                "trying to set ",
-                key,
-                defaultStyles[key],
-                theme[defaultStyles[key]]
-            );
             styles[key] = theme[defaultStyles[key]];
         });
 
@@ -313,14 +325,6 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                 }
             });
         }
-
-        console.log(
-            "final",
-            itemName,
-            Object.keys(styles)
-                .map((key) => styles[key])
-                .join(" ")
-        );
 
         return {
             string:

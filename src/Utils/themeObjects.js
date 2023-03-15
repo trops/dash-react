@@ -38,6 +38,12 @@ const DASHBOARD_FOOTER = "dashboard-footer";
 const DASHBOARD_FOOTER_2 = "dashboard-footer-2";
 const DASHBOARD_FOOTER_3 = "dashboard-footer-3";
 
+const CODE_EDITOR = "code-editor";
+
+const INPUT_TEXT = "input-text";
+const SELECT_MENU = "select-menu";
+const FORM_LABEL = "form-label";
+
 const themeObjects = {
     BUTTON,
     BUTTON_2,
@@ -45,6 +51,8 @@ const themeObjects = {
     BUTTON_ICON,
     BUTTON_ICON_2,
     BUTTON_ICON_3,
+    CODE_EDITOR,
+    INPUT_TEXT,
     PANEL,
     PANEL_2,
     PANEL_3,
@@ -69,6 +77,8 @@ const themeObjects = {
     DASHBOARD_FOOTER,
     DASHBOARD_FOOTER_2,
     DASHBOARD_FOOTER_3,
+    SELECT_MENU,
+    FORM_LABEL,
 };
 
 const BACKGROUND_COLOR = "backgroundColor";

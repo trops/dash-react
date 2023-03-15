@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSearchBox } from "react-instantsearch-hooks-web";
+import { InputText } from "@dash";
 
 export const AlgoliaSearchBox = ({ props, onQueryChange = null }) => {
     const {
@@ -16,15 +17,15 @@ export const AlgoliaSearchBox = ({ props, onQueryChange = null }) => {
 
     return (
         <div className="flex flex-row w-full min-h-fit">
-            <input
+            <InputText
                 type="search"
                 value={currentRefinement}
                 onChange={(event) => refine(event.currentTarget.value)}
-                className={`${
-                    disabled === true && "bg-gray-400"
-                } flex flex-row flex-1 w-full h-20 p-2 2xl:p-4 text-base 2xl:text-lg rounded text-indigo-800 font-bold bg-gray-200 dark:bg-indigo-300 focus:outline-none`}
-                placeholder="Search"
                 disabled={disabled}
+                // className={`${
+                //     disabled === true && "bg-gray-400"
+                // } flex flex-row flex-1 w-full h-20 p-2 2xl:p-4 text-base 2xl:text-lg rounded text-indigo-800 font-bold bg-gray-200 dark:bg-indigo-300 focus:outline-none`}
+                placeholder="Search"
             />
         </div>
     );

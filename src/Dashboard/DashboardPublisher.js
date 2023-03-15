@@ -4,8 +4,10 @@ const event = {
     list: new Map(),
 
     // register the event types to listen for...
+    // We have to limit the registration to only once
+    // per UUID + handler configuration
     on(eventType, eventAction, widgetId = null) {
-        console.log("subscribing check ", eventType);
+        console.log("subscribing check ", eventType, this.list.keys);
         this.list.has(eventType) || this.list.set(eventType, []);
         if (this.list.get(eventType)) {
             //const eventActions = this.list.get(eventType);

@@ -48,12 +48,7 @@ const Template2 = (args) => {
 const Template3 = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <Panel3
-                className={"rounded p-10"}
-                {...args}
-                width={"w-full"}
-                height={"h-full"}
-            >
+            <Panel3 {...args} width={"w-full"} height={"h-full"}>
                 <Heading2 title={args.text} />
             </Panel3>
         </MockWrapper>

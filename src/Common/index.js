@@ -6,7 +6,7 @@ export * from "./Text/Heading";
 export * from "./Button";
 export * from "./ButtonIcon";
 export * from "./Toggle";
-export * from "./CodeEditor";
+export { CodeEditorInline } from "./CodeEditor";
 export * from "./Tag";
 
 export * from "./Container";
@@ -21,4 +21,4 @@ export * from "./WrappedComponent";
 
 export * from "./Form";
 
-export * from "./AlgoliaUI";
+// export * from "./AlgoliaUI";

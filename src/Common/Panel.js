@@ -22,7 +22,7 @@ const Panel = ({
                 styles.string
             } ${
                 horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height}`}
+            } ${width} ${height} p-6 rounded`}
             onClick={onClick}
         >
             {children}
@@ -50,7 +50,7 @@ const Panel2 = ({
                 styles.string
             } ${
                 horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height}`}
+            } ${width} ${height} p-6 rounded`}
             onClick={onClick}
         >
             {children}
@@ -78,7 +78,7 @@ const Panel3 = ({
                 styles.string
             } ${
                 horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height}`}
+            } ${width} ${height} p-6 rounded`}
             onClick={onClick}
         >
             {children}

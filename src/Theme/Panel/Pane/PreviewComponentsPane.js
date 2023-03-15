@@ -26,6 +26,7 @@ import {
     Tag,
     Tag2,
     Tag3,
+    InputText,
 } from "@dash/Common";
 
 import { getStylesForItem } from "@dash/Utils/colors";
@@ -42,206 +43,6 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
         // setItemSelected(() => temp);
         // setItemColorSelected(null);
         onClick(temp);
-    }
-
-    function renderButtons() {
-        const buttonStyles = getStylesForItem(
-            themeObjects.BUTTON,
-            theme[themeVariant]
-        );
-        const button2Styles = getStylesForItem(
-            themeObjects.BUTTON_2,
-            theme[themeVariant]
-        );
-        const button3Styles = getStylesForItem(
-            themeObjects.BUTTON_3,
-            theme[themeVariant]
-        );
-        return (
-            <div className="flex flex-col space-y-4">
-                <Button
-                    title="Button"
-                    {...buttonStyles}
-                    onClick={() =>
-                        handleClickItem(themeObjects.BUTTON, buttonStyles)
-                    }
-                />
-                <Button2
-                    title="Button 2"
-                    {...button2Styles}
-                    onClick={() =>
-                        handleClickItem(themeObjects.BUTTON_2, button2Styles)
-                    }
-                />
-                <Button3
-                    title="Button 3"
-                    {...button3Styles}
-                    onClick={() =>
-                        handleClickItem(themeObjects.BUTTON_3, button3Styles)
-                    }
-                />
-            </div>
-        );
-    }
-
-    function renderTags() {
-        const styles = getStylesForItem(themeObjects.TAG, theme[themeVariant]);
-        const styles2 = getStylesForItem(
-            themeObjects.TAG_2,
-            theme[themeVariant]
-        );
-        const styles3 = getStylesForItem(
-            themeObjects.TAG_3,
-            theme[themeVariant]
-        );
-
-        return (
-            <div className="flex flex-row space-x-2 w-full justify-center items-center">
-                <div className="flex flex-row space-x-2">
-                    <Tag
-                        text="Tag"
-                        icon="pencil"
-                        {...styles}
-                        onClick={() =>
-                            handleClickItem(themeObjects.TAG, styles)
-                        }
-                    />
-                </div>
-                <div className="flex flex-row space-x-2">
-                    <Tag2
-                        text="Tag 2"
-                        icon="pencil"
-                        {...styles2}
-                        onClick={() =>
-                            handleClickItem(themeObjects.TAG_2, styles2)
-                        }
-                    />
-                </div>
-                <div className="flex flex-row space-x-2">
-                    <Tag3
-                        text="Tag 3"
-                        icon="pencil"
-                        {...styles3}
-                        onClick={() =>
-                            handleClickItem(themeObjects.TAG_3, styles3)
-                        }
-                    />
-                </div>
-            </div>
-        );
-    }
-    function renderButtonIcon() {
-        const styles = getStylesForItem(
-            themeObjects.BUTTON_ICON,
-            theme[themeVariant]
-        );
-        const styles2 = getStylesForItem(
-            themeObjects.BUTTON_ICON_2,
-            theme[themeVariant]
-        );
-        const styles3 = getStylesForItem(
-            themeObjects.BUTTON_ICON_3,
-            theme[themeVariant]
-        );
-
-        return (
-            <div className="flex flex-col space-y-2 w-full justify-center items-center">
-                <div className="flex flex-row space-x-2">
-                    <ButtonIcon
-                        text="Button Icon"
-                        icon="pencil"
-                        {...styles}
-                        onClick={() =>
-                            handleClickItem(themeObjects.BUTTON_ICON, styles)
-                        }
-                    />
-                    <ButtonIcon
-                        icon="pencil"
-                        {...styles}
-                        onClick={() =>
-                            handleClickItem(themeObjects.BUTTON_ICON, styles)
-                        }
-                    />
-                </div>
-                <div className="flex flex-row space-x-2">
-                    <ButtonIcon2
-                        text="Button Icon 2"
-                        icon="pencil"
-                        {...styles2}
-                        onClick={() =>
-                            handleClickItem(themeObjects.BUTTON_ICON_2, styles2)
-                        }
-                    />
-                    <ButtonIcon2
-                        icon="pencil"
-                        {...styles2}
-                        onClick={() =>
-                            handleClickItem(themeObjects.BUTTON_ICON_2, styles2)
-                        }
-                    />
-                </div>
-                <div className="flex flex-row space-x-2">
-                    <ButtonIcon3
-                        text="Button Icon 3"
-                        icon="pencil"
-                        {...styles3}
-                        onClick={() =>
-                            handleClickItem(themeObjects.BUTTON_ICON_3, styles3)
-                        }
-                    />
-                    <ButtonIcon3
-                        icon="pencil"
-                        {...styles3}
-                        onClick={() =>
-                            handleClickItem(themeObjects.BUTTON_ICON_3, styles3)
-                        }
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    function renderMenuItem() {
-        const styles = getStylesForItem(
-            themeObjects.MENU_ITEM,
-            theme[themeVariant]
-        );
-        const styles2 = getStylesForItem(
-            themeObjects.MENU_ITEM_2,
-            theme[themeVariant]
-        );
-        const styles3 = getStylesForItem(
-            themeObjects.MENU_ITEM_3,
-            theme[themeVariant]
-        );
-        return (
-            <div className="flex flex-col space-y-2">
-                <MenuItem
-                    {...styles}
-                    onClick={() =>
-                        handleClickItem(themeObjects.MENU_ITEM, styles)
-                    }
-                >
-                    Menu Item
-                </MenuItem>
-                <MenuItem2
-                    {...styles2}
-                    onClick={() =>
-                        handleClickItem(themeObjects.MENU_ITEM_2, styles2)
-                    }
-                >
-                    Menu Item 2
-                </MenuItem2>
-                <MenuItem3
-                    {...styles3}
-                    onClick={() =>
-                        handleClickItem(themeObjects.MENU_ITEM_3, styles3)
-                    }
-                >
-                    Menu Item 3
-                </MenuItem3>
-            </div>
-        );
     }
 
     function renderText() {
@@ -281,6 +82,10 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
         );
         const paragraph3Styles = getStylesForItem(
             themeObjects.PARAGRAPH_3,
+            theme[themeVariant]
+        );
+        const inputTextStyles = getStylesForItem(
+            themeObjects.INPUT_TEXT,
             theme[themeVariant]
         );
 
@@ -370,6 +175,16 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                         handleClickItem(
                             themeObjects.PARAGRAPH_3,
                             paragraph3Styles
+                        )
+                    }
+                />
+                <InputText
+                    value="value"
+                    {...inputTextStyles}
+                    onClick={() =>
+                        handleClickItem(
+                            themeObjects.INPUT_TEXT,
+                            inputTextStyles
                         )
                     }
                 />

@@ -86,11 +86,6 @@ export const ThemeWrapper = ({ theme = null, children }) => {
                     setChosenTheme(() => defaultTheme);
                 }
             }
-        } else {
-            console.log("we have a theme!", chosenTheme);
-            // setThemesForApplication([chosenTheme]);
-
-            // themesForApplication === null && loadThemes();
         }
     });
 

@@ -1,4 +1,6 @@
-import React, { Fragment } from "react";
+import { ThemeContext } from "@dash/Context";
+import { getStylesForItem, themeObjects } from "@dash/Utils";
+import React, { Fragment, useContext } from "react";
 
 export const SelectMenu = ({
     name,
@@ -6,15 +8,22 @@ export const SelectMenu = ({
     selectedValue,
     children,
     textSize = "text-base 2xl:text-lg",
-    bgColor = "bg-gray-300",
-    textColor = "text-gray-600",
-}) => (
-    <select
-        className={`p-2 rounded ${textSize} ${textColor} font-bold ${bgColor} focus:outline-none cursor-pointer min-w-lg w-full`}
-        name={name}
-        onChange={onChange}
-        value={selectedValue}
-    >
-        {children}
-    </select>
-);
+    // bgColor = "bg-gray-300",
+    // textColor = "text-gray-600",
+    ...props
+}) => {
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, {
+        ...props,
+    });
+    return (
+        <select
+            className={`p-2 rounded ${textSize} font-bold ${styles.string} focus:outline-none cursor-pointer min-w-lg w-full`}
+            name={name}
+            onChange={onChange}
+            value={selectedValue}
+        >
+            {children}
+        </select>
+    );
+};
