@@ -1,13 +1,4 @@
-// import { AlgoliaHits from "./AlgoliaHits";
-// import AlgoliaCarousel from "./AlgoliaCarousel";
-// import AlgoliaSearchBox from "./AlgoliaSearchBox";
-// import AlgoliaUIFactory from "./AlgoliaUIFactory";
-// import AlgoliaCurrentRefinements from "./AlgoliaCurrentRefinements";
-// import AlgoliaRefinementList from "./AlgoliaRefinementList";
-
-
-
-export * from AlgoliaSearchBox;
-export * from AlgoliaRefinementsList;
-export * from AlgoliaHits
-export * from AlgoliaCurrentRefinements
+export * from "./AlgoliaSearchBox";
+export * from "./AlgoliaRefinementsList";
+export * from "./AlgoliaHits";
+export * from "./AlgoliaCurrentRefinements";
