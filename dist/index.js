@@ -8463,7 +8463,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
               onClick: function onClick() {
                 return handleChangeOrder("down");
               },
-              backgroundColor: "bg-green-700",
+              backgroundColor: "bg-transparent",
               hoverBackgroundColor: "hover:bg-blue-700"
             }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
               theme: false,
@@ -8471,7 +8471,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
               onClick: function onClick() {
                 return handleChangeOrder("up");
               },
-              backgroundColor: "bg-green-700",
+              backgroundColor: "bg-transparent",
               hoverBackgroundColor: "hover:bg-blue-700"
             }), /*#__PURE__*/jsx(ButtonIcon, {
               theme: false,
@@ -8484,7 +8484,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
         })]
       })
     }) : /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col border-4 bg-green-700 border-green-900 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0 min-h-64 h-24",
+      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0 min-h-64 h-24",
       children: [/*#__PURE__*/jsx("div", {
         className: "flex flex-row space-x-2 rounded-t justify-between w-full",
         children: /*#__PURE__*/jsxs("div", {
@@ -8540,7 +8540,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
             onClick: function onClick() {
               return handleChangeOrder("up");
             },
-            backgroundColor: "bg-green-700",
+            backgroundColor: "bg-transparent",
             hoverBackgroundColor: "hover:bg-blue-700"
           })]
         })]
@@ -8935,52 +8935,46 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
       }), /*#__PURE__*/jsxs("div", {
         className: "flex flex-row space-x-1 text-indigo-700",
         children: [canHaveChildren === true && /*#__PURE__*/jsx(ButtonIcon, {
-          theme: false,
           textColor: "text-gray-700",
           hoverTextColor: "hover:text-gray-300",
           icon: "plus",
           onClick: handleClickAdd,
-          bgColor: "bg-gray-900",
+          backgroundColor: "bg-transparent",
           hoverBackgroundColor: "hover:bg-green-700"
         }), /*#__PURE__*/jsx(ButtonIcon, {
-          theme: false,
           textColor: "text-gray-700",
           hoverTextColor: "hover:text-gray-300",
           icon: "".concat(direction === "col" ? "arrows-left-right" : "arrows-up-down"),
           onClick: handleChangeDirection,
-          bgColor: "bg-gray-900",
+          backgroundColor: "bg-transparent",
           hoverBackgroundColor: "hover:bg-blue-700"
         }), /*#__PURE__*/jsx(ButtonIcon, {
-          theme: false,
           textColor: "text-gray-700",
           hoverTextColor: "hover:text-gray-300",
           icon: "cog",
           onClick: handleOpenConfig,
-          bgColor: "bg-gray-900",
+          backgroundColor: "bg-transparent",
           hoverBackgroundColor: "hover:bg-blue-700"
         }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-          theme: false,
           icon: "".concat(parentDirection === "col" ? "arrow-up" : "arrow-left"),
           onClick: function onClick() {
             return handleChangeOrder("down");
           },
-          bgColor: "bg-green-700",
+          backgroundColor: "bg-transparent",
           hoverBackgroundColor: "hover:bg-blue-700"
         }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-          theme: false,
           icon: "".concat(parentDirection === "col" ? "arrow-down" : "arrow-right"),
           onClick: function onClick() {
             return handleChangeOrder("up");
           },
-          bgColor: "bg-green-700",
+          backgroundColor: "bg-transparent",
           hoverBackgroundColor: "hover:bg-blue-700"
         }), parent > 0 && /*#__PURE__*/jsx(ButtonIcon, {
-          theme: false,
           textColor: "text-gray-700",
           hoverTextColor: "hover:text-gray-300",
           icon: "trash",
           onClick: handleClickRemove,
-          bgColor: "bg-gray-900",
+          backgroundColor: "bg-transparent",
           hoverBackgroundColor: "hover:bg-red-900"
         })]
       })]

@@ -121,17 +121,15 @@ export const LayoutGridContainer = ({
                 <div className={`flex flex-row space-x-1 text-indigo-700`}>
                     {canHaveChildren === true && (
                         <ButtonIcon
-                            theme={false}
                             textColor="text-gray-700"
                             hoverTextColor="hover:text-gray-300"
                             icon="plus"
                             onClick={handleClickAdd}
-                            bgColor="bg-gray-900"
+                            backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-green-700"
                         />
                     )}
                     <ButtonIcon
-                        theme={false}
                         textColor="text-gray-700"
                         hoverTextColor="hover:text-gray-300"
                         icon={`${
@@ -140,52 +138,48 @@ export const LayoutGridContainer = ({
                                 : "arrows-up-down"
                         }`}
                         onClick={handleChangeDirection}
-                        bgColor="bg-gray-900"
+                        backgroundColor="bg-transparent"
                         hoverBackgroundColor="hover:bg-blue-700"
                     />
                     <ButtonIcon
-                        theme={false}
                         textColor="text-gray-700"
                         hoverTextColor="hover:text-gray-300"
                         icon={"cog"}
                         onClick={handleOpenConfig}
-                        bgColor="bg-gray-900"
+                        backgroundColor="bg-transparent"
                         hoverBackgroundColor="hover:bg-blue-700"
                     />
                     {order > 1 && numChildren > 1 && isMinOrder === false && (
                         <ButtonIcon
-                            theme={false}
                             icon={`${
                                 parentDirection === "col"
                                     ? "arrow-up"
                                     : "arrow-left"
                             }`}
                             onClick={() => handleChangeOrder("down")}
-                            bgColor="bg-green-700"
+                            backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-blue-700"
                         />
                     )}
                     {order > 1 && numChildren > 1 && isMaxOrder === false && (
                         <ButtonIcon
-                            theme={false}
                             icon={`${
                                 parentDirection === "col"
                                     ? "arrow-down"
                                     : "arrow-right"
                             }`}
                             onClick={() => handleChangeOrder("up")}
-                            bgColor="bg-green-700"
+                            backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-blue-700"
                         />
                     )}
                     {parent > 0 && (
                         <ButtonIcon
-                            theme={false}
                             textColor="text-gray-700"
                             hoverTextColor="hover:text-gray-300"
                             icon="trash"
                             onClick={handleClickRemove}
-                            bgColor="bg-gray-900"
+                            backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-red-900"
                         />
                     )}

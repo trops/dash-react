@@ -222,7 +222,7 @@ export const LayoutBuilderGridItem = ({
                                         onClick={() =>
                                             handleChangeOrder("down")
                                         }
-                                        backgroundColor="bg-green-700"
+                                        backgroundColor="bg-transparent"
                                         hoverBackgroundColor="hover:bg-blue-700"
                                     />
                                 )}
@@ -237,7 +237,7 @@ export const LayoutBuilderGridItem = ({
                                                 : "arrow-down"
                                         }`}
                                         onClick={() => handleChangeOrder("up")}
-                                        backgroundColor="bg-green-700"
+                                        backgroundColor="bg-transparent"
                                         hoverBackgroundColor="hover:bg-blue-700"
                                     />
                                 )}
@@ -256,7 +256,7 @@ export const LayoutBuilderGridItem = ({
             </DragComponent>
         ) : (
             <div
-                className={`flex flex-col border-4 bg-green-700 border-green-900 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0 min-h-64 h-24`}
+                className={`flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0 min-h-64 h-24`}
             >
                 <div className="flex flex-row space-x-2 rounded-t justify-between w-full">
                     <div className="hidden xl:flex flex-row space-x-1 w-full justify-end p-2">
@@ -346,7 +346,7 @@ export const LayoutBuilderGridItem = ({
                                             : "arrow-down"
                                     }`}
                                     onClick={() => handleChangeOrder("up")}
-                                    backgroundColor="bg-green-700"
+                                    backgroundColor="bg-transparent"
                                     hoverBackgroundColor="hover:bg-blue-700"
                                 />
                             )}
