@@ -9,7 +9,7 @@ import { DashboardPublisher } from "../Dashboard/DashboardPublisher.js";
 describe("WidgetApi tests ", () => {
     // Mock
     const uuid = "12345";
-    let api;
+    let api, api2;
     const listeners = {
         handleSearchChange: ["CustomSearchbar[10].searchQueryChanged"],
     };
@@ -49,7 +49,7 @@ describe("WidgetApi tests ", () => {
 
     test("register listeners same event different widget ", () => {
         const uuid2 = "34567";
-        const api2 = WidgetApi;
+        api2 = WidgetApi;
         api2.init(uuid2);
         api2.setPublisher(pub);
         const handlerMap = {
@@ -64,8 +64,8 @@ describe("WidgetApi tests ", () => {
 
     test("emit event from pub ", () => {
         // holds them as an array
-        const eventType = listeners[Object.keys(listeners)[0]][0];
-        api.publishEvent(eventType, { test: "hello" });
+        const eventType = "CustomSearchbar[10].searchQueryChanged";
+        api2.publishEvent(eventType, { test: "hello" });
         expect();
     });
 });

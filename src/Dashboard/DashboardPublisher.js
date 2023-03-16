@@ -55,9 +55,12 @@ const event = {
 
     // publish events...
     emit(eventType, ...args) {
+        console.log(this.list, eventType);
         const subscriptionsToEvent = this.list.get(eventType);
+        console.log("subscriptions to event ", subscriptionsToEvent);
         if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
             subscriptionsToEvent.forEach((subscriber) => {
+                console.log(subscriber["uuid"]);
                 subscriber.action(...args);
             });
         }
@@ -75,7 +78,7 @@ export const DashboardPublisher = {
     pub: (eventType, content) => {
         event.emit(eventType, content);
         // send to ALL
-        event.emit("DashboardPublisher.monitor", { eventType, content });
+        // event.emit("DashboardPublisher.monitor", { eventType, content });
     },
 
     listeners: () => event.list,

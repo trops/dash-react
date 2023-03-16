@@ -5287,9 +5287,12 @@ var event = {
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
+    console.log(this.list, eventType);
     var subscriptionsToEvent = this.list.get(eventType);
+    console.log("subscriptions to event ", subscriptionsToEvent);
     if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
       subscriptionsToEvent.forEach(function (subscriber) {
+        console.log(subscriber["uuid"]);
         subscriber.action.apply(subscriber, args);
       });
     }
@@ -5305,11 +5308,9 @@ var DashboardPublisher = {
   pub: function pub(eventType, content) {
     event.emit(eventType, content);
     // send to ALL
-    event.emit("DashboardPublisher.monitor", {
-      eventType: eventType,
-      content: content
-    });
+    // event.emit("DashboardPublisher.monitor", { eventType, content });
   },
+
   listeners: function listeners() {
     return event.list;
   },
