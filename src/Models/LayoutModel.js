@@ -113,6 +113,13 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         layout.api = widgetApi;
 
+        console.log(
+            "layout model widget api ",
+            layout.id,
+            layout.dashboardId,
+            layout.api.uuid()
+        );
+
         return layout;
     } catch (e) {
         return null;

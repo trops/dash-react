@@ -1788,6 +1788,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     var widgetApi = WidgetApi;
     widgetApi.init(layout.uuid);
     layout.api = widgetApi;
+    console.log("layout model widget api ", layout.id, layout.dashboardId, layout.api.uuid());
     return layout;
   } catch (e) {
     return null;
