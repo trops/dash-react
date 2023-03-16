@@ -174,7 +174,7 @@ var WidgetApi = /*#__PURE__*/function () {
           });
         }
         // request.
-        eApi.data.saveToFile(data, toFilename);
+        eApi.data.saveData(data, toFilename);
       }
     }
 
