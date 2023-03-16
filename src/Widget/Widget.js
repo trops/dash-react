@@ -18,6 +18,7 @@ const Widget = ({
 
     useEffect(() => {
         console.log("use effect in Widget ", api, debugMode, debugStyles);
+        // curious if we should register the listeners here?
     });
 
     function debugClasses() {

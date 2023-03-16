@@ -73,7 +73,7 @@ var WidgetApi = /*#__PURE__*/function () {
          */
         if (api !== undefined && api !== null) {
           var minified = {};
-          minified["data"] = "data" in api ? api.data : null;
+          minified["removeAllListeners"] = "removeAllListeners" in api ? api.removeAllListeners : null, minified["data"] = "data" in api ? api.data : null;
           minified["algolia"] = "algolia" in api ? api.algolia : null;
           minified["events"] = "publicEvents" in api ? api.publicEvents : null;
           this._electronApi = minified;
@@ -8849,7 +8849,9 @@ var Widget = function Widget(_ref) {
     settings = _useContext2.settings;
   useEffect(function () {
     console.log("use effect in Widget ", api, debugMode, debugStyles);
+    // curious if we should register the listeners here?
   });
+
   function debugClasses() {
     // const styles = debugStyles['widget']['classes'];
     // return debugMode === true ? `space-y-4 p-4 ${styles}` : ''

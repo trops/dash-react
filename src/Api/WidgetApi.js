@@ -46,7 +46,11 @@ export class WidgetApi {
              */
             if (api !== undefined && api !== null) {
                 const minified = {};
-                minified["data"] = "data" in api ? api.data : null;
+                (minified["removeAllListeners"] =
+                    "removeAllListeners" in api
+                        ? api.removeAllListeners
+                        : null),
+                    (minified["data"] = "data" in api ? api.data : null);
                 minified["algolia"] = "algolia" in api ? api.algolia : null;
                 minified["events"] =
                     "publicEvents" in api ? api.publicEvents : null;
