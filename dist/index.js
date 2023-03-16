@@ -6492,8 +6492,8 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     setWorkspaceSelected = _useState4[1];
   var _useState5 = useState({}),
     _useState6 = _slicedToArray$9(_useState5, 2),
-    eventsSelected = _useState6[0],
-    setEventsSelected = _useState6[1];
+    eventsSelected = _useState6[0];
+    _useState6[1];
   var _useState7 = useState(null),
     _useState8 = _slicedToArray$9(_useState7, 2),
     eventHandlerSelected = _useState8[0],
@@ -6527,8 +6527,8 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         return item;
       });
       // reset the selected items
-      setEventsSelected(function () {});
-      setEventHandlerSelected(null);
+      // setEventsSelected(() => {});
+      // setEventHandlerSelected(null);
       setLoadedExisting(false);
     }
     if (deepEqual(workspace, workspaceSelected) === false) {
@@ -6711,27 +6711,31 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
   function isSelectedEvent(event) {
     try {
-      console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"]);
-      var listenerArray = workspaceSelected.layout.filter(function (a) {
-        return a["id"] === itemSelected["id"];
-      }).filter(function (k) {
-        return workspaceSelected["layout"][k]["listeners"].length > 0;
-      }).map(function (h) {
-        return workspaceSelected["layout"][h]["listeners"];
-      });
-      console.log("listeners array from workspace ", listenerArray);
-      var isSelected = false;
-      listenerArray.forEach(function (a) {
-        Object.keys(a).forEach(function (handler) {
-          if (a[handler].includes(event) === true) isSelected = true;
+      console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"], event);
+      if (event) {
+        var listenerArray = workspaceSelected.layout.filter(function (a) {
+          console.log("filter check id ", a["id"], itemSelected["id"]);
+          return a["id"] === itemSelected["id"];
+        }).filter(function (k) {
+          return workspaceSelected["layout"][k]["listeners"].length > 0;
+        }).map(function (h) {
+          return workspaceSelected["layout"][h]["listeners"];
         });
-      });
-      return isSelected;
+        console.log("listeners array from workspace ", listenerArray);
+        var isSelected = false;
+        listenerArray.forEach(function (a) {
+          Object.keys(a).forEach(function (handler) {
+            if (a[handler].includes(event) === true) isSelected = true;
+          });
+        });
+        return isSelected;
+      }
     } catch (e) {
       return false;
     }
   }
   function renderAvailableEvents() {
+    console.log("render available items ", itemSelected);
     if (workspaceSelected !== null) {
       return workspaceSelected.layout.filter(function (l) {
         return l["component"] !== "Container";
