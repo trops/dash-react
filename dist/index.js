@@ -1,9 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useContext as useContext$1, Fragment, useEffect, useState, useRef } from 'react';
+import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef } from 'react';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { jsx, jsxs } from 'react/jsx-runtime';
-import { Dialog, Transition, Disclosure } from '@headlessui/react';
+import { Transition, Dialog, Disclosure } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
@@ -14,124 +14,7 @@ import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import parseArgs from 'minimist';
 
-var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$PANEL, _themeObjects$PANEL_, _themeObjects$PANEL_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$HEADING, _themeObjects$HEADING2, _themeObjects$HEADING3, _themeObjects$SUBHEAD, _themeObjects$SUBHEAD2, _themeObjects$SUBHEAD3, _themeObjects$PARAGRA, _themeObjects$PARAGRA2, _themeObjects$PARAGRA3, _themeObjects$MENU_IT, _themeObjects$MENU_IT2, _themeObjects$MENU_IT3, _themeObjects$TAG, _themeObjects$TAG_, _themeObjects$TAG_2, _themeObjects$TOGGLE, _themeObjects$DASHBOA, _themeObjects$DASHBOA2, _themeObjects$DASHBOA3, _themeObjects$CODE_ED, _themeObjects$INPUT_T, _themeObjects$SELECT_, _colorMap;
 function _typeof$p(obj) { "@babel/helpers - typeof"; return _typeof$p = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$p(obj); }
-function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$h(Object(source), !0).forEach(function (key) { _defineProperty$j(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$j(obj, key, value) { key = _toPropertyKey$o(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$o(arg) { var key = _toPrimitive$o(arg, "string"); return _typeof$p(key) === "symbol" ? key : String(key); }
-function _toPrimitive$o(input, hint) { if (_typeof$p(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$p(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border"];
-var objectTypeClasses = {
-  bg: {
-    "class": "backgroundColor"
-  },
-  border: {
-    "class": "borderColor"
-  },
-  text: {
-    "class": "textColor"
-  },
-  "hover-text": {
-    "class": "hoverTextColor"
-  },
-  "hover-bg": {
-    "class": "hoverBackgroundColor"
-  },
-  "hover-border": {
-    "class": "hoverBorderColor"
-  }
-};
-var themeVariants = ["very-light", "light", "medium", "dark", "very-dark"];
-var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
-var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
-var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-var colorMap = (_colorMap = {}, _defineProperty$j(_colorMap, themeObjects.BUTTON, (_themeObjects$BUTTON = {}, _defineProperty$j(_themeObjects$BUTTON, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$j(_themeObjects$BUTTON, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$j(_themeObjects$BUTTON, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$BUTTON, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$j(_themeObjects$BUTTON, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$j(_themeObjects$BUTTON, styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), _themeObjects$BUTTON)), _defineProperty$j(_colorMap, themeObjects.BUTTON_2, (_themeObjects$BUTTON_ = {}, _defineProperty$j(_themeObjects$BUTTON_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$j(_themeObjects$BUTTON_, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$j(_themeObjects$BUTTON_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$BUTTON_, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$j(_themeObjects$BUTTON_, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$j(_themeObjects$BUTTON_, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$BUTTON_)), _defineProperty$j(_colorMap, themeObjects.BUTTON_3, (_themeObjects$BUTTON_2 = {}, _defineProperty$j(_themeObjects$BUTTON_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$j(_themeObjects$BUTTON_2, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$j(_themeObjects$BUTTON_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$BUTTON_2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$j(_themeObjects$BUTTON_2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$j(_themeObjects$BUTTON_2, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), _themeObjects$BUTTON_2)), _defineProperty$j(_colorMap, themeObjects.PANEL, (_themeObjects$PANEL = {}, _defineProperty$j(_themeObjects$PANEL, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$j(_themeObjects$PANEL, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$j(_themeObjects$PANEL, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$PANEL, styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), _themeObjects$PANEL)), _defineProperty$j(_colorMap, themeObjects.PANEL_2, (_themeObjects$PANEL_ = {}, _defineProperty$j(_themeObjects$PANEL_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), _defineProperty$j(_themeObjects$PANEL_, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$j(_themeObjects$PANEL_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$PANEL_, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$PANEL_)), _defineProperty$j(_colorMap, themeObjects.PANEL_3, (_themeObjects$PANEL_2 = {}, _defineProperty$j(_themeObjects$PANEL_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), _defineProperty$j(_themeObjects$PANEL_2, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$j(_themeObjects$PANEL_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$PANEL_2, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark"), _themeObjects$PANEL_2)), _defineProperty$j(_colorMap, themeObjects.BUTTON_ICON, (_themeObjects$BUTTON_3 = {}, _defineProperty$j(_themeObjects$BUTTON_3, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$j(_themeObjects$BUTTON_3, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$j(_themeObjects$BUTTON_3, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$BUTTON_3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$j(_themeObjects$BUTTON_3, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$j(_themeObjects$BUTTON_3, styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), _themeObjects$BUTTON_3)), _defineProperty$j(_colorMap, themeObjects.BUTTON_ICON_2, (_themeObjects$BUTTON_4 = {}, _defineProperty$j(_themeObjects$BUTTON_4, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$j(_themeObjects$BUTTON_4, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$j(_themeObjects$BUTTON_4, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$BUTTON_4, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$j(_themeObjects$BUTTON_4, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$j(_themeObjects$BUTTON_4, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$BUTTON_4)), _defineProperty$j(_colorMap, themeObjects.BUTTON_ICON_3, (_themeObjects$BUTTON_5 = {}, _defineProperty$j(_themeObjects$BUTTON_5, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$j(_themeObjects$BUTTON_5, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$j(_themeObjects$BUTTON_5, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$BUTTON_5, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$j(_themeObjects$BUTTON_5, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$j(_themeObjects$BUTTON_5, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), _themeObjects$BUTTON_5)), _defineProperty$j(_colorMap, themeObjects.HEADING, (_themeObjects$HEADING = {}, _defineProperty$j(_themeObjects$HEADING, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$HEADING, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$HEADING, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$HEADING, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$HEADING, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING)), _defineProperty$j(_colorMap, themeObjects.HEADING_2, (_themeObjects$HEADING2 = {}, _defineProperty$j(_themeObjects$HEADING2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$HEADING2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$HEADING2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$HEADING2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$HEADING2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING2)), _defineProperty$j(_colorMap, themeObjects.HEADING_3, (_themeObjects$HEADING3 = {}, _defineProperty$j(_themeObjects$HEADING3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$HEADING3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$HEADING3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$HEADING3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$HEADING3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING3)), _defineProperty$j(_colorMap, themeObjects.SUBHEADING, (_themeObjects$SUBHEAD = {}, _defineProperty$j(_themeObjects$SUBHEAD, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$SUBHEAD, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$SUBHEAD, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$SUBHEAD, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$SUBHEAD, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD)), _defineProperty$j(_colorMap, themeObjects.SUBHEADING_2, (_themeObjects$SUBHEAD2 = {}, _defineProperty$j(_themeObjects$SUBHEAD2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$SUBHEAD2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$SUBHEAD2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$SUBHEAD2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$SUBHEAD2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD2)), _defineProperty$j(_colorMap, themeObjects.SUBHEADING_3, (_themeObjects$SUBHEAD3 = {}, _defineProperty$j(_themeObjects$SUBHEAD3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$SUBHEAD3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$SUBHEAD3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$SUBHEAD3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$SUBHEAD3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD3)), _defineProperty$j(_colorMap, themeObjects.PARAGRAPH, (_themeObjects$PARAGRA = {}, _defineProperty$j(_themeObjects$PARAGRA, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$PARAGRA, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$PARAGRA, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$PARAGRA, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$PARAGRA, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA)), _defineProperty$j(_colorMap, themeObjects.PARAGRAPH_2, (_themeObjects$PARAGRA2 = {}, _defineProperty$j(_themeObjects$PARAGRA2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$PARAGRA2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$PARAGRA2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$PARAGRA2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$PARAGRA2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA2)), _defineProperty$j(_colorMap, themeObjects.PARAGRAPH_3, (_themeObjects$PARAGRA3 = {}, _defineProperty$j(_themeObjects$PARAGRA3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$j(_themeObjects$PARAGRA3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$PARAGRA3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$PARAGRA3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$j(_themeObjects$PARAGRA3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA3)), _defineProperty$j(_colorMap, themeObjects.MENU_ITEM, (_themeObjects$MENU_IT = {}, _defineProperty$j(_themeObjects$MENU_IT, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$j(_themeObjects$MENU_IT, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$j(_themeObjects$MENU_IT, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$MENU_IT, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$j(_themeObjects$MENU_IT, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$j(_themeObjects$MENU_IT, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT)), _defineProperty$j(_colorMap, themeObjects.MENU_ITEM_2, (_themeObjects$MENU_IT2 = {}, _defineProperty$j(_themeObjects$MENU_IT2, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$j(_themeObjects$MENU_IT2, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$j(_themeObjects$MENU_IT2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$MENU_IT2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$j(_themeObjects$MENU_IT2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$j(_themeObjects$MENU_IT2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT2)), _defineProperty$j(_colorMap, themeObjects.MENU_ITEM_3, (_themeObjects$MENU_IT3 = {}, _defineProperty$j(_themeObjects$MENU_IT3, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$j(_themeObjects$MENU_IT3, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$j(_themeObjects$MENU_IT3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$MENU_IT3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$j(_themeObjects$MENU_IT3, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$j(_themeObjects$MENU_IT3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT3)), _defineProperty$j(_colorMap, themeObjects.TAG, (_themeObjects$TAG = {}, _defineProperty$j(_themeObjects$TAG, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$j(_themeObjects$TAG, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$TAG, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$j(_themeObjects$TAG, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$j(_themeObjects$TAG, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$j(_themeObjects$TAG, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG)), _defineProperty$j(_colorMap, themeObjects.TAG_2, (_themeObjects$TAG_ = {}, _defineProperty$j(_themeObjects$TAG_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$j(_themeObjects$TAG_, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$TAG_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$j(_themeObjects$TAG_, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$j(_themeObjects$TAG_, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$j(_themeObjects$TAG_, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG_)), _defineProperty$j(_colorMap, themeObjects.TAG_3, (_themeObjects$TAG_2 = {}, _defineProperty$j(_themeObjects$TAG_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$j(_themeObjects$TAG_2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$j(_themeObjects$TAG_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$TAG_2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$j(_themeObjects$TAG_2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$j(_themeObjects$TAG_2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG_2)), _defineProperty$j(_colorMap, themeObjects.TOGGLE, (_themeObjects$TOGGLE = {}, _defineProperty$j(_themeObjects$TOGGLE, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$j(_themeObjects$TOGGLE, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$j(_themeObjects$TOGGLE, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _themeObjects$TOGGLE)), _defineProperty$j(_colorMap, themeObjects.DASHBOARD_FOOTER, (_themeObjects$DASHBOA = {}, _defineProperty$j(_themeObjects$DASHBOA, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$j(_themeObjects$DASHBOA, styleClassNames.BORDER_COLOR, "border-primary-dark"), _themeObjects$DASHBOA)), _defineProperty$j(_colorMap, themeObjects.DASHBOARD_FOOTER_2, (_themeObjects$DASHBOA2 = {}, _defineProperty$j(_themeObjects$DASHBOA2, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), _defineProperty$j(_themeObjects$DASHBOA2, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _themeObjects$DASHBOA2)), _defineProperty$j(_colorMap, themeObjects.DASHBOARD_FOOTER_3, (_themeObjects$DASHBOA3 = {}, _defineProperty$j(_themeObjects$DASHBOA3, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), _defineProperty$j(_themeObjects$DASHBOA3, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _themeObjects$DASHBOA3)), _defineProperty$j(_colorMap, themeObjects.CODE_EDITOR, (_themeObjects$CODE_ED = {}, _defineProperty$j(_themeObjects$CODE_ED, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), _defineProperty$j(_themeObjects$CODE_ED, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$j(_themeObjects$CODE_ED, styleClassNames.TEXT_COLOR, "text-primary-medium"), _themeObjects$CODE_ED)), _defineProperty$j(_colorMap, themeObjects.INPUT_TEXT, (_themeObjects$INPUT_T = {}, _defineProperty$j(_themeObjects$INPUT_T, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$j(_themeObjects$INPUT_T, styleClassNames.BORDER_COLOR, "border-primary-medium"), _defineProperty$j(_themeObjects$INPUT_T, styleClassNames.TEXT_COLOR, "text-primary-dark"), _themeObjects$INPUT_T)), _defineProperty$j(_colorMap, themeObjects.SELECT_MENU, (_themeObjects$SELECT_ = {}, _defineProperty$j(_themeObjects$SELECT_, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$j(_themeObjects$SELECT_, styleClassNames.BORDER_COLOR, "border-primary-medium"), _defineProperty$j(_themeObjects$SELECT_, styleClassNames.TEXT_COLOR, "text-primary-dark"), _themeObjects$SELECT_)), _defineProperty$j(_colorMap, themeObjects.FORM_LABEL, _defineProperty$j({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), _colorMap);
-
-/**
- * getStylesForItem
- * @param {string} itemName the name of the component (button, panel, etc)
- *
- */
-var getStylesForItem = function getStylesForItem() {
-  var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  if (itemName !== null) {
-    // get the colors from the theme by default
-    // this is a MAP like "bg-primary-dark" which needs to
-    // fetch its value from the actual theme based on this key mapping
-    var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
-
-    // then we have to determine if this item has any theme overrides
-    var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
-
-    // then we have to determine if the component has any MANUAL overrides
-    var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
-
-    // and this is the styles we shall return
-    var styles = {};
-
-    // First set all of the defaults
-    Object.keys(defaultStyles).forEach(function (key) {
-      styles[key] = theme[defaultStyles[key]];
-    });
-
-    // we have to begin with the defaults for the theme so we have access
-    // and knowledge of what keys in the theme to return.
-    // the trick is applying the overrides to those theme keys
-    // if they exist.
-
-    if (defaultStyles !== null) {
-      // now we have to handle the overrides
-      // if the user has passed in any
-      Object.keys(defaultStyles).forEach(function (className) {
-        // check manual override
-        if (className in manualOverrides && manualOverrides[className] !== null) {
-          styles[className] = manualOverrides[className];
-        }
-
-        // check theme override
-        if (className in themeOverrides) {
-          var themeOverrideKey = themeOverrides[className];
-          styles[className] = theme[themeOverrideKey];
-        }
-      });
-    }
-    return _objectSpread$h({
-      string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
-        return styles[key];
-      }).join(" ") : ""
-    }, styles);
-  }
-  return null;
-};
-var getClassForObjectType = function getClassForObjectType(objectType) {
-  return objectTypeClasses[objectType]["class"];
-};
-function getStyleName(objectType) {
-  var s = null;
-  switch (objectType) {
-    case "bg":
-      s = "background";
-      break;
-    case "text":
-      s = "text";
-      break;
-    case "hover:text":
-      s = "hover-text";
-      break;
-    case "hover:bg":
-      s = "hover-background";
-      break;
-    default:
-      s = objectType;
-      break;
-  }
-  return s;
-}
-
-function _typeof$o(obj) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$o(obj); }
 /**
  * deepCopy
  * @param {object} obj the object to deep copy
@@ -145,16 +28,388 @@ var deepCopy = function deepCopy(obj) {
   }
 };
 var isObject = function isObject(objValue) {
-  return objValue && _typeof$o(objValue) === "object" && objValue.constructor === Object;
+  return objValue && _typeof$p(objValue) === "object" && objValue.constructor === Object;
 };
+
+function _typeof$o(obj) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$o(obj); }
+function _classCallCheck$7(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$o(descriptor.key), descriptor); } }
+function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$o(arg) { var key = _toPrimitive$o(arg, "string"); return _typeof$o(key) === "symbol" ? key : String(key); }
+function _toPrimitive$o(input, hint) { if (_typeof$o(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$o(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var WidgetApi = /*#__PURE__*/function () {
+  function WidgetApi(uuid) {
+    _classCallCheck$7(this, WidgetApi);
+    this._uuid = uuid;
+    this._pub = null;
+    this._electronApi = null;
+    this._settings = null;
+  }
+
+  /**
+   * init
+   *
+   * This will initialize the API
+   * We do this automatically from the LayoutModel using the UUID generated
+   * for the widget.
+   *
+   * We need this UUID for filenames, publishing events, etc.
+   *
+   * @param {string} uuid
+   */
+  _createClass$7(WidgetApi, [{
+    key: "init",
+    value: function init(uuidInput) {
+      try {
+        this._uuid = uuidInput;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, {
+    key: "setPublisher",
+    value: function setPublisher(publisher) {
+      this._pub = publisher;
+    }
+  }, {
+    key: "setElectronApi",
+    value: function setElectronApi(api) {
+      try {
+        /**
+         * include the main electron apis that we want to expose ONLY
+         */
+        if (api !== undefined && api !== null) {
+          console.log("api ", api);
+          var minified = deepCopy(api);
+          console.log("minified copy ", minified);
+          // now lets delete the keys?
+          var tempApi = {
+            on: minified["on"],
+            removeAllListeners: minified["removeAllListeners"],
+            data: minified["data"],
+            algolia: minified["algolia"],
+            events: minified["publicEvents"]
+          };
+          console.log(tempApi);
+
+          // (minified["on"] = "on" in api ? api.on : null),
+          //     (minified["removeAllListeners"] =
+          //         "removeAllListeners" in api
+          //             ? api.removeAllListeners
+          //             : null),
+          //     (minified["data"] = "data" in api ? api.data : null);
+          // minified["algolia"] = "algolia" in api ? api.algolia : null;
+          // minified["events"] =
+          //     "publicEvents" in api ? api.publicEvents : null;
+
+          this._electronApi = tempApi;
+        }
+      } catch (e) {
+        console.log("Error Setting Electron API ", e.message);
+      }
+    }
+  }, {
+    key: "setSettings",
+    value: function setSettings(settings) {
+      this._settings = settings;
+    }
+
+    /**
+     * uuid
+     * @returns string the UUID for this Widget
+     */
+  }, {
+    key: "uuid",
+    value: function uuid() {
+      return this._uuid;
+    }
+  }, {
+    key: "electronApi",
+    value: function electronApi() {
+      return this._electronApi;
+    }
+  }, {
+    key: "pub",
+    value: function pub() {
+      return this._pub;
+    }
+
+    /**
+     * publishEvent
+     * @param {string} name the name of the widget (TODO - uuid + handler)
+     * @param {object} events the payload for the event published
+     */
+  }, {
+    key: "publishEvent",
+    value: function publishEvent(name, events) {
+      // console.log("publish event ", `${this.uuid()}-${name}`);
+      // const uniqueName = `${${name}`;
+      this._pub.pub(name, events);
+    }
+
+    /**
+     * registerListeners
+     *
+     * Register an array of listeners (strings) and set the handler (object)
+     * Each handler has a key and Component named the same so we can use the handler
+     * methods in code.
+     *
+     * @param {array} listeners
+     * @param {object} handlers
+     */
+  }, {
+    key: "registerListeners",
+    value: function registerListeners(listeners, handlers) {
+      this._pub.registerListeners(listeners, handlers, this.uuid());
+    }
+
+    /**
+     * storeData
+     *
+     * Allow the widget to have access to "local storage"
+     * Store any object data to the filesystem in a predetermined filepath
+     * based on the widget information (dashboard.workspace.widget...)
+     *
+     * @param {object} data
+     * @param {object} options filename - name of the file, callbacks for complete and error
+     */
+  }, {
+    key: "storeData",
+    value: function storeData(data) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+        filename: null,
+        callbackComplete: null,
+        callbackError: null,
+        append: true
+      };
+      // set the filename
+      var toFilename = options["filename"] !== null ? options["filename"] : "".concat(this.uuid(), ".json");
+
+      // grab the electron api
+      var eApi = this.electronApi();
+      if (eApi) {
+        // remove the listeners (reset)
+        eApi.removeAllListeners();
+        if (options["callbackComplete"] !== null) {
+          eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
+            return options["callbackComplete"](e, message);
+          });
+        }
+        if (options["callbackError"] !== null) {
+          eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
+            return options["callbackError"](e, message);
+          });
+        }
+        // request.
+        eApi.data.saveData(data, toFilename, options["append"]);
+      }
+    }
+
+    /**
+     *
+     * @param {object} options
+     * - filename - the name of the file if you want to override the default uuid as filename
+     * - callbackComplete - the handler for dealing with the complete callback data
+     * - callbackError - the handler for dealing with the error callback data
+     */
+  }, {
+    key: "readData",
+    value: function readData(_ref) {
+      var _ref$filename = _ref.filename,
+        filename = _ref$filename === void 0 ? null : _ref$filename,
+        _ref$callbackComplete = _ref.callbackComplete,
+        callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
+        _ref$callbackError = _ref.callbackError,
+        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
+      try {
+        var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
+        var eApi = this.electronApi();
+        eApi.removeAllListeners();
+        if (callbackComplete !== null) {
+          eApi.on(eApi.events.DATA_READ_FROM_FILE_COMPLETE, function (e, message) {
+            return callbackComplete(e, message);
+          });
+        }
+        if (callbackError !== null) {
+          callbackError !== null && eApi.on(eApi.events.DATA_READ_FROM_FILE_ERROR, function (e, message) {
+            return callbackError(e, message);
+          });
+        }
+        eApi.data.readData(toFilename);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }]);
+  return WidgetApi;
+}();
+
+/**
+ * ThemeApi
+ * Wrapper for the Electron Bridge for themes
+ *
+ * @description Developers can use this wrapper to change the "api" from Electron to another source abstraction
+ */
+
+var ThemeApi = {
+  /**
+   * @var {object} _api to the api methods events
+   * @description The api interface (see /public/lib/api/ for structure in electron-skeleton..)
+   */
+  _api: null,
+  /**
+   * @var {object} _themes an array of available themes for the dashboard
+   */
+  _themes: null,
+  /**
+   * uuid
+   * @returns string the UUID for this Widget
+   */
+  uuid: function uuid() {
+    return this._uuid;
+  },
+  setUuid: function setUuid(data) {
+    this._uuid = data;
+  },
+  api: function api() {
+    return this._api;
+  },
+  /**
+   * setApi
+   * Set the interface to be used as the api
+   * @param {object} myApi the interface for the theme methods
+   */
+  setApi: function setApi(myApi) {
+    // we should trim this to only the bare essentials that a dev would need.
+    // the developer can also pass in their own API such that we can switch
+    // out Electron for another API (node etc)
+    var minified = {};
+    minified["data"] = myApi.data;
+    // minified['algolia'] = myApi.algolia;
+    minified["events"] = myApi.publicEvents;
+    this._api = minified;
+  },
+  setThemes: function setThemes(data) {
+    this._themes = data;
+  },
+  themes: function themes() {
+    return this._themes;
+  },
+  /**
+   * init
+   *
+   * @description Initialize the ThemeAPI
+   * @param {string} uuidInput the unique identifier for the dashboard (or whatever you wish to use)
+   * @param {object} apiInput the api for accessing outside data and performing operations
+   */
+  init: function init(uuidInput, apiInput) {
+    try {
+      this.setUuid(uuidInput);
+      this.setApi(apiInput);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  /**
+   * loadThemes
+   * @param {int} id the unique identifier to associate with the themes
+   * @param {object} args the optional arguments (callbacks)
+   */
+  loadThemes: function loadThemes(id, _ref) {
+    var _ref$callbackComplete = _ref.callbackComplete,
+      callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
+      _ref$callbackError = _ref.callbackError,
+      callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
+    try {
+      var _a = this.api();
+      if (_a) {
+        _a.removeAllListeners();
+        callbackComplete !== null && _a.on(_a.events.THEME_LIST_COMPLETE, callbackComplete);
+        callbackError !== null && _a.on(_a.events.THEME_LIST_ERROR, callbackError);
+        _a.themes.listThemesForApplication(id);
+      }
+    } catch (e) {
+      callbackError !== null && a.on(a.events.THEME_LIST_ERROR, function (e, message) {
+        return callbackError(e, message);
+      });
+    }
+  }
+};
+
+/**
+ * DashboardApi
+ * Wrapper for the Electron Bridge
+ *
+ * @description Developers can use this wrapper to change the "api" from Electron to another source abstraction
+ */
+var DashboardApi = {
+  /**
+   * @var {string} _uuid the unique identifier for the dashboard we are using
+   * @description We will store the information/config files in a folder with this uuid
+   */
+  _uuid: null,
+  /**
+   * @var {object} _api to the api methods events
+   * @description The api interface (see /public/lib/api/ for structure in electron-skeleton..)
+   */
+  _api: null,
+  _theme: null,
+  // apis
+  _settings: null,
+  _themes: null,
+  /**
+   * init
+   *
+   * This will initialize the API
+   * We do this automatically from the LayoutModel using the UUID generated
+   * for the widget.
+   *
+   * We need this UUID for filenames, publishing events, etc.
+   *
+   * @param {string} uuid
+   */
+  init: function init(uuidInput) {
+    try {
+      this._uuid = uuidInput;
+
+      // initialize the apis
+      this._theme = ThemeApi;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  setApi: function setApi(myApi) {
+    // we should trim this to only the bare essentials that a dev would need.
+    // the developer can also pass in their own API such that we can switch
+    // out Electron for another API (node etc)
+    var minified = {};
+    minified["data"] = myApi.data;
+    minified["algolia"] = myApi.algolia;
+    minified["events"] = myApi.publicEvents;
+    this._api = minified;
+  },
+  setSettings: function setSettings(settings) {
+    this._settings = settings;
+  },
+  /**
+   * uuid
+   * @returns string the UUID for this Widget
+   */
+  uuid: function uuid() {
+    return this._uuid;
+  },
+  electronApi: function electronApi() {
+    return this._electronApi;
+  }
+};
+
+var ThemeContext = /*#__PURE__*/createContext("dark");
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 var WorkspaceContext = /*#__PURE__*/createContext(null);
-
-var ThemeContext = /*#__PURE__*/createContext("dark");
 
 /**
  * AppContext
@@ -167,1462 +422,6 @@ var ThemeContext = /*#__PURE__*/createContext("dark");
 var AppContext = /*#__PURE__*/createContext({
   debugMode: false
 });
-
-var BUTTON = "button";
-var BUTTON_2 = "button-2";
-var BUTTON_3 = "button-3";
-var PANEL = "panel";
-var PANEL_2 = "panel-2";
-var PANEL_3 = "panel-3";
-var BUTTON_ICON = "button-icon";
-var BUTTON_ICON_2 = "button-icon-2";
-var BUTTON_ICON_3 = "button-icon-3";
-var MENU_ITEM = "menu-item";
-var MENU_ITEM_2 = "menu-item-2";
-var MENU_ITEM_3 = "menu-item-3";
-var HEADING = "heading";
-var HEADING_2 = "heading-2";
-var HEADING_3 = "heading-3";
-var SUBHEADING = "subheading";
-var SUBHEADING_2 = "subheading-2";
-var SUBHEADING_3 = "subheading-3";
-var PARAGRAPH = "paragraph";
-var PARAGRAPH_2 = "paragraph-2";
-var PARAGRAPH_3 = "paragraph-3";
-var TAG = "tag";
-var TAG_2 = "tag-2";
-var TAG_3 = "tag-3";
-var TOGGLE = "toggle";
-var TOGGLE_2 = "toggle-2";
-var TOGGLE_3 = "toggle-3";
-var DASHBOARD_FOOTER = "dashboard-footer";
-var DASHBOARD_FOOTER_2 = "dashboard-footer-2";
-var DASHBOARD_FOOTER_3 = "dashboard-footer-3";
-var CODE_EDITOR = "code-editor";
-var INPUT_TEXT = "input-text";
-var SELECT_MENU = "select-menu";
-var FORM_LABEL = "form-label";
-var themeObjects = {
-  BUTTON: BUTTON,
-  BUTTON_2: BUTTON_2,
-  BUTTON_3: BUTTON_3,
-  BUTTON_ICON: BUTTON_ICON,
-  BUTTON_ICON_2: BUTTON_ICON_2,
-  BUTTON_ICON_3: BUTTON_ICON_3,
-  CODE_EDITOR: CODE_EDITOR,
-  INPUT_TEXT: INPUT_TEXT,
-  PANEL: PANEL,
-  PANEL_2: PANEL_2,
-  PANEL_3: PANEL_3,
-  HEADING: HEADING,
-  HEADING_2: HEADING_2,
-  HEADING_3: HEADING_3,
-  SUBHEADING: SUBHEADING,
-  SUBHEADING_2: SUBHEADING_2,
-  SUBHEADING_3: SUBHEADING_3,
-  MENU_ITEM: MENU_ITEM,
-  MENU_ITEM_2: MENU_ITEM_2,
-  MENU_ITEM_3: MENU_ITEM_3,
-  PARAGRAPH: PARAGRAPH,
-  PARAGRAPH_2: PARAGRAPH_2,
-  PARAGRAPH_3: PARAGRAPH_3,
-  TAG: TAG,
-  TAG_2: TAG_2,
-  TAG_3: TAG_3,
-  TOGGLE: TOGGLE,
-  TOGGLE_2: TOGGLE_2,
-  TOGGLE_3: TOGGLE_3,
-  DASHBOARD_FOOTER: DASHBOARD_FOOTER,
-  DASHBOARD_FOOTER_2: DASHBOARD_FOOTER_2,
-  DASHBOARD_FOOTER_3: DASHBOARD_FOOTER_3,
-  SELECT_MENU: SELECT_MENU,
-  FORM_LABEL: FORM_LABEL
-};
-var BACKGROUND_COLOR = "backgroundColor";
-var BORDER_COLOR = "borderColor";
-var TEXT_COLOR = "textColor";
-var HOVER_BACKGROUND_COLOR = "hoverBackgroundColor";
-var HOVER_TEXT_COLOR = "hoverTextColor";
-var HOVER_BORDER_COLOR = "hoverBorderColor";
-var styleClassNames = {
-  BACKGROUND_COLOR: BACKGROUND_COLOR,
-  TEXT_COLOR: TEXT_COLOR,
-  BORDER_COLOR: BORDER_COLOR,
-  HOVER_BACKGROUND_COLOR: HOVER_BACKGROUND_COLOR,
-  HOVER_BORDER_COLOR: HOVER_BORDER_COLOR,
-  HOVER_TEXT_COLOR: HOVER_TEXT_COLOR
-};
-
-function _typeof$n(obj) { "@babel/helpers - typeof"; return _typeof$n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$n(obj); }
-var _excluded$d = ["className", "horizontal", "children", "onClick", "width", "height"],
-  _excluded2$4 = ["className", "horizontal", "children", "onClick", "width", "height"],
-  _excluded3$4 = ["className", "horizontal", "children", "onClick", "width", "height"];
-function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$g(Object(source), !0).forEach(function (key) { _defineProperty$i(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$i(obj, key, value) { key = _toPropertyKey$n(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$n(arg) { var key = _toPrimitive$n(arg, "string"); return _typeof$n(key) === "symbol" ? key : String(key); }
-function _toPrimitive$n(input, hint) { if (_typeof$n(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$n(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$d(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$d(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$d(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var Panel = function Panel(_ref) {
-  var className = _ref.className,
-    horizontal = _ref.horizontal,
-    children = _ref.children,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-full" : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-full" : _ref$height,
-    props = _objectWithoutProperties$d(_ref, _excluded$d);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$g({}, props));
-  return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
-    onClick: onClick,
-    children: children
-  });
-};
-var Panel2 = function Panel2(_ref2) {
-  var className = _ref2.className,
-    horizontal = _ref2.horizontal,
-    children = _ref2.children,
-    _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    _ref2$width = _ref2.width,
-    width = _ref2$width === void 0 ? "w-full" : _ref2$width,
-    _ref2$height = _ref2.height,
-    height = _ref2$height === void 0 ? "h-full" : _ref2$height,
-    props = _objectWithoutProperties$d(_ref2, _excluded2$4);
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$g({}, props));
-  return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
-    onClick: onClick,
-    children: children
-  });
-};
-var Panel3 = function Panel3(_ref3) {
-  var className = _ref3.className,
-    horizontal = _ref3.horizontal,
-    children = _ref3.children,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    _ref3$width = _ref3.width,
-    width = _ref3$width === void 0 ? "w-full" : _ref3$width,
-    _ref3$height = _ref3.height,
-    height = _ref3$height === void 0 ? "h-full" : _ref3$height,
-    props = _objectWithoutProperties$d(_ref3, _excluded3$4);
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$g({}, props));
-  return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
-    onClick: onClick,
-    children: children
-  });
-};
-
-var Modal = function Modal(_ref) {
-  var children = _ref.children,
-    isOpen = _ref.isOpen,
-    setIsOpen = _ref.setIsOpen,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-5/6" : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "5/6" : _ref$height;
-  return /*#__PURE__*/jsxs(Dialog, {
-    open: isOpen,
-    onClose: function onClose() {
-      return setIsOpen(false);
-    },
-    className: "relative z-50 overflow-hidden rounded",
-    children: [/*#__PURE__*/jsx("div", {
-      className: "fixed inset-0 bg-black/90",
-      "aria-hidden": "true",
-      onClick: function onClick() {
-        return setIsOpen(false);
-      }
-    }), /*#__PURE__*/jsx("div", {
-      className: "fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-hidden",
-      children: /*#__PURE__*/jsx("div", {
-        className: "mx-auto ".concat(width, " ").concat(height, " flex flex-col shadow overflow-hidden rounded"),
-        children: children
-      })
-    })]
-  });
-};
-
-var _excluded$c = ["text", "padding", "onClick"],
-  _excluded2$3 = ["text", "padding", "onClick"],
-  _excluded3$3 = ["text", "padding", "onClick"];
-function _objectWithoutProperties$c(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$c(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$c(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function Paragraph(_ref) {
-  var text = _ref.text,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? true : _ref$padding,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    props = _objectWithoutProperties$c(_ref, _excluded$c);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
-  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props);
-  return /*#__PURE__*/jsx("span", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-base xl:text-lg font-normal ").concat(styles.string),
-    onClick: onClick,
-    children: text
-  });
-}
-function Paragraph2(_ref2) {
-  var text = _ref2.text,
-    _ref2$padding = _ref2.padding,
-    padding = _ref2$padding === void 0 ? true : _ref2$padding,
-    _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    props = _objectWithoutProperties$c(_ref2, _excluded2$3);
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
-  var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, props);
-  return /*#__PURE__*/jsx("span", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-sm xl:text-base font-normal ").concat(styles.string),
-    onClick: onClick,
-    children: text
-  });
-}
-function Paragraph3(_ref3) {
-  var text = _ref3.text,
-    _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? true : _ref3$padding,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    props = _objectWithoutProperties$c(_ref3, _excluded3$3);
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
-  var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, props);
-  return /*#__PURE__*/jsx("span", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-xs xl:text-sm font-normal ").concat(styles.string),
-    onClick: onClick,
-    children: text
-  });
-}
-
-var MenuItem = function MenuItem(_ref) {
-  var _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$theme = _ref.theme,
-    theme = _ref$theme === void 0 ? true : _ref$theme,
-    _ref$border = _ref.border,
-    border = _ref$border === void 0 ? false : _ref$border,
-    _ref$backgroundColor = _ref.backgroundColor,
-    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
-    _ref$selectedBackgrou = _ref.selectedBackgroundColor,
-    selectedBackgroundColor = _ref$selectedBackgrou === void 0 ? null : _ref$selectedBackgrou,
-    _ref$borderColor = _ref.borderColor,
-    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
-    _ref$textColor = _ref.textColor,
-    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
-    _ref$selectedTextColo = _ref.selectedTextColor,
-    selectedTextColor = _ref$selectedTextColo === void 0 ? null : _ref$selectedTextColo,
-    _ref$hoverTextColor = _ref.hoverTextColor,
-    hoverTextColor = _ref$hoverTextColor === void 0 ? null : _ref$hoverTextColor,
-    _ref$hoverBackgroundC = _ref.hoverBackgroundColor,
-    hoverBackgroundColor = _ref$hoverBackgroundC === void 0 ? null : _ref$hoverBackgroundC,
-    children = _ref.children,
-    _ref$selected = _ref.selected,
-    selected = _ref$selected === void 0 ? false : _ref$selected;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.MENU_ITEM, currentTheme, {
-    backgroundColor: backgroundColor,
-    borderColor: borderColor,
-    textColor: textColor,
-    hoverBackgroundColor: hoverBackgroundColor,
-    hoverTextColor: hoverTextColor,
-    selectedBackgroundColor: selectedBackgroundColor,
-    selectedTextColor: selectedTextColor,
-    selected: selected
-  });
-  return theme === true ? /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-bold ".concat(styles.string, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-bold ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
-    children: children
-  });
-};
-var MenuItem2 = function MenuItem2(_ref2) {
-  var _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    _ref2$theme = _ref2.theme,
-    theme = _ref2$theme === void 0 ? true : _ref2$theme,
-    _ref2$border = _ref2.border,
-    border = _ref2$border === void 0 ? false : _ref2$border,
-    _ref2$backgroundColor = _ref2.backgroundColor,
-    backgroundColor = _ref2$backgroundColor === void 0 ? null : _ref2$backgroundColor,
-    _ref2$selectedBackgro = _ref2.selectedBackgroundColor,
-    selectedBackgroundColor = _ref2$selectedBackgro === void 0 ? null : _ref2$selectedBackgro,
-    _ref2$borderColor = _ref2.borderColor,
-    borderColor = _ref2$borderColor === void 0 ? null : _ref2$borderColor,
-    _ref2$textColor = _ref2.textColor,
-    textColor = _ref2$textColor === void 0 ? null : _ref2$textColor,
-    _ref2$selectedTextCol = _ref2.selectedTextColor,
-    selectedTextColor = _ref2$selectedTextCol === void 0 ? null : _ref2$selectedTextCol,
-    _ref2$hoverTextColor = _ref2.hoverTextColor,
-    hoverTextColor = _ref2$hoverTextColor === void 0 ? null : _ref2$hoverTextColor,
-    _ref2$hoverBackground = _ref2.hoverBackgroundColor,
-    hoverBackgroundColor = _ref2$hoverBackground === void 0 ? null : _ref2$hoverBackground,
-    children = _ref2.children,
-    _ref2$selected = _ref2.selected,
-    selected = _ref2$selected === void 0 ? false : _ref2$selected;
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
-    backgroundColor: backgroundColor,
-    borderColor: borderColor,
-    textColor: textColor,
-    hoverBackgroundColor: hoverBackgroundColor,
-    hoverTextColor: hoverTextColor,
-    selectedBackgroundColor: selectedBackgroundColor,
-    selectedTextColor: selectedTextColor,
-    selected: selected
-  });
-  return theme === true ? /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-medium ".concat(styles.string, " ").concat(border === true && "border-2", " ").concat(border === true && "border-2", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-base"),
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-medium ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " p-2 rounded items-center space-x-2 cursor-pointer text-base"),
-    children: children
-  });
-};
-var MenuItem3 = function MenuItem3(_ref3) {
-  var _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    _ref3$theme = _ref3.theme,
-    theme = _ref3$theme === void 0 ? true : _ref3$theme,
-    _ref3$border = _ref3.border,
-    border = _ref3$border === void 0 ? false : _ref3$border,
-    _ref3$borderColor = _ref3.borderColor,
-    borderColor = _ref3$borderColor === void 0 ? null : _ref3$borderColor,
-    _ref3$backgroundColor = _ref3.backgroundColor,
-    backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
-    _ref3$selectedBackgro = _ref3.selectedBackgroundColor,
-    selectedBackgroundColor = _ref3$selectedBackgro === void 0 ? null : _ref3$selectedBackgro,
-    _ref3$textColor = _ref3.textColor,
-    textColor = _ref3$textColor === void 0 ? null : _ref3$textColor,
-    _ref3$selectedTextCol = _ref3.selectedTextColor,
-    selectedTextColor = _ref3$selectedTextCol === void 0 ? null : _ref3$selectedTextCol,
-    _ref3$hoverTextColor = _ref3.hoverTextColor,
-    hoverTextColor = _ref3$hoverTextColor === void 0 ? null : _ref3$hoverTextColor,
-    _ref3$hoverBackground = _ref3.hoverBackgroundColor,
-    hoverBackgroundColor = _ref3$hoverBackground === void 0 ? null : _ref3$hoverBackground,
-    children = _ref3.children,
-    _ref3$selected = _ref3.selected,
-    selected = _ref3$selected === void 0 ? false : _ref3$selected;
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.MENU_ITEM_3, currentTheme, {
-    backgroundColor: backgroundColor,
-    borderColor: borderColor,
-    textColor: textColor,
-    hoverBackgroundColor: hoverBackgroundColor,
-    hoverTextColor: hoverTextColor,
-    selectedBackgroundColor: selectedBackgroundColor,
-    selectedTextColor: selectedTextColor,
-    selected: selected
-  });
-  return theme === true ? /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-normal ".concat(styles.string, " ").concat(border === true && "border", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-sm"),
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-normal ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-sm"),
-    children: children
-  });
-};
-
-function Heading(_ref) {
-  var title = _ref.title,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? true : _ref$padding,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$textColor = _ref.textColor,
-    textColor = _ref$textColor === void 0 ? null : _ref$textColor;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-  var styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
-    textColor: textColor
-  });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-6xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
-}
-function Heading2(_ref2) {
-  var title = _ref2.title,
-    _ref2$padding = _ref2.padding,
-    padding = _ref2$padding === void 0 ? true : _ref2$padding,
-    _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    _ref2$textColor = _ref2.textColor,
-    textColor = _ref2$textColor === void 0 ? null : _ref2$textColor;
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-  var styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
-    textColor: textColor
-  });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-5xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
-}
-function Heading3(_ref3) {
-  var title = _ref3.title,
-    _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? true : _ref3$padding,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    _ref3$textColor = _ref3.textColor,
-    textColor = _ref3$textColor === void 0 ? null : _ref3$textColor;
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-  var styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
-    textColor: textColor
-  });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-4xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
-}
-function SubHeading(_ref4) {
-  var title = _ref4.title,
-    _ref4$padding = _ref4.padding,
-    padding = _ref4$padding === void 0 ? true : _ref4$padding,
-    _ref4$onClick = _ref4.onClick,
-    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick,
-    _ref4$textColor = _ref4.textColor,
-    textColor = _ref4$textColor === void 0 ? null : _ref4$textColor;
-  var _useContext4 = useContext$1(ThemeContext),
-    currentTheme = _useContext4.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-  var styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
-    textColor: textColor
-  });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-3xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
-}
-function SubHeading2(_ref5) {
-  var title = _ref5.title,
-    _ref5$padding = _ref5.padding,
-    padding = _ref5$padding === void 0 ? true : _ref5$padding,
-    _ref5$onClick = _ref5.onClick,
-    onClick = _ref5$onClick === void 0 ? null : _ref5$onClick,
-    _ref5$textColor = _ref5.textColor,
-    textColor = _ref5$textColor === void 0 ? null : _ref5$textColor;
-  var _useContext5 = useContext$1(ThemeContext),
-    currentTheme = _useContext5.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-  var styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
-    textColor: textColor
-  });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
-}
-function SubHeading3(_ref6) {
-  var title = _ref6.title,
-    _ref6$padding = _ref6.padding,
-    padding = _ref6$padding === void 0 ? true : _ref6$padding,
-    _ref6$onClick = _ref6.onClick,
-    onClick = _ref6$onClick === void 0 ? null : _ref6$onClick,
-    _ref6$textColor = _ref6.textColor,
-    textColor = _ref6$textColor === void 0 ? null : _ref6$textColor;
-  var _useContext6 = useContext$1(ThemeContext),
-    currentTheme = _useContext6.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
-  var styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
-    textColor: textColor
-  });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
-}
-
-function _typeof$m(obj) { "@babel/helpers - typeof"; return _typeof$m = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$m(obj); }
-var _excluded$b = ["title", "onClick", "disabled", "padding", "textSize", "block"],
-  _excluded2$2 = ["title", "onClick", "disabled", "textSize", "padding", "block"],
-  _excluded3$2 = ["title", "onClick", "disabled", "textSize", "padding", "block"];
-function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$f(Object(source), !0).forEach(function (key) { _defineProperty$h(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$h(obj, key, value) { key = _toPropertyKey$m(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$m(arg) { var key = _toPrimitive$m(arg, "string"); return _typeof$m(key) === "symbol" ? key : String(key); }
-function _toPrimitive$m(input, hint) { if (_typeof$m(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$m(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$b(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$b(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$b(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var Button = function Button(_ref) {
-  var _ref$title = _ref.title,
-    title = _ref$title === void 0 ? "Cancel" : _ref$title,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$disabled = _ref.disabled,
-    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? null : _ref$padding,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
-    _ref$block = _ref.block,
-    block = _ref$block === void 0 ? false : _ref$block,
-    props = _objectWithoutProperties$b(_ref, _excluded$b);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$f({}, props));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
-  var width = block === true ? "w-full" : "";
-  var textSizeComputed = textSize !== null ? textSize : "text-lg lg:text-xl xl:text-xl 2xl:text-2xl";
-  var paddingComputed = padding !== null ? padding : "p-2 lg:p-4 xl:p-6";
-  return /*#__PURE__*/jsx("div", {
-    onClick: handleOnClick,
-    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
-    children: title
-  });
-};
-var Button2 = function Button2(_ref2) {
-  var _ref2$title = _ref2.title,
-    title = _ref2$title === void 0 ? "Cancel" : _ref2$title,
-    _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    _ref2$disabled = _ref2.disabled,
-    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
-    _ref2$textSize = _ref2.textSize,
-    textSize = _ref2$textSize === void 0 ? null : _ref2$textSize,
-    _ref2$padding = _ref2.padding,
-    padding = _ref2$padding === void 0 ? null : _ref2$padding,
-    _ref2$block = _ref2.block,
-    block = _ref2$block === void 0 ? false : _ref2$block,
-    props = _objectWithoutProperties$b(_ref2, _excluded2$2);
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$f({}, props));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
-  var width = block === true ? "w-full" : "";
-  var textSizeComputed = textSize !== null ? textSize : "text-base lg:text-lg 2xl:text-xl";
-  var paddingComputed = padding !== null ? padding : "p-1 lg:p-2 xl:p-4";
-  return /*#__PURE__*/jsx("div", {
-    onClick: handleOnClick,
-    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-medium"),
-    children: title
-  });
-};
-var Button3 = function Button3(_ref3) {
-  var _ref3$title = _ref3.title,
-    title = _ref3$title === void 0 ? "Cancel" : _ref3$title,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    _ref3$disabled = _ref3.disabled,
-    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
-    _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? null : _ref3$textSize,
-    _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? null : _ref3$padding,
-    _ref3$block = _ref3.block,
-    block = _ref3$block === void 0 ? false : _ref3$block,
-    props = _objectWithoutProperties$b(_ref3, _excluded3$2);
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$f({}, props));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
-  var width = block === true ? "w-full" : "";
-  var textSizeComputed = textSize !== null ? textSize : "text-sm xl:text-base 2xl:text-base";
-  var paddingComputed = padding !== null ? padding : "p-1 lg:p-1 xl:p-2";
-  return /*#__PURE__*/jsx("div", {
-    onClick: handleOnClick,
-    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-normal"),
-    children: title
-  });
-};
-
-function _typeof$l(obj) { "@babel/helpers - typeof"; return _typeof$l = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$l(obj); }
-var _excluded$a = ["onClick", "icon", "text", "block", "textSize", "iconSize"],
-  _excluded2$1 = ["onClick", "icon", "text", "block", "textSize", "iconSize"],
-  _excluded3$1 = ["onClick", "icon", "text", "block", "textSize", "iconSize"];
-function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$e(Object(source), !0).forEach(function (key) { _defineProperty$g(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$g(obj, key, value) { key = _toPropertyKey$l(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$l(arg) { var key = _toPrimitive$l(arg, "string"); return _typeof$l(key) === "symbol" ? key : String(key); }
-function _toPrimitive$l(input, hint) { if (_typeof$l(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$l(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$a(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$a(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$a(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var ButtonIcon = function ButtonIcon(_ref) {
-  var _onClick = _ref.onClick,
-    _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? "xmark" : _ref$icon,
-    _ref$text = _ref.text,
-    text = _ref$text === void 0 ? null : _ref$text,
-    _ref$block = _ref.block,
-    block = _ref$block === void 0 ? false : _ref$block,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref$textSize,
-    _ref$iconSize = _ref.iconSize,
-    iconSize = _ref$iconSize === void 0 ? "h-4 w-4" : _ref$iconSize,
-    props = _objectWithoutProperties$a(_ref, _excluded$a);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, _objectSpread$e({}, props));
-  return /*#__PURE__*/jsxs("div", {
-    onClick: function onClick(e) {
-      e.preventDefault();
-      _onClick(e);
-    },
-    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center cursor-pointer p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
-    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-      icon: icon,
-      className: "".concat(iconSize)
-    }), text !== null && /*#__PURE__*/jsx("span", {
-      className: text === "" ? "ml-0" : "ml-2",
-      children: text
-    })]
-  });
-};
-var ButtonIcon2 = function ButtonIcon2(_ref2) {
-  var _onClick2 = _ref2.onClick,
-    _ref2$icon = _ref2.icon,
-    icon = _ref2$icon === void 0 ? "xmark" : _ref2$icon,
-    _ref2$text = _ref2.text,
-    text = _ref2$text === void 0 ? null : _ref2$text,
-    _ref2$block = _ref2.block,
-    block = _ref2$block === void 0 ? false : _ref2$block,
-    _ref2$textSize = _ref2.textSize,
-    textSize = _ref2$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref2$textSize,
-    _ref2$iconSize = _ref2.iconSize,
-    iconSize = _ref2$iconSize === void 0 ? "h-4 w-4" : _ref2$iconSize,
-    props = _objectWithoutProperties$a(_ref2, _excluded2$1);
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_ICON_2, currentTheme, _objectSpread$e({}, props));
-  return /*#__PURE__*/jsxs("div", {
-    onClick: function onClick(e) {
-      e.preventDefault();
-      _onClick2(e);
-    },
-    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center cursor-pointer p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
-    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-      icon: icon,
-      className: "".concat(iconSize)
-    }), text !== null && /*#__PURE__*/jsx("span", {
-      className: text === "" ? "ml-0" : "ml-2",
-      children: text
-    })]
-  });
-};
-var ButtonIcon3 = function ButtonIcon3(_ref3) {
-  var _onClick3 = _ref3.onClick,
-    _ref3$icon = _ref3.icon,
-    icon = _ref3$icon === void 0 ? "xmark" : _ref3$icon,
-    _ref3$text = _ref3.text,
-    text = _ref3$text === void 0 ? null : _ref3$text,
-    _ref3$block = _ref3.block,
-    block = _ref3$block === void 0 ? false : _ref3$block,
-    _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref3$textSize,
-    _ref3$iconSize = _ref3.iconSize,
-    iconSize = _ref3$iconSize === void 0 ? "h-4 w-4" : _ref3$iconSize,
-    props = _objectWithoutProperties$a(_ref3, _excluded3$1);
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$e({}, props));
-  return /*#__PURE__*/jsxs("div", {
-    onClick: function onClick(e) {
-      e.preventDefault();
-      _onClick3(e);
-    },
-    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center cursor-pointer p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
-    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-      icon: icon,
-      className: "".concat(iconSize)
-    }), text !== null && /*#__PURE__*/jsx("span", {
-      className: text === "" ? "ml-0" : "ml-2",
-      children: text
-    })]
-  });
-};
-
-function _typeof$k(obj) { "@babel/helpers - typeof"; return _typeof$k = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$k(obj); }
-var _excluded$9 = ["text", "enabled", "setEnabled"];
-function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$d(Object(source), !0).forEach(function (key) { _defineProperty$f(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$f(obj, key, value) { key = _toPropertyKey$k(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$k(arg) { var key = _toPrimitive$k(arg, "string"); return _typeof$k(key) === "symbol" ? key : String(key); }
-function _toPrimitive$k(input, hint) { if (_typeof$k(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$k(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$9(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$9(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$9(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function Toggle(_ref) {
-  _ref.text;
-    _ref.enabled;
-    _ref.setEnabled;
-    var props = _objectWithoutProperties$9(_ref, _excluded$9);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  getStylesForItem(themeObjects.TOGGLE, currentTheme, _objectSpread$d({}, props));
-  return "toggle";
-  // return theme === true ? (
-  //   <div className="flex flex-row items-center">
-  //     <Switch
-  //       checked={enabled}
-  //       onChange={setEnabled}
-  //       className={`${enabled === true ? `${styles['backgroundColor']} ${styles['hoverBackgroundColor']}`: `${styles['hoverBackgroundColor']} ${styles['backgroundColor']}` }
-  //         relative inline-flex h-[28px] w-[64px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-  //     >
-  //       <span
-  //         aria-hidden="true"
-  //         className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
-  //           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-gray-200 shadow-lg ring-0 transition duration-200 ease-in-out`}
-  //       />
-  //     </Switch>
-  //     <span className={`sr-only ${styles['textColor']}`}>{text}TESTING</span>
-  //   </div>
-  // ): (
-  //   <div className="flex flex-row items-center">
-  //     <Switch
-  //       checked={enabled}
-  //       onChange={setEnabled}
-  //       className={`${enabled ? backgroundColor : hoverBackgroundColor }
-  //         relative inline-flex h-[28px] w-[64px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-  //     >
-  //       <span className={`sr-only ${textColor}`}>{text}</span>
-  //       <span
-  //         aria-hidden="true"
-  //         className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
-  //           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-  //       />
-  //     </Switch>
-  //   </div>
-  // )
-}
-
-function _typeof$j(obj) { "@babel/helpers - typeof"; return _typeof$j = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$j(obj); }
-function _classCallCheck$7(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$j(descriptor.key), descriptor); } }
-function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey$j(arg) { var key = _toPrimitive$j(arg, "string"); return _typeof$j(key) === "symbol" ? key : String(key); }
-function _toPrimitive$j(input, hint) { if (_typeof$j(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$j(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits$6(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$6(subClass, superClass); }
-function _setPrototypeOf$6(o, p) { _setPrototypeOf$6 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$6(o, p); }
-function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf$6(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$6(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$6(this, result); }; }
-function _possibleConstructorReturn$6(self, call) { if (call && (_typeof$j(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$6(self); }
-function _assertThisInitialized$6(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf$6(o) { _getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$6(o); }
-var CodeEditorSimple = /*#__PURE__*/function (_React$Component) {
-  _inherits$6(CodeEditorSimple, _React$Component);
-  var _super = _createSuper$6(CodeEditorSimple);
-  function CodeEditorSimple() {
-    _classCallCheck$7(this, CodeEditorSimple);
-    return _super.apply(this, arguments);
-  }
-  _createClass$7(CodeEditorSimple, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/jsx("div", {
-        children: "test"
-      });
-      // const { onChange, code } = this.props;
-      // const codeString = JSON.stringify(code);
-      // return (
-      //   <div className="">
-      //     <Editor
-      //         value={code}
-      //         onValueChange={onChange}
-      //         highlight={codeString => highlight(codeString, languages.js)}
-      //         padding={10}
-      //         style={{
-      //             fontFamily: '"Fira code", "Fira Mono", monospace',
-      //             fontSize: 14,
-      //         }}
-      //     />
-      //     </div>
-      // )
-    }
-  }]);
-  return CodeEditorSimple;
-}(React.Component);
-CodeEditorSimple.defaultProps = {
-  onChange: function onChange() {},
-  code: ""
-};
-
-function _typeof$i(obj) { "@babel/helpers - typeof"; return _typeof$i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$i(obj); }
-var _excluded$8 = ["code", "setCode", "uniqueKey", "language", "placeholder"];
-function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$c(Object(source), !0).forEach(function (key) { _defineProperty$e(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$e(obj, key, value) { key = _toPropertyKey$i(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$i(arg) { var key = _toPrimitive$i(arg, "string"); return _typeof$i(key) === "symbol" ? key : String(key); }
-function _toPrimitive$i(input, hint) { if (_typeof$i(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$i(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$8(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$8(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$8(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function CodeEditorInline(_ref) {
-  var code = _ref.code,
-    setCode = _ref.setCode,
-    _ref$uniqueKey = _ref.uniqueKey,
-    uniqueKey = _ref$uniqueKey === void 0 ? "12345" : _ref$uniqueKey,
-    _ref$language = _ref.language,
-    language = _ref$language === void 0 ? "js" : _ref$language,
-    _ref$placeholder = _ref.placeholder,
-    placeholder = _ref$placeholder === void 0 ? "Please enter JS code." : _ref$placeholder,
-    props = _objectWithoutProperties$8(_ref, _excluded$8);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$c({}, props));
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-hidden"),
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded w-full h-full ".concat(styles.string, " overflow-y-scroll scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900"),
-      children: /*#__PURE__*/jsx("div", {
-        className: "bg-inherit h-full ".concat(styles.textColor),
-        children: /*#__PURE__*/jsx(CodeEditor, {
-          value: code,
-          language: language,
-          placeholder: placeholder,
-          onChange: function onChange(evn) {
-            return setCode(evn.target.value);
-          },
-          padding: 15,
-          style: {
-            caretColor: "#eeeeee",
-            fontSize: "16px",
-            fontFamily: "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-            minHeight: "100%"
-          },
-          className: styles.string
-        })
-      })
-    })
-  }, "code-editor-".concat(uniqueKey));
-}
-
-function _typeof$h(obj) { "@babel/helpers - typeof"; return _typeof$h = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$h(obj); }
-var _excluded$7 = ["text", "textSize", "onClick"],
-  _excluded2 = ["text", "textSize", "onClick"],
-  _excluded3 = ["text", "textSize", "onClick"];
-function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$b(Object(source), !0).forEach(function (key) { _defineProperty$d(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$d(obj, key, value) { key = _toPropertyKey$h(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$h(arg) { var key = _toPrimitive$h(arg, "string"); return _typeof$h(key) === "symbol" ? key : String(key); }
-function _toPrimitive$h(input, hint) { if (_typeof$h(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$h(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$7(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$7(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$7(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var Tag = function Tag(_ref) {
-  var text = _ref.text,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref$textSize,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    props = _objectWithoutProperties$7(_ref, _excluded$7);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$b({}, props));
-  return /*#__PURE__*/jsx("span", {
-    onClick: onClick,
-    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
-    children: text
-  });
-};
-var Tag2 = function Tag2(_ref2) {
-  var text = _ref2.text,
-    _ref2$textSize = _ref2.textSize,
-    textSize = _ref2$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref2$textSize,
-    _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    props = _objectWithoutProperties$7(_ref2, _excluded2);
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$b({}, props));
-  return /*#__PURE__*/jsx("span", {
-    onClick: onClick,
-    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
-    children: text
-  });
-};
-var Tag3 = function Tag3(_ref3) {
-  var text = _ref3.text,
-    _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref3$textSize,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    props = _objectWithoutProperties$7(_ref3, _excluded3);
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$b({}, props));
-  return /*#__PURE__*/jsx("span", {
-    onClick: onClick,
-    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
-    children: text
-  });
-};
-
-var Container = function Container(_ref) {
-  var id = _ref.id,
-    children = _ref.children,
-    _ref$direction = _ref.direction,
-    direction = _ref$direction === void 0 ? "row" : _ref$direction,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
-    _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-full" : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-full min-h-fit" : _ref$height,
-    _ref$debug = _ref.debug,
-    debug = _ref$debug === void 0 ? false : _ref$debug,
-    _ref$onMouseOver = _ref.onMouseOver,
-    onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
-    _ref$onMouseOut = _ref.onMouseOut,
-    onMouseOut = _ref$onMouseOut === void 0 ? null : _ref$onMouseOut;
-  // determine the classes based on the props...
-  var directionStyle = direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
-  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "";
-  var widthStyle = width;
-  var heightStyle = scrollable === true ? height : height;
-  return /*#__PURE__*/jsx("div", {
-    id: "container-".concat(id),
-    onMouseOver: onMouseOver,
-    onMouseOut: onMouseOut,
-    className: "flex ".concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className, " ").concat(debug === true && "border border-green-500 border-dotted"),
-    children: children
-  });
-};
-
-function ErrorMessage(_ref) {
-  var title = _ref.title,
-    onClose = _ref.onClose;
-  console.log("error ", title);
-  return /*#__PURE__*/jsx("div", {
-    onClick: onClose,
-    className: "flex flex-row w-full p-4 2xl:px-6 2xl:py-4 text-2xl xl:text3xl bg-indigo-700 opacity-75 rounded text-gray-300 dark:bg-indigo-800 dark:text-gray-200 font-bold",
-    children: JSON.stringify(title)
-  });
-}
-
-function _typeof$g(obj) { "@babel/helpers - typeof"; return _typeof$g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$g(obj); }
-function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$g(descriptor.key), descriptor); } }
-function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey$g(arg) { var key = _toPrimitive$g(arg, "string"); return _typeof$g(key) === "symbol" ? key : String(key); }
-function _toPrimitive$g(input, hint) { if (_typeof$g(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$g(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits$5(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$5(subClass, superClass); }
-function _setPrototypeOf$5(o, p) { _setPrototypeOf$5 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$5(o, p); }
-function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf$5(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$5(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$5(this, result); }; }
-function _possibleConstructorReturn$5(self, call) { if (call && (_typeof$g(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$5(self); }
-function _assertThisInitialized$5(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
-/*#__PURE__*/(function (_React$Component) {
-  _inherits$5(Footer, _React$Component);
-  var _super = _createSuper$5(Footer);
-  function Footer() {
-    _classCallCheck$6(this, Footer);
-    return _super.apply(this, arguments);
-  }
-  _createClass$6(Footer, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-row p-4 bg-gray-200 dark:bg-gray-900 w-full justify-center mt-auto text-xs text-center items-center",
-        children: /*#__PURE__*/jsx("span", {
-          className: "text-gray-300 dark:text-gray-600",
-          children: "Team RAM @2022"
-        })
-      });
-    }
-  }]);
-  return Footer;
-})(React.Component);
-
-function _typeof$f(obj) { "@babel/helpers - typeof"; return _typeof$f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$f(obj); }
-function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$a(Object(source), !0).forEach(function (key) { _defineProperty$c(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$c(obj, key, value) { key = _toPropertyKey$f(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$f(arg) { var key = _toPrimitive$f(arg, "string"); return _typeof$f(key) === "symbol" ? key : String(key); }
-function _toPrimitive$f(input, hint) { if (_typeof$f(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$f(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var withRouter = function withRouter(Component) {
-  var Wrapper = function Wrapper(props) {
-    var navigate = useNavigate();
-    var location = useLocation();
-    var params = useParams();
-    return /*#__PURE__*/jsx(Component, _objectSpread$a({
-      navigate: navigate,
-      location: location,
-      params: params
-    }, props));
-  };
-  return Wrapper;
-};
-
-function _typeof$e(obj) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$e(obj); }
-function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$e(descriptor.key), descriptor); } }
-function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _inherits$4(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$4(subClass, superClass); }
-function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
-function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf$4(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$4(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$4(this, result); }; }
-function _possibleConstructorReturn$4(self, call) { if (call && (_typeof$e(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$4(self); }
-function _assertThisInitialized$4(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
-function _defineProperty$b(obj, key, value) { key = _toPropertyKey$e(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$e(arg) { var key = _toPrimitive$e(arg, "string"); return _typeof$e(key) === "symbol" ? key : String(key); }
-function _toPrimitive$e(input, hint) { if (_typeof$e(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$e(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var mainApi$2 = window.mainApi;
-/*#__PURE__*/(function (_React$Component) {
-  _inherits$4(Header, _React$Component);
-  var _super = _createSuper$4(Header);
-  function Header() {
-    var _this;
-    _classCallCheck$5(this, Header);
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty$b(_assertThisInitialized$4(_this), "handleClickHome", function () {
-      _this.props.navigate("/applications");
-    });
-    _defineProperty$b(_assertThisInitialized$4(_this), "handleClickApplications", function () {
-      _this.props.navigate("/applications");
-    });
-    return _this;
-  }
-  _createClass$5(Header, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-      var current = this.props.current;
-      var selectedAppId = mainApi$2.getappId();
-      var selectedIndexName = mainApi$2.getIndexName();
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-row p-4 bg-gray-900 w-full justify-between text-gray-100 text-xs space-x-2",
-        children: /*#__PURE__*/jsx("nav", {
-          className: "flex",
-          "aria-label": "Breadcrumb",
-          children: /*#__PURE__*/jsxs("ol", {
-            className: "flex items-center space-x-2",
-            children: [/*#__PURE__*/jsx("li", {
-              children: /*#__PURE__*/jsxs("div", {
-                onClick: this.handleClickHome,
-                className: "cursor-pointer px-2",
-                children: [/*#__PURE__*/jsx("svg", {
-                  className: "flex-shrink-0 h-4 w-4",
-                  xmlns: "http://www.w3.org/2000/svg",
-                  viewBox: "0 0 20 20",
-                  fill: "currentColor",
-                  "aria-hidden": "true",
-                  children: /*#__PURE__*/jsx("path", {
-                    d: "M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-                  })
-                }), /*#__PURE__*/jsx("span", {
-                  className: "sr-only",
-                  onClick: this.handleClickHome,
-                  children: "Home"
-                })]
-              })
-            }), selectedAppId !== undefined && /*#__PURE__*/jsxs(Fragment, {
-              children: [/*#__PURE__*/jsx("li", {
-                children: /*#__PURE__*/jsx("div", {
-                  className: "flex items-center",
-                  children: /*#__PURE__*/jsx("svg", {
-                    className: "flex-shrink-0 h-3 w-3 text-gray-300",
-                    xmlns: "http://www.w3.org/2000/svg",
-                    fill: "currentColor",
-                    viewBox: "0 0 20 20",
-                    "aria-hidden": "true",
-                    children: /*#__PURE__*/jsx("path", {
-                      d: "M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
-                    })
-                  })
-                })
-              }), /*#__PURE__*/jsx("li", {
-                children: /*#__PURE__*/jsx("div", {
-                  onClick: function onClick() {
-                    return _this2.props.navigate("/applications/".concat(selectedAppId));
-                  },
-                  className: "text-xs font-bold text-gray-200 cursor-pointer",
-                  children: selectedAppId
-                })
-              })]
-            }), selectedIndexName !== undefined && /*#__PURE__*/jsxs(Fragment, {
-              children: [/*#__PURE__*/jsx("li", {
-                children: /*#__PURE__*/jsx("div", {
-                  className: "flex items-center",
-                  children: /*#__PURE__*/jsx("svg", {
-                    className: "flex-shrink-0 h-3 w-3 text-gray-300",
-                    xmlns: "http://www.w3.org/2000/svg",
-                    fill: "currentColor",
-                    viewBox: "0 0 20 20",
-                    "aria-hidden": "true",
-                    children: /*#__PURE__*/jsx("path", {
-                      d: "M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
-                    })
-                  })
-                })
-              }), /*#__PURE__*/jsx("li", {
-                children: /*#__PURE__*/jsx("div", {
-                  onClick: function onClick() {
-                    return console.log("nope.");
-                  },
-                  className: "text-xs font-bold text-gray-200 cursor-pointer",
-                  children: selectedIndexName
-                })
-              })]
-            }), /*#__PURE__*/jsx("li", {
-              children: /*#__PURE__*/jsx("div", {
-                className: "flex items-center",
-                children: current !== "" && /*#__PURE__*/jsx("svg", {
-                  className: "flex-shrink-0 h-3 w-3 text-gray-300",
-                  xmlns: "http://www.w3.org/2000/svg",
-                  fill: "currentColor",
-                  viewBox: "0 0 20 20",
-                  "aria-hidden": "true",
-                  children: /*#__PURE__*/jsx("path", {
-                    d: "M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
-                  })
-                })
-              })
-            }), /*#__PURE__*/jsx("li", {
-              children: /*#__PURE__*/jsx("div", {
-                className: "text-xs font-bold text-gray-200",
-                children: current
-              })
-            })]
-          })
-        })
-      });
-    }
-  }]);
-  return Header;
-})(React.Component);
-
-var MainSection = function MainSection(_ref) {
-  var children = _ref.children,
-    _ref$backgroundColor = _ref.backgroundColor,
-    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-
-  // we have to parse out all of the color overrides if they exist.
-  var backgroundColorStyle = backgroundColor !== null ? backgroundColor : currentTheme !== null ? currentTheme["bg-primary-very-dark"] : "bg-black";
-  console.log("MAIN SECTION COLOR STYLE", backgroundColorStyle);
-  return currentTheme !== null && /*#__PURE__*/jsx("div", {
-    className: "flex flex-col ".concat(backgroundColorStyle, " h-full overflow-hidden w-full"),
-    children: children
-  });
-  //  : (
-  //     <div className={`flex flex-col bg-gray-900 h-full overflow-hidden w-full`}>{children}</div>
-  // )
-};
-
-function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
-function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$d(descriptor.key), descriptor); } }
-function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey$d(arg) { var key = _toPrimitive$d(arg, "string"); return _typeof$d(key) === "symbol" ? key : String(key); }
-function _toPrimitive$d(input, hint) { if (_typeof$d(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$d(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits$3(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$3(subClass, superClass); }
-function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
-function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf$3(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$3(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$3(this, result); }; }
-function _possibleConstructorReturn$3(self, call) { if (call && (_typeof$d(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$3(self); }
-function _assertThisInitialized$3(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf$3(o) { _getPrototypeOf$3 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$3(o); }
-var SubHeader = /*#__PURE__*/function (_React$Component) {
-  _inherits$3(SubHeader, _React$Component);
-  var _super = _createSuper$3(SubHeader);
-  function SubHeader() {
-    _classCallCheck$4(this, SubHeader);
-    return _super.apply(this, arguments);
-  }
-  _createClass$4(SubHeader, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-        title = _this$props.title,
-        buttonTitle = _this$props.buttonTitle,
-        onClick = _this$props.onClick,
-        buttonColor = _this$props.buttonColor,
-        buttonTextColor = _this$props.buttonTextColor;
-      return /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row items-center justify-between p-2 px-4 text-gray-200 text-sm font-bold bg-gray-800 border-b border-gray-900",
-        children: [/*#__PURE__*/jsx("span", {
-          className: "",
-          children: title
-        }), buttonTitle !== "" && /*#__PURE__*/jsx("button", {
-          onClick: onClick,
-          className: "".concat(buttonColor, " ").concat(buttonTextColor, " rounded px-2 py-1 text-xs font-bold"),
-          children: buttonTitle
-        })]
-      });
-    }
-  }]);
-  return SubHeader;
-}(React.Component);
-SubHeader.defaultProps = {
-  onClick: function onClick() {},
-  onClickCreate: function onClickCreate() {},
-  title: "",
-  buttonTitle: "",
-  buttonColor: "bg-gray-700",
-  buttonTextColor: "text-gray-200"
-};
-
-function _typeof$c(obj) { "@babel/helpers - typeof"; return _typeof$c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$c(obj); }
-function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$c(descriptor.key), descriptor); } }
-function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey$c(arg) { var key = _toPrimitive$c(arg, "string"); return _typeof$c(key) === "symbol" ? key : String(key); }
-function _toPrimitive$c(input, hint) { if (_typeof$c(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$c(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$2(subClass, superClass); }
-function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
-function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf$2(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$2(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$2(this, result); }; }
-function _possibleConstructorReturn$2(self, call) { if (call && (_typeof$c(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$2(self); }
-function _assertThisInitialized$2(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
-var MainContent = /*#__PURE__*/function (_React$Component) {
-  _inherits$2(MainContent, _React$Component);
-  var _super = _createSuper$2(MainContent);
-  function MainContent() {
-    _classCallCheck$3(this, MainContent);
-    return _super.apply(this, arguments);
-  }
-  _createClass$3(MainContent, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-        title = _this$props.title,
-        horizontal = _this$props.horizontal,
-        padding = _this$props.padding;
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-1 flex-col bg-gray-700 h-full w-full overflow-hidden",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex ".concat(horizontal === true ? "flex-row space-x-4" : "flex-col space-y-4", " w-full h-full bg-gray-900 rounded-sm overflow-y-auto ").concat(padding === true ? "p-4" : "p-0"),
-          children: [title && /*#__PURE__*/jsx("div", {
-            className: "flex w-full p-2 text-gray-200",
-            children: title
-          }), this.props.children]
-        })
-      });
-    }
-  }]);
-  return MainContent;
-}(React.Component);
-MainContent.defaultProps = {
-  title: null,
-  horizontal: false,
-  padding: true
-};
-
-function _typeof$b(obj) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$b(obj); }
-var _excluded$6 = ["title", "textSize", "fontWeight"];
-function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { _defineProperty$a(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$a(obj, key, value) { key = _toPropertyKey$b(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$b(arg) { var key = _toPrimitive$b(arg, "string"); return _typeof$b(key) === "symbol" ? key : String(key); }
-function _toPrimitive$b(input, hint) { if (_typeof$b(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$b(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$6(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$6(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$6(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var FormLabel = function FormLabel(_ref) {
-  var title = _ref.title,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
-    _ref$fontWeight = _ref.fontWeight,
-    fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
-    props = _objectWithoutProperties$6(_ref, _excluded$6);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$9({}, props));
-  var textSizeCalc = textSize !== null ? textSize : "text-base 2xl:text-lg";
-  return /*#__PURE__*/jsx("label", {
-    className: "".concat(fontWeight, " ").concat(textSizeCalc, " ").concat(styles.string),
-    children: title
-  });
-};
-
-function _typeof$a(obj) { "@babel/helpers - typeof"; return _typeof$a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$a(obj); }
-var _excluded$5 = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
-function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty$9(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$9(obj, key, value) { key = _toPropertyKey$a(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$a(arg) { var key = _toPrimitive$a(arg, "string"); return _typeof$a(key) === "symbol" ? key : String(key); }
-function _toPrimitive$a(input, hint) { if (_typeof$a(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$a(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$5(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$5(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$5(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var InputText = function InputText(_ref) {
-  var onChange = _ref.onChange,
-    onKeyDown = _ref.onKeyDown,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    name = _ref.name,
-    value = _ref.value,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "text" : _ref$type,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? "p-2" : _ref$padding,
-    _ref$placeholder = _ref.placeholder,
-    placeholder = _ref$placeholder === void 0 ? "" : _ref$placeholder,
-    _ref$hasBorder = _ref.hasBorder,
-    hasBorder = _ref$hasBorder === void 0 ? true : _ref$hasBorder,
-    _ref$disabled = _ref.disabled,
-    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-sm lg:text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$5(_ref, _excluded$5);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$8({}, props));
-  return /*#__PURE__*/jsx("input", {
-    type: type,
-    name: name,
-    value: value !== null ? value : "",
-    onChange: onChange,
-    onKeyDown: onKeyDown,
-    onClick: onClick,
-    placeholder: placeholder,
-    className: "".concat(padding, " rounded focus:outline-none outline-none border-0 ").concat(styles.string, " font-bold ").concat(textSize, " w-full ").concat(hasBorder === false && "border-none"),
-    disabled: disabled
-  });
-};
-
-function _typeof$9(obj) { "@babel/helpers - typeof"; return _typeof$9 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$9(obj); }
-var _excluded$4 = ["name", "onChange", "selectedValue", "children", "textSize"];
-function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { _defineProperty$8(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$8(obj, key, value) { key = _toPropertyKey$9(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$9(arg) { var key = _toPrimitive$9(arg, "string"); return _typeof$9(key) === "symbol" ? key : String(key); }
-function _toPrimitive$9(input, hint) { if (_typeof$9(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$9(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$4(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$4(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$4(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-var SelectMenu = function SelectMenu(_ref) {
-  var name = _ref.name,
-    onChange = _ref.onChange,
-    selectedValue = _ref.selectedValue,
-    children = _ref.children,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$4(_ref, _excluded$4);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$7({}, props));
-  return /*#__PURE__*/jsx("select", {
-    className: "p-2 rounded ".concat(textSize, " font-bold ").concat(styles.string, " focus:outline-none cursor-pointer min-w-lg w-full"),
-    name: name,
-    onChange: onChange,
-    value: selectedValue,
-    children: children
-  });
-};
-
-var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
-  var props = _ref.props,
-    _ref$onQueryChange = _ref.onQueryChange,
-    onQueryChange = _ref$onQueryChange === void 0 ? null : _ref$onQueryChange;
-  var _useSearchBox = useSearchBox(props),
-    currentRefinement = _useSearchBox.currentRefinement,
-    refine = _useSearchBox.refine,
-    _useSearchBox$disable = _useSearchBox.disabled,
-    disabled = _useSearchBox$disable === void 0 ? false : _useSearchBox$disable;
-    _useSearchBox.queryHook;
-    var query = _useSearchBox.query;
-  useEffect(function () {
-    onQueryChange && onQueryChange(query);
-  }, [query]);
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full min-h-fit",
-    children: /*#__PURE__*/jsx(InputText, {
-      type: "search",
-      value: currentRefinement,
-      onChange: function onChange(event) {
-        return refine(event.currentTarget.value);
-      },
-      disabled: disabled
-      // className={`${
-      //     disabled === true && "bg-gray-400"
-      // } flex flex-row flex-1 w-full h-20 p-2 2xl:p-4 text-base 2xl:text-lg rounded text-indigo-800 font-bold bg-gray-200 dark:bg-indigo-300 focus:outline-none`}
-      ,
-      placeholder: "Search"
-    })
-  });
-};
-
-function _typeof$8(obj) { "@babel/helpers - typeof"; return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$8(obj); }
-function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty$7(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$7(obj, key, value) { key = _toPropertyKey$8(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$8(arg) { var key = _toPrimitive$8(arg, "string"); return _typeof$8(key) === "symbol" ? key : String(key); }
-function _toPrimitive$8(input, hint) { if (_typeof$8(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$8(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var AlgoliaRefinementList = function AlgoliaRefinementList(props) {
-  // return null;
-  var attribute = props.attribute;
-  console.log("attribute ", attribute);
-  var _useRefinementList = useRefinementList(_objectSpread$6({
-      attribute: "tags"
-    }, props)),
-    items = _useRefinementList.items,
-    refine = _useRefinementList.refine;
-  return attribute && attribute !== "" && /*#__PURE__*/jsx("ul", {
-    className: "flex flex-col space-y-1 w-full flex-grow",
-    children: items.map(function (item) {
-      return /*#__PURE__*/jsxs("li", {
-        className: "px-2 py-1 cursor-pointer hover:text-indigo-600 hover:bg-gray-800 rounded justify-between flex flex-row xl:flex-row w-full",
-        onClick: function onClick(event) {
-          event.preventDefault();
-          refine(item.value);
-        },
-        children: [/*#__PURE__*/jsx("span", {
-          className: "text-sm text-gray-300 hover:text-indigo-500 ".concat(item.isRefined && "font-bold text-green-500"),
-          children: item.label
-        }), /*#__PURE__*/jsx(Tag, {
-          text: item.count,
-          color: "bg-gray-700",
-          textSize: "text-xs"
-        })]
-      }, item.label);
-    })
-  });
-};
 
 function _slicedToArray$q(arr, i) { return _arrayWithHoles$q(arr) || _iterableToArrayLimit$q(arr, i) || _unsupportedIterableToArray$r(arr, i) || _nonIterableRest$q(); }
 function _nonIterableRest$q() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1704,36 +503,56 @@ function DashboardMenuItem(_ref) {
   });
 }
 
-function _typeof$7(obj) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$7(obj); }
-function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { _defineProperty$6(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$6(obj, key, value) { key = _toPropertyKey$7(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$7(descriptor.key), descriptor); } }
-function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey$7(arg) { var key = _toPrimitive$7(arg, "string"); return _typeof$7(key) === "symbol" ? key : String(key); }
-function _toPrimitive$7(input, hint) { if (_typeof$7(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$7(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$1(subClass, superClass); }
-function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
-function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
-function _possibleConstructorReturn$1(self, call) { if (call && (_typeof$7(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$1(self); }
-function _assertThisInitialized$1(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
+function _typeof$n(obj) { "@babel/helpers - typeof"; return _typeof$n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$n(obj); }
+function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$h(Object(source), !0).forEach(function (key) { _defineProperty$j(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$j(obj, key, value) { key = _toPropertyKey$n(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$n(arg) { var key = _toPrimitive$n(arg, "string"); return _typeof$n(key) === "symbol" ? key : String(key); }
+function _toPrimitive$n(input, hint) { if (_typeof$n(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$n(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var withRouter = function withRouter(Component) {
+  var Wrapper = function Wrapper(props) {
+    var navigate = useNavigate();
+    var location = useLocation();
+    var params = useParams();
+    return /*#__PURE__*/jsx(Component, _objectSpread$h({
+      navigate: navigate,
+      location: location,
+      params: params
+    }, props));
+  };
+  return Wrapper;
+};
+
+function _typeof$m(obj) { "@babel/helpers - typeof"; return _typeof$m = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$m(obj); }
+function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$g(Object(source), !0).forEach(function (key) { _defineProperty$i(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$i(obj, key, value) { key = _toPropertyKey$m(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$m(descriptor.key), descriptor); } }
+function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$m(arg) { var key = _toPrimitive$m(arg, "string"); return _typeof$m(key) === "symbol" ? key : String(key); }
+function _toPrimitive$m(input, hint) { if (_typeof$m(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$m(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits$6(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$6(subClass, superClass); }
+function _setPrototypeOf$6(o, p) { _setPrototypeOf$6 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$6(o, p); }
+function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf$6(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$6(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$6(this, result); }; }
+function _possibleConstructorReturn$6(self, call) { if (call && (_typeof$m(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$6(self); }
+function _assertThisInitialized$6(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf$6(o) { _getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$6(o); }
 var withPlugins = function withPlugins(WrappedComponent) {
   return /*#__PURE__*/function (_React$Component) {
-    _inherits$1(_class, _React$Component);
-    var _super = _createSuper$1(_class);
+    _inherits$6(_class, _React$Component);
+    var _super = _createSuper$6(_class);
     function _class(props) {
       var _this;
-      _classCallCheck$2(this, _class);
+      _classCallCheck$6(this, _class);
       _this = _super.call(this, props);
       _this.state = {
         isActivated: false
       };
       return _this;
     }
-    _createClass$2(_class, [{
+    _createClass$6(_class, [{
       key: "componentDidMount",
       value: function componentDidMount() {
         var _this2 = this;
@@ -1764,7 +583,7 @@ var withPlugins = function withPlugins(WrappedComponent) {
       value: function render() {
         // Notice that we pass through any additional props
         // pass in th3e extensionPoints
-        return /*#__PURE__*/jsx(WrappedComponent, _objectSpread$5(_objectSpread$5({
+        return /*#__PURE__*/jsx(WrappedComponent, _objectSpread$g(_objectSpread$g({
           active: this.state.isActivated
         }, this.props), {}, {
           extensionPoints: extensionPoints
@@ -1775,9 +594,9 @@ var withPlugins = function withPlugins(WrappedComponent) {
   }(React.Component);
 };
 
-var _excluded$3 = ["theme", "workspaceData", "children", "width", "height", "direction", "scrollable"];
-function _objectWithoutProperties$3(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$3(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$3(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _excluded$d = ["theme", "workspaceData", "children", "width", "height", "direction", "scrollable"];
+function _objectWithoutProperties$d(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$d(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$d(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Workspace = function Workspace(_ref) {
   var _ref$theme = _ref.theme,
     theme = _ref$theme === void 0 ? false : _ref$theme,
@@ -1792,7 +611,7 @@ var Workspace = function Workspace(_ref) {
     direction = _ref$direction === void 0 ? "col" : _ref$direction,
     _ref$scrollable = _ref.scrollable,
     scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable;
-    _objectWithoutProperties$3(_ref, _excluded$3);
+    _objectWithoutProperties$d(_ref, _excluded$d);
   // const { debugMode, debugStyles } = useContext(AppContext);
 
   // console.log('workspace ', debugMode);
@@ -1879,7 +698,7 @@ function _unsupportedIterableToArray$q(o, minLen) { if (!o) return; if (typeof o
 function _arrayLikeToArray$q(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit$p(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles$p(arr) { if (Array.isArray(arr)) return arr; }
-var mainApi$1 = window.mainApi;
+var mainApi$2 = window.mainApi;
 
 // console.log('path ', remote.app.getPath('userData'));
 // Enable the activation points
@@ -1921,14 +740,14 @@ var PluginsC = function PluginsC(_ref) {
         console.log("file path chosen to install ", filepathChosen);
         // console.log('PATH ', mainApi.pathPlugins);
 
-        mainApi$1.removeAllListeners();
-        mainApi$1.on("plugin-install-complete", handleInstallComplete);
-        mainApi$1.on("plugin-install-error", handleInstallError);
+        mainApi$2.removeAllListeners();
+        mainApi$2.on("plugin-install-complete", handleInstallComplete);
+        mainApi$2.on("plugin-install-error", handleInstallError);
         plugins.install([filepathChosen]).then(function (data) {
           console.log("package installed ", data[0]);
 
           // install the plugin..
-          mainApi$1.plugins.install(data[0].name, filepathChosen);
+          mainApi$2.plugins.install(data[0].name, filepathChosen);
 
           // test to see what plugins are loaded...
           plugins.getActive().then(function (d) {
@@ -2049,6 +868,106 @@ var PluginsC = function PluginsC(_ref) {
   });
 };
 var Plugins = withPlugins(PluginsC);
+
+function _typeof$l(obj) { "@babel/helpers - typeof"; return _typeof$l = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$l(obj); }
+var _excluded$c = ["title", "textSize", "fontWeight"];
+function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$f(Object(source), !0).forEach(function (key) { _defineProperty$h(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$h(obj, key, value) { key = _toPropertyKey$l(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$l(arg) { var key = _toPrimitive$l(arg, "string"); return _typeof$l(key) === "symbol" ? key : String(key); }
+function _toPrimitive$l(input, hint) { if (_typeof$l(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$l(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$c(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$c(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$c(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var FormLabel = function FormLabel(_ref) {
+  var title = _ref.title,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
+    _ref$fontWeight = _ref.fontWeight,
+    fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
+    props = _objectWithoutProperties$c(_ref, _excluded$c);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$f({}, props));
+  var textSizeCalc = textSize !== null ? textSize : "text-base 2xl:text-lg";
+  return /*#__PURE__*/jsx("label", {
+    className: "".concat(fontWeight, " ").concat(textSizeCalc, " ").concat(styles.string),
+    children: title
+  });
+};
+
+function _typeof$k(obj) { "@babel/helpers - typeof"; return _typeof$k = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$k(obj); }
+var _excluded$b = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
+function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$e(Object(source), !0).forEach(function (key) { _defineProperty$g(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$g(obj, key, value) { key = _toPropertyKey$k(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$k(arg) { var key = _toPrimitive$k(arg, "string"); return _typeof$k(key) === "symbol" ? key : String(key); }
+function _toPrimitive$k(input, hint) { if (_typeof$k(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$k(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$b(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$b(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$b(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var InputText = function InputText(_ref) {
+  var onChange = _ref.onChange,
+    onKeyDown = _ref.onKeyDown,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    name = _ref.name,
+    value = _ref.value,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "text" : _ref$type,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "p-2" : _ref$padding,
+    _ref$placeholder = _ref.placeholder,
+    placeholder = _ref$placeholder === void 0 ? "" : _ref$placeholder,
+    _ref$hasBorder = _ref.hasBorder,
+    hasBorder = _ref$hasBorder === void 0 ? true : _ref$hasBorder,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? "text-sm lg:text-base 2xl:text-lg" : _ref$textSize,
+    props = _objectWithoutProperties$b(_ref, _excluded$b);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$e({}, props));
+  return /*#__PURE__*/jsx("input", {
+    type: type,
+    name: name,
+    value: value !== null ? value : "",
+    onChange: onChange,
+    onKeyDown: onKeyDown,
+    onClick: onClick,
+    placeholder: placeholder,
+    className: "".concat(padding, " rounded focus:outline-none outline-none border-0 ").concat(styles.string, " font-bold ").concat(textSize, " w-full ").concat(hasBorder === false && "border-none"),
+    disabled: disabled
+  });
+};
+
+function _typeof$j(obj) { "@babel/helpers - typeof"; return _typeof$j = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$j(obj); }
+var _excluded$a = ["name", "onChange", "selectedValue", "children", "textSize"];
+function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$d(Object(source), !0).forEach(function (key) { _defineProperty$f(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$f(obj, key, value) { key = _toPropertyKey$j(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$j(arg) { var key = _toPrimitive$j(arg, "string"); return _typeof$j(key) === "symbol" ? key : String(key); }
+function _toPrimitive$j(input, hint) { if (_typeof$j(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$j(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$a(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$a(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$a(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var SelectMenu = function SelectMenu(_ref) {
+  var name = _ref.name,
+    onChange = _ref.onChange,
+    selectedValue = _ref.selectedValue,
+    children = _ref.children,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? "text-base 2xl:text-lg" : _ref$textSize,
+    props = _objectWithoutProperties$a(_ref, _excluded$a);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$d({}, props));
+  return /*#__PURE__*/jsx("select", {
+    className: "p-2 rounded ".concat(textSize, " font-bold ").concat(styles.string, " focus:outline-none cursor-pointer min-w-lg w-full"),
+    name: name,
+    onChange: onChange,
+    value: selectedValue,
+    children: children
+  });
+};
 
 function _slicedToArray$o(arr, i) { return _arrayWithHoles$o(arr) || _iterableToArrayLimit$o(arr, i) || _unsupportedIterableToArray$p(arr, i) || _nonIterableRest$o(); }
 function _nonIterableRest$o() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2400,21 +1319,21 @@ var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
   });
 };
 
-function _typeof$6(obj) { "@babel/helpers - typeof"; return _typeof$6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$6(obj); }
-function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$6(descriptor.key), descriptor); } }
-function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof$6(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _defineProperty$5(obj, key, value) { key = _toPropertyKey$6(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$6(arg) { var key = _toPrimitive$6(arg, "string"); return _typeof$6(key) === "symbol" ? key : String(key); }
-function _toPrimitive$6(input, hint) { if (_typeof$6(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$6(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var mainApi = window.mainApi;
+function _typeof$i(obj) { "@babel/helpers - typeof"; return _typeof$i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$i(obj); }
+function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$i(descriptor.key), descriptor); } }
+function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits$5(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$5(subClass, superClass); }
+function _setPrototypeOf$5(o, p) { _setPrototypeOf$5 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$5(o, p); }
+function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf$5(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$5(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$5(this, result); }; }
+function _possibleConstructorReturn$5(self, call) { if (call && (_typeof$i(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$5(self); }
+function _assertThisInitialized$5(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
+function _defineProperty$e(obj, key, value) { key = _toPropertyKey$i(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$i(arg) { var key = _toPrimitive$i(arg, "string"); return _typeof$i(key) === "symbol" ? key : String(key); }
+function _toPrimitive$i(input, hint) { if (_typeof$i(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$i(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var mainApi$1 = window.mainApi;
 function classNames() {
   for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
     classes[_key] = arguments[_key];
@@ -2422,20 +1341,20 @@ function classNames() {
   return classes.filter(Boolean).join(" ");
 }
 var SideMenu = /*#__PURE__*/function (_React$Component) {
-  _inherits(SideMenu, _React$Component);
-  var _super = _createSuper(SideMenu);
+  _inherits$5(SideMenu, _React$Component);
+  var _super = _createSuper$5(SideMenu);
   function SideMenu() {
     var _this;
-    _classCallCheck$1(this, SideMenu);
+    _classCallCheck$5(this, SideMenu);
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
     _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty$5(_assertThisInitialized(_this), "handlePath", function (path) {
+    _defineProperty$e(_assertThisInitialized$5(_this), "handlePath", function (path) {
       console.log("PATH ", path);
       _this.props.navigate(path);
     });
-    _defineProperty$5(_assertThisInitialized(_this), "generatePageChildren", function (pages, indexName) {
+    _defineProperty$e(_assertThisInitialized$5(_this), "generatePageChildren", function (pages, indexName) {
       var pathname = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
       return pages !== null ? pages.length > 0 ? pages.filter(function (p) {
         return p.indexName === indexName;
@@ -2448,7 +1367,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
         };
       }) : null : null;
     });
-    _defineProperty$5(_assertThisInitialized(_this), "generateTemplateChildren", function (templates, indexName) {
+    _defineProperty$e(_assertThisInitialized$5(_this), "generateTemplateChildren", function (templates, indexName) {
       var pathname = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
       return templates !== null ? templates.length > 0 ? templates.filter(function (p) {
         return p.index === indexName;
@@ -2461,7 +1380,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
         };
       }) : null : null;
     });
-    _defineProperty$5(_assertThisInitialized(_this), "generateApplicationChildren", function (pages, templates, queries, indexName) {
+    _defineProperty$e(_assertThisInitialized$5(_this), "generateApplicationChildren", function (pages, templates, queries, indexName) {
       var children = [];
       children.push({
         name: indexName
@@ -2490,14 +1409,14 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
       });
       return children;
     });
-    _defineProperty$5(_assertThisInitialized(_this), "generateNavigation", function () {
+    _defineProperty$e(_assertThisInitialized$5(_this), "generateNavigation", function () {
       var _this$props = _this.props,
         pages = _this$props.pages,
         templates = _this$props.templates,
         location = _this$props.location,
         queries = _this$props.queries;
-      var application = mainApi.getApplication();
-      var indexName = mainApi.getIndexName();
+      var application = mainApi$1.getApplication();
+      var indexName = mainApi$1.getIndexName();
       var currentPath = "pathname" in location ? location["pathname"] : "";
       var navigation = [{
         name: "Home",
@@ -2548,7 +1467,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
     });
     return _this;
   }
-  _createClass$1(SideMenu, [{
+  _createClass$5(SideMenu, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -3304,12 +2223,97 @@ var ThemePane = function ThemePane(_ref) {
   });
 };
 
-function _typeof$5(obj) { "@babel/helpers - typeof"; return _typeof$5 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$5(obj); }
-function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { _defineProperty$4(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$4(obj, key, value) { key = _toPropertyKey$5(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$5(arg) { var key = _toPrimitive$5(arg, "string"); return _typeof$5(key) === "symbol" ? key : String(key); }
-function _toPrimitive$5(input, hint) { if (_typeof$5(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$5(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var BUTTON = "button";
+var BUTTON_2 = "button-2";
+var BUTTON_3 = "button-3";
+var PANEL = "panel";
+var PANEL_2 = "panel-2";
+var PANEL_3 = "panel-3";
+var BUTTON_ICON = "button-icon";
+var BUTTON_ICON_2 = "button-icon-2";
+var BUTTON_ICON_3 = "button-icon-3";
+var MENU_ITEM = "menu-item";
+var MENU_ITEM_2 = "menu-item-2";
+var MENU_ITEM_3 = "menu-item-3";
+var HEADING = "heading";
+var HEADING_2 = "heading-2";
+var HEADING_3 = "heading-3";
+var SUBHEADING = "subheading";
+var SUBHEADING_2 = "subheading-2";
+var SUBHEADING_3 = "subheading-3";
+var PARAGRAPH = "paragraph";
+var PARAGRAPH_2 = "paragraph-2";
+var PARAGRAPH_3 = "paragraph-3";
+var TAG = "tag";
+var TAG_2 = "tag-2";
+var TAG_3 = "tag-3";
+var TOGGLE = "toggle";
+var TOGGLE_2 = "toggle-2";
+var TOGGLE_3 = "toggle-3";
+var DASHBOARD_FOOTER = "dashboard-footer";
+var DASHBOARD_FOOTER_2 = "dashboard-footer-2";
+var DASHBOARD_FOOTER_3 = "dashboard-footer-3";
+var CODE_EDITOR = "code-editor";
+var INPUT_TEXT = "input-text";
+var SELECT_MENU = "select-menu";
+var FORM_LABEL = "form-label";
+var themeObjects = {
+  BUTTON: BUTTON,
+  BUTTON_2: BUTTON_2,
+  BUTTON_3: BUTTON_3,
+  BUTTON_ICON: BUTTON_ICON,
+  BUTTON_ICON_2: BUTTON_ICON_2,
+  BUTTON_ICON_3: BUTTON_ICON_3,
+  CODE_EDITOR: CODE_EDITOR,
+  INPUT_TEXT: INPUT_TEXT,
+  PANEL: PANEL,
+  PANEL_2: PANEL_2,
+  PANEL_3: PANEL_3,
+  HEADING: HEADING,
+  HEADING_2: HEADING_2,
+  HEADING_3: HEADING_3,
+  SUBHEADING: SUBHEADING,
+  SUBHEADING_2: SUBHEADING_2,
+  SUBHEADING_3: SUBHEADING_3,
+  MENU_ITEM: MENU_ITEM,
+  MENU_ITEM_2: MENU_ITEM_2,
+  MENU_ITEM_3: MENU_ITEM_3,
+  PARAGRAPH: PARAGRAPH,
+  PARAGRAPH_2: PARAGRAPH_2,
+  PARAGRAPH_3: PARAGRAPH_3,
+  TAG: TAG,
+  TAG_2: TAG_2,
+  TAG_3: TAG_3,
+  TOGGLE: TOGGLE,
+  TOGGLE_2: TOGGLE_2,
+  TOGGLE_3: TOGGLE_3,
+  DASHBOARD_FOOTER: DASHBOARD_FOOTER,
+  DASHBOARD_FOOTER_2: DASHBOARD_FOOTER_2,
+  DASHBOARD_FOOTER_3: DASHBOARD_FOOTER_3,
+  SELECT_MENU: SELECT_MENU,
+  FORM_LABEL: FORM_LABEL
+};
+var BACKGROUND_COLOR = "backgroundColor";
+var BORDER_COLOR = "borderColor";
+var TEXT_COLOR = "textColor";
+var HOVER_BACKGROUND_COLOR = "hoverBackgroundColor";
+var HOVER_TEXT_COLOR = "hoverTextColor";
+var HOVER_BORDER_COLOR = "hoverBorderColor";
+var styleClassNames = {
+  BACKGROUND_COLOR: BACKGROUND_COLOR,
+  TEXT_COLOR: TEXT_COLOR,
+  BORDER_COLOR: BORDER_COLOR,
+  HOVER_BACKGROUND_COLOR: HOVER_BACKGROUND_COLOR,
+  HOVER_BORDER_COLOR: HOVER_BORDER_COLOR,
+  HOVER_TEXT_COLOR: HOVER_TEXT_COLOR
+};
+
+function _typeof$h(obj) { "@babel/helpers - typeof"; return _typeof$h = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$h(obj); }
+function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$c(Object(source), !0).forEach(function (key) { _defineProperty$d(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$d(obj, key, value) { key = _toPropertyKey$h(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$h(arg) { var key = _toPrimitive$h(arg, "string"); return _typeof$h(key) === "symbol" ? key : String(key); }
+function _toPrimitive$h(input, hint) { if (_typeof$h(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$h(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
   var theme = _ref.theme,
     themeVariant = _ref.themeVariant,
@@ -3340,70 +2344,70 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
     var inputTextStyles = getStylesForItem(themeObjects.INPUT_TEXT, theme[themeVariant]);
     return /*#__PURE__*/jsxs("div", {
       className: "flex flex-col space-y-4 p-4",
-      children: [/*#__PURE__*/jsx(Heading, _objectSpread$4(_objectSpread$4({
+      children: [/*#__PURE__*/jsx(Heading, _objectSpread$c(_objectSpread$c({
         title: "Heading"
       }, headingStyles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.HEADING, headingStyles);
         }
-      })), /*#__PURE__*/jsx(Heading2, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(Heading2, _objectSpread$c(_objectSpread$c({
         title: "Heading 2"
       }, heading2Styles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.HEADING_2, heading2Styles);
         }
-      })), /*#__PURE__*/jsx(Heading3, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(Heading3, _objectSpread$c(_objectSpread$c({
         title: "Heading 3"
       }, heading3Styles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.HEADING_3, heading3Styles);
         }
-      })), /*#__PURE__*/jsx(SubHeading, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(SubHeading, _objectSpread$c(_objectSpread$c({
         title: "Subheading"
       }, subHeadingStyles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
         }
-      })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$c(_objectSpread$c({
         title: "Subheading 2"
       }, subHeading2Styles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
         }
-      })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$c(_objectSpread$c({
         title: "Subheading 3"
       }, subHeading3Styles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
         }
-      })), /*#__PURE__*/jsx(Paragraph, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(Paragraph, _objectSpread$c(_objectSpread$c({
         text: "The quick brown fox jumps over the lazy dog."
       }, paragraphStyles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
         }
-      })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$c(_objectSpread$c({
         text: "The quick brown fox jumps over the lazy dog."
       }, paragraph2Styles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
         }
-      })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$c(_objectSpread$c({
         text: "The quick brown fox jumps over the lazy dog."
       }, paragraph3Styles), {}, {
         padding: false,
         onClick: function onClick() {
           return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
         }
-      })), /*#__PURE__*/jsx(InputText, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsx(InputText, _objectSpread$c(_objectSpread$c({
         value: "value"
       }, inputTextStyles), {}, {
         onClick: function onClick() {
@@ -3443,7 +2447,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       className: "flex flex-col space-y-4 h-100 p-4",
       children: [/*#__PURE__*/jsxs("div", {
         className: "flex flex-row bg-gray-900 p-6 space-x-4 rounded justify-between",
-        children: [/*#__PURE__*/jsx(Panel, _objectSpread$4(_objectSpread$4({
+        children: [/*#__PURE__*/jsx(Panel, _objectSpread$c(_objectSpread$c({
           className: "p-6 rounded border-4 space-y-4 cursor-pointer",
           height: "h-40"
         }, styles), {}, {
@@ -3454,7 +2458,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             className: "uppercase text-gray-50 font-bold",
             children: "Panel"
           })
-        })), /*#__PURE__*/jsx(Panel2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Panel2, _objectSpread$c(_objectSpread$c({
           className: "p-6 rounded border-4 space-y-4 cursor-pointer"
         }, styles2), {}, {
           onClick: function onClick() {
@@ -3464,7 +2468,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             className: "uppercase text-gray-50 font-bold",
             children: "Panel 2"
           })
-        })), /*#__PURE__*/jsx(Panel3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Panel3, _objectSpread$c(_objectSpread$c({
           className: "p-6 rounded border-4 space-y-4 w-full cursor-pointer"
         }, styles3), {}, {
           onClick: function onClick() {
@@ -3475,66 +2479,66 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             children: "Panel 3"
           })
         }))]
-      }), /*#__PURE__*/jsxs(Panel, _objectSpread$4(_objectSpread$4({
+      }), /*#__PURE__*/jsxs(Panel, _objectSpread$c(_objectSpread$c({
         className: "p-6 rounded border-4 space-y-4"
       }, styles), {}, {
-        children: [/*#__PURE__*/jsx(Heading, _objectSpread$4(_objectSpread$4({
+        children: [/*#__PURE__*/jsx(Heading, _objectSpread$c(_objectSpread$c({
           title: "Heading"
         }, headingStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING, headingStyles);
           }
-        })), /*#__PURE__*/jsx(Heading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Heading2, _objectSpread$c(_objectSpread$c({
           title: "Heading 2"
         }, heading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_2, heading2Styles);
           }
-        })), /*#__PURE__*/jsx(Heading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Heading3, _objectSpread$c(_objectSpread$c({
           title: "Heading 3"
         }, heading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_3, heading3Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeadingStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
           }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$c(_objectSpread$c({
           title: "Subheading 2"
         }, subHeading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraphStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
           }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraph2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraph3Styles), {}, {
           padding: false,
@@ -3543,19 +2547,19 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }
         })), /*#__PURE__*/jsxs("div", {
           className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Button, _objectSpread$4(_objectSpread$4({
+          children: [/*#__PURE__*/jsx(Button, _objectSpread$c(_objectSpread$c({
             title: "Button"
           }, buttonStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.BUTTON, buttonStyles);
             }
-          })), /*#__PURE__*/jsx(Button2, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Button2, _objectSpread$c(_objectSpread$c({
             title: "Button 2"
           }, button2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.BUTTON_2, button2Styles);
             }
-          })), /*#__PURE__*/jsx(Button3, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Button3, _objectSpread$c(_objectSpread$c({
             title: "Button 3"
           }, button3Styles), {}, {
             onClick: function onClick() {
@@ -3566,14 +2570,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           className: "flex flex-row space-x-4 w-full",
           children: [/*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon",
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
@@ -3582,14 +2586,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }))]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon 2",
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
@@ -3598,14 +2602,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }))]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon 3",
               icon: "pencil"
             }, buttonIcon3Styles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIcon3Styles), {}, {
               onClick: function onClick() {
@@ -3615,17 +2619,17 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           })]
         }), /*#__PURE__*/jsxs("div", {
           className: "flex flex-col space-y-2 w-full",
-          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$4(_objectSpread$4({}, menuItemStyles), {}, {
+          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$c(_objectSpread$c({}, menuItemStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
             },
             children: "Menu Item"
-          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$4(_objectSpread$4({}, menuItem2Styles), {}, {
+          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$c(_objectSpread$c({}, menuItem2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
             },
             children: "Menu Item 2"
-          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$4(_objectSpread$4({}, menuItem3Styles), {}, {
+          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$c(_objectSpread$c({}, menuItem3Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
             },
@@ -3633,21 +2637,21 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }))]
         }), /*#__PURE__*/jsxs("div", {
           className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Tag, _objectSpread$4(_objectSpread$4({
+          children: [/*#__PURE__*/jsx(Tag, _objectSpread$c(_objectSpread$c({
             text: "Tag",
             icon: "pencil"
           }, tagStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.TAG, tagStyles);
             }
-          })), /*#__PURE__*/jsx(Tag2, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Tag2, _objectSpread$c(_objectSpread$c({
             text: "Tag 2",
             icon: "pencil"
           }, tag2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.TAG_2, tag2Styles);
             }
-          })), /*#__PURE__*/jsx(Tag3, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Tag3, _objectSpread$c(_objectSpread$c({
             text: "Tag 3",
             icon: "pencil"
           }, tag3Styles), {}, {
@@ -3656,66 +2660,66 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }
           }))]
         })]
-      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$c(_objectSpread$c({
         className: "p-6 rounded border-4 space-y-4"
       }, styles2), {}, {
-        children: [/*#__PURE__*/jsx(Heading, _objectSpread$4(_objectSpread$4({
+        children: [/*#__PURE__*/jsx(Heading, _objectSpread$c(_objectSpread$c({
           title: "Heading"
         }, headingStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING, headingStyles);
           }
-        })), /*#__PURE__*/jsx(Heading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Heading2, _objectSpread$c(_objectSpread$c({
           title: "Heading 2"
         }, heading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_2, heading2Styles);
           }
-        })), /*#__PURE__*/jsx(Heading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Heading3, _objectSpread$c(_objectSpread$c({
           title: "Heading 3"
         }, heading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_3, heading3Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeadingStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
           }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$c(_objectSpread$c({
           title: "Subheading 2"
         }, subHeading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraphStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
           }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraph2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraph3Styles), {}, {
           padding: false,
@@ -3724,19 +2728,19 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }
         })), /*#__PURE__*/jsxs("div", {
           className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Button, _objectSpread$4(_objectSpread$4({
+          children: [/*#__PURE__*/jsx(Button, _objectSpread$c(_objectSpread$c({
             title: "Button"
           }, buttonStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.BUTTON, buttonStyles);
             }
-          })), /*#__PURE__*/jsx(Button2, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Button2, _objectSpread$c(_objectSpread$c({
             title: "Button 2"
           }, button2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.BUTTON_2, button2Styles);
             }
-          })), /*#__PURE__*/jsx(Button3, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Button3, _objectSpread$c(_objectSpread$c({
             title: "Button 3"
           }, button3Styles), {}, {
             onClick: function onClick() {
@@ -3747,14 +2751,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           className: "flex flex-row space-x-4 w-full",
           children: [/*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon",
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
@@ -3763,14 +2767,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }))]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon 2",
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
@@ -3779,14 +2783,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }))]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon 3",
               icon: "pencil"
             }, buttonIcon3Styles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIcon3Styles), {}, {
               onClick: function onClick() {
@@ -3796,17 +2800,17 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           })]
         }), /*#__PURE__*/jsxs("div", {
           className: "flex flex-col space-y-2 w-full",
-          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$4(_objectSpread$4({}, menuItemStyles), {}, {
+          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$c(_objectSpread$c({}, menuItemStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
             },
             children: "Menu Item"
-          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$4(_objectSpread$4({}, menuItem2Styles), {}, {
+          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$c(_objectSpread$c({}, menuItem2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
             },
             children: "Menu Item 2"
-          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$4(_objectSpread$4({}, menuItem3Styles), {}, {
+          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$c(_objectSpread$c({}, menuItem3Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
             },
@@ -3814,21 +2818,21 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }))]
         }), /*#__PURE__*/jsxs("div", {
           className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Tag, _objectSpread$4(_objectSpread$4({
+          children: [/*#__PURE__*/jsx(Tag, _objectSpread$c(_objectSpread$c({
             text: "Tag",
             icon: "pencil"
           }, tagStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.TAG, tagStyles);
             }
-          })), /*#__PURE__*/jsx(Tag2, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Tag2, _objectSpread$c(_objectSpread$c({
             text: "Tag 2",
             icon: "pencil"
           }, tag2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.TAG_2, tag2Styles);
             }
-          })), /*#__PURE__*/jsx(Tag3, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Tag3, _objectSpread$c(_objectSpread$c({
             text: "Tag 3",
             icon: "pencil"
           }, tag3Styles), {}, {
@@ -3837,66 +2841,66 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }
           }))]
         })]
-      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$c(_objectSpread$c({
         className: "p-6 rounded border-4 space-y-4"
       }, styles3), {}, {
-        children: [/*#__PURE__*/jsx(Heading, _objectSpread$4(_objectSpread$4({
+        children: [/*#__PURE__*/jsx(Heading, _objectSpread$c(_objectSpread$c({
           title: "Heading"
         }, headingStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING, headingStyles);
           }
-        })), /*#__PURE__*/jsx(Heading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Heading2, _objectSpread$c(_objectSpread$c({
           title: "Heading 2"
         }, heading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_2, heading2Styles);
           }
-        })), /*#__PURE__*/jsx(Heading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Heading3, _objectSpread$c(_objectSpread$c({
           title: "Heading 3"
         }, heading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_3, heading3Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeadingStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
           }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$c(_objectSpread$c({
           title: "Subheading 2"
         }, subHeading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraphStyles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
           }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraph2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH, paragraph2Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$c(_objectSpread$c({
           text: "The quick brown fox jumps over the lazy dog."
         }, paragraph3Styles), {}, {
           padding: false,
@@ -3905,19 +2909,19 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }
         })), /*#__PURE__*/jsxs("div", {
           className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Button, _objectSpread$4(_objectSpread$4({
+          children: [/*#__PURE__*/jsx(Button, _objectSpread$c(_objectSpread$c({
             title: "Button"
           }, buttonStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.BUTTON, buttonStyles);
             }
-          })), /*#__PURE__*/jsx(Button2, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Button2, _objectSpread$c(_objectSpread$c({
             title: "Button 2"
           }, button2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.BUTTON_2, button2Styles);
             }
-          })), /*#__PURE__*/jsx(Button3, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Button3, _objectSpread$c(_objectSpread$c({
             title: "Button 3"
           }, button3Styles), {}, {
             onClick: function onClick() {
@@ -3928,14 +2932,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           className: "flex flex-row space-x-4 w-full",
           children: [/*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon",
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
@@ -3944,14 +2948,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }))]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon 2",
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIconStyles), {}, {
               onClick: function onClick() {
@@ -3960,14 +2964,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }))]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               text: "Button Icon 3",
               icon: "pencil"
             }, buttonIcon3Styles), {}, {
               onClick: function onClick() {
                 return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
               }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$4(_objectSpread$4({
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$c(_objectSpread$c({
               icon: "pencil"
             }, buttonIcon3Styles), {}, {
               onClick: function onClick() {
@@ -3977,17 +2981,17 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           })]
         }), /*#__PURE__*/jsxs("div", {
           className: "flex flex-col space-y-2 w-full",
-          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$4(_objectSpread$4({}, menuItemStyles), {}, {
+          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$c(_objectSpread$c({}, menuItemStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
             },
             children: "Menu Item"
-          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$4(_objectSpread$4({}, menuItem2Styles), {}, {
+          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$c(_objectSpread$c({}, menuItem2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
             },
             children: "Menu Item 2"
-          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$4(_objectSpread$4({}, menuItem3Styles), {}, {
+          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$c(_objectSpread$c({}, menuItem3Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
             },
@@ -3995,21 +2999,21 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }))]
         }), /*#__PURE__*/jsxs("div", {
           className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Tag, _objectSpread$4(_objectSpread$4({
+          children: [/*#__PURE__*/jsx(Tag, _objectSpread$c(_objectSpread$c({
             text: "Tag",
             icon: "pencil"
           }, tagStyles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.TAG, tagStyles);
             }
-          })), /*#__PURE__*/jsx(Tag2, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Tag2, _objectSpread$c(_objectSpread$c({
             text: "Tag 2",
             icon: "pencil"
           }, tag2Styles), {}, {
             onClick: function onClick() {
               return handleClickItem(themeObjects.TAG_2, tag2Styles);
             }
-          })), /*#__PURE__*/jsx(Tag3, _objectSpread$4(_objectSpread$4({
+          })), /*#__PURE__*/jsx(Tag3, _objectSpread$c(_objectSpread$c({
             text: "Tag 3",
             icon: "pencil"
           }, tag3Styles), {}, {
@@ -4018,55 +3022,55 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }
           }))]
         })]
-      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$c(_objectSpread$c({
         className: "p-6 rounded border-4 space-y-4"
       }, styles2), {}, {
-        children: [/*#__PURE__*/jsx(Heading2, _objectSpread$4(_objectSpread$4({
+        children: [/*#__PURE__*/jsx(Heading2, _objectSpread$c(_objectSpread$c({
           title: "Heading 2"
         }, heading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_2, heading2Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$c(_objectSpread$c({
           title: "Subheading 2"
         }, subHeading2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$c(_objectSpread$c({
           text: "Paragraph 2 - The quick brown fox jumps over the lazy dog."
         }, paragraph2Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
           }
-        })), /*#__PURE__*/jsx(Button2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Button2, _objectSpread$c(_objectSpread$c({
           title: "Button"
         }, button2Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.BUTTON_2, button2Styles);
           }
-        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$c(_objectSpread$c({
           text: "Button Icon",
           icon: "pencil"
         }, buttonIcon2Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
           }
-        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$c(_objectSpread$c({
           icon: "pencil"
         }, buttonIcon2Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIconStyles);
           }
-        })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$4(_objectSpread$4({}, menuItem2Styles), {}, {
+        })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$c(_objectSpread$c({}, menuItem2Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
           },
           children: "Menu Item"
-        })), /*#__PURE__*/jsx(Tag2, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Tag2, _objectSpread$c(_objectSpread$c({
           text: "Tag 2",
           icon: "pencil"
         }, tag2Styles), {}, {
@@ -4074,55 +3078,55 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             return handleClickItem(themeObjects.TAG_2, tag2Styles);
           }
         }))]
-      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$4(_objectSpread$4({
+      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$c(_objectSpread$c({
         className: "p-6 rounded border-4 space-y-4"
       }, styles3), {}, {
-        children: [/*#__PURE__*/jsx(Heading3, _objectSpread$4(_objectSpread$4({
+        children: [/*#__PURE__*/jsx(Heading3, _objectSpread$c(_objectSpread$c({
           title: "Heading 3"
         }, heading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.HEADING_3, heading3Styles);
           }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$c(_objectSpread$c({
           title: "Subheading"
         }, subHeading3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
           }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$c(_objectSpread$c({
           text: "Paragraph 3 - The quick brown fox jumps over the lazy dog."
         }, paragraph3Styles), {}, {
           padding: false,
           onClick: function onClick() {
             return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
           }
-        })), /*#__PURE__*/jsx(Button3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Button3, _objectSpread$c(_objectSpread$c({
           title: "Button"
         }, button3Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.BUTTON_3, button3Styles);
           }
-        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$c(_objectSpread$c({
           text: "Button Icon 3",
           icon: "pencil"
         }, buttonIcon3Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
           }
-        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$c(_objectSpread$c({
           icon: "pencil"
         }, buttonIcon3Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
           }
-        })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$4(_objectSpread$4({}, menuItem3Styles), {}, {
+        })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$c(_objectSpread$c({}, menuItem3Styles), {}, {
           onClick: function onClick() {
             return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
           },
           children: "Menu Item"
-        })), /*#__PURE__*/jsx(Tag3, _objectSpread$4(_objectSpread$4({
+        })), /*#__PURE__*/jsx(Tag3, _objectSpread$c(_objectSpread$c({
           text: "Tag",
           icon: "pencil"
         }, tag3Styles), {}, {
@@ -4141,15 +3145,15 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
   });
 };
 
-function _typeof$4(obj) { "@babel/helpers - typeof"; return _typeof$4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$4(obj); }
-var _excluded$2 = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
-function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty$3(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$3(obj, key, value) { key = _toPropertyKey$4(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$4(arg) { var key = _toPrimitive$4(arg, "string"); return _typeof$4(key) === "symbol" ? key : String(key); }
-function _toPrimitive$4(input, hint) { if (_typeof$4(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$4(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$2(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$2(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$2(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _typeof$g(obj) { "@babel/helpers - typeof"; return _typeof$g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$g(obj); }
+var _excluded$9 = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
+function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$b(Object(source), !0).forEach(function (key) { _defineProperty$c(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$c(obj, key, value) { key = _toPropertyKey$g(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$g(arg) { var key = _toPrimitive$g(arg, "string"); return _typeof$g(key) === "symbol" ? key : String(key); }
+function _toPrimitive$g(input, hint) { if (_typeof$g(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$g(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$9(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$9(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$9(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var ColorTile = function ColorTile(_ref) {
   var _ref$colorFromTheme = _ref.colorFromTheme,
     colorFromTheme = _ref$colorFromTheme === void 0 ? null : _ref$colorFromTheme,
@@ -4173,8 +3177,8 @@ var ColorTile = function ColorTile(_ref) {
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-10" : _ref$height,
-    rest = _objectWithoutProperties$2(_ref, _excluded$2);
-  var c = ColorModel(_objectSpread$3({
+    rest = _objectWithoutProperties$9(_ref, _excluded$9);
+  var c = ColorModel(_objectSpread$b({
     colorFromTheme: colorFromTheme,
     colorName: colorName,
     colorType: colorType,
@@ -4202,21 +3206,21 @@ var ColorTile = function ColorTile(_ref) {
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 ".concat(selected === true ? "border-yellow-500" : "border-gray-800", " hover:border-yellow-500 border-gray-800 ").concat(c["class"], " ").concat(width, " ").concat(height),
     onClick: function onClick() {
-      return _onClick !== null ? _onClick(_objectSpread$3(_objectSpread$3({}, c), rest)) : null;
+      return _onClick !== null ? _onClick(_objectSpread$b(_objectSpread$b({}, c), rest)) : null;
     },
     onMouseOver: function onMouseOver() {
-      return _onMouseOver !== null ? _onMouseOver(_objectSpread$3(_objectSpread$3({}, c), rest)) : null;
+      return _onMouseOver !== null ? _onMouseOver(_objectSpread$b(_objectSpread$b({}, c), rest)) : null;
     },
     children: c.hex[shade]
   });
 };
 
-function _typeof$3(obj) { "@babel/helpers - typeof"; return _typeof$3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$3(obj); }
-function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { _defineProperty$2(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$2(obj, key, value) { key = _toPropertyKey$3(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$3(arg) { var key = _toPrimitive$3(arg, "string"); return _typeof$3(key) === "symbol" ? key : String(key); }
-function _toPrimitive$3(input, hint) { if (_typeof$3(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$3(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _typeof$f(obj) { "@babel/helpers - typeof"; return _typeof$f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$f(obj); }
+function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$a(Object(source), !0).forEach(function (key) { _defineProperty$b(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$b(obj, key, value) { key = _toPropertyKey$f(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$f(arg) { var key = _toPrimitive$f(arg, "string"); return _typeof$f(key) === "symbol" ? key : String(key); }
+function _toPrimitive$f(input, hint) { if (_typeof$f(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$f(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var PreviewColorsPane = function PreviewColorsPane(_ref) {
   var _ref$styles = _ref.styles,
     styles = _ref$styles === void 0 ? null : _ref$styles,
@@ -4232,7 +3236,7 @@ var PreviewColorsPane = function PreviewColorsPane(_ref) {
   function handleClickItem(data, styleNameCss, itemType, objectType) {
     // override the object type
     data["objectType"] = objectType;
-    onClickItem(_objectSpread$2(_objectSpread$2({}, data), {}, {
+    onClickItem(_objectSpread$a(_objectSpread$a({}, data), {}, {
       itemType: itemType,
       styleName: styleNameCss
     }));
@@ -6173,12 +5177,12 @@ var Dashboard = function Dashboard(_ref) {
   });
 };
 
-function _typeof$2(obj) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$2(obj); }
-function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { _defineProperty$1(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$1(obj, key, value) { key = _toPropertyKey$2(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$2(arg) { var key = _toPrimitive$2(arg, "string"); return _typeof$2(key) === "symbol" ? key : String(key); }
-function _toPrimitive$2(input, hint) { if (_typeof$2(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$2(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _typeof$e(obj) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$e(obj); }
+function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { _defineProperty$a(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$a(obj, key, value) { key = _toPropertyKey$e(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$e(arg) { var key = _toPrimitive$e(arg, "string"); return _typeof$e(key) === "symbol" ? key : String(key); }
+function _toPrimitive$e(input, hint) { if (_typeof$e(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$e(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var DashboardFooter = function DashboardFooter(_ref) {
   var preview = _ref.preview,
     _ref$backgroundColor = _ref.backgroundColor,
@@ -6207,7 +5211,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
       className: "flex flex-row space-x-1",
       children: [preview === true && /*#__PURE__*/jsx("div", {
         className: "flex flex-row space-x-2",
-        children: /*#__PURE__*/jsx(Button, _objectSpread$1({
+        children: /*#__PURE__*/jsx(Button, _objectSpread$9({
           title: "Edit",
           textSize: "text-lg",
           padding: "py-2 px-4",
@@ -6215,12 +5219,12 @@ var DashboardFooter = function DashboardFooter(_ref) {
         }, stylesButton))
       }), preview === false && /*#__PURE__*/jsxs("div", {
         className: "flex flex-row space-x-2",
-        children: [/*#__PURE__*/jsx(Button, _objectSpread$1({
+        children: [/*#__PURE__*/jsx(Button, _objectSpread$9({
           title: "Cancel",
           textSize: "text-lg",
           padding: "py-2 px-4",
           onClick: onClickEdit
-        }, stylesButton)), /*#__PURE__*/jsx(Button, _objectSpread$1({
+        }, stylesButton)), /*#__PURE__*/jsx(Button, _objectSpread$9({
           title: "Save Changes",
           textSize: "text-lg",
           padding: "py-2 px-4",
@@ -6635,15 +5639,15 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
   });
 };
 
-var _excluded$1 = ["children", "credentials", "api"];
+var _excluded$8 = ["children", "credentials", "api"];
 function _slicedToArray$d(arr, i) { return _arrayWithHoles$d(arr) || _iterableToArrayLimit$d(arr, i) || _unsupportedIterableToArray$e(arr, i) || _nonIterableRest$d(); }
 function _nonIterableRest$d() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$e(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$e(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$e(o, minLen); }
 function _arrayLikeToArray$e(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit$d(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles$d(arr) { if (Array.isArray(arr)) return arr; }
-function _objectWithoutProperties$1(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$1(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$1(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$8(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$8(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$8(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var debugStyles = {
   workspace: {
     classes: "bg-gray-800 border border-red-900 rounded p-4"
@@ -6668,7 +5672,7 @@ var AppWrapper = function AppWrapper(_ref) {
       appId: "my-app-id"
     } : _ref$credentials,
     api = _ref.api;
-    _objectWithoutProperties$1(_ref, _excluded$1);
+    _objectWithoutProperties$8(_ref, _excluded$8);
   var _useState = useState(credentials),
     _useState2 = _slicedToArray$d(_useState, 2),
     creds = _useState2[0],
@@ -9828,9 +8832,9 @@ function DropComponent(_ref) {
   });
 }
 
-var _excluded = ["id", "uuid", "children", "height", "width", "scrollable", "direction", "className"];
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _excluded$7 = ["id", "uuid", "children", "height", "width", "scrollable", "direction", "className"];
+function _objectWithoutProperties$7(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$7(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$7(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Widget = function Widget(_ref) {
   _ref.id;
     var uuid = _ref.uuid,
@@ -9845,7 +8849,7 @@ var Widget = function Widget(_ref) {
     direction = _ref$direction === void 0 ? "col" : _ref$direction,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties(_ref, _excluded);
+    props = _objectWithoutProperties$7(_ref, _excluded$7);
   var _useContext = useContext$1(AppContext),
     debugMode = _useContext.debugMode,
     debugStyles = _useContext.debugStyles,
@@ -9886,12 +8890,12 @@ var Widget = function Widget(_ref) {
   });
 };
 
-function _typeof$1(obj) { "@babel/helpers - typeof"; return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$1(obj); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey$1(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$1(arg) { var key = _toPrimitive$1(arg, "string"); return _typeof$1(key) === "symbol" ? key : String(key); }
-function _toPrimitive$1(input, hint) { if (_typeof$1(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$1(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
+function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty$9(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$9(obj, key, value) { key = _toPropertyKey$d(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$d(arg) { var key = _toPrimitive$d(arg, "string"); return _typeof$d(key) === "symbol" ? key : String(key); }
+function _toPrimitive$d(input, hint) { if (_typeof$d(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$d(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var WidgetFactory = {
   getComponent: function getComponent(component) {
     try {
@@ -9930,11 +8934,11 @@ var WidgetFactory = {
         if (styles !== null) {
           bgColor = "backgroundColor" in styles ? styles["backgroundColor"] : "";
         }
-        return children === null ? /*#__PURE__*/jsx(WidgetComponent, _objectSpread(_objectSpread(_objectSpread({
+        return children === null ? /*#__PURE__*/jsx(WidgetComponent, _objectSpread$8(_objectSpread$8(_objectSpread$8({
           id: "widget-nokids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor
-        }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread(_objectSpread(_objectSpread({
+        }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$8(_objectSpread$8(_objectSpread$8({
           id: "widget-kids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor,
@@ -10042,10 +9046,10 @@ var WidgetFactory = {
       var prefsForItem = {};
       if ("userPrefs" in item) {
         if (key in item["userPrefs"]) {
-          prefsForItem = _defineProperty({}, key, item["userPrefs"][key]);
+          prefsForItem = _defineProperty$9({}, key, item["userPrefs"][key]);
         } else {
           if ("defaultValue" in config) {
-            prefsForItem = _defineProperty({}, key, config["defaultValue"]);
+            prefsForItem = _defineProperty$9({}, key, config["defaultValue"]);
           }
         }
       } else {
@@ -10887,376 +9891,1399 @@ function getBorderStyle(item) {
 //     isMinOrderForItem
 // }
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var WidgetApi = /*#__PURE__*/function () {
-  function WidgetApi(uuid) {
-    _classCallCheck(this, WidgetApi);
-    this._uuid = uuid;
-    this._pub = null;
-    this._electronApi = null;
-    this._settings = null;
+var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$PANEL, _themeObjects$PANEL_, _themeObjects$PANEL_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$HEADING, _themeObjects$HEADING2, _themeObjects$HEADING3, _themeObjects$SUBHEAD, _themeObjects$SUBHEAD2, _themeObjects$SUBHEAD3, _themeObjects$PARAGRA, _themeObjects$PARAGRA2, _themeObjects$PARAGRA3, _themeObjects$MENU_IT, _themeObjects$MENU_IT2, _themeObjects$MENU_IT3, _themeObjects$TAG, _themeObjects$TAG_, _themeObjects$TAG_2, _themeObjects$TOGGLE, _themeObjects$DASHBOA, _themeObjects$DASHBOA2, _themeObjects$DASHBOA3, _themeObjects$CODE_ED, _themeObjects$INPUT_T, _themeObjects$SELECT_, _colorMap;
+function _typeof$c(obj) { "@babel/helpers - typeof"; return _typeof$c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$c(obj); }
+function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { _defineProperty$8(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$8(obj, key, value) { key = _toPropertyKey$c(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$c(arg) { var key = _toPrimitive$c(arg, "string"); return _typeof$c(key) === "symbol" ? key : String(key); }
+function _toPrimitive$c(input, hint) { if (_typeof$c(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$c(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border"];
+var objectTypeClasses = {
+  bg: {
+    "class": "backgroundColor"
+  },
+  border: {
+    "class": "borderColor"
+  },
+  text: {
+    "class": "textColor"
+  },
+  "hover-text": {
+    "class": "hoverTextColor"
+  },
+  "hover-bg": {
+    "class": "hoverBackgroundColor"
+  },
+  "hover-border": {
+    "class": "hoverBorderColor"
   }
-
-  /**
-   * init
-   *
-   * This will initialize the API
-   * We do this automatically from the LayoutModel using the UUID generated
-   * for the widget.
-   *
-   * We need this UUID for filenames, publishing events, etc.
-   *
-   * @param {string} uuid
-   */
-  _createClass(WidgetApi, [{
-    key: "init",
-    value: function init(uuidInput) {
-      try {
-        this._uuid = uuidInput;
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, {
-    key: "setPublisher",
-    value: function setPublisher(publisher) {
-      this._pub = publisher;
-    }
-  }, {
-    key: "setElectronApi",
-    value: function setElectronApi(api) {
-      try {
-        /**
-         * include the main electron apis that we want to expose ONLY
-         */
-        if (api !== undefined && api !== null) {
-          console.log("api ", api);
-          var minified = deepCopy(api);
-          console.log("minified copy ", minified);
-          // now lets delete the keys?
-          var tempApi = {
-            on: minified["on"],
-            removeAllListeners: minified["removeAllListeners"],
-            data: minified["data"],
-            algolia: minified["algolia"],
-            events: minified["publicEvents"]
-          };
-          console.log(tempApi);
-
-          // (minified["on"] = "on" in api ? api.on : null),
-          //     (minified["removeAllListeners"] =
-          //         "removeAllListeners" in api
-          //             ? api.removeAllListeners
-          //             : null),
-          //     (minified["data"] = "data" in api ? api.data : null);
-          // minified["algolia"] = "algolia" in api ? api.algolia : null;
-          // minified["events"] =
-          //     "publicEvents" in api ? api.publicEvents : null;
-
-          this._electronApi = tempApi;
-        }
-      } catch (e) {
-        console.log("Error Setting Electron API ", e.message);
-      }
-    }
-  }, {
-    key: "setSettings",
-    value: function setSettings(settings) {
-      this._settings = settings;
-    }
-
-    /**
-     * uuid
-     * @returns string the UUID for this Widget
-     */
-  }, {
-    key: "uuid",
-    value: function uuid() {
-      return this._uuid;
-    }
-  }, {
-    key: "electronApi",
-    value: function electronApi() {
-      return this._electronApi;
-    }
-  }, {
-    key: "pub",
-    value: function pub() {
-      return this._pub;
-    }
-
-    /**
-     * publishEvent
-     * @param {string} name the name of the widget (TODO - uuid + handler)
-     * @param {object} events the payload for the event published
-     */
-  }, {
-    key: "publishEvent",
-    value: function publishEvent(name, events) {
-      // console.log("publish event ", `${this.uuid()}-${name}`);
-      // const uniqueName = `${${name}`;
-      this._pub.pub(name, events);
-    }
-
-    /**
-     * registerListeners
-     *
-     * Register an array of listeners (strings) and set the handler (object)
-     * Each handler has a key and Component named the same so we can use the handler
-     * methods in code.
-     *
-     * @param {array} listeners
-     * @param {object} handlers
-     */
-  }, {
-    key: "registerListeners",
-    value: function registerListeners(listeners, handlers) {
-      this._pub.registerListeners(listeners, handlers, this.uuid());
-    }
-
-    /**
-     * storeData
-     *
-     * Allow the widget to have access to "local storage"
-     * Store any object data to the filesystem in a predetermined filepath
-     * based on the widget information (dashboard.workspace.widget...)
-     *
-     * @param {object} data
-     * @param {object} options filename - name of the file, callbacks for complete and error
-     */
-  }, {
-    key: "storeData",
-    value: function storeData(data) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-        filename: null,
-        callbackComplete: null,
-        callbackError: null,
-        append: true
-      };
-      // set the filename
-      var toFilename = options["filename"] !== null ? options["filename"] : "".concat(this.uuid(), ".json");
-
-      // grab the electron api
-      var eApi = this.electronApi();
-      if (eApi) {
-        // remove the listeners (reset)
-        eApi.removeAllListeners();
-        if (options["callbackComplete"] !== null) {
-          eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
-            return options["callbackComplete"](e, message);
-          });
-        }
-        if (options["callbackError"] !== null) {
-          eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
-            return options["callbackError"](e, message);
-          });
-        }
-        // request.
-        eApi.data.saveData(data, toFilename, options["append"]);
-      }
-    }
-
-    /**
-     *
-     * @param {object} options
-     * - filename - the name of the file if you want to override the default uuid as filename
-     * - callbackComplete - the handler for dealing with the complete callback data
-     * - callbackError - the handler for dealing with the error callback data
-     */
-  }, {
-    key: "readData",
-    value: function readData(_ref) {
-      var _ref$filename = _ref.filename,
-        filename = _ref$filename === void 0 ? null : _ref$filename,
-        _ref$callbackComplete = _ref.callbackComplete,
-        callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
-        _ref$callbackError = _ref.callbackError,
-        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
-      try {
-        var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
-        var eApi = this.electronApi();
-        eApi.removeAllListeners();
-        if (callbackComplete !== null) {
-          eApi.on(eApi.events.DATA_READ_FROM_FILE_COMPLETE, function (e, message) {
-            return callbackComplete(e, message);
-          });
-        }
-        if (callbackError !== null) {
-          callbackError !== null && eApi.on(eApi.events.DATA_READ_FROM_FILE_ERROR, function (e, message) {
-            return callbackError(e, message);
-          });
-        }
-        eApi.data.readData(toFilename);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }]);
-  return WidgetApi;
-}();
+};
+var themeVariants = ["very-light", "light", "medium", "dark", "very-dark"];
+var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
+var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
+var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+var colorMap = (_colorMap = {}, _defineProperty$8(_colorMap, themeObjects.BUTTON, (_themeObjects$BUTTON = {}, _defineProperty$8(_themeObjects$BUTTON, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$8(_themeObjects$BUTTON, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$8(_themeObjects$BUTTON, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$BUTTON, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$8(_themeObjects$BUTTON, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$8(_themeObjects$BUTTON, styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), _themeObjects$BUTTON)), _defineProperty$8(_colorMap, themeObjects.BUTTON_2, (_themeObjects$BUTTON_ = {}, _defineProperty$8(_themeObjects$BUTTON_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$8(_themeObjects$BUTTON_, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$8(_themeObjects$BUTTON_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$BUTTON_, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$8(_themeObjects$BUTTON_, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$8(_themeObjects$BUTTON_, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$BUTTON_)), _defineProperty$8(_colorMap, themeObjects.BUTTON_3, (_themeObjects$BUTTON_2 = {}, _defineProperty$8(_themeObjects$BUTTON_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$8(_themeObjects$BUTTON_2, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$8(_themeObjects$BUTTON_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$BUTTON_2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$8(_themeObjects$BUTTON_2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$8(_themeObjects$BUTTON_2, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), _themeObjects$BUTTON_2)), _defineProperty$8(_colorMap, themeObjects.PANEL, (_themeObjects$PANEL = {}, _defineProperty$8(_themeObjects$PANEL, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$8(_themeObjects$PANEL, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$8(_themeObjects$PANEL, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$PANEL, styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), _themeObjects$PANEL)), _defineProperty$8(_colorMap, themeObjects.PANEL_2, (_themeObjects$PANEL_ = {}, _defineProperty$8(_themeObjects$PANEL_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), _defineProperty$8(_themeObjects$PANEL_, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$8(_themeObjects$PANEL_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$PANEL_, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$PANEL_)), _defineProperty$8(_colorMap, themeObjects.PANEL_3, (_themeObjects$PANEL_2 = {}, _defineProperty$8(_themeObjects$PANEL_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), _defineProperty$8(_themeObjects$PANEL_2, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$8(_themeObjects$PANEL_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$PANEL_2, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark"), _themeObjects$PANEL_2)), _defineProperty$8(_colorMap, themeObjects.BUTTON_ICON, (_themeObjects$BUTTON_3 = {}, _defineProperty$8(_themeObjects$BUTTON_3, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$8(_themeObjects$BUTTON_3, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$8(_themeObjects$BUTTON_3, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$BUTTON_3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$8(_themeObjects$BUTTON_3, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$8(_themeObjects$BUTTON_3, styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), _themeObjects$BUTTON_3)), _defineProperty$8(_colorMap, themeObjects.BUTTON_ICON_2, (_themeObjects$BUTTON_4 = {}, _defineProperty$8(_themeObjects$BUTTON_4, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$8(_themeObjects$BUTTON_4, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$8(_themeObjects$BUTTON_4, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$BUTTON_4, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$8(_themeObjects$BUTTON_4, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$8(_themeObjects$BUTTON_4, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$BUTTON_4)), _defineProperty$8(_colorMap, themeObjects.BUTTON_ICON_3, (_themeObjects$BUTTON_5 = {}, _defineProperty$8(_themeObjects$BUTTON_5, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$8(_themeObjects$BUTTON_5, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$8(_themeObjects$BUTTON_5, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$BUTTON_5, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$8(_themeObjects$BUTTON_5, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$8(_themeObjects$BUTTON_5, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), _themeObjects$BUTTON_5)), _defineProperty$8(_colorMap, themeObjects.HEADING, (_themeObjects$HEADING = {}, _defineProperty$8(_themeObjects$HEADING, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$HEADING, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$HEADING, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$HEADING, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$HEADING, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING)), _defineProperty$8(_colorMap, themeObjects.HEADING_2, (_themeObjects$HEADING2 = {}, _defineProperty$8(_themeObjects$HEADING2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$HEADING2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$HEADING2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$HEADING2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$HEADING2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING2)), _defineProperty$8(_colorMap, themeObjects.HEADING_3, (_themeObjects$HEADING3 = {}, _defineProperty$8(_themeObjects$HEADING3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$HEADING3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$HEADING3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$HEADING3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$HEADING3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING3)), _defineProperty$8(_colorMap, themeObjects.SUBHEADING, (_themeObjects$SUBHEAD = {}, _defineProperty$8(_themeObjects$SUBHEAD, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$SUBHEAD, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$SUBHEAD, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$SUBHEAD, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$SUBHEAD, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD)), _defineProperty$8(_colorMap, themeObjects.SUBHEADING_2, (_themeObjects$SUBHEAD2 = {}, _defineProperty$8(_themeObjects$SUBHEAD2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$SUBHEAD2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$SUBHEAD2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$SUBHEAD2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$SUBHEAD2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD2)), _defineProperty$8(_colorMap, themeObjects.SUBHEADING_3, (_themeObjects$SUBHEAD3 = {}, _defineProperty$8(_themeObjects$SUBHEAD3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$SUBHEAD3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$SUBHEAD3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$SUBHEAD3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$SUBHEAD3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD3)), _defineProperty$8(_colorMap, themeObjects.PARAGRAPH, (_themeObjects$PARAGRA = {}, _defineProperty$8(_themeObjects$PARAGRA, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$PARAGRA, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$PARAGRA, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$PARAGRA, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$PARAGRA, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA)), _defineProperty$8(_colorMap, themeObjects.PARAGRAPH_2, (_themeObjects$PARAGRA2 = {}, _defineProperty$8(_themeObjects$PARAGRA2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$PARAGRA2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$PARAGRA2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$PARAGRA2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$PARAGRA2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA2)), _defineProperty$8(_colorMap, themeObjects.PARAGRAPH_3, (_themeObjects$PARAGRA3 = {}, _defineProperty$8(_themeObjects$PARAGRA3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$8(_themeObjects$PARAGRA3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$PARAGRA3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$PARAGRA3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$8(_themeObjects$PARAGRA3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA3)), _defineProperty$8(_colorMap, themeObjects.MENU_ITEM, (_themeObjects$MENU_IT = {}, _defineProperty$8(_themeObjects$MENU_IT, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$8(_themeObjects$MENU_IT, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$8(_themeObjects$MENU_IT, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$MENU_IT, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$8(_themeObjects$MENU_IT, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$8(_themeObjects$MENU_IT, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT)), _defineProperty$8(_colorMap, themeObjects.MENU_ITEM_2, (_themeObjects$MENU_IT2 = {}, _defineProperty$8(_themeObjects$MENU_IT2, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$8(_themeObjects$MENU_IT2, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$8(_themeObjects$MENU_IT2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$MENU_IT2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$8(_themeObjects$MENU_IT2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$8(_themeObjects$MENU_IT2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT2)), _defineProperty$8(_colorMap, themeObjects.MENU_ITEM_3, (_themeObjects$MENU_IT3 = {}, _defineProperty$8(_themeObjects$MENU_IT3, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$8(_themeObjects$MENU_IT3, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$8(_themeObjects$MENU_IT3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$MENU_IT3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$8(_themeObjects$MENU_IT3, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$8(_themeObjects$MENU_IT3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT3)), _defineProperty$8(_colorMap, themeObjects.TAG, (_themeObjects$TAG = {}, _defineProperty$8(_themeObjects$TAG, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$8(_themeObjects$TAG, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$TAG, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$8(_themeObjects$TAG, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$8(_themeObjects$TAG, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$8(_themeObjects$TAG, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG)), _defineProperty$8(_colorMap, themeObjects.TAG_2, (_themeObjects$TAG_ = {}, _defineProperty$8(_themeObjects$TAG_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$8(_themeObjects$TAG_, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$TAG_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$8(_themeObjects$TAG_, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$8(_themeObjects$TAG_, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$8(_themeObjects$TAG_, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG_)), _defineProperty$8(_colorMap, themeObjects.TAG_3, (_themeObjects$TAG_2 = {}, _defineProperty$8(_themeObjects$TAG_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$8(_themeObjects$TAG_2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$8(_themeObjects$TAG_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$TAG_2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$8(_themeObjects$TAG_2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$8(_themeObjects$TAG_2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG_2)), _defineProperty$8(_colorMap, themeObjects.TOGGLE, (_themeObjects$TOGGLE = {}, _defineProperty$8(_themeObjects$TOGGLE, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$8(_themeObjects$TOGGLE, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$8(_themeObjects$TOGGLE, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _themeObjects$TOGGLE)), _defineProperty$8(_colorMap, themeObjects.DASHBOARD_FOOTER, (_themeObjects$DASHBOA = {}, _defineProperty$8(_themeObjects$DASHBOA, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$8(_themeObjects$DASHBOA, styleClassNames.BORDER_COLOR, "border-primary-dark"), _themeObjects$DASHBOA)), _defineProperty$8(_colorMap, themeObjects.DASHBOARD_FOOTER_2, (_themeObjects$DASHBOA2 = {}, _defineProperty$8(_themeObjects$DASHBOA2, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), _defineProperty$8(_themeObjects$DASHBOA2, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _themeObjects$DASHBOA2)), _defineProperty$8(_colorMap, themeObjects.DASHBOARD_FOOTER_3, (_themeObjects$DASHBOA3 = {}, _defineProperty$8(_themeObjects$DASHBOA3, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), _defineProperty$8(_themeObjects$DASHBOA3, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _themeObjects$DASHBOA3)), _defineProperty$8(_colorMap, themeObjects.CODE_EDITOR, (_themeObjects$CODE_ED = {}, _defineProperty$8(_themeObjects$CODE_ED, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), _defineProperty$8(_themeObjects$CODE_ED, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$8(_themeObjects$CODE_ED, styleClassNames.TEXT_COLOR, "text-primary-medium"), _themeObjects$CODE_ED)), _defineProperty$8(_colorMap, themeObjects.INPUT_TEXT, (_themeObjects$INPUT_T = {}, _defineProperty$8(_themeObjects$INPUT_T, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$8(_themeObjects$INPUT_T, styleClassNames.BORDER_COLOR, "border-primary-medium"), _defineProperty$8(_themeObjects$INPUT_T, styleClassNames.TEXT_COLOR, "text-primary-dark"), _themeObjects$INPUT_T)), _defineProperty$8(_colorMap, themeObjects.SELECT_MENU, (_themeObjects$SELECT_ = {}, _defineProperty$8(_themeObjects$SELECT_, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$8(_themeObjects$SELECT_, styleClassNames.BORDER_COLOR, "border-primary-medium"), _defineProperty$8(_themeObjects$SELECT_, styleClassNames.TEXT_COLOR, "text-primary-dark"), _themeObjects$SELECT_)), _defineProperty$8(_colorMap, themeObjects.FORM_LABEL, _defineProperty$8({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), _colorMap);
 
 /**
- * ThemeApi
- * Wrapper for the Electron Bridge for themes
+ * getStylesForItem
+ * @param {string} itemName the name of the component (button, panel, etc)
  *
- * @description Developers can use this wrapper to change the "api" from Electron to another source abstraction
  */
+var getStylesForItem = function getStylesForItem() {
+  var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  if (itemName !== null) {
+    // get the colors from the theme by default
+    // this is a MAP like "bg-primary-dark" which needs to
+    // fetch its value from the actual theme based on this key mapping
+    var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
 
-var ThemeApi = {
-  /**
-   * @var {object} _api to the api methods events
-   * @description The api interface (see /public/lib/api/ for structure in electron-skeleton..)
-   */
-  _api: null,
-  /**
-   * @var {object} _themes an array of available themes for the dashboard
-   */
-  _themes: null,
-  /**
-   * uuid
-   * @returns string the UUID for this Widget
-   */
-  uuid: function uuid() {
-    return this._uuid;
-  },
-  setUuid: function setUuid(data) {
-    this._uuid = data;
-  },
-  api: function api() {
-    return this._api;
-  },
-  /**
-   * setApi
-   * Set the interface to be used as the api
-   * @param {object} myApi the interface for the theme methods
-   */
-  setApi: function setApi(myApi) {
-    // we should trim this to only the bare essentials that a dev would need.
-    // the developer can also pass in their own API such that we can switch
-    // out Electron for another API (node etc)
-    var minified = {};
-    minified["data"] = myApi.data;
-    // minified['algolia'] = myApi.algolia;
-    minified["events"] = myApi.publicEvents;
-    this._api = minified;
-  },
-  setThemes: function setThemes(data) {
-    this._themes = data;
-  },
-  themes: function themes() {
-    return this._themes;
-  },
-  /**
-   * init
-   *
-   * @description Initialize the ThemeAPI
-   * @param {string} uuidInput the unique identifier for the dashboard (or whatever you wish to use)
-   * @param {object} apiInput the api for accessing outside data and performing operations
-   */
-  init: function init(uuidInput, apiInput) {
-    try {
-      this.setUuid(uuidInput);
-      this.setApi(apiInput);
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  /**
-   * loadThemes
-   * @param {int} id the unique identifier to associate with the themes
-   * @param {object} args the optional arguments (callbacks)
-   */
-  loadThemes: function loadThemes(id, _ref) {
-    var _ref$callbackComplete = _ref.callbackComplete,
-      callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
-      _ref$callbackError = _ref.callbackError,
-      callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
-    try {
-      var _a = this.api();
-      if (_a) {
-        _a.removeAllListeners();
-        callbackComplete !== null && _a.on(_a.events.THEME_LIST_COMPLETE, callbackComplete);
-        callbackError !== null && _a.on(_a.events.THEME_LIST_ERROR, callbackError);
-        _a.themes.listThemesForApplication(id);
-      }
-    } catch (e) {
-      callbackError !== null && a.on(a.events.THEME_LIST_ERROR, function (e, message) {
-        return callbackError(e, message);
+    // then we have to determine if this item has any theme overrides
+    var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
+
+    // then we have to determine if the component has any MANUAL overrides
+    var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
+
+    // and this is the styles we shall return
+    var styles = {};
+
+    // First set all of the defaults
+    Object.keys(defaultStyles).forEach(function (key) {
+      styles[key] = theme[defaultStyles[key]];
+    });
+
+    // we have to begin with the defaults for the theme so we have access
+    // and knowledge of what keys in the theme to return.
+    // the trick is applying the overrides to those theme keys
+    // if they exist.
+
+    if (defaultStyles !== null) {
+      // now we have to handle the overrides
+      // if the user has passed in any
+      Object.keys(defaultStyles).forEach(function (className) {
+        // check manual override
+        if (className in manualOverrides && manualOverrides[className] !== null) {
+          styles[className] = manualOverrides[className];
+        }
+
+        // check theme override
+        if (className in themeOverrides) {
+          var themeOverrideKey = themeOverrides[className];
+          styles[className] = theme[themeOverrideKey];
+        }
       });
     }
+    return _objectSpread$7({
+      string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
+        return styles[key];
+      }).join(" ") : ""
+    }, styles);
   }
+  return null;
 };
 
 /**
- * DashboardApi
- * Wrapper for the Electron Bridge
- *
- * @description Developers can use this wrapper to change the "api" from Electron to another source abstraction
+ * getStyleForClass
+ * @param {string} className the name of the css class i.e. - textColor, backgroundColor
+ * @param {object} customStyles any custom styles that the user has for the component (button, panel, etc)
+ * @param {object} overrides any user overrides above and beyond what is in the theme
+ * @param {*} fallbackStyle
+ * @returns
  */
-var DashboardApi = {
-  /**
-   * @var {string} _uuid the unique identifier for the dashboard we are using
-   * @description We will store the information/config files in a folder with this uuid
-   */
-  _uuid: null,
-  /**
-   * @var {object} _api to the api methods events
-   * @description The api interface (see /public/lib/api/ for structure in electron-skeleton..)
-   */
-  _api: null,
-  _theme: null,
-  // apis
-  _settings: null,
-  _themes: null,
-  /**
-   * init
-   *
-   * This will initialize the API
-   * We do this automatically from the LayoutModel using the UUID generated
-   * for the widget.
-   *
-   * We need this UUID for filenames, publishing events, etc.
-   *
-   * @param {string} uuid
-   */
-  init: function init(uuidInput) {
-    try {
-      this._uuid = uuidInput;
+// const getStyleForClass = (
+//     className,
+//     customStyles,
+//     overrides,
+//     fallbackStyle = ""
+// ) => {
+//     const style =
+//         className in overrides && overrides[className] !== null
+//             ? overrides[className]
+//             : customStyles !== null
+//             ? className in customStyles
+//                 ? customStyles[className]
+//                 : fallbackStyle
+//             : fallbackStyle;
 
-      // initialize the apis
-      this._theme = ThemeApi;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  setApi: function setApi(myApi) {
-    // we should trim this to only the bare essentials that a dev would need.
-    // the developer can also pass in their own API such that we can switch
-    // out Electron for another API (node etc)
-    var minified = {};
-    minified["data"] = myApi.data;
-    minified["algolia"] = myApi.algolia;
-    minified["events"] = myApi.publicEvents;
-    this._api = minified;
-  },
-  setSettings: function setSettings(settings) {
-    this._settings = settings;
-  },
-  /**
-   * uuid
-   * @returns string the UUID for this Widget
-   */
-  uuid: function uuid() {
-    return this._uuid;
-  },
-  electronApi: function electronApi() {
-    return this._electronApi;
+//     return style;
+// };
+
+var getClassForObjectType = function getClassForObjectType(objectType) {
+  return objectTypeClasses[objectType]["class"];
+};
+function getStyleName(objectType) {
+  var s = null;
+  switch (objectType) {
+    case "bg":
+      s = "background";
+      break;
+    case "text":
+      s = "text";
+      break;
+    case "hover:text":
+      s = "hover-text";
+      break;
+    case "hover:bg":
+      s = "hover-background";
+      break;
+    default:
+      s = objectType;
+      break;
   }
+  return s;
+}
+
+function _typeof$b(obj) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$b(obj); }
+var _excluded$6 = ["className", "horizontal", "children", "onClick", "width", "height"],
+  _excluded2$4 = ["className", "horizontal", "children", "onClick", "width", "height"],
+  _excluded3$4 = ["className", "horizontal", "children", "onClick", "width", "height"];
+function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty$7(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$7(obj, key, value) { key = _toPropertyKey$b(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$b(arg) { var key = _toPrimitive$b(arg, "string"); return _typeof$b(key) === "symbol" ? key : String(key); }
+function _toPrimitive$b(input, hint) { if (_typeof$b(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$b(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$6(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$6(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$6(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var Panel = function Panel(_ref) {
+  var className = _ref.className,
+    horizontal = _ref.horizontal,
+    children = _ref.children,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-full" : _ref$height,
+    props = _objectWithoutProperties$6(_ref, _excluded$6);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$6({}, props));
+  return /*#__PURE__*/jsx("div", {
+    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
+    onClick: onClick,
+    children: children
+  });
+};
+var Panel2 = function Panel2(_ref2) {
+  var className = _ref2.className,
+    horizontal = _ref2.horizontal,
+    children = _ref2.children,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    _ref2$width = _ref2.width,
+    width = _ref2$width === void 0 ? "w-full" : _ref2$width,
+    _ref2$height = _ref2.height,
+    height = _ref2$height === void 0 ? "h-full" : _ref2$height,
+    props = _objectWithoutProperties$6(_ref2, _excluded2$4);
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$6({}, props));
+  return /*#__PURE__*/jsx("div", {
+    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
+    onClick: onClick,
+    children: children
+  });
+};
+var Panel3 = function Panel3(_ref3) {
+  var className = _ref3.className,
+    horizontal = _ref3.horizontal,
+    children = _ref3.children,
+    _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$width = _ref3.width,
+    width = _ref3$width === void 0 ? "w-full" : _ref3$width,
+    _ref3$height = _ref3.height,
+    height = _ref3$height === void 0 ? "h-full" : _ref3$height,
+    props = _objectWithoutProperties$6(_ref3, _excluded3$4);
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$6({}, props));
+  return /*#__PURE__*/jsx("div", {
+    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
+    onClick: onClick,
+    children: children
+  });
+};
+
+var Modal = function Modal(_ref) {
+  var children = _ref.children,
+    isOpen = _ref.isOpen,
+    setIsOpen = _ref.setIsOpen,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-5/6" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "5/6" : _ref$height;
+  return /*#__PURE__*/jsxs(Dialog, {
+    open: isOpen,
+    onClose: function onClose() {
+      return setIsOpen(false);
+    },
+    className: "relative z-50 overflow-hidden rounded",
+    children: [/*#__PURE__*/jsx("div", {
+      className: "fixed inset-0 bg-black/90",
+      "aria-hidden": "true",
+      onClick: function onClick() {
+        return setIsOpen(false);
+      }
+    }), /*#__PURE__*/jsx("div", {
+      className: "fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-hidden",
+      children: /*#__PURE__*/jsx("div", {
+        className: "mx-auto ".concat(width, " ").concat(height, " flex flex-col shadow overflow-hidden rounded"),
+        children: children
+      })
+    })]
+  });
+};
+
+var _excluded$5 = ["text", "padding", "onClick"],
+  _excluded2$3 = ["text", "padding", "onClick"],
+  _excluded3$3 = ["text", "padding", "onClick"];
+function _objectWithoutProperties$5(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$5(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$5(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function Paragraph(_ref) {
+  var text = _ref.text,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? true : _ref$padding,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    props = _objectWithoutProperties$5(_ref, _excluded$5);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
+  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props);
+  return /*#__PURE__*/jsx("span", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-base xl:text-lg font-normal ").concat(styles.string),
+    onClick: onClick,
+    children: text
+  });
+}
+function Paragraph2(_ref2) {
+  var text = _ref2.text,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? true : _ref2$padding,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    props = _objectWithoutProperties$5(_ref2, _excluded2$3);
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
+  var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, props);
+  return /*#__PURE__*/jsx("span", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-sm xl:text-base font-normal ").concat(styles.string),
+    onClick: onClick,
+    children: text
+  });
+}
+function Paragraph3(_ref3) {
+  var text = _ref3.text,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? true : _ref3$padding,
+    _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    props = _objectWithoutProperties$5(_ref3, _excluded3$3);
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
+  var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, props);
+  return /*#__PURE__*/jsx("span", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-xs xl:text-sm font-normal ").concat(styles.string),
+    onClick: onClick,
+    children: text
+  });
+}
+
+var MenuItem = function MenuItem(_ref) {
+  var _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$theme = _ref.theme,
+    theme = _ref$theme === void 0 ? true : _ref$theme,
+    _ref$border = _ref.border,
+    border = _ref$border === void 0 ? false : _ref$border,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
+    _ref$selectedBackgrou = _ref.selectedBackgroundColor,
+    selectedBackgroundColor = _ref$selectedBackgrou === void 0 ? null : _ref$selectedBackgrou,
+    _ref$borderColor = _ref.borderColor,
+    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
+    _ref$textColor = _ref.textColor,
+    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
+    _ref$selectedTextColo = _ref.selectedTextColor,
+    selectedTextColor = _ref$selectedTextColo === void 0 ? null : _ref$selectedTextColo,
+    _ref$hoverTextColor = _ref.hoverTextColor,
+    hoverTextColor = _ref$hoverTextColor === void 0 ? null : _ref$hoverTextColor,
+    _ref$hoverBackgroundC = _ref.hoverBackgroundColor,
+    hoverBackgroundColor = _ref$hoverBackgroundC === void 0 ? null : _ref$hoverBackgroundC,
+    children = _ref.children,
+    _ref$selected = _ref.selected,
+    selected = _ref$selected === void 0 ? false : _ref$selected;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.MENU_ITEM, currentTheme, {
+    backgroundColor: backgroundColor,
+    borderColor: borderColor,
+    textColor: textColor,
+    hoverBackgroundColor: hoverBackgroundColor,
+    hoverTextColor: hoverTextColor,
+    selectedBackgroundColor: selectedBackgroundColor,
+    selectedTextColor: selectedTextColor,
+    selected: selected
+  });
+  return theme === true ? /*#__PURE__*/jsx("div", {
+    onClick: onClick,
+    className: "flex flex-row font-bold ".concat(styles.string, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
+    children: children
+  }) : /*#__PURE__*/jsx("div", {
+    onClick: onClick,
+    className: "flex flex-row font-bold ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
+    children: children
+  });
+};
+var MenuItem2 = function MenuItem2(_ref2) {
+  var _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    _ref2$theme = _ref2.theme,
+    theme = _ref2$theme === void 0 ? true : _ref2$theme,
+    _ref2$border = _ref2.border,
+    border = _ref2$border === void 0 ? false : _ref2$border,
+    _ref2$backgroundColor = _ref2.backgroundColor,
+    backgroundColor = _ref2$backgroundColor === void 0 ? null : _ref2$backgroundColor,
+    _ref2$selectedBackgro = _ref2.selectedBackgroundColor,
+    selectedBackgroundColor = _ref2$selectedBackgro === void 0 ? null : _ref2$selectedBackgro,
+    _ref2$borderColor = _ref2.borderColor,
+    borderColor = _ref2$borderColor === void 0 ? null : _ref2$borderColor,
+    _ref2$textColor = _ref2.textColor,
+    textColor = _ref2$textColor === void 0 ? null : _ref2$textColor,
+    _ref2$selectedTextCol = _ref2.selectedTextColor,
+    selectedTextColor = _ref2$selectedTextCol === void 0 ? null : _ref2$selectedTextCol,
+    _ref2$hoverTextColor = _ref2.hoverTextColor,
+    hoverTextColor = _ref2$hoverTextColor === void 0 ? null : _ref2$hoverTextColor,
+    _ref2$hoverBackground = _ref2.hoverBackgroundColor,
+    hoverBackgroundColor = _ref2$hoverBackground === void 0 ? null : _ref2$hoverBackground,
+    children = _ref2.children,
+    _ref2$selected = _ref2.selected,
+    selected = _ref2$selected === void 0 ? false : _ref2$selected;
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
+    backgroundColor: backgroundColor,
+    borderColor: borderColor,
+    textColor: textColor,
+    hoverBackgroundColor: hoverBackgroundColor,
+    hoverTextColor: hoverTextColor,
+    selectedBackgroundColor: selectedBackgroundColor,
+    selectedTextColor: selectedTextColor,
+    selected: selected
+  });
+  return theme === true ? /*#__PURE__*/jsx("div", {
+    onClick: onClick,
+    className: "flex flex-row font-medium ".concat(styles.string, " ").concat(border === true && "border-2", " ").concat(border === true && "border-2", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-base"),
+    children: children
+  }) : /*#__PURE__*/jsx("div", {
+    onClick: onClick,
+    className: "flex flex-row font-medium ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " p-2 rounded items-center space-x-2 cursor-pointer text-base"),
+    children: children
+  });
+};
+var MenuItem3 = function MenuItem3(_ref3) {
+  var _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$theme = _ref3.theme,
+    theme = _ref3$theme === void 0 ? true : _ref3$theme,
+    _ref3$border = _ref3.border,
+    border = _ref3$border === void 0 ? false : _ref3$border,
+    _ref3$borderColor = _ref3.borderColor,
+    borderColor = _ref3$borderColor === void 0 ? null : _ref3$borderColor,
+    _ref3$backgroundColor = _ref3.backgroundColor,
+    backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
+    _ref3$selectedBackgro = _ref3.selectedBackgroundColor,
+    selectedBackgroundColor = _ref3$selectedBackgro === void 0 ? null : _ref3$selectedBackgro,
+    _ref3$textColor = _ref3.textColor,
+    textColor = _ref3$textColor === void 0 ? null : _ref3$textColor,
+    _ref3$selectedTextCol = _ref3.selectedTextColor,
+    selectedTextColor = _ref3$selectedTextCol === void 0 ? null : _ref3$selectedTextCol,
+    _ref3$hoverTextColor = _ref3.hoverTextColor,
+    hoverTextColor = _ref3$hoverTextColor === void 0 ? null : _ref3$hoverTextColor,
+    _ref3$hoverBackground = _ref3.hoverBackgroundColor,
+    hoverBackgroundColor = _ref3$hoverBackground === void 0 ? null : _ref3$hoverBackground,
+    children = _ref3.children,
+    _ref3$selected = _ref3.selected,
+    selected = _ref3$selected === void 0 ? false : _ref3$selected;
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.MENU_ITEM_3, currentTheme, {
+    backgroundColor: backgroundColor,
+    borderColor: borderColor,
+    textColor: textColor,
+    hoverBackgroundColor: hoverBackgroundColor,
+    hoverTextColor: hoverTextColor,
+    selectedBackgroundColor: selectedBackgroundColor,
+    selectedTextColor: selectedTextColor,
+    selected: selected
+  });
+  return theme === true ? /*#__PURE__*/jsx("div", {
+    onClick: onClick,
+    className: "flex flex-row font-normal ".concat(styles.string, " ").concat(border === true && "border", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-sm"),
+    children: children
+  }) : /*#__PURE__*/jsx("div", {
+    onClick: onClick,
+    className: "flex flex-row font-normal ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-sm"),
+    children: children
+  });
+};
+
+function Heading(_ref) {
+  var title = _ref.title,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? true : _ref$padding,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$textColor = _ref.textColor,
+    textColor = _ref$textColor === void 0 ? null : _ref$textColor;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
+    textColor: textColor
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-6xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick,
+    children: title
+  });
+}
+function Heading2(_ref2) {
+  var title = _ref2.title,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? true : _ref2$padding,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    _ref2$textColor = _ref2.textColor,
+    textColor = _ref2$textColor === void 0 ? null : _ref2$textColor;
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
+    textColor: textColor
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-5xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick,
+    children: title
+  });
+}
+function Heading3(_ref3) {
+  var title = _ref3.title,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? true : _ref3$padding,
+    _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$textColor = _ref3.textColor,
+    textColor = _ref3$textColor === void 0 ? null : _ref3$textColor;
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
+    textColor: textColor
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-4xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick,
+    children: title
+  });
+}
+function SubHeading(_ref4) {
+  var title = _ref4.title,
+    _ref4$padding = _ref4.padding,
+    padding = _ref4$padding === void 0 ? true : _ref4$padding,
+    _ref4$onClick = _ref4.onClick,
+    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick,
+    _ref4$textColor = _ref4.textColor,
+    textColor = _ref4$textColor === void 0 ? null : _ref4$textColor;
+  var _useContext4 = useContext$1(ThemeContext),
+    currentTheme = _useContext4.currentTheme;
+  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
+    textColor: textColor
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-3xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick,
+    children: title
+  });
+}
+function SubHeading2(_ref5) {
+  var title = _ref5.title,
+    _ref5$padding = _ref5.padding,
+    padding = _ref5$padding === void 0 ? true : _ref5$padding,
+    _ref5$onClick = _ref5.onClick,
+    onClick = _ref5$onClick === void 0 ? null : _ref5$onClick,
+    _ref5$textColor = _ref5.textColor,
+    textColor = _ref5$textColor === void 0 ? null : _ref5$textColor;
+  var _useContext5 = useContext$1(ThemeContext),
+    currentTheme = _useContext5.currentTheme;
+  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
+    textColor: textColor
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick,
+    children: title
+  });
+}
+function SubHeading3(_ref6) {
+  var title = _ref6.title,
+    _ref6$padding = _ref6.padding,
+    padding = _ref6$padding === void 0 ? true : _ref6$padding,
+    _ref6$onClick = _ref6.onClick,
+    onClick = _ref6$onClick === void 0 ? null : _ref6$onClick,
+    _ref6$textColor = _ref6.textColor,
+    textColor = _ref6$textColor === void 0 ? null : _ref6$textColor;
+  var _useContext6 = useContext$1(ThemeContext),
+    currentTheme = _useContext6.currentTheme;
+  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
+    textColor: textColor
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full ".concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick,
+    children: title
+  });
+}
+
+function _typeof$a(obj) { "@babel/helpers - typeof"; return _typeof$a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$a(obj); }
+var _excluded$4 = ["title", "onClick", "disabled", "padding", "textSize", "block"],
+  _excluded2$2 = ["title", "onClick", "disabled", "textSize", "padding", "block"],
+  _excluded3$2 = ["title", "onClick", "disabled", "textSize", "padding", "block"];
+function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { _defineProperty$6(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$6(obj, key, value) { key = _toPropertyKey$a(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$a(arg) { var key = _toPrimitive$a(arg, "string"); return _typeof$a(key) === "symbol" ? key : String(key); }
+function _toPrimitive$a(input, hint) { if (_typeof$a(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$a(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$4(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$4(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$4(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var Button = function Button(_ref) {
+  var _ref$title = _ref.title,
+    title = _ref$title === void 0 ? "Cancel" : _ref$title,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? null : _ref$padding,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
+    _ref$block = _ref.block,
+    block = _ref$block === void 0 ? false : _ref$block,
+    props = _objectWithoutProperties$4(_ref, _excluded$4);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$5({}, props));
+  function handleOnClick(e) {
+    if (disabled === false) {
+      onClick !== null && onClick(e);
+    }
+  }
+  var width = block === true ? "w-full" : "";
+  var textSizeComputed = textSize !== null ? textSize : "text-lg lg:text-xl xl:text-xl 2xl:text-2xl";
+  var paddingComputed = padding !== null ? padding : "p-2 lg:p-4 xl:p-6";
+  return /*#__PURE__*/jsx("div", {
+    onClick: handleOnClick,
+    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
+    children: title
+  });
+};
+var Button2 = function Button2(_ref2) {
+  var _ref2$title = _ref2.title,
+    title = _ref2$title === void 0 ? "Cancel" : _ref2$title,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    _ref2$disabled = _ref2.disabled,
+    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
+    _ref2$textSize = _ref2.textSize,
+    textSize = _ref2$textSize === void 0 ? null : _ref2$textSize,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? null : _ref2$padding,
+    _ref2$block = _ref2.block,
+    block = _ref2$block === void 0 ? false : _ref2$block,
+    props = _objectWithoutProperties$4(_ref2, _excluded2$2);
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$5({}, props));
+  function handleOnClick(e) {
+    if (disabled === false) {
+      onClick !== null && onClick(e);
+    }
+  }
+  var width = block === true ? "w-full" : "";
+  var textSizeComputed = textSize !== null ? textSize : "text-base lg:text-lg 2xl:text-xl";
+  var paddingComputed = padding !== null ? padding : "p-1 lg:p-2 xl:p-4";
+  return /*#__PURE__*/jsx("div", {
+    onClick: handleOnClick,
+    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-medium"),
+    children: title
+  });
+};
+var Button3 = function Button3(_ref3) {
+  var _ref3$title = _ref3.title,
+    title = _ref3$title === void 0 ? "Cancel" : _ref3$title,
+    _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$disabled = _ref3.disabled,
+    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
+    _ref3$textSize = _ref3.textSize,
+    textSize = _ref3$textSize === void 0 ? null : _ref3$textSize,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? null : _ref3$padding,
+    _ref3$block = _ref3.block,
+    block = _ref3$block === void 0 ? false : _ref3$block,
+    props = _objectWithoutProperties$4(_ref3, _excluded3$2);
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$5({}, props));
+  function handleOnClick(e) {
+    if (disabled === false) {
+      onClick !== null && onClick(e);
+    }
+  }
+  var width = block === true ? "w-full" : "";
+  var textSizeComputed = textSize !== null ? textSize : "text-sm xl:text-base 2xl:text-base";
+  var paddingComputed = padding !== null ? padding : "p-1 lg:p-1 xl:p-2";
+  return /*#__PURE__*/jsx("div", {
+    onClick: handleOnClick,
+    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-normal"),
+    children: title
+  });
+};
+
+function _typeof$9(obj) { "@babel/helpers - typeof"; return _typeof$9 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$9(obj); }
+var _excluded$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize"],
+  _excluded2$1 = ["onClick", "icon", "text", "block", "textSize", "iconSize"],
+  _excluded3$1 = ["onClick", "icon", "text", "block", "textSize", "iconSize"];
+function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { _defineProperty$5(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$5(obj, key, value) { key = _toPropertyKey$9(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$9(arg) { var key = _toPrimitive$9(arg, "string"); return _typeof$9(key) === "symbol" ? key : String(key); }
+function _toPrimitive$9(input, hint) { if (_typeof$9(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$9(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$3(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$3(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$3(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var ButtonIcon = function ButtonIcon(_ref) {
+  var _onClick = _ref.onClick,
+    _ref$icon = _ref.icon,
+    icon = _ref$icon === void 0 ? "xmark" : _ref$icon,
+    _ref$text = _ref.text,
+    text = _ref$text === void 0 ? null : _ref$text,
+    _ref$block = _ref.block,
+    block = _ref$block === void 0 ? false : _ref$block,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref$textSize,
+    _ref$iconSize = _ref.iconSize,
+    iconSize = _ref$iconSize === void 0 ? "h-4 w-4" : _ref$iconSize,
+    props = _objectWithoutProperties$3(_ref, _excluded$3);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, _objectSpread$4({}, props));
+  return /*#__PURE__*/jsxs("div", {
+    onClick: function onClick(e) {
+      e.preventDefault();
+      _onClick(e);
+    },
+    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center cursor-pointer p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
+    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+      icon: icon,
+      className: "".concat(iconSize)
+    }), text !== null && /*#__PURE__*/jsx("span", {
+      className: text === "" ? "ml-0" : "ml-2",
+      children: text
+    })]
+  });
+};
+var ButtonIcon2 = function ButtonIcon2(_ref2) {
+  var _onClick2 = _ref2.onClick,
+    _ref2$icon = _ref2.icon,
+    icon = _ref2$icon === void 0 ? "xmark" : _ref2$icon,
+    _ref2$text = _ref2.text,
+    text = _ref2$text === void 0 ? null : _ref2$text,
+    _ref2$block = _ref2.block,
+    block = _ref2$block === void 0 ? false : _ref2$block,
+    _ref2$textSize = _ref2.textSize,
+    textSize = _ref2$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref2$textSize,
+    _ref2$iconSize = _ref2.iconSize,
+    iconSize = _ref2$iconSize === void 0 ? "h-4 w-4" : _ref2$iconSize,
+    props = _objectWithoutProperties$3(_ref2, _excluded2$1);
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.BUTTON_ICON_2, currentTheme, _objectSpread$4({}, props));
+  return /*#__PURE__*/jsxs("div", {
+    onClick: function onClick(e) {
+      e.preventDefault();
+      _onClick2(e);
+    },
+    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center cursor-pointer p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
+    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+      icon: icon,
+      className: "".concat(iconSize)
+    }), text !== null && /*#__PURE__*/jsx("span", {
+      className: text === "" ? "ml-0" : "ml-2",
+      children: text
+    })]
+  });
+};
+var ButtonIcon3 = function ButtonIcon3(_ref3) {
+  var _onClick3 = _ref3.onClick,
+    _ref3$icon = _ref3.icon,
+    icon = _ref3$icon === void 0 ? "xmark" : _ref3$icon,
+    _ref3$text = _ref3.text,
+    text = _ref3$text === void 0 ? null : _ref3$text,
+    _ref3$block = _ref3.block,
+    block = _ref3$block === void 0 ? false : _ref3$block,
+    _ref3$textSize = _ref3.textSize,
+    textSize = _ref3$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref3$textSize,
+    _ref3$iconSize = _ref3.iconSize,
+    iconSize = _ref3$iconSize === void 0 ? "h-4 w-4" : _ref3$iconSize,
+    props = _objectWithoutProperties$3(_ref3, _excluded3$1);
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$4({}, props));
+  return /*#__PURE__*/jsxs("div", {
+    onClick: function onClick(e) {
+      e.preventDefault();
+      _onClick3(e);
+    },
+    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center cursor-pointer p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
+    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+      icon: icon,
+      className: "".concat(iconSize)
+    }), text !== null && /*#__PURE__*/jsx("span", {
+      className: text === "" ? "ml-0" : "ml-2",
+      children: text
+    })]
+  });
+};
+
+function _typeof$8(obj) { "@babel/helpers - typeof"; return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$8(obj); }
+var _excluded$2 = ["text", "enabled", "setEnabled"];
+function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty$4(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$4(obj, key, value) { key = _toPropertyKey$8(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$8(arg) { var key = _toPrimitive$8(arg, "string"); return _typeof$8(key) === "symbol" ? key : String(key); }
+function _toPrimitive$8(input, hint) { if (_typeof$8(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$8(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$2(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$2(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$2(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function Toggle(_ref) {
+  _ref.text;
+    _ref.enabled;
+    _ref.setEnabled;
+    var props = _objectWithoutProperties$2(_ref, _excluded$2);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  getStylesForItem(themeObjects.TOGGLE, currentTheme, _objectSpread$3({}, props));
+  return "toggle";
+  // return theme === true ? (
+  //   <div className="flex flex-row items-center">
+  //     <Switch
+  //       checked={enabled}
+  //       onChange={setEnabled}
+  //       className={`${enabled === true ? `${styles['backgroundColor']} ${styles['hoverBackgroundColor']}`: `${styles['hoverBackgroundColor']} ${styles['backgroundColor']}` }
+  //         relative inline-flex h-[28px] w-[64px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+  //     >
+  //       <span
+  //         aria-hidden="true"
+  //         className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
+  //           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-gray-200 shadow-lg ring-0 transition duration-200 ease-in-out`}
+  //       />
+  //     </Switch>
+  //     <span className={`sr-only ${styles['textColor']}`}>{text}TESTING</span>
+  //   </div>
+  // ): (
+  //   <div className="flex flex-row items-center">
+  //     <Switch
+  //       checked={enabled}
+  //       onChange={setEnabled}
+  //       className={`${enabled ? backgroundColor : hoverBackgroundColor }
+  //         relative inline-flex h-[28px] w-[64px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+  //     >
+  //       <span className={`sr-only ${textColor}`}>{text}</span>
+  //       <span
+  //         aria-hidden="true"
+  //         className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
+  //           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+  //       />
+  //     </Switch>
+  //   </div>
+  // )
+}
+
+function _typeof$7(obj) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$7(obj); }
+function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$7(descriptor.key), descriptor); } }
+function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$7(arg) { var key = _toPrimitive$7(arg, "string"); return _typeof$7(key) === "symbol" ? key : String(key); }
+function _toPrimitive$7(input, hint) { if (_typeof$7(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$7(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits$4(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$4(subClass, superClass); }
+function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
+function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf$4(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$4(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$4(this, result); }; }
+function _possibleConstructorReturn$4(self, call) { if (call && (_typeof$7(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$4(self); }
+function _assertThisInitialized$4(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
+var CodeEditorSimple = /*#__PURE__*/function (_React$Component) {
+  _inherits$4(CodeEditorSimple, _React$Component);
+  var _super = _createSuper$4(CodeEditorSimple);
+  function CodeEditorSimple() {
+    _classCallCheck$4(this, CodeEditorSimple);
+    return _super.apply(this, arguments);
+  }
+  _createClass$4(CodeEditorSimple, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/jsx("div", {
+        children: "test"
+      });
+      // const { onChange, code } = this.props;
+      // const codeString = JSON.stringify(code);
+      // return (
+      //   <div className="">
+      //     <Editor
+      //         value={code}
+      //         onValueChange={onChange}
+      //         highlight={codeString => highlight(codeString, languages.js)}
+      //         padding={10}
+      //         style={{
+      //             fontFamily: '"Fira code", "Fira Mono", monospace',
+      //             fontSize: 14,
+      //         }}
+      //     />
+      //     </div>
+      // )
+    }
+  }]);
+  return CodeEditorSimple;
+}(React.Component);
+CodeEditorSimple.defaultProps = {
+  onChange: function onChange() {},
+  code: ""
+};
+
+function _typeof$6(obj) { "@babel/helpers - typeof"; return _typeof$6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$6(obj); }
+var _excluded$1 = ["code", "setCode", "uniqueKey", "language", "placeholder"];
+function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { _defineProperty$3(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$3(obj, key, value) { key = _toPropertyKey$6(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$6(arg) { var key = _toPrimitive$6(arg, "string"); return _typeof$6(key) === "symbol" ? key : String(key); }
+function _toPrimitive$6(input, hint) { if (_typeof$6(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$6(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties$1(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$1(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$1(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function CodeEditorInline(_ref) {
+  var code = _ref.code,
+    setCode = _ref.setCode,
+    _ref$uniqueKey = _ref.uniqueKey,
+    uniqueKey = _ref$uniqueKey === void 0 ? "12345" : _ref$uniqueKey,
+    _ref$language = _ref.language,
+    language = _ref$language === void 0 ? "js" : _ref$language,
+    _ref$placeholder = _ref.placeholder,
+    placeholder = _ref$placeholder === void 0 ? "Please enter JS code." : _ref$placeholder,
+    props = _objectWithoutProperties$1(_ref, _excluded$1);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$2({}, props));
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-hidden"),
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col rounded w-full h-full ".concat(styles.string, " overflow-y-scroll scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900"),
+      children: /*#__PURE__*/jsx("div", {
+        className: "bg-inherit h-full ".concat(styles.textColor),
+        children: /*#__PURE__*/jsx(CodeEditor, {
+          value: code,
+          language: language,
+          placeholder: placeholder,
+          onChange: function onChange(evn) {
+            return setCode(evn.target.value);
+          },
+          padding: 15,
+          style: {
+            caretColor: "#eeeeee",
+            fontSize: "16px",
+            fontFamily: "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+            minHeight: "100%"
+          },
+          className: styles.string
+        })
+      })
+    })
+  }, "code-editor-".concat(uniqueKey));
+}
+
+function _typeof$5(obj) { "@babel/helpers - typeof"; return _typeof$5 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$5(obj); }
+var _excluded = ["text", "textSize", "onClick"],
+  _excluded2 = ["text", "textSize", "onClick"],
+  _excluded3 = ["text", "textSize", "onClick"];
+function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { _defineProperty$2(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty$2(obj, key, value) { key = _toPropertyKey$5(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$5(arg) { var key = _toPrimitive$5(arg, "string"); return _typeof$5(key) === "symbol" ? key : String(key); }
+function _toPrimitive$5(input, hint) { if (_typeof$5(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$5(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var Tag = function Tag(_ref) {
+  var text = _ref.text,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref$textSize,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    props = _objectWithoutProperties(_ref, _excluded);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$1({}, props));
+  return /*#__PURE__*/jsx("span", {
+    onClick: onClick,
+    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
+    children: text
+  });
+};
+var Tag2 = function Tag2(_ref2) {
+  var text = _ref2.text,
+    _ref2$textSize = _ref2.textSize,
+    textSize = _ref2$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref2$textSize,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    props = _objectWithoutProperties(_ref2, _excluded2);
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$1({}, props));
+  return /*#__PURE__*/jsx("span", {
+    onClick: onClick,
+    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
+    children: text
+  });
+};
+var Tag3 = function Tag3(_ref3) {
+  var text = _ref3.text,
+    _ref3$textSize = _ref3.textSize,
+    textSize = _ref3$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref3$textSize,
+    _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    props = _objectWithoutProperties(_ref3, _excluded3);
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$1({}, props));
+  return /*#__PURE__*/jsx("span", {
+    onClick: onClick,
+    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
+    children: text
+  });
+};
+
+var Container = function Container(_ref) {
+  var id = _ref.id,
+    children = _ref.children,
+    _ref$direction = _ref.direction,
+    direction = _ref$direction === void 0 ? "row" : _ref$direction,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$scrollable = _ref.scrollable,
+    scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-full min-h-fit" : _ref$height,
+    _ref$debug = _ref.debug,
+    debug = _ref$debug === void 0 ? false : _ref$debug,
+    _ref$onMouseOver = _ref.onMouseOver,
+    onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
+    _ref$onMouseOut = _ref.onMouseOut,
+    onMouseOut = _ref$onMouseOut === void 0 ? null : _ref$onMouseOut;
+  // determine the classes based on the props...
+  var directionStyle = direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
+  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "";
+  var widthStyle = width;
+  var heightStyle = scrollable === true ? height : height;
+  return /*#__PURE__*/jsx("div", {
+    id: "container-".concat(id),
+    onMouseOver: onMouseOver,
+    onMouseOut: onMouseOut,
+    className: "flex ".concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className, " ").concat(debug === true && "border border-green-500 border-dotted"),
+    children: children
+  });
+};
+
+function ErrorMessage(_ref) {
+  var title = _ref.title,
+    onClose = _ref.onClose;
+  console.log("error ", title);
+  return /*#__PURE__*/jsx("div", {
+    onClick: onClose,
+    className: "flex flex-row w-full p-4 2xl:px-6 2xl:py-4 text-2xl xl:text3xl bg-indigo-700 opacity-75 rounded text-gray-300 dark:bg-indigo-800 dark:text-gray-200 font-bold",
+    children: JSON.stringify(title)
+  });
+}
+
+function _typeof$4(obj) { "@babel/helpers - typeof"; return _typeof$4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$4(obj); }
+function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$4(descriptor.key), descriptor); } }
+function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$4(arg) { var key = _toPrimitive$4(arg, "string"); return _typeof$4(key) === "symbol" ? key : String(key); }
+function _toPrimitive$4(input, hint) { if (_typeof$4(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$4(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits$3(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$3(subClass, superClass); }
+function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
+function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf$3(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$3(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$3(this, result); }; }
+function _possibleConstructorReturn$3(self, call) { if (call && (_typeof$4(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$3(self); }
+function _assertThisInitialized$3(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf$3(o) { _getPrototypeOf$3 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$3(o); }
+/*#__PURE__*/(function (_React$Component) {
+  _inherits$3(Footer, _React$Component);
+  var _super = _createSuper$3(Footer);
+  function Footer() {
+    _classCallCheck$3(this, Footer);
+    return _super.apply(this, arguments);
+  }
+  _createClass$3(Footer, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-row p-4 bg-gray-200 dark:bg-gray-900 w-full justify-center mt-auto text-xs text-center items-center",
+        children: /*#__PURE__*/jsx("span", {
+          className: "text-gray-300 dark:text-gray-600",
+          children: "Team RAM @2022"
+        })
+      });
+    }
+  }]);
+  return Footer;
+})(React.Component);
+
+function _typeof$3(obj) { "@babel/helpers - typeof"; return _typeof$3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$3(obj); }
+function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$3(descriptor.key), descriptor); } }
+function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$2(subClass, superClass); }
+function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
+function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf$2(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$2(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$2(this, result); }; }
+function _possibleConstructorReturn$2(self, call) { if (call && (_typeof$3(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$2(self); }
+function _assertThisInitialized$2(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
+function _defineProperty$1(obj, key, value) { key = _toPropertyKey$3(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$3(arg) { var key = _toPrimitive$3(arg, "string"); return _typeof$3(key) === "symbol" ? key : String(key); }
+function _toPrimitive$3(input, hint) { if (_typeof$3(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$3(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var mainApi = window.mainApi;
+/*#__PURE__*/(function (_React$Component) {
+  _inherits$2(Header, _React$Component);
+  var _super = _createSuper$2(Header);
+  function Header() {
+    var _this;
+    _classCallCheck$2(this, Header);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty$1(_assertThisInitialized$2(_this), "handleClickHome", function () {
+      _this.props.navigate("/applications");
+    });
+    _defineProperty$1(_assertThisInitialized$2(_this), "handleClickApplications", function () {
+      _this.props.navigate("/applications");
+    });
+    return _this;
+  }
+  _createClass$2(Header, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      var current = this.props.current;
+      var selectedAppId = mainApi.getappId();
+      var selectedIndexName = mainApi.getIndexName();
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-row p-4 bg-gray-900 w-full justify-between text-gray-100 text-xs space-x-2",
+        children: /*#__PURE__*/jsx("nav", {
+          className: "flex",
+          "aria-label": "Breadcrumb",
+          children: /*#__PURE__*/jsxs("ol", {
+            className: "flex items-center space-x-2",
+            children: [/*#__PURE__*/jsx("li", {
+              children: /*#__PURE__*/jsxs("div", {
+                onClick: this.handleClickHome,
+                className: "cursor-pointer px-2",
+                children: [/*#__PURE__*/jsx("svg", {
+                  className: "flex-shrink-0 h-4 w-4",
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 20 20",
+                  fill: "currentColor",
+                  "aria-hidden": "true",
+                  children: /*#__PURE__*/jsx("path", {
+                    d: "M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                  })
+                }), /*#__PURE__*/jsx("span", {
+                  className: "sr-only",
+                  onClick: this.handleClickHome,
+                  children: "Home"
+                })]
+              })
+            }), selectedAppId !== undefined && /*#__PURE__*/jsxs(Fragment, {
+              children: [/*#__PURE__*/jsx("li", {
+                children: /*#__PURE__*/jsx("div", {
+                  className: "flex items-center",
+                  children: /*#__PURE__*/jsx("svg", {
+                    className: "flex-shrink-0 h-3 w-3 text-gray-300",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    fill: "currentColor",
+                    viewBox: "0 0 20 20",
+                    "aria-hidden": "true",
+                    children: /*#__PURE__*/jsx("path", {
+                      d: "M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
+                    })
+                  })
+                })
+              }), /*#__PURE__*/jsx("li", {
+                children: /*#__PURE__*/jsx("div", {
+                  onClick: function onClick() {
+                    return _this2.props.navigate("/applications/".concat(selectedAppId));
+                  },
+                  className: "text-xs font-bold text-gray-200 cursor-pointer",
+                  children: selectedAppId
+                })
+              })]
+            }), selectedIndexName !== undefined && /*#__PURE__*/jsxs(Fragment, {
+              children: [/*#__PURE__*/jsx("li", {
+                children: /*#__PURE__*/jsx("div", {
+                  className: "flex items-center",
+                  children: /*#__PURE__*/jsx("svg", {
+                    className: "flex-shrink-0 h-3 w-3 text-gray-300",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    fill: "currentColor",
+                    viewBox: "0 0 20 20",
+                    "aria-hidden": "true",
+                    children: /*#__PURE__*/jsx("path", {
+                      d: "M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
+                    })
+                  })
+                })
+              }), /*#__PURE__*/jsx("li", {
+                children: /*#__PURE__*/jsx("div", {
+                  onClick: function onClick() {
+                    return console.log("nope.");
+                  },
+                  className: "text-xs font-bold text-gray-200 cursor-pointer",
+                  children: selectedIndexName
+                })
+              })]
+            }), /*#__PURE__*/jsx("li", {
+              children: /*#__PURE__*/jsx("div", {
+                className: "flex items-center",
+                children: current !== "" && /*#__PURE__*/jsx("svg", {
+                  className: "flex-shrink-0 h-3 w-3 text-gray-300",
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "currentColor",
+                  viewBox: "0 0 20 20",
+                  "aria-hidden": "true",
+                  children: /*#__PURE__*/jsx("path", {
+                    d: "M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
+                  })
+                })
+              })
+            }), /*#__PURE__*/jsx("li", {
+              children: /*#__PURE__*/jsx("div", {
+                className: "text-xs font-bold text-gray-200",
+                children: current
+              })
+            })]
+          })
+        })
+      });
+    }
+  }]);
+  return Header;
+})(React.Component);
+
+var MainSection = function MainSection(_ref) {
+  var children = _ref.children,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+
+  // we have to parse out all of the color overrides if they exist.
+  var backgroundColorStyle = backgroundColor !== null ? backgroundColor : currentTheme !== null ? currentTheme["bg-primary-very-dark"] : "bg-black";
+  console.log("MAIN SECTION COLOR STYLE", backgroundColorStyle);
+  return currentTheme !== null && /*#__PURE__*/jsx("div", {
+    className: "flex flex-col ".concat(backgroundColorStyle, " h-full overflow-hidden w-full"),
+    children: children
+  });
+  //  : (
+  //     <div className={`flex flex-col bg-gray-900 h-full overflow-hidden w-full`}>{children}</div>
+  // )
+};
+
+function _typeof$2(obj) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$2(obj); }
+function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$2(descriptor.key), descriptor); } }
+function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$2(arg) { var key = _toPrimitive$2(arg, "string"); return _typeof$2(key) === "symbol" ? key : String(key); }
+function _toPrimitive$2(input, hint) { if (_typeof$2(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$2(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$1(subClass, superClass); }
+function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
+function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+function _possibleConstructorReturn$1(self, call) { if (call && (_typeof$2(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized$1(self); }
+function _assertThisInitialized$1(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
+var SubHeader = /*#__PURE__*/function (_React$Component) {
+  _inherits$1(SubHeader, _React$Component);
+  var _super = _createSuper$1(SubHeader);
+  function SubHeader() {
+    _classCallCheck$1(this, SubHeader);
+    return _super.apply(this, arguments);
+  }
+  _createClass$1(SubHeader, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+        title = _this$props.title,
+        buttonTitle = _this$props.buttonTitle,
+        onClick = _this$props.onClick,
+        buttonColor = _this$props.buttonColor,
+        buttonTextColor = _this$props.buttonTextColor;
+      return /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row items-center justify-between p-2 px-4 text-gray-200 text-sm font-bold bg-gray-800 border-b border-gray-900",
+        children: [/*#__PURE__*/jsx("span", {
+          className: "",
+          children: title
+        }), buttonTitle !== "" && /*#__PURE__*/jsx("button", {
+          onClick: onClick,
+          className: "".concat(buttonColor, " ").concat(buttonTextColor, " rounded px-2 py-1 text-xs font-bold"),
+          children: buttonTitle
+        })]
+      });
+    }
+  }]);
+  return SubHeader;
+}(React.Component);
+SubHeader.defaultProps = {
+  onClick: function onClick() {},
+  onClickCreate: function onClickCreate() {},
+  title: "",
+  buttonTitle: "",
+  buttonColor: "bg-gray-700",
+  buttonTextColor: "text-gray-200"
+};
+
+function _typeof$1(obj) { "@babel/helpers - typeof"; return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$1(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$1(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$1(arg) { var key = _toPrimitive$1(arg, "string"); return _typeof$1(key) === "symbol" ? key : String(key); }
+function _toPrimitive$1(input, hint) { if (_typeof$1(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$1(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof$1(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var MainContent = /*#__PURE__*/function (_React$Component) {
+  _inherits(MainContent, _React$Component);
+  var _super = _createSuper(MainContent);
+  function MainContent() {
+    _classCallCheck(this, MainContent);
+    return _super.apply(this, arguments);
+  }
+  _createClass(MainContent, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+        title = _this$props.title,
+        horizontal = _this$props.horizontal,
+        padding = _this$props.padding;
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-1 flex-col bg-gray-700 h-full w-full overflow-hidden",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex ".concat(horizontal === true ? "flex-row space-x-4" : "flex-col space-y-4", " w-full h-full bg-gray-900 rounded-sm overflow-y-auto ").concat(padding === true ? "p-4" : "p-0"),
+          children: [title && /*#__PURE__*/jsx("div", {
+            className: "flex w-full p-2 text-gray-200",
+            children: title
+          }), this.props.children]
+        })
+      });
+    }
+  }]);
+  return MainContent;
+}(React.Component);
+MainContent.defaultProps = {
+  title: null,
+  horizontal: false,
+  padding: true
+};
+
+var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
+  var props = _ref.props,
+    _ref$onQueryChange = _ref.onQueryChange,
+    onQueryChange = _ref$onQueryChange === void 0 ? null : _ref$onQueryChange;
+  var _useSearchBox = useSearchBox(props),
+    currentRefinement = _useSearchBox.currentRefinement,
+    refine = _useSearchBox.refine,
+    _useSearchBox$disable = _useSearchBox.disabled,
+    disabled = _useSearchBox$disable === void 0 ? false : _useSearchBox$disable;
+    _useSearchBox.queryHook;
+    var query = _useSearchBox.query;
+  useEffect(function () {
+    onQueryChange && onQueryChange(query);
+  }, [query]);
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full min-h-fit",
+    children: /*#__PURE__*/jsx(InputText, {
+      type: "search",
+      value: currentRefinement,
+      onChange: function onChange(event) {
+        return refine(event.currentTarget.value);
+      },
+      disabled: disabled
+      // className={`${
+      //     disabled === true && "bg-gray-400"
+      // } flex flex-row flex-1 w-full h-20 p-2 2xl:p-4 text-base 2xl:text-lg rounded text-indigo-800 font-bold bg-gray-200 dark:bg-indigo-300 focus:outline-none`}
+      ,
+      placeholder: "Search"
+    })
+  });
+};
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var AlgoliaRefinementList = function AlgoliaRefinementList(props) {
+  // return null;
+  var attribute = props.attribute;
+  console.log("attribute ", attribute);
+  var _useRefinementList = useRefinementList(_objectSpread({
+      attribute: "tags"
+    }, props)),
+    items = _useRefinementList.items,
+    refine = _useRefinementList.refine;
+  return attribute && attribute !== "" && /*#__PURE__*/jsx("ul", {
+    className: "flex flex-col space-y-1 w-full flex-grow",
+    children: items.map(function (item) {
+      return /*#__PURE__*/jsxs("li", {
+        className: "px-2 py-1 cursor-pointer hover:text-indigo-600 hover:bg-gray-800 rounded justify-between flex flex-row xl:flex-row w-full",
+        onClick: function onClick(event) {
+          event.preventDefault();
+          refine(item.value);
+        },
+        children: [/*#__PURE__*/jsx("span", {
+          className: "text-sm text-gray-300 hover:text-indigo-500 ".concat(item.isRefined && "font-bold text-green-500"),
+          children: item.label
+        }), /*#__PURE__*/jsx(Tag, {
+          text: item.count,
+          color: "bg-gray-700",
+          textSize: "text-xs"
+        })]
+      }, item.label);
+    })
+  });
 };
 
 // TODO, move this into a argument as opposed to a file...

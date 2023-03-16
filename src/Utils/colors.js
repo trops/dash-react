@@ -347,23 +347,23 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
  * @param {*} fallbackStyle
  * @returns
  */
-const getStyleForClass = (
-    className,
-    customStyles,
-    overrides,
-    fallbackStyle = ""
-) => {
-    const style =
-        className in overrides && overrides[className] !== null
-            ? overrides[className]
-            : customStyles !== null
-            ? className in customStyles
-                ? customStyles[className]
-                : fallbackStyle
-            : fallbackStyle;
+// const getStyleForClass = (
+//     className,
+//     customStyles,
+//     overrides,
+//     fallbackStyle = ""
+// ) => {
+//     const style =
+//         className in overrides && overrides[className] !== null
+//             ? overrides[className]
+//             : customStyles !== null
+//             ? className in customStyles
+//                 ? customStyles[className]
+//                 : fallbackStyle
+//             : fallbackStyle;
 
-    return style;
-};
+//     return style;
+// };
 
 const getClassForObjectType = (objectType) => {
     return objectTypeClasses[objectType]["class"];

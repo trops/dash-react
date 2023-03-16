@@ -8,7 +8,7 @@
  * The UUID is then used for filenames, etc and MUST be unique.
  */
 
-import { deepCopy } from "@dash/Utils";
+import { deepCopy } from "@dash/Utils/objects";
 
 export class WidgetApi {
     constructor(uuid) {
