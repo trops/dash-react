@@ -5331,8 +5331,10 @@ var event = {
     console.log("subscriptions to event ", subscriptionsToEvent);
     if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
       subscriptionsToEvent.forEach(function (subscriber) {
-        console.log("calling handler ", subscriber["uuid"]);
-        subscriber.action.apply(subscriber, args);
+        // console.log("calling handler ", subscriber["uuid"]);
+        if ("action" in subscriber && subscriber.action !== undefined) {
+          subscriber["action"].apply(subscriber, args);
+        }
       });
     }
   },
