@@ -24,6 +24,10 @@ function _toPrimitive$o(input, hint) { if (_typeof$p(input) !== "object" || inpu
  * WidgetApi
  * Include developer methods to easily access the Electron bridge
  *
+ * NOTE: This MUST be a class to avoid the Singleton pattern
+ * This gets initialized and injected into each Widget initialized with
+ * the UUID of the widget.
+ * The UUID is then used for filenames, etc and MUST be unique.
  */
 
 var WidgetApi = /*#__PURE__*/function () {
@@ -6702,11 +6706,15 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
   function isSelectedEvent(event) {
     try {
-      var listenerArray = Object.keys(workspaceSelected.layout).filter(function (k) {
+      console.log("listeners for selected item ", itemSelected["listeners"]);
+      var listenerArray = Object.keys(workspaceSelected.layout).filter(function (a) {
+        return a["id"] === itemSelected["id"];
+      }).filter(function (k) {
         return Object.keys(workspaceSelected["layout"][k]["listeners"]).length > 0;
       }).map(function (h) {
         return workspaceSelected["layout"][h]["listeners"];
       });
+      console.log("listeners array from workspace ", listenerArray);
       var isSelected = false;
       listenerArray.forEach(function (a) {
         Object.keys(a).forEach(function (handler) {

@@ -279,7 +279,12 @@ export const PanelEditItemHandlers = ({
 
     function isSelectedEvent(event) {
         try {
+            console.log(
+                "listeners for selected item ",
+                itemSelected["listeners"]
+            );
             const listenerArray = Object.keys(workspaceSelected.layout)
+                .filter((a) => a["id"] === itemSelected["id"])
                 .filter((k) => {
                     return (
                         Object.keys(workspaceSelected["layout"][k]["listeners"])
@@ -289,7 +294,7 @@ export const PanelEditItemHandlers = ({
                 .map((h) => {
                     return workspaceSelected["layout"][h]["listeners"];
                 });
-
+            console.log("listeners array from workspace ", listenerArray);
             let isSelected = false;
             listenerArray.forEach((a) => {
                 Object.keys(a).forEach((handler) => {

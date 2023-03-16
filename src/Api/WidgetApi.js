@@ -2,6 +2,10 @@
  * WidgetApi
  * Include developer methods to easily access the Electron bridge
  *
+ * NOTE: This MUST be a class to avoid the Singleton pattern
+ * This gets initialized and injected into each Widget initialized with
+ * the UUID of the widget.
+ * The UUID is then used for filenames, etc and MUST be unique.
  */
 
 export class WidgetApi {
