@@ -10935,7 +10935,9 @@ var WidgetApi = /*#__PURE__*/function () {
          * include the main electron apis that we want to expose ONLY
          */
         if (api !== undefined && api !== null) {
+          console.log("api ", api);
           var minified = deepCopy(api);
+          console.log("minified copy ", minified);
           // now lets delete the keys?
           var tempApi = {
             on: minified["on"],
@@ -10944,6 +10946,7 @@ var WidgetApi = /*#__PURE__*/function () {
             algolia: minified["algolia"],
             events: minified["publicEvents"]
           };
+          console.log(tempApi);
 
           // (minified["on"] = "on" in api ? api.on : null),
           //     (minified["removeAllListeners"] =
