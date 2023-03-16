@@ -21,13 +21,13 @@ export const PanelEditItemHandlers = ({
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log(
-            "event workspace ",
-            item,
-            itemSelected,
-            workspace,
-            workspaceSelected
-        );
+        // console.log(
+        //     "event workspace ",
+        //     item,
+        //     itemSelected,
+        //     workspace,
+        //     workspaceSelected
+        // );
 
         // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
         //     setWorkspaceSelected(() => workspace);
@@ -37,7 +37,7 @@ export const PanelEditItemHandlers = ({
         if (deepEqual(item, itemSelected) === false) {
             setItemSelected(() => item);
             // reset the selected items
-            setEventsSelected({});
+            setEventsSelected(() => {});
             setEventHandlerSelected(null);
             setLoadedExisting(false);
         }
@@ -64,14 +64,14 @@ export const PanelEditItemHandlers = ({
     }, [open, workspace, item]);
 
     useEffect(() => {
-        if (
-            eventHandlerSelected !== null &&
-            eventsSelected !== null &&
-            eventsSelected !== undefined &&
-            Object.keys(eventsSelected).length > 0
-        ) {
-            handleSaveChanges();
-        }
+        // if (
+        //     eventHandlerSelected !== null &&
+        //     eventsSelected !== null &&
+        //     eventsSelected !== undefined &&
+        //     Object.keys(eventsSelected).length > 0
+        // ) {
+        //     handleSaveChanges();
+        // }
     }, [eventsSelected, eventHandlerSelected]);
 
     function loadExistingListeners(ws) {
@@ -99,32 +99,33 @@ export const PanelEditItemHandlers = ({
         }
     }
 
+    /**
+     * pull the selected events out of the itemSelected
+     */
+    function getSelectedEvents() {}
+
     function handleSelectEvent(eventString) {
         try {
-            console.log("event selected ", eventString, eventHandlerSelected);
-            if (eventsSelected && eventHandlerSelected !== null) {
+            if (eventString && eventHandlerSelected !== null) {
                 // check if we have the hander "key" in the events object
                 let tempEvents = [];
-                let tempEventsSelected = deepCopy(eventsSelected);
+                let currentListeners = deepCopy(itemSelected["listeners"]);
 
-                console.log("temp events selected ", tempEventsSelected);
-                if (eventHandlerSelected in tempEventsSelected) {
-                    tempEvents = tempEventsSelected[eventHandlerSelected];
+                // check to see if we already have the handler in the listeners
+                if (eventHandlerSelected in currentListeners) {
+                    tempEvents = currentListeners[eventHandlerSelected];
                 }
-
-                console.log("temp events selected ", tempEvents);
 
                 tempEvents.push(eventString);
                 const uniqueEventsSelected = tempEvents.filter(
                     (value, index, array) => array.indexOf(value) === index
-                ); // remove any possible duplicates;
-                tempEventsSelected[eventHandlerSelected] = uniqueEventsSelected;
+                );
 
-                setEventsSelected(() => tempEventsSelected);
-
-                console.log("DONE ", tempEventsSelected);
-
-                handleSaveChanges();
+                // and now set the handler to the unique event
+                currentListeners[eventHandlerSelected] = uniqueEventsSelected;
+                console.log("DONE ", currentListeners);
+                setEventsSelected(() => currentListeners);
+                handleSaveChanges(currentListeners);
             }
         } catch (e) {
             console.log(e);
@@ -140,16 +141,46 @@ export const PanelEditItemHandlers = ({
                 eventsSelected
             );
             if (eventHandlerSelected) {
-                const currentListeners = itemSelected["listeners"];
+                // grab the current listeners OBJECT from the itemSelected
+                let currentListeners = deepCopy(itemSelected["listeners"]);
                 console.log("current listeners for item ", currentListeners);
-                const eventsSelectedTemp = currentListeners[
-                    eventHandlerSelected
-                ].filter((event) => event !== eventString);
-                setEventsSelected(() => eventsSelectedTemp);
-                handleSaveChanges();
+
+                // 1. Remove the event from the temp array of events (from current item)
+                // filter out the event listener selected (eventString)
+                const eventsSelectedTemp =
+                    eventHandlerSelected in currentListeners
+                        ? currentListeners[eventHandlerSelected].filter(
+                              (event) => event !== eventString
+                          )
+                        : [];
+
+                // ok we have some events, and need to set them as the value for the handler selected
+
+                // want to update the listeners OBJECT
+                // handler: [event, event]
+                if (eventsSelectedTemp.length > 0) {
+                    if (eventHandlerSelected in currentListeners) {
+                        currentListeners[eventHandlerSelected] =
+                            eventsSelectedTemp;
+                    }
+                } else {
+                    // there are NO events for this handler, so we can remove this handler from
+                    // the listeners entirely.
+                    delete currentListeners[eventHandlerSelected];
+                }
+
+                console.log(
+                    "New temp events ",
+                    eventsSelectedTemp,
+                    currentListeners
+                );
+
+                setEventsSelected(() => currentListeners);
+
+                handleSaveChanges(currentListeners);
             }
         } catch (e) {
-            console.log("handleRemoveEvent ", eventString);
+            console.log("handleRemoveEvent ", eventString, e.message);
         }
     }
 
@@ -179,16 +210,17 @@ export const PanelEditItemHandlers = ({
         return null;
     }
 
-    function handleSaveChanges() {
+    function handleSaveChanges(currentListeners = {}) {
         try {
+            console.log("SAVE CHANGES ", currentListeners);
             if (
                 workspaceSelected !== null &&
                 eventHandlerSelected !== null &&
-                Object.keys(eventsSelected).length > 0 &&
                 "id" in itemSelected &&
                 itemSelected["id"] !== null
             ) {
-                console.log("saving changes", JSON.stringify(eventsSelected));
+                console.log("saving changes", currentListeners);
+                // let's copy the workspace selected to replace the listeners
                 const tempWorkspace = deepCopy(workspaceSelected);
 
                 // craft the event handler + listeners
@@ -196,18 +228,18 @@ export const PanelEditItemHandlers = ({
                 const layoutItem = getLayoutItemById(itemSelected["id"]);
 
                 // now lets add to it...
-                layoutItem["listeners"] = eventsSelected;
+                layoutItem["listeners"] = currentListeners;
                 tempWorkspace["layout"] = replaceItemInLayout(
                     tempWorkspace.layout,
                     layoutItem["id"],
                     layoutItem
                 );
 
-                // save the new workspace
+                // // save the new workspace
                 onUpdate(layoutItem, tempWorkspace);
             }
         } catch (e) {
-            console.log(e);
+            console.log("handle save changes ", e);
         }
     }
 
@@ -223,10 +255,6 @@ export const PanelEditItemHandlers = ({
         try {
             const listenerArray = Object.keys(workspaceSelected.layout)
                 .filter((k) => {
-                    console.log(
-                        "checking ",
-                        workspaceSelected.layout[k]["listeners"]
-                    );
                     return (
                         Object.keys(workspaceSelected["layout"][k]["listeners"])
                             .length > 0
@@ -236,28 +264,13 @@ export const PanelEditItemHandlers = ({
                     return workspaceSelected["layout"][h]["listeners"];
                 });
 
-            console.log("is event selected ", event, listenerArray);
-
             let isSelected = false;
             listenerArray.forEach((a) => {
                 Object.keys(a).forEach((handler) => {
-                    console.log("HANDLER ", handler);
                     if (a[handler].includes(event) === true) isSelected = true;
                 });
             });
 
-            // we also have to check the state events selected to see if the user
-            // had set the temp selected?
-
-            // if (eventsSelected !== null && eventHandlerSelected) {
-            //     console.log(
-            //         "checking is event selected ",
-            //         eventsSelected,
-            //         eventsSelected[eventHandlerSelected],
-            //         event
-            //     );
-            //     return eventsSelected[eventHandlerSelected].includes(event);
-            // }
             return isSelected;
         } catch (e) {
             return false;

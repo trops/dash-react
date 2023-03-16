@@ -6501,7 +6501,13 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    console.log("event workspace ", item, itemSelected, workspace, workspaceSelected);
+    // console.log(
+    //     "event workspace ",
+    //     item,
+    //     itemSelected,
+    //     workspace,
+    //     workspaceSelected
+    // );
 
     // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
     //     setWorkspaceSelected(() => workspace);
@@ -6513,7 +6519,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         return item;
       });
       // reset the selected items
-      setEventsSelected({});
+      setEventsSelected(function () {});
       setEventHandlerSelected(null);
       setLoadedExisting(false);
     }
@@ -6542,32 +6548,38 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     // }
   }, [open, workspace, item]);
   useEffect(function () {
-    if (eventHandlerSelected !== null && eventsSelected !== null && eventsSelected !== undefined && Object.keys(eventsSelected).length > 0) {
-      handleSaveChanges();
-    }
+    // if (
+    //     eventHandlerSelected !== null &&
+    //     eventsSelected !== null &&
+    //     eventsSelected !== undefined &&
+    //     Object.keys(eventsSelected).length > 0
+    // ) {
+    //     handleSaveChanges();
+    // }
   }, [eventsSelected, eventHandlerSelected]);
   function handleSelectEvent(eventString) {
     try {
-      console.log("event selected ", eventString, eventHandlerSelected);
-      if (eventsSelected && eventHandlerSelected !== null) {
+      if (eventString && eventHandlerSelected !== null) {
         // check if we have the hander "key" in the events object
         var tempEvents = [];
-        var tempEventsSelected = deepCopy(eventsSelected);
-        console.log("temp events selected ", tempEventsSelected);
-        if (eventHandlerSelected in tempEventsSelected) {
-          tempEvents = tempEventsSelected[eventHandlerSelected];
+        var currentListeners = deepCopy(itemSelected["listeners"]);
+
+        // check to see if we already have the handler in the listeners
+        if (eventHandlerSelected in currentListeners) {
+          tempEvents = currentListeners[eventHandlerSelected];
         }
-        console.log("temp events selected ", tempEvents);
         tempEvents.push(eventString);
         var uniqueEventsSelected = tempEvents.filter(function (value, index, array) {
           return array.indexOf(value) === index;
-        }); // remove any possible duplicates;
-        tempEventsSelected[eventHandlerSelected] = uniqueEventsSelected;
-        setEventsSelected(function () {
-          return tempEventsSelected;
         });
-        console.log("DONE ", tempEventsSelected);
-        handleSaveChanges();
+
+        // and now set the handler to the unique event
+        currentListeners[eventHandlerSelected] = uniqueEventsSelected;
+        console.log("DONE ", currentListeners);
+        setEventsSelected(function () {
+          return currentListeners;
+        });
+        handleSaveChanges(currentListeners);
       }
     } catch (e) {
       console.log(e);
@@ -6577,18 +6589,37 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     try {
       console.log("removing event", eventString, eventHandlerSelected, eventsSelected);
       if (eventHandlerSelected) {
-        var currentListeners = itemSelected["listeners"];
+        // grab the current listeners OBJECT from the itemSelected
+        var currentListeners = deepCopy(itemSelected["listeners"]);
         console.log("current listeners for item ", currentListeners);
-        var eventsSelectedTemp = currentListeners[eventHandlerSelected].filter(function (event) {
+
+        // 1. Remove the event from the temp array of events (from current item)
+        // filter out the event listener selected (eventString)
+        var eventsSelectedTemp = eventHandlerSelected in currentListeners ? currentListeners[eventHandlerSelected].filter(function (event) {
           return event !== eventString;
-        });
+        }) : [];
+
+        // ok we have some events, and need to set them as the value for the handler selected
+
+        // want to update the listeners OBJECT
+        // handler: [event, event]
+        if (eventsSelectedTemp.length > 0) {
+          if (eventHandlerSelected in currentListeners) {
+            currentListeners[eventHandlerSelected] = eventsSelectedTemp;
+          }
+        } else {
+          // there are NO events for this handler, so we can remove this handler from
+          // the listeners entirely.
+          delete currentListeners[eventHandlerSelected];
+        }
+        console.log("New temp events ", eventsSelectedTemp, currentListeners);
         setEventsSelected(function () {
-          return eventsSelectedTemp;
+          return currentListeners;
         });
-        handleSaveChanges();
+        handleSaveChanges(currentListeners);
       }
     } catch (e) {
-      console.log("handleRemoveEvent ", eventString);
+      console.log("handleRemoveEvent ", eventString, e.message);
     }
   }
   function handleSelectEventHandler(handler) {
@@ -6617,9 +6648,12 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     return null;
   }
   function handleSaveChanges() {
+    var currentListeners = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     try {
-      if (workspaceSelected !== null && eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0 && "id" in itemSelected && itemSelected["id"] !== null) {
-        console.log("saving changes", JSON.stringify(eventsSelected));
+      console.log("SAVE CHANGES ", currentListeners);
+      if (workspaceSelected !== null && eventHandlerSelected !== null && "id" in itemSelected && itemSelected["id"] !== null) {
+        console.log("saving changes", currentListeners);
+        // let's copy the workspace selected to replace the listeners
         var tempWorkspace = deepCopy(workspaceSelected);
 
         // craft the event handler + listeners
@@ -6627,14 +6661,14 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         var layoutItem = getLayoutItemById(itemSelected["id"]);
 
         // now lets add to it...
-        layoutItem["listeners"] = eventsSelected;
+        layoutItem["listeners"] = currentListeners;
         tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
 
-        // save the new workspace
+        // // save the new workspace
         onUpdate(layoutItem, tempWorkspace);
       }
     } catch (e) {
-      console.log(e);
+      console.log("handle save changes ", e);
     }
   }
 
@@ -6649,32 +6683,16 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   function isSelectedEvent(event) {
     try {
       var listenerArray = Object.keys(workspaceSelected.layout).filter(function (k) {
-        console.log("checking ", workspaceSelected.layout[k]["listeners"]);
         return Object.keys(workspaceSelected["layout"][k]["listeners"]).length > 0;
       }).map(function (h) {
         return workspaceSelected["layout"][h]["listeners"];
       });
-      console.log("is event selected ", event, listenerArray);
       var isSelected = false;
       listenerArray.forEach(function (a) {
         Object.keys(a).forEach(function (handler) {
-          console.log("HANDLER ", handler);
           if (a[handler].includes(event) === true) isSelected = true;
         });
       });
-
-      // we also have to check the state events selected to see if the user
-      // had set the temp selected?
-
-      // if (eventsSelected !== null && eventHandlerSelected) {
-      //     console.log(
-      //         "checking is event selected ",
-      //         eventsSelected,
-      //         eventsSelected[eventHandlerSelected],
-      //         event
-      //     );
-      //     return eventsSelected[eventHandlerSelected].includes(event);
-      // }
       return isSelected;
     } catch (e) {
       return false;
