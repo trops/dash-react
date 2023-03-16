@@ -36,7 +36,10 @@ export const PanelEditItemHandlers = ({
 
         if (deepEqual(item, itemSelected) === false) {
             setItemSelected(() => item);
-            // loadExistingListeners(workspace);
+            // reset the selected items
+            setEventsSelected({});
+            setEventHandlerSelected(null);
+            setLoadedExisting(false);
         }
 
         if (deepEqual(workspace, workspaceSelected) === false) {
@@ -44,9 +47,9 @@ export const PanelEditItemHandlers = ({
             loadExistingListeners(workspace);
         }
 
-        if (workspace && loadedExisting === false) {
+        if (workspaceSelected === workspace && loadedExisting === false) {
             setLoadedExisting(() => true);
-            loadExistingListeners(workspace);
+            loadExistingListeners(workspaceSelected);
         }
         // if (open === false) {
         //     setItemSelected(() => null);

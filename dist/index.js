@@ -6423,20 +6423,22 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       setItemSelected(function () {
         return item;
       });
-      // loadExistingListeners(workspace);
+      // reset the selected items
+      setEventsSelected({});
+      setEventHandlerSelected(null);
+      setLoadedExisting(false);
     }
-
     if (deepEqual(workspace, workspaceSelected) === false) {
       setWorkspaceSelected(function () {
         return workspace;
       });
       loadExistingListeners(workspace);
     }
-    if (workspace && loadedExisting === false) {
+    if (workspaceSelected === workspace && loadedExisting === false) {
       setLoadedExisting(function () {
         return true;
       });
-      loadExistingListeners(workspace);
+      loadExistingListeners(workspaceSelected);
     }
     // if (open === false) {
     //     setItemSelected(() => null);
