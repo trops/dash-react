@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonIcon, Panel, Modal } from "@dash/Common";
 
 import PanelEditItem from "./Panel/PanelEditItem";
-import PanelEditItemHandlers from "./Panel/PanelEditItemHandlers";
+import { PanelEditItemHandlers } from "./Panel";
 import PanelCode from "./Panel/PanelCode";
 import { ThemeContext } from "@dash/Context";
 

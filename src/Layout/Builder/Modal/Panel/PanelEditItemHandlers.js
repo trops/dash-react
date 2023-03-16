@@ -44,12 +44,12 @@ export const PanelEditItemHandlers = ({
 
         if (deepEqual(workspace, workspaceSelected) === false) {
             setWorkspaceSelected(() => workspace);
-            loadExistingListeners(workspace);
+            // loadExistingListeners(workspace);
         }
 
         if (workspaceSelected === workspace && loadedExisting === false) {
             setLoadedExisting(() => true);
-            loadExistingListeners(workspaceSelected);
+            // loadExistingListeners(workspaceSelected);
         }
         // if (open === false) {
         //     setItemSelected(() => null);
@@ -132,15 +132,23 @@ export const PanelEditItemHandlers = ({
     }
 
     function handleRemoveEvent(eventString) {
-        const eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(
-            (event) => event !== eventString
-        );
-        setEventsSelected(() => eventsSelectedTemp);
-        handleSaveChanges();
+        try {
+            console.log("removing event", eventString);
+            if (eventsSelected && eventHandlerSelected) {
+                const eventsSelectedTemp = eventsSelected[
+                    eventHandlerSelected
+                ].filter((event) => event !== eventString);
+                setEventsSelected(() => eventsSelectedTemp);
+                handleSaveChanges();
+            }
+        } catch (e) {
+            console.log("handleRemoveEvent ", eventString);
+        }
     }
 
     function handleSelectEventHandler(handler) {
         setEventHandlerSelected(() => handler);
+        setEventsSelected(() => null);
         handleSaveChanges();
     }
 
@@ -169,9 +177,11 @@ export const PanelEditItemHandlers = ({
             if (
                 workspaceSelected !== null &&
                 eventHandlerSelected !== null &&
-                Object.keys(eventsSelected).length > 0
+                Object.keys(eventsSelected).length > 0 &&
+                "id" in itemSelected &&
+                itemSelected["id"] !== null
             ) {
-                console.log("saving changes");
+                console.log("saving changes", JSON.stringify(eventsSelected));
                 const tempWorkspace = deepCopy(workspaceSelected);
 
                 // craft the event handler + listeners
@@ -204,16 +214,44 @@ export const PanelEditItemHandlers = ({
 
     function isSelectedEvent(event) {
         try {
-            if (eventsSelected !== null && eventHandlerSelected) {
-                console.log(
-                    "checking is event selected ",
-                    eventsSelected,
-                    eventsSelected[eventHandlerSelected],
-                    event
-                );
-                return eventsSelected[eventHandlerSelected].includes(event);
-            }
-            return false;
+            const listenerArray = Object.keys(workspaceSelected.layout)
+                .filter((k) => {
+                    console.log(
+                        "checking ",
+                        workspaceSelected.layout[k]["listeners"]
+                    );
+                    return (
+                        Object.keys(workspaceSelected["layout"][k]["listeners"])
+                            .length > 0
+                    );
+                })
+                .map((h) => {
+                    return workspaceSelected["layout"][h]["listeners"];
+                });
+
+            console.log("is event selected ", event, listenerArray);
+
+            let isSelected = false;
+            listenerArray.forEach((a) => {
+                Object.keys(a).forEach((handler) => {
+                    console.log("HANDLER ", handler);
+                    if (a[handler].includes(event) === true) isSelected = true;
+                });
+            });
+
+            // we also have to check the state events selected to see if the user
+            // had set the temp selected?
+
+            // if (eventsSelected !== null && eventHandlerSelected) {
+            //     console.log(
+            //         "checking is event selected ",
+            //         eventsSelected,
+            //         eventsSelected[eventHandlerSelected],
+            //         event
+            //     );
+            //     return eventsSelected[eventHandlerSelected].includes(event);
+            // }
+            return isSelected;
         } catch (e) {
             return false;
         }
@@ -221,7 +259,6 @@ export const PanelEditItemHandlers = ({
 
     function renderAvailableEvents() {
         if (workspaceSelected !== null) {
-            console.log("available events ", workspaceSelected);
             return workspaceSelected.layout
                 .filter((l) => l["component"] !== "Container")
                 .filter((e) => e.events.length > 0)
@@ -443,5 +480,3 @@ export const PanelEditItemHandlers = ({
         )
     );
 };
-
-export default PanelEditItemHandlers;
