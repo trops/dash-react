@@ -155,7 +155,7 @@ export const PanelEditItemHandlers = ({
 
     function handleSelectEventHandler(handler) {
         setEventHandlerSelected(() => handler);
-        setEventsSelected(() => null);
+        setEventsSelected(() => {});
         handleSaveChanges();
     }
 

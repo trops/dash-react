@@ -6595,9 +6595,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     setEventHandlerSelected(function () {
       return handler;
     });
-    setEventsSelected(function () {
-      return null;
-    });
+    setEventsSelected(function () {});
     handleSaveChanges();
   }
   function handleRemoveEventHandler() {
