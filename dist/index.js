@@ -6575,7 +6575,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   }
   function handleRemoveEvent(eventString) {
     try {
-      console.log("removing event", eventString);
+      console.log("removing event", eventString, eventHandlerSelected, eventsSelected);
       if (eventsSelected && eventHandlerSelected) {
         var eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(function (event) {
           return event !== eventString;
@@ -6583,7 +6583,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         setEventsSelected(function () {
           return eventsSelectedTemp;
         });
-        handleSaveChanges();
+        // handleSaveChanges();
       }
     } catch (e) {
       console.log("handleRemoveEvent ", eventString);

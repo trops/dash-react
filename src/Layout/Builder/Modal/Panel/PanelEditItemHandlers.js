@@ -133,13 +133,18 @@ export const PanelEditItemHandlers = ({
 
     function handleRemoveEvent(eventString) {
         try {
-            console.log("removing event", eventString);
+            console.log(
+                "removing event",
+                eventString,
+                eventHandlerSelected,
+                eventsSelected
+            );
             if (eventsSelected && eventHandlerSelected) {
                 const eventsSelectedTemp = eventsSelected[
                     eventHandlerSelected
                 ].filter((event) => event !== eventString);
                 setEventsSelected(() => eventsSelectedTemp);
-                handleSaveChanges();
+                // handleSaveChanges();
             }
         } catch (e) {
             console.log("handleRemoveEvent ", eventString);
