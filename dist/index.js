@@ -76,7 +76,7 @@ var WidgetApi = /*#__PURE__*/function () {
           minified["on"] = "on" in api ? api.on : null, minified["removeAllListeners"] = "removeAllListeners" in api ? api.removeAllListeners : null, minified["data"] = "data" in api ? api.data : null;
           minified["algolia"] = "algolia" in api ? api.algolia : null;
           minified["events"] = "publicEvents" in api ? api.publicEvents : null;
-          this._electronApi = api; //minified;
+          this._electronApi = minified;
         }
       } catch (e) {
         console.log("Error Setting Electron API ", e.message);
@@ -8860,7 +8860,6 @@ var Widget = function Widget(_ref) {
   }
 
   // inject the publisher into the api for the developer to use
-  console.log("In Widget setting electron API ", api);
   if ("api" in props) {
     if (props["api"] !== null) {
       props["api"].setPublisher(pub);
