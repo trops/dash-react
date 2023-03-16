@@ -6711,8 +6711,8 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
   function isSelectedEvent(event) {
     try {
-      console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"], event);
-      if (event) {
+      console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"], event, eventHandlerSelected);
+      if (event && eventHandlerSelected) {
         // const listenerArray = workspaceSelected.layout
         //     .filter((a) => {
         //         console.log(
@@ -6733,11 +6733,11 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         //     });
         // console.log("listeners array from workspace ", listenerArray);
         var isSelected = false;
-        itemSelected["listeners"].forEach(function (handlerKey) {
-          itemSelected["listeners"][handlerKey].forEach(function (eventString) {
-            if (itemSelected[handlerKey].includes(eventString) === true) isSelected = true;
-          });
-        });
+        if (eventHandlerSelected in itemSelected["listeners"]) {
+          if (itemSelected["listeners"][eventHandlerSelected].includes(event) === true) {
+            isSelected = true;
+          }
+        }
         return isSelected;
       }
     } catch (e) {

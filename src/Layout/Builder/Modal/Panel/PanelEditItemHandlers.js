@@ -284,9 +284,10 @@ export const PanelEditItemHandlers = ({
                 "listeners for selected item ",
                 itemSelected["listeners"],
                 itemSelected["id"],
-                event
+                event,
+                eventHandlerSelected
             );
-            if (event) {
+            if (event && eventHandlerSelected) {
                 // const listenerArray = workspaceSelected.layout
                 //     .filter((a) => {
                 //         console.log(
@@ -307,18 +308,16 @@ export const PanelEditItemHandlers = ({
                 //     });
                 // console.log("listeners array from workspace ", listenerArray);
                 let isSelected = false;
-                itemSelected["listeners"].forEach((handlerKey) => {
-                    itemSelected["listeners"][handlerKey].forEach(
-                        (eventString) => {
-                            if (
-                                itemSelected[handlerKey].includes(
-                                    eventString
-                                ) === true
-                            )
-                                isSelected = true;
-                        }
-                    );
-                });
+
+                if (eventHandlerSelected in itemSelected["listeners"]) {
+                    if (
+                        itemSelected["listeners"][
+                            eventHandlerSelected
+                        ].includes(event) === true
+                    ) {
+                        isSelected = true;
+                    }
+                }
 
                 return isSelected;
             }
