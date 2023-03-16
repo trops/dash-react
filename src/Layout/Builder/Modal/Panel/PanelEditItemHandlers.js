@@ -260,7 +260,8 @@ export const PanelEditItemHandlers = ({
                     layoutItem["id"],
                     layoutItem
                 );
-
+                console.log("new layout listeners ", layoutItem["listeners"]);
+                console.log("new workspace ", tempWorkspace.layout);
                 // // save the new workspace
                 onUpdate(layoutItem, tempWorkspace);
             }
@@ -281,14 +282,14 @@ export const PanelEditItemHandlers = ({
         try {
             console.log(
                 "listeners for selected item ",
-                itemSelected["listeners"]
+                itemSelected["listeners"],
+                itemSelected["id"]
             );
-            const listenerArray = Object.keys(workspaceSelected.layout)
+            const listenerArray = workspaceSelected.layout
                 .filter((a) => a["id"] === itemSelected["id"])
                 .filter((k) => {
                     return (
-                        Object.keys(workspaceSelected["layout"][k]["listeners"])
-                            .length > 0
+                        workspaceSelected["layout"][k]["listeners"].length > 0
                     );
                 })
                 .map((h) => {

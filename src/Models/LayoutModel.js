@@ -46,19 +46,20 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         // let's get some specifics from the configuration file
         // just in case these were missing
-        layout.componentData = ComponentManager.getComponent(layout.component);
+
+        // layout.componentData = ComponentManager.getComponent(layout.component);
 
         // generate a unique name so that we can store files, publish events etc
         // all with this very specific identifier
 
         layout.uuid = `${dashboardId}-${layout["component"]}-${layout.id}`;
 
-        if (layout.componentData !== undefined) {
-            if ("type" in layout.componentData)
-                layout.type = layout.componentData.type;
-            if ("workspace" in layout.componentData)
-                layout.workspace = layout.componentData.workspace;
-        }
+        // if (layout.componentData !== undefined) {
+        //     if ("type" in layout.componentData)
+        //         layout.type = layout.componentData.type;
+        //     if ("workspace" in layout.componentData)
+        //         layout.workspace = layout.componentData.workspace;
+        // }
 
         /// widget configuration
         const widgetConfig = ComponentManager.config(obj["component"], obj);

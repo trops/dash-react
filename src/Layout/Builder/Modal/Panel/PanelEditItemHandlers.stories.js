@@ -972,7 +972,7 @@ let workspaceTemp = {
             parent: 18,
             type: "widget",
             workspace: "SaveDataWorkspace-workspace",
-            listeners: [],
+            listeners: {},
             eventHandlers: ["handleSearchChange2"],
             siblingCount: 0,
             componentData: {

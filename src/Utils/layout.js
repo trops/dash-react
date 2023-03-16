@@ -502,9 +502,11 @@ export function getIndexOfLayoutChildrenForItem(tempLayout, id) {
 
 export function replaceItemInLayout(tempLayout, id, item) {
     const indexOfItem = getIndexOfLayoutItem(tempLayout, id);
+    console.log("Index of item to replace", indexOfItem);
     if (indexOfItem > -1) {
         tempLayout[indexOfItem] = item;
     }
+    console.log("replace with ", item, tempLayout);
     return tempLayout;
 }
 

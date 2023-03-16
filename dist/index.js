@@ -1778,16 +1778,20 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 
     // let's get some specifics from the configuration file
     // just in case these were missing
-    layout.componentData = ComponentManager.getComponent(layout.component);
+
+    // layout.componentData = ComponentManager.getComponent(layout.component);
 
     // generate a unique name so that we can store files, publish events etc
     // all with this very specific identifier
 
     layout.uuid = "".concat(dashboardId, "-").concat(layout["component"], "-").concat(layout.id);
-    if (layout.componentData !== undefined) {
-      if ("type" in layout.componentData) layout.type = layout.componentData.type;
-      if ("workspace" in layout.componentData) layout.workspace = layout.componentData.workspace;
-    }
+
+    // if (layout.componentData !== undefined) {
+    //     if ("type" in layout.componentData)
+    //         layout.type = layout.componentData.type;
+    //     if ("workspace" in layout.componentData)
+    //         layout.workspace = layout.componentData.workspace;
+    // }
 
     /// widget configuration
     var widgetConfig = ComponentManager.config(obj["component"], obj);
@@ -6687,7 +6691,8 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         // now lets add to it...
         layoutItem["listeners"] = currentListeners;
         tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
-
+        console.log("new layout listeners ", layoutItem["listeners"]);
+        console.log("new workspace ", tempWorkspace.layout);
         // // save the new workspace
         onUpdate(layoutItem, tempWorkspace);
       }
@@ -6706,11 +6711,11 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
   function isSelectedEvent(event) {
     try {
-      console.log("listeners for selected item ", itemSelected["listeners"]);
-      var listenerArray = Object.keys(workspaceSelected.layout).filter(function (a) {
+      console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"]);
+      var listenerArray = workspaceSelected.layout.filter(function (a) {
         return a["id"] === itemSelected["id"];
       }).filter(function (k) {
-        return Object.keys(workspaceSelected["layout"][k]["listeners"]).length > 0;
+        return workspaceSelected["layout"][k]["listeners"].length > 0;
       }).map(function (h) {
         return workspaceSelected["layout"][h]["listeners"];
       });
@@ -9676,9 +9681,11 @@ function getIndexOfLayoutChildrenForItem(tempLayout, id) {
 }
 function replaceItemInLayout(tempLayout, id, item) {
   var indexOfItem = getIndexOfLayoutItem(tempLayout, id);
+  console.log("Index of item to replace", indexOfItem);
   if (indexOfItem > -1) {
     tempLayout[indexOfItem] = item;
   }
+  console.log("replace with ", item, tempLayout);
   return tempLayout;
 }
 
