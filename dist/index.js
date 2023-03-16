@@ -1783,6 +1783,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
       layout.parentWorkspaceName = parentWorkspaceName;
       layout.parentWorkspace = parentWS || {};
     }
+    console.log("TESTING non instantiated ", WidgetApi.uuid());
 
     // can we include the API?
     var widgetApi = WidgetApi;
