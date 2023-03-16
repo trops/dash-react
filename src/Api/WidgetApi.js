@@ -56,7 +56,7 @@ export class WidgetApi {
                 minified["events"] =
                     "publicEvents" in api ? api.publicEvents : null;
 
-                this._electronApi = minified;
+                this._electronApi = api; //minified;
             }
         } catch (e) {
             console.log("Error Setting Electron API ", e.message);
