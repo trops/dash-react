@@ -155,7 +155,9 @@ var WidgetApi = /*#__PURE__*/function () {
         _ref$callbackComplete = _ref.callbackComplete,
         callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
         _ref$callbackError = _ref.callbackError,
-        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
+        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError,
+        _ref$append = _ref.append,
+        append = _ref$append === void 0 ? true : _ref$append;
       // set the filename
       var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
       // grab the electron api
@@ -174,7 +176,7 @@ var WidgetApi = /*#__PURE__*/function () {
           });
         }
         // request.
-        eApi.data.saveData(data, toFilename);
+        eApi.data.saveData(data, toFilename, append);
       }
     }
 

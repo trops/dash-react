@@ -120,7 +120,12 @@ export class WidgetApi {
      */
     storeData(
         data,
-        { filename = null, callbackComplete = null, callbackError = null }
+        {
+            filename = null,
+            callbackComplete = null,
+            callbackError = null,
+            append = true,
+        }
     ) {
         // set the filename
         const toFilename = filename !== null ? filename : `${this.uuid()}.json`;
@@ -140,7 +145,7 @@ export class WidgetApi {
                 );
             }
             // request.
-            eApi.data.saveData(data, toFilename);
+            eApi.data.saveData(data, toFilename, append);
         }
     }
 
