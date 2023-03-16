@@ -17,9 +17,8 @@ describe("WidgetApi tests ", () => {
     const pub = DashboardPublisher;
 
     test("initialize the api", () => {
-        api = WidgetApi;
-        api.init(uuid);
-        const uuidOut = WidgetApi.uuid();
+        api = new WidgetApi(uuid);
+        const uuidOut = api.uuid();
         expect(uuidOut).toBe(uuid);
     });
 
@@ -49,8 +48,7 @@ describe("WidgetApi tests ", () => {
 
     test("register listeners same event different widget ", () => {
         const uuid2 = "34567";
-        api2 = WidgetApi;
-        api2.init(uuid2);
+        api2 = new WidgetApi(uuid2);
         api2.setPublisher(pub);
         const handlerMap = {
             handleSearchChange: (data) => console.log(data),

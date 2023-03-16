@@ -4,11 +4,13 @@
  *
  */
 
-export const WidgetApi = {
-    _uuid: null,
-    _pub: null,
-    _electronApi: null,
-    _settings: null,
+export class WidgetApi {
+    constructor(uuid) {
+        this._uuid = uuid;
+        this._pub = null;
+        this._electronApi = null;
+        this._settings = null;
+    }
 
     /**
      * init
@@ -21,19 +23,19 @@ export const WidgetApi = {
      *
      * @param {string} uuid
      */
-    init: function (uuidInput) {
+    init(uuidInput) {
         try {
             this._uuid = uuidInput;
         } catch (e) {
             console.log(e);
         }
-    },
+    }
 
-    setPublisher: function (publisher) {
+    setPublisher(publisher) {
         this._pub = publisher;
-    },
+    }
 
-    setElectronApi: function (api) {
+    setElectronApi(api) {
         try {
             /**
              * include the main electron apis that we want to expose ONLY
@@ -50,38 +52,38 @@ export const WidgetApi = {
         } catch (e) {
             console.log("Error Setting Electron API ", e.message);
         }
-    },
+    }
 
-    setSettings: function (settings) {
+    setSettings(settings) {
         this._settings = settings;
-    },
+    }
 
     /**
      * uuid
      * @returns string the UUID for this Widget
      */
-    uuid: function () {
+    uuid() {
         return this._uuid;
-    },
+    }
 
-    electronApi: function () {
+    electronApi() {
         return this._electronApi;
-    },
+    }
 
-    pub: function () {
+    pub() {
         return this._pub;
-    },
+    }
 
     /**
      * publishEvent
      * @param {string} name the name of the widget (TODO - uuid + handler)
      * @param {object} events the payload for the event published
      */
-    publishEvent: function (name, events) {
+    publishEvent(name, events) {
         // console.log("publish event ", `${this.uuid()}-${name}`);
         // const uniqueName = `${${name}`;
         this._pub.pub(name, events);
-    },
+    }
 
     /**
      * registerListeners
@@ -93,9 +95,9 @@ export const WidgetApi = {
      * @param {array} listeners
      * @param {object} handlers
      */
-    registerListeners: function (listeners, handlers) {
+    registerListeners(listeners, handlers) {
         this._pub.registerListeners(listeners, handlers, this.uuid());
-    },
+    }
 
     /**
      * storeData
@@ -107,7 +109,7 @@ export const WidgetApi = {
      * @param {object} data
      * @param {object} options filename - name of the file, callbacks for complete and error
      */
-    storeData: function (
+    storeData(
         data,
         { filename = null, callbackComplete = null, callbackError = null }
     ) {
@@ -131,7 +133,7 @@ export const WidgetApi = {
             // request.
             eApi.data.saveToFile(data, toFilename);
         }
-    },
+    }
 
     /**
      *
@@ -140,7 +142,7 @@ export const WidgetApi = {
      * - callbackComplete - the handler for dealing with the complete callback data
      * - callbackError - the handler for dealing with the error callback data
      */
-    readData: function ({
+    readData({
         filename = null,
         callbackComplete = null,
         callbackError = null,
@@ -167,5 +169,5 @@ export const WidgetApi = {
         } catch (e) {
             console.log(e);
         }
-    },
-};
+    }
+}

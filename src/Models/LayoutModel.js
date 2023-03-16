@@ -110,10 +110,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         console.log("TESTING non instantiated ", WidgetApi.uuid());
 
         // can we include the API?
-        const widgetApi = WidgetApi;
-        widgetApi.init(layout.uuid);
-
-        layout.api = widgetApi;
+        layout.api = new WidgetApi(layout.uuid);
 
         console.log(
             "layout model widget api ",

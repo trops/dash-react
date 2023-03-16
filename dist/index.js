@@ -14,17 +14,27 @@ import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import parseArgs from 'minimist';
 
+function _typeof$p(obj) { "@babel/helpers - typeof"; return _typeof$p = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$p(obj); }
+function _classCallCheck$7(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$o(descriptor.key), descriptor); } }
+function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey$o(arg) { var key = _toPrimitive$o(arg, "string"); return _typeof$p(key) === "symbol" ? key : String(key); }
+function _toPrimitive$o(input, hint) { if (_typeof$p(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$p(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /**
  * WidgetApi
  * Include developer methods to easily access the Electron bridge
  *
  */
 
-var WidgetApi = {
-  _uuid: null,
-  _pub: null,
-  _electronApi: null,
-  _settings: null,
+var WidgetApi = /*#__PURE__*/function () {
+  function WidgetApi(uuid) {
+    _classCallCheck$7(this, WidgetApi);
+    this._uuid = uuid;
+    this._pub = null;
+    this._electronApi = null;
+    this._settings = null;
+  }
+
   /**
    * init
    *
@@ -36,143 +46,172 @@ var WidgetApi = {
    *
    * @param {string} uuid
    */
-  init: function init(uuidInput) {
-    try {
-      this._uuid = uuidInput;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  setPublisher: function setPublisher(publisher) {
-    this._pub = publisher;
-  },
-  setElectronApi: function setElectronApi(api) {
-    try {
-      /**
-       * include the main electron apis that we want to expose ONLY
-       */
-      if (api !== undefined && api !== null) {
-        var minified = {};
-        minified["data"] = "data" in api ? api.data : null;
-        minified["algolia"] = "algolia" in api ? api.algolia : null;
-        minified["events"] = "publicEvents" in api ? api.publicEvents : null;
-        this._electronApi = minified;
+  _createClass$7(WidgetApi, [{
+    key: "init",
+    value: function init(uuidInput) {
+      try {
+        this._uuid = uuidInput;
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log("Error Setting Electron API ", e.message);
     }
-  },
-  setSettings: function setSettings(settings) {
-    this._settings = settings;
-  },
-  /**
-   * uuid
-   * @returns string the UUID for this Widget
-   */
-  uuid: function uuid() {
-    return this._uuid;
-  },
-  electronApi: function electronApi() {
-    return this._electronApi;
-  },
-  pub: function pub() {
-    return this._pub;
-  },
-  /**
-   * publishEvent
-   * @param {string} name the name of the widget (TODO - uuid + handler)
-   * @param {object} events the payload for the event published
-   */
-  publishEvent: function publishEvent(name, events) {
-    // console.log("publish event ", `${this.uuid()}-${name}`);
-    // const uniqueName = `${${name}`;
-    this._pub.pub(name, events);
-  },
-  /**
-   * registerListeners
-   *
-   * Register an array of listeners (strings) and set the handler (object)
-   * Each handler has a key and Component named the same so we can use the handler
-   * methods in code.
-   *
-   * @param {array} listeners
-   * @param {object} handlers
-   */
-  registerListeners: function registerListeners(listeners, handlers) {
-    this._pub.registerListeners(listeners, handlers, this.uuid());
-  },
-  /**
-   * storeData
-   *
-   * Allow the widget to have access to "local storage"
-   * Store any object data to the filesystem in a predetermined filepath
-   * based on the widget information (dashboard.workspace.widget...)
-   *
-   * @param {object} data
-   * @param {object} options filename - name of the file, callbacks for complete and error
-   */
-  storeData: function storeData(data, _ref) {
-    var _ref$filename = _ref.filename,
-      filename = _ref$filename === void 0 ? null : _ref$filename,
-      _ref$callbackComplete = _ref.callbackComplete,
-      callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
-      _ref$callbackError = _ref.callbackError,
-      callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
-    // set the filename
-    var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
-    // grab the electron api
-    var eApi = this.electronApi();
-    if (eApi) {
-      // remove the listeners (reset)
-      eApi.removeAllListeners();
-      if (callbackComplete !== null) {
-        eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
-          return callbackComplete(e, message);
-        });
-      }
-      if (callbackError !== null) {
-        eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
-          return callbackError(e, message);
-        });
-      }
-      // request.
-      eApi.data.saveToFile(data, toFilename);
+  }, {
+    key: "setPublisher",
+    value: function setPublisher(publisher) {
+      this._pub = publisher;
     }
-  },
-  /**
-   *
-   * @param {object} options
-   * - filename - the name of the file if you want to override the default uuid as filename
-   * - callbackComplete - the handler for dealing with the complete callback data
-   * - callbackError - the handler for dealing with the error callback data
-   */
-  readData: function readData(_ref2) {
-    var _ref2$filename = _ref2.filename,
-      filename = _ref2$filename === void 0 ? null : _ref2$filename,
-      _ref2$callbackComplet = _ref2.callbackComplete,
-      callbackComplete = _ref2$callbackComplet === void 0 ? null : _ref2$callbackComplet,
-      _ref2$callbackError = _ref2.callbackError,
-      callbackError = _ref2$callbackError === void 0 ? null : _ref2$callbackError;
-    try {
+  }, {
+    key: "setElectronApi",
+    value: function setElectronApi(api) {
+      try {
+        /**
+         * include the main electron apis that we want to expose ONLY
+         */
+        if (api !== undefined && api !== null) {
+          var minified = {};
+          minified["data"] = "data" in api ? api.data : null;
+          minified["algolia"] = "algolia" in api ? api.algolia : null;
+          minified["events"] = "publicEvents" in api ? api.publicEvents : null;
+          this._electronApi = minified;
+        }
+      } catch (e) {
+        console.log("Error Setting Electron API ", e.message);
+      }
+    }
+  }, {
+    key: "setSettings",
+    value: function setSettings(settings) {
+      this._settings = settings;
+    }
+
+    /**
+     * uuid
+     * @returns string the UUID for this Widget
+     */
+  }, {
+    key: "uuid",
+    value: function uuid() {
+      return this._uuid;
+    }
+  }, {
+    key: "electronApi",
+    value: function electronApi() {
+      return this._electronApi;
+    }
+  }, {
+    key: "pub",
+    value: function pub() {
+      return this._pub;
+    }
+
+    /**
+     * publishEvent
+     * @param {string} name the name of the widget (TODO - uuid + handler)
+     * @param {object} events the payload for the event published
+     */
+  }, {
+    key: "publishEvent",
+    value: function publishEvent(name, events) {
+      // console.log("publish event ", `${this.uuid()}-${name}`);
+      // const uniqueName = `${${name}`;
+      this._pub.pub(name, events);
+    }
+
+    /**
+     * registerListeners
+     *
+     * Register an array of listeners (strings) and set the handler (object)
+     * Each handler has a key and Component named the same so we can use the handler
+     * methods in code.
+     *
+     * @param {array} listeners
+     * @param {object} handlers
+     */
+  }, {
+    key: "registerListeners",
+    value: function registerListeners(listeners, handlers) {
+      this._pub.registerListeners(listeners, handlers, this.uuid());
+    }
+
+    /**
+     * storeData
+     *
+     * Allow the widget to have access to "local storage"
+     * Store any object data to the filesystem in a predetermined filepath
+     * based on the widget information (dashboard.workspace.widget...)
+     *
+     * @param {object} data
+     * @param {object} options filename - name of the file, callbacks for complete and error
+     */
+  }, {
+    key: "storeData",
+    value: function storeData(data, _ref) {
+      var _ref$filename = _ref.filename,
+        filename = _ref$filename === void 0 ? null : _ref$filename,
+        _ref$callbackComplete = _ref.callbackComplete,
+        callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
+        _ref$callbackError = _ref.callbackError,
+        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
+      // set the filename
       var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
+      // grab the electron api
       var eApi = this.electronApi();
-      eApi.removeAllListeners();
-      if (callbackComplete !== null) {
-        eApi.on(eApi.events.DATA_READ_FROM_FILE_COMPLETE, function (e, message) {
-          return callbackComplete(e, message);
-        });
+      if (eApi) {
+        // remove the listeners (reset)
+        eApi.removeAllListeners();
+        if (callbackComplete !== null) {
+          eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
+            return callbackComplete(e, message);
+          });
+        }
+        if (callbackError !== null) {
+          eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
+            return callbackError(e, message);
+          });
+        }
+        // request.
+        eApi.data.saveToFile(data, toFilename);
       }
-      if (callbackError !== null) {
-        callbackError !== null && eApi.on(eApi.events.DATA_READ_FROM_FILE_ERROR, function (e, message) {
-          return callbackError(e, message);
-        });
-      }
-      eApi.data.readFromFile(toFilename);
-    } catch (e) {
-      console.log(e);
     }
-  }
-};
+
+    /**
+     *
+     * @param {object} options
+     * - filename - the name of the file if you want to override the default uuid as filename
+     * - callbackComplete - the handler for dealing with the complete callback data
+     * - callbackError - the handler for dealing with the error callback data
+     */
+  }, {
+    key: "readData",
+    value: function readData(_ref2) {
+      var _ref2$filename = _ref2.filename,
+        filename = _ref2$filename === void 0 ? null : _ref2$filename,
+        _ref2$callbackComplet = _ref2.callbackComplete,
+        callbackComplete = _ref2$callbackComplet === void 0 ? null : _ref2$callbackComplet,
+        _ref2$callbackError = _ref2.callbackError,
+        callbackError = _ref2$callbackError === void 0 ? null : _ref2$callbackError;
+      try {
+        var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
+        var eApi = this.electronApi();
+        eApi.removeAllListeners();
+        if (callbackComplete !== null) {
+          eApi.on(eApi.events.DATA_READ_FROM_FILE_COMPLETE, function (e, message) {
+            return callbackComplete(e, message);
+          });
+        }
+        if (callbackError !== null) {
+          callbackError !== null && eApi.on(eApi.events.DATA_READ_FROM_FILE_ERROR, function (e, message) {
+            return callbackError(e, message);
+          });
+        }
+        eApi.data.readFromFile(toFilename);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }]);
+  return WidgetApi;
+}();
 
 /**
  * ThemeApi
@@ -1786,9 +1825,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     console.log("TESTING non instantiated ", WidgetApi.uuid());
 
     // can we include the API?
-    var widgetApi = WidgetApi;
-    widgetApi.init(layout.uuid);
-    layout.api = widgetApi;
+    layout.api = new WidgetApi(layout.uuid);
     console.log("layout model widget api ", layout.id, layout.dashboardId, layout.api.uuid());
     return layout;
   } catch (e) {
