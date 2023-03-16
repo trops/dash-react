@@ -79,30 +79,14 @@ var WidgetApi = /*#__PURE__*/function () {
          * include the main electron apis that we want to expose ONLY
          */
         if (api !== undefined && api !== null) {
-          console.log("api ", api);
-          var minified = deepCopy(api);
-          console.log("minified copy ", minified);
-          // now lets delete the keys?
-          var tempApi = {
-            on: minified["on"],
-            removeAllListeners: minified["removeAllListeners"],
-            data: minified["data"],
-            algolia: minified["algolia"],
-            events: minified["publicEvents"]
+          // set the mainApi to electron inside the widget.
+          this._electronApi = {
+            on: api.on,
+            removeAllListeners: api.removeAllListeners,
+            data: api.data,
+            algolia: api.algolia,
+            events: api.publicEvents
           };
-          console.log(tempApi);
-
-          // (minified["on"] = "on" in api ? api.on : null),
-          //     (minified["removeAllListeners"] =
-          //         "removeAllListeners" in api
-          //             ? api.removeAllListeners
-          //             : null),
-          //     (minified["data"] = "data" in api ? api.data : null);
-          // minified["algolia"] = "algolia" in api ? api.algolia : null;
-          // minified["events"] =
-          //     "publicEvents" in api ? api.publicEvents : null;
-
-          this._electronApi = tempApi;
         }
       } catch (e) {
         console.log("Error Setting Electron API ", e.message);
