@@ -1822,13 +1822,13 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
       layout.parentWorkspaceName = parentWorkspaceName;
       layout.parentWorkspace = parentWS || {};
     }
-    console.log("TESTING non instantiated ", WidgetApi.uuid());
 
     // can we include the API?
     layout.api = new WidgetApi(layout.uuid);
     console.log("layout model widget api ", layout.id, layout.dashboardId, layout.api.uuid());
     return layout;
   } catch (e) {
+    console.log("layout model ", e.message);
     return null;
   }
 };

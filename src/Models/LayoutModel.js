@@ -107,8 +107,6 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
             layout.parentWorkspace = parentWS || {};
         }
 
-        console.log("TESTING non instantiated ", WidgetApi.uuid());
-
         // can we include the API?
         layout.api = new WidgetApi(layout.uuid);
 
@@ -121,6 +119,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         return layout;
     } catch (e) {
+        console.log("layout model ", e.message);
         return null;
     }
 };
