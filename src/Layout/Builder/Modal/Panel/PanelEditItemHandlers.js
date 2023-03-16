@@ -124,7 +124,7 @@ export const PanelEditItemHandlers = ({
                 // and now set the handler to the unique event
                 currentListeners[eventHandlerSelected] = uniqueEventsSelected;
                 console.log("DONE ", currentListeners);
-                setEventsSelected(() => currentListeners);
+                // setEventsSelected(() => currentListeners);
                 handleSaveChanges(currentListeners);
             }
         } catch (e) {
@@ -175,7 +175,7 @@ export const PanelEditItemHandlers = ({
                     currentListeners
                 );
 
-                setEventsSelected(() => currentListeners);
+                // setEventsSelected(() => currentListeners);
 
                 handleSaveChanges(currentListeners);
             }
@@ -186,14 +186,40 @@ export const PanelEditItemHandlers = ({
 
     function handleSelectEventHandler(handler) {
         setEventHandlerSelected(() => handler);
-        setEventsSelected(() => {});
-        handleSaveChanges();
+        // setEventsSelected(() => {});
+        // handleSaveChanges();
     }
 
-    function handleRemoveEventHandler() {
+    /**
+     * handleRemoveEventHandler
+     * We are removing the event handler, and thus removing all of the
+     * events that are associated with the handler in the listeners...
+     * @param {string} handler
+     */
+    function handleRemoveEventHandler(handler) {
         setEventHandlerSelected(() => null);
-        setEventsSelected(() => {});
-        handleSaveChanges();
+        // setEventsSelected(() => {});
+
+        // hmm, removing the event handler....
+        // we should remove this key from the listeners then save the changes...
+        let currentListeners = deepCopy(itemSelected["listeners"]);
+        console.log(
+            "current listeners for item remove handler ",
+            handler,
+            currentListeners
+        );
+
+        // ok we have some events, and need to set them as the value for the handler selected
+
+        // want to update the listeners OBJECT
+        // handler: [event, event]
+        if (handler in currentListeners) {
+            // there are NO events for this handler, so we can remove this handler from
+            // the listeners entirely.
+            delete currentListeners[handler];
+        }
+
+        handleSaveChanges(currentListeners);
     }
 
     function getLayoutItemById(id) {

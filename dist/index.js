@@ -6576,9 +6576,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         // and now set the handler to the unique event
         currentListeners[eventHandlerSelected] = uniqueEventsSelected;
         console.log("DONE ", currentListeners);
-        setEventsSelected(function () {
-          return currentListeners;
-        });
+        // setEventsSelected(() => currentListeners);
         handleSaveChanges(currentListeners);
       }
     } catch (e) {
@@ -6613,9 +6611,9 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
           delete currentListeners[eventHandlerSelected];
         }
         console.log("New temp events ", eventsSelectedTemp, currentListeners);
-        setEventsSelected(function () {
-          return currentListeners;
-        });
+
+        // setEventsSelected(() => currentListeners);
+
         handleSaveChanges(currentListeners);
       }
     } catch (e) {
@@ -6626,15 +6624,37 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     setEventHandlerSelected(function () {
       return handler;
     });
-    setEventsSelected(function () {});
-    handleSaveChanges();
+    // setEventsSelected(() => {});
+    // handleSaveChanges();
   }
-  function handleRemoveEventHandler() {
+
+  /**
+   * handleRemoveEventHandler
+   * We are removing the event handler, and thus removing all of the
+   * events that are associated with the handler in the listeners...
+   * @param {string} handler
+   */
+  function handleRemoveEventHandler(handler) {
     setEventHandlerSelected(function () {
       return null;
     });
-    setEventsSelected(function () {});
-    handleSaveChanges();
+    // setEventsSelected(() => {});
+
+    // hmm, removing the event handler....
+    // we should remove this key from the listeners then save the changes...
+    var currentListeners = deepCopy(itemSelected["listeners"]);
+    console.log("current listeners for item remove handler ", handler, currentListeners);
+
+    // ok we have some events, and need to set them as the value for the handler selected
+
+    // want to update the listeners OBJECT
+    // handler: [event, event]
+    if (handler in currentListeners) {
+      // there are NO events for this handler, so we can remove this handler from
+      // the listeners entirely.
+      delete currentListeners[handler];
+    }
+    handleSaveChanges(currentListeners);
   }
   function getLayoutItemById(id) {
     if (workspaceSelected !== null) {
@@ -6769,7 +6789,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
               console.log("selected handler ", selected, eventHandlerSelected);
               return /*#__PURE__*/jsx("div", {
                 onClick: function onClick() {
-                  return selected ? handleRemoveEventHandler() : handleSelectEventHandler(handler);
+                  return selected ? handleRemoveEventHandler(handler) : handleSelectEventHandler(handler);
                 },
                 className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true && "bg-indigo-700"),
                 children: /*#__PURE__*/jsx("div", {
