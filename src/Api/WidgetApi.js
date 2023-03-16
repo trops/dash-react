@@ -143,7 +143,7 @@ export class WidgetApi {
                     options["callbackComplete"](e, message)
                 );
             }
-            if (callbackError !== null) {
+            if (options["callbackError"] !== null) {
                 eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, (e, message) =>
                     options["callbackError"](e, message)
                 );

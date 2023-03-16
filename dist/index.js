@@ -169,7 +169,7 @@ var WidgetApi = /*#__PURE__*/function () {
             return options["callbackComplete"](e, message);
           });
         }
-        if (callbackError !== null) {
+        if (options["callbackError"] !== null) {
           eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
             return options["callbackError"](e, message);
           });
