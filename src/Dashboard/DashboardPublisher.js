@@ -60,7 +60,7 @@ const event = {
         console.log("subscriptions to event ", subscriptionsToEvent);
         if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
             subscriptionsToEvent.forEach((subscriber) => {
-                console.log(subscriber["uuid"]);
+                console.log("calling handler ", subscriber["uuid"]);
                 subscriber.action(...args);
             });
         }
