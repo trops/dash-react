@@ -8,6 +8,8 @@
  * The UUID is then used for filenames, etc and MUST be unique.
  */
 
+import { deepCopy } from "@dash/Utils";
+
 export class WidgetApi {
     constructor(uuid) {
         this._uuid = uuid;
@@ -45,18 +47,27 @@ export class WidgetApi {
              * include the main electron apis that we want to expose ONLY
              */
             if (api !== undefined && api !== null) {
-                const minified = {};
-                (minified["on"] = "on" in api ? api.on : null),
-                    (minified["removeAllListeners"] =
-                        "removeAllListeners" in api
-                            ? api.removeAllListeners
-                            : null),
-                    (minified["data"] = "data" in api ? api.data : null);
-                minified["algolia"] = "algolia" in api ? api.algolia : null;
-                minified["events"] =
-                    "publicEvents" in api ? api.publicEvents : null;
+                const minified = deepCopy(api);
+                // now lets delete the keys?
+                const tempApi = {
+                    on: minified["on"],
+                    removeAllListeners: minified["removeAllListeners"],
+                    data: minified["data"],
+                    algolia: minified["algolia"],
+                    events: minified["publicEvents"],
+                };
 
-                this._electronApi = minified;
+                // (minified["on"] = "on" in api ? api.on : null),
+                //     (minified["removeAllListeners"] =
+                //         "removeAllListeners" in api
+                //             ? api.removeAllListeners
+                //             : null),
+                //     (minified["data"] = "data" in api ? api.data : null);
+                // minified["algolia"] = "algolia" in api ? api.algolia : null;
+                // minified["events"] =
+                //     "publicEvents" in api ? api.publicEvents : null;
+
+                this._electronApi = tempApi;
             }
         } catch (e) {
             console.log("Error Setting Electron API ", e.message);
