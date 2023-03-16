@@ -149,34 +149,33 @@ var WidgetApi = /*#__PURE__*/function () {
      */
   }, {
     key: "storeData",
-    value: function storeData(data, _ref) {
-      var _ref$filename = _ref.filename,
-        filename = _ref$filename === void 0 ? null : _ref$filename,
-        _ref$callbackComplete = _ref.callbackComplete,
-        callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
-        _ref$callbackError = _ref.callbackError,
-        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError,
-        _ref$append = _ref.append,
-        append = _ref$append === void 0 ? true : _ref$append;
+    value: function storeData(data) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+        filename: null,
+        callbackComplete: null,
+        callbackError: null,
+        append: true
+      };
       // set the filename
-      var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
+      var toFilename = options["filename"] !== null ? options["filename"] : "".concat(this.uuid(), ".json");
+
       // grab the electron api
       var eApi = this.electronApi();
       if (eApi) {
         // remove the listeners (reset)
         eApi.removeAllListeners();
-        if (callbackComplete !== null) {
+        if (options["callbackComplete"] !== null) {
           eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
-            return callbackComplete(e, message);
+            return options["callbackComplete"](e, message);
           });
         }
         if (callbackError !== null) {
           eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
-            return callbackError(e, message);
+            return options["callbackError"](e, message);
           });
         }
         // request.
-        eApi.data.saveData(data, toFilename, append);
+        eApi.data.saveData(data, toFilename, options["append"]);
       }
     }
 
@@ -189,13 +188,13 @@ var WidgetApi = /*#__PURE__*/function () {
      */
   }, {
     key: "readData",
-    value: function readData(_ref2) {
-      var _ref2$filename = _ref2.filename,
-        filename = _ref2$filename === void 0 ? null : _ref2$filename,
-        _ref2$callbackComplet = _ref2.callbackComplete,
-        callbackComplete = _ref2$callbackComplet === void 0 ? null : _ref2$callbackComplet,
-        _ref2$callbackError = _ref2.callbackError,
-        callbackError = _ref2$callbackError === void 0 ? null : _ref2$callbackError;
+    value: function readData(_ref) {
+      var _ref$filename = _ref.filename,
+        filename = _ref$filename === void 0 ? null : _ref$filename,
+        _ref$callbackComplete = _ref.callbackComplete,
+        callbackComplete = _ref$callbackComplete === void 0 ? null : _ref$callbackComplete,
+        _ref$callbackError = _ref.callbackError,
+        callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError;
       try {
         var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
         var eApi = this.electronApi();
@@ -210,7 +209,7 @@ var WidgetApi = /*#__PURE__*/function () {
             return callbackError(e, message);
           });
         }
-        eApi.data.readFromFile(toFilename);
+        eApi.data.readData(toFilename);
       } catch (e) {
         console.log(e);
       }

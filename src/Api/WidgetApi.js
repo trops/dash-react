@@ -120,32 +120,36 @@ export class WidgetApi {
      */
     storeData(
         data,
-        {
-            filename = null,
-            callbackComplete = null,
-            callbackError = null,
-            append = true,
+        options = {
+            filename: null,
+            callbackComplete: null,
+            callbackError: null,
+            append: true,
         }
     ) {
         // set the filename
-        const toFilename = filename !== null ? filename : `${this.uuid()}.json`;
+        const toFilename =
+            options["filename"] !== null
+                ? options["filename"]
+                : `${this.uuid()}.json`;
+
         // grab the electron api
         const eApi = this.electronApi();
         if (eApi) {
             // remove the listeners (reset)
             eApi.removeAllListeners();
-            if (callbackComplete !== null) {
+            if (options["callbackComplete"] !== null) {
                 eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, (e, message) =>
-                    callbackComplete(e, message)
+                    options["callbackComplete"](e, message)
                 );
             }
             if (callbackError !== null) {
                 eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, (e, message) =>
-                    callbackError(e, message)
+                    options["callbackError"](e, message)
                 );
             }
             // request.
-            eApi.data.saveData(data, toFilename, append);
+            eApi.data.saveData(data, toFilename, options["append"]);
         }
     }
 
@@ -179,7 +183,7 @@ export class WidgetApi {
                         (e, message) => callbackError(e, message)
                     );
             }
-            eApi.data.readFromFile(toFilename);
+            eApi.data.readData(toFilename);
         } catch (e) {
             console.log(e);
         }
