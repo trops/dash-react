@@ -140,7 +140,7 @@ export class WidgetApi {
                 );
             }
             // request.
-            eApi.data.saveToFile(data, toFilename);
+            eApi.data.saveData(data, toFilename);
         }
     }
 
