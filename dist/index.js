@@ -6379,9 +6379,8 @@ function _unsupportedIterableToArray$b(o, minLen) { if (!o) return; if (typeof o
 function _arrayLikeToArray$b(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit$a(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles$a(arr) { if (Array.isArray(arr)) return arr; }
-var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
+var PanelCode = function PanelCode(_ref) {
   var workspace = _ref.workspace,
-    open = _ref.open,
     onUpdate = _ref.onUpdate,
     _ref$item = _ref.item,
     item = _ref$item === void 0 ? null : _ref$item;
@@ -6395,22 +6394,110 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     _useState4 = _slicedToArray$a(_useState3, 2),
     workspaceSelected = _useState4[0],
     setWorkspaceSelected = _useState4[1];
-  var _useState5 = useState({}),
-    _useState6 = _slicedToArray$a(_useState5, 2),
-    eventsSelected = _useState6[0],
-    setEventsSelected = _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray$a(_useState7, 2),
-    eventHandlerSelected = _useState8[0],
-    setEventHandlerSelected = _useState8[1];
-  var _useState9 = useState(false),
-    _useState10 = _slicedToArray$a(_useState9, 2),
-    loadedExisting = _useState10[0],
-    setLoadedExisting = _useState10[1];
   var _React$useState = React.useState(),
     _React$useState2 = _slicedToArray$a(_React$useState, 2),
     updateState = _React$useState2[1];
   var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (deepEqual(item, itemSelected) === false) {
+      setItemSelected(function () {
+        return item;
+      });
+      forceUpdate();
+    }
+    if (deepEqual(workspace, workspaceSelected) === false) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+      forceUpdate();
+    }
+  }, [workspace, item]);
+  function handleCodeChange(code) {
+    var itemToSave = JSON.parse(code);
+    onUpdate(itemToSave, workspaceSelected);
+  }
+  return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row w-full min-w-3/4 h-full rounded",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "flex-col h-full rounded font-medium ".concat(theme["text-secondary-dark"], " w-full hidden xl:flex lg:w-1/3"),
+          children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col rounded p-4 py-10 space-y-4",
+            children: [/*#__PURE__*/jsx("p", {
+              className: "text-5xl font-bold ".concat(theme["text-secondary-very-light"]),
+              children: "Nerdery."
+            }), /*#__PURE__*/jsx("p", {
+              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
+              children: "If this appears to be jibberish to you, please turn around."
+            }), /*#__PURE__*/jsx("p", {
+              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
+              children: "If you need to manually edit the code for the Component selected, by all means."
+            })]
+          })
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col h-full border-2 border-gray-800 rounded ".concat(theme["bg-secondary-very-dark"], " w-full xl:w-2/3"),
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex ".concat(theme["bg-secondary-very-dark"], " p-2 text-xs text-gray-300 rounded-br uppercase font-bold"),
+            children: "Code Editor"
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col text-green-600 overflow-y-scroll ".concat(theme["bg-secondary-very-dark"]),
+            children: itemSelected !== null && workspaceSelected !== null && /*#__PURE__*/jsx("div", {
+              className: "text-xs break-all h-full ".concat(theme["bg-secondary-very-dark"]),
+              children: /*#__PURE__*/jsx(CodeEditorInline, {
+                code: JSON.stringify(itemSelected, null, 2),
+                className: "p-0 h-full ".concat(theme["bg-secondary-very-dark"]),
+                setCode: handleCodeChange
+              })
+            })
+          })]
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$9(arr, i) { return _arrayWithHoles$9(arr) || _iterableToArrayLimit$9(arr, i) || _unsupportedIterableToArray$a(arr, i) || _nonIterableRest$9(); }
+function _nonIterableRest$9() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$a(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$a(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$a(o, minLen); }
+function _arrayLikeToArray$a(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$9(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$9(arr) { if (Array.isArray(arr)) return arr; }
+var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
+  var workspace = _ref.workspace,
+    open = _ref.open,
+    onUpdate = _ref.onUpdate,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$9(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$9(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _useState5 = useState({}),
+    _useState6 = _slicedToArray$9(_useState5, 2),
+    eventsSelected = _useState6[0],
+    setEventsSelected = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray$9(_useState7, 2),
+    eventHandlerSelected = _useState8[0],
+    setEventHandlerSelected = _useState8[1];
+  var _useState9 = useState(false),
+    _useState10 = _slicedToArray$9(_useState9, 2),
+    loadedExisting = _useState10[0],
+    setLoadedExisting = _useState10[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$9(_React$useState, 2),
+    updateState = _React$useState2[1];
+  React.useCallback(function () {
     return updateState({});
   }, []);
   useEffect(function () {
@@ -6434,13 +6521,14 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       setWorkspaceSelected(function () {
         return workspace;
       });
-      loadExistingListeners(workspace);
+      // loadExistingListeners(workspace);
     }
+
     if (workspaceSelected === workspace && loadedExisting === false) {
       setLoadedExisting(function () {
         return true;
       });
-      loadExistingListeners(workspaceSelected);
+      // loadExistingListeners(workspaceSelected);
     }
     // if (open === false) {
     //     setItemSelected(() => null);
@@ -6458,31 +6546,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
       handleSaveChanges();
     }
   }, [eventsSelected, eventHandlerSelected]);
-  function loadExistingListeners(ws) {
-    console.log("loading existing ", ws);
-    if (ws !== null) {
-      var existingListeners = {};
-      ws.layout.forEach(function (layoutItem) {
-        if ("listeners" in layoutItem) {
-          Object.keys(layoutItem["listeners"]).forEach(function (key) {
-            var events = layoutItem["listeners"][key];
-            existingListeners[key] = events;
-          });
-        }
-      });
-      setEventsSelected(function () {
-        return existingListeners;
-      });
-      console.log("existing listeners ", existingListeners);
-      // let's select one for the user
-      if (Object.keys(existingListeners).length > 0) {
-        setEventHandlerSelected(function () {
-          return Object.keys(existingListeners)[0];
-        });
-      }
-      forceUpdate();
-    }
-  }
   function handleSelectEvent(eventString) {
     try {
       console.log("event selected ", eventString, eventHandlerSelected);
@@ -6511,17 +6574,27 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     }
   }
   function handleRemoveEvent(eventString) {
-    var eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(function (event) {
-      return event !== eventString;
-    });
-    setEventsSelected(function () {
-      return eventsSelectedTemp;
-    });
-    handleSaveChanges();
+    try {
+      console.log("removing event", eventString);
+      if (eventsSelected && eventHandlerSelected) {
+        var eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(function (event) {
+          return event !== eventString;
+        });
+        setEventsSelected(function () {
+          return eventsSelectedTemp;
+        });
+        handleSaveChanges();
+      }
+    } catch (e) {
+      console.log("handleRemoveEvent ", eventString);
+    }
   }
   function handleSelectEventHandler(handler) {
     setEventHandlerSelected(function () {
       return handler;
+    });
+    setEventsSelected(function () {
+      return null;
     });
     handleSaveChanges();
   }
@@ -6545,8 +6618,8 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   }
   function handleSaveChanges() {
     try {
-      if (workspaceSelected !== null && eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0) {
-        console.log("saving changes");
+      if (workspaceSelected !== null && eventHandlerSelected !== null && Object.keys(eventsSelected).length > 0 && "id" in itemSelected && itemSelected["id"] !== null) {
+        console.log("saving changes", JSON.stringify(eventsSelected));
         var tempWorkspace = deepCopy(workspaceSelected);
 
         // craft the event handler + listeners
@@ -6575,18 +6648,40 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
   function isSelectedEvent(event) {
     try {
-      if (eventsSelected !== null && eventHandlerSelected) {
-        console.log("checking is event selected ", eventsSelected, eventsSelected[eventHandlerSelected], event);
-        return eventsSelected[eventHandlerSelected].includes(event);
-      }
-      return false;
+      var listenerArray = Object.keys(workspaceSelected.layout).filter(function (k) {
+        console.log("checking ", workspaceSelected.layout[k]["listeners"]);
+        return Object.keys(workspaceSelected["layout"][k]["listeners"]).length > 0;
+      }).map(function (h) {
+        return workspaceSelected["layout"][h]["listeners"];
+      });
+      console.log("is event selected ", event, listenerArray);
+      var isSelected = false;
+      listenerArray.forEach(function (a) {
+        Object.keys(a).forEach(function (handler) {
+          console.log("HANDLER ", handler);
+          if (a[handler].includes(event) === true) isSelected = true;
+        });
+      });
+
+      // we also have to check the state events selected to see if the user
+      // had set the temp selected?
+
+      // if (eventsSelected !== null && eventHandlerSelected) {
+      //     console.log(
+      //         "checking is event selected ",
+      //         eventsSelected,
+      //         eventsSelected[eventHandlerSelected],
+      //         event
+      //     );
+      //     return eventsSelected[eventHandlerSelected].includes(event);
+      // }
+      return isSelected;
     } catch (e) {
       return false;
     }
   }
   function renderAvailableEvents() {
     if (workspaceSelected !== null) {
-      console.log("available events ", workspaceSelected);
       return workspaceSelected.layout.filter(function (l) {
         return l["component"] !== "Container";
       }).filter(function (e) {
@@ -6719,93 +6814,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
             })]
           })]
         })
-      })
-    })
-  });
-};
-
-function _slicedToArray$9(arr, i) { return _arrayWithHoles$9(arr) || _iterableToArrayLimit$9(arr, i) || _unsupportedIterableToArray$a(arr, i) || _nonIterableRest$9(); }
-function _nonIterableRest$9() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$a(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$a(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$a(o, minLen); }
-function _arrayLikeToArray$a(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$9(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$9(arr) { if (Array.isArray(arr)) return arr; }
-var PanelCode = function PanelCode(_ref) {
-  var workspace = _ref.workspace,
-    onUpdate = _ref.onUpdate,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$9(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$9(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$9(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (deepEqual(item, itemSelected) === false) {
-      setItemSelected(function () {
-        return item;
-      });
-      forceUpdate();
-    }
-    if (deepEqual(workspace, workspaceSelected) === false) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-      forceUpdate();
-    }
-  }, [workspace, item]);
-  function handleCodeChange(code) {
-    var itemToSave = JSON.parse(code);
-    onUpdate(itemToSave, workspaceSelected);
-  }
-  return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row w-full min-w-3/4 h-full rounded",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "flex-col h-full rounded font-medium ".concat(theme["text-secondary-dark"], " w-full hidden xl:flex lg:w-1/3"),
-          children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col rounded p-4 py-10 space-y-4",
-            children: [/*#__PURE__*/jsx("p", {
-              className: "text-5xl font-bold ".concat(theme["text-secondary-very-light"]),
-              children: "Nerdery."
-            }), /*#__PURE__*/jsx("p", {
-              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
-              children: "If this appears to be jibberish to you, please turn around."
-            }), /*#__PURE__*/jsx("p", {
-              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
-              children: "If you need to manually edit the code for the Component selected, by all means."
-            })]
-          })
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col h-full border-2 border-gray-800 rounded ".concat(theme["bg-secondary-very-dark"], " w-full xl:w-2/3"),
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex ".concat(theme["bg-secondary-very-dark"], " p-2 text-xs text-gray-300 rounded-br uppercase font-bold"),
-            children: "Code Editor"
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col text-green-600 overflow-y-scroll ".concat(theme["bg-secondary-very-dark"]),
-            children: itemSelected !== null && workspaceSelected !== null && /*#__PURE__*/jsx("div", {
-              className: "text-xs break-all h-full ".concat(theme["bg-secondary-very-dark"]),
-              children: /*#__PURE__*/jsx(CodeEditorInline, {
-                code: JSON.stringify(itemSelected, null, 2),
-                className: "p-0 h-full ".concat(theme["bg-secondary-very-dark"]),
-                setCode: handleCodeChange
-              })
-            })
-          })]
-        })]
       })
     })
   });
