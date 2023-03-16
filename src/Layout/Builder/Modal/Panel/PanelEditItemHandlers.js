@@ -287,31 +287,37 @@ export const PanelEditItemHandlers = ({
                 event
             );
             if (event) {
-                const listenerArray = workspaceSelected.layout
-                    .filter((a) => {
-                        console.log(
-                            "filter check id ",
-                            a["id"],
-                            itemSelected["id"]
-                        );
-                        return a["id"] === itemSelected["id"];
-                    })
-                    .filter((k) => {
-                        return (
-                            workspaceSelected["layout"][k]["listeners"].length >
-                            0
-                        );
-                    })
-                    .map((h) => {
-                        return workspaceSelected["layout"][h]["listeners"];
-                    });
-                console.log("listeners array from workspace ", listenerArray);
+                // const listenerArray = workspaceSelected.layout
+                //     .filter((a) => {
+                //         console.log(
+                //             "filter check id ",
+                //             a["id"],
+                //             itemSelected["id"]
+                //         );
+                //         return a["id"] === itemSelected["id"];
+                //     })
+                //     .filter((k) => {
+                //         return (
+                //             workspaceSelected["layout"][k]["listeners"].length >
+                //             0
+                //         );
+                //     })
+                //     .map((h) => {
+                //         return workspaceSelected["layout"][h]["listeners"];
+                //     });
+                // console.log("listeners array from workspace ", listenerArray);
                 let isSelected = false;
-                listenerArray.forEach((a) => {
-                    Object.keys(a).forEach((handler) => {
-                        if (a[handler].includes(event) === true)
-                            isSelected = true;
-                    });
+                itemSelected["listeners"].forEach((handlerKey) => {
+                    itemSelected["listeners"][handlerKey].forEach(
+                        (eventString) => {
+                            if (
+                                itemSelected[handlerKey].includes(
+                                    eventString
+                                ) === true
+                            )
+                                isSelected = true;
+                        }
+                    );
                 });
 
                 return isSelected;

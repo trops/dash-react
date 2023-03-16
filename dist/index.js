@@ -6713,19 +6713,29 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     try {
       console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"], event);
       if (event) {
-        var listenerArray = workspaceSelected.layout.filter(function (a) {
-          console.log("filter check id ", a["id"], itemSelected["id"]);
-          return a["id"] === itemSelected["id"];
-        }).filter(function (k) {
-          return workspaceSelected["layout"][k]["listeners"].length > 0;
-        }).map(function (h) {
-          return workspaceSelected["layout"][h]["listeners"];
-        });
-        console.log("listeners array from workspace ", listenerArray);
+        // const listenerArray = workspaceSelected.layout
+        //     .filter((a) => {
+        //         console.log(
+        //             "filter check id ",
+        //             a["id"],
+        //             itemSelected["id"]
+        //         );
+        //         return a["id"] === itemSelected["id"];
+        //     })
+        //     .filter((k) => {
+        //         return (
+        //             workspaceSelected["layout"][k]["listeners"].length >
+        //             0
+        //         );
+        //     })
+        //     .map((h) => {
+        //         return workspaceSelected["layout"][h]["listeners"];
+        //     });
+        // console.log("listeners array from workspace ", listenerArray);
         var isSelected = false;
-        listenerArray.forEach(function (a) {
-          Object.keys(a).forEach(function (handler) {
-            if (a[handler].includes(event) === true) isSelected = true;
+        itemSelected["listeners"].forEach(function (handlerKey) {
+          itemSelected["listeners"][handlerKey].forEach(function (eventString) {
+            if (itemSelected[handlerKey].includes(eventString) === true) isSelected = true;
           });
         });
         return isSelected;
