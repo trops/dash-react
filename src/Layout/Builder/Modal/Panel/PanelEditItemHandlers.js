@@ -139,12 +139,14 @@ export const PanelEditItemHandlers = ({
                 eventHandlerSelected,
                 eventsSelected
             );
-            if (eventsSelected && eventHandlerSelected) {
-                const eventsSelectedTemp = eventsSelected[
+            if (eventHandlerSelected) {
+                const currentListeners = itemSelected["listeners"];
+                console.log("current listeners for item ", currentListeners);
+                const eventsSelectedTemp = currentListeners[
                     eventHandlerSelected
                 ].filter((event) => event !== eventString);
                 setEventsSelected(() => eventsSelectedTemp);
-                // handleSaveChanges();
+                handleSaveChanges();
             }
         } catch (e) {
             console.log("handleRemoveEvent ", eventString);

@@ -6576,14 +6576,16 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   function handleRemoveEvent(eventString) {
     try {
       console.log("removing event", eventString, eventHandlerSelected, eventsSelected);
-      if (eventsSelected && eventHandlerSelected) {
-        var eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(function (event) {
+      if (eventHandlerSelected) {
+        var currentListeners = itemSelected["listeners"];
+        console.log("current listeners for item ", currentListeners);
+        var eventsSelectedTemp = currentListeners[eventHandlerSelected].filter(function (event) {
           return event !== eventString;
         });
         setEventsSelected(function () {
           return eventsSelectedTemp;
         });
-        // handleSaveChanges();
+        handleSaveChanges();
       }
     } catch (e) {
       console.log("handleRemoveEvent ", eventString);
