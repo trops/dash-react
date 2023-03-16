@@ -5254,16 +5254,28 @@ var event = {
    */
   on: function on(eventType, eventAction) {
     var uuid = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    this.list.has(eventType) || this.list.set(eventType, {});
+    this.list.has(eventType) || this.list.set(eventType, []);
     // this.list.has(uuid) || this.list.set(uuid, {});
     if (this.list.get(eventType)) {
       // this is key:value pair mapping
       // each key is a widget UUID
       var currentActionsForEvent = this.list.get(eventType);
       console.log("current actions for event ", eventType, currentActionsForEvent, uuid);
-      if (uuid in currentActionsForEvent === false) {
+
+      // lets check to see if the UUID is available for the event type...
+      var hasEvent = false;
+      currentActionsForEvent.forEach(function (e) {
+        if (e.uuid === uuid) {
+          hasEvent = true;
+        }
+      });
+      if (hasEvent === false) {
         console.log("setting uuid for event ", uuid, eventAction);
-        currentActionsForEvent[uuid] = eventAction;
+        var eventObject = {
+          uuid: uuid,
+          action: eventAction
+        };
+        currentActionsForEvent.push(eventObject);
         console.log("new current actions ", currentActionsForEvent);
         this.list.set(eventType, currentActionsForEvent);
       }
@@ -5276,9 +5288,9 @@ var event = {
       args[_key - 1] = arguments[_key];
     }
     var subscriptionsToEvent = this.list.get(eventType);
-    if (subscriptionsToEvent && Object.keys(subscriptionsToEvent).length > 0) {
-      Object.keys(subscriptionsToEvent).forEach(function (subscriber) {
-        subscriptionsToEvent[subscriber].apply(subscriptionsToEvent, args);
+    if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
+      subscriptionsToEvent.forEach(function (subscriber) {
+        subscriber.action.apply(subscriber, args);
       });
     }
   },

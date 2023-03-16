@@ -43,7 +43,7 @@ describe("WidgetApi tests ", () => {
         api.registerListeners(listeners, handlerMap);
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
-        const handlersForKey = api.pub().listeners().get(eventType)[uuid];
+        const handlersForKey = api.pub().listeners().get(eventType);
         expect(handlersForKey.length).toEqual(1);
     });
 
@@ -58,8 +58,8 @@ describe("WidgetApi tests ", () => {
         api2.registerListeners(listeners, handlerMap);
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
-        const handlersForKey = api2.pub().listeners().get(eventType)[uuid2];
-        expect(handlersForKey.length).toEqual(1);
+        const handlersForKey = api2.pub().listeners().get(eventType);
+        expect(handlersForKey.length).toEqual(2);
     });
 
     test("emit event from pub ", () => {

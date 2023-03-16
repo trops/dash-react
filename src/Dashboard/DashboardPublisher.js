@@ -18,7 +18,7 @@ const event = {
      * @returns
      */
     on(eventType, eventAction, uuid = null) {
-        this.list.has(eventType) || this.list.set(eventType, {});
+        this.list.has(eventType) || this.list.set(eventType, []);
         // this.list.has(uuid) || this.list.set(uuid, {});
         if (this.list.get(eventType)) {
             // this is key:value pair mapping
@@ -30,9 +30,22 @@ const event = {
                 currentActionsForEvent,
                 uuid
             );
-            if (uuid in currentActionsForEvent === false) {
+
+            // lets check to see if the UUID is available for the event type...
+            let hasEvent = false;
+            currentActionsForEvent.forEach((e) => {
+                if (e.uuid === uuid) {
+                    hasEvent = true;
+                }
+            });
+
+            if (hasEvent === false) {
                 console.log("setting uuid for event ", uuid, eventAction);
-                currentActionsForEvent[uuid] = eventAction;
+                const eventObject = {
+                    uuid: uuid,
+                    action: eventAction,
+                };
+                currentActionsForEvent.push(eventObject);
                 console.log("new current actions ", currentActionsForEvent);
                 this.list.set(eventType, currentActionsForEvent);
             }
@@ -43,12 +56,9 @@ const event = {
     // publish events...
     emit(eventType, ...args) {
         const subscriptionsToEvent = this.list.get(eventType);
-        if (
-            subscriptionsToEvent &&
-            Object.keys(subscriptionsToEvent).length > 0
-        ) {
-            Object.keys(subscriptionsToEvent).forEach((subscriber) => {
-                subscriptionsToEvent[subscriber](...args);
+        if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
+            subscriptionsToEvent.forEach((subscriber) => {
+                subscriber.action(...args);
             });
         }
     },
