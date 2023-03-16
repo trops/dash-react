@@ -8859,6 +8859,7 @@ var Widget = function Widget(_ref) {
   }
 
   // inject the publisher into the api for the developer to use
+  console.log("In Widget setting electron API ", api);
   if ("api" in props) {
     if (props["api"] !== null) {
       props["api"].setPublisher(pub);
