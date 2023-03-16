@@ -14,6 +14,8 @@ describe("WidgetApi tests ", () => {
         handleSearchChange: ["CustomSearchbar[10].searchQueryChanged"],
     };
 
+    const pub = DashboardPublisher;
+
     test("initialize the api", () => {
         api = WidgetApi;
         api.init(uuid);
@@ -22,7 +24,7 @@ describe("WidgetApi tests ", () => {
     });
 
     test("set the publisher", () => {
-        api.setPublisher(DashboardPublisher);
+        api.setPublisher(pub);
         expect(api.pub).not.toBe(null);
     });
 
@@ -42,6 +44,21 @@ describe("WidgetApi tests ", () => {
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
         const handlersForKey = api.pub().listeners().get(eventType)[uuid];
+        expect(handlersForKey.length).toEqual(1);
+    });
+
+    test("register listeners same event different widget ", () => {
+        const uuid2 = "34567";
+        const api2 = WidgetApi;
+        api2.init(uuid2);
+        api2.setPublisher(pub);
+        const handlerMap = {
+            handleSearchChange: (data) => console.log(data),
+        };
+        api2.registerListeners(listeners, handlerMap);
+        // holds them as an array
+        const eventType = listeners[Object.keys(listeners)[0]][0];
+        const handlersForKey = api2.pub().listeners().get(eventType)[uuid2];
         expect(handlersForKey.length).toEqual(1);
     });
 

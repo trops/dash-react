@@ -5260,8 +5260,11 @@ var event = {
       // this is key:value pair mapping
       // each key is a widget UUID
       var currentActionsForEvent = this.list.get(eventType);
+      console.log("current actions for event ", eventType, currentActionsForEvent, uuid);
       if (uuid in currentActionsForEvent === false) {
+        console.log("setting uuid for event ", uuid, eventAction);
         currentActionsForEvent[uuid] = eventAction;
+        console.log("new current actions ", currentActionsForEvent);
         this.list.set(eventType, currentActionsForEvent);
       }
     }
@@ -5315,7 +5318,7 @@ var DashboardPublisher = {
   removeAllListeners: function removeAllListeners() {
     // we want to begin fresh when we switch workspaces...
     // event = new Map();
-    event.clear();
+    //event.clear();
   },
   clearAllMessage: function clearAllMessage() {
     event.emit("clearAllMessage");
