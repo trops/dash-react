@@ -1827,7 +1827,8 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 
     // can we include the API?
 
-    layout.api = new WidgetApi(layout.uuid).electronApi();
+    layout.api = new WidgetApi(layout.uuid); //.electronApi();
+
     console.log("layout model widget api ", layout.id, layout.dashboardId, layout.api.uuid());
     return layout;
   } catch (e) {
