@@ -10036,9 +10036,9 @@ function getStyleName(objectType) {
 }
 
 function _typeof$b(obj) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$b(obj); }
-var _excluded$6 = ["className", "horizontal", "children", "onClick", "width", "height"],
-  _excluded2$4 = ["className", "horizontal", "children", "onClick", "width", "height"],
-  _excluded3$4 = ["className", "horizontal", "children", "onClick", "width", "height"];
+var _excluded$6 = ["className", "horizontal", "children", "onClick", "width", "height", "padding"],
+  _excluded2$4 = ["className", "horizontal", "children", "onClick", "width", "height", "padding"],
+  _excluded3$4 = ["className", "horizontal", "children", "onClick", "width", "height", "padding"];
 function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty$7(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$7(obj, key, value) { key = _toPropertyKey$b(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10056,12 +10056,14 @@ var Panel = function Panel(_ref) {
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-full" : _ref$height,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? true : _ref$padding,
     props = _objectWithoutProperties$6(_ref, _excluded$6);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$6({}, props));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
+    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, "  ").concat(padding !== false && "p-6", " rounded"),
     onClick: onClick,
     children: children
   });
@@ -10076,12 +10078,14 @@ var Panel2 = function Panel2(_ref2) {
     width = _ref2$width === void 0 ? "w-full" : _ref2$width,
     _ref2$height = _ref2.height,
     height = _ref2$height === void 0 ? "h-full" : _ref2$height,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? true : _ref2$padding,
     props = _objectWithoutProperties$6(_ref2, _excluded2$4);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$6({}, props));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
+    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, "  ").concat(padding !== false && "p-6", " rounded"),
     onClick: onClick,
     children: children
   });
@@ -10096,6 +10100,8 @@ var Panel3 = function Panel3(_ref3) {
     width = _ref3$width === void 0 ? "w-full" : _ref3$width,
     _ref3$height = _ref3.height,
     height = _ref3$height === void 0 ? "h-full" : _ref3$height,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? true : _ref3$padding,
     props = _objectWithoutProperties$6(_ref3, _excluded3$4);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;

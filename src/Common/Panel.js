@@ -10,6 +10,7 @@ const Panel = ({
     onClick = null,
     width = "w-full",
     height = "h-full",
+    padding = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -22,7 +23,7 @@ const Panel = ({
                 styles.string
             } ${
                 horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height} p-6 rounded`}
+            } ${width} ${height}  ${padding !== false && "p-6"} rounded`}
             onClick={onClick}
         >
             {children}
@@ -37,6 +38,7 @@ const Panel2 = ({
     onClick = null,
     width = "w-full",
     height = "h-full",
+    padding = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -50,7 +52,7 @@ const Panel2 = ({
                 styles.string
             } ${
                 horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height} p-6 rounded`}
+            } ${width} ${height}  ${padding !== false && "p-6"} rounded`}
             onClick={onClick}
         >
             {children}
@@ -65,6 +67,7 @@ const Panel3 = ({
     onClick = null,
     width = "w-full",
     height = "h-full",
+    padding = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
