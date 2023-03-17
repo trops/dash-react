@@ -58,6 +58,13 @@ export class WidgetApi {
                 // };
                 console.log(
                     "electron Api in setElectronApi ",
+                    {
+                        on: api.on,
+                        removeAllListeners: api.removeAllListeners,
+                        data: api.data,
+                        algolia: api.algolia,
+                        events: api.publicEvents,
+                    },
                     this._electronApi
                 );
             }

@@ -88,7 +88,13 @@ var WidgetApi = /*#__PURE__*/function () {
           //     algolia: api.algolia,
           //     events: api.publicEvents,
           // };
-          console.log("electron Api in setElectronApi ", this._electronApi);
+          console.log("electron Api in setElectronApi ", {
+            on: api.on,
+            removeAllListeners: api.removeAllListeners,
+            data: api.data,
+            algolia: api.algolia,
+            events: api.publicEvents
+          }, this._electronApi);
         }
       } catch (e) {
         console.log("Error Setting Electron API ", e.message);
