@@ -80,13 +80,14 @@ var WidgetApi = /*#__PURE__*/function () {
          */
         if (api !== undefined && api !== null) {
           // set the mainApi to electron inside the widget.
-          this._electronApi = {
-            on: api.on,
-            removeAllListeners: api.removeAllListeners,
-            data: api.data,
-            algolia: api.algolia,
-            events: api.publicEvents
-          };
+          this._electronApi = api;
+          // {
+          //     on: api.on,
+          //     removeAllListeners: api.removeAllListeners,
+          //     data: api.data,
+          //     algolia: api.algolia,
+          //     events: api.publicEvents,
+          // };
           console.log("electron Api in setElectronApi ", this._electronApi);
         }
       } catch (e) {
@@ -170,25 +171,29 @@ var WidgetApi = /*#__PURE__*/function () {
         callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError,
         _ref$append = _ref.append,
         append = _ref$append === void 0 ? true : _ref$append;
-      console.log("storing data ", data);
-      // set the filename
-      var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
+      try {
+        console.log("storing data ", data);
+        // set the filename
+        var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
 
-      // grab the electron api
-      var eApi = this.electronApi();
-      console.log("api ", eApi);
-      if (eApi) {
-        console.log(eApi);
-        // remove the listeners (reset)
-        eApi.removeAllListeners();
-        if (callbackComplete !== null) {
-          eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
+        // grab the electron api
+        var eApi = this.electronApi();
+        console.log("api ", eApi);
+        if (eApi) {
+          console.log(eApi);
+          // remove the listeners (reset)
+          eApi.removeAllListeners();
+          if (callbackComplete !== null) {
+            eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
+          }
+          if (callbackError !== null) {
+            eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
+          }
+          // request.
+          eApi.data.saveData(data, toFilename, append);
         }
-        if (callbackError !== null) {
-          eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
-        }
-        // request.
-        eApi.data.saveData(data, toFilename, append);
+      } catch (e) {
+        console.log(e.message);
       }
     }
 

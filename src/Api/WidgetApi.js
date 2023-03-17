@@ -48,13 +48,14 @@ export class WidgetApi {
              */
             if (api !== undefined && api !== null) {
                 // set the mainApi to electron inside the widget.
-                this._electronApi = {
-                    on: api.on,
-                    removeAllListeners: api.removeAllListeners,
-                    data: api.data,
-                    algolia: api.algolia,
-                    events: api.publicEvents,
-                };
+                this._electronApi = api;
+                // {
+                //     on: api.on,
+                //     removeAllListeners: api.removeAllListeners,
+                //     data: api.data,
+                //     algolia: api.algolia,
+                //     events: api.publicEvents,
+                // };
                 console.log(
                     "electron Api in setElectronApi ",
                     this._electronApi
@@ -127,28 +128,33 @@ export class WidgetApi {
         callbackError = null,
         append = true,
     }) {
-        console.log("storing data ", data);
-        // set the filename
-        const toFilename = filename !== null ? filename : `${this.uuid()}.json`;
+        try {
+            console.log("storing data ", data);
+            // set the filename
+            const toFilename =
+                filename !== null ? filename : `${this.uuid()}.json`;
 
-        // grab the electron api
-        const eApi = this.electronApi();
-        console.log("api ", eApi);
-        if (eApi) {
-            console.log(eApi);
-            // remove the listeners (reset)
-            eApi.removeAllListeners();
-            if (callbackComplete !== null) {
-                eApi.on(
-                    eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
-                    callbackComplete
-                );
+            // grab the electron api
+            const eApi = this.electronApi();
+            console.log("api ", eApi);
+            if (eApi) {
+                console.log(eApi);
+                // remove the listeners (reset)
+                eApi.removeAllListeners();
+                if (callbackComplete !== null) {
+                    eApi.on(
+                        eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
+                        callbackComplete
+                    );
+                }
+                if (callbackError !== null) {
+                    eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
+                }
+                // request.
+                eApi.data.saveData(data, toFilename, append);
             }
-            if (callbackError !== null) {
-                eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
-            }
-            // request.
-            eApi.data.saveData(data, toFilename, append);
+        } catch (e) {
+            console.log(e.message);
         }
     }
 
