@@ -6,6 +6,14 @@
 import { WidgetApi } from "./WidgetApi";
 import { DashboardPublisher } from "../Dashboard/DashboardPublisher.js";
 
+const electronApiMock = {
+    data: {
+        saveData: (data, filename, append) => {
+            return { data, filename, append };
+        },
+    },
+};
+
 describe("WidgetApi tests ", () => {
     // Mock
     const uuid = "12345";
@@ -65,5 +73,27 @@ describe("WidgetApi tests ", () => {
         const eventType = "CustomSearchbar[10].searchQueryChanged";
         api2.publishEvent(eventType, { test: "hello" });
         expect();
+    });
+
+    test.skip("store data to test.txt", () => {
+        const dataToSave = "test";
+        let result = null;
+        const api3 = new WidgetApi("123");
+        api3.setElectronApi(electronApiMock);
+        api3.storeData({
+            data: dataToSave,
+            filename: "test.txt",
+            callbackComplete: (e, message) => {
+                console.log("complete", e, message);
+                result = message;
+                expect(result).not.toBe(null);
+            },
+            callbackError: (e, message) => {
+                console.log("error: ", e, message);
+                result = null;
+                expect(result).not.toBe(null);
+            },
+            append: true,
+        });
     });
 });

@@ -55,6 +55,10 @@ export class WidgetApi {
                     algolia: api.algolia,
                     events: api.publicEvents,
                 };
+                console.log(
+                    "electron Api in setElectronApi ",
+                    this._electronApi
+                );
             }
         } catch (e) {
             console.log("Error Setting Electron API ", e.message);
@@ -123,23 +127,25 @@ export class WidgetApi {
         callbackError = null,
         append = true,
     }) {
+        console.log("storing data ", data);
         // set the filename
         const toFilename = filename !== null ? filename : `${this.uuid()}.json`;
 
         // grab the electron api
         const eApi = this.electronApi();
+        console.log("api ", eApi);
         if (eApi) {
+            console.log(eApi);
             // remove the listeners (reset)
             eApi.removeAllListeners();
             if (callbackComplete !== null) {
-                eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, (e, message) =>
-                    callbackComplete(e, message)
+                eApi.on(
+                    eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
+                    callbackComplete
                 );
             }
             if (callbackError !== null) {
-                eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, (e, message) =>
-                    callbackError(e, message)
-                );
+                eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
             }
             // request.
             eApi.data.saveData(data, toFilename, append);

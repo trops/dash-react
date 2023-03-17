@@ -87,6 +87,7 @@ var WidgetApi = /*#__PURE__*/function () {
             algolia: api.algolia,
             events: api.publicEvents
           };
+          console.log("electron Api in setElectronApi ", this._electronApi);
         }
       } catch (e) {
         console.log("Error Setting Electron API ", e.message);
@@ -169,23 +170,22 @@ var WidgetApi = /*#__PURE__*/function () {
         callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError,
         _ref$append = _ref.append,
         append = _ref$append === void 0 ? true : _ref$append;
+      console.log("storing data ", data);
       // set the filename
       var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
 
       // grab the electron api
       var eApi = this.electronApi();
+      console.log("api ", eApi);
       if (eApi) {
+        console.log(eApi);
         // remove the listeners (reset)
         eApi.removeAllListeners();
         if (callbackComplete !== null) {
-          eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
-            return callbackComplete(e, message);
-          });
+          eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
         }
         if (callbackError !== null) {
-          eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
-            return callbackError(e, message);
-          });
+          eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
         }
         // request.
         eApi.data.saveData(data, toFilename, append);
