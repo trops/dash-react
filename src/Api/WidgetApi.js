@@ -116,38 +116,33 @@ export class WidgetApi {
      * @param {object} data
      * @param {object} options filename - name of the file, callbacks for complete and error
      */
-    storeData(
+    storeData({
         data,
-        options = {
-            filename: null,
-            callbackComplete: null,
-            callbackError: null,
-            append: true,
-        }
-    ) {
+        filename = null,
+        callbackComplete = null,
+        callbackError = null,
+        append = true,
+    }) {
         // set the filename
-        const toFilename =
-            options["filename"] !== null
-                ? options["filename"]
-                : `${this.uuid()}.json`;
+        const toFilename = filename !== null ? filename : `${this.uuid()}.json`;
 
         // grab the electron api
         const eApi = this.electronApi();
         if (eApi) {
             // remove the listeners (reset)
             eApi.removeAllListeners();
-            if (options["callbackComplete"] !== null) {
+            if (callbackComplete !== null) {
                 eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, (e, message) =>
-                    options["callbackComplete"](e, message)
+                    callbackComplete(e, message)
                 );
             }
-            if (options["callbackError"] !== null) {
+            if (callbackError !== null) {
                 eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, (e, message) =>
-                    options["callbackError"](e, message)
+                    callbackError(e, message)
                 );
             }
             // request.
-            eApi.data.saveData(data, toFilename, options["append"]);
+            eApi.data.saveData(data, toFilename, append);
         }
     }
 

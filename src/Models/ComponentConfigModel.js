@@ -43,7 +43,7 @@
  * @returns <ComponentConfigModel>Object
  */
 export const ComponentConfigModel = (obj = {}) => {
-    console.log("config model in ", obj);
+    // console.log("config model in ", obj);
     // const obj = deepCopy(o);
 
     /**
