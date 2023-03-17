@@ -178,7 +178,13 @@ var WidgetApi = /*#__PURE__*/function () {
         _ref$append = _ref.append,
         append = _ref$append === void 0 ? true : _ref$append;
       try {
-        console.log("storing data ", data);
+        console.log("storing data ", {
+          data: data,
+          filename: filename,
+          callbackComplete: callbackComplete,
+          callbackError: callbackError,
+          append: append
+        });
         // set the filename
         var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
 
@@ -1841,7 +1847,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 
     // can we include the API?
 
-    layout.api = new WidgetApi(layout.uuid); //.electronApi();
+    layout.api = "api" in obj ? obj["api"] : new WidgetApi(layout.uuid); //.electronApi();
 
     console.log("layout model widget api ", layout.id, layout.dashboardId, layout.api.uuid());
     return layout;
@@ -10095,7 +10101,7 @@ var Panel3 = function Panel3(_ref3) {
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$6({}, props));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " p-6 rounded"),
+    className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " ").concat(padding !== false && "p-6", " rounded"),
     onClick: onClick,
     children: children
   });

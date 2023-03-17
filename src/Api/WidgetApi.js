@@ -136,7 +136,13 @@ export class WidgetApi {
         append = true,
     }) {
         try {
-            console.log("storing data ", data);
+            console.log("storing data ", {
+                data,
+                filename,
+                callbackComplete,
+                callbackError,
+                append,
+            });
             // set the filename
             const toFilename =
                 filename !== null ? filename : `${this.uuid()}.json`;

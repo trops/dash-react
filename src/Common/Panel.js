@@ -78,7 +78,7 @@ const Panel3 = ({
                 styles.string
             } ${
                 horizontal === true ? "flex-row" : "flex-col"
-            } ${width} ${height} p-6 rounded`}
+            } ${width} ${height} ${padding !== false && "p-6"} rounded`}
             onClick={onClick}
         >
             {children}
