@@ -1,6 +1,6 @@
 {
     "name": "@trops/dash-react",
-    "version": "0.0.127",
+    "version": "0.0.128",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "publishConfig": {

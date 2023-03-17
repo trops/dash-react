@@ -17,7 +17,7 @@ const Widget = ({
     const { pub, settings } = useContext(DashboardContext);
 
     useEffect(() => {
-        console.log("use effect in Widget ", api, debugMode, debugStyles);
+        // console.log("use effect in Widget ", api, debugMode, debugStyles);
         // curious if we should register the listeners here?
     });
 

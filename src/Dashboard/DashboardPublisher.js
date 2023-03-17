@@ -24,12 +24,6 @@ const event = {
             // this is key:value pair mapping
             // each key is a widget UUID
             let currentActionsForEvent = this.list.get(eventType);
-            console.log(
-                "current actions for event ",
-                eventType,
-                currentActionsForEvent,
-                uuid
-            );
 
             // lets check to see if the UUID is available for the event type...
             let hasEvent = false;
@@ -40,13 +34,11 @@ const event = {
             });
 
             if (hasEvent === false) {
-                console.log("setting uuid for event ", uuid, eventAction);
                 const eventObject = {
                     uuid: uuid,
                     action: eventAction,
                 };
                 currentActionsForEvent.push(eventObject);
-                console.log("new current actions ", currentActionsForEvent);
                 this.list.set(eventType, currentActionsForEvent);
             }
         }
@@ -55,9 +47,7 @@ const event = {
 
     // publish events...
     emit(eventType, ...args) {
-        console.log(this.list, eventType);
         const subscriptionsToEvent = this.list.get(eventType);
-        console.log("subscriptions to event ", subscriptionsToEvent);
         if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
             subscriptionsToEvent.forEach((subscriber) => {
                 // console.log("calling handler ", subscriber["uuid"]);

@@ -5301,7 +5301,6 @@ var event = {
       // this is key:value pair mapping
       // each key is a widget UUID
       var currentActionsForEvent = this.list.get(eventType);
-      console.log("current actions for event ", eventType, currentActionsForEvent, uuid);
 
       // lets check to see if the UUID is available for the event type...
       var hasEvent = false;
@@ -5311,13 +5310,11 @@ var event = {
         }
       });
       if (hasEvent === false) {
-        console.log("setting uuid for event ", uuid, eventAction);
         var eventObject = {
           uuid: uuid,
           action: eventAction
         };
         currentActionsForEvent.push(eventObject);
-        console.log("new current actions ", currentActionsForEvent);
         this.list.set(eventType, currentActionsForEvent);
       }
     }
@@ -5328,9 +5325,7 @@ var event = {
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
-    console.log(this.list, eventType);
     var subscriptionsToEvent = this.list.get(eventType);
-    console.log("subscriptions to event ", subscriptionsToEvent);
     if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
       subscriptionsToEvent.forEach(function (subscriber) {
         // console.log("calling handler ", subscriber["uuid"]);
@@ -8835,17 +8830,16 @@ var Widget = function Widget(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$7(_ref, _excluded$7);
   var _useContext = useContext$1(AppContext),
-    debugMode = _useContext.debugMode,
-    debugStyles = _useContext.debugStyles,
-    api = _useContext.api;
+    debugMode = _useContext.debugMode;
+    _useContext.debugStyles;
+    var api = _useContext.api;
   var _useContext2 = useContext$1(DashboardContext),
     pub = _useContext2.pub,
     settings = _useContext2.settings;
   useEffect(function () {
-    console.log("use effect in Widget ", api, debugMode, debugStyles);
+    // console.log("use effect in Widget ", api, debugMode, debugStyles);
     // curious if we should register the listeners here?
   });
-
   function debugClasses() {
     // const styles = debugStyles['widget']['classes'];
     // return debugMode === true ? `space-y-4 p-4 ${styles}` : ''
