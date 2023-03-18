@@ -77,6 +77,10 @@ export class WidgetApi {
         this._settings = settings;
     }
 
+    settings() {
+        return this._settings;
+    }
+
     /**
      * uuid
      * @returns string the UUID for this Widget

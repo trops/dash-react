@@ -105,6 +105,11 @@ var WidgetApi = /*#__PURE__*/function () {
     value: function setSettings(settings) {
       this._settings = settings;
     }
+  }, {
+    key: "settings",
+    value: function settings() {
+      return this._settings;
+    }
 
     /**
      * uuid
