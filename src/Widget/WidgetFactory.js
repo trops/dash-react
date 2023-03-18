@@ -31,6 +31,10 @@ const WidgetFactory = {
                 // user input for the customization of the widget
                 const userPrefs = params["userPrefs"];
 
+                if ("api" in params) {
+                    console.log("api in params ", api);
+                }
+
                 // Check to make sure this is a Component
                 if (typeof WidgetComponent !== "function") return null;
 

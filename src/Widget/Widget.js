@@ -13,6 +13,7 @@ const Widget = ({
     className = "",
     ...props
 }) => {
+    // this is the electron api we are pulling in...
     const { debugMode, debugStyles, api } = useContext(AppContext);
     const { pub, settings } = useContext(DashboardContext);
 
@@ -29,6 +30,7 @@ const Widget = ({
 
     // inject the publisher into the api for the developer to use
     if ("api" in props) {
+        console.log("in widget setting props");
         if (props["api"] !== null) {
             props["api"].setPublisher(pub);
             props["api"].setElectronApi(api);

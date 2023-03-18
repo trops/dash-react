@@ -8857,6 +8857,7 @@ var Widget = function Widget(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$7(_ref, _excluded$7);
+  // this is the electron api we are pulling in...
   var _useContext = useContext$1(AppContext),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
@@ -8876,6 +8877,7 @@ var Widget = function Widget(_ref) {
 
   // inject the publisher into the api for the developer to use
   if ("api" in props) {
+    console.log("in widget setting props");
     if (props["api"] !== null) {
       props["api"].setPublisher(pub);
       props["api"].setElectronApi(api);
@@ -8924,6 +8926,9 @@ var WidgetFactory = {
 
         // user input for the customization of the widget
         var userPrefs = params["userPrefs"];
+        if ("api" in params) {
+          console.log("api in params ", api);
+        }
 
         // Check to make sure this is a Component
         if (typeof WidgetComponent !== "function") return null;
