@@ -69,6 +69,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         if (widgetConfig !== null && widgetConfig !== undefined) {
             Object.keys(widgetConfig).forEach((key) => {
+                console.log("LayoutModel key", key);
                 layout[key] = widgetConfig[key];
             });
         }
@@ -121,6 +122,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         console.log(
             "layout model widget api ",
             layout.id,
+            layout.component,
             layout.uuid,
             layout.dashboardId,
             layout.api.uuid()

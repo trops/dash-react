@@ -129,7 +129,7 @@ export const LayoutBuilderAddItemModal = ({
 
     function handleClickItem(data) {
         try {
-            const layoutModel = LayoutModel(data, workspace);
+            const layoutModel = LayoutModel(data, workspace, workspace["id"]);
 
             // we have to give the widget an ID
             const nextId = getNextHighestId(workspace["layout"]);

@@ -1814,6 +1814,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     var widgetConfig = ComponentManager.config(obj["component"], obj);
     if (widgetConfig !== null && widgetConfig !== undefined) {
       Object.keys(widgetConfig).forEach(function (key) {
+        console.log("LayoutModel key", key);
         layout[key] = widgetConfig[key];
       });
     }
@@ -1855,7 +1856,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     //     ? obj["api"]
     //     : new WidgetApi(layout.uuid); //.electronApi();
 
-    console.log("layout model widget api ", layout.id, layout.uuid, layout.dashboardId, layout.api.uuid());
+    console.log("layout model widget api ", layout.id, layout.component, layout.uuid, layout.dashboardId, layout.api.uuid());
     return layout;
   } catch (e) {
     console.log("layout model ", e.message);
@@ -4880,7 +4881,7 @@ var Dashboard = function Dashboard(_ref) {
     var workspacesTemp = workspaces.map(function (ws) {
       // const layout = ws['layout'];
       var tempLayout = ws["layout"].map(function (layoutOG) {
-        return LayoutModel(layoutOG, workspaces);
+        return LayoutModel(layoutOG, ws, ws["id"]);
       });
       ws["layout"] = tempLayout;
       return ws;
@@ -6034,7 +6035,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
   }
   function handleClickItem(data) {
     try {
-      var layoutModel = LayoutModel(data, workspace);
+      var layoutModel = LayoutModel(data, workspace, workspace["id"]);
 
       // we have to give the widget an ID
       var nextId = getNextHighestId(workspace["layout"]);
