@@ -8929,7 +8929,7 @@ var WidgetFactory = {
         // user input for the customization of the widget
         var userPrefs = params["userPrefs"];
         if ("api" in params) {
-          console.log("api in params ", api);
+          console.log("api in params ", params);
         }
 
         // Check to make sure this is a Component
