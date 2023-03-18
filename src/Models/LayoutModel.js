@@ -114,7 +114,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         // can we include the API?
 
-        layout.api = "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
+        layout.api = new WidgetApi(layout.uuid); // "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
 
         // "api" in obj && obj["api"] !== null
         //     ? obj["api"]
@@ -125,8 +125,8 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
             layout.id,
             layout.component,
             layout.uuid,
-            layout.dashboardId,
-            layout.api.uuid()
+            layout.dashboardId
+            // layout.api.uuid()
         );
 
         return layout;
