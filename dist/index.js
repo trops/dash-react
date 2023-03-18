@@ -4881,7 +4881,7 @@ var Dashboard = function Dashboard(_ref) {
     var workspacesTemp = workspaces.map(function (ws) {
       // const layout = ws['layout'];
       var tempLayout = ws["layout"].map(function (layoutOG) {
-        return LayoutModel(layoutOG, ws, ws["id"]);
+        return LayoutModel(layoutOG, workspaces, ws["id"]);
       });
       ws["layout"] = tempLayout;
       return ws;
