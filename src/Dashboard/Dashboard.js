@@ -94,7 +94,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         const workspacesTemp = workspaces.map((ws) => {
             // const layout = ws['layout'];
             const tempLayout = ws["layout"].map((layoutOG) => {
-                return LayoutModel(layoutOG, workspaces, ws["id"]);
+                return LayoutModel(layoutOG, ws["layout"], ws["id"]); //workspaces);
             });
             ws["layout"] = tempLayout;
             return ws;

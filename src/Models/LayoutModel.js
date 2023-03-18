@@ -114,7 +114,8 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         // can we include the API?
 
-        layout.api = new WidgetApi(layout.uuid);
+        layout.api = "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
+
         // "api" in obj && obj["api"] !== null
         //     ? obj["api"]
         //     : new WidgetApi(layout.uuid); //.electronApi();

@@ -1851,7 +1851,8 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 
     // can we include the API?
 
-    layout.api = new WidgetApi(layout.uuid);
+    layout.api = "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
+
     // "api" in obj && obj["api"] !== null
     //     ? obj["api"]
     //     : new WidgetApi(layout.uuid); //.electronApi();
@@ -4881,8 +4882,9 @@ var Dashboard = function Dashboard(_ref) {
     var workspacesTemp = workspaces.map(function (ws) {
       // const layout = ws['layout'];
       var tempLayout = ws["layout"].map(function (layoutOG) {
-        return LayoutModel(layoutOG, workspaces, ws["id"]);
+        return LayoutModel(layoutOG, ws["layout"], ws["id"]); //workspaces);
       });
+
       ws["layout"] = tempLayout;
       return ws;
     });
