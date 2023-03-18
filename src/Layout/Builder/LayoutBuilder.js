@@ -265,7 +265,7 @@ export const LayoutBuilder = ({
     }
 
     function handleClickEditItem(newItem) {
-        // delete newItem["api"];
+        delete newItem["api"];
         delete newItem["componentData"];
 
         setItemSelected(() => newItem);

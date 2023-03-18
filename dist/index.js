@@ -8315,7 +8315,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     return newWorkspace;
   }
   function handleClickEditItem(newItem) {
-    // delete newItem["api"];
+    delete newItem["api"];
     delete newItem["componentData"];
     setItemSelected(function () {
       return newItem;
