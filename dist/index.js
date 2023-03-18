@@ -176,14 +176,17 @@ var WidgetApi = /*#__PURE__*/function () {
         _ref$callbackError = _ref.callbackError,
         callbackError = _ref$callbackError === void 0 ? null : _ref$callbackError,
         _ref$append = _ref.append,
-        append = _ref$append === void 0 ? true : _ref$append;
+        append = _ref$append === void 0 ? true : _ref$append,
+        _ref$returnEmpty = _ref.returnEmpty,
+        returnEmpty = _ref$returnEmpty === void 0 ? {} : _ref$returnEmpty;
       try {
         console.log("storing data ", {
           data: data,
           filename: filename,
           callbackComplete: callbackComplete,
           callbackError: callbackError,
-          append: append
+          append: append,
+          returnEmpty: returnEmpty
         });
         // set the filename
         var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
@@ -202,7 +205,7 @@ var WidgetApi = /*#__PURE__*/function () {
             eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
           }
           // request.
-          eApi.data.saveData(data, toFilename, append);
+          eApi.data.saveData(data, toFilename, append, returnEmpty);
         }
       } catch (e) {
         console.log(e.message);
@@ -1798,7 +1801,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     // generate a unique name so that we can store files, publish events etc
     // all with this very specific identifier
 
-    layout.uuid = "".concat(dashboardId, "-").concat(layout["component"], "-").concat(layout.id);
+    layout.uuid = dashboardId !== undefined ? "".concat(dashboardId, "-").concat(layout["component"], "-").concat(layout.id) : "".concat(layout["component"], "-").concat(layout.id);
 
     // if (layout.componentData !== undefined) {
     //     if ("type" in layout.componentData)
@@ -1852,7 +1855,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     //     ? obj["api"]
     //     : new WidgetApi(layout.uuid); //.electronApi();
 
-    console.log("layout model widget api ", layout.id, layout.dashboardId, layout.api.uuid());
+    console.log("layout model widget api ", layout.id, layout.uuid, layout.dashboardId, layout.api.uuid());
     return layout;
   } catch (e) {
     console.log("layout model ", e.message);
@@ -8312,8 +8315,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     return newWorkspace;
   }
   function handleClickEditItem(newItem) {
-    console.log("edit item ", newItem);
-    delete newItem["api"];
+    // delete newItem["api"];
     delete newItem["componentData"];
     setItemSelected(function () {
       return newItem;

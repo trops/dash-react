@@ -265,8 +265,7 @@ export const LayoutBuilder = ({
     }
 
     function handleClickEditItem(newItem) {
-        console.log("edit item ", newItem);
-        delete newItem["api"];
+        // delete newItem["api"];
         delete newItem["componentData"];
 
         setItemSelected(() => newItem);

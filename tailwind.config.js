@@ -21,6 +21,9 @@ module.exports = {
             variants: ["hover"],
         },
         {
+            pattern: /animate-(.+)/,
+        },
+        {
             pattern: /top-(.+)/,
         },
         {
@@ -113,16 +116,5 @@ module.exports = {
             pattern: /from-(.+)-(.+)/,
         },
     ],
-    plugins: [
-        require("tailwind-scrollbar"),
-        require("@tailwindcss/forms"),
-        // require('tailwind-safelist-generator')({
-        //   path: 'safelist.js',
-        //   patterns: [
-        //     'text-{colors}',
-        //     'bg-{colors}',
-        //     'p-{gap}'
-        //   ]
-        // })
-    ],
+    plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],
 };

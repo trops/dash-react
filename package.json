@@ -11,7 +11,7 @@
         "dist"
     ],
     "scripts": {
-        "build": "yarn prettify && yarn build:css && yarn prod",
+        "build": "npm run prettify && npm run build:css && npm run prod",
         "build:css": "tailwindcss -i src/index.css -o src/tailwind.css -m",
         "release-workflow": "",
         "prod": "npm run prettify && rm -r ./dist/* || exit 0 && rm -r ./package/* || 0 && yarn roll && yarn copy && yarn pack-local-esm && yarn copy-package",

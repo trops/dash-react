@@ -52,7 +52,10 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         // generate a unique name so that we can store files, publish events etc
         // all with this very specific identifier
 
-        layout.uuid = `${dashboardId}-${layout["component"]}-${layout.id}`;
+        layout.uuid =
+            dashboardId !== undefined
+                ? `${dashboardId}-${layout["component"]}-${layout.id}`
+                : `${layout["component"]}-${layout.id}`;
 
         // if (layout.componentData !== undefined) {
         //     if ("type" in layout.componentData)
@@ -118,6 +121,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         console.log(
             "layout model widget api ",
             layout.id,
+            layout.uuid,
             layout.dashboardId,
             layout.api.uuid()
         );

@@ -134,6 +134,7 @@ export class WidgetApi {
         callbackComplete = null,
         callbackError = null,
         append = true,
+        returnEmpty = {},
     }) {
         try {
             console.log("storing data ", {
@@ -142,6 +143,7 @@ export class WidgetApi {
                 callbackComplete,
                 callbackError,
                 append,
+                returnEmpty,
             });
             // set the filename
             const toFilename =
@@ -164,7 +166,7 @@ export class WidgetApi {
                     eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
                 }
                 // request.
-                eApi.data.saveData(data, toFilename, append);
+                eApi.data.saveData(data, toFilename, append, returnEmpty);
             }
         } catch (e) {
             console.log(e.message);
