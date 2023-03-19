@@ -4893,7 +4893,9 @@ var Dashboard = function Dashboard(_ref) {
     var workspaces = deepCopy(message["workspaces"]);
     var workspacesTemp = workspaces.map(function (ws) {
       // const layout = ws['layout'];
+      // push the LayoutModel back into the Widget here... (inflate)
       var tempLayout = ws["layout"].map(function (layoutOG) {
+        console.log("layout OG ", layoutOG, ws[layoutOG], ws["layout"]);
         return LayoutModel(layoutOG, ws["layout"], ws["id"]); //workspaces);
       });
 
@@ -5064,7 +5066,7 @@ var Dashboard = function Dashboard(_ref) {
     var workspaceToSave = JSON.parse(JSON.stringify(workspaceSelected));
     var layout = workspaceToSave["layout"].map(function (layoutItem) {
       delete layoutItem["widgetConfig"];
-      delete layoutItem["api"];
+      // delete layoutItem["api"];
       return layoutItem;
     });
     workspaceToSave["layout"] = layout;

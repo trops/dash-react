@@ -93,7 +93,9 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         const workspaces = deepCopy(message["workspaces"]);
         const workspacesTemp = workspaces.map((ws) => {
             // const layout = ws['layout'];
+            // push the LayoutModel back into the Widget here... (inflate)
             const tempLayout = ws["layout"].map((layoutOG) => {
+                console.log("layout OG ", layoutOG, ws[layoutOG], ws["layout"]);
                 return LayoutModel(layoutOG, ws["layout"], ws["id"]); //workspaces);
             });
             ws["layout"] = tempLayout;
@@ -259,7 +261,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         const workspaceToSave = JSON.parse(JSON.stringify(workspaceSelected));
         const layout = workspaceToSave["layout"].map((layoutItem) => {
             delete layoutItem["widgetConfig"];
-            delete layoutItem["api"];
+            // delete layoutItem["api"];
             return layoutItem;
         });
         workspaceToSave["layout"] = layout;
