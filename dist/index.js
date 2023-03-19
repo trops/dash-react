@@ -8871,10 +8871,10 @@ var Widget = function Widget(_ref) {
   var _useContext = useContext$1(AppContext),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
-    var api = _useContext.api;
-  var _useContext2 = useContext$1(DashboardContext),
-    pub = _useContext2.pub,
-    settings = _useContext2.settings;
+    _useContext.api;
+  var _useContext2 = useContext$1(DashboardContext);
+    _useContext2.pub;
+    _useContext2.settings;
   useEffect(function () {
     // console.log("use effect in Widget ", api, debugMode, debugStyles);
     // curious if we should register the listeners here?
@@ -8887,22 +8887,23 @@ var Widget = function Widget(_ref) {
 
   // inject the publisher into the api for the developer to use
   if ("api" in props) {
-    console.log("in widget setting props", props["api"]);
-    if (props["api"] !== null) {
-      if (props["api"].pub() === null) {
-        console.log("need to set pub");
-        props["api"].setPublisher(pub);
-      }
-      if (props["api"].electronApi() === null) {
-        console.log("need to set electronApi");
-        props["api"].setElectronApi(api);
-      }
-      if (props["api"].settings() === null) {
-        console.log("need to set settings");
-        settings !== null && props["api"].setSettings(settings);
-      }
-    }
+    console.log("in widget setting props", props["api"].pub());
+    // if (props["api"] !== null) {
+    //     if (props["api"].pub() === null) {
+    //         console.log("need to set pub", props);
+    //         props["api"].setPublisher(pub);
+    //     }
+    //     if (props["api"].electronApi() === null) {
+    //         console.log("need to set electronApi");
+    //         props["api"].setElectronApi(api);
+    //     }
+    //     if (props["api"].settings() === null) {
+    //         console.log("need to set settings");
+    //         settings !== null && props["api"].setSettings(settings);
+    //     }
+    // }
   }
+
   return /*#__PURE__*/jsxs(LayoutContainer, {
     id: "widget-container'-".concat(uuid),
     direction: direction,
