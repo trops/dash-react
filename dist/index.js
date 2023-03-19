@@ -157,7 +157,15 @@ var WidgetApi = /*#__PURE__*/function () {
   }, {
     key: "registerListeners",
     value: function registerListeners(listeners, handlers) {
-      this._pub.registerListeners(listeners, handlers, this.uuid());
+      if (this.pub() !== null && this.uuid() !== null) {
+        console.log("have pub and uuid", this.pub(), this.uuid());
+        if ("registerListeners" in this.pub()) {
+          if (this.pub()["registerListeners"] !== null) {
+            this.pub().registerListeners(listeners, handlers, this.uuid());
+          }
+        }
+      }
+      // this._pub.registerListeners(listeners, handlers, this.uuid());
     }
 
     /**
