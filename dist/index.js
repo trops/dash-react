@@ -1,6 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef } from 'react';
+import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef as useRef$1 } from 'react';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { Transition, Dialog, Disclosure } from '@headlessui/react';
@@ -4410,7 +4410,7 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
   var settings = _ref.settings,
     workspaces = _ref.workspaces,
     setIsOpen = _ref.setIsOpen;
-  var messagesEnd = useRef(null);
+  var messagesEnd = useRef$1(null);
   var _useContext = useContext$1(ThemeContext),
     theme = _useContext.theme,
     themes = _useContext.themes,
@@ -8863,6 +8863,7 @@ var Widget = function Widget(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$7(_ref, _excluded$7);
+  var ref = useRef(true);
   // this is the electron api we are pulling in...
   var _useContext = useContext$1(AppContext),
     debugMode = _useContext.debugMode;
@@ -8872,10 +8873,12 @@ var Widget = function Widget(_ref) {
     pub = _useContext2.pub,
     settings = _useContext2.settings;
   useEffect(function () {
+    var firstRender = ref.current;
     // console.log("use effect in Widget ", api, debugMode, debugStyles);
     // curious if we should register the listeners here?
     // inject the publisher into the api for the developer to use
-    if ("api" in props) {
+
+    if ("api" in props && firstRender) {
       console.log("in widget setting props", props["api"].pub());
       if (props["api"] !== null) {
         if (props["api"].pub() === null) {
@@ -8889,6 +8892,10 @@ var Widget = function Widget(_ref) {
         if (props["api"].settings() === null) {
           console.log("need to set settings");
           settings !== null && props["api"].setSettings(settings);
+        }
+        if (firstRender) {
+          console.log("rendered once...");
+          ref.current = false;
         }
       }
     }

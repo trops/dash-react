@@ -13,15 +13,18 @@ const Widget = ({
     className = "",
     ...props
 }) => {
+    const ref = useRef(true);
     // this is the electron api we are pulling in...
     const { debugMode, debugStyles, api } = useContext(AppContext);
     const { pub, settings } = useContext(DashboardContext);
 
     useEffect(() => {
+        const firstRender = ref.current;
         // console.log("use effect in Widget ", api, debugMode, debugStyles);
         // curious if we should register the listeners here?
         // inject the publisher into the api for the developer to use
-        if ("api" in props) {
+
+        if ("api" in props && firstRender) {
             console.log("in widget setting props", props["api"].pub());
             if (props["api"] !== null) {
                 if (props["api"].pub() === null) {
@@ -35,6 +38,11 @@ const Widget = ({
                 if (props["api"].settings() === null) {
                     console.log("need to set settings");
                     settings !== null && props["api"].setSettings(settings);
+                }
+
+                if (firstRender) {
+                    console.log("rendered once...");
+                    ref.current = false;
                 }
             }
         }
