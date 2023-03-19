@@ -160,14 +160,12 @@ var WidgetApi = /*#__PURE__*/function () {
     key: "registerListeners",
     value: function registerListeners(listeners, handlers) {
       if (this.pub() !== null && this.uuid() !== null) {
-        console.log("have pub and uuid", this.pub(), this.uuid());
         if ("registerListeners" in this.pub()) {
           if (this.pub()["registerListeners"] !== null) {
             this.pub().registerListeners(listeners, handlers, this.uuid());
           }
         }
       }
-      // this._pub.registerListeners(listeners, handlers, this.uuid());
     }
 
     /**
@@ -195,22 +193,12 @@ var WidgetApi = /*#__PURE__*/function () {
         _ref$returnEmpty = _ref.returnEmpty,
         returnEmpty = _ref$returnEmpty === void 0 ? {} : _ref$returnEmpty;
       try {
-        console.log("storing data ", {
-          data: data,
-          filename: filename,
-          callbackComplete: callbackComplete,
-          callbackError: callbackError,
-          append: append,
-          returnEmpty: returnEmpty
-        });
         // set the filename
         var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
 
         // grab the electron api
         var eApi = this.electronApi();
-        console.log("store data : api ", eApi);
         if (eApi) {
-          console.log(eApi);
           // remove the listeners (reset)
           if ("removeAllListeners" in eApi) {
             eApi.removeAllListeners();
@@ -225,7 +213,9 @@ var WidgetApi = /*#__PURE__*/function () {
           }
         }
       } catch (e) {
-        console.log(e.message);
+        if (callbackError !== null) {
+          callbackError(e, e.message);
+        }
       }
     }
 
@@ -7912,8 +7902,20 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
             textSize: "text-base",
             children: [/*#__PURE__*/jsx("option", {
               value: "h-full",
-              children: "Maximize Height"
+              children: "Full Height"
             }, "height-full"), /*#__PURE__*/jsx("option", {
+              value: "h-1/4 min-h-1/4",
+              children: "1/4"
+            }, "height-1-4"), /*#__PURE__*/jsx("option", {
+              value: "h-1/3 min-h-1/3",
+              children: "1/3"
+            }, "height-1-3"), /*#__PURE__*/jsx("option", {
+              value: "h-1/2 min-h-1/2",
+              children: "1/2"
+            }, "height-1-2"), /*#__PURE__*/jsx("option", {
+              value: "h-3/4 min-h-3/4",
+              children: "3/4"
+            }, "height-3-4"), /*#__PURE__*/jsx("option", {
               value: "h-fit",
               children: "Fit Content"
             }, "height-fit")]

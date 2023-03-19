@@ -211,7 +211,31 @@ export const WidgetConfigPanel = ({
                                 textSize="text-base"
                             >
                                 <option key={"height-full"} value="h-full">
-                                    Maximize Height
+                                    Full Height
+                                </option>
+                                <option
+                                    key={"height-1-4"}
+                                    value="h-1/4 min-h-1/4"
+                                >
+                                    1/4
+                                </option>
+                                <option
+                                    key={"height-1-3"}
+                                    value="h-1/3 min-h-1/3"
+                                >
+                                    1/3
+                                </option>
+                                <option
+                                    key={"height-1-2"}
+                                    value="h-1/2 min-h-1/2"
+                                >
+                                    1/2
+                                </option>
+                                <option
+                                    key={"height-3-4"}
+                                    value="h-3/4 min-h-3/4"
+                                >
+                                    3/4
                                 </option>
                                 <option key={"height-fit"} value="h-fit">
                                     Fit Content

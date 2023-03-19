@@ -122,7 +122,6 @@ export class WidgetApi {
      */
     registerListeners(listeners, handlers) {
         if (this.pub() !== null && this.uuid() !== null) {
-            console.log("have pub and uuid", this.pub(), this.uuid());
             if ("registerListeners" in this.pub()) {
                 if (this.pub()["registerListeners"] !== null) {
                     this.pub().registerListeners(
@@ -133,7 +132,6 @@ export class WidgetApi {
                 }
             }
         }
-        // this._pub.registerListeners(listeners, handlers, this.uuid());
     }
 
     /**
@@ -155,23 +153,13 @@ export class WidgetApi {
         returnEmpty = {},
     }) {
         try {
-            console.log("storing data ", {
-                data,
-                filename,
-                callbackComplete,
-                callbackError,
-                append,
-                returnEmpty,
-            });
             // set the filename
             const toFilename =
                 filename !== null ? filename : `${this.uuid()}.json`;
 
             // grab the electron api
             const eApi = this.electronApi();
-            console.log("store data : api ", eApi);
             if (eApi) {
-                console.log(eApi);
                 // remove the listeners (reset)
                 if ("removeAllListeners" in eApi) {
                     eApi.removeAllListeners();
@@ -192,7 +180,9 @@ export class WidgetApi {
                 }
             }
         } catch (e) {
-            console.log(e.message);
+            if (callbackError !== null) {
+                callbackError(e, e.message);
+            }
         }
     }
 
