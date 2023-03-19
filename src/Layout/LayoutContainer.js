@@ -26,7 +26,8 @@ export const LayoutContainer = ({
             : space === true
             ? "flex-col space-y-2"
             : "flex-col";
-    const scrollStyle = scrollable === true ? "overflow-y-scroll" : "";
+    const scrollStyle =
+        scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
     const widthStyle = width;
     const heightStyle = height === "" ? "h-full" : height; //'h-full';//scrollable === true ? height : height;
 
@@ -41,9 +42,7 @@ export const LayoutContainer = ({
     return (
         <div
             id={`LayoutContainer-${id}`}
-            className={`flex border-1 rounded ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className} ${
-                debug === true && "border border-green-500 border-dotted"
-            }`}
+            className={`flex border-1 rounded ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>

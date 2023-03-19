@@ -5919,9 +5919,8 @@ var LayoutContainer = function LayoutContainer(_ref) {
     _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "min-h-fit" : _ref$height,
-    _ref$debug = _ref.debug,
-    debug = _ref$debug === void 0 ? false : _ref$debug;
+    height = _ref$height === void 0 ? "min-h-fit" : _ref$height;
+    _ref.debug;
     _ref.onMouseOver;
     _ref.onMouseOut;
     var _ref$space = _ref.space,
@@ -5931,7 +5930,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
 
   // determine the classes based on the props...
   var directionStyle = direction === "row" ? space === true ? "flex-row space-x-2" : "flex-row" : space === true ? "flex-col space-y-2" : "flex-col";
-  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "";
+  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
   var widthStyle = width;
   var heightStyle = height === "" ? "h-full" : height; //'h-full';//scrollable === true ? height : height;
 
@@ -5945,7 +5944,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
 
   return /*#__PURE__*/jsx("div", {
     id: "LayoutContainer-".concat(id),
-    className: "flex border-1 rounded ".concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className, " ").concat(debug === true && "border border-green-500 border-dotted"),
+    className: "flex border-1 rounded ".concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
     children: children
   });
 };
@@ -8893,11 +8892,6 @@ var Widget = function Widget(_ref) {
     // console.log("use effect in Widget ", api, debugMode, debugStyles);
     // curious if we should register the listeners here?
   });
-  function debugClasses() {
-    // const styles = debugStyles['widget']['classes'];
-    // return debugMode === true ? `space-y-4 p-4 ${styles}` : ''
-    return "";
-  }
 
   // inject the publisher into the api for the developer to use
   if ("api" in props) {
@@ -8923,7 +8917,7 @@ var Widget = function Widget(_ref) {
     scrollable: scrollable,
     width: width,
     height: height,
-    className: "".concat(debugClasses(), " ").concat(className),
+    className: "".concat(className),
     children: [debugMode === true && /*#__PURE__*/jsxs("span", {
       className: "text-white uppercase text-xs",
       children: ["WIDGET", " ", scrollable === true ? "scrollable" : "not scrollable"]

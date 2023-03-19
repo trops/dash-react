@@ -54,7 +54,7 @@ const Widget = ({
             scrollable={scrollable}
             width={width}
             height={height}
-            className={`${debugClasses()} ${className}`}
+            className={`${className}`}
         >
             {debugMode === true && (
                 <span className="text-white uppercase text-xs">
