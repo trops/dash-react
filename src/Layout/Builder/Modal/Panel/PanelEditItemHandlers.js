@@ -330,7 +330,11 @@ export const PanelEditItemHandlers = ({
         console.log("render available items ", itemSelected);
         if (workspaceSelected !== null) {
             return workspaceSelected.layout
-                .filter((l) => l["component"] !== "Container")
+                .filter(
+                    (l) =>
+                        l["component"] !== "Container" &&
+                        l["component"] !== "LayoutContainer"
+                )
                 .filter((e) => e.events.length > 0)
                 .filter((li) => li["component"] !== itemSelected["component"])
                 .map((layout) => {

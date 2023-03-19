@@ -6789,7 +6789,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     console.log("render available items ", itemSelected);
     if (workspaceSelected !== null) {
       return workspaceSelected.layout.filter(function (l) {
-        return l["component"] !== "Container";
+        return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
       }).filter(function (e) {
         return e.events.length > 0;
       }).filter(function (li) {
@@ -7563,31 +7563,10 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
       return false;
     }
   }
-
-  // function renderWorkspaceLayoutItems() {
-  //     return workspaceSelected !== null && itemSelected !== null && workspaceSelected.layout
-  //         .filter(i => i['component'] !== 'Container')
-  //         .map(li => {
-  //             const selected = itemSelected['id'] === li['id'];
-  //             return (
-  //                 <div
-  //                     onClick={() => handleSelectWorkspaceItem(li)}
-  //                     className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 px-4 font-bold items-center space-x-2 ${selected === true ? 'bg-blue-800 text-gray-300' : 'text-gray-400'} hover:text-gray-300`}
-  //                 >
-  //                     <div className={`flex flex-col w-full space-y-1`}>
-  //                         <span className={`text-lg flex flex-row ${selected === true && 'text-gray-300'}`}>
-  //                             {li['component']}&nbsp;[{li['id']}]
-  //                         </span>
-  //                         <span className="text-indigo-500 text-sm font-normal">{li['listeners'].length} listeners connected</span>
-  //                     </div>
-  //                 </div>);
-  //         });
-  // }
-
   function renderAvailableEvents() {
     if (workspaceSelected !== null) {
       return workspaceSelected.layout.filter(function (l) {
-        return l["component"] !== "Container";
+        return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
       }).filter(function (e) {
         return e.events.length > 0;
       }).filter(function (li) {
@@ -8111,7 +8090,7 @@ var sampleLayout = [{
   order: 1,
   direction: "row",
   width: "w-full",
-  component: "Container",
+  component: "LayoutContainer",
   hasChildren: 1,
   scrollable: true,
   parent: 0
@@ -8634,10 +8613,10 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
     onOpenEvents(item);
   }
   function dragType(item) {
-    if (item["type"] === "workspace" && item["component"] !== "Container") {
+    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
       return item["parentWorkspaceName"];
     }
-    if (item["component"] === "Container") {
+    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
       return "layout";
     }
     return item["parentWorkspaceName"];
@@ -8946,8 +8925,9 @@ var WidgetFactory = {
       var m = ComponentManager.componentMap();
       //console.log('factory ', m);
       if (component && m) {
+        var isLayout = ComponentManager.isLayoutContainer(component);
         // grab the component from the map
-        var WidgetComponent = component !== "Container" ? m[component]["component"] : Container;
+        var WidgetComponent = isLayout === false ? m[component]["component"] : LayoutContainer;
         var config = ComponentManager.config(component, params);
         var styles = "styles" in config ? config["styles"] : null;
 
@@ -8959,7 +8939,7 @@ var WidgetFactory = {
 
         // Check to make sure this is a Component
         if (typeof WidgetComponent !== "function") return null;
-        if (component !== "Container" && component !== "LayoutContainer") {
+        if (isLayout === false) {
           params["width"] = "w-full";
         }
         if ("width" in params === false) {
@@ -8989,18 +8969,10 @@ var WidgetFactory = {
   },
   renderChildren: function renderChildren(children) {
     return React.Children.map(children, function (el) {
-      // const config = el.props.component !== undefined
-      //     ? ComponentManager.config(el.props.component, {})
-      //     : {};
-
-      // delete(config['component']);
-
       var clonedComponent = /*#__PURE__*/React.cloneElement(el);
       return clonedComponent;
-      // return el;
     });
   },
-
   /**
    * config
    * Get the developer's component configuration and enhance that configuration with
@@ -9250,19 +9222,19 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     return null;
   }
   function dropType(item) {
-    if (item["type"] === "workspace" && item["component"] !== "Container") {
+    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
       return ["layout", item["parentWorkspaceName"]];
     }
-    if (item["component"] === "Container") {
+    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
       return getAllWorkspaceNames();
     }
     return ["layout", item["parentWorkspaceName"]];
   }
   function dragType(item) {
-    if (item["type"] === "workspace" && item["component"] !== "Container") {
+    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
       return item["parentWorkspaceName"];
     }
-    if (item["component"] === "Container") {
+    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
       return "layout";
     }
     return item["parentWorkspaceName"];
@@ -10933,23 +10905,22 @@ var Container = function Container(_ref) {
     _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-full min-h-fit" : _ref$height,
-    _ref$debug = _ref.debug,
-    debug = _ref$debug === void 0 ? false : _ref$debug,
-    _ref$onMouseOver = _ref.onMouseOver,
+    height = _ref$height === void 0 ? "h-full min-h-fit" : _ref$height;
+    _ref.debug;
+    var _ref$onMouseOver = _ref.onMouseOver,
     onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
     _ref$onMouseOut = _ref.onMouseOut,
     onMouseOut = _ref$onMouseOut === void 0 ? null : _ref$onMouseOut;
   // determine the classes based on the props...
   var directionStyle = direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
-  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "";
+  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
   var widthStyle = width;
   var heightStyle = scrollable === true ? height : height;
   return /*#__PURE__*/jsx("div", {
     id: "container-".concat(id),
     onMouseOver: onMouseOver,
     onMouseOut: onMouseOut,
-    className: "flex ".concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className, " ").concat(debug === true && "border border-green-500 border-dotted"),
+    className: "flex ".concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
     children: children
   });
 };

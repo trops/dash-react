@@ -114,10 +114,17 @@ export const LayoutBuilderGridItem = ({
     function renderEvents() {}
 
     function dragType(item) {
-        if (item["type"] === "workspace" && item["component"] !== "Container") {
+        if (
+            item["type"] === "workspace" &&
+            item["component"] !== "Container" &&
+            item["component"] !== "LayoutContainer"
+        ) {
             return item["parentWorkspaceName"];
         }
-        if (item["component"] === "Container") {
+        if (
+            item["component"] === "Container" ||
+            item["component"] === "LayoutContainer"
+        ) {
             return "layout";
         }
         return item["parentWorkspaceName"];

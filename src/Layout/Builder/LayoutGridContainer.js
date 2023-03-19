@@ -217,20 +217,34 @@ export const LayoutGridContainer = ({
     }
 
     function dropType(item) {
-        if (item["type"] === "workspace" && item["component"] !== "Container") {
+        if (
+            item["type"] === "workspace" &&
+            item["component"] !== "Container" &&
+            item["component"] !== "LayoutContainer"
+        ) {
             return ["layout", item["parentWorkspaceName"]];
         }
-        if (item["component"] === "Container") {
+        if (
+            item["component"] === "Container" ||
+            item["component"] === "LayoutContainer"
+        ) {
             return getAllWorkspaceNames();
         }
         return ["layout", item["parentWorkspaceName"]];
     }
 
     function dragType(item) {
-        if (item["type"] === "workspace" && item["component"] !== "Container") {
+        if (
+            item["type"] === "workspace" &&
+            item["component"] !== "Container" &&
+            item["component"] !== "LayoutContainer"
+        ) {
             return item["parentWorkspaceName"];
         }
-        if (item["component"] === "Container") {
+        if (
+            item["component"] === "Container" ||
+            item["component"] === "LayoutContainer"
+        ) {
             return "layout";
         }
         return item["parentWorkspaceName"];

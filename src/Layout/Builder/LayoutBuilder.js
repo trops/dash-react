@@ -34,7 +34,7 @@ const sampleLayout = [
         order: 1,
         direction: "row",
         width: "w-full",
-        component: "Container",
+        component: "LayoutContainer",
         hasChildren: 1,
         scrollable: true,
         parent: 0,

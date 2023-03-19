@@ -3,7 +3,7 @@
  * Get the "component" and params and dynamically generate the Component
  */
 import React from "react";
-import { Container } from "@dash/Common";
+import { LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
 
 const WidgetFactory = {
@@ -19,11 +19,12 @@ const WidgetFactory = {
             const m = ComponentManager.componentMap();
             //console.log('factory ', m);
             if (component && m) {
+                const isLayout = ComponentManager.isLayoutContainer(component);
                 // grab the component from the map
                 const WidgetComponent =
-                    component !== "Container"
+                    isLayout === false
                         ? m[component]["component"]
-                        : Container;
+                        : LayoutContainer;
 
                 const config = ComponentManager.config(component, params);
                 const styles = "styles" in config ? config["styles"] : null;
@@ -38,10 +39,7 @@ const WidgetFactory = {
                 // Check to make sure this is a Component
                 if (typeof WidgetComponent !== "function") return null;
 
-                if (
-                    component !== "Container" &&
-                    component !== "LayoutContainer"
-                ) {
+                if (isLayout === false) {
                     params["width"] = "w-full";
                 }
 
@@ -85,16 +83,8 @@ const WidgetFactory = {
     },
     renderChildren: (children) => {
         return React.Children.map(children, (el) => {
-            // const config = el.props.component !== undefined
-            //     ? ComponentManager.config(el.props.component, {})
-            //     : {};
-
-            // delete(config['component']);
-
             const clonedComponent = React.cloneElement(el);
-
             return clonedComponent;
-            // return el;
         });
     },
     /**

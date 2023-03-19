@@ -15,7 +15,8 @@ export const Container = ({
     // determine the classes based on the props...
     const directionStyle =
         direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
-    const scrollStyle = scrollable === true ? "overflow-y-scroll" : "";
+    const scrollStyle =
+        scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
     const widthStyle = width;
     const heightStyle = scrollable === true ? height : height;
 
@@ -24,9 +25,7 @@ export const Container = ({
             id={`container-${id}`}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}
-            className={`flex ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className} ${
-                debug === true && "border border-green-500 border-dotted"
-            }`}
+            className={`flex ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>

@@ -290,30 +290,14 @@ export const LayoutBuilderEventModal = ({
         }
     }
 
-    // function renderWorkspaceLayoutItems() {
-    //     return workspaceSelected !== null && itemSelected !== null && workspaceSelected.layout
-    //         .filter(i => i['component'] !== 'Container')
-    //         .map(li => {
-    //             const selected = itemSelected['id'] === li['id'];
-    //             return (
-    //                 <div
-    //                     onClick={() => handleSelectWorkspaceItem(li)}
-    //                     className={`flex flex-row ${selected === false && 'hover:bg-gray-800'} rounded cursor-pointer p-2 px-4 font-bold items-center space-x-2 ${selected === true ? 'bg-blue-800 text-gray-300' : 'text-gray-400'} hover:text-gray-300`}
-    //                 >
-    //                     <div className={`flex flex-col w-full space-y-1`}>
-    //                         <span className={`text-lg flex flex-row ${selected === true && 'text-gray-300'}`}>
-    //                             {li['component']}&nbsp;[{li['id']}]
-    //                         </span>
-    //                         <span className="text-indigo-500 text-sm font-normal">{li['listeners'].length} listeners connected</span>
-    //                     </div>
-    //                 </div>);
-    //         });
-    // }
-
     function renderAvailableEvents() {
         if (workspaceSelected !== null) {
             return workspaceSelected.layout
-                .filter((l) => l["component"] !== "Container")
+                .filter(
+                    (l) =>
+                        l["component"] !== "Container" &&
+                        l["component"] !== "LayoutContainer"
+                )
                 .filter((e) => e.events.length > 0)
                 .filter((li) => li["component"] !== itemSelected["component"])
                 .map((layout) => {
