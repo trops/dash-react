@@ -31,20 +31,20 @@ const Widget = ({
     // inject the publisher into the api for the developer to use
     if ("api" in props) {
         console.log("in widget setting props", props["api"].pub());
-        // if (props["api"] !== null) {
-        //     if (props["api"].pub() === null) {
-        //         console.log("need to set pub", props);
-        //         props["api"].setPublisher(pub);
-        //     }
-        //     if (props["api"].electronApi() === null) {
-        //         console.log("need to set electronApi");
-        //         props["api"].setElectronApi(api);
-        //     }
-        //     if (props["api"].settings() === null) {
-        //         console.log("need to set settings");
-        //         settings !== null && props["api"].setSettings(settings);
-        //     }
-        // }
+        if (props["api"] !== null) {
+            if (props["api"].pub() === null) {
+                console.log("need to set pub", props);
+                props["api"].setPublisher(pub);
+            }
+            if (props["api"].electronApi() === null) {
+                console.log("need to set electronApi");
+                props["api"].setElectronApi(api);
+            }
+            if (props["api"].settings() === null) {
+                console.log("need to set settings");
+                settings !== null && props["api"].setSettings(settings);
+            }
+        }
     }
 
     return (

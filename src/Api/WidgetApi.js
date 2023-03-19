@@ -169,22 +169,27 @@ export class WidgetApi {
 
             // grab the electron api
             const eApi = this.electronApi();
-            console.log("api ", eApi);
+            console.log("store data : api ", eApi);
             if (eApi) {
                 console.log(eApi);
                 // remove the listeners (reset)
-                eApi.removeAllListeners();
-                if (callbackComplete !== null) {
-                    eApi.on(
-                        eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
-                        callbackComplete
-                    );
+                if ("removeAllListeners" in eApi) {
+                    eApi.removeAllListeners();
+                    if (callbackComplete !== null) {
+                        eApi.on(
+                            eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
+                            callbackComplete
+                        );
+                    }
+                    if (callbackError !== null) {
+                        eApi.on(
+                            eApi.events.DATA_SAVE_TO_FILE_ERROR,
+                            callbackError
+                        );
+                    }
+                    // request.
+                    eApi.data.saveData(data, toFilename, append, returnEmpty);
                 }
-                if (callbackError !== null) {
-                    eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
-                }
-                // request.
-                eApi.data.saveData(data, toFilename, append, returnEmpty);
             }
         } catch (e) {
             console.log(e.message);
@@ -207,21 +212,24 @@ export class WidgetApi {
             const toFilename =
                 filename !== null ? filename : `${this.uuid()}.json`;
             const eApi = this.electronApi();
-            eApi.removeAllListeners();
-            if (callbackComplete !== null) {
-                eApi.on(
-                    eApi.events.DATA_READ_FROM_FILE_COMPLETE,
-                    (e, message) => callbackComplete(e, message)
-                );
-            }
-            if (callbackError !== null) {
-                callbackError !== null &&
+            if ("removeAllListeners" in eApi) {
+                eApi.removeAllListeners();
+
+                if (callbackComplete !== null) {
                     eApi.on(
-                        eApi.events.DATA_READ_FROM_FILE_ERROR,
-                        (e, message) => callbackError(e, message)
+                        eApi.events.DATA_READ_FROM_FILE_COMPLETE,
+                        (e, message) => callbackComplete(e, message)
                     );
+                }
+                if (callbackError !== null) {
+                    callbackError !== null &&
+                        eApi.on(
+                            eApi.events.DATA_READ_FROM_FILE_ERROR,
+                            (e, message) => callbackError(e, message)
+                        );
+                }
+                eApi.data.readData(toFilename);
             }
-            eApi.data.readData(toFilename);
         } catch (e) {
             console.log(e);
         }

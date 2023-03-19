@@ -208,19 +208,21 @@ var WidgetApi = /*#__PURE__*/function () {
 
         // grab the electron api
         var eApi = this.electronApi();
-        console.log("api ", eApi);
+        console.log("store data : api ", eApi);
         if (eApi) {
           console.log(eApi);
           // remove the listeners (reset)
-          eApi.removeAllListeners();
-          if (callbackComplete !== null) {
-            eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
+          if ("removeAllListeners" in eApi) {
+            eApi.removeAllListeners();
+            if (callbackComplete !== null) {
+              eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
+            }
+            if (callbackError !== null) {
+              eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
+            }
+            // request.
+            eApi.data.saveData(data, toFilename, append, returnEmpty);
           }
-          if (callbackError !== null) {
-            eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
-          }
-          // request.
-          eApi.data.saveData(data, toFilename, append, returnEmpty);
         }
       } catch (e) {
         console.log(e.message);
@@ -246,18 +248,20 @@ var WidgetApi = /*#__PURE__*/function () {
       try {
         var toFilename = filename !== null ? filename : "".concat(this.uuid(), ".json");
         var eApi = this.electronApi();
-        eApi.removeAllListeners();
-        if (callbackComplete !== null) {
-          eApi.on(eApi.events.DATA_READ_FROM_FILE_COMPLETE, function (e, message) {
-            return callbackComplete(e, message);
-          });
+        if ("removeAllListeners" in eApi) {
+          eApi.removeAllListeners();
+          if (callbackComplete !== null) {
+            eApi.on(eApi.events.DATA_READ_FROM_FILE_COMPLETE, function (e, message) {
+              return callbackComplete(e, message);
+            });
+          }
+          if (callbackError !== null) {
+            callbackError !== null && eApi.on(eApi.events.DATA_READ_FROM_FILE_ERROR, function (e, message) {
+              return callbackError(e, message);
+            });
+          }
+          eApi.data.readData(toFilename);
         }
-        if (callbackError !== null) {
-          callbackError !== null && eApi.on(eApi.events.DATA_READ_FROM_FILE_ERROR, function (e, message) {
-            return callbackError(e, message);
-          });
-        }
-        eApi.data.readData(toFilename);
       } catch (e) {
         console.log(e);
       }
@@ -8881,10 +8885,10 @@ var Widget = function Widget(_ref) {
   var _useContext = useContext$1(AppContext),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
-    _useContext.api;
-  var _useContext2 = useContext$1(DashboardContext);
-    _useContext2.pub;
-    _useContext2.settings;
+    var api = _useContext.api;
+  var _useContext2 = useContext$1(DashboardContext),
+    pub = _useContext2.pub,
+    settings = _useContext2.settings;
   useEffect(function () {
     // console.log("use effect in Widget ", api, debugMode, debugStyles);
     // curious if we should register the listeners here?
@@ -8898,22 +8902,21 @@ var Widget = function Widget(_ref) {
   // inject the publisher into the api for the developer to use
   if ("api" in props) {
     console.log("in widget setting props", props["api"].pub());
-    // if (props["api"] !== null) {
-    //     if (props["api"].pub() === null) {
-    //         console.log("need to set pub", props);
-    //         props["api"].setPublisher(pub);
-    //     }
-    //     if (props["api"].electronApi() === null) {
-    //         console.log("need to set electronApi");
-    //         props["api"].setElectronApi(api);
-    //     }
-    //     if (props["api"].settings() === null) {
-    //         console.log("need to set settings");
-    //         settings !== null && props["api"].setSettings(settings);
-    //     }
-    // }
+    if (props["api"] !== null) {
+      if (props["api"].pub() === null) {
+        console.log("need to set pub", props);
+        props["api"].setPublisher(pub);
+      }
+      if (props["api"].electronApi() === null) {
+        console.log("need to set electronApi");
+        props["api"].setElectronApi(api);
+      }
+      if (props["api"].settings() === null) {
+        console.log("need to set settings");
+        settings !== null && props["api"].setSettings(settings);
+      }
+    }
   }
-
   return /*#__PURE__*/jsxs(LayoutContainer, {
     id: "widget-container'-".concat(uuid),
     direction: direction,
