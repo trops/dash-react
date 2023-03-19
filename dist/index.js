@@ -139,9 +139,11 @@ var WidgetApi = /*#__PURE__*/function () {
   }, {
     key: "publishEvent",
     value: function publishEvent(name, events) {
-      // console.log("publish event ", `${this.uuid()}-${name}`);
-      // const uniqueName = `${${name}`;
-      this._pub.pub(name, events);
+      if (this.pub() !== null && name !== null && events !== null) {
+        if ("pub" in this.pub()) {
+          this._pub.pub(name, events);
+        }
+      }
     }
 
     /**

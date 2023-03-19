@@ -103,9 +103,11 @@ export class WidgetApi {
      * @param {object} events the payload for the event published
      */
     publishEvent(name, events) {
-        // console.log("publish event ", `${this.uuid()}-${name}`);
-        // const uniqueName = `${${name}`;
-        this._pub.pub(name, events);
+        if (this.pub() !== null && name !== null && events !== null) {
+            if ("pub" in this.pub()) {
+                this._pub.pub(name, events);
+            }
+        }
     }
 
     /**
