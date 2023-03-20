@@ -12,6 +12,7 @@ const Widget = ({
     direction = "col",
     className = "",
     version = 1,
+    widgetApi = null,
     ...props
 }) => {
     const ref = useRef(true);
@@ -43,25 +44,25 @@ const Widget = ({
         // curious if we should register the listeners here?
         // inject the publisher into the api for the developer to use
 
-        if ("api" in props && firstRender) {
-            if (props["api"] !== null) {
-                if (props["api"].pub() === null) {
+        if (widgetApi && firstRender) {
+            if (widgetApi !== null) {
+                if (widgetApi.pub() === null) {
                     console.log("need to set pub", props);
-                    props["api"].setPublisher(pub);
+                    widgetApi.setPublisher(pub);
                 }
-                if (props["api"].electronApi() === null) {
+                if (widgetApi.electronApi() === null) {
                     console.log("need to set electronApi");
-                    props["api"].setElectronApi(api);
+                    widgetApi.setElectronApi(api);
                 }
-                if (props["api"].settings() === null) {
+                if (widgetApi.settings() === null) {
                     console.log("need to set settings");
-                    settings !== null && props["api"].setSettings(settings);
+                    settings !== null && widgetApi.setSettings(settings);
                 }
 
                 if (
                     firstRender &&
-                    props["api"].electronApi() &&
-                    props["api"].pub() !== null
+                    widgetApi.electronApi() &&
+                    widgetApi.pub() !== null
                 ) {
                     console.log("rendered once...");
                     ref.current = false;

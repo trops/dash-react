@@ -33,7 +33,7 @@ const WidgetFactory = {
                 const userPrefs = params["userPrefs"];
 
                 // Widget API
-                if ("api" in params) {
+                if ("widgetApi" in params) {
                     console.log("api in params ", params);
                 }
 

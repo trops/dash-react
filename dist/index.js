@@ -1861,13 +1861,13 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 
     // can we include the API?
 
-    layout.api = new WidgetApi(layout.uuid); // "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
+    layout.widgetApi = new WidgetApi(layout.uuid); // "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
 
     // "api" in obj && obj["api"] !== null
     //     ? obj["api"]
     //     : new WidgetApi(layout.uuid); //.electronApi();
 
-    console.log("layout model widget api ", layout.id, layout.component, layout.uuid, layout.dashboardId
+    console.log("layout model widget api ", layout.id, layout.component, layout.uuid, layout.dashboardId, layout.widgetApi
     // layout.api.uuid()
     );
 
@@ -8853,7 +8853,7 @@ function DropComponent(_ref) {
   });
 }
 
-var _excluded$7 = ["id", "uuid", "children", "height", "width", "scrollable", "direction", "className", "version"];
+var _excluded$7 = ["id", "uuid", "children", "height", "width", "scrollable", "direction", "className", "version", "widgetApi"];
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray$1(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
@@ -8878,6 +8878,8 @@ var Widget = function Widget(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$version = _ref.version,
     version = _ref$version === void 0 ? 1 : _ref$version,
+    _ref$widgetApi = _ref.widgetApi,
+    widgetApi = _ref$widgetApi === void 0 ? null : _ref$widgetApi,
     props = _objectWithoutProperties$7(_ref, _excluded$7);
   var ref = useRef(true);
   // this is the electron api we are pulling in...
@@ -8913,21 +8915,21 @@ var Widget = function Widget(_ref) {
     // curious if we should register the listeners here?
     // inject the publisher into the api for the developer to use
 
-    if ("api" in props && firstRender) {
-      if (props["api"] !== null) {
-        if (props["api"].pub() === null) {
+    if (widgetApi && firstRender) {
+      if (widgetApi !== null) {
+        if (widgetApi.pub() === null) {
           console.log("need to set pub", props);
-          props["api"].setPublisher(pub);
+          widgetApi.setPublisher(pub);
         }
-        if (props["api"].electronApi() === null) {
+        if (widgetApi.electronApi() === null) {
           console.log("need to set electronApi");
-          props["api"].setElectronApi(api);
+          widgetApi.setElectronApi(api);
         }
-        if (props["api"].settings() === null) {
+        if (widgetApi.settings() === null) {
           console.log("need to set settings");
-          settings !== null && props["api"].setSettings(settings);
+          settings !== null && widgetApi.setSettings(settings);
         }
-        if (firstRender && props["api"].electronApi() && props["api"].pub() !== null) {
+        if (firstRender && widgetApi.electronApi() && widgetApi.pub() !== null) {
           console.log("rendered once...");
           ref.current = false;
           forceUpdate();
@@ -8980,7 +8982,7 @@ var WidgetFactory = {
         var userPrefs = params["userPrefs"];
 
         // Widget API
-        if ("api" in params) {
+        if ("widgetApi" in params) {
           console.log("api in params ", params);
         }
 
