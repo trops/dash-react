@@ -4793,8 +4793,8 @@ var Dashboard = function Dashboard(_ref) {
     pub = _useContext2.pub;
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme,
-    changeCurrentTheme = _useContext3.changeCurrentTheme,
-    themesForApplication = _useContext3.themesForApplication;
+    changeCurrentTheme = _useContext3.changeCurrentTheme;
+    _useContext3.themesForApplication;
   var _useState = useState(workspace),
     _useState2 = _slicedToArray$g(_useState, 2),
     workspaceSelected = _useState2[0],
@@ -4857,9 +4857,11 @@ var Dashboard = function Dashboard(_ref) {
     isLoadingWorkspaces === false && loadWorkspaces();
     isLoadingMenuItems === false && loadMenuItems();
   }, [workspace]);
-  useEffect(function () {
-    // forceUpdate();
-  }, [themesForApplication]);
+
+  // useEffect(() => {
+  //     // forceUpdate();
+  // }, [themesForApplication]);
+
   useEffect(function () {
     console.log("dashboard settings ", settings);
     if (!settings) {
@@ -4880,8 +4882,7 @@ var Dashboard = function Dashboard(_ref) {
 
   function loadWorkspaces() {
     setIsLoadingWorkspaces(true);
-
-    // api.removeAllListeners();
+    api.removeAllListeners();
     api.on(api.events.WORKSPACE_LIST_COMPLETE, handleLoadWorkspacesComplete);
     api.on(api.events.WORKSPACE_LIST_ERROR, handleLoadWorkspacesError);
 
@@ -4895,8 +4896,8 @@ var Dashboard = function Dashboard(_ref) {
       // const layout = ws['layout'];
       // push the LayoutModel back into the Widget here... (inflate)
       var tempLayout = ws["layout"].map(function (layoutOG) {
-        console.log("layout OG ", layoutOG, ws[layoutOG], ws["layout"]);
-        return LayoutModel(layoutOG, ws["layout"], ws["id"]); //workspaces);
+        console.log("layout OG ", layoutOG, ws["layout"]);
+        return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
       });
 
       ws["layout"] = tempLayout;

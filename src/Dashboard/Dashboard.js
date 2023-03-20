@@ -52,9 +52,9 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
 
-    useEffect(() => {
-        // forceUpdate();
-    }, [themesForApplication]);
+    // useEffect(() => {
+    //     // forceUpdate();
+    // }, [themesForApplication]);
 
     useEffect(() => {
         console.log("dashboard settings ", settings);
@@ -77,7 +77,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     function loadWorkspaces() {
         setIsLoadingWorkspaces(true);
 
-        // api.removeAllListeners();
+        api.removeAllListeners();
         api.on(
             api.events.WORKSPACE_LIST_COMPLETE,
             handleLoadWorkspacesComplete
@@ -95,8 +95,8 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
             // const layout = ws['layout'];
             // push the LayoutModel back into the Widget here... (inflate)
             const tempLayout = ws["layout"].map((layoutOG) => {
-                console.log("layout OG ", layoutOG, ws[layoutOG], ws["layout"]);
-                return LayoutModel(layoutOG, ws["layout"], ws["id"]); //workspaces);
+                console.log("layout OG ", layoutOG, ws["layout"]);
+                return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
             });
             ws["layout"] = tempLayout;
             return ws;
