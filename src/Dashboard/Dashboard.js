@@ -160,6 +160,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
 
     function renderComponent(workspaceItem) {
         try {
+            console.log("changing workspace ", workspaceSelected);
             if (workspaceSelected !== undefined) {
                 return (
                     <LayoutBuilder
@@ -271,6 +272,9 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
             return layoutItem;
         });
         workspaceToSave["layout"] = layout;
+
+        // lets set a version so that we can compare...
+        workspaceToSave["version"] = Date.now();
 
         api.removeAllListeners();
         api.on(api.events.WORKSPACE_SAVE_COMPLETE, handleSaveWorkspaceComplete);

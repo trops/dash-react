@@ -4974,6 +4974,7 @@ var Dashboard = function Dashboard(_ref) {
   }
   function renderComponent(workspaceItem) {
     try {
+      console.log("changing workspace ", workspaceSelected);
       if (workspaceSelected !== undefined) {
         return /*#__PURE__*/jsx(LayoutBuilder, {
           dashboardId: workspaceSelected["id"],
@@ -5078,6 +5079,9 @@ var Dashboard = function Dashboard(_ref) {
       return layoutItem;
     });
     workspaceToSave["layout"] = layout;
+
+    // lets set a version so that we can compare...
+    workspaceToSave["version"] = Date.now();
     api.removeAllListeners();
     api.on(api.events.WORKSPACE_SAVE_COMPLETE, handleSaveWorkspaceComplete);
     api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
@@ -8159,8 +8163,9 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     // IMPORTANT DO NOT REMOVE!!!!
     // We have to check the diff in the layout and set
     // We also have to "reset" the layout upon a new layout...
-
-    if (currentWorkspace["layout"] !== workspace["layout"] && workspace !== null && currentWorkspace["layout"] !== sampleLayout) {
+    console.log("layout builder workspace change ", workspace["version"], currentWorkspace["version"], workspace, currentWorkspace);
+    if (currentWorkspace["layout"] !== workspace["layout"] && workspace !== null && currentWorkspace["layout"] !== sampleLayout && currentWorkspace["version"] !== workspace["version"]) {
+      console.log("resetting workspace ", workspace);
       setCurrentWorkspace(workspace);
     }
     if (currentWorkspace["layout"] === null) {
