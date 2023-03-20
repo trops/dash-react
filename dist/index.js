@@ -1,6 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef as useRef$1 } from 'react';
+import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef } from 'react';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { Transition, Dialog, Disclosure } from '@headlessui/react';
@@ -4410,7 +4410,7 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
   var settings = _ref.settings,
     workspaces = _ref.workspaces,
     setIsOpen = _ref.setIsOpen;
-  var messagesEnd = useRef$1(null);
+  var messagesEnd = useRef(null);
   var _useContext = useContext$1(ThemeContext),
     theme = _useContext.theme,
     themes = _useContext.themes,

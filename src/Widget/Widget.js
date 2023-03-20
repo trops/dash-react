@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { AppContext, DashboardContext } from "@dash/Context";
 import { LayoutContainer } from "@dash/Layout";
 
