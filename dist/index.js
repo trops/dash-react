@@ -1780,7 +1780,9 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     if (layoutItem === null || layoutItem === undefined) {
       return null;
     }
+    console.log("Object in Layout Model OG", obj);
     var obj = deepCopy(layoutItem);
+    console.log("Object in Layout Model ", obj);
     var layout = {};
     layout.id = "id" in obj ? obj["id"] : null;
     layout.order = "order" in obj ? obj.order : null;
@@ -4971,19 +4973,16 @@ var Dashboard = function Dashboard(_ref) {
   function renderComponent(workspaceItem) {
     try {
       console.log("changing workspace ", workspaceSelected);
-      if (workspaceSelected !== undefined) {
-        return /*#__PURE__*/jsx(LayoutBuilder, {
-          dashboardId: workspaceSelected["id"],
-          preview: previewMode,
-          workspace: workspaceSelected,
-          onWorkspaceChange: handleWorkspaceChange // for when we save a workspace change! fetch new ones!
-          ,
-          onTogglePreview: function onTogglePreview() {
-            return setPreviewMode(!previewMode);
-          }
-        });
-      }
-      return null;
+      return workspaceSelected !== undefined ? /*#__PURE__*/jsx(LayoutBuilder, {
+        dashboardId: workspaceSelected["id"],
+        preview: previewMode,
+        workspace: workspaceSelected,
+        onWorkspaceChange: handleWorkspaceChange // for when we save a workspace change! fetch new ones!
+        ,
+        onTogglePreview: function onTogglePreview() {
+          return setPreviewMode(!previewMode);
+        }
+      }) : null;
     } catch (e) {
       console.log(e);
       return null;
@@ -9005,12 +9004,12 @@ var WidgetFactory = {
           id: "widget-nokids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor
-        }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$8(_objectSpread$8(_objectSpread$8({
+        }), "widget-nokids-".concat(key, "-").concat(Date.now())) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$8(_objectSpread$8(_objectSpread$8({
           id: "widget-kids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor,
           children: children
-        }), "widget-kids-".concat(key));
+        }), "widget-kids-".concat(key, "-").concat(Date.now()));
       }
     } catch (e) {
       return null;

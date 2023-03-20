@@ -61,7 +61,7 @@ const WidgetFactory = {
                 return children === null ? (
                     <WidgetComponent
                         id={`widget-nokids-${key}`}
-                        key={`widget-nokids-${key}`}
+                        key={`widget-nokids-${key}-${Date.now()}`}
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}
@@ -69,7 +69,7 @@ const WidgetFactory = {
                 ) : (
                     <WidgetComponent
                         id={`widget-kids-${key}`}
-                        key={`widget-kids-${key}`}
+                        key={`widget-kids-${key}-${Date.now()}`}
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}

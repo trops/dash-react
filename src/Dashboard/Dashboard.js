@@ -162,18 +162,15 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     function renderComponent(workspaceItem) {
         try {
             console.log("changing workspace ", workspaceSelected);
-            if (workspaceSelected !== undefined) {
-                return (
-                    <LayoutBuilder
-                        dashboardId={workspaceSelected["id"]}
-                        preview={previewMode}
-                        workspace={workspaceSelected}
-                        onWorkspaceChange={handleWorkspaceChange} // for when we save a workspace change! fetch new ones!
-                        onTogglePreview={() => setPreviewMode(!previewMode)}
-                    />
-                );
-            }
-            return null;
+            return workspaceSelected !== undefined ? (
+                <LayoutBuilder
+                    dashboardId={workspaceSelected["id"]}
+                    preview={previewMode}
+                    workspace={workspaceSelected}
+                    onWorkspaceChange={handleWorkspaceChange} // for when we save a workspace change! fetch new ones!
+                    onTogglePreview={() => setPreviewMode(!previewMode)}
+                />
+            ) : null;
         } catch (e) {
             console.log(e);
             return null;
