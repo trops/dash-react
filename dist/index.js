@@ -141,7 +141,8 @@ var WidgetApi = /*#__PURE__*/function () {
     value: function publishEvent(name, events) {
       if (this.pub() !== null && name !== null && events !== null) {
         if ("pub" in this.pub()) {
-          this._pub.pub(name, events);
+          console.log("ACTUALLY publishing...");
+          this.pub().pub(name, events);
         }
       }
     }
@@ -8880,7 +8881,6 @@ var Widget = function Widget(_ref) {
     // inject the publisher into the api for the developer to use
 
     if ("api" in props && firstRender) {
-      console.log("in widget setting props", props["api"].pub());
       if (props["api"] !== null) {
         if (props["api"].pub() === null) {
           console.log("need to set pub", props);
@@ -8900,7 +8900,7 @@ var Widget = function Widget(_ref) {
         }
       }
     }
-  }, [props]);
+  }, [props, pub, settings]);
   return /*#__PURE__*/jsxs(LayoutContainer, {
     id: "widget-container'-".concat(uuid),
     direction: direction,
@@ -9491,7 +9491,7 @@ function renderComponent(component, id) {
           params["height"] = "h-full";
         }
       }
-
+      console.log("RENDER COMPONENT", params);
       // tack on the id
       // params['id'] = id;
       // params['component'] = 'component' in params ? params['component'] : component;

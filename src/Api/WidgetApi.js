@@ -105,7 +105,8 @@ export class WidgetApi {
     publishEvent(name, events) {
         if (this.pub() !== null && name !== null && events !== null) {
             if ("pub" in this.pub()) {
-                this._pub.pub(name, events);
+                console.log("ACTUALLY publishing...");
+                this.pub().pub(name, events);
             }
         }
     }

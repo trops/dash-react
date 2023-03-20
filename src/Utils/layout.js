@@ -242,7 +242,7 @@ export function renderComponent(component, id, params = {}, children = null) {
                     params["height"] = "h-full";
                 }
             }
-
+            console.log("RENDER COMPONENT", params);
             // tack on the id
             // params['id'] = id;
             // params['component'] = 'component' in params ? params['component'] : component;

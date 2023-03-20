@@ -25,7 +25,6 @@ const Widget = ({
         // inject the publisher into the api for the developer to use
 
         if ("api" in props && firstRender) {
-            console.log("in widget setting props", props["api"].pub());
             if (props["api"] !== null) {
                 if (props["api"].pub() === null) {
                     console.log("need to set pub", props);
@@ -50,7 +49,7 @@ const Widget = ({
                 }
             }
         }
-    }, [props]);
+    }, [props, pub, settings]);
 
     function debugClasses() {
         // const styles = debugStyles['widget']['classes'];
