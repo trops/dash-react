@@ -74,7 +74,8 @@ const WidgetFactory = {
                         {...userPrefs}
                         backgroundColor={bgColor}
                     >
-                        {WidgetFactory.renderChildren(children)}
+                        {children}
+                        {/* {WidgetFactory.renderChildren(children)} */}
                     </WidgetComponent>
                 );
             }

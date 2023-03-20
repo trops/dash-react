@@ -9007,7 +9007,7 @@ var WidgetFactory = {
           id: "widget-kids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor,
-          children: WidgetFactory.renderChildren(children)
+          children: children
         }), "widget-kids-".concat(key));
       }
     } catch (e) {
