@@ -42,7 +42,6 @@ const Widget = ({
 
                 if (
                     firstRender &&
-                    props["api"].settings() !== null &&
                     props["api"].electronApi() &&
                     props["api"].pub() !== null
                 ) {

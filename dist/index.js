@@ -8894,7 +8894,7 @@ var Widget = function Widget(_ref) {
           console.log("need to set settings");
           settings !== null && props["api"].setSettings(settings);
         }
-        if (firstRender && props["api"].settings() !== null && props["api"].electronApi() && props["api"].pub() !== null) {
+        if (firstRender && props["api"].electronApi() && props["api"].pub() !== null) {
           console.log("rendered once...");
           ref.current = false;
         }
