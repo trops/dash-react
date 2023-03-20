@@ -4912,6 +4912,7 @@ var Dashboard = function Dashboard(_ref) {
     setWorkspaceConfig(function () {
       return workspacesTemp;
     });
+    setIsLoadingWorkspaces(false);
     forceUpdate();
   }
   function handleLoadWorkspacesError(e, message) {
