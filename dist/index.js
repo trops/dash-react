@@ -8882,7 +8882,7 @@ var Widget = function Widget(_ref) {
     settings = _useContext2.settings;
   useEffect(function () {
     var firstRender = ref.current;
-    // console.log("use effect in Widget ", api, debugMode, debugStyles);
+    console.log("use effect in Widget ", props);
     // curious if we should register the listeners here?
     // inject the publisher into the api for the developer to use
 
