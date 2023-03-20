@@ -24,10 +24,20 @@ const Widget = ({
 
     useEffect(() => {
         console.log("WIDGET - version change", version);
+        updateApi();
         forceUpdate();
     }, [version]);
 
     useEffect(() => {
+        const firstRender = ref.current;
+        console.log("use effect in Widget ", props);
+        // curious if we should register the listeners here?
+        // inject the publisher into the api for the developer to use
+
+        updateApi();
+    }, [props, pub]);
+
+    function updateApi() {
         const firstRender = ref.current;
         console.log("use effect in Widget ", props);
         // curious if we should register the listeners here?
@@ -59,8 +69,7 @@ const Widget = ({
                 }
             }
         }
-    }, [props, pub]);
-
+    }
     function debugClasses() {
         // const styles = debugStyles['widget']['classes'];
         // return debugMode === true ? `space-y-4 p-4 ${styles}` : ''

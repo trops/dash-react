@@ -8896,9 +8896,18 @@ var Widget = function Widget(_ref) {
   }, []);
   useEffect(function () {
     console.log("WIDGET - version change", version);
+    updateApi();
     forceUpdate();
   }, [version]);
   useEffect(function () {
+    ref.current;
+    console.log("use effect in Widget ", props);
+    // curious if we should register the listeners here?
+    // inject the publisher into the api for the developer to use
+
+    updateApi();
+  }, [props, pub]);
+  function updateApi() {
     var firstRender = ref.current;
     console.log("use effect in Widget ", props);
     // curious if we should register the listeners here?
@@ -8925,7 +8934,7 @@ var Widget = function Widget(_ref) {
         }
       }
     }
-  }, [props, pub]);
+  }
   return /*#__PURE__*/jsxs(LayoutContainer, {
     id: "widget-container'-".concat(uuid),
     direction: direction,
