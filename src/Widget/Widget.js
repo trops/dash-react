@@ -14,9 +14,17 @@ const Widget = ({
     ...props
 }) => {
     const ref = useRef(true);
+    const { version } = props;
     // this is the electron api we are pulling in...
     const { debugMode, debugStyles, api } = useContext(AppContext);
     const { pub, settings } = useContext(DashboardContext);
+
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+
+    useEffect(() => {
+        forceUpdate();
+    }, [version]);
 
     useEffect(() => {
         const firstRender = ref.current;
@@ -46,6 +54,7 @@ const Widget = ({
                 ) {
                     console.log("rendered once...");
                     ref.current = false;
+                    forceUpdate();
                 }
             }
         }
