@@ -160,12 +160,12 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
 
     function renderComponent(workspaceItem) {
         try {
-            if (workspaceItem !== undefined) {
+            if (workspaceSelected !== undefined) {
                 return (
                     <LayoutBuilder
-                        dashboardId={workspaceItem["id"]}
+                        dashboardId={workspaceSelected["id"]}
                         preview={previewMode}
-                        workspace={workspaceItem}
+                        workspace={workspaceSelected}
                         onWorkspaceChange={handleWorkspaceChange} // for when we save a workspace change! fetch new ones!
                         onTogglePreview={() => setPreviewMode(!previewMode)}
                     />
@@ -264,7 +264,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         console.log("dashboard clicked save workspace ", workspaceSelected);
         // we have to remove the widgetConfig which contains the component
         // sanitize the workspace layout remove widgetConfig items
-        const workspaceToSave = JSON.parse(JSON.stringify(workspaceSelected));
+        const workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
         const layout = workspaceToSave["layout"].map((layoutItem) => {
             delete layoutItem["widgetConfig"];
             // delete layoutItem["api"];

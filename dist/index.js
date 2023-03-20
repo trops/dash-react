@@ -4974,11 +4974,11 @@ var Dashboard = function Dashboard(_ref) {
   }
   function renderComponent(workspaceItem) {
     try {
-      if (workspaceItem !== undefined) {
+      if (workspaceSelected !== undefined) {
         return /*#__PURE__*/jsx(LayoutBuilder, {
-          dashboardId: workspaceItem["id"],
+          dashboardId: workspaceSelected["id"],
           preview: previewMode,
-          workspace: workspaceItem,
+          workspace: workspaceSelected,
           onWorkspaceChange: handleWorkspaceChange // for when we save a workspace change! fetch new ones!
           ,
           onTogglePreview: function onTogglePreview() {
@@ -5071,7 +5071,7 @@ var Dashboard = function Dashboard(_ref) {
     console.log("dashboard clicked save workspace ", workspaceSelected);
     // we have to remove the widgetConfig which contains the component
     // sanitize the workspace layout remove widgetConfig items
-    var workspaceToSave = JSON.parse(JSON.stringify(workspaceSelected));
+    var workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
     var layout = workspaceToSave["layout"].map(function (layoutItem) {
       delete layoutItem["widgetConfig"];
       // delete layoutItem["api"];
@@ -5156,7 +5156,7 @@ var Dashboard = function Dashboard(_ref) {
           onNameChange: handleWorkspaceNameChange
         }), /*#__PURE__*/jsx("div", {
           className: "flex flex-col w-full h-full overflow-y-scroll",
-          children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
+          children: workspaceSelected !== null ? renderComponent() : null
         }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
           onClickEdit: function onClickEdit() {
             return setPreviewMode(!previewMode);
