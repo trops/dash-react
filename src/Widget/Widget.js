@@ -11,10 +11,10 @@ const Widget = ({
     scrollable = true,
     direction = "col",
     className = "",
+    version = 1,
     ...props
 }) => {
     const ref = useRef(true);
-    const { version } = props;
     // this is the electron api we are pulling in...
     const { debugMode, debugStyles, api } = useContext(AppContext);
     const { pub, settings } = useContext(DashboardContext);
@@ -23,6 +23,7 @@ const Widget = ({
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
+        console.log("WIDGET - version change", version);
         forceUpdate();
     }, [version]);
 
@@ -58,7 +59,7 @@ const Widget = ({
                 }
             }
         }
-    }, [props, pub, settings]);
+    }, [props, pub]);
 
     function debugClasses() {
         // const styles = debugStyles['widget']['classes'];
