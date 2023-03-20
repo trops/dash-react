@@ -1861,12 +1861,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 
     // can we include the API?
 
-    layout.widgetApi = new WidgetApi(layout.uuid); // "api" in obj ? obj["api"] : new WidgetApi(layout.uuid);
-
-    // "api" in obj && obj["api"] !== null
-    //     ? obj["api"]
-    //     : new WidgetApi(layout.uuid); //.electronApi();
-
+    layout.widgetApi = new WidgetApi(layout.uuid);
     console.log("layout model widget api ", layout.id, layout.component, layout.uuid, layout.dashboardId, layout.widgetApi
     // layout.api.uuid()
     );
@@ -8859,7 +8854,7 @@ function DropComponent(_ref) {
   });
 }
 
-var _excluded$7 = ["id", "uuid", "children", "height", "width", "scrollable", "direction", "className", "version", "widgetApi"];
+var _excluded$7 = ["id", "uuid", "children", "height", "width", "scrollable", "direction", "className", "version"];
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray$1(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
@@ -8884,8 +8879,6 @@ var Widget = function Widget(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$version = _ref.version,
     version = _ref$version === void 0 ? 1 : _ref$version,
-    _ref$widgetApi = _ref.widgetApi,
-    widgetApi = _ref$widgetApi === void 0 ? null : _ref$widgetApi,
     props = _objectWithoutProperties$7(_ref, _excluded$7);
   var ref = useRef(true);
   // this is the electron api we are pulling in...
@@ -8896,6 +8889,7 @@ var Widget = function Widget(_ref) {
   var _useContext2 = useContext$1(DashboardContext),
     pub = _useContext2.pub,
     settings = _useContext2.settings;
+  var widgetApi = props.widgetApi;
   var _React$useState = React.useState(),
     _React$useState2 = _slicedToArray(_React$useState, 2),
     updateState = _React$useState2[1];
@@ -8909,7 +8903,7 @@ var Widget = function Widget(_ref) {
   }, [version]);
   useEffect(function () {
     ref.current;
-    console.log("use effect in Widget ", props);
+    console.log("use effect in Widget ", props, widgetApi);
     // curious if we should register the listeners here?
     // inject the publisher into the api for the developer to use
 

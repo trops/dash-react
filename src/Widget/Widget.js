@@ -12,13 +12,14 @@ const Widget = ({
     direction = "col",
     className = "",
     version = 1,
-    widgetApi = null,
+    // widgetApi = null,
     ...props
 }) => {
     const ref = useRef(true);
     // this is the electron api we are pulling in...
     const { debugMode, debugStyles, api } = useContext(AppContext);
     const { pub, settings } = useContext(DashboardContext);
+    const { widgetApi } = props;
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -31,7 +32,7 @@ const Widget = ({
 
     useEffect(() => {
         const firstRender = ref.current;
-        console.log("use effect in Widget ", props);
+        console.log("use effect in Widget ", props, widgetApi);
         // curious if we should register the listeners here?
         // inject the publisher into the api for the developer to use
 
