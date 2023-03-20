@@ -32,6 +32,7 @@ const WidgetFactory = {
                 // user input for the customization of the widget
                 const userPrefs = params["userPrefs"];
 
+                // Widget API
                 if ("api" in params) {
                     console.log("api in params ", params);
                 }
@@ -83,8 +84,9 @@ const WidgetFactory = {
     },
     renderChildren: (children) => {
         return React.Children.map(children, (el) => {
-            const clonedComponent = React.cloneElement(el);
-            return clonedComponent;
+            return el;
+            // const clonedComponent = React.cloneElement(el);
+            // return clonedComponent;
         });
     },
     /**

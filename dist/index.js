@@ -8978,6 +8978,8 @@ var WidgetFactory = {
 
         // user input for the customization of the widget
         var userPrefs = params["userPrefs"];
+
+        // Widget API
         if ("api" in params) {
           console.log("api in params ", params);
         }
@@ -9014,10 +9016,12 @@ var WidgetFactory = {
   },
   renderChildren: function renderChildren(children) {
     return React.Children.map(children, function (el) {
-      var clonedComponent = /*#__PURE__*/React.cloneElement(el);
-      return clonedComponent;
+      return el;
+      // const clonedComponent = React.cloneElement(el);
+      // return clonedComponent;
     });
   },
+
   /**
    * config
    * Get the developer's component configuration and enhance that configuration with
