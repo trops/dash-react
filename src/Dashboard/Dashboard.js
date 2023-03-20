@@ -106,6 +106,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         pub.pub("dashboard.workspaceChange", { workspaces: workspacesTemp });
 
         setWorkspaceConfig(() => workspacesTemp);
+        forceUpdate();
     }
 
     function handleLoadWorkspacesError(e, message) {
