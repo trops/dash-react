@@ -4965,8 +4965,10 @@ var Dashboard = function Dashboard(_ref) {
       return ws;
     });
     loadWorkspaces();
-    pub.removeAllListeners();
+
+    //pub.removeAllListeners();
   }
+
   function renderComponent(workspaceItem) {
     try {
       if (workspaceItem !== undefined) {

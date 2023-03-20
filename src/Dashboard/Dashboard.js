@@ -148,9 +148,11 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
 
     function handleWorkspaceChange(ws) {
         console.log(" dashboard workspace change", ws);
+
         if (ws) setWorkspaceSelected(() => ws);
         loadWorkspaces();
-        pub.removeAllListeners();
+
+        //pub.removeAllListeners();
     }
 
     function renderComponent(workspaceItem) {
