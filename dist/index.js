@@ -4961,14 +4961,17 @@ var Dashboard = function Dashboard(_ref) {
   }
   function handleWorkspaceChange(ws) {
     console.log(" dashboard workspace change", ws);
-    if (ws) setWorkspaceSelected(function () {
-      return ws;
-    });
+    if (ws) {
+      setWorkspaceSelected(function () {
+        return null;
+      });
+      setWorkspaceSelected(function () {
+        return ws;
+      });
+    }
+    pub.removeAllListeners();
     loadWorkspaces();
-
-    //pub.removeAllListeners();
   }
-
   function renderComponent(workspaceItem) {
     try {
       if (workspaceItem !== undefined) {
@@ -5145,16 +5148,16 @@ var Dashboard = function Dashboard(_ref) {
             })
           })]
         })]
-      }), workspaceSelected !== null && /*#__PURE__*/jsxs("div", {
+      }), /*#__PURE__*/jsxs("div", {
         className: "flex flex-col h-full w-full justify-between",
-        children: [/*#__PURE__*/jsx(DashboardHeader, {
+        children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
           workspace: workspaceSelected,
           preview: previewMode,
           onNameChange: handleWorkspaceNameChange
         }), /*#__PURE__*/jsx("div", {
           className: "flex flex-col w-full h-full overflow-y-scroll",
-          children: renderComponent(workspaceSelected)
-        }), /*#__PURE__*/jsx(DashboardFooter, {
+          children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
+        }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
           onClickEdit: function onClickEdit() {
             return setPreviewMode(!previewMode);
           },

@@ -149,10 +149,13 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     function handleWorkspaceChange(ws) {
         console.log(" dashboard workspace change", ws);
 
-        if (ws) setWorkspaceSelected(() => ws);
-        loadWorkspaces();
+        if (ws) {
+            setWorkspaceSelected(() => null);
+            setWorkspaceSelected(() => ws);
+        }
 
-        //pub.removeAllListeners();
+        pub.removeAllListeners();
+        loadWorkspaces();
     }
 
     function renderComponent(workspaceItem) {
@@ -343,24 +346,30 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                             </div>
                         </div>
                     </div>
-                    {workspaceSelected !== null && (
-                        <div className="flex flex-col h-full w-full justify-between">
+
+                    <div className="flex flex-col h-full w-full justify-between">
+                        {workspaceSelected !== null && (
                             <DashboardHeader
                                 workspace={workspaceSelected}
                                 preview={previewMode}
                                 onNameChange={handleWorkspaceNameChange}
                             />
-                            <div className="flex flex-col w-full h-full overflow-y-scroll">
-                                {renderComponent(workspaceSelected)}
-                            </div>
+                        )}
+                        <div className="flex flex-col w-full h-full overflow-y-scroll">
+                            {workspaceSelected !== null
+                                ? renderComponent(workspaceSelected)
+                                : null}
+                        </div>
+                        {workspaceSelected !== null && (
                             <DashboardFooter
                                 onClickEdit={() => setPreviewMode(!previewMode)}
                                 workspace={workspaceSelected}
                                 preview={previewMode}
                                 onSaveChanges={handleClickSaveWorkspace}
                             />
-                        </div>
-                    )}
+                        )}
+                    </div>
+
                     {workspaceSelected === null && (
                         <PanelWelcome
                             menuItems={menuItems}
