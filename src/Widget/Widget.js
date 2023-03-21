@@ -27,7 +27,6 @@ const Widget = ({
     useEffect(() => {
         console.log("WIDGET - version change", version);
         updateApi();
-        forceUpdate();
     }, [version]);
 
     useEffect(() => {
@@ -80,12 +79,14 @@ const Widget = ({
 
     return (
         <LayoutContainer
-            id={`widget-container'-${uuid}`}
+            id={`widget-container'-${uuid}-${version}`}
             direction={direction}
             scrollable={scrollable}
             width={width}
             height={height}
             className={`${className}`}
+            version={version}
+            key={`widget-container'-${uuid}-${version}`}
         >
             {debugMode === true && (
                 <span className="text-white uppercase text-xs">

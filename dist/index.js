@@ -8903,7 +8903,6 @@ var Widget = function Widget(_ref) {
   useEffect(function () {
     console.log("WIDGET - version change", version);
     updateApi();
-    forceUpdate();
   }, [version]);
   useEffect(function () {
     ref.current;
@@ -8942,17 +8941,18 @@ var Widget = function Widget(_ref) {
     }
   }
   return /*#__PURE__*/jsxs(LayoutContainer, {
-    id: "widget-container'-".concat(uuid),
+    id: "widget-container'-".concat(uuid, "-").concat(version),
     direction: direction,
     scrollable: scrollable,
     width: width,
     height: height,
     className: "".concat(className),
+    version: version,
     children: [debugMode === true && /*#__PURE__*/jsxs("span", {
       className: "text-white uppercase text-xs",
       children: ["WIDGET", " ", scrollable === true ? "scrollable" : "not scrollable"]
     }), children]
-  });
+  }, "widget-container'-".concat(uuid, "-").concat(version));
 };
 
 function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
