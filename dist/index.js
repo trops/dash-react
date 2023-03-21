@@ -1828,7 +1828,7 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
       layout.parentWorkspaceName = parentWorkspaceName;
       layout.parentWorkspace = parentWS || {};
     }
-
+    layout.ref = layout.uuid;
     // can we include the API?
 
     // layout.widgetApi = WidgetApi;
@@ -9357,7 +9357,8 @@ var renderLayout = function renderLayout(_ref) {
         width = childLayout.width,
         height = childLayout.height,
         component = childLayout.component,
-        canHaveChildren = childLayout.canHaveChildren;
+        canHaveChildren = childLayout.canHaveChildren,
+        uuid = childLayout.uuid;
       return hasChildren === 1 && canHaveChildren === true ? /*#__PURE__*/jsx(LayoutGridContainer, {
         id: id,
         item: childLayout,
@@ -9398,7 +9399,7 @@ var renderLayout = function renderLayout(_ref) {
           workspace: workspace,
           isDraggable: isDraggable
         })
-      }, id) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
+      }, uuid) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
         item: childLayout,
         layout: layout,
         id: id,
@@ -9424,7 +9425,7 @@ var renderLayout = function renderLayout(_ref) {
         onOpenEvents: onOpenEvents,
         isDraggable: isDraggable,
         workspace: workspace
-      }, id);
+      }, uuid);
     });
   } catch (e) {
     console.log(e);
