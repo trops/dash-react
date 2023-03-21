@@ -37,11 +37,11 @@ const Widget = ({
     //     // updateApi();
     // }, [props, pub]);
 
-    function minifyElectronApi() {
-        return {
-            ...api,
-        };
-    }
+    // function minifyElectronApi() {
+    //     return {
+    //         ...api,
+    //     };
+    // }
 
     // function updateApi() {
     //     const firstRender = ref.current;
@@ -94,17 +94,17 @@ const Widget = ({
             version={version}
             key={`widget-container'-${uuid}-${version}`}
         >
-            <WidgetContext.Provider
+            {/* <WidgetContext.Provider
                 value={{ widgetApi: minifyElectronApi(), pub, settings }}
-            >
-                {debugMode === true && (
-                    <span className="text-white uppercase text-xs">
-                        WIDGET{" "}
-                        {scrollable === true ? "scrollable" : "not scrollable"}
-                    </span>
-                )}
-                {children}
-            </WidgetContext.Provider>
+            > */}
+            {debugMode === true && (
+                <span className="text-white uppercase text-xs">
+                    WIDGET{" "}
+                    {scrollable === true ? "scrollable" : "not scrollable"}
+                </span>
+            )}
+            {children}
+            {/* </WidgetContext.Provider> */}
         </LayoutContainer>
     );
 };
