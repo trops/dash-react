@@ -2,6 +2,7 @@ export * from "./Modal";
 export * from "./Menu";
 export * from "./LayoutBuilder";
 export * from "./LayoutDragBuilder";
+export * from "./LayoutDragBuilderEdit";
 export * from "./Menu/LayoutBuilderConfigContainerMenuItem";
 export * from "./Menu/LayoutBuilderConfigMenuItem";
 export * from "./LayoutBuilderGridItem";

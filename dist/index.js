@@ -8160,7 +8160,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   var _useState15 = useState(null),
     _useState16 = _slicedToArray$2(_useState15, 2);
     _useState16[0];
-    _useState16[1];
+    var setSelectedItem = _useState16[1];
   useEffect(function () {
     // IMPORTANT DO NOT REMOVE!!!!
     // We have to check the diff in the layout and set
@@ -8312,16 +8312,14 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   }
   function handleSaveConfiguration(data) {
     console.log("SAVING CONFIG ", data);
-
-    // const newWorkspace = saveItemToWorkspace(data);
-    // setCurrentWorkspace(newWorkspace);
-    // setIsConfigOpen(false);
-    // setIsWidgetModalOpen(false);
-    // setSelectedItem(null);
-    // forceUpdate();
-    // onTogglePreview();
+    var newWorkspace = saveItemToWorkspace(data);
+    setCurrentWorkspace(newWorkspace);
+    setIsConfigOpen(false);
+    setIsWidgetModalOpen(false);
+    setSelectedItem(null);
+    forceUpdate();
+    onTogglePreview();
   }
-
   function handleSaveWidgetChanges(data) {
     console.log("LayoutBuilder SAVE WIDGET CHANGES ", data);
     var newWorkspace = saveItemToWorkspace(data);
@@ -8334,8 +8332,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     });
     setIsConfigOpen(false);
     setIsWidgetModalOpen(false);
-
-    // forceUpdate();
+    forceUpdate();
     // onTogglePreview();
   }
 
@@ -8370,14 +8367,14 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     className: "flex flex-col w-full h-full overflow-hidden p-2",
     children: [/*#__PURE__*/jsx("div", {
       className: "flex flex-row w-full h-full overflow-hidden p-2 space-x-2",
-      children: /*#__PURE__*/jsx(LayoutContainer, {
+      children: /*#__PURE__*/jsxs(LayoutContainer, {
         id: "search-layout-builder",
         scrollable: true,
         direction: "col",
         width: "w-full",
         height: "h-full",
         className: "overflow-x-hidden",
-        children: /*#__PURE__*/jsx(LayoutDragBuilder, {
+        children: [preview === true && /*#__PURE__*/jsx(LayoutDragBuilder, {
           dashboardId: dashboardId,
           isDraggable: true,
           workspace: currentWorkspace,
@@ -8398,7 +8395,28 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           onOpenEvents: handleClickEvents,
           onSaveConfiguration: handleSaveConfiguration,
           onClickEdit: onTogglePreview
-        }, "layout-drag-".concat(dashboardId))
+        }, "layout-drag-".concat(dashboardId)), preview === false && /*#__PURE__*/jsx(LayoutDragBuilderEdit, {
+          dashboardId: dashboardId,
+          isDraggable: true,
+          workspace: currentWorkspace,
+          header: currentWorkspace["name"],
+          layout: currentWorkspace["layout"],
+          parentKey: 0,
+          debugMode: debugMode,
+          previewMode: preview,
+          onClickAdd: onClickAdd,
+          onClickRemove: onClickRemove,
+          onClickShrink: onClickShrink,
+          onClickExpand: onClickExpand,
+          onChangeDirection: onChangeDirection,
+          onChangeOrder: onChangeOrder,
+          onDropItem: onDropItem,
+          onOpenConfig: handleClickEditItem //{handleClickConfigure}
+          ,
+          onOpenEvents: handleClickEvents,
+          onSaveConfiguration: handleSaveConfiguration,
+          onClickEdit: onTogglePreview
+        }, "layout-drag-edit-".concat(dashboardId))]
       }, "search-layout-builder")
     }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderEditItemModal, {
       open: isWidgetModalOpen,
@@ -8470,6 +8488,65 @@ var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
       workspace: workspace
     })
   }, "dnd-provider") : renderLayout({
+    dashboardId: dashboardId,
+    layout: layout,
+    parentKey: parentKey,
+    debugMode: debugMode,
+    previewMode: previewMode,
+    onClickAdd: onClickAdd,
+    onClickRemove: onClickRemove,
+    onClickShrink: onClickShrink,
+    onClickExpand: onClickExpand,
+    onChangeDirection: onChangeDirection,
+    onChangeOrder: onChangeOrder,
+    onOpenConfig: onOpenConfig,
+    onOpenEvents: onOpenEvents,
+    onSaveConfiguration: onSaveConfiguration,
+    onDropItem: onDropItem,
+    workspace: workspace
+  });
+};
+
+var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
+  var layout = _ref.layout,
+    dashboardId = _ref.dashboardId,
+    parentKey = _ref.parentKey,
+    debugMode = _ref.debugMode,
+    previewMode = _ref.previewMode,
+    onClickAdd = _ref.onClickAdd,
+    onDropItem = _ref.onDropItem,
+    onClickRemove = _ref.onClickRemove,
+    onClickShrink = _ref.onClickShrink,
+    onClickExpand = _ref.onClickExpand,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onOpenConfig = _ref.onOpenConfig,
+    onOpenEvents = _ref.onOpenEvents,
+    onSaveConfiguration = _ref.onSaveConfiguration,
+    workspace = _ref.workspace,
+    _ref$isDraggable = _ref.isDraggable,
+    isDraggable = _ref$isDraggable === void 0 ? true : _ref$isDraggable;
+  return isDraggable === true ? /*#__PURE__*/jsx(DndProvider, {
+    backend: HTML5Backend,
+    children: renderLayout({
+      dashboardId: dashboardId,
+      layout: layout,
+      parentKey: parentKey,
+      debugMode: debugMode,
+      previewMode: previewMode,
+      onClickAdd: onClickAdd,
+      onClickRemove: onClickRemove,
+      onClickShrink: onClickShrink,
+      onClickExpand: onClickExpand,
+      onChangeDirection: onChangeDirection,
+      onChangeOrder: onChangeOrder,
+      onOpenConfig: onOpenConfig,
+      onOpenEvents: onOpenEvents,
+      onSaveConfiguration: onSaveConfiguration,
+      onDropItem: onDropItem,
+      workspace: workspace
+    })
+  }, "dnd-provider-edit") : renderLayout({
     dashboardId: dashboardId,
     layout: layout,
     parentKey: parentKey,
@@ -11565,4 +11642,4 @@ var MockWrapper = function MockWrapper(_ref) {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutGridContainer, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, Plugins, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, isMaxOrderForItem, isMinOrderForItem, isObject, mock, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withPlugins, withRouter };
+export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, Plugins, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, isMaxOrderForItem, isMinOrderForItem, isObject, mock, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withPlugins, withRouter };

@@ -11,7 +11,8 @@ import {
     updateParentForItem,
 } from "@dash/Utils";
 import { LayoutContainer } from "@dash/Layout";
-import { LayoutDragBuilder } from "@dash/Layout/Builder";
+import { LayoutDragBuilder, LayoutDragBuilderEdit } from "@dash/Layout/Builder";
+
 import {
     LayoutBuilderEventModal,
     LayoutBuilderAddItemModal,
@@ -245,13 +246,13 @@ export const LayoutBuilder = ({
     function handleSaveConfiguration(data) {
         console.log("SAVING CONFIG ", data);
 
-        // const newWorkspace = saveItemToWorkspace(data);
-        // setCurrentWorkspace(newWorkspace);
-        // setIsConfigOpen(false);
-        // setIsWidgetModalOpen(false);
-        // setSelectedItem(null);
-        // forceUpdate();
-        // onTogglePreview();
+        const newWorkspace = saveItemToWorkspace(data);
+        setCurrentWorkspace(newWorkspace);
+        setIsConfigOpen(false);
+        setIsWidgetModalOpen(false);
+        setSelectedItem(null);
+        forceUpdate();
+        onTogglePreview();
     }
 
     function handleSaveWidgetChanges(data) {
@@ -264,7 +265,7 @@ export const LayoutBuilder = ({
         setIsConfigOpen(false);
         setIsWidgetModalOpen(false);
 
-        // forceUpdate();
+        forceUpdate();
         // onTogglePreview();
     }
 
@@ -308,28 +309,54 @@ export const LayoutBuilder = ({
                     height={"h-full"}
                     className={"overflow-x-hidden"}
                 >
-                    <LayoutDragBuilder
-                        key={`layout-drag-${dashboardId}`}
-                        dashboardId={dashboardId}
-                        isDraggable={true}
-                        workspace={currentWorkspace}
-                        header={currentWorkspace["name"]}
-                        layout={currentWorkspace["layout"]}
-                        parentKey={0}
-                        debugMode={debugMode}
-                        previewMode={preview}
-                        onClickAdd={onClickAdd}
-                        onClickRemove={onClickRemove}
-                        onClickShrink={onClickShrink}
-                        onClickExpand={onClickExpand}
-                        onChangeDirection={onChangeDirection}
-                        onChangeOrder={onChangeOrder}
-                        onDropItem={onDropItem}
-                        onOpenConfig={handleClickEditItem} //{handleClickConfigure}
-                        onOpenEvents={handleClickEvents}
-                        onSaveConfiguration={handleSaveConfiguration}
-                        onClickEdit={onTogglePreview}
-                    />
+                    {preview === true && (
+                        <LayoutDragBuilder
+                            key={`layout-drag-${dashboardId}`}
+                            dashboardId={dashboardId}
+                            isDraggable={true}
+                            workspace={currentWorkspace}
+                            header={currentWorkspace["name"]}
+                            layout={currentWorkspace["layout"]}
+                            parentKey={0}
+                            debugMode={debugMode}
+                            previewMode={preview}
+                            onClickAdd={onClickAdd}
+                            onClickRemove={onClickRemove}
+                            onClickShrink={onClickShrink}
+                            onClickExpand={onClickExpand}
+                            onChangeDirection={onChangeDirection}
+                            onChangeOrder={onChangeOrder}
+                            onDropItem={onDropItem}
+                            onOpenConfig={handleClickEditItem} //{handleClickConfigure}
+                            onOpenEvents={handleClickEvents}
+                            onSaveConfiguration={handleSaveConfiguration}
+                            onClickEdit={onTogglePreview}
+                        />
+                    )}
+                    {preview === false && (
+                        <LayoutDragBuilderEdit
+                            key={`layout-drag-edit-${dashboardId}`}
+                            dashboardId={dashboardId}
+                            isDraggable={true}
+                            workspace={currentWorkspace}
+                            header={currentWorkspace["name"]}
+                            layout={currentWorkspace["layout"]}
+                            parentKey={0}
+                            debugMode={debugMode}
+                            previewMode={preview}
+                            onClickAdd={onClickAdd}
+                            onClickRemove={onClickRemove}
+                            onClickShrink={onClickShrink}
+                            onClickExpand={onClickExpand}
+                            onChangeDirection={onChangeDirection}
+                            onChangeOrder={onChangeOrder}
+                            onDropItem={onDropItem}
+                            onOpenConfig={handleClickEditItem} //{handleClickConfigure}
+                            onOpenEvents={handleClickEvents}
+                            onSaveConfiguration={handleSaveConfiguration}
+                            onClickEdit={onTogglePreview}
+                        />
+                    )}
                 </LayoutContainer>
                 {/* {preview === false && (
                     <div className="flex flex-col p-2 text-xs text-green-700 h-full hidden xl:flex xl:w-1/4 bg-slate-900 rounded">
