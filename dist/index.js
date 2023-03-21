@@ -8874,8 +8874,8 @@ var _excluded$7 = ["id", "uuid", "children", "height", "width", "scrollable", "d
 function _objectWithoutProperties$7(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$7(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose$7(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Widget = function Widget(_ref) {
-  _ref.id;
-    var uuid = _ref.uuid,
+  var id = _ref.id,
+    uuid = _ref.uuid,
     children = _ref.children,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-full" : _ref$height,
@@ -8900,18 +8900,18 @@ var Widget = function Widget(_ref) {
     _useContext2.pub;
     _useContext2.settings;
   return /*#__PURE__*/jsxs(LayoutContainer, {
-    id: "widget-container'-".concat(uuid, "-").concat(version),
+    id: "widget-container'-".concat(uuid),
     direction: direction,
     scrollable: scrollable,
     width: width,
     height: height,
     className: "".concat(className),
     version: version,
-    children: [debugMode === true && /*#__PURE__*/jsxs("span", {
+    children: [id, debugMode === true && /*#__PURE__*/jsxs("span", {
       className: "text-white uppercase text-xs",
       children: ["WIDGET", " ", scrollable === true ? "scrollable" : "not scrollable"]
     }), children]
-  }, "widget-container'-".concat(uuid, "-").concat(version));
+  }, "widget-container'-".concat(uuid));
 };
 
 function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
@@ -9361,6 +9361,7 @@ var renderLayout = function renderLayout(_ref) {
         canHaveChildren = childLayout.canHaveChildren,
         uuid = childLayout.uuid;
       return hasChildren === 1 && canHaveChildren === true ? /*#__PURE__*/jsx(LayoutGridContainer, {
+        uuid: uuid,
         id: id,
         item: childLayout,
         parent: parent,
@@ -9401,6 +9402,7 @@ var renderLayout = function renderLayout(_ref) {
           isDraggable: isDraggable
         })
       }, uuid) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
+        uuid: uuid,
         item: childLayout,
         layout: layout,
         id: id,

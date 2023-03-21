@@ -79,6 +79,7 @@ export const renderLayout = ({
                     return hasChildren === 1 && canHaveChildren === true ? (
                         <LayoutGridContainer
                             key={uuid}
+                            uuid={uuid}
                             id={id}
                             item={childLayout}
                             parent={parent}
@@ -124,6 +125,7 @@ export const renderLayout = ({
                     ) : (
                         <LayoutBuilderGridItem
                             key={uuid}
+                            uuid={uuid}
                             item={childLayout}
                             layout={layout}
                             id={id}

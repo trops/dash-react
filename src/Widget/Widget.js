@@ -85,18 +85,16 @@ const Widget = ({
 
     return (
         <LayoutContainer
-            id={`widget-container'-${uuid}-${version}`}
+            id={`widget-container'-${uuid}`}
             direction={direction}
             scrollable={scrollable}
             width={width}
             height={height}
             className={`${className}`}
             version={version}
-            key={`widget-container'-${uuid}-${version}`}
+            key={`widget-container'-${uuid}`}
         >
-            {/* <WidgetContext.Provider
-                value={{ widgetApi: minifyElectronApi(), pub, settings }}
-            > */}
+            {id}
             {debugMode === true && (
                 <span className="text-white uppercase text-xs">
                     WIDGET{" "}
@@ -104,7 +102,6 @@ const Widget = ({
                 </span>
             )}
             {children}
-            {/* </WidgetContext.Provider> */}
         </LayoutContainer>
     );
 };
