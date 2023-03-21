@@ -5849,11 +5849,12 @@ var AppWrapper = function AppWrapper(_ref) {
 var WidgetContext = /*#__PURE__*/createContext(null);
 
 var DashboardWrapper = function DashboardWrapper() {
-  var _useContext = useContext(AppContext);
-    _useContext.api;
+  var _useContext = useContext$1(AppContext),
+    api = _useContext.api;
   function buildWidgetApi() {
     var w = WidgetApi;
     w.setPublisher(DashboardPublisher);
+    w.setElectronApi(api);
     return w;
   }
   function getValue() {
