@@ -330,6 +330,7 @@ export const LayoutBuilder = ({
                             onOpenConfig={handleClickEditItem} //{handleClickConfigure}
                             onOpenEvents={handleClickEvents}
                             onSaveConfiguration={handleSaveConfiguration}
+                            // onSaveConfiguration={handleSaveWidgetChanges}
                             onClickEdit={onTogglePreview}
                         />
                     )}

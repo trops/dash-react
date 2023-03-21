@@ -4943,8 +4943,9 @@ var Dashboard = function Dashboard(_ref) {
     }
 
     // pub.removeAllListeners();
-    loadWorkspaces();
+    // loadWorkspaces();
   }
+
   function renderComponent(workspaceItem) {
     try {
       console.log("changing workspace ", workspaceItem);
@@ -8393,7 +8394,9 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           onOpenConfig: handleClickEditItem //{handleClickConfigure}
           ,
           onOpenEvents: handleClickEvents,
-          onSaveConfiguration: handleSaveConfiguration,
+          onSaveConfiguration: handleSaveConfiguration
+          // onSaveConfiguration={handleSaveWidgetChanges}
+          ,
           onClickEdit: onTogglePreview
         }, "layout-drag-".concat(dashboardId)), preview === false && /*#__PURE__*/jsx(LayoutDragBuilderEdit, {
           dashboardId: dashboardId,

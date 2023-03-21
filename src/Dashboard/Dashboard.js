@@ -167,7 +167,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         }
 
         // pub.removeAllListeners();
-        loadWorkspaces();
+        // loadWorkspaces();
     }
 
     function renderComponent(workspaceItem) {
