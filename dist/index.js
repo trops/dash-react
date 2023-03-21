@@ -1828,7 +1828,8 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
       layout.parentWorkspaceName = parentWorkspaceName;
       layout.parentWorkspace = parentWS || {};
     }
-    layout.ref = layout.uuid;
+
+    // layout.ref = layout.uuid;
     // can we include the API?
 
     // layout.widgetApi = WidgetApi;
