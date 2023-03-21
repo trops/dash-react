@@ -75,15 +75,18 @@ export const LayoutBuilder = ({
             workspace,
             currentWorkspace
         );
-        if (
-            currentWorkspace["layout"] !== workspace["layout"] &&
-            workspace !== null &&
-            currentWorkspace["layout"] !== sampleLayout &&
-            currentWorkspace["version"] !== workspace["version"]
-        ) {
-            console.log("resetting workspace ", workspace);
-            setCurrentWorkspace(workspace);
-        }
+        console.log("resetting workspace ", workspace);
+        setCurrentWorkspace(workspace);
+
+        // if (
+        //     currentWorkspace["layout"] !== workspace["layout"] &&
+        //     workspace !== null &&
+        //     currentWorkspace["layout"] !== sampleLayout &&
+        //     currentWorkspace["version"] !== workspace["version"]
+        // ) {
+        //     console.log("resetting workspace ", workspace);
+        //     setCurrentWorkspace(workspace);
+        // }
 
         if (currentWorkspace["layout"] === null) {
             setCurrentWorkspace({
