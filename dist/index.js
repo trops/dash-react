@@ -5114,7 +5114,7 @@ var Dashboard = function Dashboard(_ref) {
               })
             })]
           })]
-        }), /*#__PURE__*/jsxs("div", {
+        }), workspaceSelected !== null && /*#__PURE__*/jsxs("div", {
           className: "flex flex-col h-full w-full justify-between",
           children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
             workspace: workspaceSelected,

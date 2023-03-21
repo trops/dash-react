@@ -372,30 +372,32 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col h-full w-full justify-between">
-                            {workspaceSelected !== null && (
-                                <DashboardHeader
-                                    workspace={workspaceSelected}
-                                    preview={previewMode}
-                                    onNameChange={handleWorkspaceNameChange}
-                                />
-                            )}
-                            <div className="flex flex-col w-full h-full overflow-y-scroll">
-                                {workspaceSelected !== null
-                                    ? renderComponent(workspaceSelected)
-                                    : null}
+                        {workspaceSelected !== null && (
+                            <div className="flex flex-col h-full w-full justify-between">
+                                {workspaceSelected !== null && (
+                                    <DashboardHeader
+                                        workspace={workspaceSelected}
+                                        preview={previewMode}
+                                        onNameChange={handleWorkspaceNameChange}
+                                    />
+                                )}
+                                <div className="flex flex-col w-full h-full overflow-y-scroll">
+                                    {workspaceSelected !== null
+                                        ? renderComponent(workspaceSelected)
+                                        : null}
+                                </div>
+                                {workspaceSelected !== null && (
+                                    <DashboardFooter
+                                        onClickEdit={() =>
+                                            setPreviewMode(!previewMode)
+                                        }
+                                        workspace={workspaceSelected}
+                                        preview={previewMode}
+                                        onSaveChanges={handleClickSaveWorkspace}
+                                    />
+                                )}
                             </div>
-                            {workspaceSelected !== null && (
-                                <DashboardFooter
-                                    onClickEdit={() =>
-                                        setPreviewMode(!previewMode)
-                                    }
-                                    workspace={workspaceSelected}
-                                    preview={previewMode}
-                                    onSaveChanges={handleClickSaveWorkspace}
-                                />
-                            )}
-                        </div>
+                        )}
 
                         {workspaceSelected === null && (
                             <PanelWelcome
