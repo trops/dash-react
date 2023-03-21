@@ -9389,8 +9389,7 @@ var renderLayout = function renderLayout(_ref) {
     }) //  && t['id'] !== parentKey
     .sort(compareChildren) // set the order of the elements
     .map(function (child) {
-      var childLayout = child; //LayoutModel(child, layout, dashboardId);
-
+      var childLayout = LayoutModel(child, layout, dashboardId);
       var id = childLayout.id,
         hasChildren = childLayout.hasChildren,
         parent = childLayout.parent,

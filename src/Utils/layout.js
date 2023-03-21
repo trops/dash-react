@@ -60,7 +60,7 @@ export const renderLayout = ({
                 }) //  && t['id'] !== parentKey
                 .sort(compareChildren) // set the order of the elements
                 .map((child) => {
-                    const childLayout = child; //LayoutModel(child, layout, dashboardId);
+                    const childLayout = LayoutModel(child, layout, dashboardId);
 
                     const {
                         id,
