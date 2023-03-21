@@ -94,6 +94,7 @@ const Widget = ({
                     {scrollable === true ? "scrollable" : "not scrollable"}
                 </span>
             )}
+            {uuid}
             {children}
         </LayoutContainer>
     );

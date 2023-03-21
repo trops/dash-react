@@ -8951,7 +8951,7 @@ var Widget = function Widget(_ref) {
     children: [debugMode === true && /*#__PURE__*/jsxs("span", {
       className: "text-white uppercase text-xs",
       children: ["WIDGET", " ", scrollable === true ? "scrollable" : "not scrollable"]
-    }), children]
+    }), uuid, children]
   }, "widget-container'-".concat(uuid, "-").concat(version));
 };
 
