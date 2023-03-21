@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { DashboardContext } from "./DashboardContext";
+import { AppContext } from "./App/AppContext";
 import { DashboardPublisher } from "@dash/Dashboard";
 import { WidgetApi } from "@dash/Api";
 
