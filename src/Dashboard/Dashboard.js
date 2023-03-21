@@ -75,7 +75,8 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     // }
 
     function loadWorkspaces() {
-        setIsLoadingWorkspaces(true);
+        console.log("1. Loading Workspaces =========================");
+        setIsLoadingWorkspaces(() => true);
 
         api.removeAllListeners();
         api.on(
@@ -89,13 +90,16 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function handleLoadWorkspacesComplete(e, message) {
+        console.log(
+            "2. Handle Load Workspaces Complete ======================"
+        );
         // let's make sure we have the entire component configuration for each item?
         const workspaces = deepCopy(message["workspaces"]);
         const workspacesTemp = workspaces.map((ws) => {
             // const layout = ws['layout'];
             // push the LayoutModel back into the Widget here... (inflate)
             const tempLayout = ws["layout"].map((layoutOG) => {
-                console.log("layout OG ", layoutOG, ws["layout"]);
+                console.log("layout OG ", layoutOG);
                 return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
             });
             ws["layout"] = tempLayout;
@@ -135,7 +139,10 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     // The user has chosen a workspace and we need to load that workspace data
     // into the workspace component.
     function handleClick(workspaceItem) {
-        console.log("workspace change? ", workspaceItem);
+        console.log(
+            "3. workspace change from PanelWelcome Click ==================",
+            workspaceItem
+        );
         pub.removeAllListeners();
         setWorkspaceSelected(() => workspaceItem);
         setIsShowing(() => false);

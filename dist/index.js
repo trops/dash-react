@@ -4879,7 +4879,10 @@ var Dashboard = function Dashboard(_ref) {
   // }
 
   function loadWorkspaces() {
-    setIsLoadingWorkspaces(true);
+    console.log("1. Loading Workspaces =========================");
+    setIsLoadingWorkspaces(function () {
+      return true;
+    });
     api.removeAllListeners();
     api.on(api.events.WORKSPACE_LIST_COMPLETE, handleLoadWorkspacesComplete);
     api.on(api.events.WORKSPACE_LIST_ERROR, handleLoadWorkspacesError);
@@ -4888,13 +4891,14 @@ var Dashboard = function Dashboard(_ref) {
     api.workspace.listWorkspacesForApplication(creds.appId);
   }
   function handleLoadWorkspacesComplete(e, message) {
+    console.log("2. Handle Load Workspaces Complete ======================");
     // let's make sure we have the entire component configuration for each item?
     var workspaces = deepCopy(message["workspaces"]);
     var workspacesTemp = workspaces.map(function (ws) {
       // const layout = ws['layout'];
       // push the LayoutModel back into the Widget here... (inflate)
       var tempLayout = ws["layout"].map(function (layoutOG) {
-        console.log("layout OG ", layoutOG, ws["layout"]);
+        console.log("layout OG ", layoutOG);
         return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
       });
 
@@ -4939,7 +4943,7 @@ var Dashboard = function Dashboard(_ref) {
   // The user has chosen a workspace and we need to load that workspace data
   // into the workspace component.
   function handleClick(workspaceItem) {
-    console.log("workspace change? ", workspaceItem);
+    console.log("3. workspace change from PanelWelcome Click ==================", workspaceItem);
     pub.removeAllListeners();
     setWorkspaceSelected(function () {
       return workspaceItem;
