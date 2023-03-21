@@ -9401,7 +9401,7 @@ var renderLayout = function renderLayout(_ref) {
           workspace: workspace,
           isDraggable: isDraggable
         })
-      }, uuid) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
+      }, "grid-container-".concat(uuid)) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
         uuid: uuid,
         item: childLayout,
         layout: layout,
@@ -9428,7 +9428,7 @@ var renderLayout = function renderLayout(_ref) {
         onOpenEvents: onOpenEvents,
         isDraggable: isDraggable,
         workspace: workspace
-      }, uuid);
+      }, "grid-item-".concat(uuid));
     });
   } catch (e) {
     console.log(e);
