@@ -294,9 +294,13 @@ export const LayoutBuilder = ({
     }
 
     return (
-        <div className={`flex flex-col w-full h-full overflow-hidden p-2`}>
+        <div
+            className={`flex flex-col w-full h-full overflow-hidden p-2`}
+            key={"layout-builder"}
+        >
             <div className="flex flex-row w-full h-full overflow-hidden p-2 space-x-2">
                 <LayoutContainer
+                    key={"search-layout-builder"}
                     id="search-layout-builder"
                     scrollable={true}
                     direction={"col"}
@@ -305,6 +309,7 @@ export const LayoutBuilder = ({
                     className={"overflow-x-hidden"}
                 >
                     <LayoutDragBuilder
+                        key={`layout-drag-${dashboardId}`}
                         dashboardId={dashboardId}
                         isDraggable={true}
                         workspace={currentWorkspace}

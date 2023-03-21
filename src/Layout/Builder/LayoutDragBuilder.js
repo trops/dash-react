@@ -22,7 +22,7 @@ export const LayoutDragBuilder = ({
     isDraggable = true,
 }) => {
     return isDraggable === true ? (
-        <DndProvider backend={HTML5Backend}>
+        <DndProvider backend={HTML5Backend} key={"dnd-provider"}>
             {renderLayout({
                 dashboardId,
                 layout,

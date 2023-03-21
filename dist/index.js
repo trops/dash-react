@@ -8398,8 +8398,8 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           onOpenEvents: handleClickEvents,
           onSaveConfiguration: handleSaveConfiguration,
           onClickEdit: onTogglePreview
-        })
-      })
+        }, "layout-drag-".concat(dashboardId))
+      }, "search-layout-builder")
     }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderEditItemModal, {
       open: isWidgetModalOpen,
       setIsOpen: setIsWidgetModalOpen,
@@ -8427,7 +8427,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       ,
       workspace: isConfigModalOpen === true ? currentWorkspace : null
     })]
-  });
+  }, "layout-builder");
 };
 
 var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
@@ -8469,7 +8469,7 @@ var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
       onDropItem: onDropItem,
       workspace: workspace
     })
-  }) : renderLayout({
+  }, "dnd-provider") : renderLayout({
     dashboardId: dashboardId,
     layout: layout,
     parentKey: parentKey,
