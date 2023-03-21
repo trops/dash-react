@@ -4976,17 +4976,17 @@ var Dashboard = function Dashboard(_ref) {
   }
   function renderComponent(workspaceItem) {
     try {
-      console.log("changing workspace ", workspaceSelected);
-      return workspaceSelected !== undefined ? /*#__PURE__*/jsx(LayoutBuilder, {
-        dashboardId: workspaceSelected["id"],
+      console.log("changing workspace ", workspaceItem);
+      return workspaceItem !== undefined ? /*#__PURE__*/jsx(LayoutBuilder, {
+        dashboardId: workspaceItem["id"],
         preview: previewMode,
-        workspace: workspaceSelected,
+        workspace: workspaceItem,
         onWorkspaceChange: handleWorkspaceChange // for when we save a workspace change! fetch new ones!
         ,
         onTogglePreview: function onTogglePreview() {
           return setPreviewMode(!previewMode);
         }
-      }) : null;
+      }, "LayoutBuilder-".concat(workspaceItem["id"])) : null;
     } catch (e) {
       console.log(e);
       return null;
@@ -5159,7 +5159,7 @@ var Dashboard = function Dashboard(_ref) {
           onNameChange: handleWorkspaceNameChange
         }), /*#__PURE__*/jsx("div", {
           className: "flex flex-col w-full h-full overflow-y-scroll",
-          children: workspaceSelected !== null ? renderComponent() : null
+          children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
         }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
           onClickEdit: function onClickEdit() {
             return setPreviewMode(!previewMode);

@@ -168,14 +168,15 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
 
     function renderComponent(workspaceItem) {
         try {
-            console.log("changing workspace ", workspaceSelected);
-            return workspaceSelected !== undefined ? (
+            console.log("changing workspace ", workspaceItem);
+            return workspaceItem !== undefined ? (
                 <LayoutBuilder
-                    dashboardId={workspaceSelected["id"]}
+                    dashboardId={workspaceItem["id"]}
                     preview={previewMode}
-                    workspace={workspaceSelected}
+                    workspace={workspaceItem}
                     onWorkspaceChange={handleWorkspaceChange} // for when we save a workspace change! fetch new ones!
                     onTogglePreview={() => setPreviewMode(!previewMode)}
+                    key={`LayoutBuilder-${workspaceItem["id"]}`}
                 />
             ) : null;
         } catch (e) {
