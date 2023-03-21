@@ -10,13 +10,13 @@
 
 import { deepCopy } from "@dash/Utils/objects";
 
-export class WidgetApi {
-    constructor(uuid) {
-        this._uuid = uuid;
-        this._pub = null;
-        this._electronApi = null;
-        this._settings = null;
-    }
+export const WidgetApi = {
+    // constructor(uuid) {
+    //     this._uuid = uuid;
+    //     this._pub = null;
+    //     this._electronApi = null;
+    //     this._settings = null;
+    // }
 
     /**
      * init
@@ -29,87 +29,75 @@ export class WidgetApi {
      *
      * @param {string} uuid
      */
-    init(uuidInput) {
-        try {
-            this._uuid = uuidInput;
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    // init(uuidInput) {
+    //     try {
+    //         this._uuid = uuidInput;
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
 
-    setPublisher(publisher) {
+    setPublisher: function (publisher) {
         this._pub = publisher;
-    }
+    },
 
-    setElectronApi(api) {
+    setElectronApi: function (api) {
         try {
             /**
              * include the main electron apis that we want to expose ONLY
              */
             if (api !== undefined && api !== null) {
                 // set the mainApi to electron inside the widget.
-                this._electronApi = api;
-                // {
-                //     on: api.on,
-                //     removeAllListeners: api.removeAllListeners,
-                //     data: api.data,
-                //     algolia: api.algolia,
-                //     events: api.publicEvents,
-                // };
-                console.log(
-                    "electron Api in setElectronApi ",
-                    {
-                        on: api.on,
-                        removeAllListeners: api.removeAllListeners,
-                        data: api.data,
-                        algolia: api.algolia,
-                        events: api.publicEvents,
-                    },
-                    this._electronApi
-                );
+                this._electronApi = {
+                    on: api.on,
+                    removeAllListeners: api.removeAllListeners,
+                    data: api.data,
+                    algolia: api.algolia,
+                    events: api.publicEvents,
+                };
             }
         } catch (e) {
             console.log("Error Setting Electron API ", e.message);
         }
-    }
+    },
 
-    setSettings(settings) {
+    setSettings: function (settings) {
         this._settings = settings;
-    }
+    },
 
-    settings() {
+    settings: function () {
         return this._settings;
-    }
+    },
 
     /**
      * uuid
      * @returns string the UUID for this Widget
      */
-    uuid() {
-        return this._uuid;
-    }
+    // uuid() {
+    //     return this._uuid;
+    // }
 
-    electronApi() {
+    electronApi: function () {
         return this._electronApi;
-    }
+    },
 
-    pub() {
+    pub: function () {
         return this._pub;
-    }
+    },
 
     /**
      * publishEvent
      * @param {string} name the name of the widget (TODO - uuid + handler)
      * @param {object} events the payload for the event published
      */
-    publishEvent(name, events) {
+    publishEvent: function (name, events) {
         if (this.pub() !== null && name !== null && events !== null) {
             if ("pub" in this.pub()) {
                 console.log("ACTUALLY publishing...");
                 this.pub().pub(name, events);
             }
         }
-    }
+    },
 
     /**
      * registerListeners
@@ -121,19 +109,15 @@ export class WidgetApi {
      * @param {array} listeners
      * @param {object} handlers
      */
-    registerListeners(listeners, handlers) {
-        if (this.pub() !== null && this.uuid() !== null) {
+    registerListeners: function (listeners, handlers, uuid) {
+        if (this.pub() !== null && uuid !== null) {
             if ("registerListeners" in this.pub()) {
                 if (this.pub()["registerListeners"] !== null) {
-                    this.pub().registerListeners(
-                        listeners,
-                        handlers,
-                        this.uuid()
-                    );
+                    this.pub().registerListeners(listeners, handlers, uuid);
                 }
             }
         }
-    }
+    },
 
     /**
      * storeData
@@ -145,18 +129,18 @@ export class WidgetApi {
      * @param {object} data
      * @param {object} options filename - name of the file, callbacks for complete and error
      */
-    storeData({
+    storeData: function ({
         data,
         filename = null,
         callbackComplete = null,
         callbackError = null,
         append = true,
         returnEmpty = {},
+        uuid,
     }) {
         try {
             // set the filename
-            const toFilename =
-                filename !== null ? filename : `${this.uuid()}.json`;
+            const toFilename = filename !== null ? filename : `${uuid}.json`;
 
             // grab the electron api
             const eApi = this.electronApi();
@@ -185,7 +169,7 @@ export class WidgetApi {
                 callbackError(e, e.message);
             }
         }
-    }
+    },
 
     /**
      *
@@ -193,15 +177,16 @@ export class WidgetApi {
      * - filename - the name of the file if you want to override the default uuid as filename
      * - callbackComplete - the handler for dealing with the complete callback data
      * - callbackError - the handler for dealing with the error callback data
+     * - uuid - the UUID for the widget/workspace
      */
-    readData({
+    readData: function ({
         filename = null,
         callbackComplete = null,
         callbackError = null,
+        uuid,
     }) {
         try {
-            const toFilename =
-                filename !== null ? filename : `${this.uuid()}.json`;
+            const toFilename = filename !== null ? filename : `${uuid}.json`;
             const eApi = this.electronApi();
             if ("removeAllListeners" in eApi) {
                 eApi.removeAllListeners();
@@ -224,5 +209,5 @@ export class WidgetApi {
         } catch (e) {
             console.log(e);
         }
-    }
-}
+    },
+};

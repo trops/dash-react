@@ -70,7 +70,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         if (widgetConfig !== null && widgetConfig !== undefined) {
             Object.keys(widgetConfig).forEach((key) => {
-                console.log("LayoutModel key", key);
+                // console.log("LayoutModel key", key);
                 layout[key] = widgetConfig[key];
             });
         }
@@ -115,7 +115,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
 
         // can we include the API?
 
-        layout.widgetApi = new WidgetApi(layout.uuid);
+        // layout.widgetApi = WidgetApi;
 
         console.log(
             "layout model widget api ",

@@ -17,6 +17,7 @@ const electronApiMock = {
 describe("WidgetApi tests ", () => {
     // Mock
     const uuid = "12345";
+    const uuid2 = "6789";
     let api, api2;
     const listeners = {
         handleSearchChange: ["CustomSearchbar[10].searchQueryChanged"],
@@ -25,21 +26,20 @@ describe("WidgetApi tests ", () => {
     const pub = DashboardPublisher;
 
     test("initialize the api", () => {
-        api = new WidgetApi(uuid);
-        const uuidOut = api.uuid();
-        expect(uuidOut).toBe(uuid);
+        api = WidgetApi;
+        expect(api).not.toBe(null);
     });
 
     test("set the publisher", () => {
         api.setPublisher(pub);
-        expect(api.pub).not.toBe(null);
+        expect(api.pub()).not.toBe(null);
     });
 
     test("register listeners ", () => {
         const handlerMap = {
             handleSearchChange: (data) => console.log(data),
         };
-        api.registerListeners(listeners, handlerMap);
+        api.registerListeners(listeners, handlerMap, uuid);
         expect(api.pub().listeners).not.toBe(null);
     });
 
@@ -47,7 +47,7 @@ describe("WidgetApi tests ", () => {
         const handlerMap = {
             handleSearchChange: (data) => console.log(data),
         };
-        api.registerListeners(listeners, handlerMap);
+        api.registerListeners(listeners, handlerMap, uuid);
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
         const handlersForKey = api.pub().listeners().get(eventType);
@@ -55,23 +55,20 @@ describe("WidgetApi tests ", () => {
     });
 
     test("register listeners same event different widget ", () => {
-        const uuid2 = "34567";
-        api2 = new WidgetApi(uuid2);
-        api2.setPublisher(pub);
         const handlerMap = {
             handleSearchChange: (data) => console.log(data),
         };
-        api2.registerListeners(listeners, handlerMap);
+        api.registerListeners(listeners, handlerMap, uuid2);
         // holds them as an array
         const eventType = listeners[Object.keys(listeners)[0]][0];
-        const handlersForKey = api2.pub().listeners().get(eventType);
+        const handlersForKey = api.pub().listeners().get(eventType);
         expect(handlersForKey.length).toEqual(2);
     });
 
     test("emit event from pub ", () => {
         // holds them as an array
         const eventType = "CustomSearchbar[10].searchQueryChanged";
-        api2.publishEvent(eventType, { test: "hello" });
+        api.publishEvent(eventType, { test: "hello" });
         expect();
     });
 
