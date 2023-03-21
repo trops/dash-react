@@ -11,8 +11,8 @@ import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { useSearchBox, useRefinementList } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { plugins, activationPoints, extensionPoints } from 'pluggable-electron/renderer';
 import parseArgs from 'minimist';
+import { plugins, activationPoints, extensionPoints } from 'pluggable-electron/renderer';
 
 function _typeof$o(obj) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$o(obj); }
 /**
@@ -404,7 +404,7 @@ var WorkspaceContext = /*#__PURE__*/createContext(null);
  *      api
  * }
  */
-var AppContext = /*#__PURE__*/createContext({
+var AppContext$1 = /*#__PURE__*/createContext({
   debugMode: false
 });
 
@@ -627,7 +627,7 @@ var WorkspaceFooter = function WorkspaceFooter(_ref) {
     title = _ref$title === void 0 ? "Footer Title" : _ref$title;
     _ref.onClick;
     _ref.children;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
   var _useContext2 = useContext$1(ThemeContext),
@@ -654,7 +654,7 @@ var WorkspaceMenu = function WorkspaceMenu(_ref) {
     title = _ref$title === void 0 ? "Menu Title" : _ref$title;
     _ref.onClick;
     var children = _ref.children;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
   function debugClasses() {
@@ -969,7 +969,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
     _ref$selectedMainItem = _ref.selectedMainItem,
     selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
     onWorkspaceMenuChange = _ref.onWorkspaceMenuChange;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     api = _useContext.api,
     creds = _useContext.creds;
   var _useContext2 = useContext$1(ThemeContext),
@@ -3984,7 +3984,7 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
     themes = _useContext.themes,
     changeCurrentTheme = _useContext.changeCurrentTheme,
     changeThemeVariant = _useContext.changeThemeVariant;
-  var _useContext2 = useContext$1(AppContext),
+  var _useContext2 = useContext$1(AppContext$1),
     api = _useContext2.api,
     creds = _useContext2.creds,
     settings = _useContext2.settings;
@@ -4382,7 +4382,7 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
     theme = _useContext.theme,
     themes = _useContext.themes,
     changeCurrentTheme = _useContext.changeCurrentTheme;
-  var _useContext2 = useContext$1(AppContext),
+  var _useContext2 = useContext$1(AppContext$1),
     creds = _useContext2.creds,
     api = _useContext2.api;
     _useContext2.debugMode;
@@ -4713,7 +4713,7 @@ var ApplicationSettingsModal = function ApplicationSettingsModal(_ref) {
     open = _ref.open,
     setIsOpen = _ref.setIsOpen;
     _ref.onSave;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     settings = _useContext.settings;
   return /*#__PURE__*/jsx(Modal, {
     isOpen: open,
@@ -4752,7 +4752,7 @@ var Dashboard = function Dashboard(_ref) {
     workspace = _ref$workspace === void 0 ? null : _ref$workspace,
     _ref$preview = _ref.preview,
     preview = _ref$preview === void 0 ? true : _ref$preview;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     api = _useContext.api,
     settings = _useContext.settings,
     creds = _useContext.creds;
@@ -5071,117 +5071,119 @@ var Dashboard = function Dashboard(_ref) {
   function handleOpenThemeManager() {
     setIsThemeManagerOpen(true);
   }
-  return menuItems && currentTheme && /*#__PURE__*/jsx(LayoutContainer, {
-    className: "flex flex-row h-full p-0 overflow-hidden w-full space-x-0",
-    height: "h-full",
-    width: "w-full",
-    direction: "row",
-    scrollable: false,
-    space: false,
-    children: /*#__PURE__*/jsxs(DndProvider, {
-      backend: HTML5Backend,
-      children: [/*#__PURE__*/jsxs("div", {
-        className: "flex flex-col space-y-1 ".concat(currentTheme["bg-secondary-very-dark"], " p-2 items-center} h-full z-40 justify-between"),
+  return menuItems && currentTheme && /*#__PURE__*/jsx(DashboardWrapper, {
+    children: /*#__PURE__*/jsx(LayoutContainer, {
+      className: "flex flex-row h-full p-0 overflow-hidden w-full space-x-0",
+      height: "h-full",
+      width: "w-full",
+      direction: "row",
+      scrollable: false,
+      space: false,
+      children: /*#__PURE__*/jsxs(DndProvider, {
+        backend: HTML5Backend,
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "w-10 h-10 items-center justify-center",
-            children: /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "home",
-              onClick: function onClick() {
-                return setWorkspaceSelected(null);
-              }
-            })
-          }), menuItems && renderMenuItems()]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "w-10 h-10 items-center justify-center",
-            children: /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "plus",
-              onClick: handleAddNewMenuItem,
-              hoverBackgroundColor: "hover:bg-green-700"
-            })
-          }), /*#__PURE__*/jsx("div", {
-            className: "w-10 h-10 items-center justify-center",
-            children: /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "palette",
-              onClick: handleOpenThemeManager,
-              hoverBackgroundColor: "hover:bg-orange-700"
-            })
-          }), /*#__PURE__*/jsx("div", {
-            className: "w-10 h-10 items-center justify-center",
-            children: /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "computer",
-              onClick: function onClick() {
-                return setIsSettingsModalOpen(true);
-              },
-              hoverBackgroundColor: "hover:bg-orange-700"
-            })
+          className: "flex flex-col space-y-1 ".concat(currentTheme["bg-secondary-very-dark"], " p-2 items-center} h-full z-40 justify-between"),
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-col",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "home",
+                onClick: function onClick() {
+                  return setWorkspaceSelected(null);
+                }
+              })
+            }), menuItems && renderMenuItems()]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "plus",
+                onClick: handleAddNewMenuItem,
+                hoverBackgroundColor: "hover:bg-green-700"
+              })
+            }), /*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "palette",
+                onClick: handleOpenThemeManager,
+                hoverBackgroundColor: "hover:bg-orange-700"
+              })
+            }), /*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "computer",
+                onClick: function onClick() {
+                  return setIsSettingsModalOpen(true);
+                },
+                hoverBackgroundColor: "hover:bg-orange-700"
+              })
+            })]
           })]
-        })]
-      }), /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col h-full w-full justify-between",
-        children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
-          workspace: workspaceSelected,
-          preview: previewMode,
-          onNameChange: handleWorkspaceNameChange
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-full h-full overflow-y-scroll",
-          children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
-        }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
-          onClickEdit: function onClickEdit() {
-            return setPreviewMode(!previewMode);
-          },
-          workspace: workspaceSelected,
-          preview: previewMode,
-          onSaveChanges: handleClickSaveWorkspace
-        })]
-      }), workspaceSelected === null && /*#__PURE__*/jsx(PanelWelcome, {
-        menuItems: menuItems,
-        workspaces: workspaceConfig,
-        onClickWorkspace: handleClick,
-        onClickCreateMenuItem: function onClickCreateMenuItem() {
-          return setIsAddWidgetModalOpen(true);
-        }
-      }), /*#__PURE__*/jsx(MenuSlideOverlay, {
-        workspaces: workspaceConfig,
-        open: isShowing,
-        setOpen: setIsShowing,
-        selectedMainItem: selectedMainItem,
-        handleClick: handleClick,
-        children: /*#__PURE__*/jsx(MainMenu, {
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col h-full w-full justify-between",
+          children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
+            workspace: workspaceSelected,
+            preview: previewMode,
+            onNameChange: handleWorkspaceNameChange
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col w-full h-full overflow-y-scroll",
+            children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
+          }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
+            onClickEdit: function onClickEdit() {
+              return setPreviewMode(!previewMode);
+            },
+            workspace: workspaceSelected,
+            preview: previewMode,
+            onSaveChanges: handleClickSaveWorkspace
+          })]
+        }), workspaceSelected === null && /*#__PURE__*/jsx(PanelWelcome, {
           menuItems: menuItems,
           workspaces: workspaceConfig,
-          onClickNew: handleClickNew,
-          onClick: handleClick,
+          onClickWorkspace: handleClick,
+          onClickCreateMenuItem: function onClickCreateMenuItem() {
+            return setIsAddWidgetModalOpen(true);
+          }
+        }), /*#__PURE__*/jsx(MenuSlideOverlay, {
+          workspaces: workspaceConfig,
+          open: isShowing,
+          setOpen: setIsShowing,
           selectedMainItem: selectedMainItem,
-          onWorkspaceMenuChange: handleWorkspaceMenuChange
-        })
-      }), /*#__PURE__*/jsx(AddMenuItemModal, {
-        open: isAddItemModalOpen,
-        setIsOpen: function setIsOpen() {
-          return setIsAddWidgetModalOpen(!isAddItemModalOpen);
-        },
-        onSave: handleSaveNewMenuItem
-      }), /*#__PURE__*/jsx(ThemeManagerModal, {
-        open: isThemeManagerOpen,
-        setIsOpen: function setIsOpen() {
-          return setIsThemeManagerOpen(!isThemeManagerOpen);
-        },
-        onSave: function onSave(themeKey) {
-          console.log("saving and changing", themeKey);
-          changeCurrentTheme(themeKey);
-          setIsThemeManagerOpen(function () {
-            return false;
-          });
-          forceUpdate();
-        }
-      }), /*#__PURE__*/jsx(ApplicationSettingsModal, {
-        open: isSettingsModalOpen,
-        setIsOpen: setIsSettingsModalOpen,
-        workspaces: workspaceConfig
-      })]
+          handleClick: handleClick,
+          children: /*#__PURE__*/jsx(MainMenu, {
+            menuItems: menuItems,
+            workspaces: workspaceConfig,
+            onClickNew: handleClickNew,
+            onClick: handleClick,
+            selectedMainItem: selectedMainItem,
+            onWorkspaceMenuChange: handleWorkspaceMenuChange
+          })
+        }), /*#__PURE__*/jsx(AddMenuItemModal, {
+          open: isAddItemModalOpen,
+          setIsOpen: function setIsOpen() {
+            return setIsAddWidgetModalOpen(!isAddItemModalOpen);
+          },
+          onSave: handleSaveNewMenuItem
+        }), /*#__PURE__*/jsx(ThemeManagerModal, {
+          open: isThemeManagerOpen,
+          setIsOpen: function setIsOpen() {
+            return setIsThemeManagerOpen(!isThemeManagerOpen);
+          },
+          onSave: function onSave(themeKey) {
+            console.log("saving and changing", themeKey);
+            changeCurrentTheme(themeKey);
+            setIsThemeManagerOpen(function () {
+              return false;
+            });
+            forceUpdate();
+          }
+        }), /*#__PURE__*/jsx(ApplicationSettingsModal, {
+          open: isSettingsModalOpen,
+          setIsOpen: setIsSettingsModalOpen,
+          workspaces: workspaceConfig
+        })]
+      })
     })
   });
 };
@@ -5462,7 +5464,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     theme = _ref$theme === void 0 ? null : _ref$theme,
     children = _ref.children;
   // changeApplicationTheme will save this to the settings config
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     api = _useContext.api,
     creds = _useContext.creds,
     changeApplicationTheme = _useContext.changeApplicationTheme;
@@ -5838,13 +5840,33 @@ var AppWrapper = function AppWrapper(_ref) {
       changeApplicationTheme: changeApplicationTheme
     };
   }
-  return /*#__PURE__*/jsx(AppContext.Provider, {
+  return /*#__PURE__*/jsx(AppContext$1.Provider, {
     value: getValue(),
     children: children
   });
 };
 
 var WidgetContext = /*#__PURE__*/createContext(null);
+
+var DashboardWrapper = function DashboardWrapper() {
+  var _useContext = useContext(AppContext);
+    _useContext.api;
+  function buildWidgetApi() {
+    var w = WidgetApi;
+    w.setPublisher(DashboardPublisher);
+    return w;
+  }
+  function getValue() {
+    return {
+      WidgetApi: buildWidgetApi(),
+      pub: DashboardPublisher
+    };
+  }
+  return /*#__PURE__*/jsx(DashboardContext.Provider, {
+    value: getValue(),
+    children: children
+  });
+};
 
 /**
  * Layout
@@ -5856,7 +5878,7 @@ var Layout = function Layout(_ref) {
     preview = _ref.preview,
     _ref$scrollable = _ref.scrollable,
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
   var workspaceDataFromContext = useContext$1(WorkspaceContext);
@@ -8095,7 +8117,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     _ref$onWorkspaceChang = _ref.onWorkspaceChange,
     onWorkspaceChange = _ref$onWorkspaceChang === void 0 ? null : _ref$onWorkspaceChang,
     dashboardId = _ref.dashboardId;
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     debugMode = _useContext.debugMode;
   var _useState = useState(false),
     _useState2 = _slicedToArray$2(_useState, 2);
@@ -8866,7 +8888,7 @@ var Widget = function Widget(_ref) {
     _objectWithoutProperties$7(_ref, _excluded$7);
   useRef(true);
   // this is the electron api we are pulling in...
-  var _useContext = useContext$1(AppContext),
+  var _useContext = useContext$1(AppContext$1),
     debugMode = _useContext.debugMode;
     _useContext.debugStyles;
     _useContext.api;
@@ -11536,4 +11558,4 @@ var MockWrapper = function MockWrapper(_ref) {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutGridContainer, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, Plugins, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, isMaxOrderForItem, isMinOrderForItem, isObject, mock, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withPlugins, withRouter };
+export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext$1 as AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutGridContainer, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, Plugins, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, isMaxOrderForItem, isMinOrderForItem, isObject, mock, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withPlugins, withRouter };

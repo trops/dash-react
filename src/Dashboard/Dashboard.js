@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { MainMenu, MenuSlideOverlay } from "@dash/Menu";
 import { LayoutContainer } from "@dash/Layout";
-import { withPlugins } from "@dash/Plugin/Plugin";
 import { ButtonIcon } from "@dash/Common";
 import { LayoutBuilder } from "@dash/Layout";
-import { DashboardContext, AppContext, ThemeContext } from "@dash/Context";
+import {
+    DashboardContext,
+    AppContext,
+    ThemeContext,
+    DashboardWrapper,
+} from "@dash/Context";
 import { deepCopy } from "@dash/Utils";
 import { LayoutModel } from "@dash/Models";
 import { AddMenuItemModal, DashboardMenuItem } from "@dash/Menu";
@@ -309,132 +313,148 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     return (
         menuItems &&
         currentTheme && (
-            <LayoutContainer
-                className={
-                    "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
-                }
-                height="h-full"
-                width="w-full"
-                direction="row"
-                scrollable={false}
-                space={false}
-            >
-                <DndProvider backend={HTML5Backend}>
-                    <div
-                        className={`flex flex-col space-y-1 ${currentTheme["bg-secondary-very-dark"]} p-2 items-center} h-full z-40 justify-between`}
-                    >
-                        <div className="flex flex-col">
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon="home"
-                                    onClick={() => setWorkspaceSelected(null)}
-                                />
+            <DashboardWrapper>
+                <LayoutContainer
+                    className={
+                        "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
+                    }
+                    height="h-full"
+                    width="w-full"
+                    direction="row"
+                    scrollable={false}
+                    space={false}
+                >
+                    <DndProvider backend={HTML5Backend}>
+                        <div
+                            className={`flex flex-col space-y-1 ${currentTheme["bg-secondary-very-dark"]} p-2 items-center} h-full z-40 justify-between`}
+                        >
+                            <div className="flex flex-col">
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="home"
+                                        onClick={() =>
+                                            setWorkspaceSelected(null)
+                                        }
+                                    />
+                                </div>
+                                {menuItems && renderMenuItems()}
                             </div>
-                            {menuItems && renderMenuItems()}
+                            <div className="flex flex-col">
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="plus"
+                                        onClick={handleAddNewMenuItem}
+                                        hoverBackgroundColor={
+                                            "hover:bg-green-700"
+                                        }
+                                    />
+                                </div>
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="palette"
+                                        onClick={handleOpenThemeManager}
+                                        hoverBackgroundColor={
+                                            "hover:bg-orange-700"
+                                        }
+                                    />
+                                </div>
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="computer"
+                                        onClick={() =>
+                                            setIsSettingsModalOpen(true)
+                                        }
+                                        hoverBackgroundColor={
+                                            "hover:bg-orange-700"
+                                        }
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-col">
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon="plus"
-                                    onClick={handleAddNewMenuItem}
-                                    hoverBackgroundColor={"hover:bg-green-700"}
-                                />
-                            </div>
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon="palette"
-                                    onClick={handleOpenThemeManager}
-                                    hoverBackgroundColor={"hover:bg-orange-700"}
-                                />
-                            </div>
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon="computer"
-                                    onClick={() => setIsSettingsModalOpen(true)}
-                                    hoverBackgroundColor={"hover:bg-orange-700"}
-                                />
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="flex flex-col h-full w-full justify-between">
-                        {workspaceSelected !== null && (
-                            <DashboardHeader
-                                workspace={workspaceSelected}
-                                preview={previewMode}
-                                onNameChange={handleWorkspaceNameChange}
+                        <div className="flex flex-col h-full w-full justify-between">
+                            {workspaceSelected !== null && (
+                                <DashboardHeader
+                                    workspace={workspaceSelected}
+                                    preview={previewMode}
+                                    onNameChange={handleWorkspaceNameChange}
+                                />
+                            )}
+                            <div className="flex flex-col w-full h-full overflow-y-scroll">
+                                {workspaceSelected !== null
+                                    ? renderComponent(workspaceSelected)
+                                    : null}
+                            </div>
+                            {workspaceSelected !== null && (
+                                <DashboardFooter
+                                    onClickEdit={() =>
+                                        setPreviewMode(!previewMode)
+                                    }
+                                    workspace={workspaceSelected}
+                                    preview={previewMode}
+                                    onSaveChanges={handleClickSaveWorkspace}
+                                />
+                            )}
+                        </div>
+
+                        {workspaceSelected === null && (
+                            <PanelWelcome
+                                menuItems={menuItems}
+                                workspaces={workspaceConfig}
+                                onClickWorkspace={handleClick}
+                                onClickCreateMenuItem={() =>
+                                    setIsAddWidgetModalOpen(true)
+                                }
                             />
                         )}
-                        <div className="flex flex-col w-full h-full overflow-y-scroll">
-                            {workspaceSelected !== null
-                                ? renderComponent(workspaceSelected)
-                                : null}
-                        </div>
-                        {workspaceSelected !== null && (
-                            <DashboardFooter
-                                onClickEdit={() => setPreviewMode(!previewMode)}
-                                workspace={workspaceSelected}
-                                preview={previewMode}
-                                onSaveChanges={handleClickSaveWorkspace}
-                            />
-                        )}
-                    </div>
-
-                    {workspaceSelected === null && (
-                        <PanelWelcome
-                            menuItems={menuItems}
+                        <MenuSlideOverlay
                             workspaces={workspaceConfig}
-                            onClickWorkspace={handleClick}
-                            onClickCreateMenuItem={() =>
-                                setIsAddWidgetModalOpen(true)
-                            }
-                        />
-                    )}
-                    <MenuSlideOverlay
-                        workspaces={workspaceConfig}
-                        open={isShowing}
-                        setOpen={setIsShowing}
-                        selectedMainItem={selectedMainItem}
-                        handleClick={handleClick}
-                    >
-                        <MainMenu
-                            menuItems={menuItems}
-                            workspaces={workspaceConfig}
-                            onClickNew={handleClickNew}
-                            onClick={handleClick}
+                            open={isShowing}
+                            setOpen={setIsShowing}
                             selectedMainItem={selectedMainItem}
-                            onWorkspaceMenuChange={handleWorkspaceMenuChange}
+                            handleClick={handleClick}
+                        >
+                            <MainMenu
+                                menuItems={menuItems}
+                                workspaces={workspaceConfig}
+                                onClickNew={handleClickNew}
+                                onClick={handleClick}
+                                selectedMainItem={selectedMainItem}
+                                onWorkspaceMenuChange={
+                                    handleWorkspaceMenuChange
+                                }
+                            />
+                        </MenuSlideOverlay>
+
+                        <AddMenuItemModal
+                            open={isAddItemModalOpen}
+                            setIsOpen={() =>
+                                setIsAddWidgetModalOpen(!isAddItemModalOpen)
+                            }
+                            onSave={handleSaveNewMenuItem}
                         />
-                    </MenuSlideOverlay>
 
-                    <AddMenuItemModal
-                        open={isAddItemModalOpen}
-                        setIsOpen={() =>
-                            setIsAddWidgetModalOpen(!isAddItemModalOpen)
-                        }
-                        onSave={handleSaveNewMenuItem}
-                    />
+                        <ThemeManagerModal
+                            open={isThemeManagerOpen}
+                            setIsOpen={() =>
+                                setIsThemeManagerOpen(!isThemeManagerOpen)
+                            }
+                            onSave={(themeKey) => {
+                                console.log("saving and changing", themeKey);
+                                changeCurrentTheme(themeKey);
+                                setIsThemeManagerOpen(() => false);
+                                forceUpdate();
+                            }}
+                        />
 
-                    <ThemeManagerModal
-                        open={isThemeManagerOpen}
-                        setIsOpen={() =>
-                            setIsThemeManagerOpen(!isThemeManagerOpen)
-                        }
-                        onSave={(themeKey) => {
-                            console.log("saving and changing", themeKey);
-                            changeCurrentTheme(themeKey);
-                            setIsThemeManagerOpen(() => false);
-                            forceUpdate();
-                        }}
-                    />
-
-                    <ApplicationSettingsModal
-                        open={isSettingsModalOpen}
-                        setIsOpen={setIsSettingsModalOpen}
-                        workspaces={workspaceConfig}
-                    />
-                </DndProvider>
-            </LayoutContainer>
+                        <ApplicationSettingsModal
+                            open={isSettingsModalOpen}
+                            setIsOpen={setIsSettingsModalOpen}
+                            workspaces={workspaceConfig}
+                        />
+                    </DndProvider>
+                </LayoutContainer>
+            </DashboardWrapper>
         )
     );
 };

@@ -6,3 +6,4 @@ export * from "./ThemeWrapper";
 export * from "./WorkspaceContext";
 export * from "./App/AppWrapper";
 export * from "./WidgetContext";
+export * from "./DashboardWrapper";
