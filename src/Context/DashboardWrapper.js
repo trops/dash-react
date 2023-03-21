@@ -4,7 +4,7 @@ import { AppContext } from "./App/AppContext";
 import { DashboardPublisher } from "@dash/Dashboard";
 import { WidgetApi } from "@dash/Api";
 
-export const DashboardWrapper = () => {
+export const DashboardWrapper = ({ children }) => {
     const { api } = useContext(AppContext);
 
     function buildWidgetApi() {
@@ -16,7 +16,7 @@ export const DashboardWrapper = () => {
 
     function getValue() {
         return {
-            WidgetApi: buildWidgetApi(),
+            widgetApi: buildWidgetApi(),
             pub: DashboardPublisher,
         };
     }

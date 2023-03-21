@@ -5848,7 +5848,8 @@ var AppWrapper = function AppWrapper(_ref) {
 
 var WidgetContext = /*#__PURE__*/createContext(null);
 
-var DashboardWrapper = function DashboardWrapper() {
+var DashboardWrapper = function DashboardWrapper(_ref) {
+  var children = _ref.children;
   var _useContext = useContext$1(AppContext),
     api = _useContext.api;
   function buildWidgetApi() {
@@ -5859,7 +5860,7 @@ var DashboardWrapper = function DashboardWrapper() {
   }
   function getValue() {
     return {
-      WidgetApi: buildWidgetApi(),
+      widgetApi: buildWidgetApi(),
       pub: DashboardPublisher
     };
   }
