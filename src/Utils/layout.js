@@ -78,7 +78,9 @@ export const renderLayout = ({
 
                     return hasChildren === 1 && canHaveChildren === true ? (
                         <LayoutGridContainer
-                            key={`grid-container-${uuid}`}
+                            key={`grid-container-${uuid}-${
+                                previewMode === true ? "view" : "edit"
+                            }`}
                             uuid={uuid}
                             id={id}
                             item={childLayout}
@@ -124,7 +126,9 @@ export const renderLayout = ({
                         </LayoutGridContainer>
                     ) : (
                         <LayoutBuilderGridItem
-                            key={`grid-item-${uuid}`}
+                            key={`grid-item-${uuid}-${
+                                previewMode === true ? "view" : "edit"
+                            }`}
                             uuid={uuid}
                             item={childLayout}
                             layout={layout}

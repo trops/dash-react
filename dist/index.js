@@ -9478,7 +9478,7 @@ var renderLayout = function renderLayout(_ref) {
           workspace: workspace,
           isDraggable: isDraggable
         })
-      }, "grid-container-".concat(uuid)) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
+      }, "grid-container-".concat(uuid, "-").concat(previewMode === true ? "view" : "edit")) : /*#__PURE__*/jsx(LayoutBuilderGridItem, {
         uuid: uuid,
         item: childLayout,
         layout: layout,
@@ -9505,7 +9505,7 @@ var renderLayout = function renderLayout(_ref) {
         onOpenEvents: onOpenEvents,
         isDraggable: isDraggable,
         workspace: workspace
-      }, "grid-item-".concat(uuid));
+      }, "grid-item-".concat(uuid, "-").concat(previewMode === true ? "view" : "edit"));
     });
   } catch (e) {
     console.log(e);
