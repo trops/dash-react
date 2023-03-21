@@ -33,14 +33,14 @@ const event = {
                 }
             });
 
-            if (hasEvent === false) {
-                const eventObject = {
-                    uuid: uuid,
-                    action: eventAction,
-                };
-                currentActionsForEvent.push(eventObject);
-                this.list.set(eventType, currentActionsForEvent);
-            }
+            // if (hasEvent === false) {
+            const eventObject = {
+                uuid: uuid,
+                action: eventAction,
+            };
+            currentActionsForEvent.push(eventObject);
+            this.list.set(eventType, currentActionsForEvent);
+            // }
         }
         return this;
     },

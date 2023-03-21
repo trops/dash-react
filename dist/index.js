@@ -5331,23 +5331,20 @@ var event = {
       // this is key:value pair mapping
       // each key is a widget UUID
       var currentActionsForEvent = this.list.get(eventType);
-
-      // lets check to see if the UUID is available for the event type...
-      var hasEvent = false;
       currentActionsForEvent.forEach(function (e) {
-        if (e.uuid === uuid) {
-          hasEvent = true;
-        }
+        if (e.uuid === uuid) ;
       });
-      if (hasEvent === false) {
-        var eventObject = {
-          uuid: uuid,
-          action: eventAction
-        };
-        currentActionsForEvent.push(eventObject);
-        this.list.set(eventType, currentActionsForEvent);
-      }
+
+      // if (hasEvent === false) {
+      var eventObject = {
+        uuid: uuid,
+        action: eventAction
+      };
+      currentActionsForEvent.push(eventObject);
+      this.list.set(eventType, currentActionsForEvent);
+      // }
     }
+
     return this;
   },
   // publish events...
@@ -9024,11 +9021,6 @@ var WidgetFactory = {
         // user input for the customization of the widget
         var userPrefs = params["userPrefs"];
 
-        // Widget API
-        if ("widgetApi" in params) {
-          console.log("api in params ", params);
-        }
-
         // Check to make sure this is a Component
         if (typeof WidgetComponent !== "function") return null;
         if (isLayout === false) {
@@ -9048,12 +9040,12 @@ var WidgetFactory = {
           id: "widget-nokids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor
-        }), "widget-nokids-".concat(key, "-").concat(Date.now())) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$8(_objectSpread$8(_objectSpread$8({
+        }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$8(_objectSpread$8(_objectSpread$8({
           id: "widget-kids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor,
           children: children
-        }), "widget-kids-".concat(key, "-").concat(Date.now()));
+        }), "widget-kids-".concat(key));
       }
     } catch (e) {
       return null;

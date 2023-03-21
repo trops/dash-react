@@ -32,11 +32,6 @@ const WidgetFactory = {
                 // user input for the customization of the widget
                 const userPrefs = params["userPrefs"];
 
-                // Widget API
-                if ("widgetApi" in params) {
-                    console.log("api in params ", params);
-                }
-
                 // Check to make sure this is a Component
                 if (typeof WidgetComponent !== "function") return null;
 
@@ -61,7 +56,7 @@ const WidgetFactory = {
                 return children === null ? (
                     <WidgetComponent
                         id={`widget-nokids-${key}`}
-                        key={`widget-nokids-${key}-${Date.now()}`}
+                        key={`widget-nokids-${key}`}
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}
@@ -69,7 +64,7 @@ const WidgetFactory = {
                 ) : (
                     <WidgetComponent
                         id={`widget-kids-${key}`}
-                        key={`widget-kids-${key}-${Date.now()}`}
+                        key={`widget-kids-${key}`}
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}
