@@ -4913,7 +4913,7 @@ var Dashboard = function Dashboard(_ref) {
   // into the workspace component.
   function handleClick(workspaceItem) {
     console.log("3. workspace change from PanelWelcome Click ==================", workspaceItem);
-    pub.removeAllListeners();
+    // pub.removeAllListeners();
     setWorkspaceSelected(function () {
       return workspaceItem;
     });
@@ -4940,7 +4940,8 @@ var Dashboard = function Dashboard(_ref) {
         return ws;
       });
     }
-    pub.removeAllListeners();
+
+    // pub.removeAllListeners();
     loadWorkspaces();
   }
   function renderComponent(workspaceItem) {

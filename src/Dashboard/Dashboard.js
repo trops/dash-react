@@ -147,7 +147,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
             "3. workspace change from PanelWelcome Click ==================",
             workspaceItem
         );
-        pub.removeAllListeners();
+        // pub.removeAllListeners();
         setWorkspaceSelected(() => workspaceItem);
         setIsShowing(() => false);
     }
@@ -166,7 +166,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
             setWorkspaceSelected(() => ws);
         }
 
-        pub.removeAllListeners();
+        // pub.removeAllListeners();
         loadWorkspaces();
     }
 
