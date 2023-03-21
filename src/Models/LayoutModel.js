@@ -113,21 +113,6 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
             layout.parentWorkspace = parentWS || {};
         }
 
-        // layout.ref = layout.uuid;
-        // can we include the API?
-
-        // layout.widgetApi = WidgetApi;
-
-        console.log(
-            "layout model widget api ",
-            layout.id,
-            layout.component,
-            layout.uuid,
-            layout.dashboardId,
-            layout.widgetApi
-            // layout.api.uuid()
-        );
-
         return layout;
     } catch (e) {
         console.log("layout model ", e.message);

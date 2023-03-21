@@ -246,7 +246,7 @@ export function renderComponent(component, id, params = {}, children = null) {
                     params["height"] = "h-full";
                 }
             }
-            console.log("RENDER COMPONENT", params);
+            // console.log("RENDER COMPONENT", params);
             // tack on the id
             // params['id'] = id;
             // params['component'] = 'component' in params ? params['component'] : component;
@@ -506,11 +506,11 @@ export function getIndexOfLayoutChildrenForItem(tempLayout, id) {
 
 export function replaceItemInLayout(tempLayout, id, item) {
     const indexOfItem = getIndexOfLayoutItem(tempLayout, id);
-    console.log("Index of item to replace", indexOfItem);
+    // console.log("Index of item to replace", indexOfItem);
     if (indexOfItem > -1) {
         tempLayout[indexOfItem] = item;
     }
-    console.log("replace with ", item, tempLayout);
+    // console.log("replace with ", item, tempLayout);
     return tempLayout;
 }
 
