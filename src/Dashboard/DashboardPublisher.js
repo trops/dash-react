@@ -27,11 +27,15 @@ const event = {
 
             // lets check to see if the UUID is available for the event type...
             let hasEvent = false;
-            currentActionsForEvent.forEach((e) => {
+            currentActionsForEvent.forEach((e, index) => {
                 if (e.uuid === uuid) {
-                    hasEvent = true;
+                    hasEvent = index;
                 }
             });
+
+            // if we have a match at the index, lets remove it
+            // and replace with the new one
+            if (hasEvent !== false) currentActionsForEvent.splice(hasEvent, 1);
 
             // if (hasEvent === false) {
             const eventObject = {

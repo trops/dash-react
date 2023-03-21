@@ -5331,9 +5331,18 @@ var event = {
       // this is key:value pair mapping
       // each key is a widget UUID
       var currentActionsForEvent = this.list.get(eventType);
-      currentActionsForEvent.forEach(function (e) {
-        if (e.uuid === uuid) ;
+
+      // lets check to see if the UUID is available for the event type...
+      var hasEvent = false;
+      currentActionsForEvent.forEach(function (e, index) {
+        if (e.uuid === uuid) {
+          hasEvent = index;
+        }
       });
+
+      // if we have a match at the index, lets remove it
+      // and replace with the new one
+      if (hasEvent !== false) currentActionsForEvent.splice(hasEvent, 1);
 
       // if (hasEvent === false) {
       var eventObject = {
