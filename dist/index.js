@@ -8157,7 +8157,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   var _useState15 = useState(null),
     _useState16 = _slicedToArray$3(_useState15, 2);
     _useState16[0];
-    var setSelectedItem = _useState16[1];
+    _useState16[1];
   useEffect(function () {
     // IMPORTANT DO NOT REMOVE!!!!
     // We have to check the diff in the layout and set
@@ -8278,7 +8278,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     // we have to loop through and set the new items...
 
     // // const newLayout = changeDirectionForLayoutItem(layout, id, currentDirection);
-    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+    var newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
     if (nextItem) {
       Object.keys(currentWorkspace.layout).forEach(function (li) {
         if (currentWorkspace.layout[li]["id"] === nextItem["id"]) {
@@ -8300,12 +8300,13 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   }
   function handleSaveConfiguration(data) {
     console.log("SAVING CONFIG ", data);
-    var newWorkspace = saveItemToWorkspace(data);
-    setCurrentWorkspace(newWorkspace);
-    setIsConfigOpen(false);
-    setIsWidgetModalOpen(false);
-    setSelectedItem(null);
-    forceUpdate();
+
+    // const newWorkspace = saveItemToWorkspace(data);
+    // setCurrentWorkspace(newWorkspace);
+    // setIsConfigOpen(false);
+    // setIsWidgetModalOpen(false);
+    // setSelectedItem(null);
+    // forceUpdate();
     // onTogglePreview();
   }
 
@@ -8327,9 +8328,9 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
   }
 
   function saveItemToWorkspace(data) {
-    var layout = JSON.parse(JSON.stringify(currentWorkspace["layout"]));
+    var layout = deepCopy(currentWorkspace["layout"]); // JSON.parse(JSON.stringify(currentWorkspace["layout"]));
     var newLayout = updateLayoutItem(layout, data);
-    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+    var newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
     newWorkspace["layout"] = newLayout;
     return newWorkspace;
   }
@@ -9388,7 +9389,8 @@ var renderLayout = function renderLayout(_ref) {
     }) //  && t['id'] !== parentKey
     .sort(compareChildren) // set the order of the elements
     .map(function (child) {
-      var childLayout = LayoutModel(child, layout, dashboardId);
+      var childLayout = child; //LayoutModel(child, layout, dashboardId);
+
       var id = childLayout.id,
         hasChildren = childLayout.hasChildren,
         parent = childLayout.parent,

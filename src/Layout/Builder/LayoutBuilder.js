@@ -3,6 +3,7 @@ import { AppContext } from "@dash/Context";
 import {
     addItemToItemLayout,
     changeDirectionForLayoutItem,
+    deepCopy,
     getNextHighestItemInLayout,
     getNextLowestItemInLayout,
     removeItemFromLayout,
@@ -212,7 +213,7 @@ export const LayoutBuilder = ({
         // we have to loop through and set the new items...
 
         // // const newLayout = changeDirectionForLayoutItem(layout, id, currentDirection);
-        let newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+        let newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
         if (nextItem) {
             Object.keys(currentWorkspace.layout).forEach((li) => {
                 if (currentWorkspace.layout[li]["id"] === nextItem["id"]) {
@@ -241,12 +242,12 @@ export const LayoutBuilder = ({
     function handleSaveConfiguration(data) {
         console.log("SAVING CONFIG ", data);
 
-        const newWorkspace = saveItemToWorkspace(data);
-        setCurrentWorkspace(newWorkspace);
-        setIsConfigOpen(false);
-        setIsWidgetModalOpen(false);
-        setSelectedItem(null);
-        forceUpdate();
+        // const newWorkspace = saveItemToWorkspace(data);
+        // setCurrentWorkspace(newWorkspace);
+        // setIsConfigOpen(false);
+        // setIsWidgetModalOpen(false);
+        // setSelectedItem(null);
+        // forceUpdate();
         // onTogglePreview();
     }
 
@@ -265,9 +266,9 @@ export const LayoutBuilder = ({
     }
 
     function saveItemToWorkspace(data) {
-        const layout = JSON.parse(JSON.stringify(currentWorkspace["layout"]));
+        const layout = deepCopy(currentWorkspace["layout"]); // JSON.parse(JSON.stringify(currentWorkspace["layout"]));
         const newLayout = updateLayoutItem(layout, data);
-        const newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+        const newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
         newWorkspace["layout"] = newLayout;
         return newWorkspace;
     }
