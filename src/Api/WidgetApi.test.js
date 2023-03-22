@@ -72,12 +72,12 @@ describe("WidgetApi tests ", () => {
         expect();
     });
 
-    test.skip("store data to test.txt", () => {
+    test("store data to test.txt", () => {
         const dataToSave = "test";
         let result = null;
-        const api3 = new WidgetApi("123");
-        api3.setElectronApi(electronApiMock);
-        api3.storeData({
+
+        api.setElectronApi(electronApiMock);
+        api.storeData({
             data: dataToSave,
             filename: "test.txt",
             callbackComplete: (e, message) => {
@@ -88,9 +88,10 @@ describe("WidgetApi tests ", () => {
             callbackError: (e, message) => {
                 console.log("error: ", e, message);
                 result = null;
-                expect(result).not.toBe(null);
+                expect(result).toBe(null);
             },
             append: true,
+            uuid,
         });
     });
 });

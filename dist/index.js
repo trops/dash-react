@@ -117,7 +117,6 @@ var WidgetApi = {
   publishEvent: function publishEvent(name, events) {
     if (this.pub() !== null && name !== null && events !== null) {
       if ("pub" in this.pub()) {
-        console.log("ACTUALLY publishing...");
         this.pub().pub(name, events);
       }
     }
@@ -171,6 +170,7 @@ var WidgetApi = {
       // grab the electron api
       var eApi = this.electronApi();
       if (eApi) {
+        console.log("has api", eApi);
         // remove the listeners (reset)
         if ("removeAllListeners" in eApi) {
           eApi.removeAllListeners();
@@ -185,6 +185,7 @@ var WidgetApi = {
         }
       }
     } catch (e) {
+      console.log("Error store data ", e.message);
       if (callbackError !== null) {
         callbackError(e, e.message);
       }
