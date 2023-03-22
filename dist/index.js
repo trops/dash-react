@@ -2829,6 +2829,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       })), /*#__PURE__*/jsxs(Panel3, _objectSpread$d(_objectSpread$d({
         className: "p-6 rounded border-4 space-y-4"
       }, styles3), {}, {
+        padding: false,
         children: [/*#__PURE__*/jsx(Heading, _objectSpread$d(_objectSpread$d({
           title: "Heading"
         }, headingStyles), {}, {
@@ -3010,6 +3011,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       })), /*#__PURE__*/jsxs(Panel2, _objectSpread$d(_objectSpread$d({
         className: "p-6 rounded border-4 space-y-4"
       }, styles2), {}, {
+        padding: false,
         children: [/*#__PURE__*/jsx(Heading2, _objectSpread$d(_objectSpread$d({
           title: "Heading 2"
         }, heading2Styles), {}, {
@@ -3066,6 +3068,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       })), /*#__PURE__*/jsxs(Panel3, _objectSpread$d(_objectSpread$d({
         className: "p-6 rounded border-4 space-y-4"
       }, styles3), {}, {
+        padding: false,
         children: [/*#__PURE__*/jsx(Heading3, _objectSpread$d(_objectSpread$d({
           title: "Heading 3"
         }, heading3Styles), {}, {
@@ -3125,6 +3128,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
   return /*#__PURE__*/jsxs(ThemePane, {
     children: [renderPanels(), /*#__PURE__*/jsx(Panel, {
       className: "p-10 rounded space-y-4 h-fit",
+      padding: false,
       children: renderText()
     })]
   });

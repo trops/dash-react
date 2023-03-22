@@ -273,7 +273,7 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
     }
 
     return (
-        <Panel theme={false} backgroundColor={""}>
+        <Panel theme={false} backgroundColor={""} padding={false}>
             <div className="flex flex-col w-full h-full xl:space-x-4 overflow-hidden">
                 <div className="flex flex-row h-full rounded space-x-0 xl:space-x-4 w-full">
                     {/* <ThemesPane theme={theme} themeKey={themeKey} onClickNewTheme={handleCreateNewTheme} onChooseTheme={handleSelectTheme} onChooseVariant={onChangeVariant} /> */}
@@ -293,6 +293,7 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
                                 />
                                 <ThemePane>
                                     <Panel
+                                        padding={false}
                                         className={
                                             "p-4 rounded h-full overflow-y-scroll"
                                         }
@@ -327,13 +328,6 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
                                             }
                                         />
                                     )}
-
-                                {/* <ThemePane>
-                                {renderItemSelected()}
-                                {/* <Panel {...getPanelStyles(theme[themeVariant])} className={'p-4 rounded overflow-y-scroll'}>
-                                    {renderText()}
-                                </Panel> */}
-                                {/* </ThemePane> */}
                             </div>
                         )}
                     </div>

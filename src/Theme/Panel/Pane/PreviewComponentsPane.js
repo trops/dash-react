@@ -875,6 +875,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                 <Panel3
                     className={"p-6 rounded border-4 space-y-4"}
                     {...styles3}
+                    padding={false}
                 >
                     <Heading
                         title={"Heading"}
@@ -1143,6 +1144,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                 <Panel2
                     className={"p-6 rounded border-4 space-y-4"}
                     {...styles2}
+                    padding={false}
                 >
                     <Heading2
                         title={"Heading 2"}
@@ -1234,6 +1236,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                 <Panel3
                     className={"p-6 rounded border-4 space-y-4"}
                     {...styles3}
+                    padding={false}
                 >
                     <Heading3
                         title={"Heading 3"}
@@ -1328,7 +1331,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
     return (
         <ThemePane>
             {renderPanels()}
-            <Panel className={"p-10 rounded space-y-4 h-fit"}>
+            <Panel className={"p-10 rounded space-y-4 h-fit"} padding={false}>
                 {renderText()}
             </Panel>
         </ThemePane>
