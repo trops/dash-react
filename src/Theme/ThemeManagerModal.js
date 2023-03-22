@@ -162,7 +162,7 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
             width={"w-11/12 xl:w-5/6"}
             height="h-5/6"
         >
-            <Panel backgroundColor={"bg-slate-800"}>
+            <Panel backgroundColor={"bg-slate-800"} padding={false}>
                 <div className={`flex flex-col w-full h-full overflow-hidden`}>
                     <div className="flex flex-row w-full h-full overflow-hidden">
                         <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-4">

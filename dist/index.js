@@ -3934,6 +3934,7 @@ var PanelThemePicker = function PanelThemePicker(_ref) {
   return /*#__PURE__*/jsx(Panel, {
     theme: false,
     backgroundColor: "bg-transparent",
+    padding: false,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col w-full h-full xl:space-x-4 overflow-hidden",
       children: /*#__PURE__*/jsxs("div", {
@@ -4135,6 +4136,7 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
       backgroundColor: "bg-slate-800",
+      padding: false,
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col w-full h-full overflow-hidden",
         children: [/*#__PURE__*/jsx("div", {
