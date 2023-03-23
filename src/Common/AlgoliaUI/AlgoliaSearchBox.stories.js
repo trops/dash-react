@@ -4,6 +4,7 @@ import { InstantSearch } from "react-instantsearch-hooks-web";
 import "../../tailwind.css";
 import algoliasearch from "algoliasearch";
 
+console.log("MOCK: ", mock);
 //👇 This default export determines where your story goes in the story list
 export default {
     title: "AlgoliaSearchBox",

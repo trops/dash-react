@@ -93,6 +93,7 @@ export const WidgetApi = {
     publishEvent: function (name, events) {
         if (this.pub() !== null && name !== null && events !== null) {
             if ("pub" in this.pub()) {
+                console.log("event published ", name, events);
                 this.pub().pub(name, events);
             }
         }
@@ -144,7 +145,6 @@ export const WidgetApi = {
             // grab the electron api
             const eApi = this.electronApi();
             if (eApi) {
-                console.log("has api", eApi);
                 // remove the listeners (reset)
                 if ("removeAllListeners" in eApi) {
                     eApi.removeAllListeners();

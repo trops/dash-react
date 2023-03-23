@@ -74,6 +74,7 @@ const Panel3 = ({
     const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
         ...props,
     });
+    console.log("panel 3 styles ", styles);
 
     return (
         <div

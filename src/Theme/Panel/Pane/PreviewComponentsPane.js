@@ -296,7 +296,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
 
         return (
             <div className="flex flex-col space-y-4 h-100 p-4">
-                <div className="flex flex-row bg-gray-900 p-6 space-x-4 rounded justify-between">
+                <div className="flex flex-row bg-gray-900 p-4 space-x-4 rounded justify-between">
                     <Panel
                         className={
                             "p-6 rounded border-4 space-y-4 cursor-pointer"
@@ -306,6 +306,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                         onClick={() =>
                             handleClickItem(themeObjects.PANEL, styles)
                         }
+                        padding={false}
                     >
                         <span className="uppercase text-gray-50 font-bold">
                             Panel
@@ -319,6 +320,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                         onClick={() =>
                             handleClickItem(themeObjects.PANEL_2, styles2)
                         }
+                        padding={false}
                     >
                         <span className="uppercase text-gray-50 font-bold">
                             Panel 2
@@ -332,6 +334,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                         onClick={() =>
                             handleClickItem(themeObjects.PANEL_3, styles3)
                         }
+                        padding={false}
                     >
                         <span className="uppercase text-gray-50 font-bold">
                             Panel 3

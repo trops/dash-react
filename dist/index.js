@@ -1,5 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer } from '@fortawesome/free-solid-svg-icons';
+export { faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faArrowsLeftRight, faArrowsUpDown, faBaby, faBabyCarriage, faBullhorn, faClone, faCode, faCog, faComputer, faDatabase, faEarListen, faEye, faFolder, faHammer, faHome, faLeaf, faMagnifyingGlass, faMinus, faPalette, faPencil, faPhone, faPlug, faPlus, faPuzzlePiece, faRobot, faSeedling, faSignal, faSquare, faSquareCheck, faTrash, faTrophy, faXmark } from '@fortawesome/free-solid-svg-icons';
 import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef } from 'react';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { jsx, jsxs } from 'react/jsx-runtime';
@@ -117,6 +118,7 @@ var WidgetApi = {
   publishEvent: function publishEvent(name, events) {
     if (this.pub() !== null && name !== null && events !== null) {
       if ("pub" in this.pub()) {
+        console.log("event published ", name, events);
         this.pub().pub(name, events);
       }
     }
@@ -170,7 +172,6 @@ var WidgetApi = {
       // grab the electron api
       var eApi = this.electronApi();
       if (eApi) {
-        console.log("has api", eApi);
         // remove the listeners (reset)
         if ("removeAllListeners" in eApi) {
           eApi.removeAllListeners();
@@ -1851,7 +1852,7 @@ var ColorModel = function ColorModel() {
   var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   try {
     if (obj) {
-      console.log("cm: ", obj);
+      // console.log("cm: ", obj);
       var temp = deepCopy(obj);
       var color = {};
       color.panelType = "panelType" in temp ? temp.panelType : "main";
@@ -2431,7 +2432,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
     return /*#__PURE__*/jsxs("div", {
       className: "flex flex-col space-y-4 h-100 p-4",
       children: [/*#__PURE__*/jsxs("div", {
-        className: "flex flex-row bg-gray-900 p-6 space-x-4 rounded justify-between",
+        className: "flex flex-row bg-gray-900 p-4 space-x-4 rounded justify-between",
         children: [/*#__PURE__*/jsx(Panel, _objectSpread$d(_objectSpread$d({
           className: "p-6 rounded border-4 space-y-4 cursor-pointer",
           height: "h-40"
@@ -2439,6 +2440,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           onClick: function onClick() {
             return handleClickItem(themeObjects.PANEL, styles);
           },
+          padding: false,
           children: /*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-50 font-bold",
             children: "Panel"
@@ -2449,6 +2451,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           onClick: function onClick() {
             return handleClickItem(themeObjects.PANEL_2, styles2);
           },
+          padding: false,
           children: /*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-50 font-bold",
             children: "Panel 2"
@@ -2459,6 +2462,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           onClick: function onClick() {
             return handleClickItem(themeObjects.PANEL_3, styles3);
           },
+          padding: false,
           children: /*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-50 font-bold",
             children: "Panel 3"
@@ -3670,6 +3674,7 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
           newTheme[themeVariant][itemType] = {};
         }
         newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
+        console.log(newTheme);
         // push the new color change to the theme manager modal
         onUpdate(newTheme, themeKey);
       }
@@ -3712,6 +3717,7 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
   return /*#__PURE__*/jsx(Panel, {
     theme: false,
     backgroundColor: "",
+    padding: false,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
       children: /*#__PURE__*/jsx("div", {
@@ -5425,7 +5431,7 @@ function _unsupportedIterableToArray$f(o, minLen) { if (!o) return; if (typeof o
 function _arrayLikeToArray$f(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit$e(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles$e(arr) { if (Array.isArray(arr)) return arr; }
-var themes = {
+var themes$1 = {
   "theme-1": {
     name: "Default 1",
     primary: "gray",
@@ -5522,7 +5528,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
           themesForApplication === null && loadThemes();
         } else {
           var themeKeyDefault = themesForApplication !== null ? Object.keys(themesForApplication)[0] : "theme-1";
-          var _defaultTheme = ThemeModel(themesForApplication !== null ? themesForApplication[themeKeyDefault] : themes[themeKeyDefault]);
+          var _defaultTheme = ThemeModel(themesForApplication !== null ? themesForApplication[themeKeyDefault] : themes$1[themeKeyDefault]);
           setThemeVariant(function () {
             return "dark";
           });
@@ -5565,9 +5571,9 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     var rawThemes = {};
     if (themesToCheck !== null) {
       if (Object.keys(themesToCheck).length === 0) {
-        Object.keys(themes).forEach(function (themeKey) {
-          var themeObject = ThemeModel(themes[themeKey]);
-          rawThemes[themeKey] = themes[themeKey];
+        Object.keys(themes$1).forEach(function (themeKey) {
+          var themeObject = ThemeModel(themes$1[themeKey]);
+          rawThemes[themeKey] = themes$1[themeKey];
           themesChecked[themeKey] = themeObject;
         });
         setThemesForApplication(function () {
@@ -10199,6 +10205,7 @@ var Panel3 = function Panel3(_ref3) {
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$6({}, props));
+  console.log("panel 3 styles ", styles);
   return /*#__PURE__*/jsx("div", {
     className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " ").concat(padding !== false && "p-6", " rounded"),
     onClick: onClick,
@@ -11575,51 +11582,97 @@ var ComponentManager = {
   }
 };
 
-var mock = {
-  themes: {
-    "theme-1": {
-      name: "Default 1",
-      primary: "gray",
-      secondary: "indigo",
-      tertiary: "blue"
+var themes = {
+  "theme-1": {
+    name: "Default 1",
+    primary: "gray",
+    secondary: "indigo",
+    tertiary: "blue",
+    shadeBackgroundFrom: 600,
+    shadeBorderFrom: 600,
+    shadeTextFrom: 100,
+    dark: {
+      "bg-primary-very-dark": "bg-black" // override test
+    },
+
+    light: {
+      "bg-primary-very-light": "bg-white",
+      // override test
+      "bg-primary-very-dark": "bg-gray-600" // override test
     }
   },
-  api: {
-    on: function on() {},
-    removeAllListeners: function removeAllListeners() {},
-    events: {},
-    themes: {
-      listThemesForApplication: function listThemesForApplication() {
-        return this.themes;
-      }
+
+  "theme-2": {
+    name: "Default 2",
+    primary: "gray",
+    secondary: "slate",
+    tertiary: "orange",
+    shadeBackgroundFrom: 200,
+    shadeBorderFrom: 300,
+    shadeTextFrom: 700,
+    dark: {
+      "bg-primary-very-dark": "bg-black" // override test
     },
-    settings: {
-      getSettingsForApplication: function getSettingsForApplication() {
-        return {
-          theme: "theme-1"
-        };
-      }
-    },
-    loadThemes: function loadThemes() {
-      return this.themes;
+
+    light: {
+      "bg-primary-very-light": "bg-white",
+      // override test
+      "bg-primary-very-dark": "bg-gray-600" // override test
     }
   }
 };
+
+var mockThemeContext = {
+  key: Date.now(),
+  currentTheme: themes["theme-1"]["dark"],
+  currentThemeKey: "theme-1",
+  theme: themes["theme-1"]["dark"],
+  themeKey: "theme-1",
+  themeVariant: "dark",
+  changeCurrentTheme: function changeCurrentTheme() {},
+  changeThemeVariant: function changeThemeVariant() {},
+  changeThemesForApplication: function changeThemesForApplication() {},
+  loadThemes: function loadThemes() {},
+  themes: themes,
+  rawThemes: themes
+};
+
+var mockApi = {
+  on: function on() {},
+  removeAllListeners: function removeAllListeners() {},
+  events: {},
+  themes: {
+    listThemesForApplication: function listThemesForApplication() {
+      return themes;
+    }
+  },
+  settings: {
+    getSettingsForApplication: function getSettingsForApplication() {
+      return {
+        theme: "theme-1"
+      };
+    }
+  },
+  loadThemes: function loadThemes() {
+    return themes;
+  }
+};
+
 var MockWrapper = function MockWrapper(_ref) {
   var _ref$apiMock = _ref.apiMock,
     apiMock = _ref$apiMock === void 0 ? null : _ref$apiMock,
-    _ref$theme = _ref.theme,
-    theme = _ref$theme === void 0 ? mock.themes["theme-1"] : _ref$theme,
-    children = _ref.children,
+    _ref$theme = _ref.theme;
+    _ref$theme === void 0 ? mock.theme.themes["theme-1"] : _ref$theme;
+    var children = _ref.children,
     _ref$backgroundColor = _ref.backgroundColor,
     backgroundColor = _ref$backgroundColor === void 0 ? "bg-transparent" : _ref$backgroundColor;
-  var themeObject = ThemeModel(theme);
+  ThemeModel(mock.theme.themes["theme-1"]);
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-col h-full w-full m-auto justify-center items-center",
     children: /*#__PURE__*/jsx(AppWrapper, {
       api: apiMock,
-      children: /*#__PURE__*/jsx(ThemeWrapper, {
-        theme: themeObject,
+      children: /*#__PURE__*/jsx(ThemeContext.Provider, {
+        value: mock.theme.context,
         children: /*#__PURE__*/jsx("div", {
           className: "flex flex-col space-y-2 w-full h-full p-6 border rounded-lg ".concat(backgroundColor),
           children: children
@@ -11627,6 +11680,16 @@ var MockWrapper = function MockWrapper(_ref) {
       })
     })
   });
+};
+
+var mock = {
+  theme: {
+    themeName: "theme-1",
+    themes: themes,
+    rawThemes: themes,
+    context: mockThemeContext
+  },
+  api: mockApi
 };
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);

@@ -16,7 +16,7 @@ import { getStyleName } from "../Utils/colors";
 const ColorModel = (obj = {}) => {
     try {
         if (obj) {
-            console.log("cm: ", obj);
+            // console.log("cm: ", obj);
             const temp = deepCopy(obj);
             const color = {};
 

@@ -96,4 +96,45 @@ export * from "./Workspace";
 export * from "./window";
 
 // mock for stories
-export * from "./mock";
+export * from "./Mock/index";
+
+// icons
+
+export {
+    faHome,
+    faPlug,
+    faMagnifyingGlass,
+    faDatabase,
+    faArrowDown,
+    faArrowLeft,
+    faArrowRight,
+    faArrowUp,
+    faTrash,
+    faPlus,
+    faMinus,
+    faClone,
+    faArrowsUpDown,
+    faArrowsLeftRight,
+    faCog,
+    faXmark,
+    faSquare,
+    faEye,
+    faPencil,
+    faFolder,
+    faEarListen,
+    faBullhorn,
+    faSquareCheck,
+    faPhone,
+    faSignal,
+    faHammer,
+    faSeedling,
+    faTrophy,
+    faRobot,
+    faPuzzlePiece,
+    faCode,
+    faLeaf,
+    faBaby,
+    faBabyCarriage,
+    faPalette,
+    faComputer,
+};

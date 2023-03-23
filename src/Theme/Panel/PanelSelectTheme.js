@@ -132,6 +132,7 @@ export const PanelSelectTheme = ({
                 newTheme[themeVariant][itemType][
                     styleName
                 ] = `${objectType}-${colorName}-${shade}`;
+                console.log(newTheme);
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
             }
@@ -175,7 +176,7 @@ export const PanelSelectTheme = ({
     }
 
     return (
-        <Panel theme={false} backgroundColor={""}>
+        <Panel theme={false} backgroundColor={""} padding={false}>
             <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
                 <div className="flex flex-row h-full rounded space-x-2 w-full">
                     <div className="flex flex-row w-full space-x-2">
