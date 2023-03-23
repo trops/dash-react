@@ -176,6 +176,7 @@ var WidgetApi = {
         if ("removeAllListeners" in eApi) {
           eApi.removeAllListeners();
           if (callbackComplete !== null) {
+            console.log("we have a callback complete", callbackComplete, eApi.events);
             eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
           }
           if (callbackError !== null) {
@@ -183,7 +184,11 @@ var WidgetApi = {
           }
           // request.
           eApi.data.saveData(data, toFilename, append, returnEmpty);
+        } else {
+          console.log("No API!");
         }
+      } else {
+        console.log("No API!");
       }
     } catch (e) {
       console.log("Error store data ", e.message);
