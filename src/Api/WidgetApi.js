@@ -158,13 +158,13 @@ export const WidgetApi = {
 
                         eApi.on(
                             eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
-                            (e, message) => callbackComplete(e, message)
+                            (data) => console.log("complete ", data)
                         );
                     }
                     if (callbackError !== null) {
                         eApi.on(
                             eApi.events.DATA_SAVE_TO_FILE_ERROR,
-                            (e, message) => callbackError(e, message)
+                            callbackError
                         );
                     }
                     // request.

@@ -177,14 +177,12 @@ var WidgetApi = {
           eApi.removeAllListeners();
           if (callbackComplete !== null) {
             console.log("we have a callback complete", callbackComplete, eApi.events, eApi.on);
-            eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (e, message) {
-              return callbackComplete(e, message);
+            eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, function (data) {
+              return console.log("complete ", data);
             });
           }
           if (callbackError !== null) {
-            eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, function (e, message) {
-              return callbackError(e, message);
-            });
+            eApi.on(eApi.events.DATA_SAVE_TO_FILE_ERROR, callbackError);
           }
           // request.
           eApi.data.saveData(data, toFilename, append, returnEmpty);
