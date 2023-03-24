@@ -44,6 +44,14 @@ const INPUT_TEXT = "input-text";
 const SELECT_MENU = "select-menu";
 const FORM_LABEL = "form-label";
 
+const DASH_PANEL = "dash-panel";
+const DASH_PANEL_2 = "dash-panel-2";
+const DASH_PANEL_3 = "dash-panel-3";
+
+const DASH_PANEL_HEADER = "dash-panel-header";
+const DASH_PANEL_HEADER_2 = "dash-panel-header-2";
+const DASH_PANEL_HEADER_3 = "dash-panel-header-3";
+
 const themeObjects = {
     BUTTON,
     BUTTON_2,
@@ -79,6 +87,12 @@ const themeObjects = {
     DASHBOARD_FOOTER_3,
     SELECT_MENU,
     FORM_LABEL,
+    DASH_PANEL,
+    DASH_PANEL_2,
+    DASH_PANEL_3,
+    DASH_PANEL_HEADER,
+    DASH_PANEL_HEADER_2,
+    DASH_PANEL_HEADER_3,
 };
 
 const BACKGROUND_COLOR = "backgroundColor";

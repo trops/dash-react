@@ -1,3 +1,5 @@
+import { ThemeModel } from "../Models";
+
 export const themes = {
     "theme-1": {
         name: "Default 1",
@@ -35,7 +37,7 @@ export const themes = {
 
 export const mockThemeContext = {
     key: Date.now(),
-    currentTheme: themes["theme-1"]["dark"],
+    currentTheme: ThemeModel(themes["theme-1"])["dark"],
     currentThemeKey: "theme-1",
     theme: themes["theme-1"]["dark"],
     themeKey: "theme-1",
