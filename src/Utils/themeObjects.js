@@ -52,6 +52,10 @@ const DASH_PANEL_HEADER = "dash-panel-header";
 const DASH_PANEL_HEADER_2 = "dash-panel-header-2";
 const DASH_PANEL_HEADER_3 = "dash-panel-header-3";
 
+const DASH_PANEL_FOOTER = "dash-panel-footer";
+const DASH_PANEL_FOOTER_2 = "dash-panel-footer-2";
+const DASH_PANEL_FOOTER_3 = "dash-panel-footer-3";
+
 const themeObjects = {
     BUTTON,
     BUTTON_2,
@@ -93,6 +97,9 @@ const themeObjects = {
     DASH_PANEL_HEADER,
     DASH_PANEL_HEADER_2,
     DASH_PANEL_HEADER_3,
+    DASH_PANEL_FOOTER,
+    DASH_PANEL_FOOTER_2,
+    DASH_PANEL_FOOTER_3,
 };
 
 const BACKGROUND_COLOR = "backgroundColor";

@@ -282,6 +282,11 @@ const colorMap = {
         [styleClassNames.BORDER_COLOR]: "border-primary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
     },
+    [themeObjects.DASH_PANEL_FOOTER]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+    },
     [themeObjects.DASH_PANEL_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-dark",
         [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
@@ -293,6 +298,11 @@ const colorMap = {
         [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
     },
+    [themeObjects.DASH_PANEL_FOOTER_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+    },
     [themeObjects.DASH_PANEL_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-dark",
         [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
@@ -300,6 +310,11 @@ const colorMap = {
         [styleClassNames.HOVER_BORDER_COLOR]: "border-tertiary-very-dark",
     },
     [themeObjects.DASH_PANEL_HEADER_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+    },
+    [themeObjects.DASH_PANEL_FOOTER_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
         [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",

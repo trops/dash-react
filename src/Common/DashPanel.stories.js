@@ -10,10 +10,9 @@ const Template = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <DashPanel {...args}>
-                <DashPanel.Header title={args.title}>
-                    {args.title}
-                </DashPanel.Header>
+                <DashPanel.Header title={args.title} />
                 <DashPanel.Body>Here is the body of the panel</DashPanel.Body>
+                <DashPanel.Footer>Footer</DashPanel.Footer>
             </DashPanel>
         </MockWrapper>
     );
@@ -33,6 +32,7 @@ const Template2 = (args) => {
                     {args.title}
                 </DashPanel2.Header>
                 <DashPanel2.Body>Here is the body of the panel</DashPanel2.Body>
+                <DashPanel2.Footer>Footer</DashPanel2.Footer>
             </DashPanel2>
         </MockWrapper>
     );
@@ -52,6 +52,7 @@ const Template3 = (args) => {
                     {args.title}
                 </DashPanel3.Header>
                 <DashPanel3.Body>Here is the body of the panel</DashPanel3.Body>
+                <DashPanel2.Footer>Footer</DashPanel2.Footer>
             </DashPanel3>
         </MockWrapper>
     );

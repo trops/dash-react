@@ -43,6 +43,24 @@ const DashPanelBody = ({ children, ...props }) => {
     );
 };
 
+const DashPanelFooter = ({ children, ...props }) => {
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(
+        themeObjects.DASH_PANEL_FOOTER,
+        currentTheme,
+        {
+            ...props,
+        }
+    );
+    return (
+        <div
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center ${styles.string}`}
+        >
+            {children}
+        </div>
+    );
+};
+
 const DashPanel = ({ children, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
@@ -61,6 +79,7 @@ const DashPanel = ({ children, ...props }) => {
 
 DashPanel.Header = DashPanelHeader;
 DashPanel.Body = DashPanelBody;
+DashPanel.Footer = DashPanelFooter;
 
 const DashPanelHeader2 = ({ title, ping = true, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -102,6 +121,24 @@ const DashPanelBody2 = ({ children, ...props }) => {
     );
 };
 
+const DashPanelFooter2 = ({ children, ...props }) => {
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(
+        themeObjects.DASH_PANEL_FOOTER_2,
+        currentTheme,
+        {
+            ...props,
+        }
+    );
+    return (
+        <div
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center ${styles.string}`}
+        >
+            {children}
+        </div>
+    );
+};
+
 const DashPanel2 = ({ children, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, {
@@ -120,6 +157,7 @@ const DashPanel2 = ({ children, ...props }) => {
 
 DashPanel2.Header = DashPanelHeader2;
 DashPanel2.Body = DashPanelBody2;
+DashPanel2.Footer = DashPanelFooter2;
 
 const DashPanelHeader3 = ({ title, ping = true, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -161,6 +199,24 @@ const DashPanelBody3 = ({ children, ...props }) => {
     );
 };
 
+const DashPanelFooter3 = ({ children, ...props }) => {
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(
+        themeObjects.DASH_PANEL_FOOTER_3,
+        currentTheme,
+        {
+            ...props,
+        }
+    );
+    return (
+        <div
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center ${styles.string}`}
+        >
+            {children}
+        </div>
+    );
+};
+
 const DashPanel3 = ({ children, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, {
@@ -179,5 +235,6 @@ const DashPanel3 = ({ children, ...props }) => {
 
 DashPanel3.Header = DashPanelHeader3;
 DashPanel3.Body = DashPanelBody3;
+DashPanel3.Footer = DashPanelFooter3;
 
 export { DashPanel, DashPanel2, DashPanel3 };
