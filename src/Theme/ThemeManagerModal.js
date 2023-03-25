@@ -70,11 +70,8 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
 
         const newTheme = ThemeModel(deepCopy(newRawThemeSelected));
 
-        console.log("NEW theme from model ", newTheme, newRawThemeSelected);
-
         setThemeKeySelected(() => themeKey);
         setThemeSelected(() => newTheme);
-        // setIsEditing(true)
         forceUpdate();
     }
 

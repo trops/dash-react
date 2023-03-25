@@ -11,6 +11,7 @@ export const themes = {
         shadeTextFrom: 100,
         dark: {
             "bg-primary-very-dark": "bg-black", // override test
+            "panel-3": { backgroundColor: "bg-amber-300" },
         },
         light: {
             "bg-primary-very-light": "bg-white", // override test
@@ -27,6 +28,7 @@ export const themes = {
         shadeTextFrom: 700,
         dark: {
             "bg-primary-very-dark": "bg-black", // override test
+            "panel-3": { backgroundColor: "bg-amber-300" },
         },
         light: {
             "bg-primary-very-light": "bg-white", // override test
@@ -39,7 +41,7 @@ export const mockThemeContext = {
     key: Date.now(),
     currentTheme: ThemeModel(themes["theme-1"])["dark"],
     currentThemeKey: "theme-1",
-    theme: themes["theme-1"]["dark"],
+    theme: ThemeModel(themes["theme-1"]["dark"]),
     themeKey: "theme-1",
     themeVariant: "dark",
     changeCurrentTheme: function () {},

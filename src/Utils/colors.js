@@ -338,8 +338,6 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
         const themeOverrides =
             theme !== null && itemName in theme ? theme[itemName] : {};
 
-        // console.log("theme overrides", themeOverrides, Object.keys(theme));
-
         // then we have to determine if the component has any MANUAL overrides
         const manualOverrides =
             Object.keys(overrides).length > 0 ? overrides : {};
@@ -369,10 +367,9 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                     styles[className] = manualOverrides[className];
                 }
 
-                // check theme override
                 if (className in themeOverrides) {
-                    const themeOverrideKey = themeOverrides[className];
-                    styles[className] = theme[themeOverrideKey];
+                    const themeClass = themeOverrides[className];
+                    styles[className] = themeClass;
                 }
             });
         }
@@ -389,32 +386,6 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
     }
     return null;
 };
-
-/**
- * getStyleForClass
- * @param {string} className the name of the css class i.e. - textColor, backgroundColor
- * @param {object} customStyles any custom styles that the user has for the component (button, panel, etc)
- * @param {object} overrides any user overrides above and beyond what is in the theme
- * @param {*} fallbackStyle
- * @returns
- */
-// const getStyleForClass = (
-//     className,
-//     customStyles,
-//     overrides,
-//     fallbackStyle = ""
-// ) => {
-//     const style =
-//         className in overrides && overrides[className] !== null
-//             ? overrides[className]
-//             : customStyles !== null
-//             ? className in customStyles
-//                 ? customStyles[className]
-//                 : fallbackStyle
-//             : fallbackStyle;
-
-//     return style;
-// };
 
 const getClassForObjectType = (objectType) => {
     return objectTypeClasses[objectType]["class"];

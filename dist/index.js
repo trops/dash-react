@@ -2322,9 +2322,6 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
   var theme = _ref.theme,
     themeVariant = _ref.themeVariant,
     onClick = _ref.onClick;
-  useEffect(function () {
-    console.log("EFFECT ", theme[themeVariant]);
-  }, [theme]);
   function handleClickItem(itemType, styles) {
     // get the styles for the item and display...
     var temp = {
@@ -4083,14 +4080,12 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
       return newRawThemeSelected;
     });
     var newTheme = ThemeModel(deepCopy(newRawThemeSelected));
-    console.log("NEW theme from model ", newTheme, newRawThemeSelected);
     setThemeKeySelected(function () {
       return themeKey;
     });
     setThemeSelected(function () {
       return newTheme;
     });
-    // setIsEditing(true)
     forceUpdate();
   }
   function handleCreateNewTheme(themeKey) {
@@ -10075,8 +10070,6 @@ var getStylesForItem = function getStylesForItem() {
 
     var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
 
-    // console.log("theme overrides", themeOverrides, Object.keys(theme));
-
     // then we have to determine if the component has any MANUAL overrides
     var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
 
@@ -10101,11 +10094,9 @@ var getStylesForItem = function getStylesForItem() {
         if (className in manualOverrides && manualOverrides[className] !== null) {
           styles[className] = manualOverrides[className];
         }
-
-        // check theme override
         if (className in themeOverrides) {
-          var themeOverrideKey = themeOverrides[className];
-          styles[className] = theme[themeOverrideKey];
+          var themeClass = themeOverrides[className];
+          styles[className] = themeClass;
         }
       });
     }
@@ -10117,33 +10108,6 @@ var getStylesForItem = function getStylesForItem() {
   }
   return null;
 };
-
-/**
- * getStyleForClass
- * @param {string} className the name of the css class i.e. - textColor, backgroundColor
- * @param {object} customStyles any custom styles that the user has for the component (button, panel, etc)
- * @param {object} overrides any user overrides above and beyond what is in the theme
- * @param {*} fallbackStyle
- * @returns
- */
-// const getStyleForClass = (
-//     className,
-//     customStyles,
-//     overrides,
-//     fallbackStyle = ""
-// ) => {
-//     const style =
-//         className in overrides && overrides[className] !== null
-//             ? overrides[className]
-//             : customStyles !== null
-//             ? className in customStyles
-//                 ? customStyles[className]
-//                 : fallbackStyle
-//             : fallbackStyle;
-
-//     return style;
-// };
-
 var getClassForObjectType = function getClassForObjectType(objectType) {
   return objectTypeClasses[objectType]["class"];
 };
@@ -11839,9 +11803,12 @@ var themes = {
     shadeBorderFrom: 600,
     shadeTextFrom: 100,
     dark: {
-      "bg-primary-very-dark": "bg-black" // override test
+      "bg-primary-very-dark": "bg-black",
+      // override test
+      "panel-3": {
+        backgroundColor: "bg-amber-300"
+      }
     },
-
     light: {
       "bg-primary-very-light": "bg-white",
       // override test
@@ -11858,9 +11825,12 @@ var themes = {
     shadeBorderFrom: 300,
     shadeTextFrom: 700,
     dark: {
-      "bg-primary-very-dark": "bg-black" // override test
+      "bg-primary-very-dark": "bg-black",
+      // override test
+      "panel-3": {
+        backgroundColor: "bg-amber-300"
+      }
     },
-
     light: {
       "bg-primary-very-light": "bg-white",
       // override test
@@ -11873,7 +11843,7 @@ var mockThemeContext = {
   key: Date.now(),
   currentTheme: ThemeModel(themes["theme-1"])["dark"],
   currentThemeKey: "theme-1",
-  theme: themes["theme-1"]["dark"],
+  theme: ThemeModel(themes["theme-1"]["dark"]),
   themeKey: "theme-1",
   themeVariant: "dark",
   changeCurrentTheme: function changeCurrentTheme() {},

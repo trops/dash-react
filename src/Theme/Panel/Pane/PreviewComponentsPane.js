@@ -33,10 +33,6 @@ import { getStylesForItem } from "@dash/Utils/colors";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
 const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
-    useEffect(() => {
-        console.log("EFFECT ", theme[themeVariant]);
-    }, [theme]);
-
     function handleClickItem(itemType, styles) {
         // get the styles for the item and display...
         const temp = { item: itemType, styles };
