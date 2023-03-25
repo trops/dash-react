@@ -47,6 +47,7 @@ export const PanelSelectTheme = ({
         // if (color['panelType'] === 'sub') {
         //     console.log('color selected SUB ', color);
         // }
+        console.log("select ", color);
         setThemeNameToEdit(color);
     }
 
@@ -132,7 +133,7 @@ export const PanelSelectTheme = ({
                 newTheme[themeVariant][itemType][
                     styleName
                 ] = `${objectType}-${colorName}-${shade}`;
-                console.log(newTheme);
+                console.log("new theme ", newTheme);
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
             }
@@ -281,6 +282,7 @@ export const PanelSelectTheme = ({
                                             </div>
                                             <div className="flex flex-col overflow-y-scroll">
                                                 <AvailableColorsGridPane
+                                                    colorType={"primary"}
                                                     itemType={itemSelected}
                                                     onMouseOver={
                                                         handleSelectColorForItemTemp

@@ -334,8 +334,11 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
         const defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
 
         // then we have to determine if this item has any theme overrides
+
         const themeOverrides =
             theme !== null && itemName in theme ? theme[itemName] : {};
+
+        // console.log("theme overrides", themeOverrides, Object.keys(theme));
 
         // then we have to determine if the component has any MANUAL overrides
         const manualOverrides =

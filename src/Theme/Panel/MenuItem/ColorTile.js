@@ -6,7 +6,7 @@ const ColorTile = ({
     colorName = null,
     shade = null,
     variant = "dark",
-    colorType = null,
+    colorType = "primary",
     colorLevelName = null,
 
     selected = false,
@@ -26,7 +26,7 @@ const ColorTile = ({
         ...rest,
     });
 
-    // console.log('Color Model Tile ', c);
+    // console.log("Color Model Tile ", c);
 
     // const stringColor = colorFromTheme === null ? `bg-${colorName}${shade !== null ? `-${shade}` : ''}` : colorFromTheme;
     // const parts = colorFromTheme !== null ? colorFromTheme.split('-') : null;

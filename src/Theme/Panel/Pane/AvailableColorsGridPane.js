@@ -4,16 +4,18 @@ import ThemePane from "./ThemePane";
 import ColorTile from "../MenuItem/ColorTile";
 
 const AvailableColorsGridPane = ({
-    colorType,
+    colorType = "primary",
     onClick = null,
     onMouseOver = null,
     shade = null,
 }) => {
     function handleChooseColor(data) {
+        console.log("chose color ", data);
         onClick !== null && onClick(data);
     }
 
     function handleChooseColorTemp(data) {
+        console.log("chose color temp ", data);
         onMouseOver !== null && onMouseOver(data);
     }
 
@@ -22,6 +24,13 @@ const AvailableColorsGridPane = ({
             return shades
                 .filter((c) => (shade === null ? true : c === shade))
                 .map((shadeLevel) => {
+                    // console.log(
+                    //     "available ",
+                    //     colorName,
+                    //     shadeLevel,
+                    //     colorType,
+                    //     "hello"
+                    // );
                     return (
                         <div className="flex flex-row justify-between items-center">
                             <span className="font-bold">
@@ -31,6 +40,7 @@ const AvailableColorsGridPane = ({
                                 width={"w-2/3"}
                                 colorType={colorType}
                                 colorName={colorName}
+                                colorLevelName={shadeLevel}
                                 shade={shadeLevel}
                                 onClick={handleChooseColor}
                                 onMouseOver={handleChooseColorTemp}

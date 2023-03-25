@@ -1857,7 +1857,7 @@ var ColorModel = function ColorModel() {
       var color = {};
       color.panelType = "panelType" in temp ? temp.panelType : "main";
       color.colorName = "colorName" in temp ? temp.colorName : "white";
-      color.colorType = "colorType" in temp ? temp.colorType : "primary";
+      color.colorType = "colorType" in temp ? temp.colorType !== undefined && temp.colorType !== null ? temp.colorType : "primary" : "primary";
       color.shade = "shade" in temp ? temp.shade : 500;
       color.variant = "variant" in temp ? temp.variant : "dark";
       color.level = "level" in temp ? temp.level : "light";
@@ -3175,7 +3175,7 @@ var ColorTile = function ColorTile(_ref) {
     _ref$variant = _ref.variant,
     variant = _ref$variant === void 0 ? "dark" : _ref$variant,
     _ref$colorType = _ref.colorType,
-    colorType = _ref$colorType === void 0 ? null : _ref$colorType,
+    colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
     _ref$colorLevelName = _ref.colorLevelName,
     colorLevelName = _ref$colorLevelName === void 0 ? null : _ref$colorLevelName,
     _ref$selected = _ref.selected,
@@ -3198,7 +3198,7 @@ var ColorTile = function ColorTile(_ref) {
     level: colorLevelName
   }, rest));
 
-  // console.log('Color Model Tile ', c);
+  // console.log("Color Model Tile ", c);
 
   // const stringColor = colorFromTheme === null ? `bg-${colorName}${shade !== null ? `-${shade}` : ''}` : colorFromTheme;
   // const parts = colorFromTheme !== null ? colorFromTheme.split('-') : null;
@@ -3335,7 +3335,8 @@ var PreviewColorsPane = function PreviewColorsPane(_ref) {
 };
 
 var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
-  var colorType = _ref.colorType,
+  var _ref$colorType = _ref.colorType,
+    colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$onMouseOver = _ref.onMouseOver,
@@ -3343,9 +3344,11 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
     _ref$shade = _ref.shade,
     shade = _ref$shade === void 0 ? null : _ref$shade;
   function handleChooseColor(data) {
+    console.log("chose color ", data);
     onClick !== null && onClick(data);
   }
   function handleChooseColorTemp(data) {
+    console.log("chose color temp ", data);
     onMouseOver !== null && onMouseOver(data);
   }
   function renderAvailableColors() {
@@ -3353,6 +3356,13 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
       return shades.filter(function (c) {
         return shade === null ? true : c === shade;
       }).map(function (shadeLevel) {
+        // console.log(
+        //     "available ",
+        //     colorName,
+        //     shadeLevel,
+        //     colorType,
+        //     "hello"
+        // );
         return /*#__PURE__*/jsxs("div", {
           className: "flex flex-row justify-between items-center",
           children: [/*#__PURE__*/jsxs("span", {
@@ -3362,6 +3372,7 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
             width: "w-2/3",
             colorType: colorType,
             colorName: colorName,
+            colorLevelName: shadeLevel,
             shade: shadeLevel,
             onClick: handleChooseColor,
             onMouseOver: handleChooseColorTemp
@@ -3609,6 +3620,7 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
     // if (color['panelType'] === 'sub') {
     //     console.log('color selected SUB ', color);
     // }
+    console.log("select ", color);
     setThemeNameToEdit(color);
   }
   function handleSelectReplacementColor(color, colorReplacement) {
@@ -3692,7 +3704,7 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
           newTheme[themeVariant][itemType] = {};
         }
         newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
-        console.log(newTheme);
+        console.log("new theme ", newTheme);
         // push the new color change to the theme manager modal
         onUpdate(newTheme, themeKey);
       }
@@ -3813,6 +3825,7 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
                   }), /*#__PURE__*/jsx("div", {
                     className: "flex flex-col overflow-y-scroll",
                     children: /*#__PURE__*/jsx(AvailableColorsGridPane, {
+                      colorType: "primary",
                       itemType: itemSelected,
                       onMouseOver: handleSelectColorForItemTemp,
                       onClick: handleSelectColorForItem
@@ -4070,6 +4083,7 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
       return newRawThemeSelected;
     });
     var newTheme = ThemeModel(deepCopy(newRawThemeSelected));
+    console.log("NEW theme from model ", newTheme, newRawThemeSelected);
     setThemeKeySelected(function () {
       return themeKey;
     });
@@ -10058,7 +10072,10 @@ var getStylesForItem = function getStylesForItem() {
     var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
 
     // then we have to determine if this item has any theme overrides
+
     var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
+
+    // console.log("theme overrides", themeOverrides, Object.keys(theme));
 
     // then we have to determine if the component has any MANUAL overrides
     var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
@@ -10223,7 +10240,6 @@ var Panel3 = function Panel3(_ref3) {
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$7({}, props));
-  console.log("panel 3 styles ", styles);
   return /*#__PURE__*/jsx("div", {
     className: "flex ".concat(className !== "" && className, " ").concat(styles.string, " ").concat(horizontal === true ? "flex-row" : "flex-col", " ").concat(width, " ").concat(height, " ").concat(padding !== false && "p-6", " rounded"),
     onClick: onClick,
