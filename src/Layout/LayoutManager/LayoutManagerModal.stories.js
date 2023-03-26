@@ -1,16 +1,16 @@
-import { ThemeManagerModal } from "./ThemeManagerModal";
+import { LayoutManagerModal } from "./LayoutManagerModal";
 import { mock, MockWrapper } from "@dash";
-import "../tailwind.css";
+import "@dash/tailwind.css";
 
 export default {
-    title: "ThemeManagerModal",
-    component: ThemeManagerModal,
+    title: "LayoutManagerModal",
+    component: LayoutManagerModal,
 };
 
 const Template = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.theme} args={args}>
-            <ThemeManagerModal {...args} />
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <LayoutManagerModal {...args} />
         </MockWrapper>
     );
 };

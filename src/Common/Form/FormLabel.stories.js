@@ -1,6 +1,6 @@
 import { FormLabel } from "./FormLabel";
-import { mockThemes, mockApi, MockWrapper, Panel, InputText } from "@dash";
-
+import { Panel, InputText } from "@dash";
+import { MockWrapper, mock } from "../../Mock";
 import "../../tailwind.css";
 
 export default {
@@ -11,7 +11,7 @@ export default {
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
-        <MockWrapper api={mockApi} theme={mockThemes.theme} args={args}>
+        <MockWrapper api={mock.api} theme={mock.theme} args={args}>
             <Panel className={"space-y-2 p-6 rounded"}>
                 <FormLabel {...args} />
                 <InputText type="text" placeholder={args.placeholder} />

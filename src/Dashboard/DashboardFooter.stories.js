@@ -14,7 +14,7 @@ const Template = (args) => {
         <div className="flex flex-col h-full w-full">
             <MockWrapper
                 api={mock.api}
-                theme={mock.themes["theme-1"]}
+                theme={mock.theme}
                 args={args}
                 backgroundColor={"bg-gray-900"}
             >

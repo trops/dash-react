@@ -165,7 +165,6 @@ export const LayoutBuilderGridItem = ({
             item["parent"]
         );
 
-        console.log("children ", numChildren);
         return isDraggable === true ? (
             <DragComponent
                 obj={item}
@@ -192,13 +191,13 @@ export const LayoutBuilderGridItem = ({
                         {preview === false && renderUserPreferences()}
                     </div>
                     <div className="flex flex-row space-x-1 justify-between text-xs w-full">
-                        {item && "workspace" in item && (
+                        {/* {item && "workspace" in item && (
                             <Tag
                                 text={`${drag}`}
                                 textSize={"text-xs"}
                                 backgroundColor={"bg-transparent"}
                             />
-                        )}
+                        )} */}
                         <div className="flex flex-row space-x-1">
                             {item.eventHandlers.length > 0 && (
                                 <ButtonIcon
@@ -301,9 +300,9 @@ export const LayoutBuilderGridItem = ({
                     {preview === false && renderUserPreferences()}
                 </div>
                 <div className="flex flex-row space-x-1 w-full justify-between text-xs">
-                    {item && "workspace" in item && (
+                    {/* {item && "workspace" in item && (
                         <Tag text={`${dragType(item)}`} textSize={"text-xs"} />
-                    )}
+                    )} */}
                     <div className="flex flex-row space-x-1">
                         {item.eventHandlers.length > 0 && (
                             <ButtonIcon

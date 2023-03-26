@@ -18,6 +18,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DashboardHeader, DashboardFooter } from "@dash/Dashboard";
 import { PanelWelcome } from "./Panel/PanelWelcome";
+import { LayoutManagerModal } from "@dash/Layout";
 
 // import Notification from "../../Dashboard/common/Notification";
 import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
@@ -25,8 +26,12 @@ import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
 export const Dashboard = ({ workspace = null, preview = true }) => {
     const { api, settings, creds } = useContext(AppContext);
     const { pub } = useContext(DashboardContext);
-    const { currentTheme, changeCurrentTheme, themesForApplication } =
-        useContext(ThemeContext);
+    const {
+        currentTheme,
+        changeCurrentTheme,
+        changeThemesForApplication,
+        themesForApplication,
+    } = useContext(ThemeContext);
 
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [isShowing, setIsShowing] = useState(false);
@@ -272,25 +277,35 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function handleClickSaveWorkspace() {
-        console.log("dashboard clicked save workspace ", workspaceSelected);
-        // we have to remove the widgetConfig which contains the component
-        // sanitize the workspace layout remove widgetConfig items
-        const workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
-        const layout = workspaceToSave["layout"].map((layoutItem) => {
-            delete layoutItem["widgetConfig"];
-            // delete layoutItem["api"];
-            return layoutItem;
-        });
-        workspaceToSave["layout"] = layout;
+        try {
+            console.log("dashboard clicked save workspace ", workspaceSelected);
+            // we have to remove the widgetConfig which contains the component
+            // sanitize the workspace layout remove widgetConfig items
+            const workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
+            const layout = workspaceToSave["layout"].map((layoutItem) => {
+                delete layoutItem["widgetConfig"];
+                // delete layoutItem["api"];
+                return layoutItem;
+            });
+            workspaceToSave["layout"] = layout;
 
-        // lets set a version so that we can compare...
-        workspaceToSave["version"] = Date.now();
+            // lets set a version so that we can compare...
+            workspaceToSave["version"] = Date.now();
 
-        api.removeAllListeners();
-        api.on(api.events.WORKSPACE_SAVE_COMPLETE, handleSaveWorkspaceComplete);
-        api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
+            api.removeAllListeners();
+            api.on(
+                api.events.WORKSPACE_SAVE_COMPLETE,
+                handleSaveWorkspaceComplete
+            );
+            api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
-        api.workspace.saveWorkspaceForApplication(creds.appId, workspaceToSave);
+            api.workspace.saveWorkspaceForApplication(
+                creds.appId,
+                workspaceToSave
+            );
+        } catch (e) {
+            console.log(e.message);
+        }
     }
 
     function handleSaveWorkspaceComplete(e, message) {
@@ -298,6 +313,17 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         // setPreviewMode(true);
         // onTogglePreview();
         // onWorkspaceChange();
+        // changeThemesForApplication(message['workspace'])
+
+        // Set the overall workspaces.
+        // test the emit
+        pub.pub("dashboard.workspaceChange", {
+            workspaces: message["workspaces"],
+        });
+
+        setWorkspaceConfig(() => message["workspaces"]);
+        setIsLoadingWorkspaces(false);
+
         handleWorkspaceChange(workspaceSelected);
         setPreviewMode(() => true);
     }
@@ -447,6 +473,13 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                                 setIsThemeManagerOpen(() => false);
                                 forceUpdate();
                             }}
+                        />
+
+                        <LayoutManagerModal
+                            open={isThemeManagerOpen}
+                            setIsOpen={() =>
+                                setIsThemeManagerOpen(!isThemeManagerOpen)
+                            }
                         />
 
                         <ApplicationSettingsModal

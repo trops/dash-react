@@ -136,15 +136,6 @@ export const AppWrapper = ({
     // }
 
     function getValue() {
-        // console.log("app context value ", {
-        //     debugMode: debugMode,
-        //     debugStyles: debugStyles,
-        //     creds: creds,
-        //     searchClient: searchClient,
-        //     api: api,
-        //     settings: settings,
-        // });
-
         return {
             key: Date.now(),
             debugMode: debugMode,

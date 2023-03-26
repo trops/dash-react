@@ -1,4 +1,5 @@
 import { themes } from "./theme";
+import { defaultLayouts } from "./layout";
 
 export const mockApi = {
     on: function () {},
@@ -16,5 +17,10 @@ export const mockApi = {
     },
     loadThemes: function () {
         return themes;
+    },
+    layout: {
+        listLayoutsForApplication: function () {
+            return defaultLayouts;
+        },
     },
 };

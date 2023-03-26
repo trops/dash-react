@@ -1,5 +1,9 @@
 import { Dialog } from "@headlessui/react";
 
+const ModalFooter = ({ children }) => {
+    return <div className="flex flex-row justify-end p-4">{children}</div>;
+};
+
 const Modal = ({
     children,
     isOpen,
@@ -31,5 +35,7 @@ const Modal = ({
         </Dialog>
     );
 };
+
+Modal.Footer = ModalFooter;
 
 export { Modal };

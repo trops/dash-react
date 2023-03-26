@@ -109,7 +109,7 @@ export const LayoutGridContainer = ({
             <div
                 className={`flex flex-row space-x-1 justify-between w-full px-2 pb-2`}
             >
-                {item && "workspace" in item && (
+                {/* {item && "workspace" in item && (
                     <div className="flex flex-row space-x-1">
                         <Tag
                             text={dragType(item)}
@@ -117,7 +117,7 @@ export const LayoutGridContainer = ({
                             backgroundColor={"bg-transparent"}
                         />
                     </div>
-                )}
+                )} */}
                 <div className={`flex flex-row space-x-1 text-indigo-700`}>
                     {canHaveChildren === true && (
                         <ButtonIcon

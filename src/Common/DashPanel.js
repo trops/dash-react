@@ -192,7 +192,7 @@ const DashPanelBody3 = ({ children, ...props }) => {
     });
     return (
         <div
-            className={`rounded-b p-4 h-full overflow-y-scroll space-y-1 ${styles.string}`}
+            className={`p-4 h-full overflow-y-scroll space-y-1 ${styles.string}`}
         >
             {children}
         </div>

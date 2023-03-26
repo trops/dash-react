@@ -4,16 +4,13 @@
  */
 import { ComponentManager } from "@dash";
 import { getNearestParentWorkspace, deepCopy } from "@dash/Utils";
-import { WidgetApi } from "@dash/Api";
 
 export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
     try {
         if (layoutItem === null || layoutItem === undefined) {
             return null;
         }
-        console.log("Object in Layout Model OG", obj);
         const obj = deepCopy(layoutItem);
-        console.log("Object in Layout Model ", obj);
         const layout = {};
 
         layout.id = "id" in obj ? obj["id"] : null;

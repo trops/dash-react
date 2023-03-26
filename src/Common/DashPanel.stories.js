@@ -63,3 +63,38 @@ export const Primary3 = Template3.bind({});
 Primary3.args = {
     title: "DashPanel",
 };
+
+// No Header or Footer
+const TemplateNoHeader = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <DashPanel3 {...args}>
+                <DashPanel3.Body>Here is the body of the panel</DashPanel3.Body>
+                <DashPanel2.Footer>Footer</DashPanel2.Footer>
+            </DashPanel3>
+        </MockWrapper>
+    );
+};
+
+export const PrimaryNoHeader = TemplateNoHeader.bind({});
+
+PrimaryNoHeader.args = {
+    title: "DashPanel",
+};
+
+// No Header or Footer
+const TemplateNoHeaderFooter = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <DashPanel3 {...args}>
+                <DashPanel3.Body>Here is the body of the panel</DashPanel3.Body>
+            </DashPanel3>
+        </MockWrapper>
+    );
+};
+
+export const PrimaryNoHeaderFooter = TemplateNoHeaderFooter.bind({});
+
+PrimaryNoHeaderFooter.args = {
+    title: "DashPanel",
+};
