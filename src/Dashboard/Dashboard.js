@@ -475,12 +475,12 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                             }}
                         />
 
-                        <LayoutManagerModal
+                        {/* <LayoutManagerModal
                             open={isThemeManagerOpen}
                             setIsOpen={() =>
                                 setIsThemeManagerOpen(!isThemeManagerOpen)
                             }
-                        />
+                        /> */}
 
                         <ApplicationSettingsModal
                             open={isSettingsModalOpen}
