@@ -5225,11 +5225,6 @@ var Dashboard = function Dashboard(_ref) {
             });
             forceUpdate();
           }
-        }), /*#__PURE__*/jsx(LayoutManagerModal, {
-          open: isThemeManagerOpen,
-          setIsOpen: function setIsOpen() {
-            return setIsThemeManagerOpen(!isThemeManagerOpen);
-          }
         }), /*#__PURE__*/jsx(ApplicationSettingsModal, {
           open: isSettingsModalOpen,
           setIsOpen: setIsSettingsModalOpen,
@@ -5960,8 +5955,7 @@ var Layout = function Layout(_ref) {
 };
 
 var LayoutContainer = function LayoutContainer(_ref) {
-  _ref.theme;
-    var id = _ref.id,
+  var id = _ref.id,
     children = _ref.children,
     _ref$direction = _ref.direction,
     direction = _ref$direction === void 0 ? "row" : _ref$direction,
@@ -5972,11 +5966,8 @@ var LayoutContainer = function LayoutContainer(_ref) {
     _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "min-h-fit" : _ref$height;
-    _ref.debug;
-    _ref.onMouseOver;
-    _ref.onMouseOut;
-    var _ref$space = _ref.space,
+    height = _ref$height === void 0 ? "min-h-fit" : _ref$height,
+    _ref$space = _ref.space,
     space = _ref$space === void 0 ? true : _ref$space;
   var _useContext = useContext$1(ThemeContext);
     _useContext.currentTheme;
@@ -5990,14 +5981,9 @@ var LayoutContainer = function LayoutContainer(_ref) {
   // to theme or not to theme...
   var backgroundColorStyle = "";
   var borderColorStyle = "";
-  // if (theme === true) {
-  //     backgroundColorStyle = currentTheme['bg-primary-very-dark'];
-  //     borderColorStyle = `${currentTheme['border-primary-very-dark']}`;
-  // }
-
   return /*#__PURE__*/jsx("div", {
     id: "LayoutContainer-".concat(id),
-    className: "flex border-1 rounded ".concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
+    className: "flex border-1 rounded justify-between ".concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
     children: children
   });
 };

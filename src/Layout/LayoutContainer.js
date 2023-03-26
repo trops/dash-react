@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
 
 export const LayoutContainer = ({
-    theme = false,
     id,
     children,
     direction = "row",
@@ -10,9 +9,6 @@ export const LayoutContainer = ({
     scrollable = true,
     width = "w-full",
     height = "min-h-fit",
-    debug = false,
-    onMouseOver = null,
-    onMouseOut = null,
     space = true,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -34,15 +30,11 @@ export const LayoutContainer = ({
     // to theme or not to theme...
     let backgroundColorStyle = "";
     let borderColorStyle = "";
-    // if (theme === true) {
-    //     backgroundColorStyle = currentTheme['bg-primary-very-dark'];
-    //     borderColorStyle = `${currentTheme['border-primary-very-dark']}`;
-    // }
 
     return (
         <div
             id={`LayoutContainer-${id}`}
-            className={`flex border-1 rounded ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
+            className={`flex border-1 rounded justify-between ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>
