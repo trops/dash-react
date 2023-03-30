@@ -14,23 +14,6 @@ import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import parseArgs from 'minimist';
 
-function _typeof$q(obj) { "@babel/helpers - typeof"; return _typeof$q = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$q(obj); }
-/**
- * deepCopy
- * @param {object} obj the object to deep copy
- * @returns object
- */
-var deepCopy = function deepCopy(obj) {
-  try {
-    return JSON.parse(JSON.stringify(obj));
-  } catch (e) {
-    return null;
-  }
-};
-var isObject = function isObject(objValue) {
-  return objValue && _typeof$q(objValue) === "object" && objValue.constructor === Object;
-};
-
 /**
  * WidgetApi
  * Include developer methods to easily access the Electron bridge
@@ -40,33 +23,8 @@ var isObject = function isObject(objValue) {
  * the UUID of the widget.
  * The UUID is then used for filenames, etc and MUST be unique.
  */
+
 var WidgetApi = {
-  // constructor(uuid) {
-  //     this._uuid = uuid;
-  //     this._pub = null;
-  //     this._electronApi = null;
-  //     this._settings = null;
-  // }
-
-  /**
-   * init
-   *
-   * This will initialize the API
-   * We do this automatically from the LayoutModel using the UUID generated
-   * for the widget.
-   *
-   * We need this UUID for filenames, publishing events, etc.
-   *
-   * @param {string} uuid
-   */
-  // init(uuidInput) {
-  //     try {
-  //         this._uuid = uuidInput;
-  //     } catch (e) {
-  //         console.log(e);
-  //     }
-  // }
-
   setPublisher: function setPublisher(publisher) {
     this._pub = publisher;
   },
@@ -95,14 +53,6 @@ var WidgetApi = {
   settings: function settings() {
     return this._settings;
   },
-  /**
-   * uuid
-   * @returns string the UUID for this Widget
-   */
-  // uuid() {
-  //     return this._uuid;
-  // }
-
   electronApi: function electronApi() {
     return this._electronApi;
   },
@@ -117,7 +67,6 @@ var WidgetApi = {
   publishEvent: function publishEvent(name, events) {
     if (this.pub() !== null && name !== null && events !== null) {
       if ("pub" in this.pub()) {
-        console.log("event published ", name, events);
         this.pub().pub(name, events);
       }
     }
@@ -185,7 +134,6 @@ var WidgetApi = {
         }
       }
     } catch (e) {
-      console.log("Error store data ", e.message);
       if (callbackError !== null) {
         callbackError(e, e.message);
       }
@@ -390,6 +338,23 @@ var DashboardApi = {
 };
 
 var ThemeContext = /*#__PURE__*/createContext("dark");
+
+function _typeof$q(obj) { "@babel/helpers - typeof"; return _typeof$q = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$q(obj); }
+/**
+ * deepCopy
+ * @param {object} obj the object to deep copy
+ * @returns object
+ */
+var deepCopy = function deepCopy(obj) {
+  try {
+    return JSON.parse(JSON.stringify(obj));
+  } catch (e) {
+    return null;
+  }
+};
+var isObject = function isObject(objValue) {
+  return objValue && _typeof$q(objValue) === "object" && objValue.constructor === Object;
+};
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
