@@ -89,7 +89,6 @@ export * from "./Dashboard";
 export * from "./Layout";
 export * from "./Menu";
 export * from "./Models";
-export * from "./Plugin";
 export * from "./Utils";
 export * from "./Widget";
 export * from "./Workspace";

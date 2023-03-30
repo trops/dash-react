@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "@dash/Common/WrappedComponent";
 import { MainMenuItem } from "@dash/Menu";
-import { withPlugins } from "@dash/Plugin";
 import { ButtonIcon } from "@dash/Common";
 
 // Drag
@@ -36,18 +35,6 @@ const MainMenuConst = ({
 
     function handleClickMenuItem(ws) {
         onClick && onClick(ws);
-    }
-
-    function renderPluginMenuItems() {
-        return menuItems.map((item) => {
-            return (
-                <MainMenuItem
-                    key={`main-menu-item-${item.id}`}
-                    onClick={(e) => handleClickMenuItem(item)}
-                    title={item.label}
-                />
-            );
-        });
     }
 
     function renderWorkspaces(workspaces) {
@@ -272,13 +259,11 @@ const MainMenuConst = ({
                         {renderWorkspaces(workspaces)}
                         {renderOrphanedWorkspaces(workspaces)}
                     </DndProvider>
-                    {selectedMainItem === "plugins" && renderPluginMenuItems()}
                 </div>
-                {/* {renderPluginMenuItems()} */}
             </div>
         </div>
     );
 };
-const MainMenu = withRouter(withPlugins(MainMenuConst));
+const MainMenu = withRouter(MainMenuConst);
 
 export { MainMenu };

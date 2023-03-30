@@ -44,7 +44,6 @@ export const Layout = ({ children, preview, scrollable = false }) => {
                         : "is not scrollable"}
                 </span>
             )}
-            {/* extensible menu for plugins, like a grid editor for the layout */}
             <div
                 className={`flex flex-col w-full space-y-4 p-0 h-full ${
                     scrollable === false ? "overflow-hidden" : ""

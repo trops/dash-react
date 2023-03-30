@@ -8,35 +8,7 @@
  * The UUID is then used for filenames, etc and MUST be unique.
  */
 
-import { deepCopy } from "@dash/Utils/objects";
-
 export const WidgetApi = {
-    // constructor(uuid) {
-    //     this._uuid = uuid;
-    //     this._pub = null;
-    //     this._electronApi = null;
-    //     this._settings = null;
-    // }
-
-    /**
-     * init
-     *
-     * This will initialize the API
-     * We do this automatically from the LayoutModel using the UUID generated
-     * for the widget.
-     *
-     * We need this UUID for filenames, publishing events, etc.
-     *
-     * @param {string} uuid
-     */
-    // init(uuidInput) {
-    //     try {
-    //         this._uuid = uuidInput;
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
     setPublisher: function (publisher) {
         this._pub = publisher;
     },
@@ -69,14 +41,6 @@ export const WidgetApi = {
         return this._settings;
     },
 
-    /**
-     * uuid
-     * @returns string the UUID for this Widget
-     */
-    // uuid() {
-    //     return this._uuid;
-    // }
-
     electronApi: function () {
         return this._electronApi;
     },
@@ -93,7 +57,6 @@ export const WidgetApi = {
     publishEvent: function (name, events) {
         if (this.pub() !== null && name !== null && events !== null) {
             if ("pub" in this.pub()) {
-                console.log("event published ", name, events);
                 this.pub().pub(name, events);
             }
         }
@@ -165,7 +128,6 @@ export const WidgetApi = {
                 }
             }
         } catch (e) {
-            console.log("Error store data ", e.message);
             if (callbackError !== null) {
                 callbackError(e, e.message);
             }
