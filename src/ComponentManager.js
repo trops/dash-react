@@ -30,7 +30,6 @@ export const ComponentManager = {
 
     registerWidget: function (widgetConfig, widgetKey) {
         const tempComponentMap = this.componentMap();
-        console.log("register widget ", widgetConfig, widgetKey);
         tempComponentMap[widgetKey] = ComponentConfigModel(
             widgetConfig.default
         );
