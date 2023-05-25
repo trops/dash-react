@@ -9796,6 +9796,10 @@ var getStylesForItem = function getStylesForItem() {
       styles[key] = theme[defaultStyles[key]];
     });
 
+    // scrollbars?
+    var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100" : "";
+    console.log("bar styles ", overrides, scrollbarStyles);
+
     // we have to begin with the defaults for the theme so we have access
     // and knowledge of what keys in the theme to return.
     // the trick is applying the overrides to those theme keys
@@ -9818,7 +9822,7 @@ var getStylesForItem = function getStylesForItem() {
     return _objectSpread$9({
       string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
         return styles[key];
-      }).join(" ") : ""
+      }).join(" ").concat(scrollbarStyles) : ""
     }, styles);
   }
   return null;
@@ -11161,8 +11165,9 @@ var DashPanelBody = function DashPanelBody(_ref2) {
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$1({}, props));
+  console.log("dash panel body ", styles);
   return /*#__PURE__*/jsx("div", {
-    className: "rounded-b p-4 h-full overflow-y-scroll space-y-1 ".concat(styles.string),
+    className: "rounded-b p-4 h-full space-y-1 ".concat(styles.string),
     children: children
   });
 };
@@ -11184,13 +11189,10 @@ var DashPanel = function DashPanel(_ref4) {
     currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$1({}, props));
   return /*#__PURE__*/jsx(Panel, _objectSpread$1(_objectSpread$1({
-    className: "justify-between overflow-hidden"
+    className: "justify-between"
   }, styles), {}, {
     padding: false,
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col h-full bg-inherit",
-      children: children
-    })
+    children: children
   }));
 };
 DashPanel.Header = DashPanelHeader;
@@ -11226,7 +11228,7 @@ var DashPanelBody2 = function DashPanelBody2(_ref6) {
     currentTheme = _useContext6.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, _objectSpread$1({}, props));
   return /*#__PURE__*/jsx("div", {
-    className: "rounded-b p-4 h-full overflow-y-scroll space-y-1 ".concat(styles.string),
+    className: "rounded-b p-4 h-full space-y-1 ".concat(styles.string),
     children: children
   });
 };
@@ -11290,7 +11292,7 @@ var DashPanelBody3 = function DashPanelBody3(_ref10) {
     currentTheme = _useContext10.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, _objectSpread$1({}, props));
   return /*#__PURE__*/jsx("div", {
-    className: "p-4 h-full overflow-y-scroll space-y-1 ".concat(styles.string),
+    className: "p-4 h-full space-y-1 ".concat(styles.string),
     children: children
   });
 };
