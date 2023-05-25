@@ -34,10 +34,13 @@ const DashPanelBody = ({ children, ...props }) => {
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
     });
-    console.log("dash panel body ", styles);
+
+    console.log("dash panel body ", styles.string);
 
     return (
-        <div className={`rounded-b p-4 h-full space-y-1 ${styles.string}`}>
+        <div
+            className={`overflow-y-scroll rounded-b p-4 h-full space-y-1 ${styles.string}`}
+        >
             {children}
         </div>
     );

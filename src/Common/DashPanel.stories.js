@@ -11,7 +11,7 @@ const Template = (args) => {
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <DashPanel {...args} className={"h-20"}>
                 <DashPanel.Header title={args.title} />
-                <DashPanel.Body>
+                <DashPanel.Body scrollable={true}>
                     Here is the body of the panel Here is the body of the
                     panelHere is the body of the panelHere is the body of the
                     panelHere is the body of the panelHere is the body of the

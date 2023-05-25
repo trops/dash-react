@@ -356,6 +356,8 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                 ? `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`
                 : "";
 
+        // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
+
         console.log("bar styles ", overrides, scrollbarStyles);
 
         // we have to begin with the defaults for the theme so we have access
@@ -382,14 +384,17 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
             });
         }
 
+        console.log("styles ", Object.keys(styles), scrollbarStyles);
+
         return {
             string:
                 Object.keys(styles).length > 0
                     ? Object.keys(styles)
                           .map((key) => styles[key])
                           .join(" ")
+                          .concat(" ")
                           .concat(scrollbarStyles)
-                    : "",
+                    : scrollbarStyles,
             ...styles,
         };
     }

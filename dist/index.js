@@ -3979,9 +3979,10 @@ var PanelWelcome = function PanelWelcome(_ref) {
                 })]
               })]
             }), /*#__PURE__*/jsxs(Panel3, {
-              className: "flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full p-10",
+              className: "flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full p-10 overflow-hidden",
+              scrollable: false,
               children: [/*#__PURE__*/jsxs("div", {
-                className: "flex flex-row overflow-y-scroll p-2 font-bold mb-4 justify-between items-center",
+                className: "flex flex-row p-2 font-bold mb-4 justify-between items-center",
                 children: [/*#__PURE__*/jsx(SubHeading3, {
                   title: "You have ".concat(menuItems.length, " folders and ").concat(workspaces.length, " Dashboards created."),
                   padding: false
@@ -3992,8 +3993,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
                     return onClickCreateMenuItem();
                   }
                 })]
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col space-y-4 overflow-y-scroll py-4",
+              }), /*#__PURE__*/jsx(Panel3, {
+                className: "flex flex-col space-y-4 py-4",
+                scrollable: true,
                 children: renderWorkspaces()
               })]
             })]
