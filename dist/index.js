@@ -4505,7 +4505,7 @@ var Dashboard = function Dashboard(_ref) {
       // const layout = ws['layout'];
       // push the LayoutModel back into the Widget here... (inflate)
       var tempLayout = ws["layout"].map(function (layoutOG) {
-        console.log("layout OG ", layoutOG);
+        // console.log("layout OG ", layoutOG);
         return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
       });
 
@@ -5589,9 +5589,14 @@ var LayoutContainer = function LayoutContainer(_ref) {
   // to theme or not to theme...
   var backgroundColorStyle = "";
   var borderColorStyle = "";
+
+  // TODO
+  // tailwind scrollbars - scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900
+
+  var scrollbarStyles = scrollable === true ? "scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100" : "";
   return /*#__PURE__*/jsx("div", {
     id: "LayoutContainer-".concat(id),
-    className: "flex border-1 rounded justify-between ".concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
+    className: "flex border-1 rounded justify-between ".concat(scrollbarStyles, " ").concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
     children: children
   });
 };
@@ -6666,12 +6671,12 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
               })]
             })
           }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3",
+            className: "flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3 scrollbar-thin",
             children: [/*#__PURE__*/jsxs("span", {
               className: "uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2",
               children: ["Available Handlers", " "]
             }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col h-full overflow-y-scroll p-2",
+              className: "flex flex-col h-full overflow-y-scroll p-2 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100",
               children: [itemSelected.eventHandlers.length > 0 && renderAvailableHandlers(), itemSelected.eventHandlers.length === 0 && /*#__PURE__*/jsx("div", {
                 className: "flex flex-col text-yellow-600 font-bold p-4",
                 children: "No available Handlers found."

@@ -350,6 +350,14 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
             styles[key] = theme[defaultStyles[key]];
         });
 
+        // scrollbars?
+        const scrollbarStyles =
+            "scrollable" in overrides && overrides["scrollable"] === true
+                ? `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`
+                : "";
+
+        console.log("bar styles ", overrides, scrollbarStyles);
+
         // we have to begin with the defaults for the theme so we have access
         // and knowledge of what keys in the theme to return.
         // the trick is applying the overrides to those theme keys
@@ -380,6 +388,7 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                     ? Object.keys(styles)
                           .map((key) => styles[key])
                           .join(" ")
+                          .concat(scrollbarStyles)
                     : "",
             ...styles,
         };

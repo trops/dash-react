@@ -9,9 +9,19 @@ export default {
 const Template = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <DashPanel {...args}>
+            <DashPanel {...args} className={"h-20"}>
                 <DashPanel.Header title={args.title} />
-                <DashPanel.Body>Here is the body of the panel</DashPanel.Body>
+                <DashPanel.Body>
+                    Here is the body of the panel Here is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panelHere is the body of the
+                    panelHere is the body of the panel
+                </DashPanel.Body>
                 <DashPanel.Footer>Footer</DashPanel.Footer>
             </DashPanel>
         </MockWrapper>
@@ -22,6 +32,7 @@ export const Primary = Template.bind({});
 
 Primary.args = {
     title: "DashPanel",
+    scrollable: true,
 };
 
 const Template2 = (args) => {

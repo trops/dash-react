@@ -44,3 +44,7 @@ div.algolia-ui-element > div {
     flex-direction: column;
     height: inherit; */
 }
+
+/* div {
+    scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100
+} */

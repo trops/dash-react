@@ -61,14 +61,17 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     text: "Panel",
+    scrollable: true,
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
     text: "Panel 2",
+    scrollable: true,
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     text: "Panel 3",
+    scrollable: true,
 };

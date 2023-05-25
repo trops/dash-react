@@ -108,7 +108,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
             // const layout = ws['layout'];
             // push the LayoutModel back into the Widget here... (inflate)
             const tempLayout = ws["layout"].map((layoutOG) => {
-                console.log("layout OG ", layoutOG);
+                // console.log("layout OG ", layoutOG);
                 return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
             });
             ws["layout"] = tempLayout;

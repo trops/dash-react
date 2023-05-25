@@ -523,11 +523,11 @@ export const PanelEditItemHandlers = ({
                                     </div>
                                 )}
                             </div>
-                            <div className="flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3">
+                            <div className="flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3 scrollbar-thin">
                                 <span className="uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2">
                                     Available Handlers{" "}
                                 </span>
-                                <div className="flex flex-col h-full overflow-y-scroll p-2">
+                                <div className="flex flex-col h-full overflow-y-scroll p-2 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
                                     {itemSelected.eventHandlers.length > 0 &&
                                         renderAvailableHandlers()}
                                     {itemSelected.eventHandlers.length ===

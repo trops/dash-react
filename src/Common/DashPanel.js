@@ -34,10 +34,10 @@ const DashPanelBody = ({ children, ...props }) => {
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
     });
+    console.log("dash panel body ", styles);
+
     return (
-        <div
-            className={`rounded-b p-4 h-full overflow-y-scroll space-y-1 ${styles.string}`}
-        >
+        <div className={`rounded-b p-4 h-full space-y-1 ${styles.string}`}>
             {children}
         </div>
     );
@@ -67,12 +67,9 @@ const DashPanel = ({ children, ...props }) => {
         ...props,
     });
     return (
-        <Panel
-            className={`justify-between overflow-hidden`}
-            {...styles}
-            padding={false}
-        >
-            <div className="flex flex-col h-full bg-inherit">{children}</div>
+        <Panel className={`justify-between`} {...styles} padding={false}>
+            {children}
+            {/* <div className="flex flex-col h-full bg-inherit">{children}</div> */}
         </Panel>
     );
 };
@@ -113,9 +110,7 @@ const DashPanelBody2 = ({ children, ...props }) => {
         ...props,
     });
     return (
-        <div
-            className={`rounded-b p-4 h-full overflow-y-scroll space-y-1 ${styles.string}`}
-        >
+        <div className={`rounded-b p-4 h-full space-y-1 ${styles.string}`}>
             {children}
         </div>
     );
@@ -191,9 +186,7 @@ const DashPanelBody3 = ({ children, ...props }) => {
         ...props,
     });
     return (
-        <div
-            className={`p-4 h-full overflow-y-scroll space-y-1 ${styles.string}`}
-        >
+        <div className={`p-4 h-full space-y-1 ${styles.string}`}>
             {children}
         </div>
     );
