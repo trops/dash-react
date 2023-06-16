@@ -36,7 +36,7 @@ const ThemesPane = ({
         <div className="flex flex-col rounded font-medium w-1/4 max-w-1/3 justify-between">
             <div className="flex flex-col rounded font-medium justify-between overflow-hidden">
                 <div className="flex flex-col rounded p-6 py-10 space-y-4 w-full hidden xl:flex">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row scrollbar">
                         <Heading
                             title={"Color."}
                             padding={false}
@@ -58,7 +58,7 @@ const ThemesPane = ({
                         we'll allow it.
                     </p>
                 </div>
-                <div className="flex flex-col text-xs break-all p-2 space-y-2 overflow-y-scroll">
+                <div className="flex flex-col text-xs break-all p-2 space-y-2 overflow-y-scroll scrollbar">
                     {renderCurrentThemes()}
                 </div>
             </div>

@@ -36,13 +36,13 @@ export const LayoutContainer = ({
 
     const scrollbarStyles =
         scrollable === true
-            ? `scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100`
+            ? `scrollbar-thumb-gray-900 scrollbar-track-gray-800`
             : "";
 
     return (
         <div
             id={`LayoutContainer-${id}`}
-            className={`flex border-1 rounded justify-between ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
+            className={`flex border-1 rounded justify-between scrollbar ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>

@@ -11,7 +11,7 @@ const ThemePane = ({
 }) => {
     return (
         <div
-            className={`flex flex-col text-xs h-full p-1 space-y-2 ${
+            className={`flex flex-col text-xs h-full p-1 space-y-2 scrollbar ${
                 scroll === true ? "overflow-y-scroll" : "overflow-hidden"
             } rounded w-full`}
         >
