@@ -1799,7 +1799,7 @@ var ThemePane = function ThemePane(_ref) {
     _ref$scroll = _ref.scroll,
     scroll = _ref$scroll === void 0 ? true : _ref$scroll;
   return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col text-xs h-full p-1 space-y-2 ".concat(scroll === true ? "overflow-y-scroll" : "overflow-hidden", " rounded w-full"),
+    className: "flex flex-col text-xs h-full p-1 space-y-2 scrollbar ".concat(scroll === true ? "overflow-y-scroll" : "overflow-hidden", " rounded w-full"),
     children: [inputValue !== null && onInputChange !== null && /*#__PURE__*/jsx("div", {
       className: "flex flex-row",
       children: /*#__PURE__*/jsx(InputText, {
@@ -3501,7 +3501,7 @@ var ThemePickerGridPane = function ThemePickerGridPane(_ref) {
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
       children: /*#__PURE__*/jsx("div", {
-        className: "grid grid-cols-3 gap-4 w-full h-full overflow-y-scroll",
+        className: "grid grid-cols-3 gap-4 w-full h-full overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800",
         children: renderCurrentThemes()
       })
     })
@@ -5595,10 +5595,10 @@ var LayoutContainer = function LayoutContainer(_ref) {
   // TODO
   // tailwind scrollbars - scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900
 
-  var scrollbarStyles = scrollable === true ? "scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100" : "";
+  var scrollbarStyles = scrollable === true ? "scrollbar-thumb-gray-900 scrollbar-track-gray-800" : "";
   return /*#__PURE__*/jsx("div", {
     id: "LayoutContainer-".concat(id),
-    className: "flex border-1 rounded justify-between ".concat(scrollbarStyles, " ").concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
+    className: "flex border-1 rounded justify-between scrollbar ".concat(scrollbarStyles, " ").concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
     children: children
   });
 };
@@ -9800,6 +9800,9 @@ var getStylesForItem = function getStylesForItem() {
 
     // scrollbars?
     var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100" : "";
+
+    // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
+
     console.log("bar styles ", overrides, scrollbarStyles);
 
     // we have to begin with the defaults for the theme so we have access
@@ -9821,10 +9824,11 @@ var getStylesForItem = function getStylesForItem() {
         }
       });
     }
+    console.log("styles ", Object.keys(styles), scrollbarStyles);
     return _objectSpread$9({
       string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
         return styles[key];
-      }).join(" ").concat(scrollbarStyles) : ""
+      }).join(" ").concat(" ").concat(scrollbarStyles) : scrollbarStyles
     }, styles);
   }
   return null;
@@ -10730,7 +10734,7 @@ var Container = function Container(_ref) {
     onMouseOut = _ref$onMouseOut === void 0 ? null : _ref$onMouseOut;
   // determine the classes based on the props...
   var directionStyle = direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
-  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
+  var scrollStyle = scrollable === true ? "scrollbar overflow-y-scroll" : "overflow-hidden";
   var widthStyle = width;
   var heightStyle = scrollable === true ? height : height;
   return /*#__PURE__*/jsx("div", {
@@ -11167,9 +11171,9 @@ var DashPanelBody = function DashPanelBody(_ref2) {
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$1({}, props));
-  console.log("dash panel body ", styles);
+  console.log("dash panel body ", styles.string);
   return /*#__PURE__*/jsx("div", {
-    className: "rounded-b p-4 h-full space-y-1 ".concat(styles.string),
+    className: "overflow-y-scroll rounded-b p-4 h-full space-y-1 ".concat(styles.string),
     children: children
   });
 };
