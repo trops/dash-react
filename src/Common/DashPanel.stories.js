@@ -7,20 +7,35 @@ export default {
 };
 
 const Template = (args) => {
+    console.log("dash panel args ", args);
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <DashPanel {...args} className={"h-20"}>
+            <DashPanel {...args}>
                 <DashPanel.Header title={args.title} />
-                <DashPanel.Body scrollable={true}>
-                    Here is the body of the panel Here is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panelHere is the body of the
-                    panelHere is the body of the panel
+                <DashPanel.Body {...args}>
+                    DASH PANEL PRIMARY Here is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panelHere is the body of the panelHere is the
+                    body of the panel panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panel panelHere
+                    is the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panel panelHere is the body of the panelHere
+                    is the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panel panelHere
+                    is the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panelHere is the body of the panelHere is
+                    the body of the panel
                 </DashPanel.Body>
                 <DashPanel.Footer>Footer</DashPanel.Footer>
             </DashPanel>

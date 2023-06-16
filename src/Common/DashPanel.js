@@ -21,8 +21,8 @@ const DashPanelHeader = ({ title, ping = true, ...props }) => {
             </span>
             {ping && (
                 <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
                 </span>
             )}
         </div>
@@ -37,13 +37,7 @@ const DashPanelBody = ({ children, ...props }) => {
 
     console.log("dash panel body ", styles.string);
 
-    return (
-        <div
-            className={`overflow-y-scroll rounded-b p-4 h-full space-y-1 ${styles.string}`}
-        >
-            {children}
-        </div>
-    );
+    return <Panel {...props}>{children}</Panel>;
 };
 
 const DashPanelFooter = ({ children, ...props }) => {
@@ -69,10 +63,11 @@ const DashPanel = ({ children, ...props }) => {
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
     });
+
+    console.log("Dash panel styles ", styles.string);
     return (
         <Panel className={`justify-between`} {...styles} padding={false}>
             {children}
-            {/* <div className="flex flex-col h-full bg-inherit">{children}</div> */}
         </Panel>
     );
 };

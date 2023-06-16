@@ -18,13 +18,30 @@ export default {
 const Template = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <Panel
-                className={"rounded p-10"}
-                {...args}
-                width={"w-full"}
-                height={"h-full"}
-            >
+            <Panel {...args}>
                 <Heading2 title={args.text} />
+                Here is the body of the panelHere is the body of the panelHere
+                is the body of the panelHere is the body of the panelHere is the
+                body of the panelHere is the body of the panelHere is the body
+                of the panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panel panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the panel
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panel panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the panel
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panelHere is the body of the
+                panelHere is the body of the panel
             </Panel>
         </MockWrapper>
     );

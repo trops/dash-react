@@ -1,11 +1,12 @@
 import { Button, Modal, Panel } from "../../Common";
 import { LayoutManagerPicker } from "./Panel/LayoutManagerPicker";
 
-export const LayoutManagerModal = ({ open, setIsOpen }) => {
+export const LayoutManagerModal = ({ open, setIsOpen, ...props }) => {
     function handleSelectLayout(data) {
         console.log(data);
     }
 
+    console.log("layout manager modal props", props);
     return (
         <Modal
             isOpen={open}
@@ -13,7 +14,7 @@ export const LayoutManagerModal = ({ open, setIsOpen }) => {
             width={"w-11/12 xl:w-5/6"}
             height="h-5/6"
         >
-            <Panel backgroundColor={"bg-slate-800"} padding={false}>
+            <Panel backgroundColor={"bg-slate-800"} padding={false} {...props}>
                 <div className={`flex flex-col w-full h-full overflow-hidden`}>
                     <div className="flex flex-row w-full h-full overflow-hidden">
                         <LayoutManagerPicker onClick={handleSelectLayout} />
