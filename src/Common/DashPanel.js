@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
 import { getStylesForItem, themeObjects } from "../Utils";
 import { Panel, Panel2, Panel3 } from "./Panel";
+import { LayoutContainer } from "@dash/Layout";
 
 const DashPanelHeader = ({ title, ping = true, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -37,7 +38,11 @@ const DashPanelBody = ({ children, ...props }) => {
 
     console.log("dash panel body ", styles.string);
 
-    return <Panel {...props}>{children}</Panel>;
+    return (
+        <LayoutContainer {...props} className={`${styles.string} p-4`}>
+            {children}
+        </LayoutContainer>
+    );
 };
 
 const DashPanelFooter = ({ children, ...props }) => {
@@ -66,7 +71,12 @@ const DashPanel = ({ children, ...props }) => {
 
     console.log("Dash panel styles ", styles.string);
     return (
-        <Panel className={`justify-between`} {...styles} padding={false}>
+        <Panel
+            className={`justify-between`}
+            {...styles}
+            padding={false}
+            scrollable={false}
+        >
             {children}
         </Panel>
     );
@@ -107,11 +117,21 @@ const DashPanelBody2 = ({ children, ...props }) => {
     const styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, {
         ...props,
     });
+
     return (
-        <div className={`rounded-b p-4 h-full space-y-1 ${styles.string}`}>
+        <LayoutContainer
+            {...props}
+            padding={true}
+            className={`p-4 ${styles.string}`}
+        >
             {children}
-        </div>
+        </LayoutContainer>
     );
+    // return (
+    //     <div className={`rounded-b p-4 h-full space-y-1 ${styles.string}`}>
+    //         {children}
+    //     </div>
+    // );
 };
 
 const DashPanelFooter2 = ({ children, ...props }) => {
@@ -157,9 +177,7 @@ const DashPanelHeader3 = ({ title, ping = true, ...props }) => {
     const styles = getStylesForItem(
         themeObjects.DASH_PANEL_HEADER_3,
         currentTheme,
-        {
-            ...props,
-        }
+        props
     );
     return (
         <div
@@ -184,9 +202,9 @@ const DashPanelBody3 = ({ children, ...props }) => {
         ...props,
     });
     return (
-        <div className={`p-4 h-full space-y-1 ${styles.string}`}>
+        <LayoutContainer {...props} className={`p-4 ${styles.string}`}>
             {children}
-        </div>
+        </LayoutContainer>
     );
 };
 

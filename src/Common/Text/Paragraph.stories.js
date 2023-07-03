@@ -1,5 +1,5 @@
 import { Paragraph, Paragraph2, Paragraph3 } from "@dash";
-import { mock, MockWrapper } from "@dash";
+import { mock, mockText, MockWrapper } from "@dash";
 
 import "@dash/tailwind.css";
 
@@ -58,15 +58,21 @@ export const Tertiary = Template3.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
-    text: "Paragraph",
+    text: mockText.paragraph,
+    height: "h-30",
+    scrollable: true,
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
-    text: "Paragraph 2",
+    text: mockText.paragraph,
+    height: "h-30",
+    scrollable: true,
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
-    text: "Paragraph 3",
+    text: mockText.paragraph,
+    height: "h-30",
+    scrollable: true,
 };

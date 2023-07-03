@@ -44,7 +44,7 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     text: "Tag",
-    backgroundColor: "bg-indigo-800",
+    // backgroundColor: "bg-indigo-800",
     textColor: "text-gray-200",
 };
 

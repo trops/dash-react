@@ -31,18 +31,17 @@ export const LayoutContainer = ({
     let backgroundColorStyle = "";
     let borderColorStyle = "";
 
-    // TODO
-    // tailwind scrollbars - scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900
-
+    // scrollbars?
+    // put this CSS in the Util/colors.js function
     const scrollbarStyles =
         scrollable === true
-            ? `scrollbar-thumb-gray-900 scrollbar-track-gray-800`
-            : "";
+            ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
+            : ""; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
 
     return (
         <div
             id={`LayoutContainer-${id}`}
-            className={`flex border-1 rounded justify-between scrollbar ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
+            className={`flex border-1 justify-between ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>

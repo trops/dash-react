@@ -1,8 +1,15 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
+import { LayoutContainer } from "@dash/Layout";
 
-function Paragraph({ text, padding = true, onClick = null, ...props }) {
+function Paragraph({
+    text,
+    padding = true,
+    onClick = null,
+    scrollable = false,
+    ...props
+}) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
     const styles = getStylesForItem(
@@ -10,32 +17,42 @@ function Paragraph({ text, padding = true, onClick = null, ...props }) {
         currentTheme,
         props
     );
+
+    console.log("styles paragraph ", styles.string);
+
     return (
-        <span
-            className={`flex flex-row w-full ${paddingStyles} text-base xl:text-lg font-normal ${styles.string}`}
+        <LayoutContainer
+            {...props}
+            className={`${styles.string} text-base xl:text-lg font-normal h-full w-full`}
             onClick={onClick}
         >
             {text}
-        </span>
+        </LayoutContainer>
     );
 }
 
-function Paragraph2({ text, padding = true, onClick = null, ...props }) {
+function Paragraph2({
+    text,
+    padding = true,
+    onClick = null,
+    scrollable = false,
+    ...props
+}) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
-    const styles = getStylesForItem(
-        themeObjects.PARAGRAPH_2,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, {
+        ...props,
+        scrollable,
+    });
 
     return (
-        <span
-            className={`flex flex-row w-full ${paddingStyles} text-sm xl:text-base font-normal ${styles.string}`}
+        <LayoutContainer
+            {...props}
+            className={`${styles.string} text-sm xl:text-base font-normal h-full w-full`}
             onClick={onClick}
         >
             {text}
-        </span>
+        </LayoutContainer>
     );
 }
 
@@ -49,12 +66,13 @@ function Paragraph3({ text, padding = true, onClick = null, ...props }) {
     );
 
     return (
-        <span
-            className={`flex flex-row w-full ${paddingStyles} text-xs xl:text-sm font-normal ${styles.string}`}
+        <LayoutContainer
+            {...props}
+            className={`${styles.string} text-xs xl:text-sm font-normal h-full w-full`}
             onClick={onClick}
         >
             {text}
-        </span>
+        </LayoutContainer>
     );
 }
 

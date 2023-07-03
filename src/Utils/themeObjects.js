@@ -6,6 +6,14 @@ const PANEL = "panel";
 const PANEL_2 = "panel-2";
 const PANEL_3 = "panel-3";
 
+const PANEL_HEADER = "panel-header";
+const PANEL_HEADER_2 = "panel-header-2";
+const PANEL_HEADER_3 = "panel-header-3";
+
+const PANEL_FOOTER = "panel-footer";
+const PANEL_FOOTER_2 = "panel-footer-2";
+const PANEL_FOOTER_3 = "panel-footer-3";
+
 const BUTTON_ICON = "button-icon";
 const BUTTON_ICON_2 = "button-icon-2";
 const BUTTON_ICON_3 = "button-icon-3";
@@ -68,6 +76,12 @@ const themeObjects = {
     PANEL,
     PANEL_2,
     PANEL_3,
+    PANEL_HEADER,
+    PANEL_HEADER_2,
+    PANEL_HEADER_3,
+    PANEL_FOOTER,
+    PANEL_FOOTER_2,
+    PANEL_FOOTER_3,
     HEADING,
     HEADING_2,
     HEADING_3,

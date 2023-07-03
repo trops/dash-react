@@ -20,7 +20,7 @@ const Template = (args) => {
             api={mock.api}
             theme={mock.themes}
             args={args}
-            backgroundColor={"bg-gray-900"}
+            // backgroundColor={"bg-gray-900"}
         >
             <Heading {...args} />
         </MockWrapper>
@@ -33,7 +33,7 @@ const Template2 = (args) => {
             api={mock.api}
             theme={mock.themes}
             args={args}
-            backgroundColor={"bg-gray-900"}
+            // backgroundColor={"bg-gray-900"}
         >
             <Heading2 {...args} />
         </MockWrapper>
@@ -46,7 +46,7 @@ const Template3 = (args) => {
             api={mock.api}
             theme={mock.themes}
             args={args}
-            backgroundColor={"bg-gray-900"}
+            // backgroundColor={"bg-gray-900"}
         >
             <Heading3 {...args} />
         </MockWrapper>

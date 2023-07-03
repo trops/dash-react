@@ -89,14 +89,50 @@ const colorMap = {
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
         [styleClassNames.HOVER_BORDER_COLOR]: "border-primary-very-dark",
     },
+    [themeObjects.PANEL_HEADER]: {
+        // [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.HOVER_BORDER_COLOR]: "border-primary-very-dark",
+    },
+    [themeObjects.PANEL_FOOTER]: {
+        // [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.HOVER_BORDER_COLOR]: "border-primary-very-dark",
+    },
     [themeObjects.PANEL_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-dark",
         [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
         [styleClassNames.HOVER_BORDER_COLOR]: "border-secondary-dark",
     },
+    [themeObjects.PANEL_HEADER_2]: {
+        // [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.HOVER_BORDER_COLOR]: "border-secondary-dark",
+    },
+    [themeObjects.PANEL_FOOTER_2]: {
+        // [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.HOVER_BORDER_COLOR]: "border-secondary-dark",
+    },
     [themeObjects.PANEL_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.HOVER_BORDER_COLOR]: "border-tertiary-very-dark",
+    },
+    [themeObjects.PANEL_HEADER_3]: {
+        // [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.HOVER_BORDER_COLOR]: "border-tertiary-very-dark",
+    },
+    [themeObjects.PANEL_FOOTER_3]: {
+        // [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-dark",
         [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
         [styleClassNames.HOVER_BORDER_COLOR]: "border-tertiary-very-dark",
@@ -321,84 +357,101 @@ const colorMap = {
     },
 };
 
+console.log(colorMap);
+
 /**
  * getStylesForItem
  * @param {string} itemName the name of the component (button, panel, etc)
  *
  */
 const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
-    if (itemName !== null) {
-        // get the colors from the theme by default
-        // this is a MAP like "bg-primary-dark" which needs to
-        // fetch its value from the actual theme based on this key mapping
-        const defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
+    try {
+        if (itemName !== null) {
+            // get the colors from the theme by default
+            // this is a MAP like "bg-primary-dark" which needs to
+            // fetch its value from the actual theme based on this key mapping
+            const defaultStyles =
+                itemName in colorMap ? colorMap[itemName] : null;
 
-        // then we have to determine if this item has any theme overrides
+            // then we have to determine if this item has any theme overrides
 
-        const themeOverrides =
-            theme !== null && itemName in theme ? theme[itemName] : {};
+            const themeOverrides =
+                theme !== null && itemName in theme ? theme[itemName] : {};
 
-        // then we have to determine if the component has any MANUAL overrides
-        const manualOverrides =
-            Object.keys(overrides).length > 0 ? overrides : {};
+            // then we have to determine if the component has any MANUAL overrides
+            const manualOverrides =
+                Object.keys(overrides).length > 0 ? overrides : {};
 
-        // and this is the styles we shall return
-        let styles = {};
+            // and this is the styles we shall return
+            let styles = {};
 
-        // First set all of the defaults
-        Object.keys(defaultStyles).forEach((key) => {
-            styles[key] = theme[defaultStyles[key]];
-        });
-
-        // scrollbars?
-        const scrollbarStyles =
-            "scrollable" in overrides && overrides["scrollable"] === true
-                ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
-                : "overflow-hidden"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
-
-        // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
-
-        console.log("bar styles ", itemName, overrides, scrollbarStyles);
-
-        // we have to begin with the defaults for the theme so we have access
-        // and knowledge of what keys in the theme to return.
-        // the trick is applying the overrides to those theme keys
-        // if they exist.
-
-        if (defaultStyles !== null) {
-            // now we have to handle the overrides
-            // if the user has passed in any
-            Object.keys(defaultStyles).forEach((className) => {
-                // check manual override
-                if (
-                    className in manualOverrides &&
-                    manualOverrides[className] !== null
-                ) {
-                    styles[className] = manualOverrides[className];
-                }
-
-                if (className in themeOverrides) {
-                    const themeClass = themeOverrides[className];
-                    styles[className] = themeClass;
-                }
+            // First set all of the defaults
+            Object.keys(defaultStyles).forEach((key) => {
+                styles[key] = theme[defaultStyles[key]];
             });
+
+            // scrollbars?
+            const scrollbarStyles =
+                "scrollable" in overrides && overrides["scrollable"] === true
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
+                    : "overflow-hidden"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
+
+            // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
+
+            console.log("bar styles ", itemName, overrides, scrollbarStyles);
+
+            // we have to begin with the defaults for the theme so we have access
+            // and knowledge of what keys in the theme to return.
+            // the trick is applying the overrides to those theme keys
+            // if they exist.
+
+            if (defaultStyles !== null) {
+                // now we have to handle the overrides
+                // if the user has passed in any
+                Object.keys(defaultStyles).forEach((className) => {
+                    // check manual override
+                    if (
+                        className in manualOverrides &&
+                        manualOverrides[className] !== null
+                    ) {
+                        styles[className] = manualOverrides[className];
+                    }
+
+                    if (className in themeOverrides) {
+                        const themeClass = themeOverrides[className];
+                        styles[className] = themeClass;
+                    }
+                });
+            }
+
+            console.log(
+                "styles ",
+                itemName,
+                Object.keys(styles),
+                scrollbarStyles
+            );
+
+            return {
+                string:
+                    Object.keys(styles).length > 0
+                        ? Object.keys(styles)
+                              .map((key) => styles[key])
+                              .join(" ")
+                              .concat(" ")
+                              .concat(scrollbarStyles)
+                        : scrollbarStyles,
+                ...styles,
+            };
         }
-
-        console.log("styles ", itemName, Object.keys(styles), scrollbarStyles);
-
+    } catch (e) {
+        console.log(e);
         return {
-            string:
-                Object.keys(styles).length > 0
-                    ? Object.keys(styles)
-                          .map((key) => styles[key])
-                          .join(" ")
-                          .concat(" ")
-                          .concat(scrollbarStyles)
-                    : scrollbarStyles,
-            ...styles,
+            string: "",
         };
     }
-    return null;
+    return {
+        string: null,
+    };
 };
 
 const getClassForObjectType = (objectType) => {

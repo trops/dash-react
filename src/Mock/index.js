@@ -13,4 +13,30 @@ const mock = {
     api: mockApi,
 };
 
-export { mock };
+const mockText = {
+    title: "Title",
+    paragraph: `Here is the body of the panelHere is the body of the panelHere
+    is the body of the panelHere is the body of the panelHere is the
+    body of the panelHere is the body of the panelHere is the body
+    of the panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panel panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the panel
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panel panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the panel
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panelHere is the body of the
+    panelHere is the body of the panel`,
+};
+
+export { mock, mockText };
