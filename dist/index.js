@@ -5577,7 +5577,8 @@ var Layout = function Layout(_ref) {
 };
 
 var LayoutContainer = function LayoutContainer(_ref) {
-  var id = _ref.id,
+  var _ref$id = _ref.id,
+    id = _ref$id === void 0 ? null : _ref$id,
     children = _ref.children,
     _ref$direction = _ref.direction,
     direction = _ref$direction === void 0 ? "row" : _ref$direction,
@@ -5593,10 +5594,11 @@ var LayoutContainer = function LayoutContainer(_ref) {
     space = _ref$space === void 0 ? true : _ref$space;
   var _useContext = useContext$1(ThemeContext);
     _useContext.currentTheme;
-
+  var containerId = id === null ? Math.random(0, 1000) : id;
   // determine the classes based on the props...
   var directionStyle = direction === "row" ? space === true ? "flex-row space-x-2" : "flex-row" : space === true ? "flex-col space-y-2" : "flex-col";
-  var scrollStyle = scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
+  // const scrollStyle =
+  //     scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
   var widthStyle = width;
   var heightStyle = height === "" ? "h-full" : height; //'h-full';//scrollable === true ? height : height;
 
@@ -5606,11 +5608,10 @@ var LayoutContainer = function LayoutContainer(_ref) {
 
   // scrollbars?
   // put this CSS in the Util/colors.js function
-  var scrollbarStyles = scrollable === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800" : ""; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
-
+  var scrollbarStyles = scrollable === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800" : "overflow-hidden";
   return /*#__PURE__*/jsx("div", {
-    id: "LayoutContainer-".concat(id),
-    className: "flex border-1 justify-between ".concat(scrollbarStyles, " ").concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
+    id: "LayoutContainer-".concat(containerId),
+    className: "flex border-1 justify-between ".concat(scrollbarStyles, " ").concat(backgroundColorStyle, " ").concat(borderColorStyle, " ").concat(directionStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
     children: children
   });
 };
@@ -9825,7 +9826,7 @@ var getStylesForItem = function getStylesForItem() {
       });
 
       // scrollbars?
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800" : "overflow-hidden"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800" : ""; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
 
       // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
 
@@ -9929,9 +9930,10 @@ var PanelHeader = function PanelHeader(_ref) {
 // PanelBody should not be scrollable, because the parent Panel container IS scrollable.
 
 var PanelBody = function PanelBody(_ref2) {
-  var children = _ref2.children;
-    _ref2.scrollable;
-    var props = _objectWithoutProperties$8(_ref2, _excluded2$5);
+  var children = _ref2.children,
+    _ref2$scrollable = _ref2.scrollable,
+    scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
+    props = _objectWithoutProperties$8(_ref2, _excluded2$5);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -9941,6 +9943,7 @@ var PanelBody = function PanelBody(_ref2) {
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
     direction: props.horizontal === true ? "row" : "col",
     className: "p-6 ".concat(styles.string),
+    scrollable: scrollable,
     children: children
   }));
 };
@@ -9951,7 +9954,7 @@ var PanelFooter = function PanelFooter(_ref3) {
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, _objectSpread$9({}, props));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-2 border-t justify-between items-center ".concat(styles.string),
+    className: "flex flex-row rounded-b p-6 border-t justify-between items-center ".concat(styles.string),
     children: children
   });
 };
@@ -9964,12 +9967,13 @@ var Panel = function Panel(_ref4) {
     onClick = _ref4$onClick === void 0 ? null : _ref4$onClick;
     _ref4.width;
     var _ref4$height = _ref4.height,
-    height = _ref4$height === void 0 ? "h-full" : _ref4$height,
+    height = _ref4$height === void 0 ? "" : _ref4$height,
     _ref4$padding = _ref4.padding,
     padding = _ref4$padding === void 0 ? true : _ref4$padding,
     _ref4$scrollable = _ref4.scrollable,
     scrollable = _ref4$scrollable === void 0 ? true : _ref4$scrollable,
     props = _objectWithoutProperties$8(_ref4, _excluded4$1);
+  // Fetch the Styles from the utility
   var _useContext4 = useContext$1(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -9977,12 +9981,11 @@ var Panel = function Panel(_ref4) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(styles.string, " ").concat(height, " rounded ").concat(padding === true ? "p-6" : "p-0"),
+    className: "".concat(styles.string, " ").concat(height, " rounded-lg ").concat(padding === true ? "p-6" : "p-0"),
     onClick: onClick,
-    children: /*#__PURE__*/jsx("div", {
-      className: "h-full w-full",
-      children: children
-    })
+    scrollable: scrollable // must include this here as we separated props
+    ,
+    children: children
   }));
 };
 Panel.Header = PanelHeader;
@@ -10018,6 +10021,7 @@ var PanelBody2 = function PanelBody2(_ref6) {
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
     className: "p-4 ".concat(styles.string),
     direction: props.horizontal === true ? "row" : "col",
+    scrollable: false,
     children: children
   }));
 };
@@ -10041,7 +10045,7 @@ var Panel2 = function Panel2(_ref8) {
     _ref8$width = _ref8.width,
     width = _ref8$width === void 0 ? "w-full" : _ref8$width,
     _ref8$height = _ref8.height,
-    height = _ref8$height === void 0 ? "h-full" : _ref8$height,
+    height = _ref8$height === void 0 ? "" : _ref8$height,
     _ref8$padding = _ref8.padding,
     padding = _ref8$padding === void 0 ? true : _ref8$padding,
     _ref8$scrollable = _ref8.scrollable,
@@ -10056,8 +10060,9 @@ var Panel2 = function Panel2(_ref8) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(styles.string, " ").concat(padding === true ? "p-4" : "p-0", " ").concat(height, " rounded"),
+    className: "".concat(styles.string, " ").concat(padding === true ? "p-4" : "p-0", " ").concat(height, " rounded-md"),
     onClick: onClick,
+    scrollable: scrollable,
     children: /*#__PURE__*/jsx("div", {
       className: "h-full w-full",
       children: children
@@ -10099,6 +10104,7 @@ var PanelBody3 = function PanelBody3(_ref10) {
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
       className: "p-2 ".concat(styles.string),
       direction: props.horizontal === true ? "row" : "col",
+      scrollable: false,
       children: children
     }));
   } catch (e) {
@@ -10126,7 +10132,7 @@ var Panel3 = function Panel3(_ref12) {
     _ref12$width = _ref12.width,
     width = _ref12$width === void 0 ? "w-full" : _ref12$width,
     _ref12$height = _ref12.height,
-    height = _ref12$height === void 0 ? "h-full" : _ref12$height,
+    height = _ref12$height === void 0 ? "" : _ref12$height,
     _ref12$padding = _ref12.padding,
     padding = _ref12$padding === void 0 ? true : _ref12$padding,
     _ref12$scrollable = _ref12.scrollable,
@@ -10143,6 +10149,7 @@ var Panel3 = function Panel3(_ref12) {
     direction: horizontal === true ? "row" : "col",
     className: "".concat(styles.string, " ").concat(padding === true ? "p-2" : "p-0", " ").concat(height, " rounded"),
     onClick: onClick,
+    scrollable: scrollable,
     children: /*#__PURE__*/jsx("div", {
       className: "h-full w-full",
       children: children
@@ -10194,7 +10201,7 @@ Modal.Footer = ModalFooter;
 function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
 var _excluded$7 = ["text", "padding", "onClick", "scrollable"],
   _excluded2$4 = ["text", "padding", "onClick", "scrollable"],
-  _excluded3$4 = ["text", "padding", "onClick"];
+  _excluded3$4 = ["text", "padding", "onClick", "scrollable"];
 function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty$9(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$9(obj, key, value) { key = _toPropertyKey$d(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10206,9 +10213,10 @@ function Paragraph(_ref) {
   var text = _ref.text;
     _ref.padding;
     var _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick;
-    _ref.scrollable;
-    var props = _objectWithoutProperties$7(_ref, _excluded$7);
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$scrollable = _ref.scrollable,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
+    props = _objectWithoutProperties$7(_ref, _excluded$7);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props);
@@ -10216,6 +10224,7 @@ function Paragraph(_ref) {
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$8(_objectSpread$8({}, props), {}, {
     className: "".concat(styles.string, " text-base xl:text-lg font-normal h-full w-full"),
     onClick: onClick,
+    scrollable: scrollable,
     children: text
   }));
 }
@@ -10235,6 +10244,7 @@ function Paragraph2(_ref2) {
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$8(_objectSpread$8({}, props), {}, {
     className: "".concat(styles.string, " text-sm xl:text-base font-normal h-full w-full"),
     onClick: onClick,
+    scrollable: scrollable,
     children: text
   }));
 }
@@ -10243,6 +10253,8 @@ function Paragraph3(_ref3) {
     _ref3.padding;
     var _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$scrollable = _ref3.scrollable,
+    scrollable = _ref3$scrollable === void 0 ? false : _ref3$scrollable,
     props = _objectWithoutProperties$7(_ref3, _excluded3$4);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -10250,6 +10262,7 @@ function Paragraph3(_ref3) {
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$8(_objectSpread$8({}, props), {}, {
     className: "".concat(styles.string, " text-xs xl:text-sm font-normal h-full w-full"),
     onClick: onClick,
+    scrollable: scrollable,
     children: text
   }));
 }
@@ -11397,6 +11410,7 @@ var DashPanelBody = function DashPanelBody(_ref2) {
   console.log("dash panel body ", styles.string);
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$1(_objectSpread$1({}, props), {}, {
     className: "".concat(styles.string, " p-4"),
+    scrollable: false,
     children: children
   }));
 };
@@ -11417,7 +11431,6 @@ var DashPanel = function DashPanel(_ref4) {
   var _useContext4 = useContext$1(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$1({}, props));
-  console.log("Dash panel styles ", styles.string);
   return /*#__PURE__*/jsx(Panel, _objectSpread$1(_objectSpread$1({
     className: "justify-between"
   }, styles), {}, {
