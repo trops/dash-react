@@ -44,9 +44,9 @@ const Template2 = (args) => {
     );
 };
 
-export const Primary2 = Template2.bind({});
+export const Secondary = Template2.bind({});
 
-Primary2.args = {
+Secondary.args = {
     title: "DashPanel",
     scrollable: true,
     height: "h-60",
@@ -68,9 +68,9 @@ const Template3 = (args) => {
     );
 };
 
-export const Primary3 = Template3.bind({});
+export const Tertiary = Template3.bind({});
 
-Primary3.args = {
+Tertiary.args = {
     title: "DashPanel",
     scrollable: true,
     height: "h-60",
@@ -80,12 +80,10 @@ Primary3.args = {
 const TemplateNoHeader = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <DashPanel3>
-                <DashPanel3.Body {...args}>
-                    {mockText.paragraph}
-                </DashPanel3.Body>
-                <DashPanel2.Footer>Footer</DashPanel2.Footer>
-            </DashPanel3>
+            <DashPanel>
+                <DashPanel.Body {...args}>{mockText.paragraph}</DashPanel.Body>
+                <DashPanel.Footer>Footer</DashPanel.Footer>
+            </DashPanel>
         </MockWrapper>
     );
 };
@@ -102,11 +100,9 @@ PrimaryNoHeader.args = {
 const TemplateNoHeaderFooter = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <DashPanel3>
-                <DashPanel3.Body {...args}>
-                    {mockText.paragraph}
-                </DashPanel3.Body>
-            </DashPanel3>
+            <DashPanel>
+                <DashPanel.Body {...args}>{mockText.paragraph}</DashPanel.Body>
+            </DashPanel>
         </MockWrapper>
     );
 };

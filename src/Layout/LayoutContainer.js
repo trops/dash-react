@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
 
 export const LayoutContainer = ({
-    id = 1,
+    id = null,
     children,
     direction = "row",
     className = "",
@@ -13,6 +13,7 @@ export const LayoutContainer = ({
 }) => {
     const { currentTheme } = useContext(ThemeContext);
 
+    const containerId = id === null ? Math.random(0, 1000) : id;
     // determine the classes based on the props...
     const directionStyle =
         direction === "row"
@@ -40,7 +41,7 @@ export const LayoutContainer = ({
 
     return (
         <div
-            id={`LayoutContainer-${id}`}
+            id={`LayoutContainer-${containerId}`}
             className={`flex border-1 justify-between ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
