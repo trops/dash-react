@@ -22,8 +22,8 @@ export const LayoutContainer = ({
             : space === true
             ? "flex-col space-y-2"
             : "flex-col";
-    const scrollStyle =
-        scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
+    // const scrollStyle =
+    //     scrollable === true ? "overflow-y-scroll" : "overflow-hidden";
     const widthStyle = width;
     const heightStyle = height === "" ? "h-full" : height; //'h-full';//scrollable === true ? height : height;
 
@@ -36,12 +36,12 @@ export const LayoutContainer = ({
     const scrollbarStyles =
         scrollable === true
             ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
-            : "overflow-hidden"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
+            : "overflow-hidden";
 
     return (
         <div
             id={`LayoutContainer-${id}`}
-            className={`flex border-1 justify-between ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}
+            className={`flex border-1 justify-between ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>

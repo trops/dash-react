@@ -25,6 +25,7 @@ function Paragraph({
             {...props}
             className={`${styles.string} text-base xl:text-lg font-normal h-full w-full`}
             onClick={onClick}
+            scrollable={scrollable}
         >
             {text}
         </LayoutContainer>
@@ -50,13 +51,20 @@ function Paragraph2({
             {...props}
             className={`${styles.string} text-sm xl:text-base font-normal h-full w-full`}
             onClick={onClick}
+            scrollable={scrollable}
         >
             {text}
         </LayoutContainer>
     );
 }
 
-function Paragraph3({ text, padding = true, onClick = null, ...props }) {
+function Paragraph3({
+    text,
+    padding = true,
+    onClick = null,
+    scrollable = false,
+    ...props
+}) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
     const styles = getStylesForItem(
@@ -70,6 +78,7 @@ function Paragraph3({ text, padding = true, onClick = null, ...props }) {
             {...props}
             className={`${styles.string} text-xs xl:text-sm font-normal h-full w-full`}
             onClick={onClick}
+            scrollable={scrollable}
         >
             {text}
         </LayoutContainer>

@@ -39,6 +39,7 @@ const PanelBody = ({ children, scrollable = false, ...props }) => {
             {...props}
             direction={props.horizontal === true ? "row" : "col"}
             className={`p-6 ${styles.string}`}
+            scrollable={scrollable}
         >
             {children}
         </LayoutContainer>
@@ -52,7 +53,7 @@ const PanelFooter = ({ children, ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-2 border-t justify-between items-center ${styles.string}`}
+            className={`flex flex-row rounded-b p-6 border-t justify-between items-center ${styles.string}`}
         >
             {children}
         </div>
@@ -81,14 +82,15 @@ const Panel = ({
         <LayoutContainer
             {...props}
             direction={horizontal === true ? "row" : "col"}
-            className={`${styles.string} ${height} rounded ${
+            className={`${styles.string} ${height} rounded-lg ${
                 padding === true ? "p-6" : "p-0"
             }`}
             onClick={onClick}
             scrollable={scrollable} // must include this here as we separated props
         >
             {/* height to take up height of the parent container */}
-            <div className="h-full w-full">{children}</div>
+            {/* <div className="flex flex-row h-full w-full">{children}</div> */}
+            {children}
         </LayoutContainer>
     );
 };
@@ -131,6 +133,7 @@ const PanelBody2 = ({ children, ...props }) => {
             {...props}
             className={`p-4 ${styles.string}`}
             direction={props.horizontal === true ? "row" : "col"}
+            scrollable={false}
         >
             {children}
         </LayoutContainer>
@@ -176,7 +179,7 @@ const Panel2 = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${styles.string} ${
                 padding === true ? "p-4" : "p-0"
-            } ${height} rounded`}
+            } ${height} rounded-md`}
             onClick={onClick}
             scrollable={scrollable}
         >
@@ -226,6 +229,7 @@ const PanelBody3 = ({ children, ...props }) => {
                 {...props}
                 className={`p-2 ${styles.string}`}
                 direction={props.horizontal === true ? "row" : "col"}
+                scrollable={false}
             >
                 {children}
             </LayoutContainer>
