@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
 
 export const LayoutContainer = ({
-    id,
+    id = 1,
     children,
     direction = "row",
     className = "",
@@ -36,7 +36,7 @@ export const LayoutContainer = ({
     const scrollbarStyles =
         scrollable === true
             ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
-            : ""; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
+            : "overflow-hidden"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
 
     return (
         <div

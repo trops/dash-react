@@ -1,4 +1,5 @@
 import { DashPanel, DashPanel2, DashPanel3 } from "./DashPanel";
+import { LayoutContainer } from "@dash/Layout";
 import { MockWrapper, mock, mockText } from "../Mock";
 
 export default {
@@ -116,4 +117,38 @@ PrimaryNoHeaderFooter.args = {
     title: "DashPanel",
     scrollable: true,
     height: "h-60",
+};
+
+const TemplatePrimaryMultiple = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes}>
+            <LayoutContainer direction="col" scrollable={true} height="h-1/2">
+                <div style={{ height: "400px" }}>
+                    <DashPanel {...args}>
+                        <DashPanel.Header title={args.title}>
+                            {args.title}
+                        </DashPanel.Header>
+                        <DashPanel.Body>{mockText.paragraph}</DashPanel.Body>
+                        <DashPanel.Footer>Footer</DashPanel.Footer>
+                    </DashPanel>
+                    <DashPanel {...args}>
+                        <DashPanel.Header title={args.title}>
+                            {args.title}
+                        </DashPanel.Header>
+                        <DashPanel.Body>{mockText.paragraph}</DashPanel.Body>
+                        <DashPanel.Footer>Footer</DashPanel.Footer>
+                    </DashPanel>
+                </div>
+            </LayoutContainer>
+        </MockWrapper>
+    );
+};
+
+export const PrimaryMultiple = TemplatePrimaryMultiple.bind({});
+
+PrimaryMultiple.args = {
+    title: "DashPanel",
+    scrollable: false,
+    height: "h-1/4",
+    width: "w-1/2",
 };

@@ -39,7 +39,11 @@ const DashPanelBody = ({ children, ...props }) => {
     console.log("dash panel body ", styles.string);
 
     return (
-        <LayoutContainer {...props} className={`${styles.string} p-4`}>
+        <LayoutContainer
+            {...props}
+            className={`${styles.string} p-4`}
+            scrollable={false}
+        >
             {children}
         </LayoutContainer>
     );
@@ -69,7 +73,6 @@ const DashPanel = ({ children, ...props }) => {
         ...props,
     });
 
-    console.log("Dash panel styles ", styles.string);
     return (
         <Panel
             className={`justify-between`}

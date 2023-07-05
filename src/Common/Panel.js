@@ -65,11 +65,12 @@ const Panel = ({
     children,
     onClick = null,
     width = "w-full",
-    height = "h-full",
+    height = "", // leave as blank so the panel will not take up full height if not warranted
     padding = true,
-    scrollable = true,
+    scrollable = true, // this is the default for a panel
     ...props
 }) => {
+    // Fetch the Styles from the utility
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL, currentTheme, {
         ...props,
@@ -84,7 +85,9 @@ const Panel = ({
                 padding === true ? "p-6" : "p-0"
             }`}
             onClick={onClick}
+            scrollable={scrollable} // must include this here as we separated props
         >
+            {/* height to take up height of the parent container */}
             <div className="h-full w-full">{children}</div>
         </LayoutContainer>
     );
@@ -154,7 +157,7 @@ const Panel2 = ({
     children,
     onClick = null,
     width = "w-full",
-    height = "h-full",
+    height = "",
     padding = true,
     scrollable = true,
     ...props
@@ -175,6 +178,7 @@ const Panel2 = ({
                 padding === true ? "p-4" : "p-0"
             } ${height} rounded`}
             onClick={onClick}
+            scrollable={scrollable}
         >
             <div className="h-full w-full">{children}</div>
         </LayoutContainer>
@@ -252,7 +256,7 @@ const Panel3 = ({
     children,
     onClick = null,
     width = "w-full",
-    height = "h-full",
+    height = "",
     padding = true,
     scrollable = true,
     ...props
@@ -273,6 +277,7 @@ const Panel3 = ({
                 padding === true ? "p-2" : "p-0"
             } ${height} rounded`}
             onClick={onClick}
+            scrollable={scrollable}
         >
             <div className="h-full w-full">{children}</div>
         </LayoutContainer>
