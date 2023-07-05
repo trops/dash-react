@@ -30,10 +30,19 @@ const DashPanelHeader = ({ title, ping = true, ...props }) => {
     );
 };
 
-const DashPanelBody = ({ children, ...props }) => {
+const DashPanelBody = ({
+    children,
+    height = "h-full",
+    width = "w-full",
+    scrollable = true,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
+        scrollable,
+        width,
+        height,
     });
 
     console.log("dash panel body ", styles.string);
@@ -42,7 +51,9 @@ const DashPanelBody = ({ children, ...props }) => {
         <LayoutContainer
             {...props}
             className={`${styles.string} p-4`}
-            scrollable={false}
+            scrollable={scrollable}
+            width={width}
+            height={height}
         >
             {children}
         </LayoutContainer>
@@ -67,18 +78,30 @@ const DashPanelFooter = ({ children, ...props }) => {
     );
 };
 
-const DashPanel = ({ children, ...props }) => {
+const DashPanel = ({
+    children,
+    height = "h-full",
+    width = "w-full",
+    scrollable = false,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
+        width,
+        height,
+        scrollable,
     });
 
     return (
         <Panel
-            className={`justify-between`}
-            {...styles}
+            // className={`justify-between`}
+            // className={`${styles.string}`}
+            // {...styles}
             padding={false}
-            scrollable={false}
+            scrollable={scrollable}
+            height={height}
+            width={width}
         >
             {children}
         </Panel>
@@ -115,10 +138,19 @@ const DashPanelHeader2 = ({ title, ping = true, ...props }) => {
     );
 };
 
-const DashPanelBody2 = ({ children, ...props }) => {
+const DashPanelBody2 = ({
+    children,
+    height = "h-full",
+    width = "w-full",
+    scrollable = true,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, {
         ...props,
+        scrollable,
+        height,
+        width,
     });
 
     return (
@@ -130,11 +162,6 @@ const DashPanelBody2 = ({ children, ...props }) => {
             {children}
         </LayoutContainer>
     );
-    // return (
-    //     <div className={`rounded-b p-4 h-full space-y-1 ${styles.string}`}>
-    //         {children}
-    //     </div>
-    // );
 };
 
 const DashPanelFooter2 = ({ children, ...props }) => {
@@ -155,18 +182,27 @@ const DashPanelFooter2 = ({ children, ...props }) => {
     );
 };
 
-const DashPanel2 = ({ children, ...props }) => {
+const DashPanel2 = ({
+    children,
+    height = "h-full",
+    width = "w-full",
+    scrollable = false,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, {
         ...props,
+        height,
+        width,
+        scrollable,
     });
     return (
         <Panel2
-            className={`justify-between overflow-hidden`}
+            // className={`justify-between overflow-hidden`}
             {...styles}
             padding={false}
         >
-            <div className="flex flex-col h-full bg-inherit">{children}</div>
+            <div className="flex flex-col h-full">{children}</div>
         </Panel2>
     );
 };
@@ -175,7 +211,7 @@ DashPanel2.Header = DashPanelHeader2;
 DashPanel2.Body = DashPanelBody2;
 DashPanel2.Footer = DashPanelFooter2;
 
-const DashPanelHeader3 = ({ title, ping = true, ...props }) => {
+const DashPanelHeader3 = ({ title, ping = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.DASH_PANEL_HEADER_3,
@@ -199,10 +235,19 @@ const DashPanelHeader3 = ({ title, ping = true, ...props }) => {
     );
 };
 
-const DashPanelBody3 = ({ children, ...props }) => {
+const DashPanelBody3 = ({
+    children,
+    width = "w-full",
+    height = "h-full",
+    scrollable = true,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, {
         ...props,
+        width,
+        height,
+        scrollable,
     });
     return (
         <LayoutContainer {...props} className={`p-4 ${styles.string}`}>
@@ -229,14 +274,23 @@ const DashPanelFooter3 = ({ children, ...props }) => {
     );
 };
 
-const DashPanel3 = ({ children, ...props }) => {
+const DashPanel3 = ({
+    children,
+    height = "h-full",
+    width = "w-full",
+    scrollable = false,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, {
         ...props,
+        width,
+        height,
+        scrollable,
     });
     return (
         <Panel3
-            className={`justify-between overflow-hidden`}
+            // className={`justify-between overflow-hidden`}
             {...styles}
             padding={false}
         >

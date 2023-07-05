@@ -1,11 +1,13 @@
 import { AppWrapper, mock } from "@dash";
 import { AppContext, ThemeContext } from "../Context";
 import "../tailwind.css";
+import { Widget } from "..";
 
 export const MockWrapper = ({
     apiMock = null,
     children,
     backgroundColor = "bg-transparent",
+    ...props
 }) => {
     function getAppContext() {
         return {
@@ -17,17 +19,21 @@ export const MockWrapper = ({
                 theme: "theme-1",
                 debug: false,
             },
+            debugMode: true,
         };
     }
 
     return (
-        <div className="flex flex-col h-full w-full m-auto justify-center items-center">
+        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
-                        className={`flex flex-col space-y-2 w-full h-full p-6 border rounded-lg ${backgroundColor}`}
+                        className={`flex flex-col space-y-2 w-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-700 bg-gray-300`}
                     >
-                        {children}
+                        <span className="uppercase text-gray-800 font-bold text-sm">
+                            WIDGET - Item is a child of the Widget component
+                        </span>
+                        <Widget {...props}>{children}</Widget>
                     </div>
                 </ThemeContext.Provider>
             </AppContext.Provider>

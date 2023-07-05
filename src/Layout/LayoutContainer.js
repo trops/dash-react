@@ -6,9 +6,9 @@ export const LayoutContainer = ({
     children,
     direction = "row",
     className = "",
-    scrollable = true,
+    scrollable = false,
     width = "w-full",
-    height = "min-h-fit",
+    height = "",
     space = true,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
