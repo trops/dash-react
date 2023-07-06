@@ -27,6 +27,14 @@ This key may change or be provided upon request.
 | `npm run build`                 | Build the tailwind.css file and run development environment and launch Electron window  |
 | `node ./widgetize <WidgetName>` | Generate a new Widget inside the src/Widgets directory using the template as a scaffold |
 
+## Running Production
+
+-   Add all changes to git
+-   run `npm run prod` to generate the build
+-   commit the changes
+-   run `npm version patch` to update the package version
+-   push `git push origin main`
+
 # React Web Project
 
 This current project runs Electron, but the @trops/dash-react package may be used in a simple React web based application. The caveat is the API bridge between Electron and the React renderer will have to be re-created in order to satisfy the data requirements for configuring the application. This API is injected into the Dash application for portability.

@@ -78,9 +78,9 @@ export const PanelWelcome = ({
                 className={`flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center`}
             >
                 <Panel2
-                    className={
-                        "items-center justify-center border-2 rounded-lg shadow"
-                    }
+                // className={
+                //     "items-center justify-center border-2 rounded-lg shadow"
+                // }
                 >
                     <div className="flex flex-col w-full h-full overflow-hidden p-4">
                         <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
@@ -119,10 +119,10 @@ export const PanelWelcome = ({
                                 </div>
                             </div>
                             <Panel3
-                                className={`flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full p-10 overflow-hidden`}
+                                // className={`flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full p-10 overflow-hidden`}
                                 scrollable={false}
                             >
-                                <div className="flex flex-row p-2 font-bold mb-4 justify-between items-center">
+                                <Panel3.Header>
                                     <SubHeading3
                                         title={`You have ${menuItems.length} folders and ${workspaces.length} Dashboards created.`}
                                         padding={false}
@@ -132,13 +132,31 @@ export const PanelWelcome = ({
                                         textSize={"text-lg"}
                                         onClick={() => onClickCreateMenuItem()}
                                     />
-                                </div>
-                                <Panel3
-                                    className="flex flex-col space-y-4 py-4"
+                                </Panel3.Header>
+                                <Panel3.Body>
+                                    {/* <div className="flex flex-row p-2 font-bold mb-4 justify-between items-center">
+                                        <SubHeading3
+                                            title={`You have ${menuItems.length} folders and ${workspaces.length} Dashboards created.`}
+                                            padding={false}
+                                        />
+                                        <ButtonIcon
+                                            icon="plus"
+                                            textSize={"text-lg"}
+                                            onClick={() =>
+                                                onClickCreateMenuItem()
+                                            }
+                                        />
+                                    </div> */}
+                                    {renderWorkspaces()}
+                                </Panel3.Body>
+                                {/* <Panel3
+                                    // className="flex flex-col space-y-4 py-4"
                                     scrollable={true}
                                 >
-                                    {renderWorkspaces()}
-                                </Panel3>
+                                    <Panel3.Body>
+                                        {renderWorkspaces()}
+                                    </Panel3.Body>
+                                </Panel3> */}
                             </Panel3>
                         </div>
                     </div>

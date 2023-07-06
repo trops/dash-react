@@ -1,7 +1,7 @@
 import { AppWrapper, mock } from "@dash";
 import { AppContext, ThemeContext } from "../Context";
 import "../tailwind.css";
-import { LayoutContainer, Widget } from "..";
+import { LayoutContainer, Widget, Workspace } from "..";
 
 export const MockWrapper = ({
     apiMock = null,
@@ -34,12 +34,14 @@ export const MockWrapper = ({
                             WIDGET - Item is a child of the Widget component
                         </span>
                         <LayoutContainer
-                            scrollable={true}
+                            scrollable={false}
                             height="h-full"
                             width="w-full"
                             // className={"bg-red-500 p-4"}
                         >
-                            <Widget>{children}</Widget>
+                            <Workspace scrollable={false}>
+                                <Widget scrollable={false}>{children}</Widget>
+                            </Workspace>
                         </LayoutContainer>
                     </div>
                 </ThemeContext.Provider>

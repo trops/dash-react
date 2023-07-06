@@ -14,20 +14,22 @@ const ButtonIcon = ({
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
+    const width = block === true ? "w-full" : "";
     const styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, {
         ...props,
+        scrollable: false,
+        width: "",
+        height: "h-full",
     });
+
+    console.log("button icon styles ", styles.string);
     return (
         <div
             onClick={(e) => {
                 e.preventDefault();
                 onClick(e);
             }}
-            className={`flex flex-row  ${
-                styles.string
-            } rounded font-medium items-center justify-center cursor-pointer p-2 ${textSize} ${
-                block && "w-full"
-            } whitespace-nowrap`}
+            className={`flex flex-row ${styles.string} rounded font-medium items-center justify-center cursor-pointer p-2 ${textSize} whitespace-nowrap`}
         >
             <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
             {text !== null && (

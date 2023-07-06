@@ -394,7 +394,7 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
-                    : "overflow-visible flex-1 h-fit"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
+                    : "overflow-visible"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
 
             // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
 

@@ -66,7 +66,7 @@ const Panel = ({
     children,
     onClick = null,
     width = "w-full",
-    height = "", // leave as blank so the panel will not take up full height if not warranted
+    height = "h-full", // leave as blank so the panel will not take up full height if not warranted
     padding = true,
     scrollable = true, // this is the default for a panel
     ...props

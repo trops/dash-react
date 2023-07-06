@@ -11,16 +11,14 @@ export default {
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
-        <div className="flex flex-col h-full w-full">
-            <MockWrapper
-                api={mock.api}
-                theme={mock.theme}
-                args={args}
-                backgroundColor={"bg-gray-900"}
-            >
-                <PanelWelcome {...args} />
-            </MockWrapper>
-        </div>
+        <MockWrapper
+            api={mock.api}
+            theme={mock.theme}
+            args={args}
+            backgroundColor={"bg-gray-900"}
+        >
+            <PanelWelcome />
+        </MockWrapper>
     );
 };
 
@@ -30,6 +28,7 @@ export const ThemedPreviewNo = Template.bind({});
 ThemedPreview.args = {
     preview: true,
     backgroundColor: "bg-gray-800",
+    height: "h-full",
 };
 
 ThemedPreviewNo.args = {

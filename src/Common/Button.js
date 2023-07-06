@@ -34,7 +34,7 @@ const Button = ({
     return (
         <div
             onClick={handleOnClick}
-            className={`flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-bold`}
+            className={`flex flex-nowrap whitespace-nowrap h-full flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-bold`}
         >
             {title}
         </div>
@@ -67,7 +67,7 @@ const Button2 = ({
     return (
         <div
             onClick={handleOnClick}
-            className={`flex flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-medium`}
+            className={`flex flex-row justify-center h-full items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-medium`}
         >
             {title}
         </div>
@@ -99,7 +99,7 @@ const Button3 = ({
     return (
         <div
             onClick={handleOnClick}
-            className={`flex flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-normal`}
+            className={`flex flex-row justify-center items-center h-full ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-normal`}
         >
             {title}
         </div>

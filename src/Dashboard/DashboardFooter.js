@@ -25,11 +25,11 @@ export const DashboardFooter = ({
 
     return (
         <div
-            className={`flex flex-row p-2 justify-end border-t w-full ${stylesFooter.string}`}
+            className={`flex flex-row p-2 justify-end border-t w-full h-full ${stylesFooter.string}`}
         >
-            <div className="flex flex-row space-x-1 w-full justify-end">
+            <div className="flex flex-row space-x-1 w-full justify-end h-full">
                 {preview === true && (
-                    <div className="flex flex-row space-x-2">
+                    <div className="flex flex-row space-x-2 h-full">
                         <Button
                             title={"Edit"}
                             textSize={"text-lg"}
@@ -40,7 +40,7 @@ export const DashboardFooter = ({
                     </div>
                 )}
                 {preview === false && (
-                    <div className="flex flex-row space-x-2 block">
+                    <div className="flex flex-row space-x-2 block h-full">
                         <Button
                             title={"Cancel"}
                             textSize={"text-lg"}

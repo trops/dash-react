@@ -14,7 +14,7 @@ export const Workspace = ({
     workspaceData,
     children = null,
     width = "w-full",
-    height = "",
+    height = "h-full",
     direction = "col",
     scrollable = true,
     ...props
@@ -38,7 +38,8 @@ export const Workspace = ({
                 scrollable={scrollable}
                 width={width}
                 height={height}
-                className={`${debugClasses()}`}
+                // className={`${debugClasses()}`}
+                {...props}
             >
                 {/* {debugMode === true && (<span className="text-white uppercase text-xs">WORKSPACE {children && 'children'}</span>)} */}
                 {children}
