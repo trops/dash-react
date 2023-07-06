@@ -14,12 +14,15 @@ export const LayoutManagerModal = ({ open, setIsOpen, ...props }) => {
             width={"w-11/12 xl:w-5/6"}
             height="h-5/6"
         >
-            <Panel backgroundColor={"bg-slate-800"} padding={false} {...props}>
-                <div className={`flex flex-col w-full h-full overflow-hidden`}>
+            <Panel backgroundColor={"bg-slate-800"} padding={false}>
+                <Panel.Body>
+                    <LayoutManagerPicker onClick={handleSelectLayout} />
+                </Panel.Body>
+                {/* <div className={`flex flex-col w-full h-full overflow-hidden`}>
                     <div className="flex flex-row w-full h-full overflow-hidden">
                         <LayoutManagerPicker onClick={handleSelectLayout} />
                     </div>
-                </div>
+                </div> */}
             </Panel>
             <Modal.Footer>
                 <div className="flex flex-row space-x-2">

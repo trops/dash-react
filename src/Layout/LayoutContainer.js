@@ -42,7 +42,7 @@ export const LayoutContainer = ({
     return (
         <div
             id={`LayoutContainer-${containerId}`}
-            className={`flex border-1 justify-between ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${widthStyle} ${heightStyle} ${className}`}
+            className={`flex ${scrollbarStyles} ${backgroundColorStyle} ${borderColorStyle} ${directionStyle} ${widthStyle} ${heightStyle} ${className}`}
         >
             {children}
         </div>

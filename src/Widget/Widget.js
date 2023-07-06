@@ -8,9 +8,9 @@ export const Widget = ({
     className = "",
     version = 1,
     direction = "col",
-    height = "h-full",
-    width = "w-full",
-    scrollable = false,
+    // height = "h-full", // LOCK TO LAYOUT CONTAINER ONLY
+    // width = "w-full",
+    scrollable = true,
     ...props
 }) => {
     // this is the electron api we are pulling in...
@@ -25,10 +25,9 @@ export const Widget = ({
             version={version}
             key={`widget-container'-${uuid}`}
             direction={direction}
-            width={width}
-            height={height}
+            width={"w-full"}
+            height={"h-full"}
             scrollable={scrollable}
-            {...props}
         >
             {/* {debugMode === true && (
                 <span className="text-white uppercase text-xs">WIDGET </span>

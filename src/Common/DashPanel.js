@@ -93,6 +93,8 @@ const DashPanel = ({
         scrollable,
     });
 
+    console.log("DASH PANEL styles ", styles.string);
+
     return (
         <Panel
             // className={`justify-between`}
@@ -142,7 +144,7 @@ const DashPanelBody2 = ({
     children,
     height = "h-full",
     width = "w-full",
-    scrollable = true,
+    scrollable = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -239,7 +241,7 @@ const DashPanelBody3 = ({
     children,
     width = "w-full",
     height = "h-full",
-    scrollable = true,
+    scrollable = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);

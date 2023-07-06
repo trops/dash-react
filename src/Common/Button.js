@@ -15,6 +15,7 @@ const Button = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.BUTTON, currentTheme, {
         ...props,
+        scrollable: false,
     });
 
     function handleOnClick(e) {
@@ -33,7 +34,7 @@ const Button = ({
     return (
         <div
             onClick={handleOnClick}
-            className={`flex flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-bold`}
+            className={`flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-bold`}
         >
             {title}
         </div>

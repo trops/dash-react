@@ -135,6 +135,20 @@ const TemplatePrimaryMultiple = (args) => {
                 <DashPanel.Body>{mockText.paragraph}</DashPanel.Body>
                 <DashPanel.Footer>Footer</DashPanel.Footer>
             </DashPanel>
+            <DashPanel>
+                <DashPanel.Header title={args.title}>
+                    {args.title}
+                </DashPanel.Header>
+                <DashPanel.Body>{mockText.paragraph}</DashPanel.Body>
+                <DashPanel.Footer>Footer</DashPanel.Footer>
+            </DashPanel>
+            <DashPanel>
+                <DashPanel.Header title={args.title}>
+                    {args.title}
+                </DashPanel.Header>
+                <DashPanel.Body>{mockText.paragraph}</DashPanel.Body>
+                <DashPanel.Footer>Footer</DashPanel.Footer>
+            </DashPanel>
         </MockWrapper>
     );
 };
