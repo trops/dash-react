@@ -4887,7 +4887,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
     textColor: textColor
   });
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row p-2 justify-end border-t w-full h-full ".concat(stylesFooter.string),
+    className: "flex flex-row p-2 justify-end border-t w-full ".concat(stylesFooter.string),
     children: /*#__PURE__*/jsxs("div", {
       className: "flex flex-row space-x-1 w-full justify-end h-full",
       children: [preview === true && /*#__PURE__*/jsx("div", {

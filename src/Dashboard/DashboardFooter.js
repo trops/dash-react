@@ -25,7 +25,7 @@ export const DashboardFooter = ({
 
     return (
         <div
-            className={`flex flex-row p-2 justify-end border-t w-full h-full ${stylesFooter.string}`}
+            className={`flex flex-row p-2 justify-end border-t w-full ${stylesFooter.string}`}
         >
             <div className="flex flex-row space-x-1 w-full justify-end h-full">
                 {preview === true && (
