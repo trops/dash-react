@@ -4757,13 +4757,17 @@ var Dashboard = function Dashboard(_ref) {
     setIsThemeManagerOpen(true);
   }
   return menuItems && currentTheme && /*#__PURE__*/jsx(DashboardWrapper, {
-    children: /*#__PURE__*/jsx(LayoutContainer, {
-      className: "flex flex-row h-full p-0 overflow-hidden w-full space-x-0",
+    children: /*#__PURE__*/jsx(LayoutContainer
+    // className={
+    //     "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
+    // }
+    , {
+      padding: false,
+      space: false,
       height: "h-full",
       width: "w-full",
       direction: "row",
       scrollable: false,
-      space: false,
       grow: true,
       children: /*#__PURE__*/jsxs(DndProvider, {
         backend: HTML5Backend,
@@ -12073,7 +12077,7 @@ var Workspace = function Workspace(_ref) {
     _ref$direction = _ref.direction,
     direction = _ref$direction === void 0 ? "col" : _ref$direction,
     _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$1(_ref, _excluded$1);
@@ -12081,7 +12085,7 @@ var Workspace = function Workspace(_ref) {
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
     scrollable: scrollable,
-    grow: true
+    grow: false
   }));
   console.log("Workspace props ", props);
   return /*#__PURE__*/jsx(WorkspaceContext.Provider, {
@@ -12093,7 +12097,7 @@ var Workspace = function Workspace(_ref) {
       width: width,
       height: height,
       className: "".concat(className, " ").concat(styles.string),
-      grow: true
+      grow: false
     }, styles), {}, {
       children: children
     }))
