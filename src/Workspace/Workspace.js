@@ -18,7 +18,7 @@ export const Workspace = ({
     width = "w-full",
     height = "h-auto",
     direction = "col",
-    scrollable = true,
+    scrollable = false,
     className = "",
     ...props
 }) => {
@@ -26,7 +26,7 @@ export const Workspace = ({
     const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
         ...props,
         scrollable,
-        grow: true,
+        grow: false,
     });
 
     console.log("Workspace props ", props);
@@ -39,7 +39,7 @@ export const Workspace = ({
                 width={width}
                 height={height}
                 className={`${className} ${styles.string}`}
-                grow={true}
+                grow={false}
                 {...styles}
             >
                 {children}

@@ -341,14 +341,15 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         currentTheme && (
             <DashboardWrapper>
                 <LayoutContainer
-                    className={
-                        "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
-                    }
+                    // className={
+                    //     "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
+                    // }
+                    padding={false}
+                    space={false}
                     height="h-full"
                     width="w-full"
                     direction="row"
                     scrollable={false}
-                    space={false}
                     grow={true}
                 >
                     <DndProvider backend={HTML5Backend}>
