@@ -4894,7 +4894,8 @@ var DashboardFooter = function DashboardFooter(_ref) {
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var stylesFooter = getStylesForItem(themeObjects.DASHBOARD_FOOTER, currentTheme, {
-    borderColor: borderColor
+    borderColor: borderColor,
+    grow: false
   });
   var stylesButton = getStylesForItem(themeObjects.BUTTON, currentTheme, {
     backgroundColor: backgroundColor,
@@ -4904,9 +4905,9 @@ var DashboardFooter = function DashboardFooter(_ref) {
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row p-2 justify-end border-t w-full ".concat(stylesFooter.string),
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row space-x-1 w-full justify-end h-full",
+      className: "flex flex-row space-x-1 w-full justify-end",
       children: [preview === true && /*#__PURE__*/jsx("div", {
-        className: "flex flex-row space-x-2 h-full",
+        className: "flex flex-row space-x-2",
         children: /*#__PURE__*/jsx(Button, _objectSpread$e({
           title: "Edit",
           textSize: "text-lg",
@@ -4914,7 +4915,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
           onClick: onClickEdit
         }, stylesButton))
       }), preview === false && /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row space-x-2 block h-full",
+        className: "flex flex-row space-x-2 block",
         children: [/*#__PURE__*/jsx(Button, _objectSpread$e({
           title: "Cancel",
           textSize: "text-lg",
@@ -9847,11 +9848,10 @@ var getStylesForItem = function getStylesForItem() {
       });
 
       // scrollbars?
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 flex-grow" : "overflow-visible flex-grow"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
 
-      // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
-
-      // console.log("styles ", itemName, overrides, scrollbarStyles);
+      var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
+      console.log("grow styles ", grow);
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 ".concat(grow) : "overlflow-visible ".concat(grow);
 
       // we have to begin with the defaults for the theme so we have access
       // and knowledge of what keys in the theme to return.
@@ -10479,7 +10479,8 @@ function Heading(_ref) {
   var styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
-    width: "w-full"
+    width: "w-full",
+    grow: false
   });
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row ".concat(paddingStyles, " text-6xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
@@ -10503,7 +10504,8 @@ function Heading2(_ref2) {
   var styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
-    width: "w-full"
+    width: "w-full",
+    grow: false
   });
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row ".concat(paddingStyles, " text-5xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
@@ -10527,7 +10529,8 @@ function Heading3(_ref3) {
   var styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
-    width: "w-full"
+    width: "w-full",
+    grow: false
   });
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row ".concat(paddingStyles, " text-4xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
@@ -10551,7 +10554,8 @@ function SubHeading(_ref4) {
   var styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
-    width: "w-full"
+    width: "w-full",
+    grow: false
   });
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full ".concat(paddingStyles, " text-3xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
@@ -10575,7 +10579,8 @@ function SubHeading2(_ref5) {
   var styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
-    width: "w-full"
+    width: "w-full",
+    grow: false
   });
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full ".concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
@@ -10599,7 +10604,8 @@ function SubHeading3(_ref6) {
   var styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
-    width: "w-full"
+    width: "w-full",
+    grow: false
   });
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full ".concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
@@ -10636,7 +10642,8 @@ var Button = function Button(_ref) {
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
-    scrollable: false
+    scrollable: false,
+    grow: false
   }));
   function handleOnClick(e) {
     if (disabled === false) {
@@ -10648,7 +10655,7 @@ var Button = function Button(_ref) {
   var paddingComputed = padding !== null ? padding : "p-2 lg:p-4 xl:p-6";
   return /*#__PURE__*/jsx("div", {
     onClick: handleOnClick,
-    className: "flex flex-nowrap whitespace-nowrap h-full flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
+    className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
     children: title
   });
 };
@@ -10668,7 +10675,10 @@ var Button2 = function Button2(_ref2) {
     props = _objectWithoutProperties$7(_ref2, _excluded2$4);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$8({}, props));
+  var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
+    height: "",
+    grow: false
+  }));
   function handleOnClick(e) {
     if (disabled === false) {
       onClick !== null && onClick(e);
@@ -10679,7 +10689,7 @@ var Button2 = function Button2(_ref2) {
   var paddingComputed = padding !== null ? padding : "p-1 lg:p-2 xl:p-4";
   return /*#__PURE__*/jsx("div", {
     onClick: handleOnClick,
-    className: "flex flex-row justify-center h-full items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-medium"),
+    className: "flex flex-row flex-shrink justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-medium"),
     children: title
   });
 };
@@ -10701,7 +10711,8 @@ var Button3 = function Button3(_ref3) {
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     textSize: textSize,
-    padding: padding
+    padding: padding,
+    grow: false
   }));
   function handleOnClick(e) {
     if (disabled === false) {
@@ -10713,7 +10724,7 @@ var Button3 = function Button3(_ref3) {
   var paddingComputed = padding !== null ? padding : "p-1 lg:p-1 xl:p-2";
   return /*#__PURE__*/jsx("div", {
     onClick: handleOnClick,
-    className: "flex flex-row justify-center items-center h-full ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-normal"),
+    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-normal"),
     children: title
   });
 };
@@ -10750,7 +10761,8 @@ var ButtonIcon = function ButtonIcon(_ref) {
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
     backgroundColor: backgroundColor,
-    scrollable: false
+    scrollable: false,
+    grow: false
   }));
   function handleOnClick(e) {
     if (disabled === false) {
@@ -10792,7 +10804,8 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON_2, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
     backgroundColor: backgroundColor,
-    scrollable: false
+    scrollable: false,
+    grow: false
   }));
   function handleOnClick(e) {
     if (disabled === false) {
@@ -10834,7 +10847,8 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
     backgroundColor: backgroundColor,
-    scrollable: false
+    scrollable: false,
+    grow: false
   }));
   function handleOnClick(e) {
     if (disabled === false) {
@@ -10847,7 +10861,7 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
   var center = "justify-center items-center cursor-pointer";
   return /*#__PURE__*/jsxs("div", {
     onClick: handleOnClick,
-    className: "flex flex-row  ".concat(styles.string, " rounded font-medium ").concat(center, " ").concat(disabledStyles, " p-2 ").concat(textSize, " ").concat(block === true && "w-full", " whitespace-nowrap"),
+    className: "flex flex-row ".concat(styles.string, " rounded font-medium ").concat(center, " ").concat(disabledStyles, " p-2 ").concat(textSize, " ").concat(block === true && "w-full", " ").concat(styles.string, " whitespace-nowrap"),
     children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
       icon: icon,
       className: "".concat(iconSize)
@@ -11031,7 +11045,9 @@ var Tag = function Tag(_ref) {
     props = _objectWithoutProperties$3(_ref, _excluded$3);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$4({}, props));
+  var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$4(_objectSpread$4({}, props), {}, {
+    grow: false
+  }));
   return /*#__PURE__*/jsx("span", {
     onClick: onClick,
     className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
@@ -11047,7 +11063,9 @@ var Tag2 = function Tag2(_ref2) {
     props = _objectWithoutProperties$3(_ref2, _excluded2$2);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$4({}, props));
+  var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$4(_objectSpread$4({}, props), {}, {
+    grow: false
+  }));
   return /*#__PURE__*/jsx("span", {
     onClick: onClick,
     className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
@@ -11063,7 +11081,9 @@ var Tag3 = function Tag3(_ref3) {
     props = _objectWithoutProperties$3(_ref3, _excluded3$1);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$4({}, props));
+  var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$4(_objectSpread$4({}, props), {}, {
+    grow: false
+  }));
   return /*#__PURE__*/jsx("span", {
     onClick: onClick,
     className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
