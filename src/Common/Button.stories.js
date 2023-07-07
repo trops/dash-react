@@ -44,6 +44,7 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     title: "Button",
+    scrollable: false,
 };
 
 Secondary.args = {

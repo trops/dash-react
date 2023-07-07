@@ -413,14 +413,18 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
             });
 
             // scrollbars?
+
+            const grow =
+                "grow" in overrides && overrides["grow"] === false
+                    ? "flex-shrink"
+                    : "flex-grow";
+
+            console.log("grow styles ", grow);
+
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 flex-grow`
-                    : "overflow-visible flex-grow"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
-
-            // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
-
-            // console.log("styles ", itemName, overrides, scrollbarStyles);
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 ${grow}`
+                    : `overlflow-visible ${grow}`;
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.

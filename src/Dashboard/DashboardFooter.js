@@ -15,7 +15,7 @@ export const DashboardFooter = ({
     const stylesFooter = getStylesForItem(
         themeObjects.DASHBOARD_FOOTER,
         currentTheme,
-        { borderColor }
+        { borderColor, grow: false }
     );
     const stylesButton = getStylesForItem(themeObjects.BUTTON, currentTheme, {
         backgroundColor,
@@ -27,9 +27,9 @@ export const DashboardFooter = ({
         <div
             className={`flex flex-row p-2 justify-end border-t w-full ${stylesFooter.string}`}
         >
-            <div className="flex flex-row space-x-1 w-full justify-end h-full">
+            <div className="flex flex-row space-x-1 w-full justify-end">
                 {preview === true && (
-                    <div className="flex flex-row space-x-2 h-full">
+                    <div className="flex flex-row space-x-2">
                         <Button
                             title={"Edit"}
                             textSize={"text-lg"}
@@ -40,7 +40,7 @@ export const DashboardFooter = ({
                     </div>
                 )}
                 {preview === false && (
-                    <div className="flex flex-row space-x-2 block h-full">
+                    <div className="flex flex-row space-x-2 block">
                         <Button
                             title={"Cancel"}
                             textSize={"text-lg"}

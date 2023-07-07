@@ -11,6 +11,7 @@ const Tag = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TAG, currentTheme, {
         ...props,
+        grow: false,
     });
 
     return (
@@ -36,6 +37,7 @@ const Tag2 = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TAG_2, currentTheme, {
         ...props,
+        grow: false,
     });
     return (
         <span
@@ -60,6 +62,7 @@ const Tag3 = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TAG_3, currentTheme, {
         ...props,
+        grow: false,
     });
     return (
         <span

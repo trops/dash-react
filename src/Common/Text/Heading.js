@@ -16,6 +16,7 @@ function Heading({
         textColor,
         backgroundColor,
         width: "w-full",
+        grow: false,
     });
     return (
         <div
@@ -42,6 +43,7 @@ function Heading2({
         textColor,
         backgroundColor,
         width: "w-full",
+        grow: false,
     });
     return (
         <div
@@ -68,6 +70,7 @@ function Heading3({
         textColor,
         backgroundColor,
         width: "w-full",
+        grow: false,
     });
     return (
         <div
@@ -94,6 +97,7 @@ function SubHeading({
         textColor,
         backgroundColor,
         width: "w-full",
+        grow: false,
     });
 
     return (
@@ -121,6 +125,7 @@ function SubHeading2({
         textColor,
         backgroundColor,
         width: "w-full",
+        grow: false,
     });
     return (
         <div
@@ -147,6 +152,7 @@ function SubHeading3({
         textColor,
         backgroundColor,
         width: "w-full",
+        grow: false,
     });
 
     return (

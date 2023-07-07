@@ -20,6 +20,7 @@ const ButtonIcon = ({
         ...props,
         backgroundColor,
         scrollable: false,
+        grow: false,
     });
 
     function handleOnClick(e) {
@@ -60,6 +61,7 @@ const ButtonIcon2 = ({
         ...props,
         backgroundColor,
         scrollable: false,
+        grow: false,
     });
 
     function handleOnClick(e) {
@@ -104,6 +106,7 @@ const ButtonIcon3 = ({
         ...props,
         backgroundColor,
         scrollable: false,
+        grow: false,
     });
     function handleOnClick(e) {
         if (disabled === false) {
@@ -120,11 +123,11 @@ const ButtonIcon3 = ({
     return (
         <div
             onClick={handleOnClick}
-            className={`flex flex-row  ${
+            className={`flex flex-row ${
                 styles.string
             } rounded font-medium ${center} ${disabledStyles} p-2 ${textSize} ${
                 block === true && "w-full"
-            } whitespace-nowrap`}
+            } ${styles.string} whitespace-nowrap`}
         >
             <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
             {text !== null && (
