@@ -1,3 +1,10 @@
+/**
+ * themeObjects.js
+ *
+ * This file contains all of the components that we have available in the Dashboard
+ * All of the components will be available in the theme and can be altered/customized by the user
+ *
+ */
 const BUTTON = "button";
 const BUTTON_2 = "button-2";
 const BUTTON_3 = "button-3";
@@ -64,6 +71,10 @@ const DASH_PANEL_FOOTER = "dash-panel-footer";
 const DASH_PANEL_FOOTER_2 = "dash-panel-footer-2";
 const DASH_PANEL_FOOTER_3 = "dash-panel-footer-3";
 
+const WIDGET = "widget";
+const WORKSPACE = "workspace";
+const LAYOUT_CONTAINER = "layout-container";
+
 const themeObjects = {
     BUTTON,
     BUTTON_2,
@@ -114,6 +125,9 @@ const themeObjects = {
     DASH_PANEL_FOOTER,
     DASH_PANEL_FOOTER_2,
     DASH_PANEL_FOOTER_3,
+    WIDGET,
+    WORKSPACE,
+    LAYOUT_CONTAINER,
 };
 
 const BACKGROUND_COLOR = "backgroundColor";
@@ -122,6 +136,7 @@ const TEXT_COLOR = "textColor";
 const HOVER_BACKGROUND_COLOR = "hoverBackgroundColor";
 const HOVER_TEXT_COLOR = "hoverTextColor";
 const HOVER_BORDER_COLOR = "hoverBorderColor";
+const PADDING = "padding";
 
 const styleClassNames = {
     BACKGROUND_COLOR,
@@ -130,6 +145,7 @@ const styleClassNames = {
     HOVER_BACKGROUND_COLOR,
     HOVER_BORDER_COLOR,
     HOVER_TEXT_COLOR,
+    PADDING,
 };
 
 export { themeObjects, styleClassNames };

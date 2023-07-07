@@ -3,7 +3,7 @@ import { AppContext, ThemeContext } from "../Context";
 import "../tailwind.css";
 import { LayoutContainer, Widget, Workspace } from "..";
 
-export const MockWrapper = ({
+const MockWrapper = ({
     apiMock = null,
     children,
     backgroundColor = "bg-transparent",
@@ -28,20 +28,72 @@ export const MockWrapper = ({
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
-                        className={`flex flex-col space-y-2 w-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-700 bg-gray-300`}
+                        className={`flex flex-col space-y-2 w-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
-                            WIDGET - Item is a child of the Widget component
+                            Workspace - WIDGET - Item is a child of the Widget
+                            component`
+                        </span>
+                        <Workspace
+                            direction="col"
+                            scrollable={true}
+                            className={"p-4 rounded bg-green-300"}
+                        >
+                            <Widget>{children}</Widget>
+                        </Workspace>
+                    </div>
+                </ThemeContext.Provider>
+            </AppContext.Provider>
+        </div>
+    );
+};
+
+/**
+ * MockLayout
+ *
+ * For testing the LayoutContainer as a base component
+ */
+const MockLayout = ({
+    apiMock = null,
+    children,
+    backgroundColor = "bg-transparent",
+    ...props
+}) => {
+    function getAppContext() {
+        return {
+            ...mock,
+            creds: {
+                appId: "2345",
+            },
+            settings: {
+                theme: "theme-1",
+                debug: false,
+            },
+            debugMode: true,
+        };
+    }
+
+    return (
+        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+            <AppContext.Provider value={getAppContext()}>
+                <ThemeContext.Provider value={mock.theme.context}>
+                    <div
+                        className={`flex flex-col space-y-4 w-full h-screen p-6 border rounded-lg border-1 border-gray-700 bg-gray-300`}
+                    >
+                        <span className="uppercase text-gray-800 font-bold text-sm">
+                            Layout - Item is a child of the LayoutContainer
+                            component
                         </span>
                         <LayoutContainer
                             scrollable={false}
                             height="h-full"
                             width="w-full"
-                            // className={"bg-red-500 p-4"}
+                            direction={
+                                props.direction ? props.direction : "row"
+                            }
+                            className="p-6 bg-gray-900 rounded-lg overflow-y-auto flex-grow"
                         >
-                            <Workspace scrollable={false}>
-                                <Widget scrollable={false}>{children}</Widget>
-                            </Workspace>
+                            {children}
                         </LayoutContainer>
                     </div>
                 </ThemeContext.Provider>
@@ -49,3 +101,5 @@ export const MockWrapper = ({
         </div>
     );
 };
+
+export { MockLayout, MockWrapper };

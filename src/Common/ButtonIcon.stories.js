@@ -2,6 +2,7 @@ import { ButtonIcon, ButtonIcon2, ButtonIcon3 } from "./ButtonIcon";
 import { mock, MockWrapper } from "@dash";
 
 import "../tailwind.css";
+import { Tag } from "./Tag";
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -37,24 +38,49 @@ const Template3 = (args) => {
         </MockWrapper>
     );
 };
+
+const TemplateWithHeading = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <Tag text={"Button Icon 3"} />
+            <ButtonIcon3 {...args} />
+        </MockWrapper>
+    );
+};
 export const Primary = Template.bind({});
 export const Secondary = Template2.bind({});
 export const Tertiary = Template3.bind({});
+export const TertiaryWithHeading = TemplateWithHeading.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
     text: "ButtonIcon",
     icon: "pencil",
+    block: false,
+    backgroundColor: "bg-yellow-800",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
     text: "ButtonIcon 2",
     icon: "pencil",
+    block: false,
+    backgroundColor: "bg-yellow-800",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     text: "ButtonIcon 3",
     icon: "cog",
+    block: false,
+    backgroundColor: "bg-yellow-800",
+};
+
+TertiaryWithHeading.args = {
+    //👇 The args you need here will depend on your component
+    text: "ButtonIcon 3",
+    icon: "cog",
+    block: false,
+    backgroundColor: "bg-yellow-800",
+    direction: "row",
 };

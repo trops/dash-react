@@ -3,15 +3,23 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils/colors";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
-function Heading({ title, padding = true, onClick = null, textColor = null }) {
+function Heading({
+    title,
+    padding = true,
+    onClick = null,
+    textColor = null,
+    backgroundColor = null,
+}) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
         textColor,
+        backgroundColor,
+        width: "w-full",
     });
     return (
         <div
-            className={`flex flex-row w-full ${paddingStyles} text-6xl font-bold ${
+            className={`flex flex-row ${paddingStyles} text-6xl font-bold ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -21,15 +29,23 @@ function Heading({ title, padding = true, onClick = null, textColor = null }) {
     );
 }
 
-function Heading2({ title, padding = true, onClick = null, textColor = null }) {
+function Heading2({
+    title,
+    padding = true,
+    onClick = null,
+    textColor = null,
+    backgroundColor = null,
+}) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
         textColor,
+        backgroundColor,
+        width: "w-full",
     });
     return (
         <div
-            className={`flex flex-row w-full ${paddingStyles} text-5xl font-bold ${
+            className={`flex flex-row ${paddingStyles} text-5xl font-bold ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -39,15 +55,23 @@ function Heading2({ title, padding = true, onClick = null, textColor = null }) {
     );
 }
 
-function Heading3({ title, padding = true, onClick = null, textColor = null }) {
+function Heading3({
+    title,
+    padding = true,
+    onClick = null,
+    textColor = null,
+    backgroundColor = null,
+}) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
         textColor,
+        backgroundColor,
+        width: "w-full",
     });
     return (
         <div
-            className={`flex flex-row w-full ${paddingStyles} text-4xl font-bold ${
+            className={`flex flex-row ${paddingStyles} text-4xl font-bold ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -62,11 +86,14 @@ function SubHeading({
     padding = true,
     onClick = null,
     textColor = null,
+    backgroundColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
         textColor,
+        backgroundColor,
+        width: "w-full",
     });
 
     return (
@@ -86,11 +113,14 @@ function SubHeading2({
     padding = true,
     onClick = null,
     textColor = null,
+    backgroundColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
         textColor,
+        backgroundColor,
+        width: "w-full",
     });
     return (
         <div
@@ -109,11 +139,14 @@ function SubHeading3({
     padding = true,
     onClick = null,
     textColor = null,
+    backgroundColor = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
         textColor,
+        backgroundColor,
+        width: "w-full",
     });
 
     return (

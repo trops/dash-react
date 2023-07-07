@@ -80,13 +80,14 @@ const Panel = ({
 
     return (
         <LayoutContainer
-            {...props}
             direction={horizontal === true ? "row" : "col"}
             className={`${styles.string} ${height} rounded-lg ${
                 padding === true ? "p-6" : "p-0"
             }`}
             onClick={onClick}
             scrollable={scrollable} // must include this here as we separated props
+            {...styles}
+            {...props}
         >
             {/* height to take up height of the parent container */}
             {/* <div className="flex flex-row h-full w-full">{children}</div> */}

@@ -5,7 +5,16 @@
 
 import { themeObjects, styleClassNames } from "@dash/Utils";
 
-const objectTypes = ["bg", "text", "hover-bg", "hover-text", "border"];
+const objectTypes = [
+    "bg",
+    "text",
+    "hover-bg",
+    "hover-text",
+    "border",
+    // "p",
+    // "m",
+    // "textSize",
+];
 
 const objectTypeClasses = {
     bg: {
@@ -26,6 +35,15 @@ const objectTypeClasses = {
     "hover-border": {
         class: "hoverBorderColor",
     },
+    // p: {
+    //     class: "padding",
+    // },
+    // m: {
+    //     class: "margin",
+    // },
+    // "text-size": {
+    //     class: "textSize",
+    // },
 };
 
 const themeVariants = ["very-light", "light", "medium", "dark", "very-dark"];
@@ -66,6 +84,7 @@ const colorMap = {
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-primary-medium",
         [styleClassNames.HOVER_TEXT_COLOR]: "hover-text-primary-dark",
         [styleClassNames.HOVER_BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.PADDING]: "padding-primary",
     },
     [themeObjects.BUTTON_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-medium",
@@ -355,6 +374,9 @@ const colorMap = {
         [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
     },
+    [themeObjects.WIDGET]: {},
+    [themeObjects.WORKSPACE]: {},
+    [themeObjects.LAYOUT_CONTAINER]: {},
 };
 
 console.log(colorMap);
@@ -393,12 +415,12 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
             // scrollbars?
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800`
-                    : "overflow-visible"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 flex-grow`
+                    : "overflow-visible flex-grow"; // scrollbar scrollbar-thumb-gray-700 scrollbar-track-red-800";
 
             // const scrollbarStyles = `overflow-y-scroll scrollbar scrollbar-thumb-green-200 scrollbar-track-green-100`;
 
-            console.log("bar styles ", itemName, overrides, scrollbarStyles);
+            // console.log("styles ", itemName, overrides, scrollbarStyles);
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.
@@ -424,14 +446,9 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                 });
             }
 
-            console.log(
-                "styles ",
-                itemName,
-                Object.keys(styles),
-                scrollbarStyles
-            );
-
-            return {
+            // generate the final styles object including the string
+            // that can be used in the className variable of the component
+            const stylesObject = {
                 string:
                     Object.keys(styles).length > 0
                         ? Object.keys(styles)
@@ -442,6 +459,11 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                         : scrollbarStyles,
                 ...styles,
             };
+
+            console.log(stylesObject);
+            console.log(stylesObject.string);
+
+            return stylesObject;
         }
     } catch (e) {
         console.log(e);
@@ -472,6 +494,9 @@ function getStyleName(objectType) {
             break;
         case "hover:bg":
             s = "hover-background";
+            break;
+        case "p":
+            s = "padding";
             break;
         default:
             s = objectType;

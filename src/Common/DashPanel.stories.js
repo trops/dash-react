@@ -1,7 +1,8 @@
 import { DashPanel, DashPanel2, DashPanel3 } from "./DashPanel";
 import { LayoutContainer } from "@dash/Layout";
-import { MockWrapper, mock, mockText } from "../Mock";
+import { MockWrapper, MockLayout, mock, mockText } from "../Mock";
 import { Paragraph, Paragraph2, Paragraph3 } from "./Text";
+import { Workspace, Widget } from "..";
 
 export default {
     title: "DashPanel",
@@ -158,4 +159,5 @@ PrimaryMultiple.args = {
     scrollable: false,
     height: "h-3/4",
     width: "w-full",
+    direction: "col",
 };

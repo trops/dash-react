@@ -152,15 +152,6 @@ Primary.args = {
     horizontal: false,
 };
 
-PrimaryHorizontal.args = {
-    //👇 The args you need here will depend on your component
-    text: "Panel",
-    scrollable: true,
-    height: "h-full",
-    width: "w-full",
-    horizontal: true,
-};
-
 Secondary.args = {
     //👇 The args you need here will depend on your component
     text: "Panel 2",
@@ -177,6 +168,15 @@ Tertiary.args = {
     height: "h-full",
     width: "w-full",
     horizontal: false,
+};
+
+PrimaryHorizontal.args = {
+    //👇 The args you need here will depend on your component
+    text: "Panel",
+    scrollable: true,
+    height: "h-full",
+    width: "w-full",
+    horizontal: true,
 };
 
 NoHeader.args = {

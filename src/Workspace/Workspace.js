@@ -6,30 +6,29 @@
  * also defined by the user.
  */
 import React, { useContext } from "react";
+import { ThemeContext } from "@dash/Context";
+import { getStylesForItem, themeObjects } from "../Utils";
 import { LayoutContainer } from "@dash/Layout";
 import { AppContext, WorkspaceContext } from "@dash/Context";
 
 export const Workspace = ({
     theme = false,
-    workspaceData,
+    workspaceData = null,
     children = null,
     width = "w-full",
-    height = "h-full",
+    height = "h-auto",
     direction = "col",
     scrollable = true,
+    className = "",
     ...props
 }) => {
-    // const { debugMode, debugStyles } = useContext(AppContext);
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
+        ...props,
+        scrollable,
+    });
 
-    // console.log('workspace ', debugMode);
-
-    function debugClasses() {
-        // const styles = debugStyles['workspace']['classes'];
-        return ""; //debug === true && `space-y-4 ${styles}`
-    }
-
-    // console.log('Workspace props ', { theme, workspaceData, children, width, height, direction, scrollable, ...props })
-
+    console.log("Workspace props ", props);
     return (
         <WorkspaceContext.Provider value={workspaceData}>
             <LayoutContainer
@@ -38,10 +37,9 @@ export const Workspace = ({
                 scrollable={scrollable}
                 width={width}
                 height={height}
-                // className={`${debugClasses()}`}
-                {...props}
+                className={`${className} ${styles.string}`}
+                {...styles}
             >
-                {/* {debugMode === true && (<span className="text-white uppercase text-xs">WORKSPACE {children && 'children'}</span>)} */}
                 {children}
             </LayoutContainer>
         </WorkspaceContext.Provider>

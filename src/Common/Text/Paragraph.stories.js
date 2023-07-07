@@ -22,33 +22,23 @@ const Template = (args) => {
             args={args}
             backgroundColor={"bg-gray-900"}
         >
-            <Paragraph {...args} />
+            <Paragraph {...args} className={args.className} />
         </MockWrapper>
     );
 };
 
 const Template2 = (args) => {
     return (
-        <MockWrapper
-            api={mock.api}
-            theme={mock.themes}
-            args={args}
-            backgroundColor={"bg-gray-900"}
-        >
-            <Paragraph2 {...args} />
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <Paragraph2 {...args} className={args.className} />
         </MockWrapper>
     );
 };
 
 const Template3 = (args) => {
     return (
-        <MockWrapper
-            api={mock.api}
-            theme={mock.themes}
-            args={args}
-            backgroundColor={"bg-gray-900"}
-        >
-            <Paragraph3 {...args} />
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <Paragraph3 {...args} className={args.className} />
         </MockWrapper>
     );
 };
@@ -61,6 +51,7 @@ Primary.args = {
     text: mockText.paragraph,
     height: "h-30",
     scrollable: true,
+    className: "bg-green-900 text-gray-200 p-6",
 };
 
 Secondary.args = {
@@ -68,6 +59,7 @@ Secondary.args = {
     text: mockText.paragraph,
     height: "h-30",
     scrollable: true,
+    className: "bg-gray-800 text-gray-200 p-4",
 };
 
 Tertiary.args = {
@@ -75,4 +67,5 @@ Tertiary.args = {
     text: mockText.paragraph,
     height: "h-30",
     scrollable: true,
+    className: "bg-gray-800 text-gray-200 p-2",
 };

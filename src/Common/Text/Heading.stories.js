@@ -16,12 +16,7 @@ export default {
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
-        <MockWrapper
-            api={mock.api}
-            theme={mock.themes}
-            args={args}
-            // backgroundColor={"bg-gray-900"}
-        >
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <Heading {...args} />
         </MockWrapper>
     );
@@ -29,12 +24,7 @@ const Template = (args) => {
 
 const Template2 = (args) => {
     return (
-        <MockWrapper
-            api={mock.api}
-            theme={mock.themes}
-            args={args}
-            // backgroundColor={"bg-gray-900"}
-        >
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <Heading2 {...args} />
         </MockWrapper>
     );
@@ -42,12 +32,7 @@ const Template2 = (args) => {
 
 const Template3 = (args) => {
     return (
-        <MockWrapper
-            api={mock.api}
-            theme={mock.themes}
-            args={args}
-            // backgroundColor={"bg-gray-900"}
-        >
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <Heading3 {...args} />
         </MockWrapper>
     );
@@ -59,14 +44,17 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     title: "Heading",
+    backgroundColor: "bg-red-500",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
     title: "Heading 2",
+    backgroundColor: "bg-red-500",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     title: "Heading 3",
+    backgroundColor: "bg-red-500",
 };

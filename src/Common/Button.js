@@ -86,6 +86,8 @@ const Button3 = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, {
         ...props,
+        textSize,
+        padding,
     });
     function handleOnClick(e) {
         if (disabled === false) {

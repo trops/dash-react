@@ -1,37 +1,41 @@
 import React, { useContext } from "react";
+import { ThemeContext } from "@dash/Context";
+import { getStylesForItem, themeObjects } from "../Utils";
 import { AppContext } from "@dash/Context";
 import { LayoutContainer } from "@dash/Layout";
 
 export const Widget = ({
     uuid,
     children,
-    className = "",
     version = 1,
     direction = "col",
-    // height = "h-full", // LOCK TO LAYOUT CONTAINER ONLY
-    // width = "w-full",
-    scrollable = true,
+    scrollable = false,
+    className = "",
     ...props
 }) => {
-    // this is the electron api we are pulling in...
-    const { debugMode } = useContext(AppContext);
+    // get the styles
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(themeObjects.WIDGET, currentTheme, {
+        ...props,
+        scrollable,
+        width: "w-full",
+        height: "h-auto",
+    });
+
+    console.log("Widget styles ", styles, props);
 
     return (
         <LayoutContainer
             id={`widget-container-${
                 uuid === undefined ? "uuid-" + Math.random(1, 1000) : uuid
             }`}
-            className={`${className}`}
             version={version}
             key={`widget-container'-${uuid}`}
             direction={direction}
+            height={"h-auto"}
             width={"w-full"}
-            height={"h-full"}
-            scrollable={scrollable}
+            className={className}
         >
-            {/* {debugMode === true && (
-                <span className="text-white uppercase text-xs">WIDGET </span>
-            )} */}
             {children}
         </LayoutContainer>
     );

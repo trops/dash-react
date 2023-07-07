@@ -59,14 +59,17 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     title: "SubHeading",
+    backgroundColor: "bg-red-400",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
     title: "SubHeading 2",
+    backgroundColor: "bg-red-400",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     title: "SubHeading 3",
+    backgroundColor: "bg-red-400",
 };

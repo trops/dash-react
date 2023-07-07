@@ -31,7 +31,7 @@ for (const colorName in tailwindColors) {
     }
 }
 
-console.log(colorSafeList);
+// console.log(colorSafeList);
 
 const newSafeList = colorSafeList.concat([
     {
@@ -139,11 +139,7 @@ module.exports = {
     safelist: newSafeList,
     important: true,
     darkMode: "class",
-    content: [
-        "./src/**/*.js",
-        // './src/tailwind_extra.js',
-        // './src/safelist.js'
-    ],
+    content: ["./src/**/*.js"],
     theme: {
         extend: {
             padding: {
@@ -153,106 +149,5 @@ module.exports = {
             },
         },
     },
-    // safelist: [
-    //     {
-    //         pattern: /bg-(.+)-(.+)/,
-    //         variants: ["hover"],
-    //     },
-    //     {
-    //         pattern: /animate-(.+)/,
-    //     },
-    //     {
-    //         pattern: /top-(.+)/,
-    //     },
-    //     {
-    //         pattern: /left-(.+)/,
-    //     },
-    //     {
-    //         pattern: /right-(.+)/,
-    //     },
-    //     {
-    //         pattern: /bottom-(.+)/,
-    //     },
-    //     {
-    //         pattern: /text-(.+)/,
-    //         variants: ["hover"],
-    //     },
-    //     {
-    //         pattern: /text-(.+)-(.+)/,
-    //         variants: ["hover"],
-    //     },
-    //     {
-    //         pattern: /font-(.+)/,
-    //     },
-    //     {
-    //         pattern: /p-(.+)/,
-    //     },
-    //     {
-    //         pattern: /p-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /m-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /mt-(.+)/,
-    //     },
-    //     {
-    //         pattern: /h-(.+)/,
-    //     },
-    //     {
-    //         pattern: /w-(.+)/,
-    //     },
-    //     {
-    //         pattern: /flex-(.+)/,
-    //     },
-    //     {
-    //         pattern: /min-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /min-h-(.+)/,
-    //     },
-    //     {
-    //         pattern: /max-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /border-(.+)/,
-    //         variants: ["hover"],
-    //     },
-    //     {
-    //         pattern: /opacity-(.+)/,
-    //     },
-    //     {
-    //         pattern: /border-(.+)-(.+)/,
-    //         variants: ["hover"],
-    //     },
-    //     {
-    //         pattern: /space-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /justify-(.+)/,
-    //     },
-    //     {
-    //         pattern: /items-(.+)/,
-    //     },
-    //     {
-    //         pattern: /grid-(.+)-(.+)/,
-    //         variants: ["lg", "xl", "2xl", "3xl"],
-    //     },
-    //     {
-    //         pattern: /translate-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /scale-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /scale-(.+)/,
-    //     },
-    //     {
-    //         pattern: /to-(.+)-(.+)/,
-    //     },
-    //     {
-    //         pattern: /from-(.+)-(.+)/,
-    //     },
-    // ],
     plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],
 };
