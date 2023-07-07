@@ -4764,6 +4764,7 @@ var Dashboard = function Dashboard(_ref) {
       direction: "row",
       scrollable: false,
       space: false,
+      grow: true,
       children: /*#__PURE__*/jsxs(DndProvider, {
         backend: HTML5Backend,
         children: [/*#__PURE__*/jsxs("div", {
@@ -5608,21 +5609,24 @@ var LayoutContainer = function LayoutContainer(_ref) {
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-auto" : _ref$height,
     _ref$space = _ref.space,
-    space = _ref$space === void 0 ? true : _ref$space;
+    space = _ref$space === void 0 ? true : _ref$space,
+    _ref$grow = _ref.grow,
+    grow = _ref$grow === void 0 ? true : _ref$grow;
   // get the styles
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.WIDGET, currentTheme, {
     scrollable: scrollable,
     width: "w-full",
-    height: "h-auto"
+    height: "h-auto",
+    grow: grow
   });
   var containerId = id === null ? Math.random(0, 1000) : id;
 
   // determine the classes based on the props...
   var directionStyle = direction === "row" ? space === true ? "flex-row space-x-2" : "flex-row" : space === true ? "flex-col space-y-2" : "flex-col";
   var widthStyle = width;
-  var heightStyle = height === "" ? "h-auto" : height;
+  var heightStyle = height === "" ? "h-full" : height;
   return /*#__PURE__*/jsx("div", {
     id: "LayoutContainer-".concat(containerId),
     className: "flex ".concat(directionStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className, " ").concat(styles.string),
@@ -8765,16 +8769,18 @@ var Widget = function Widget(_ref) {
   var styles = getStylesForItem(themeObjects.WIDGET, currentTheme, _objectSpread$d(_objectSpread$d({}, props), {}, {
     scrollable: scrollable,
     width: "w-full",
-    height: "h-auto"
+    height: "h-auto",
+    grow: true
   }));
   console.log("Widget styles ", styles, props);
   return /*#__PURE__*/jsx(LayoutContainer, {
     id: "widget-container-".concat(uuid === undefined ? "uuid-" + Math.random(1, 1000) : uuid),
     version: version,
     direction: direction,
-    height: "h-auto",
+    height: "h-full",
     width: "w-full",
-    className: className,
+    className: "".concat(className, " ").concat(styles.string),
+    grow: true,
     children: children
   }, "widget-container'-".concat(uuid));
 };
@@ -9851,7 +9857,7 @@ var getStylesForItem = function getStylesForItem() {
 
       var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
       console.log("grow styles ", grow);
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 ".concat(grow) : "overlflow-visible ".concat(grow);
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 ".concat(grow) : "overlflow-y-auto ".concat(grow);
 
       // we have to begin with the defaults for the theme so we have access
       // and knowledge of what keys in the theme to return.
@@ -12074,7 +12080,8 @@ var Workspace = function Workspace(_ref) {
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
-    scrollable: scrollable
+    scrollable: scrollable,
+    grow: true
   }));
   console.log("Workspace props ", props);
   return /*#__PURE__*/jsx(WorkspaceContext.Provider, {
@@ -12085,7 +12092,8 @@ var Workspace = function Workspace(_ref) {
       scrollable: scrollable,
       width: width,
       height: height,
-      className: "".concat(className, " ").concat(styles.string)
+      className: "".concat(className, " ").concat(styles.string),
+      grow: true
     }, styles), {}, {
       children: children
     }))
@@ -12355,14 +12363,14 @@ var MockWrapper = function MockWrapper(_ref) {
       children: /*#__PURE__*/jsx(ThemeContext.Provider, {
         value: mock.theme.context,
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full h-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200",
+          className: "flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200",
           children: [/*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Workspace - WIDGET - Item is a child of the Widget component`"
           }), /*#__PURE__*/jsx(Workspace, {
             direction: "col",
             scrollable: true,
-            className: "p-4 rounded bg-green-300",
+            className: "",
             children: /*#__PURE__*/jsx(Widget, {
               children: children
             })
@@ -12402,7 +12410,7 @@ var MockLayout = function MockLayout(_ref2) {
       children: /*#__PURE__*/jsx(ThemeContext.Provider, {
         value: mock.theme.context,
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-4 w-full h-screen p-6 border rounded-lg border-1 border-gray-700 bg-gray-300",
+          className: "flex flex-col space-y-4 w-full h-7/8 p-6 border rounded-lg border-1 border-gray-700 bg-gray-300 overflow-y-auto flex-grow",
           children: [/*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Layout - Item is a child of the LayoutContainer component"
@@ -12411,7 +12419,8 @@ var MockLayout = function MockLayout(_ref2) {
             height: "h-full",
             width: "w-full",
             direction: props.direction ? props.direction : "row",
-            className: "p-6 bg-gray-900 rounded-lg overflow-y-auto flex-grow",
+            className: "p-6 bg-gray-900 rounded-lg",
+            grow: true,
             children: children
           })]
         })
