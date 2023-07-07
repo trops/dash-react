@@ -14,10 +14,10 @@ const Template = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <DashPanel>
-                <DashPanel.Header title={args.title} />
-                <DashPanel.Body>
-                    {/* <Paragraph text={mockText.paragraph} /> */}
-                </DashPanel.Body>
+                <DashPanel.Header title={args.title}>
+                    {args.title}
+                </DashPanel.Header>
+                <DashPanel.Body>TESTING</DashPanel.Body>
                 <DashPanel.Footer>Footer</DashPanel.Footer>
             </DashPanel>
         </MockWrapper>
@@ -29,7 +29,7 @@ export const Primary = Template.bind({});
 Primary.args = {
     title: "DashPanel",
     scrollable: true,
-    height: "h-60",
+    height: "h-128",
 };
 
 const Template2 = (args) => {
@@ -64,7 +64,7 @@ const Template3 = (args) => {
                 <DashPanel3.Body>
                     {/* <Paragraph3 text={mockText.paragraph} /> */}
                 </DashPanel3.Body>
-                {/* <DashPanel3.Footer>Footer</DashPanel3.Footer> */}
+                <DashPanel3.Footer>Footer</DashPanel3.Footer>
             </DashPanel3>
         </MockWrapper>
     );
@@ -75,7 +75,7 @@ export const Tertiary = Template3.bind({});
 Tertiary.args = {
     title: "DashPanel",
     scrollable: true,
-    height: "h-60",
+    height: "h-full",
 };
 
 // No Header or Footer

@@ -28,7 +28,7 @@ const MockWrapper = ({
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
-                        className={`flex flex-col space-y-2 w-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200`}
+                        className={`flex flex-col space-y-2 w-full h-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
                             Workspace - WIDGET - Item is a child of the Widget

@@ -5,12 +5,39 @@ import { Panel, Panel2, Panel3 } from "./Panel";
 import { LayoutContainer } from "@dash/Layout";
 
 const DashPanelHeader = ({ title, ping = true, ...props }) => {
+    // const { currentTheme } = useContext(ThemeContext);
+    // const styles = getStylesForItem(
+    //     themeObjects.DASH_PANEL_HEADER,
+    //     currentTheme,
+    //     {
+    //         ...props,
+    //         width: "w-full",
+    //         height: "h-full",
+    //         scrollable: false,
+    //     }
+    // );
+    // return (
+    //     <div
+    //         className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
+    //     >
+    //         <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
+    //             {title}
+    //         </span>
+    //         {ping && (
+    //             <span class="relative flex h-3 w-3">
+    //                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+    //                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+    //             </span>
+    //         )}
+    //     </div>
+    // );
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.DASH_PANEL_HEADER,
         currentTheme,
         {
             ...props,
+            height: "h-fit",
         }
     );
     return (
@@ -22,8 +49,8 @@ const DashPanelHeader = ({ title, ping = true, ...props }) => {
             </span>
             {ping && (
                 <span class="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
                 </span>
             )}
         </div>
@@ -37,16 +64,34 @@ const DashPanelBody = ({
     scrollable = true,
     ...props
 }) => {
+    // const { currentTheme } = useContext(ThemeContext);
+    // const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
+    //     ...props,
+    //     scrollable,
+    //     width,
+    //     height: "h-full",
+    // });
+
+    // console.log("dash panel body ", styles.string);
+
+    // return (
+    //     <LayoutContainer
+    //         {...props}
+    //         className={`${styles.string} p-4`}
+    //         scrollable={scrollable}
+    //         width={width}
+    //         height={height}
+    //     >
+    //         {children}
+    //     </LayoutContainer>
+    // );
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
-        scrollable,
         width,
-        height,
+        height: "h-full",
+        scrollable,
     });
-
-    console.log("dash panel body ", styles.string);
-
     return (
         <LayoutContainer
             {...props}
@@ -54,6 +99,7 @@ const DashPanelBody = ({
             scrollable={scrollable}
             width={width}
             height={height}
+            space={false}
         >
             {children}
         </LayoutContainer>
@@ -61,17 +107,34 @@ const DashPanelBody = ({
 };
 
 const DashPanelFooter = ({ children, ...props }) => {
+    // const { currentTheme } = useContext(ThemeContext);
+    // const styles = getStylesForItem(
+    //     themeObjects.DASH_PANEL_FOOTER,
+    //     currentTheme,
+    //     {
+    //         ...props,
+    //         height: "h-auto",
+    //     }
+    // );
+    // return (
+    //     <div
+    //         className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs font-bold uppercase ${styles.string}`}
+    //     >
+    //         {children}
+    //     </div>
+    // );
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.DASH_PANEL_FOOTER,
         currentTheme,
         {
             ...props,
+            height: "h-auto",
         }
     );
     return (
         <div
-            className={`flex flex-row rounded-b p-2 border-t justify-between items-center ${styles.string}`}
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ${styles.string}`}
         >
             {children}
         </div>
@@ -97,9 +160,6 @@ const DashPanel = ({
 
     return (
         <Panel
-            // className={`justify-between`}
-            // className={`${styles.string}`}
-            // {...styles}
             padding={false}
             scrollable={scrollable}
             height={height}
@@ -121,6 +181,7 @@ const DashPanelHeader2 = ({ title, ping = true, ...props }) => {
         currentTheme,
         {
             ...props,
+            height: "h-fit",
         }
     );
     return (
@@ -151,15 +212,19 @@ const DashPanelBody2 = ({
     const styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, {
         ...props,
         scrollable,
-        height,
+        height: "h-full",
         width,
     });
 
     return (
         <LayoutContainer
             {...props}
-            padding={true}
-            className={`p-4 ${styles.string}`}
+            className={`${styles.string} p-4`}
+            scrollable={scrollable}
+            width={width}
+            height={height}
+            direction="col"
+            space={false}
         >
             {children}
         </LayoutContainer>
@@ -252,7 +317,13 @@ const DashPanelBody3 = ({
         scrollable,
     });
     return (
-        <LayoutContainer {...props} className={`p-4 ${styles.string}`}>
+        <LayoutContainer
+            {...props}
+            className={`${styles.string} p-4`}
+            scrollable={scrollable}
+            width={width}
+            height={height}
+        >
             {children}
         </LayoutContainer>
     );
@@ -265,11 +336,12 @@ const DashPanelFooter3 = ({ children, ...props }) => {
         currentTheme,
         {
             ...props,
+            height: "h-auto",
         }
     );
     return (
         <div
-            className={`flex flex-row rounded-b p-2 border-t justify-between items-center ${styles.string}`}
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ${styles.string}`}
         >
             {children}
         </div>

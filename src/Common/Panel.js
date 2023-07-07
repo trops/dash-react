@@ -37,9 +37,12 @@ const PanelBody = ({ children, scrollable = false, ...props }) => {
     return (
         <LayoutContainer
             {...props}
-            direction={props.horizontal === true ? "row" : "col"}
-            className={`p-6 ${styles.string}`}
+            className={`${styles.string} p-6`}
             scrollable={scrollable}
+            width={"w-full"}
+            height={"h-full"}
+            direction={props.horizontal === true ? "row" : "col"}
+            space={false}
         >
             {children}
         </LayoutContainer>
@@ -76,6 +79,8 @@ const Panel = ({
     const styles = getStylesForItem(themeObjects.PANEL, currentTheme, {
         ...props,
         scrollable,
+        width,
+        height,
     });
 
     return (
@@ -86,11 +91,16 @@ const Panel = ({
             }`}
             onClick={onClick}
             scrollable={scrollable} // must include this here as we separated props
-            {...styles}
+            space={false}
             {...props}
         >
-            {/* height to take up height of the parent container */}
-            {/* <div className="flex flex-row h-full w-full">{children}</div> */}
+            {/* <div
+                className={`${
+                    horizontal === true ? "flex-row" : "flex-col"
+                } flex overflow-y-auto flex-grow h-full w-full`}
+            >
+                {children}
+            </div> */}
             {children}
         </LayoutContainer>
     );
@@ -123,18 +133,22 @@ const PanelHeader2 = ({ children, border = false, ...props }) => {
     );
 };
 
-const PanelBody2 = ({ children, ...props }) => {
+const PanelBody2 = ({ children, scrollable = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, {
         ...props,
         scrollable: false,
+        height: "h-full",
     });
     return (
         <LayoutContainer
             {...props}
-            className={`p-4 ${styles.string}`}
+            className={`${styles.string} p-4`}
+            scrollable={scrollable}
+            width={"w-full"}
+            height={"h-full"}
             direction={props.horizontal === true ? "row" : "col"}
-            scrollable={false}
+            space={false}
         >
             {children}
         </LayoutContainer>
@@ -183,8 +197,10 @@ const Panel2 = ({
             } ${height} rounded-md`}
             onClick={onClick}
             scrollable={scrollable}
+            space={false}
         >
-            <div className="h-full w-full">{children}</div>
+            {/* <div className="h-full w-full">{children}</div> */}
+            {children}
         </LayoutContainer>
     );
 };
@@ -218,19 +234,22 @@ const PanelHeader3 = ({ children, border = false, ...props }) => {
     );
 };
 
-const PanelBody3 = ({ children, ...props }) => {
+const PanelBody3 = ({ children, scrollable = false, ...props }) => {
     try {
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
             ...props,
-            scrollable: false,
+            scrollable,
         });
         return (
             <LayoutContainer
                 {...props}
-                className={`p-2 ${styles.string}`}
+                className={`${styles.string} p-2`}
+                scrollable={scrollable}
+                width={"w-full"}
+                height={"h-full"}
                 direction={props.horizontal === true ? "row" : "col"}
-                scrollable={false}
+                space={false}
             >
                 {children}
             </LayoutContainer>
@@ -283,8 +302,10 @@ const Panel3 = ({
             } ${height} rounded`}
             onClick={onClick}
             scrollable={scrollable}
+            space={false}
         >
-            <div className="h-full w-full">{children}</div>
+            {/* <div className="h-full w-full">{children}</div> */}
+            {children}
         </LayoutContainer>
     );
 };

@@ -32,6 +32,22 @@ const Template = (args) => {
     );
 };
 
+const TemplateScroll = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <Panel {...args}>
+                <Panel.Header>
+                    <Heading title={args.text} padding={false} {...args} />
+                </Panel.Header>
+                <Panel.Body>
+                    <Paragraph text={mockText.paragraph} />
+                </Panel.Body>
+                <Panel.Footer>Footer</Panel.Footer>
+            </Panel>
+        </MockWrapper>
+    );
+};
+
 const TemplateHorizontal = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
@@ -136,6 +152,7 @@ const TemplateMultiple = (args) => {
 };
 
 export const Primary = Template.bind({});
+export const PrimaryScroll = TemplateScroll.bind({});
 export const PrimaryHorizontal = TemplateHorizontal.bind({});
 export const Secondary = Template2.bind({});
 export const Tertiary = Template3.bind({});
@@ -144,6 +161,15 @@ export const NoScroll = TemplateNoScroll.bind({});
 export const Multiple = TemplateMultiple.bind({});
 
 Primary.args = {
+    //👇 The args you need here will depend on your component
+    text: "Panel",
+    scrollable: false,
+    height: "h-full",
+    width: "w-full",
+    horizontal: false,
+};
+
+PrimaryScroll.args = {
     //👇 The args you need here will depend on your component
     text: "Panel",
     scrollable: true,
@@ -155,7 +181,7 @@ Primary.args = {
 Secondary.args = {
     //👇 The args you need here will depend on your component
     text: "Panel 2",
-    scrollable: true,
+    scrollable: false,
     height: "h-full",
     width: "w-full",
     horizontal: false,
