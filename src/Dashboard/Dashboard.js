@@ -349,6 +349,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                     direction="row"
                     scrollable={false}
                     space={false}
+                    grow={true}
                 >
                     <DndProvider backend={HTML5Backend}>
                         <div

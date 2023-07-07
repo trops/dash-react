@@ -26,6 +26,7 @@ export const Workspace = ({
     const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
         ...props,
         scrollable,
+        grow: true,
     });
 
     console.log("Workspace props ", props);
@@ -38,6 +39,7 @@ export const Workspace = ({
                 width={width}
                 height={height}
                 className={`${className} ${styles.string}`}
+                grow={true}
                 {...styles}
             >
                 {children}

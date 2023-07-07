@@ -11,6 +11,7 @@ export const LayoutContainer = ({
     width = "w-full",
     height = "h-auto",
     space = true,
+    grow = true,
 }) => {
     // get the styles
     const { currentTheme } = useContext(ThemeContext);
@@ -18,6 +19,7 @@ export const LayoutContainer = ({
         scrollable,
         width: "w-full",
         height: "h-auto",
+        grow,
     });
 
     const containerId = id === null ? Math.random(0, 1000) : id;
@@ -33,7 +35,7 @@ export const LayoutContainer = ({
             : "flex-col";
 
     const widthStyle = width;
-    const heightStyle = height === "" ? "h-auto" : height;
+    const heightStyle = height === "" ? "h-full" : height;
 
     return (
         <div

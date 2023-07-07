@@ -23,47 +23,86 @@ const TemplateLayoutThreeColumn = (args) => {
             theme={mock.themes}
             args={{ direction: "row", ...args }}
         >
-            <Workspace
-                direction="col"
-                scrollable={true}
-                className={"p-4 bg-blue-500 rounded"}
-            >
-                <LayoutContainer {...args.layoutArgs}>
-                    <Widget
-                        {...args.widgetArgs}
-                        className="p-4 bg-blue-300 rounded"
+            <LayoutContainer direction="col" grow={false} scrollable={true}>
+                <LayoutContainer
+                    direction="row"
+                    className="p-4 bg-green-500"
+                    grow={false}
+                >
+                    TEST ROW
+                </LayoutContainer>
+                <LayoutContainer
+                    direction="row"
+                    grow={false}
+                    scrollable={true}
+                    height="h-full"
+                    className="bg-orange-500 p-4 flex-grow overflow-auto"
+                >
+                    <Workspace
+                        direction="col"
+                        className={"p-4 bg-blue-500 rounded"}
+                        grow={true}
+                        scrollable={true}
                     >
-                        {mockText.paragraph}
-                    </Widget>
-                </LayoutContainer>
-                <LayoutContainer {...args.layoutArgs}>
-                    <Widget
-                        {...args.widgetArgs}
-                        className="p-4 bg-blue-300 rounded"
+                        <Widget
+                            {...args.widgetArgs}
+                            className="p-4 bg-blue-300 rounded"
+                        >
+                            {mockText.paragraph}
+                        </Widget>
+
+                        <Widget
+                            {...args.widgetArgs}
+                            className="p-4 bg-blue-300 rounded"
+                        >
+                            {mockText.paragraph}
+                        </Widget>
+
+                        <Widget
+                            {...args.widgetArgs}
+                            className="p-4 bg-blue-300 rounded"
+                        >
+                            {mockText.paragraph}
+                        </Widget>
+                    </Workspace>
+                    <Workspace
+                        direction="col"
+                        className={"p-4 bg-green-500"}
+                        grow={false}
+                        scrollable={true}
                     >
-                        {mockText.paragraph}
-                    </Widget>
-                </LayoutContainer>
-                <LayoutContainer {...args.layoutArgs}>
-                    <Widget
-                        {...args.widgetArgs}
-                        className="p-4 bg-blue-300 rounded"
+                        <LayoutContainer {...args.layoutArgs} direction="col">
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                    </Workspace>
+                    <Workspace
+                        direction="col"
+                        className={"p-4 bg-green-500"}
+                        grow={false}
                     >
-                        {mockText.paragraph}
-                    </Widget>
+                        <LayoutContainer {...args.layoutArgs}>
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                        <LayoutContainer {...args.layoutArgs}>
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                        <LayoutContainer {...args.layoutArgs}>
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                    </Workspace>
                 </LayoutContainer>
-            </Workspace>
-            <Workspace direction="col" className={"p-4 bg-green-500"}>
-                <LayoutContainer {...args.layoutArgs}>
-                    <Widget {...args.widgetArgs}>{mockText.paragraph}</Widget>
-                </LayoutContainer>
-                <LayoutContainer {...args.layoutArgs}>
-                    <Widget {...args.widgetArgs}>{mockText.paragraph}</Widget>
-                </LayoutContainer>
-                <LayoutContainer {...args.layoutArgs}>
-                    <Widget {...args.widgetArgs}>{mockText.paragraph}</Widget>
-                </LayoutContainer>
-            </Workspace>
+            </LayoutContainer>
         </MockLayout>
     );
 };
@@ -85,10 +124,12 @@ ThreeColumn.args = {
     variant: "light",
     layoutArgs: {
         scrollable: false,
+        grow: false,
         height: "h-full",
     },
     widgetArgs: {
         scrollable: false,
+        grow: true,
         height: "h-full",
     },
 };

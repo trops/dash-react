@@ -424,7 +424,7 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 ${grow}`
-                    : `overlflow-visible ${grow}`;
+                    : `overlflow-y-auto ${grow}`;
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.

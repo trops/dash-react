@@ -28,7 +28,7 @@ const MockWrapper = ({
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
-                        className={`flex flex-col space-y-2 w-full h-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200`}
+                        className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
                             Workspace - WIDGET - Item is a child of the Widget
@@ -37,7 +37,7 @@ const MockWrapper = ({
                         <Workspace
                             direction="col"
                             scrollable={true}
-                            className={"p-4 rounded bg-green-300"}
+                            className={""}
                         >
                             <Widget>{children}</Widget>
                         </Workspace>
@@ -78,7 +78,7 @@ const MockLayout = ({
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
-                        className={`flex flex-col space-y-4 w-full h-screen p-6 border rounded-lg border-1 border-gray-700 bg-gray-300`}
+                        className={`flex flex-col space-y-4 w-full h-7/8 p-6 border rounded-lg border-1 border-gray-700 bg-gray-300 overflow-y-auto flex-grow`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
                             Layout - Item is a child of the LayoutContainer
@@ -91,7 +91,8 @@ const MockLayout = ({
                             direction={
                                 props.direction ? props.direction : "row"
                             }
-                            className="p-6 bg-gray-900 rounded-lg overflow-y-auto flex-grow"
+                            className="p-6 bg-gray-900 rounded-lg"
+                            grow={true}
                         >
                             {children}
                         </LayoutContainer>

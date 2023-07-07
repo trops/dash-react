@@ -20,6 +20,7 @@ export const Widget = ({
         scrollable,
         width: "w-full",
         height: "h-auto",
+        grow: true,
     });
 
     console.log("Widget styles ", styles, props);
@@ -32,9 +33,10 @@ export const Widget = ({
             version={version}
             key={`widget-container'-${uuid}`}
             direction={direction}
-            height={"h-auto"}
+            height={"h-full"}
             width={"w-full"}
-            className={className}
+            className={`${className} ${styles.string}`}
+            grow={true}
         >
             {children}
         </LayoutContainer>
