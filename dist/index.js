@@ -9928,11 +9928,11 @@ var _excluded$9 = ["children", "border"],
   _excluded3$5 = ["children"],
   _excluded4$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"],
   _excluded5$1 = ["children", "border"],
-  _excluded6$1 = ["children"],
+  _excluded6$1 = ["children", "scrollable"],
   _excluded7$1 = ["children"],
   _excluded8$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"],
   _excluded9$1 = ["children", "border"],
-  _excluded10$1 = ["children"],
+  _excluded10$1 = ["children", "scrollable"],
   _excluded11$1 = ["children"],
   _excluded12$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"];
 function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -9970,9 +9970,12 @@ var PanelBody = function PanelBody(_ref2) {
   }));
   console.log("panel body ", styles.string);
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$a(_objectSpread$a({}, props), {}, {
-    direction: props.horizontal === true ? "row" : "col",
-    className: "p-6 ".concat(styles.string),
+    className: "".concat(styles.string, " p-6"),
     scrollable: scrollable,
+    width: "w-full",
+    height: "h-full",
+    direction: props.horizontal === true ? "row" : "col",
+    space: false,
     children: children
   }));
 };
@@ -9993,9 +9996,10 @@ var Panel = function Panel(_ref4) {
     horizontal = _ref4$horizontal === void 0 ? false : _ref4$horizontal,
     children = _ref4.children,
     _ref4$onClick = _ref4.onClick,
-    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick;
-    _ref4.width;
-    var _ref4$height = _ref4.height,
+    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick,
+    _ref4$width = _ref4.width,
+    width = _ref4$width === void 0 ? "w-full" : _ref4$width,
+    _ref4$height = _ref4.height,
     height = _ref4$height === void 0 ? "h-full" : _ref4$height,
     _ref4$padding = _ref4.padding,
     padding = _ref4$padding === void 0 ? true : _ref4$padding,
@@ -10006,14 +10010,18 @@ var Panel = function Panel(_ref4) {
   var _useContext4 = useContext$1(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$a(_objectSpread$a({}, props), {}, {
-    scrollable: scrollable
+    scrollable: scrollable,
+    width: width,
+    height: height
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$a(_objectSpread$a(_objectSpread$a({
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$a(_objectSpread$a({
     direction: horizontal === true ? "row" : "col",
     className: "".concat(styles.string, " ").concat(height, " rounded-lg ").concat(padding === true ? "p-6" : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
-  }, styles), props), {}, {
+    ,
+    space: false
+  }, props), {}, {
     children: children
   }));
 };
@@ -10041,16 +10049,22 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
 };
 var PanelBody2 = function PanelBody2(_ref6) {
   var children = _ref6.children,
+    _ref6$scrollable = _ref6.scrollable,
+    scrollable = _ref6$scrollable === void 0 ? false : _ref6$scrollable,
     props = _objectWithoutProperties$9(_ref6, _excluded6$1);
   var _useContext6 = useContext$1(ThemeContext),
     currentTheme = _useContext6.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$a(_objectSpread$a({}, props), {}, {
-    scrollable: false
+    scrollable: false,
+    height: "h-full"
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$a(_objectSpread$a({}, props), {}, {
-    className: "p-4 ".concat(styles.string),
+    className: "".concat(styles.string, " p-4"),
+    scrollable: scrollable,
+    width: "w-full",
+    height: "h-full",
     direction: props.horizontal === true ? "row" : "col",
-    scrollable: false,
+    space: false,
     children: children
   }));
 };
@@ -10092,10 +10106,8 @@ var Panel2 = function Panel2(_ref8) {
     className: "".concat(styles.string, " ").concat(padding === true ? "p-4" : "p-0", " ").concat(height, " rounded-md"),
     onClick: onClick,
     scrollable: scrollable,
-    children: /*#__PURE__*/jsx("div", {
-      className: "h-full w-full",
-      children: children
-    })
+    space: false,
+    children: children
   }));
 };
 Panel2.Header = PanelHeader2;
@@ -10123,17 +10135,22 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
 };
 var PanelBody3 = function PanelBody3(_ref10) {
   var children = _ref10.children,
+    _ref10$scrollable = _ref10.scrollable,
+    scrollable = _ref10$scrollable === void 0 ? false : _ref10$scrollable,
     props = _objectWithoutProperties$9(_ref10, _excluded10$1);
   try {
     var _useContext10 = useContext$1(ThemeContext),
       currentTheme = _useContext10.currentTheme;
     var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$a(_objectSpread$a({}, props), {}, {
-      scrollable: false
+      scrollable: scrollable
     }));
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$a(_objectSpread$a({}, props), {}, {
-      className: "p-2 ".concat(styles.string),
+      className: "".concat(styles.string, " p-2"),
+      scrollable: scrollable,
+      width: "w-full",
+      height: "h-full",
       direction: props.horizontal === true ? "row" : "col",
-      scrollable: false,
+      space: false,
       children: children
     }));
   } catch (e) {
@@ -10179,10 +10196,8 @@ var Panel3 = function Panel3(_ref12) {
     className: "".concat(styles.string, " ").concat(padding === true ? "p-2" : "p-0", " ").concat(height, " rounded"),
     onClick: onClick,
     scrollable: scrollable,
-    children: /*#__PURE__*/jsx("div", {
-      className: "h-full w-full",
-      children: children
-    })
+    space: false,
+    children: children
   }));
 };
 Panel3.Header = PanelHeader3;
@@ -11489,9 +11504,37 @@ var DashPanelHeader = function DashPanelHeader(_ref) {
     _ref$ping = _ref.ping,
     ping = _ref$ping === void 0 ? true : _ref$ping,
     props = _objectWithoutProperties$2(_ref, _excluded$2);
+  // const { currentTheme } = useContext(ThemeContext);
+  // const styles = getStylesForItem(
+  //     themeObjects.DASH_PANEL_HEADER,
+  //     currentTheme,
+  //     {
+  //         ...props,
+  //         width: "w-full",
+  //         height: "h-full",
+  //         scrollable: false,
+  //     }
+  // );
+  // return (
+  //     <div
+  //         className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
+  //     >
+  //         <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
+  //             {title}
+  //         </span>
+  //         {ping && (
+  //             <span class="relative flex h-3 w-3">
+  //                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+  //                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+  //             </span>
+  //         )}
+  //     </div>
+  // );
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER, currentTheme, _objectSpread$2({}, props));
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER, currentTheme, _objectSpread$2(_objectSpread$2({}, props), {}, {
+    height: "h-fit"
+  }));
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-row rounded-t p-2 border-b justify-between items-center ".concat(styles.string),
     children: [/*#__PURE__*/jsx("span", {
@@ -11500,9 +11543,9 @@ var DashPanelHeader = function DashPanelHeader(_ref) {
     }), ping && /*#__PURE__*/jsxs("span", {
       "class": "relative flex h-3 w-3",
       children: [/*#__PURE__*/jsx("span", {
-        className: "animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"
+        "class": "animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"
       }), /*#__PURE__*/jsx("span", {
-        className: "relative inline-flex rounded-full h-3 w-3 bg-green-600"
+        "class": "relative inline-flex rounded-full h-3 w-3 bg-green-600"
       })]
     })]
   });
@@ -11516,30 +11559,69 @@ var DashPanelBody = function DashPanelBody(_ref2) {
     _ref2$scrollable = _ref2.scrollable,
     scrollable = _ref2$scrollable === void 0 ? true : _ref2$scrollable,
     props = _objectWithoutProperties$2(_ref2, _excluded2$1);
+  // const { currentTheme } = useContext(ThemeContext);
+  // const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
+  //     ...props,
+  //     scrollable,
+  //     width,
+  //     height: "h-full",
+  // });
+
+  // console.log("dash panel body ", styles.string);
+
+  // return (
+  //     <LayoutContainer
+  //         {...props}
+  //         className={`${styles.string} p-4`}
+  //         scrollable={scrollable}
+  //         width={width}
+  //         height={height}
+  //     >
+  //         {children}
+  //     </LayoutContainer>
+  // );
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$2(_objectSpread$2({}, props), {}, {
-    scrollable: scrollable,
     width: width,
-    height: height
+    height: "h-full",
+    scrollable: scrollable
   }));
-  console.log("dash panel body ", styles.string);
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$2(_objectSpread$2({}, props), {}, {
     className: "".concat(styles.string, " p-4"),
     scrollable: scrollable,
     width: width,
     height: height,
+    space: false,
     children: children
   }));
 };
 var DashPanelFooter = function DashPanelFooter(_ref3) {
   var children = _ref3.children,
     props = _objectWithoutProperties$2(_ref3, _excluded3);
+  // const { currentTheme } = useContext(ThemeContext);
+  // const styles = getStylesForItem(
+  //     themeObjects.DASH_PANEL_FOOTER,
+  //     currentTheme,
+  //     {
+  //         ...props,
+  //         height: "h-auto",
+  //     }
+  // );
+  // return (
+  //     <div
+  //         className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs font-bold uppercase ${styles.string}`}
+  //     >
+  //         {children}
+  //     </div>
+  // );
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER, currentTheme, _objectSpread$2({}, props));
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER, currentTheme, _objectSpread$2(_objectSpread$2({}, props), {}, {
+    height: "h-auto"
+  }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-2 border-t justify-between items-center ".concat(styles.string),
+    className: "flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ".concat(styles.string),
     children: children
   });
 };
@@ -11560,11 +11642,7 @@ var DashPanel = function DashPanel(_ref4) {
     scrollable: scrollable
   }));
   console.log("DASH PANEL styles ", styles.string);
-  return /*#__PURE__*/jsx(Panel
-  // className={`justify-between`}
-  // className={`${styles.string}`}
-  // {...styles}
-  , {
+  return /*#__PURE__*/jsx(Panel, {
     padding: false,
     scrollable: scrollable,
     height: height,
@@ -11582,7 +11660,9 @@ var DashPanelHeader2 = function DashPanelHeader2(_ref5) {
     props = _objectWithoutProperties$2(_ref5, _excluded5);
   var _useContext5 = useContext$1(ThemeContext),
     currentTheme = _useContext5.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_2, currentTheme, _objectSpread$2({}, props));
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_2, currentTheme, _objectSpread$2(_objectSpread$2({}, props), {}, {
+    height: "h-fit"
+  }));
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-row rounded-t p-2 border-b justify-between items-center ".concat(styles.string),
     children: [/*#__PURE__*/jsx("span", {
@@ -11611,12 +11691,16 @@ var DashPanelBody2 = function DashPanelBody2(_ref6) {
     currentTheme = _useContext6.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, _objectSpread$2(_objectSpread$2({}, props), {}, {
     scrollable: scrollable,
-    height: height,
+    height: "h-full",
     width: width
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$2(_objectSpread$2({}, props), {}, {
-    padding: true,
-    className: "p-4 ".concat(styles.string),
+    className: "".concat(styles.string, " p-4"),
+    scrollable: scrollable,
+    width: width,
+    height: height,
+    direction: "col",
+    space: false,
     children: children
   }));
 };
@@ -11700,7 +11784,10 @@ var DashPanelBody3 = function DashPanelBody3(_ref10) {
     scrollable: scrollable
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$2(_objectSpread$2({}, props), {}, {
-    className: "p-4 ".concat(styles.string),
+    className: "".concat(styles.string, " p-4"),
+    scrollable: scrollable,
+    width: width,
+    height: height,
     children: children
   }));
 };
@@ -11709,9 +11796,11 @@ var DashPanelFooter3 = function DashPanelFooter3(_ref11) {
     props = _objectWithoutProperties$2(_ref11, _excluded11);
   var _useContext11 = useContext$1(ThemeContext),
     currentTheme = _useContext11.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_3, currentTheme, _objectSpread$2({}, props));
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_3, currentTheme, _objectSpread$2(_objectSpread$2({}, props), {}, {
+    height: "h-auto"
+  }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-2 border-t justify-between items-center ".concat(styles.string),
+    className: "flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ".concat(styles.string),
     children: children
   });
 };
@@ -12246,7 +12335,7 @@ var MockWrapper = function MockWrapper(_ref) {
       children: /*#__PURE__*/jsx(ThemeContext.Provider, {
         value: mock.theme.context,
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200",
+          className: "flex flex-col space-y-2 w-full h-full p-2 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200",
           children: [/*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Workspace - WIDGET - Item is a child of the Widget component`"
