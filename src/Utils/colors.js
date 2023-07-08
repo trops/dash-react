@@ -386,7 +386,12 @@ console.log(colorMap);
  * @param {string} itemName the name of the component (button, panel, etc)
  *
  */
-const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
+const getStylesForItem = (
+    itemName = null,
+    theme = null,
+    overrides = {},
+    id = null
+) => {
     try {
         if (itemName !== null) {
             // get the colors from the theme by default
@@ -419,12 +424,56 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                     ? "flex-shrink"
                     : "flex-grow";
 
-            console.log("grow styles ", grow);
-
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 ${grow}`
-                    : `overlflow-y-auto ${grow}`;
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800 flex-grow`
+                    : `overlflow-hidden ${grow}`;
+
+            const hasChildren =
+                "hasChildren" in overrides && overrides["hasChildren"] === true;
+
+            const childCount =
+                "childCount" in overrides && overrides["childCount"];
+
+            const directionValue =
+                "direction" in overrides ? overrides["direction"] : null;
+
+            const directionStyles =
+                directionValue !== null
+                    ? directionValue === "col"
+                        ? "flex-col"
+                        : "flex-row"
+                    : "";
+
+            const paddingStyles =
+                itemName === themeObjects.LAYOUT_CONTAINER &&
+                hasChildren === true &&
+                childCount > 1 &&
+                directionValue !== null &&
+                "space" in overrides &&
+                overrides["space"] !== false
+                    ? directionValue === "col"
+                        ? "space-y-4"
+                        : "space-x-4"
+                    : "";
+
+            console.log(
+                "get styles for item ",
+                id,
+                itemName,
+                overrides,
+                paddingStyles,
+                hasChildren,
+                directionStyles
+            );
+
+            const additionalStyles = scrollbarStyles
+                .concat(" ")
+                .concat(directionStyles)
+                .concat(" ")
+                .concat(paddingStyles);
+
+            console.log("additional srtyles ", itemName, id, additionalStyles);
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.
@@ -459,13 +508,13 @@ const getStylesForItem = (itemName = null, theme = null, overrides = {}) => {
                               .map((key) => styles[key])
                               .join(" ")
                               .concat(" ")
-                              .concat(scrollbarStyles)
-                        : scrollbarStyles,
+                              .concat(additionalStyles)
+                        : additionalStyles,
                 ...styles,
             };
 
-            console.log(stylesObject);
-            console.log(stylesObject.string);
+            // console.log(stylesObject);
+            // console.log(stylesObject.string);
 
             return stylesObject;
         }

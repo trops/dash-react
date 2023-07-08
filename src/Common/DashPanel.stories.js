@@ -160,4 +160,5 @@ PrimaryMultiple.args = {
     height: "h-3/4",
     width: "w-full",
     direction: "col",
+    space: "true",
 };

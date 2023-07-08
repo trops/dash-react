@@ -345,7 +345,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                     //     "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
                     // }
                     padding={false}
-                    space={false}
+                    space={true}
                     height="h-full"
                     width="w-full"
                     direction="row"

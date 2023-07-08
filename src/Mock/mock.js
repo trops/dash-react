@@ -35,11 +35,21 @@ const MockWrapper = ({
                             component`
                         </span>
                         <Workspace
+                            id="MockWrapperWorkspace"
                             direction="col"
                             scrollable={true}
                             className={""}
+                            // space={true}
+                            grow={true}
                         >
-                            <Widget>{children}</Widget>
+                            <Widget
+                                uuid="MockWrapperWidget"
+                                space={true}
+                                direction="col"
+                                grow={true}
+                            >
+                                {children}
+                            </Widget>
                         </Workspace>
                     </div>
                 </ThemeContext.Provider>
@@ -85,14 +95,16 @@ const MockLayout = ({
                             component
                         </span>
                         <LayoutContainer
+                            id="MockLayoutContainer"
                             scrollable={false}
                             height="h-full"
                             width="w-full"
                             direction={
                                 props.direction ? props.direction : "row"
                             }
-                            className="p-6 bg-gray-900 rounded-lg"
+                            className="bg-gray-900 rounded-lg"
                             grow={true}
+                            space={true}
                         >
                             {children}
                         </LayoutContainer>

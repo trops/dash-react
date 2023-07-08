@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "../Utils";
-import { AppContext } from "@dash/Context";
+import { getStylesForItem, themeObjects, getUUID } from "../Utils";
 import { LayoutContainer } from "@dash/Layout";
 
 export const Widget = ({
@@ -11,32 +10,51 @@ export const Widget = ({
     direction = "col",
     scrollable = false,
     className = "",
-    ...props
+    space = true,
+    grow = true,
 }) => {
     // get the styles
-    const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.WIDGET, currentTheme, {
-        ...props,
+    // const { currentTheme } = useContext(ThemeContext);
+    // const styles = getStylesForItem(
+    //     themeObjects.WIDGET,
+    //     currentTheme,
+    //     {
+    //         ...props,
+    //         scrollable: scrollable,
+    //         width: "w-full",
+    //         height: "h-auto",
+    //         grow: true,
+    //         direction: direction,
+    //         space: true,
+    //     },
+    //     uuid
+    // );
+
+    console.log("Widget props ", {
+        uuid,
+        children,
+        version,
+        direction,
         scrollable,
-        width: "w-full",
-        height: "h-auto",
-        grow: true,
+        className,
+        space,
+        grow,
     });
 
-    console.log("Widget styles ", styles, props);
+    const uuidString = getUUID(uuid);
 
     return (
         <LayoutContainer
-            id={`widget-container-${
-                uuid === undefined ? "uuid-" + Math.random(1, 1000) : uuid
-            }`}
+            id={`widget-container-${uuidString}`}
             version={version}
-            key={`widget-container'-${uuid}`}
+            key={`widget-container'-${uuidString}`}
             direction={direction}
             height={"h-full"}
             width={"w-full"}
-            className={`${className} ${styles.string}`}
-            grow={true}
+            className={`${className}`}
+            grow={grow}
+            space={space}
+            scrollable={scrollable}
         >
             {children}
         </LayoutContainer>

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "../Utils";
+import { getStylesForItem, themeObjects, getUUID } from "../Utils";
 
 export const LayoutContainer = ({
-    id = null,
+    id,
     children,
     direction = "row",
     className = "",
@@ -12,37 +12,52 @@ export const LayoutContainer = ({
     height = "h-auto",
     space = true,
     grow = true,
+    debug = false,
 }) => {
+    const containerId = getUUID(id);
     // get the styles
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.WIDGET, currentTheme, {
-        scrollable,
-        width: "w-full",
-        height: "h-auto",
-        grow,
-    });
-
-    const containerId = id === null ? Math.random(0, 1000) : id;
-
-    // determine the classes based on the props...
-    const directionStyle =
-        direction === "row"
-            ? space === true
-                ? "flex-row space-x-2"
-                : "flex-row"
-            : space === true
-            ? "flex-col space-y-2"
-            : "flex-col";
+    const styles = getStylesForItem(
+        themeObjects.LAYOUT_CONTAINER,
+        currentTheme,
+        {
+            scrollable,
+            width,
+            height,
+            grow,
+            hasChildren: children !== undefined,
+            childCount: React.Children.count(children),
+            direction,
+            space,
+        },
+        containerId
+    );
 
     const widthStyle = width;
     const heightStyle = height === "" ? "h-full" : height;
 
+    function renderDebugger(children, styleString) {
+        return (
+            debug === true && (
+                <div
+                    className={`flex flex-col bg-inherit space-y-1 flex-shrink`}
+                >
+                    <span className="flex flex-row flex-shrink text-xs bg-gray-900 uppercase text-gray-200 rounded">
+                        {containerId} {styleString}
+                    </span>
+                    {children}
+                </div>
+            )
+        );
+    }
+
     return (
         <div
-            id={`LayoutContainer-${containerId}`}
-            className={`flex ${directionStyle} ${widthStyle} ${heightStyle} ${className} ${styles.string}`}
+            id={containerId}
+            className={`flex ${styles.string} ${widthStyle} ${heightStyle} ${className}`}
         >
-            {children}
+            {debug === false && children}
+            {debug === true && renderDebugger(children, styles.string)}
         </div>
     );
 };

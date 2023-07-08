@@ -7,11 +7,12 @@
  */
 import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "../Utils";
+import { getStylesForItem, themeObjects, getUUID } from "../Utils";
 import { LayoutContainer } from "@dash/Layout";
-import { AppContext, WorkspaceContext } from "@dash/Context";
+import { WorkspaceContext } from "@dash/Context";
 
 export const Workspace = ({
+    uuid,
     theme = false,
     workspaceData = null,
     children = null,
@@ -19,28 +20,32 @@ export const Workspace = ({
     height = "h-auto",
     direction = "col",
     scrollable = false,
+    space = false,
     className = "",
     ...props
 }) => {
-    const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
-        ...props,
-        scrollable,
-        grow: false,
-    });
+    // const { currentTheme } = useContext(ThemeContext);
+    // const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
+    //     ...props,
+    //     scrollable,
+    //     grow: false,
+    //     space,
+    //     direction,
+    // });
 
-    console.log("Workspace props ", props);
+    const uuidString = getUUID(uuid);
     return (
         <WorkspaceContext.Provider value={workspaceData}>
             <LayoutContainer
+                id={`workspace-${uuidString}`}
                 theme={theme}
                 direction={direction}
                 scrollable={scrollable}
                 width={width}
                 height={height}
-                className={`${className} ${styles.string}`}
+                className={`${className}`}
                 grow={false}
-                {...styles}
+                space={space}
             >
                 {children}
             </LayoutContainer>

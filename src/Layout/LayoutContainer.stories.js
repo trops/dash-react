@@ -21,53 +21,55 @@ const TemplateLayoutThreeColumn = (args) => {
         <MockLayout
             api={mock.api}
             theme={mock.themes}
-            args={{ direction: "row", ...args }}
+            args={{ direction: "col", ...args }}
         >
-            <LayoutContainer direction="col" grow={false} scrollable={true}>
+            <LayoutContainer
+                id="outer-container"
+                direction="col"
+                grow={false}
+                scrollable={true}
+                space={true}
+            >
                 <LayoutContainer
                     direction="row"
-                    className="p-4 bg-green-500"
+                    className="bg-green-500"
                     grow={false}
+                    id="top-row"
                 >
                     TEST ROW
                 </LayoutContainer>
                 <LayoutContainer
                     direction="row"
-                    grow={false}
+                    grow={true}
                     scrollable={true}
                     height="h-full"
-                    className="bg-orange-500 p-4 flex-grow overflow-auto"
+                    className="bg-orange-500"
+                    id="row-2"
+                    space={true}
                 >
                     <Workspace
                         direction="col"
-                        className={"p-4 bg-blue-500 rounded"}
+                        className={"bg-blue-500 rounded"}
                         grow={true}
                         scrollable={true}
+                        space={true}
                     >
-                        <Widget
-                            {...args.widgetArgs}
-                            className="p-4 bg-blue-300 rounded"
-                        >
+                        <Widget {...args.widgetArgs}>
                             {mockText.paragraph}
                         </Widget>
 
-                        <Widget
-                            {...args.widgetArgs}
-                            className="p-4 bg-blue-300 rounded"
-                        >
+                        <Widget {...args.widgetArgs}>
                             {mockText.paragraph}
                         </Widget>
 
-                        <Widget
-                            {...args.widgetArgs}
-                            className="p-4 bg-blue-300 rounded"
-                        >
+                        <Widget {...args.widgetArgs}>
                             {mockText.paragraph}
                         </Widget>
                     </Workspace>
+
                     <Workspace
                         direction="col"
-                        className={"p-4 bg-green-500"}
+                        className={"bg-blue-500 rounded"}
                         grow={false}
                         scrollable={true}
                     >
@@ -75,27 +77,32 @@ const TemplateLayoutThreeColumn = (args) => {
                             <Widget {...args.widgetArgs}>
                                 {mockText.paragraph}
                             </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
                             <Widget {...args.widgetArgs}>
                                 {mockText.paragraph}
                             </Widget>
                         </LayoutContainer>
                     </Workspace>
+
                     <Workspace
                         direction="col"
-                        className={"p-4 bg-green-500"}
-                        grow={false}
+                        className={"bg-blue-500 rounded"}
+                        grow={true}
+                        scrollable={true}
                     >
-                        <LayoutContainer {...args.layoutArgs}>
+                        <LayoutContainer direction={"col"} {...args.layoutArgs}>
                             <Widget {...args.widgetArgs}>
                                 {mockText.paragraph}
                             </Widget>
-                        </LayoutContainer>
-                        <LayoutContainer {...args.layoutArgs}>
+
                             <Widget {...args.widgetArgs}>
                                 {mockText.paragraph}
                             </Widget>
-                        </LayoutContainer>
-                        <LayoutContainer {...args.layoutArgs}>
+
                             <Widget {...args.widgetArgs}>
                                 {mockText.paragraph}
                             </Widget>
@@ -128,8 +135,7 @@ ThreeColumn.args = {
         height: "h-full",
     },
     widgetArgs: {
-        scrollable: false,
-        grow: true,
         height: "h-full",
+        backgroundColor: "bg-blue-500",
     },
 };

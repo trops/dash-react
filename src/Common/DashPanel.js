@@ -64,33 +64,14 @@ const DashPanelBody = ({
     scrollable = true,
     ...props
 }) => {
-    // const { currentTheme } = useContext(ThemeContext);
-    // const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
-    //     ...props,
-    //     scrollable,
-    //     width,
-    //     height: "h-full",
-    // });
-
-    // console.log("dash panel body ", styles.string);
-
-    // return (
-    //     <LayoutContainer
-    //         {...props}
-    //         className={`${styles.string} p-4`}
-    //         scrollable={scrollable}
-    //         width={width}
-    //         height={height}
-    //     >
-    //         {children}
-    //     </LayoutContainer>
-    // );
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
         ...props,
         width,
         height: "h-full",
         scrollable,
+        direction: "col",
+        space: false,
     });
     return (
         <LayoutContainer
@@ -100,6 +81,7 @@ const DashPanelBody = ({
             width={width}
             height={height}
             space={false}
+            direction="col"
         >
             {children}
         </LayoutContainer>
