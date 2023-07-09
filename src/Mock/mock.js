@@ -102,7 +102,7 @@ const MockLayout = ({
                             direction={
                                 props.direction ? props.direction : "row"
                             }
-                            className="bg-gray-900 rounded-lg"
+                            className="bg-gray-900"
                             grow={true}
                             space={true}
                         >

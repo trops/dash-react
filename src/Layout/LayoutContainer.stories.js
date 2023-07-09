@@ -114,9 +114,93 @@ const TemplateLayoutThreeColumn = (args) => {
     );
 };
 
+const TemplateLayoutThreeRow = (args) => {
+    return (
+        <MockLayout
+            api={mock.api}
+            theme={mock.themes}
+            args={{ direction: "col", ...args }}
+        >
+            <LayoutContainer
+                id="outer-container"
+                direction="col"
+                grow={false}
+                scrollable={false}
+                space={true}
+            >
+                <LayoutContainer
+                    direction="row"
+                    className="bg-green-500"
+                    grow={false}
+                    id="top-row"
+                >
+                    TEST ROW
+                </LayoutContainer>
+                <LayoutContainer
+                    direction="col"
+                    grow={true}
+                    scrollable={true}
+                    height="h-full"
+                    className="bg-orange-500"
+                    id="row-2"
+                    space={true}
+                >
+                    <Workspace direction="row">
+                        <LayoutContainer {...args.layoutArgs} direction="row">
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                    </Workspace>
+
+                    <Workspace direction="col">
+                        <LayoutContainer {...args.layoutArgs} direction="row">
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                    </Workspace>
+
+                    <Workspace direction="col">
+                        <LayoutContainer direction={"row"} {...args.layoutArgs}>
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+
+                            <Widget {...args.widgetArgs}>
+                                {mockText.paragraph}
+                            </Widget>
+                        </LayoutContainer>
+                    </Workspace>
+                </LayoutContainer>
+            </LayoutContainer>
+        </MockLayout>
+    );
+};
+
 export const Primary = Template.bind({});
 export const ThreeColumn = TemplateLayoutThreeColumn.bind({});
-
+export const ThreeRow = TemplateLayoutThreeRow.bind({});
 Primary.args = {
     title: "LayoutContainer",
     scrollable: true,
@@ -137,5 +221,25 @@ ThreeColumn.args = {
     widgetArgs: {
         height: "h-full",
         backgroundColor: "bg-blue-500",
+    },
+};
+
+ThreeRow.args = {
+    title: "LayoutContainer",
+    scrollable: true,
+    height: "h-60",
+    variant: "light",
+    layoutArgs: {
+        scrollable: false,
+        grow: false,
+        height: "h-full",
+        space: true,
+    },
+    widgetArgs: {
+        height: "h-full",
+        className: "bg-blue-500",
+        space: true,
+        grow: true,
+        scrollable: true,
     },
 };

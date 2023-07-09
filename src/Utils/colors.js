@@ -426,7 +426,7 @@ const getStylesForItem = (
 
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow pr-1`
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow`
                     : `overlflow-hidden ${grow} mr-0`;
 
             const hasChildren =
@@ -453,8 +453,8 @@ const getStylesForItem = (
                 "space" in overrides &&
                 overrides["space"] !== false
                     ? directionValue === "col"
-                        ? "space-y-4"
-                        : "space-x-4"
+                        ? "space-y-4 px-4 pt-4 pb-4"
+                        : "space-x-4  "
                     : "";
 
             console.log(

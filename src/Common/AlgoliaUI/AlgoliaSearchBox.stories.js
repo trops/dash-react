@@ -1,7 +1,7 @@
 import { AlgoliaSearchBox } from "./AlgoliaSearchBox";
 import { mock, MockWrapper } from "@dash";
 import { InstantSearch } from "react-instantsearch-hooks-web";
-import "../../tailwind.css";
+// import "../../tailwind.css";
 import algoliasearch from "algoliasearch";
 
 console.log("MOCK: ", mock);

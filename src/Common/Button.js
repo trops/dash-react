@@ -17,6 +17,7 @@ const Button = ({
         ...props,
         scrollable: false,
         grow: false,
+        space: false,
     });
 
     function handleOnClick(e) {
@@ -30,7 +31,10 @@ const Button = ({
         textSize !== null
             ? textSize
             : "text-lg lg:text-xl xl:text-xl 2xl:text-2xl";
-    const paddingComputed = padding !== null ? padding : "p-2 lg:p-4 xl:p-6";
+    const paddingComputed =
+        padding !== null
+            ? padding
+            : "p-2 py-1 px-2 lg:px-4 lg:py-2 xl:px-6 xl:py-4";
 
     return (
         <div

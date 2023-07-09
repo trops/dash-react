@@ -9894,7 +9894,7 @@ var getStylesForItem = function getStylesForItem() {
       var childCount = "childCount" in overrides && overrides["childCount"];
       var directionValue = "direction" in overrides ? overrides["direction"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
-      var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null && "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "";
+      var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null && "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4 px-2" : "space-x-4 py-2" : "";
       console.log("get styles for item ", id, itemName, overrides, paddingStyles, hasChildren, directionStyles);
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles);
       console.log("additional srtyles ", itemName, id, additionalStyles);
@@ -10691,7 +10691,8 @@ var Button = function Button(_ref) {
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
     scrollable: false,
-    grow: false
+    grow: false,
+    space: false
   }));
   function handleOnClick(e) {
     if (disabled === false) {
@@ -10700,7 +10701,7 @@ var Button = function Button(_ref) {
   }
   var width = block === true ? "w-full" : "";
   var textSizeComputed = textSize !== null ? textSize : "text-lg lg:text-xl xl:text-xl 2xl:text-2xl";
-  var paddingComputed = padding !== null ? padding : "p-2 lg:p-4 xl:p-6";
+  var paddingComputed = padding !== null ? padding : "p-2 py-1 px-2 lg:px-4 lg:py-2 xl:px-6 xl:py-4";
   return /*#__PURE__*/jsx("div", {
     onClick: handleOnClick,
     className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
