@@ -9889,7 +9889,7 @@ var getStylesForItem = function getStylesForItem() {
       // scrollbars?
 
       var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow" : "overlflow-hidden ".concat(grow);
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow pr-1" : "overlflow-hidden ".concat(grow, " mr-0");
       var hasChildren = "hasChildren" in overrides && overrides["hasChildren"] === true;
       var childCount = "childCount" in overrides && overrides["childCount"];
       var directionValue = "direction" in overrides ? overrides["direction"] : null;

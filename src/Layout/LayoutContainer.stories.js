@@ -27,7 +27,7 @@ const TemplateLayoutThreeColumn = (args) => {
                 id="outer-container"
                 direction="col"
                 grow={false}
-                scrollable={true}
+                scrollable={false}
                 space={true}
             >
                 <LayoutContainer

@@ -68,6 +68,18 @@ const newSafeList = colorSafeList.concat([
         pattern: /p-(.+)/,
     },
     {
+        pattern: /pt-(.+)/,
+    },
+    {
+        pattern: /pb-(.+)/,
+    },
+    {
+        pattern: /pl-(.+)/,
+    },
+    {
+        pattern: /pr-(.+)/,
+    },
+    {
         pattern: /p-(.+)-(.+)/,
     },
     {
@@ -75,6 +87,15 @@ const newSafeList = colorSafeList.concat([
     },
     {
         pattern: /mt-(.+)/,
+    },
+    {
+        pattern: /mb-(.+)/,
+    },
+    {
+        pattern: /ml-(.+)/,
+    },
+    {
+        pattern: /mr-(.+)/,
     },
     {
         pattern: /h-(.+)/,

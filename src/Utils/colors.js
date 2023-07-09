@@ -426,8 +426,8 @@ const getStylesForItem = (
 
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow`
-                    : `overlflow-hidden ${grow}`;
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow pr-1`
+                    : `overlflow-hidden ${grow} mr-0`;
 
             const hasChildren =
                 "hasChildren" in overrides && overrides["hasChildren"] === true;
