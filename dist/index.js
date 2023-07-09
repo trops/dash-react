@@ -9894,7 +9894,8 @@ var getStylesForItem = function getStylesForItem() {
       var childCount = "childCount" in overrides && overrides["childCount"];
       var directionValue = "direction" in overrides ? overrides["direction"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
-      var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null && "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4 px-4 pt-4 pb-4" : "space-x-4  " : "";
+      var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
+
       console.log("get styles for item ", id, itemName, overrides, paddingStyles, hasChildren, directionStyles);
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles);
       console.log("additional srtyles ", itemName, id, additionalStyles);
@@ -11494,14 +11495,19 @@ var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
   useEffect(function () {
     onQueryChange && onQueryChange(query);
   }, [query]);
-  return /*#__PURE__*/jsx(InputText, {
-    type: "search",
-    value: currentRefinement,
-    onChange: function onChange(event) {
-      return refine(event.currentTarget.value);
-    },
-    disabled: disabled,
-    placeholder: "Search"
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    grow: false,
+    scrollable: false,
+    space: false,
+    children: /*#__PURE__*/jsx(InputText, {
+      type: "search",
+      value: currentRefinement,
+      onChange: function onChange(event) {
+        return refine(event.currentTarget.value);
+      },
+      disabled: disabled,
+      placeholder: "Search"
+    })
   });
 };
 
