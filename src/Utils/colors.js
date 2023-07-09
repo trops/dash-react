@@ -449,13 +449,13 @@ const getStylesForItem = (
                 itemName === themeObjects.LAYOUT_CONTAINER &&
                 hasChildren === true &&
                 childCount > 1 &&
-                directionValue !== null &&
-                "space" in overrides &&
-                overrides["space"] !== false
-                    ? directionValue === "col"
-                        ? "space-y-4 px-4 pt-4 pb-4"
-                        : "space-x-4  "
-                    : "";
+                directionValue !== null
+                    ? "space" in overrides && overrides["space"] !== false
+                        ? directionValue === "col"
+                            ? "space-y-4"
+                            : "space-x-4"
+                        : ""
+                    : ""; // not layout container
 
             console.log(
                 "get styles for item ",
