@@ -9889,12 +9889,12 @@ var getStylesForItem = function getStylesForItem() {
       // scrollbars?
 
       var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow pr-1" : "overlflow-hidden ".concat(grow, " mr-0");
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow" : "overlflow-hidden ".concat(grow, " mr-0");
       var hasChildren = "hasChildren" in overrides && overrides["hasChildren"] === true;
       var childCount = "childCount" in overrides && overrides["childCount"];
       var directionValue = "direction" in overrides ? overrides["direction"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
-      var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null && "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4 px-2" : "space-x-4 py-2" : "";
+      var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null && "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4 px-4 pt-4 pb-4" : "space-x-4  " : "";
       console.log("get styles for item ", id, itemName, overrides, paddingStyles, hasChildren, directionStyles);
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles);
       console.log("additional srtyles ", itemName, id, additionalStyles);
@@ -11480,7 +11480,8 @@ MainContent.defaultProps = {
 };
 
 var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
-  var props = _ref.props,
+  _ref.id;
+    var props = _ref.props,
     _ref$onQueryChange = _ref.onQueryChange,
     onQueryChange = _ref$onQueryChange === void 0 ? null : _ref$onQueryChange;
   var _useSearchBox = useSearchBox(props),
@@ -11493,21 +11494,14 @@ var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
   useEffect(function () {
     onQueryChange && onQueryChange(query);
   }, [query]);
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full min-h-fit",
-    children: /*#__PURE__*/jsx(InputText, {
-      type: "search",
-      value: currentRefinement,
-      onChange: function onChange(event) {
-        return refine(event.currentTarget.value);
-      },
-      disabled: disabled
-      // className={`${
-      //     disabled === true && "bg-gray-400"
-      // } flex flex-row flex-1 w-full h-20 p-2 2xl:p-4 text-base 2xl:text-lg rounded text-indigo-800 font-bold bg-gray-200 dark:bg-indigo-300 focus:outline-none`}
-      ,
-      placeholder: "Search"
-    })
+  return /*#__PURE__*/jsx(InputText, {
+    type: "search",
+    value: currentRefinement,
+    onChange: function onChange(event) {
+      return refine(event.currentTarget.value);
+    },
+    disabled: disabled,
+    placeholder: "Search"
   });
 };
 
@@ -12454,7 +12448,7 @@ var MockLayout = function MockLayout(_ref2) {
             height: "h-full",
             width: "w-full",
             direction: props.direction ? props.direction : "row",
-            className: "bg-gray-900 rounded-lg",
+            className: "bg-gray-900",
             grow: true,
             space: true,
             children: children
