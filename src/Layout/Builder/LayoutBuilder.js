@@ -303,7 +303,7 @@ export const LayoutBuilder = ({
                 <LayoutContainer
                     key={"search-layout-builder"}
                     id="search-layout-builder"
-                    scrollable={false}
+                    scrollable={!preview}
                     direction={"col"}
                     width={"w-full"}
                     height={"h-full"}
