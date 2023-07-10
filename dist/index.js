@@ -4818,7 +4818,7 @@ var Dashboard = function Dashboard(_ref) {
           space: true,
           height: "h-screen",
           width: "w-full",
-          direction: "row",
+          direction: "col",
           scrollable: false,
           grow: true,
           children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
@@ -4826,7 +4826,7 @@ var Dashboard = function Dashboard(_ref) {
             preview: previewMode,
             onNameChange: handleWorkspaceNameChange
           }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col w-full h-full ".concat(previewMode === true && "overflow-y-auto"),
+            className: "flex flex-col w-full h-full ".concat(previewMode === true ? "overflow-y-auto" : "overflow-hidden"),
             children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
           }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
             onClickEdit: function onClickEdit() {
@@ -8193,11 +8193,12 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       className: "flex flex-row w-full h-full overflow-hidden p-2 space-x-2",
       children: /*#__PURE__*/jsxs(LayoutContainer, {
         id: "search-layout-builder",
-        scrollable: true,
+        scrollable: false,
         direction: "col",
         width: "w-full",
         height: "h-full",
-        className: "overflow-x-hidden",
+        grow: true,
+        space: false,
         children: [preview === true && /*#__PURE__*/jsx(LayoutDragBuilder, {
           dashboardId: dashboardId,
           isDraggable: true,
