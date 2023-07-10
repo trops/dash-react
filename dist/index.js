@@ -12101,19 +12101,11 @@ var Workspace = function Workspace(_ref) {
     _ref$scrollable = _ref.scrollable,
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$space = _ref.space,
-    space = _ref$space === void 0 ? false : _ref$space,
+    space = _ref$space === void 0 ? true : _ref$space,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className;
     _objectWithoutProperties$1(_ref, _excluded$1);
-  // const { currentTheme } = useContext(ThemeContext);
-  // const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
-  //     ...props,
-  //     scrollable,
-  //     grow: false,
-  //     space,
-  //     direction,
-  // });
-
+  // Generate the UUID for the Workspace to identify
   var uuidString = getUUID(uuid);
   return /*#__PURE__*/jsx(WorkspaceContext.Provider, {
     value: workspaceData,
