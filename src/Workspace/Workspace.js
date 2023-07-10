@@ -5,9 +5,8 @@
  * There may be multiple Workspaces of "Pages" that the user can create by dragging widgets into the Layout,
  * also defined by the user.
  */
-import React, { useContext } from "react";
-import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects, getUUID } from "../Utils";
+import React from "react";
+import { getUUID } from "../Utils";
 import { LayoutContainer } from "@dash/Layout";
 import { WorkspaceContext } from "@dash/Context";
 
@@ -20,19 +19,11 @@ export const Workspace = ({
     height = "h-auto",
     direction = "col",
     scrollable = false,
-    space = false,
+    space = true,
     className = "",
-    ...props
+    ...props // what should we do with the props here...
 }) => {
-    // const { currentTheme } = useContext(ThemeContext);
-    // const styles = getStylesForItem(themeObjects.WORKSPACE, currentTheme, {
-    //     ...props,
-    //     scrollable,
-    //     grow: false,
-    //     space,
-    //     direction,
-    // });
-
+    // Generate the UUID for the Workspace to identify
     const uuidString = getUUID(uuid);
     return (
         <WorkspaceContext.Provider value={workspaceData}>
