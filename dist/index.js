@@ -8193,7 +8193,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       className: "flex flex-row w-full h-full overflow-hidden p-2 space-x-2",
       children: /*#__PURE__*/jsxs(LayoutContainer, {
         id: "search-layout-builder",
-        scrollable: false,
+        scrollable: !preview,
         direction: "col",
         width: "w-full",
         height: "h-full",
