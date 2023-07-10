@@ -341,12 +341,9 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         currentTheme && (
             <DashboardWrapper>
                 <LayoutContainer
-                    // className={
-                    //     "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
-                    // }
                     padding={false}
                     space={true}
-                    height="h-full"
+                    height="h-screen"
                     width="w-full"
                     direction="row"
                     scrollable={false}
@@ -409,7 +406,12 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                                         onNameChange={handleWorkspaceNameChange}
                                     />
                                 )}
-                                <div className="flex flex-col w-full h-full overflow-y-scroll">
+                                <div
+                                    className={`flex flex-col w-full h-full ${
+                                        previewMode === true &&
+                                        "overflow-y-auto"
+                                    }`}
+                                >
                                     {workspaceSelected !== null
                                         ? renderComponent(workspaceSelected)
                                         : null}
