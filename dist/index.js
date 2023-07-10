@@ -4760,14 +4760,10 @@ var Dashboard = function Dashboard(_ref) {
     setIsThemeManagerOpen(true);
   }
   return menuItems && currentTheme && /*#__PURE__*/jsx(DashboardWrapper, {
-    children: /*#__PURE__*/jsx(LayoutContainer
-    // className={
-    //     "flex flex-row h-full p-0 overflow-hidden w-full space-x-0"
-    // }
-    , {
+    children: /*#__PURE__*/jsx(LayoutContainer, {
       padding: false,
       space: true,
-      height: "h-full",
+      height: "h-screen",
       width: "w-full",
       direction: "row",
       scrollable: false,
@@ -4821,7 +4817,7 @@ var Dashboard = function Dashboard(_ref) {
             preview: previewMode,
             onNameChange: handleWorkspaceNameChange
           }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col w-full h-full overflow-y-scroll",
+            className: "flex flex-col w-full h-full ".concat(previewMode === true && "overflow-y-auto"),
             children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
           }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
             onClickEdit: function onClickEdit() {
