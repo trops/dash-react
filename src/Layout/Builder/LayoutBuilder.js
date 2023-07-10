@@ -303,11 +303,12 @@ export const LayoutBuilder = ({
                 <LayoutContainer
                     key={"search-layout-builder"}
                     id="search-layout-builder"
-                    scrollable={true}
+                    scrollable={false}
                     direction={"col"}
                     width={"w-full"}
                     height={"h-full"}
-                    className={"overflow-x-hidden"}
+                    grow={true}
+                    space={false}
                 >
                     {preview === true && (
                         <LayoutDragBuilder

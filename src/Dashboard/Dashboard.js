@@ -404,7 +404,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                                 space={true}
                                 height="h-screen"
                                 width="w-full"
-                                direction="row"
+                                direction="col"
                                 scrollable={false}
                                 grow={true}
                             >
@@ -417,8 +417,9 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                                 )}
                                 <div
                                     className={`flex flex-col w-full h-full ${
-                                        previewMode === true &&
-                                        "overflow-y-auto"
+                                        previewMode === true
+                                            ? "overflow-y-auto"
+                                            : "overflow-hidden"
                                     }`}
                                 >
                                     {workspaceSelected !== null
