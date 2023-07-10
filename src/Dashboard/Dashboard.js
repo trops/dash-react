@@ -398,7 +398,16 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                         </div>
 
                         {workspaceSelected !== null && (
-                            <div className="flex flex-col h-full w-full justify-between">
+                            // <div className="flex flex-col h-full w-full justify-between overflow-hidden">
+                            <LayoutContainer
+                                padding={false}
+                                space={true}
+                                height="h-screen"
+                                width="w-full"
+                                direction="row"
+                                scrollable={false}
+                                grow={true}
+                            >
                                 {workspaceSelected !== null && (
                                     <DashboardHeader
                                         workspace={workspaceSelected}
@@ -426,7 +435,8 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                                         onSaveChanges={handleClickSaveWorkspace}
                                     />
                                 )}
-                            </div>
+                                {/* </div> */}
+                            </LayoutContainer>
                         )}
 
                         {workspaceSelected === null && (
