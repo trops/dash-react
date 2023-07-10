@@ -4810,8 +4810,17 @@ var Dashboard = function Dashboard(_ref) {
               })
             })]
           })]
-        }), workspaceSelected !== null && /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col h-full w-full justify-between",
+        }), workspaceSelected !== null &&
+        /*#__PURE__*/
+        // <div className="flex flex-col h-full w-full justify-between overflow-hidden">
+        jsxs(LayoutContainer, {
+          padding: false,
+          space: true,
+          height: "h-screen",
+          width: "w-full",
+          direction: "row",
+          scrollable: false,
+          grow: true,
           children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
             workspace: workspaceSelected,
             preview: previewMode,
