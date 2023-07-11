@@ -42,16 +42,18 @@ const MockWrapper = ({
                         <Workspace
                             id="MockWrapperWorkspace"
                             direction="col"
-                            scrollable={true}
+                            scrollable={false}
                             className={""}
                             space={true}
                             grow={true}
+                            height={"h-full"}
                         >
                             <Widget
                                 uuid="MockWrapperWidget"
                                 space={true}
                                 direction="col"
                                 grow={true}
+                                height="h-full"
                             >
                                 {children}
                             </Widget>

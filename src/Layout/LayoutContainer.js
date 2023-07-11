@@ -33,9 +33,6 @@ export const LayoutContainer = ({
         containerId
     );
 
-    const widthStyle = width;
-    // const heightStyle = height === "" ? "h-full" : height;
-
     function renderDebugger(children, styleString) {
         return (
             debug === true && (
@@ -51,10 +48,11 @@ export const LayoutContainer = ({
         );
     }
 
+    console.log("styles string for Layer Container ", styles.string);
     return (
         <div
             id={containerId}
-            className={`flex ${styles.string} ${widthStyle} ${className}`}
+            className={`flex ${styles.string} ${width} ${height} ${className}`}
         >
             {debug === false && children}
             {debug === true && renderDebugger(children, styles.string)}

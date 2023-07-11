@@ -9,11 +9,11 @@ import { LayoutContainer } from "@dash/Layout";
 
 const PanelHeader = ({ children, border = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(
-        themeObjects.PANEL_HEADER,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
+        ...props,
+        height: "h-auto",
+        grow: false,
+    });
     return (
         <div
             className={`flex flex-row rounded-t p-6 ${
@@ -53,6 +53,8 @@ const PanelFooter = ({ children, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, {
         ...props,
+        height: "h-auto",
+        grow: false,
     });
     return (
         <div
@@ -72,6 +74,7 @@ const Panel = ({
     height = "h-full", // leave as blank so the panel will not take up full height if not warranted
     padding = true,
     scrollable = true, // this is the default for a panel
+    grow = true,
     ...props
 }) => {
     // Fetch the Styles from the utility
@@ -81,6 +84,7 @@ const Panel = ({
         scrollable,
         width,
         height,
+        grow,
     });
 
     return (
@@ -110,11 +114,11 @@ Panel.Footer = PanelFooter;
 
 const PanelHeader2 = ({ children, border = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(
-        themeObjects.PANEL_HEADER_2,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.PANEL_HEADER_2, currentTheme, {
+        ...props,
+        height: "h-auto",
+        grow: false,
+    });
     return (
         <div
             className={`flex flex-row rounded-t p-4 ${
@@ -152,6 +156,8 @@ const PanelFooter2 = ({ children, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, {
         ...props,
+        height: "h-auto",
+        grow: false,
     });
     return (
         <div
@@ -210,11 +216,11 @@ Panel2.Footer = PanelFooter2;
 
 const PanelHeader3 = ({ children, border = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(
-        themeObjects.PANEL_HEADER_3,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.PANEL_HEADER_3, currentTheme, {
+        ...props,
+        height: "h-auto",
+        grow: false,
+    });
 
     return (
         <div
@@ -257,6 +263,8 @@ const PanelFooter3 = ({ children, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, {
         ...props,
+        height: "h-auto",
+        grow: false,
     });
     return (
         <div
@@ -297,7 +305,6 @@ const Panel3 = ({
             scrollable={scrollable}
             space={false}
         >
-            {/* <div className="h-full w-full">{children}</div> */}
             {children}
         </LayoutContainer>
     );

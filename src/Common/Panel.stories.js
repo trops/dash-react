@@ -125,21 +125,22 @@ const TemplateMultiple = (args) => {
         <MockWrapper api={mock.api} args={args}>
             <LayoutContainer
                 direction="col"
-                scrollable={true}
-                className="h-1/3"
+                scrollable={false}
+                height="h-1/4"
+                grow={false}
             >
-                <Panel {...args}>
+                <Panel>
                     <Panel.Header>
-                        <Heading title={args.text} padding={false} {...args} />
+                        <Heading title={args.text} padding={false} />
                     </Panel.Header>
                     <Panel.Body>
                         <Paragraph text={mockText.paragraph} />
                     </Panel.Body>
                     <Panel.Footer>Footer</Panel.Footer>
                 </Panel>
-                <Panel {...args}>
+                <Panel>
                     <Panel.Header>
-                        <Heading title={args.text} padding={false} {...args} />
+                        <Heading title={args.text} padding={false} />
                     </Panel.Header>
                     <Panel.Body>
                         <Paragraph text={mockText.paragraph} />
@@ -167,6 +168,7 @@ Primary.args = {
     height: "h-full",
     width: "w-full",
     horizontal: false,
+    grow: false,
 };
 
 PrimaryScroll.args = {
@@ -176,6 +178,7 @@ PrimaryScroll.args = {
     height: "h-full",
     width: "w-full",
     horizontal: false,
+    grow: true,
 };
 
 Secondary.args = {
@@ -209,7 +212,7 @@ NoHeader.args = {
     //👇 The args you need here will depend on your component
     text: "Panel No Header",
     scrollable: false,
-    height: "h-30",
+    height: "h-1/2",
     width: "w-full",
     horizontal: false,
 };
@@ -218,7 +221,7 @@ NoScroll.args = {
     //👇 The args you need here will depend on your component
     text: "Panel",
     scrollable: false,
-    height: "h-40",
+    height: "h-full",
     width: "w-full",
     horizontal: false,
 };
@@ -227,7 +230,8 @@ Multiple.args = {
     //👇 The args you need here will depend on your component
     text: "Panel",
     scrollable: false,
-    height: "h-full",
+    height: "h-auto",
     width: "w-full",
     horizontal: false,
+    grow: false,
 };
