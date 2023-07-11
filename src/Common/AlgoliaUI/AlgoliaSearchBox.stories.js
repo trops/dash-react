@@ -1,8 +1,7 @@
 import { AlgoliaSearchBox } from "./AlgoliaSearchBox";
-import { mock, MockWrapper } from "@dash";
-import { InstantSearch } from "react-instantsearch-hooks-web";
-// import "../../tailwind.css";
-import algoliasearch from "algoliasearch";
+import { mock, MockAlgolia } from "@dash";
+import { Hits } from "react-instantsearch-hooks-web";
+import { Tag } from "../Tag";
 
 console.log("MOCK: ", mock);
 //👇 This default export determines where your story goes in the story list
@@ -12,20 +11,19 @@ export default {
 };
 
 //👇 We create a “template” of how args map to rendering
-const Template = (args) => {
-    const searchClient = algoliasearch(
-        "ZHSCSP4LMX",
-        "d49594f0fb42dd19944cb46dc49b6639"
+const Template = (args, ...props) => {
+    const Hit = ({ hit }) => (
+        <div className="flex flex-row bg-gray-900 p-2 rounded space-x-2">
+            <Tag text={hit.objectID} />
+            <p className="text-xs font-mono bg-green-500 p-2">{hit.title}</p>
+        </div>
     );
+
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <InstantSearch
-                indexName="dev_find_accelerator"
-                searchClient={searchClient}
-            >
-                <AlgoliaSearchBox {...args} />
-            </InstantSearch>
-        </MockWrapper>
+        <MockAlgolia api={mock.api} theme={mock.themes} args={args}>
+            <AlgoliaSearchBox {...args} />
+            <Hits hitComponent={Hit} />
+        </MockAlgolia>
     );
 };
 
@@ -35,6 +33,9 @@ export const Disabled = Template.bind({});
 Primary.args = {
     placeholder: "Search",
     disabled: false,
+    scrollable: false,
+    space: true,
+    grow: true,
 };
 
 Disabled.args = {

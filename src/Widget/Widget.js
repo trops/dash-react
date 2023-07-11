@@ -10,6 +10,8 @@ export const Widget = ({
     direction = "col",
     scrollable = false,
     className = "",
+    width = "w-full",
+    height = "h-auto",
     space = true,
     grow = true,
 }) => {
@@ -30,16 +32,16 @@ export const Widget = ({
     //     uuid
     // );
 
-    console.log("Widget props ", {
-        uuid,
-        children,
-        version,
-        direction,
-        scrollable,
-        className,
-        space,
-        grow,
-    });
+    // console.log("Widget props ", {
+    //     uuid,
+    //     children,
+    //     version,
+    //     direction,
+    //     scrollable,
+    //     className,
+    //     space,
+    //     grow,
+    // });
 
     const uuidString = getUUID(uuid);
 
@@ -49,8 +51,8 @@ export const Widget = ({
             version={version}
             key={`widget-container'-${uuidString}`}
             direction={direction}
-            height={"h-full"}
-            width={"w-full"}
+            height={height}
+            width={width}
             className={`${className}`}
             grow={grow}
             space={space}

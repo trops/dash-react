@@ -8,9 +8,11 @@ export default {
     component: LayoutContainer,
 };
 
+console.log(mock);
+
 const Template = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <LayoutContainer {...args}>{mockText.paragraph}</LayoutContainer>
         </MockWrapper>
     );
@@ -18,11 +20,7 @@ const Template = (args) => {
 
 const TemplateLayoutThreeColumn = (args) => {
     return (
-        <MockLayout
-            api={mock.api}
-            theme={mock.themes}
-            args={{ direction: "col", ...args }}
-        >
+        <MockLayout api={mock.api} args={{ direction: "col", ...args }}>
             <LayoutContainer
                 id="outer-container"
                 direction="col"
@@ -118,7 +116,7 @@ const TemplateLayoutThreeRow = (args) => {
     return (
         <MockLayout
             api={mock.api}
-            theme={mock.themes}
+            theme={mock.theme}
             args={{ direction: "col", ...args }}
         >
             <LayoutContainer
@@ -134,31 +132,37 @@ const TemplateLayoutThreeRow = (args) => {
                     grow={false}
                     id="top-row"
                 >
-                    TEST ROW
+                    {/* <InstantSearch
+                        indexName="dev_find_accelerator"
+                        searchClient={searchClient}
+                    >
+                        <AlgoliaSearchBox {...args} />
+                    </InstantSearch>
+                    <AlgoliaSearchBox /> */}
                 </LayoutContainer>
                 <LayoutContainer
                     direction="col"
                     grow={true}
                     scrollable={true}
                     height="h-full"
-                    className="bg-orange-500"
+                    className="bg-orange-700"
                     id="row-2"
-                    space={true}
+                    space={false}
                 >
-                    <Workspace direction="row">
-                        <LayoutContainer {...args.layoutArgs} direction="row">
-                            <Widget {...args.widgetArgs}>
-                                {mockText.paragraph}
-                            </Widget>
+                    <Workspace id="Col-Workspace" direction="col">
+                        {/* <LayoutContainer {...args.layoutArgs} direction="row"> */}
+                        <Widget {...args.widgetArgs}>
+                            {mockText.paragraph}
+                        </Widget>
 
-                            <Widget {...args.widgetArgs}>
-                                {mockText.paragraph}
-                            </Widget>
+                        <Widget {...args.widgetArgs}>
+                            {mockText.paragraph}
+                        </Widget>
 
-                            <Widget {...args.widgetArgs}>
-                                {mockText.paragraph}
-                            </Widget>
-                        </LayoutContainer>
+                        <Widget {...args.widgetArgs}>
+                            {mockText.paragraph}
+                        </Widget>
+                        {/* </LayoutContainer> */}
                     </Workspace>
 
                     <Workspace direction="col">

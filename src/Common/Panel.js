@@ -86,7 +86,7 @@ const Panel = ({
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
-            className={`${styles.string} ${height} rounded-lg ${
+            className={`${styles.string} ${height} rounded-lg overflow-hidden${
                 padding === true ? "p-6" : "p-0"
             }`}
             onClick={onClick}
@@ -94,13 +94,6 @@ const Panel = ({
             space={false}
             {...props}
         >
-            {/* <div
-                className={`${
-                    horizontal === true ? "flex-row" : "flex-col"
-                } flex overflow-y-auto flex-grow h-full w-full`}
-            >
-                {children}
-            </div> */}
             {children}
         </LayoutContainer>
     );

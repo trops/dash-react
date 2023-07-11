@@ -18,7 +18,7 @@ export default {
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel {...args}>
                 <Panel.Header>
                     <Heading title={args.text} padding={false} {...args} />
@@ -34,7 +34,7 @@ const Template = (args) => {
 
 const TemplateScroll = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel {...args}>
                 <Panel.Header>
                     <Heading title={args.text} padding={false} {...args} />
@@ -50,7 +50,7 @@ const TemplateScroll = (args) => {
 
 const TemplateHorizontal = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel {...args}>
                 <Panel.Header>
                     <Heading title={args.text} padding={false} {...args} />
@@ -66,7 +66,7 @@ const TemplateHorizontal = (args) => {
 
 const Template2 = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel2 {...args}>
                 <Panel2.Header>
                     <Heading2 title={args.text} padding={false} />
@@ -82,7 +82,7 @@ const Template2 = (args) => {
 
 const Template3 = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel3 {...args}>
                 <Panel3.Header>
                     <Heading3 title={args.text} padding={false} />
@@ -98,7 +98,7 @@ const Template3 = (args) => {
 
 const TemplateNoHeader = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel {...args}>
                 <Panel.Body className="h-full">
                     <Paragraph text={mockText.paragraph} />
@@ -110,7 +110,7 @@ const TemplateNoHeader = (args) => {
 
 const TemplateNoScroll = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <Panel {...args}>
                 <Panel.Body>
                     <Paragraph text={mockText.paragraph} scrollable={false} />
@@ -122,7 +122,7 @@ const TemplateNoScroll = (args) => {
 
 const TemplateMultiple = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper api={mock.api} args={args}>
             <LayoutContainer
                 direction="col"
                 scrollable={true}

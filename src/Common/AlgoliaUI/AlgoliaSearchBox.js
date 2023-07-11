@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSearchBox } from "react-instantsearch-hooks-web";
 import { InputText } from "@dash";
-import { LayoutContainer } from "@dash/Layout";
+import { Widget } from "@dash/Widget";
 
 export const AlgoliaSearchBox = ({ id, props, onQueryChange = null }) => {
     const {
@@ -17,7 +17,7 @@ export const AlgoliaSearchBox = ({ id, props, onQueryChange = null }) => {
     }, [query]);
 
     return (
-        <LayoutContainer grow={false} scrollable={false} space={false}>
+        <Widget>
             <InputText
                 type="search"
                 value={currentRefinement}
@@ -25,6 +25,6 @@ export const AlgoliaSearchBox = ({ id, props, onQueryChange = null }) => {
                 disabled={disabled}
                 placeholder="Search"
             />
-        </LayoutContainer>
+        </Widget>
     );
 };

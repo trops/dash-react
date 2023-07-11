@@ -9,9 +9,9 @@ export const LayoutContainer = ({
     className = "",
     scrollable = false,
     width = "w-full",
-    height = "h-auto",
+    height = "",
     space = true,
-    grow = true,
+    grow = false,
     debug = false,
 }) => {
     const containerId = getUUID(id);
@@ -34,7 +34,7 @@ export const LayoutContainer = ({
     );
 
     const widthStyle = width;
-    const heightStyle = height === "" ? "h-full" : height;
+    // const heightStyle = height === "" ? "h-full" : height;
 
     function renderDebugger(children, styleString) {
         return (
@@ -54,7 +54,7 @@ export const LayoutContainer = ({
     return (
         <div
             id={containerId}
-            className={`flex ${styles.string} ${widthStyle} ${heightStyle} ${className}`}
+            className={`flex ${styles.string} ${widthStyle} ${className}`}
         >
             {debug === false && children}
             {debug === true && renderDebugger(children, styles.string)}

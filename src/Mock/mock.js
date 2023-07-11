@@ -1,7 +1,10 @@
 import { AppWrapper, mock } from "@dash";
 import { AppContext, ThemeContext } from "../Context";
-import "../tailwind.css";
+// import "../tailwind.css";
 import { LayoutContainer, Widget, Workspace } from "..";
+
+import { InstantSearch } from "react-instantsearch-hooks-web";
+import algoliasearch from "algoliasearch";
 
 const MockWrapper = ({
     apiMock = null,
@@ -23,6 +26,8 @@ const MockWrapper = ({
         };
     }
 
+    console.log("Mock theme context", mock.theme.context);
+
     return (
         <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
             <AppContext.Provider value={getAppContext()}>
@@ -39,7 +44,7 @@ const MockWrapper = ({
                             direction="col"
                             scrollable={true}
                             className={""}
-                            // space={true}
+                            space={true}
                             grow={true}
                         >
                             <Widget
@@ -115,4 +120,97 @@ const MockLayout = ({
     );
 };
 
-export { MockLayout, MockWrapper };
+const MockWorkspace = ({
+    apiMock = null,
+    children,
+    backgroundColor = "bg-transparent",
+    ...props
+}) => {
+    function getAppContext() {
+        return {
+            ...mock,
+            creds: {
+                appId: "2345",
+            },
+            settings: {
+                theme: "theme-1",
+                debug: false,
+            },
+            debugMode: true,
+        };
+    }
+
+    return (
+        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+            <AppContext.Provider value={getAppContext()}>
+                <ThemeContext.Provider value={mock.theme.context}>
+                    <div
+                        className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200`}
+                    >
+                        <Workspace {...props}>{children}</Workspace>
+                    </div>
+                </ThemeContext.Provider>
+            </AppContext.Provider>
+        </div>
+    );
+};
+
+/**
+ * MockAlgolia
+ *
+ */
+const MockAlgolia = ({
+    apiMock = null,
+    children,
+    backgroundColor = "bg-transparent",
+    ...props
+}) => {
+    function getAppContext() {
+        return {
+            ...mock,
+            creds: {
+                appId: "2345",
+            },
+            settings: {
+                theme: "theme-1",
+                debug: false,
+            },
+            debugMode: true,
+        };
+    }
+
+    const searchClient = algoliasearch(
+        process.env.REACT_APP_ALGOLIA_APP_ID,
+        process.env.REACT_APP_ALGOLIA_API_KEY
+    );
+
+    return (
+        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+            <AppContext.Provider value={getAppContext()}>
+                <ThemeContext.Provider value={mock.theme.context}>
+                    <div
+                        className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200`}
+                    >
+                        <Workspace {...props}>
+                            <InstantSearch
+                                indexName={
+                                    process.env.REACT_APP_ALGOLIA_INDEX_NAME
+                                }
+                                searchClient={searchClient}
+                            >
+                                <LayoutContainer
+                                    direction="col"
+                                    scrollable={false}
+                                >
+                                    {children}
+                                </LayoutContainer>
+                            </InstantSearch>
+                        </Workspace>
+                    </div>
+                </ThemeContext.Provider>
+            </AppContext.Provider>
+        </div>
+    );
+};
+
+export { MockLayout, MockWrapper, MockWorkspace, MockAlgolia };

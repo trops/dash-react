@@ -360,7 +360,9 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 function getUUID(uuid) {
-  return uuid === undefined ? Math.floor(Math.random() * 10000) : uuid;
+  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  var r = Math.floor(Math.random() * 10000);
+  return uuid === undefined ? "".concat(prefix, "-").concat(r) : uuid;
 }
 
 var WorkspaceContext = /*#__PURE__*/createContext(null);
@@ -1539,163 +1541,170 @@ function invert(shade) {
 }
 var ThemeModel = function ThemeModel() {
   var themeItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var obj = deepCopy(themeItem);
-  var overrideDark = "dark" in themeItem ? themeItem["dark"] : null;
-  var overrideLight = "light" in themeItem ? themeItem["light"] : null;
-  var theme = {};
-  theme.id = "id" in obj ? obj["id"] : null;
-  theme.name = "name" in obj ? obj["name"] : "My Theme";
+  console.log("color types theme model ", colorTypes);
+  try {
+    var obj = deepCopy(themeItem);
+    var overrideDark = "dark" in themeItem ? themeItem["dark"] : null;
+    var overrideLight = "light" in themeItem ? themeItem["light"] : null;
+    var theme = {};
+    var info = {};
+    theme.id = "id" in obj ? obj["id"] : null;
+    theme.name = "name" in obj ? obj["name"] : "My Theme";
 
-  // for each of the color types we should set...
-  colorTypes.forEach(function (type) {
-    theme[type] = type in obj ? obj[type] : "gray";
-  });
+    // for each of the color types we should set...
+    colorTypes.forEach(function (type) {
+      theme[type] = type in obj ? obj[type] : "gray";
+    });
 
-  // theme.primary = 'primary' in obj ? obj['primary'] : 'gray';
-  // theme.secondary = 'secondary' in obj ? obj['secondary'] : 'blue';
-  // theme.tertiary = 'tertiary' in obj ? obj['tertiary'] : 'indigo';
+    // theme.primary = 'primary' in obj ? obj['primary'] : 'gray';
+    // theme.secondary = 'secondary' in obj ? obj['secondary'] : 'blue';
+    // theme.tertiary = 'tertiary' in obj ? obj['tertiary'] : 'indigo';
 
-  theme.shadeFrom = "shadeFrom" in obj ? obj["shadeFrom"] : 100;
+    theme.shadeFrom = "shadeFrom" in obj ? obj["shadeFrom"] : 100;
 
-  // unused from
-  theme.shadeBackgroundFrom = "shadeBackgroundFrom" in obj ? obj["shadeBackgroundFrom"] : 100;
-  theme.shadeTextFrom = "shadeTextFrom" in obj ? obj["shadeTextFrom"] : 100;
-  theme.shadeBorderFrom = "shadeBorderFrom" in obj ? obj["shadeBorderFrom"] : 100;
-  theme.shadeTo = "shadeTo" in obj ? obj["shadeTo"] : 700;
+    // unused from
+    theme.shadeBackgroundFrom = "shadeBackgroundFrom" in obj ? obj["shadeBackgroundFrom"] : 100;
+    theme.shadeTextFrom = "shadeTextFrom" in obj ? obj["shadeTextFrom"] : 100;
+    theme.shadeBorderFrom = "shadeBorderFrom" in obj ? obj["shadeBorderFrom"] : 100;
+    theme.shadeTo = "shadeTo" in obj ? obj["shadeTo"] : 700;
 
-  // somehow generate the colors based on the theme inputs...
-  // light, medium, dark for each?
-  // example: bg-primary-light, bg-primary-medium, bg-primary-dark,
+    // somehow generate the colors based on the theme inputs...
+    // light, medium, dark for each?
+    // example: bg-primary-light, bg-primary-medium, bg-primary-dark,
 
-  var variants = {
-    light: {
-      "very-light": 100,
-      light: 200,
-      medium: 300,
-      dark: 400,
-      "very-dark": 500
-    },
-    dark: {
-      "very-light": 500,
-      light: 600,
-      medium: 700,
-      dark: 800,
-      "very-dark": 900
-    }
-  };
-
-  // iterate over each color type "primary, secondary, tertiary ..."
-  // and generate the colors necessary (shades) based on tailwind
-  colorTypes.forEach(function (type) {
-    Object.keys(variants).forEach(function (variant) {
-      if (variant in theme === false) {
-        theme[variant] = {};
+    var variants = {
+      light: {
+        "very-light": 100,
+        light: 200,
+        medium: 300,
+        dark: 400,
+        "very-dark": 500
+      },
+      dark: {
+        "very-light": 500,
+        light: 600,
+        medium: 700,
+        dark: 800,
+        "very-dark": 900
       }
-      Object.keys(variants[variant]).forEach(function (shade) {
-        theme[variant]["bg-".concat(type, "-").concat(shade)] = "bg-".concat(theme[type], "-").concat(variants[variant][shade]);
-        theme[variant]["hover-bg-".concat(type, "-").concat(shade)] = "hover:bg-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
-        theme[variant]["hover-border-".concat(type, "-").concat(shade)] = "hover:border-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
-        theme[variant]["border-".concat(type, "-").concat(shade)] = "border-".concat(theme[type], "-").concat(variants[variant][shade]);
-        // we should be "flipping" these so dark text on light and light on dark...
-        theme[variant]["text-".concat(type, "-").concat(shade)] = "text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
-        theme[variant]["hover-text-".concat(type, "-").concat(shade)] = "hover:text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
+    };
+
+    // iterate over each color type "primary, secondary, tertiary ..."
+    // and generate the colors necessary (shades) based on tailwind
+    colorTypes.forEach(function (type) {
+      Object.keys(variants).forEach(function (variant) {
+        if (variant in theme === false) {
+          theme[variant] = {};
+        }
+        Object.keys(variants[variant]).forEach(function (shade) {
+          theme[variant]["bg-".concat(type, "-").concat(shade)] = "bg-".concat(theme[type], "-").concat(variants[variant][shade]);
+          theme[variant]["hover-bg-".concat(type, "-").concat(shade)] = "hover:bg-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
+          theme[variant]["hover-border-".concat(type, "-").concat(shade)] = "hover:border-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
+          theme[variant]["border-".concat(type, "-").concat(shade)] = "border-".concat(theme[type], "-").concat(variants[variant][shade]);
+          // we should be "flipping" these so dark text on light and light on dark...
+          theme[variant]["text-".concat(type, "-").concat(shade)] = "text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
+          theme[variant]["hover-text-".concat(type, "-").concat(shade)] = "hover:text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
+        });
       });
     });
-  });
 
-  // lets try gradients
+    // lets try gradients
 
-  // Primary
+    // Primary
 
-  theme["dark"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-  theme["light"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["dark"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["light"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
 
-  // Secondary
+    // Secondary
 
-  theme["dark"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-  theme["light"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], "  via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["light"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], "  via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
 
-  // Tertiary
+    // Tertiary
 
-  theme["dark"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["dark"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-  theme["light"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
 
-  // now for the overrides!
-  if (overrideDark !== null) {
-    Object.keys(overrideDark).forEach(function (key) {
-      theme["dark"][key] = overrideDark[key];
+    // now for the overrides!
+    if (overrideDark !== null) {
+      Object.keys(overrideDark).forEach(function (key) {
+        theme["dark"][key] = overrideDark[key];
+      });
+    }
+    if (overrideLight !== null) {
+      Object.keys(overrideLight).forEach(function (key) {
+        theme["light"][key] = overrideLight[key];
+      });
+    }
+
+    // Primary, secondary, etc..
+    theme["light"]["name"] = theme.name;
+    colorTypes.forEach(function (type) {
+      theme["light"][type] = theme[type];
     });
-  }
-  if (overrideLight !== null) {
-    Object.keys(overrideLight).forEach(function (key) {
-      theme["light"][key] = overrideLight[key];
+    colorTypes.forEach(function (type) {
+      theme["dark"][type] = theme[type];
     });
+    theme["dark"]["name"] = theme.name;
+
+    // transparent colors
+    theme["dark"]["bg-none"] = "bg-transparent";
+    theme["dark"]["border-none"] = "border-transparent";
+    theme["dark"]["hover-border-none"] = "hover:border-transparent";
+    theme["dark"]["hover-bg-none"] = "hover:bg-transparent";
+    theme["dark"]["hover-text-none"] = "hover:text-transparent";
+    theme["light"]["bg-none"] = "bg-transparent";
+    theme["light"]["border-none"] = "border-transparent";
+    theme["light"]["hover-border-none"] = "hover:border-transparent";
+    theme["light"]["hover-bg-none"] = "hover:bg-transparent";
+    theme["light"]["hover-text-none"] = "hover:text-transparent";
+    return theme;
+  } catch (e) {
+    console.log("ThemeModel ", e.message);
+    return {};
   }
-
-  // Primary, secondary, etc..
-  theme["light"]["name"] = theme.name;
-  colorTypes.forEach(function (type) {
-    theme["light"][type] = theme[type];
-  });
-  colorTypes.forEach(function (type) {
-    theme["dark"][type] = theme[type];
-  });
-  theme["dark"]["name"] = theme.name;
-
-  // transparent colors
-  theme["dark"]["bg-none"] = "bg-transparent";
-  theme["dark"]["border-none"] = "border-transparent";
-  theme["dark"]["hover-border-none"] = "hover:border-transparent";
-  theme["dark"]["hover-bg-none"] = "hover:bg-transparent";
-  theme["dark"]["hover-text-none"] = "hover:text-transparent";
-  theme["light"]["bg-none"] = "bg-transparent";
-  theme["light"]["border-none"] = "border-transparent";
-  theme["light"]["hover-border-none"] = "hover:border-transparent";
-  theme["light"]["hover-bg-none"] = "hover:bg-transparent";
-  theme["light"]["hover-text-none"] = "hover:text-transparent";
-  return theme;
 };
 
 /*
@@ -8798,22 +8807,23 @@ var Widget = function Widget(_ref) {
   //     uuid
   // );
 
-  console.log("Widget props ", {
-    uuid: uuid,
-    children: children,
-    version: version,
-    direction: direction,
-    scrollable: scrollable,
-    className: className,
-    space: space,
-    grow: grow
-  });
+  // console.log("Widget props ", {
+  //     uuid,
+  //     children,
+  //     version,
+  //     direction,
+  //     scrollable,
+  //     className,
+  //     space,
+  //     grow,
+  // });
+
   var uuidString = getUUID(uuid);
   return /*#__PURE__*/jsx(LayoutContainer, {
     id: "widget-container-".concat(uuidString),
     version: version,
     direction: direction,
-    height: "h-full",
+    height: "h-auto",
     width: "w-full",
     className: "".concat(className),
     grow: grow,
@@ -9858,7 +9868,7 @@ var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
 var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
 var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
 var colorMap = (_colorMap = {}, _defineProperty$b(_colorMap, themeObjects.BUTTON, (_themeObjects$BUTTON = {}, _defineProperty$b(_themeObjects$BUTTON, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$b(_themeObjects$BUTTON, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$BUTTON, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$BUTTON, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$b(_themeObjects$BUTTON, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$b(_themeObjects$BUTTON, styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$BUTTON, styleClassNames.PADDING, "padding-primary"), _themeObjects$BUTTON)), _defineProperty$b(_colorMap, themeObjects.BUTTON_2, (_themeObjects$BUTTON_ = {}, _defineProperty$b(_themeObjects$BUTTON_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$b(_themeObjects$BUTTON_, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$b(_themeObjects$BUTTON_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$BUTTON_, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$b(_themeObjects$BUTTON_, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$b(_themeObjects$BUTTON_, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$BUTTON_)), _defineProperty$b(_colorMap, themeObjects.BUTTON_3, (_themeObjects$BUTTON_2 = {}, _defineProperty$b(_themeObjects$BUTTON_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$b(_themeObjects$BUTTON_2, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$b(_themeObjects$BUTTON_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$BUTTON_2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$b(_themeObjects$BUTTON_2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$b(_themeObjects$BUTTON_2, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), _themeObjects$BUTTON_2)), _defineProperty$b(_colorMap, themeObjects.PANEL, (_themeObjects$PANEL = {}, _defineProperty$b(_themeObjects$PANEL, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$b(_themeObjects$PANEL, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$PANEL, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$PANEL, styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), _themeObjects$PANEL)), _defineProperty$b(_colorMap, themeObjects.PANEL_HEADER, (_themeObjects$PANEL_H = {}, _defineProperty$b(_themeObjects$PANEL_H, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$PANEL_H, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$PANEL_H, styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), _themeObjects$PANEL_H)), _defineProperty$b(_colorMap, themeObjects.PANEL_FOOTER, (_themeObjects$PANEL_F = {}, _defineProperty$b(_themeObjects$PANEL_F, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$PANEL_F, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$PANEL_F, styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), _themeObjects$PANEL_F)), _defineProperty$b(_colorMap, themeObjects.PANEL_2, (_themeObjects$PANEL_ = {}, _defineProperty$b(_themeObjects$PANEL_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), _defineProperty$b(_themeObjects$PANEL_, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$b(_themeObjects$PANEL_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$PANEL_, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$PANEL_)), _defineProperty$b(_colorMap, themeObjects.PANEL_HEADER_2, (_themeObjects$PANEL_H2 = {}, _defineProperty$b(_themeObjects$PANEL_H2, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$b(_themeObjects$PANEL_H2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$PANEL_H2, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$PANEL_H2)), _defineProperty$b(_colorMap, themeObjects.PANEL_FOOTER_2, (_themeObjects$PANEL_F2 = {}, _defineProperty$b(_themeObjects$PANEL_F2, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$b(_themeObjects$PANEL_F2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$PANEL_F2, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$PANEL_F2)), _defineProperty$b(_colorMap, themeObjects.PANEL_3, (_themeObjects$PANEL_2 = {}, _defineProperty$b(_themeObjects$PANEL_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), _defineProperty$b(_themeObjects$PANEL_2, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$b(_themeObjects$PANEL_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$PANEL_2, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark"), _themeObjects$PANEL_2)), _defineProperty$b(_colorMap, themeObjects.PANEL_HEADER_3, (_themeObjects$PANEL_H3 = {}, _defineProperty$b(_themeObjects$PANEL_H3, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$b(_themeObjects$PANEL_H3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$PANEL_H3, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark"), _themeObjects$PANEL_H3)), _defineProperty$b(_colorMap, themeObjects.PANEL_FOOTER_3, (_themeObjects$PANEL_F3 = {}, _defineProperty$b(_themeObjects$PANEL_F3, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$b(_themeObjects$PANEL_F3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$PANEL_F3, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark"), _themeObjects$PANEL_F3)), _defineProperty$b(_colorMap, themeObjects.BUTTON_ICON, (_themeObjects$BUTTON_3 = {}, _defineProperty$b(_themeObjects$BUTTON_3, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$b(_themeObjects$BUTTON_3, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$BUTTON_3, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$BUTTON_3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$b(_themeObjects$BUTTON_3, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$b(_themeObjects$BUTTON_3, styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), _themeObjects$BUTTON_3)), _defineProperty$b(_colorMap, themeObjects.BUTTON_ICON_2, (_themeObjects$BUTTON_4 = {}, _defineProperty$b(_themeObjects$BUTTON_4, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$b(_themeObjects$BUTTON_4, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$b(_themeObjects$BUTTON_4, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$BUTTON_4, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$b(_themeObjects$BUTTON_4, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$b(_themeObjects$BUTTON_4, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), _themeObjects$BUTTON_4)), _defineProperty$b(_colorMap, themeObjects.BUTTON_ICON_3, (_themeObjects$BUTTON_5 = {}, _defineProperty$b(_themeObjects$BUTTON_5, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$b(_themeObjects$BUTTON_5, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$b(_themeObjects$BUTTON_5, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$BUTTON_5, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$b(_themeObjects$BUTTON_5, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$b(_themeObjects$BUTTON_5, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), _themeObjects$BUTTON_5)), _defineProperty$b(_colorMap, themeObjects.HEADING, (_themeObjects$HEADING = {}, _defineProperty$b(_themeObjects$HEADING, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$HEADING, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$HEADING, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$HEADING, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$HEADING, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING)), _defineProperty$b(_colorMap, themeObjects.HEADING_2, (_themeObjects$HEADING2 = {}, _defineProperty$b(_themeObjects$HEADING2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$HEADING2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$HEADING2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$HEADING2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$HEADING2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING2)), _defineProperty$b(_colorMap, themeObjects.HEADING_3, (_themeObjects$HEADING3 = {}, _defineProperty$b(_themeObjects$HEADING3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$HEADING3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$HEADING3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$HEADING3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$HEADING3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$HEADING3)), _defineProperty$b(_colorMap, themeObjects.SUBHEADING, (_themeObjects$SUBHEAD = {}, _defineProperty$b(_themeObjects$SUBHEAD, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$SUBHEAD, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$SUBHEAD, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$SUBHEAD, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$SUBHEAD, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD)), _defineProperty$b(_colorMap, themeObjects.SUBHEADING_2, (_themeObjects$SUBHEAD2 = {}, _defineProperty$b(_themeObjects$SUBHEAD2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$SUBHEAD2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$SUBHEAD2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$SUBHEAD2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$SUBHEAD2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD2)), _defineProperty$b(_colorMap, themeObjects.SUBHEADING_3, (_themeObjects$SUBHEAD3 = {}, _defineProperty$b(_themeObjects$SUBHEAD3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$SUBHEAD3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$SUBHEAD3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$SUBHEAD3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$SUBHEAD3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$SUBHEAD3)), _defineProperty$b(_colorMap, themeObjects.PARAGRAPH, (_themeObjects$PARAGRA = {}, _defineProperty$b(_themeObjects$PARAGRA, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$PARAGRA, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$PARAGRA, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$PARAGRA, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$PARAGRA, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA)), _defineProperty$b(_colorMap, themeObjects.PARAGRAPH_2, (_themeObjects$PARAGRA2 = {}, _defineProperty$b(_themeObjects$PARAGRA2, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$PARAGRA2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$PARAGRA2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$PARAGRA2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$PARAGRA2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA2)), _defineProperty$b(_colorMap, themeObjects.PARAGRAPH_3, (_themeObjects$PARAGRA3 = {}, _defineProperty$b(_themeObjects$PARAGRA3, styleClassNames.BACKGROUND_COLOR, "bg-none"), _defineProperty$b(_themeObjects$PARAGRA3, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$PARAGRA3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$PARAGRA3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), _defineProperty$b(_themeObjects$PARAGRA3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$PARAGRA3)), _defineProperty$b(_colorMap, themeObjects.MENU_ITEM, (_themeObjects$MENU_IT = {}, _defineProperty$b(_themeObjects$MENU_IT, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$b(_themeObjects$MENU_IT, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$MENU_IT, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$MENU_IT, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$b(_themeObjects$MENU_IT, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$b(_themeObjects$MENU_IT, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT)), _defineProperty$b(_colorMap, themeObjects.MENU_ITEM_2, (_themeObjects$MENU_IT2 = {}, _defineProperty$b(_themeObjects$MENU_IT2, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$b(_themeObjects$MENU_IT2, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _defineProperty$b(_themeObjects$MENU_IT2, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$MENU_IT2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$b(_themeObjects$MENU_IT2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$b(_themeObjects$MENU_IT2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT2)), _defineProperty$b(_colorMap, themeObjects.MENU_ITEM_3, (_themeObjects$MENU_IT3 = {}, _defineProperty$b(_themeObjects$MENU_IT3, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$b(_themeObjects$MENU_IT3, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _defineProperty$b(_themeObjects$MENU_IT3, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$MENU_IT3, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$b(_themeObjects$MENU_IT3, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$b(_themeObjects$MENU_IT3, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$MENU_IT3)), _defineProperty$b(_colorMap, themeObjects.TAG, (_themeObjects$TAG = {}, _defineProperty$b(_themeObjects$TAG, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$b(_themeObjects$TAG, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$TAG, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$TAG, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), _defineProperty$b(_themeObjects$TAG, styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), _defineProperty$b(_themeObjects$TAG, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG)), _defineProperty$b(_colorMap, themeObjects.TAG_2, (_themeObjects$TAG_ = {}, _defineProperty$b(_themeObjects$TAG_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), _defineProperty$b(_themeObjects$TAG_, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$TAG_, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$TAG_, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), _defineProperty$b(_themeObjects$TAG_, styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), _defineProperty$b(_themeObjects$TAG_, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG_)), _defineProperty$b(_colorMap, themeObjects.TAG_3, (_themeObjects$TAG_2 = {}, _defineProperty$b(_themeObjects$TAG_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$b(_themeObjects$TAG_2, styleClassNames.BORDER_COLOR, "border-none"), _defineProperty$b(_themeObjects$TAG_2, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$TAG_2, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _defineProperty$b(_themeObjects$TAG_2, styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), _defineProperty$b(_themeObjects$TAG_2, styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), _themeObjects$TAG_2)), _defineProperty$b(_colorMap, themeObjects.TOGGLE, (_themeObjects$TOGGLE = {}, _defineProperty$b(_themeObjects$TOGGLE, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), _defineProperty$b(_themeObjects$TOGGLE, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$TOGGLE, styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), _themeObjects$TOGGLE)), _defineProperty$b(_colorMap, themeObjects.DASHBOARD_FOOTER, (_themeObjects$DASHBOA = {}, _defineProperty$b(_themeObjects$DASHBOA, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$b(_themeObjects$DASHBOA, styleClassNames.BORDER_COLOR, "border-primary-dark"), _themeObjects$DASHBOA)), _defineProperty$b(_colorMap, themeObjects.DASHBOARD_FOOTER_2, (_themeObjects$DASHBOA2 = {}, _defineProperty$b(_themeObjects$DASHBOA2, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), _defineProperty$b(_themeObjects$DASHBOA2, styleClassNames.BORDER_COLOR, "border-secondary-dark"), _themeObjects$DASHBOA2)), _defineProperty$b(_colorMap, themeObjects.DASHBOARD_FOOTER_3, (_themeObjects$DASHBOA3 = {}, _defineProperty$b(_themeObjects$DASHBOA3, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), _defineProperty$b(_themeObjects$DASHBOA3, styleClassNames.BORDER_COLOR, "border-tertiary-dark"), _themeObjects$DASHBOA3)), _defineProperty$b(_colorMap, themeObjects.CODE_EDITOR, (_themeObjects$CODE_ED = {}, _defineProperty$b(_themeObjects$CODE_ED, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), _defineProperty$b(_themeObjects$CODE_ED, styleClassNames.BORDER_COLOR, "border-primary-dark"), _defineProperty$b(_themeObjects$CODE_ED, styleClassNames.TEXT_COLOR, "text-primary-medium"), _themeObjects$CODE_ED)), _defineProperty$b(_colorMap, themeObjects.INPUT_TEXT, (_themeObjects$INPUT_T = {}, _defineProperty$b(_themeObjects$INPUT_T, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$b(_themeObjects$INPUT_T, styleClassNames.BORDER_COLOR, "border-primary-medium"), _defineProperty$b(_themeObjects$INPUT_T, styleClassNames.TEXT_COLOR, "text-primary-dark"), _themeObjects$INPUT_T)), _defineProperty$b(_colorMap, themeObjects.SELECT_MENU, (_themeObjects$SELECT_ = {}, _defineProperty$b(_themeObjects$SELECT_, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), _defineProperty$b(_themeObjects$SELECT_, styleClassNames.BORDER_COLOR, "border-primary-medium"), _defineProperty$b(_themeObjects$SELECT_, styleClassNames.TEXT_COLOR, "text-primary-dark"), _themeObjects$SELECT_)), _defineProperty$b(_colorMap, themeObjects.FORM_LABEL, _defineProperty$b({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL, (_themeObjects$DASH_PA = {}, _defineProperty$b(_themeObjects$DASH_PA, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), _defineProperty$b(_themeObjects$DASH_PA, styleClassNames.BORDER_COLOR, "border-primary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA, styleClassNames.TEXT_COLOR, "text-primary-medium"), _defineProperty$b(_themeObjects$DASH_PA, styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), _themeObjects$DASH_PA)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_HEADER, (_themeObjects$DASH_PA2 = {}, _defineProperty$b(_themeObjects$DASH_PA2, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA2, styleClassNames.BORDER_COLOR, "border-primary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA2, styleClassNames.TEXT_COLOR, "text-primary-medium"), _themeObjects$DASH_PA2)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_FOOTER, (_themeObjects$DASH_PA3 = {}, _defineProperty$b(_themeObjects$DASH_PA3, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA3, styleClassNames.BORDER_COLOR, "border-primary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA3, styleClassNames.TEXT_COLOR, "text-primary-medium"), _themeObjects$DASH_PA3)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_2, (_themeObjects$DASH_PA4 = {}, _defineProperty$b(_themeObjects$DASH_PA4, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), _defineProperty$b(_themeObjects$DASH_PA4, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA4, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _defineProperty$b(_themeObjects$DASH_PA4, styleClassNames.HOVER_BORDER_COLOR, "border-secondary-very-dark"), _themeObjects$DASH_PA4)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_HEADER_2, (_themeObjects$DASH_PA5 = {}, _defineProperty$b(_themeObjects$DASH_PA5, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA5, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA5, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _themeObjects$DASH_PA5)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_FOOTER_2, (_themeObjects$DASH_PA6 = {}, _defineProperty$b(_themeObjects$DASH_PA6, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA6, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA6, styleClassNames.TEXT_COLOR, "text-secondary-medium"), _themeObjects$DASH_PA6)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_3, (_themeObjects$DASH_PA7 = {}, _defineProperty$b(_themeObjects$DASH_PA7, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), _defineProperty$b(_themeObjects$DASH_PA7, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA7, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _defineProperty$b(_themeObjects$DASH_PA7, styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark"), _themeObjects$DASH_PA7)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_HEADER_3, (_themeObjects$DASH_PA8 = {}, _defineProperty$b(_themeObjects$DASH_PA8, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA8, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA8, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _themeObjects$DASH_PA8)), _defineProperty$b(_colorMap, themeObjects.DASH_PANEL_FOOTER_3, (_themeObjects$DASH_PA9 = {}, _defineProperty$b(_themeObjects$DASH_PA9, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA9, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), _defineProperty$b(_themeObjects$DASH_PA9, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), _themeObjects$DASH_PA9)), _defineProperty$b(_colorMap, themeObjects.WIDGET, {}), _defineProperty$b(_colorMap, themeObjects.WORKSPACE, {}), _defineProperty$b(_colorMap, themeObjects.LAYOUT_CONTAINER, {}), _colorMap);
-console.log(colorMap);
+console.log("COLOR MAP ", colorMap);
 
 /**
  * getStylesForItem
@@ -9940,7 +9950,7 @@ var getStylesForItem = function getStylesForItem() {
       return stylesObject;
     }
   } catch (e) {
-    console.log(e);
+    console.log("getStylesforItem", e.message);
     return {
       string: ""
     };
@@ -9980,7 +9990,7 @@ function getStyleName(objectType) {
 function _typeof$e(obj) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$e(obj); }
 var _excluded$9 = ["children", "border"],
   _excluded2$6 = ["children", "scrollable"],
-  _excluded3$5 = ["children"],
+  _excluded3$6 = ["children"],
   _excluded4$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"],
   _excluded5$1 = ["children", "border"],
   _excluded6$1 = ["children", "scrollable"],
@@ -10036,7 +10046,7 @@ var PanelBody = function PanelBody(_ref2) {
 };
 var PanelFooter = function PanelFooter(_ref3) {
   var children = _ref3.children,
-    props = _objectWithoutProperties$9(_ref3, _excluded3$5);
+    props = _objectWithoutProperties$9(_ref3, _excluded3$6);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, _objectSpread$9({}, props));
@@ -10300,7 +10310,7 @@ Modal.Footer = ModalFooter;
 function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
 var _excluded$8 = ["text", "padding", "onClick", "scrollable", "className"],
   _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className"],
-  _excluded3$4 = ["text", "padding", "onClick", "scrollable", "className"];
+  _excluded3$5 = ["text", "padding", "onClick", "scrollable", "className"];
 function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty$9(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$9(obj, key, value) { key = _toPropertyKey$d(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10364,7 +10374,7 @@ function Paragraph3(_ref3) {
     scrollable = _ref3$scrollable === void 0 ? false : _ref3$scrollable,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
-    props = _objectWithoutProperties$8(_ref3, _excluded3$4);
+    props = _objectWithoutProperties$8(_ref3, _excluded3$5);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
@@ -10672,7 +10682,7 @@ function SubHeading3(_ref6) {
 function _typeof$c(obj) { "@babel/helpers - typeof"; return _typeof$c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$c(obj); }
 var _excluded$7 = ["title", "onClick", "disabled", "padding", "textSize", "block"],
   _excluded2$4 = ["title", "onClick", "disabled", "textSize", "padding", "block"],
-  _excluded3$3 = ["title", "onClick", "disabled", "textSize", "padding", "block"];
+  _excluded3$4 = ["title", "onClick", "disabled", "textSize", "padding", "block"];
 function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { _defineProperty$8(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$8(obj, key, value) { key = _toPropertyKey$c(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10762,7 +10772,7 @@ var Button3 = function Button3(_ref3) {
     padding = _ref3$padding === void 0 ? null : _ref3$padding,
     _ref3$block = _ref3.block,
     block = _ref3$block === void 0 ? false : _ref3$block,
-    props = _objectWithoutProperties$7(_ref3, _excluded3$3);
+    props = _objectWithoutProperties$7(_ref3, _excluded3$4);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
@@ -10788,7 +10798,7 @@ var Button3 = function Button3(_ref3) {
 function _typeof$b(obj) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$b(obj); }
 var _excluded$6 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"],
   _excluded2$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"],
-  _excluded3$2 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"];
+  _excluded3$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"];
 function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { _defineProperty$7(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$7(obj, key, value) { key = _toPropertyKey$b(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10898,7 +10908,7 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
     _ref3$disabled = _ref3.disabled,
     disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
-    props = _objectWithoutProperties$6(_ref3, _excluded3$2);
+    props = _objectWithoutProperties$6(_ref3, _excluded3$3);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
@@ -11084,7 +11094,7 @@ function CodeEditorInline(_ref) {
 function _typeof$7(obj) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$7(obj); }
 var _excluded$3 = ["text", "textSize", "onClick"],
   _excluded2$2 = ["text", "textSize", "onClick"],
-  _excluded3$1 = ["text", "textSize", "onClick"];
+  _excluded3$2 = ["text", "textSize", "onClick"];
 function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty$4(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$4(obj, key, value) { key = _toPropertyKey$7(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11134,7 +11144,7 @@ var Tag3 = function Tag3(_ref3) {
     textSize = _ref3$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref3$textSize,
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    props = _objectWithoutProperties$3(_ref3, _excluded3$1);
+    props = _objectWithoutProperties$3(_ref3, _excluded3$2);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
@@ -11557,7 +11567,7 @@ var AlgoliaRefinementList = function AlgoliaRefinementList(props) {
 function _typeof$1(obj) { "@babel/helpers - typeof"; return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$1(obj); }
 var _excluded$2 = ["title", "ping"],
   _excluded2$1 = ["children", "height", "width", "scrollable"],
-  _excluded3 = ["children"],
+  _excluded3$1 = ["children"],
   _excluded4 = ["children", "height", "width", "scrollable"],
   _excluded5 = ["title", "ping"],
   _excluded6 = ["children", "height", "width", "scrollable"],
@@ -11655,7 +11665,7 @@ var DashPanelBody = function DashPanelBody(_ref2) {
 };
 var DashPanelFooter = function DashPanelFooter(_ref3) {
   var children = _ref3.children,
-    props = _objectWithoutProperties$2(_ref3, _excluded3);
+    props = _objectWithoutProperties$2(_ref3, _excluded3$1);
   // const { currentTheme } = useContext(ThemeContext);
   // const styles = getStylesForItem(
   //     themeObjects.DASH_PANEL_FOOTER,
@@ -12110,7 +12120,7 @@ var Workspace = function Workspace(_ref) {
   return /*#__PURE__*/jsx(WorkspaceContext.Provider, {
     value: workspaceData,
     children: /*#__PURE__*/jsx(LayoutContainer, {
-      id: "workspace-".concat(uuidString),
+      id: "".concat(uuidString),
       theme: theme,
       direction: direction,
       scrollable: scrollable,
@@ -12355,7 +12365,8 @@ var mockApi = {
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _excluded = ["apiMock", "children", "backgroundColor"],
-  _excluded2 = ["apiMock", "children", "backgroundColor"];
+  _excluded2 = ["apiMock", "children", "backgroundColor"],
+  _excluded3 = ["apiMock", "children", "backgroundColor"];
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -12380,6 +12391,7 @@ var MockWrapper = function MockWrapper(_ref) {
       debugMode: true
     });
   }
+  console.log("Mock theme context", mock.theme.context);
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-col h-screen w-full m-auto overflow-hidden",
     children: /*#__PURE__*/jsx(AppContext.Provider, {
@@ -12462,6 +12474,39 @@ var MockLayout = function MockLayout(_ref2) {
     })
   });
 };
+var MockWorkspace = function MockWorkspace(_ref3) {
+  _ref3.apiMock;
+    var children = _ref3.children;
+    _ref3.backgroundColor;
+    var props = _objectWithoutProperties(_ref3, _excluded3);
+  function getAppContext() {
+    return _objectSpread(_objectSpread({}, mock), {}, {
+      creds: {
+        appId: "2345"
+      },
+      settings: {
+        theme: "theme-1",
+        debug: false
+      },
+      debugMode: true
+    });
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col h-screen w-full m-auto overflow-hidden",
+    children: /*#__PURE__*/jsx(AppContext.Provider, {
+      value: getAppContext(),
+      children: /*#__PURE__*/jsx(ThemeContext.Provider, {
+        value: mock.theme.context,
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200",
+          children: /*#__PURE__*/jsx(Workspace, _objectSpread(_objectSpread({}, props), {}, {
+            children: children
+          }))
+        })
+      })
+    })
+  });
+};
 
 var mock = {
   theme: {
@@ -12470,7 +12515,13 @@ var mock = {
     rawThemes: themes,
     context: mockThemeContext
   },
-  api: mockApi
+  api: mockApi,
+  themes: {
+    themeName: "theme-1",
+    themes: themes,
+    rawThemes: themes,
+    context: mockThemeContext
+  }
 };
 var mockText = {
   title: "Title",
@@ -12479,4 +12530,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockLayout, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };

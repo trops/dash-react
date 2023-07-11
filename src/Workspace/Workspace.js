@@ -16,7 +16,7 @@ export const Workspace = ({
     workspaceData = null,
     children = null,
     width = "w-full",
-    height = "h-auto",
+    height = "",
     direction = "col",
     scrollable = false,
     space = true,
@@ -28,7 +28,7 @@ export const Workspace = ({
     return (
         <WorkspaceContext.Provider value={workspaceData}>
             <LayoutContainer
-                id={`workspace-${uuidString}`}
+                id={`${uuidString}`}
                 theme={theme}
                 direction={direction}
                 scrollable={scrollable}

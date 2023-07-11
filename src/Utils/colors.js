@@ -379,7 +379,7 @@ const colorMap = {
     [themeObjects.LAYOUT_CONTAINER]: {},
 };
 
-console.log(colorMap);
+console.log("COLOR MAP ", colorMap);
 
 /**
  * getStylesForItem
@@ -426,8 +426,8 @@ const getStylesForItem = (
 
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow`
-                    : `overlflow-hidden ${grow} mr-0`;
+                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
+                    : `overlflow-hidden  ${grow} mr-0`;
 
             const hasChildren =
                 "hasChildren" in overrides && overrides["hasChildren"] === true;
@@ -457,15 +457,15 @@ const getStylesForItem = (
                         : ""
                     : ""; // not layout container
 
-            console.log(
-                "get styles for item ",
-                id,
-                itemName,
-                overrides,
-                paddingStyles,
-                hasChildren,
-                directionStyles
-            );
+            // console.log(
+            //     "get styles for item ",
+            //     id,
+            //     itemName,
+            //     overrides,
+            //     paddingStyles,
+            //     hasChildren,
+            //     directionStyles
+            // );
 
             const additionalStyles = scrollbarStyles
                 .concat(" ")
@@ -473,7 +473,7 @@ const getStylesForItem = (
                 .concat(" ")
                 .concat(paddingStyles);
 
-            console.log("additional srtyles ", itemName, id, additionalStyles);
+            //console.log("additional srtyles ", itemName, id, additionalStyles);
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.
@@ -519,7 +519,7 @@ const getStylesForItem = (
             return stylesObject;
         }
     } catch (e) {
-        console.log(e);
+        console.log("getStylesforItem", e.message);
         return {
             string: "",
         };
