@@ -9,10 +9,11 @@ import colors from 'tailwindcss/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
-import { useSearchBox, useRefinementList } from 'react-instantsearch-hooks-web';
+import { useSearchBox, useRefinementList, InstantSearch } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import parseArgs from 'minimist';
+import algoliasearch from 'algoliasearch';
 
 /**
  * WidgetApi
@@ -480,21 +481,21 @@ var withRouter = function withRouter(Component) {
 };
 
 function _typeof$o(obj) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$o(obj); }
-var _excluded$f = ["title", "textSize", "fontWeight"];
+var _excluded$g = ["title", "textSize", "fontWeight"];
 function ownKeys$i(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$i(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$i(Object(source), !0).forEach(function (key) { _defineProperty$k(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$i(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$k(obj, key, value) { key = _toPropertyKey$o(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$o(arg) { var key = _toPrimitive$o(arg, "string"); return _typeof$o(key) === "symbol" ? key : String(key); }
 function _toPrimitive$o(input, hint) { if (_typeof$o(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$o(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$f(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$f(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$f(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$g(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$g(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$g(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var FormLabel = function FormLabel(_ref) {
   var title = _ref.title,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? null : _ref$textSize,
     _ref$fontWeight = _ref.fontWeight,
     fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
-    props = _objectWithoutProperties$f(_ref, _excluded$f);
+    props = _objectWithoutProperties$g(_ref, _excluded$g);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$i({}, props));
@@ -506,14 +507,14 @@ var FormLabel = function FormLabel(_ref) {
 };
 
 function _typeof$n(obj) { "@babel/helpers - typeof"; return _typeof$n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$n(obj); }
-var _excluded$e = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
+var _excluded$f = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
 function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$h(Object(source), !0).forEach(function (key) { _defineProperty$j(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$j(obj, key, value) { key = _toPropertyKey$n(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$n(arg) { var key = _toPrimitive$n(arg, "string"); return _typeof$n(key) === "symbol" ? key : String(key); }
 function _toPrimitive$n(input, hint) { if (_typeof$n(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$n(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$e(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$e(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$e(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$f(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$f(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$f(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var InputText = function InputText(_ref) {
   var onChange = _ref.onChange,
     onKeyDown = _ref.onKeyDown,
@@ -533,7 +534,7 @@ var InputText = function InputText(_ref) {
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? "text-sm lg:text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$e(_ref, _excluded$e);
+    props = _objectWithoutProperties$f(_ref, _excluded$f);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$h({}, props));
@@ -551,14 +552,14 @@ var InputText = function InputText(_ref) {
 };
 
 function _typeof$m(obj) { "@babel/helpers - typeof"; return _typeof$m = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$m(obj); }
-var _excluded$d = ["name", "onChange", "selectedValue", "children", "textSize"];
+var _excluded$e = ["name", "onChange", "selectedValue", "children", "textSize"];
 function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$g(Object(source), !0).forEach(function (key) { _defineProperty$i(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$i(obj, key, value) { key = _toPropertyKey$m(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$m(arg) { var key = _toPrimitive$m(arg, "string"); return _typeof$m(key) === "symbol" ? key : String(key); }
 function _toPrimitive$m(input, hint) { if (_typeof$m(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$m(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$d(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$d(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$d(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$e(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$e(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$e(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var SelectMenu = function SelectMenu(_ref) {
   var name = _ref.name,
     onChange = _ref.onChange,
@@ -566,7 +567,7 @@ var SelectMenu = function SelectMenu(_ref) {
     children = _ref.children,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? "text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$d(_ref, _excluded$d);
+    props = _objectWithoutProperties$e(_ref, _excluded$e);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$g({}, props));
@@ -2799,14 +2800,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
 };
 
 function _typeof$j(obj) { "@babel/helpers - typeof"; return _typeof$j = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$j(obj); }
-var _excluded$c = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
+var _excluded$d = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
 function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$e(Object(source), !0).forEach(function (key) { _defineProperty$f(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$f(obj, key, value) { key = _toPropertyKey$j(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$j(arg) { var key = _toPrimitive$j(arg, "string"); return _typeof$j(key) === "symbol" ? key : String(key); }
 function _toPrimitive$j(input, hint) { if (_typeof$j(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$j(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$c(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$c(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$c(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$d(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$d(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$d(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var ColorTile = function ColorTile(_ref) {
   var _ref$colorFromTheme = _ref.colorFromTheme,
     colorFromTheme = _ref$colorFromTheme === void 0 ? null : _ref$colorFromTheme,
@@ -2830,7 +2831,7 @@ var ColorTile = function ColorTile(_ref) {
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-10" : _ref$height,
-    rest = _objectWithoutProperties$c(_ref, _excluded$c);
+    rest = _objectWithoutProperties$d(_ref, _excluded$d);
   var c = ColorModel(_objectSpread$e({
     colorFromTheme: colorFromTheme,
     colorName: colorName,
@@ -5365,15 +5366,15 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
   });
 };
 
-var _excluded$b = ["children", "credentials", "api"];
+var _excluded$c = ["children", "credentials", "api"];
 function _slicedToArray$e(arr, i) { return _arrayWithHoles$e(arr) || _iterableToArrayLimit$e(arr, i) || _unsupportedIterableToArray$f(arr, i) || _nonIterableRest$e(); }
 function _nonIterableRest$e() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$f(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$f(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$f(o, minLen); }
 function _arrayLikeToArray$f(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit$e(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles$e(arr) { if (Array.isArray(arr)) return arr; }
-function _objectWithoutProperties$b(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$b(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$b(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$c(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$c(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$c(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var debugStyles = {
   workspace: {
     classes: "bg-gray-800 border border-red-900 rounded p-4"
@@ -5398,7 +5399,7 @@ var AppWrapper = function AppWrapper(_ref) {
       appId: "my-app-id"
     } : _ref$credentials,
     api = _ref.api;
-    _objectWithoutProperties$b(_ref, _excluded$b);
+    _objectWithoutProperties$c(_ref, _excluded$c);
   var _useState = useState(credentials),
     _useState2 = _slicedToArray$e(_useState, 2),
     creds = _useState2[0],
@@ -5627,11 +5628,11 @@ var LayoutContainer = function LayoutContainer(_ref) {
     _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-auto" : _ref$height,
+    height = _ref$height === void 0 ? "" : _ref$height,
     _ref$space = _ref.space,
     space = _ref$space === void 0 ? true : _ref$space,
     _ref$grow = _ref.grow,
-    grow = _ref$grow === void 0 ? true : _ref$grow,
+    grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$debug = _ref.debug,
     debug = _ref$debug === void 0 ? false : _ref$debug;
   var containerId = getUUID(id);
@@ -5649,7 +5650,8 @@ var LayoutContainer = function LayoutContainer(_ref) {
     space: space
   }, containerId);
   var widthStyle = width;
-  var heightStyle = height === "" ? "h-full" : height;
+  // const heightStyle = height === "" ? "h-full" : height;
+
   function renderDebugger(children, styleString) {
     return debug === true && /*#__PURE__*/jsxs("div", {
       className: "flex flex-col bg-inherit space-y-1 flex-shrink",
@@ -5661,7 +5663,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
   }
   return /*#__PURE__*/jsxs("div", {
     id: containerId,
-    className: "flex ".concat(styles.string, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
+    className: "flex ".concat(styles.string, " ").concat(widthStyle, " ").concat(className),
     children: [debug === false && children, debug === true && renderDebugger(children, styles.string)]
   });
 };
@@ -5734,13 +5736,13 @@ var LayoutManagerPicker = function LayoutManagerPicker() {
   });
 };
 
-var _excluded$a = ["open", "setIsOpen"];
-function _objectWithoutProperties$a(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$a(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$a(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _excluded$b = ["open", "setIsOpen"];
+function _objectWithoutProperties$b(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$b(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$b(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var LayoutManagerModal = function LayoutManagerModal(_ref) {
   var open = _ref.open,
     setIsOpen = _ref.setIsOpen,
-    props = _objectWithoutProperties$a(_ref, _excluded$a);
+    props = _objectWithoutProperties$b(_ref, _excluded$b);
   function handleSelectLayout(data) {
     console.log(data);
   }
@@ -8786,6 +8788,10 @@ var Widget = function Widget(_ref) {
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-auto" : _ref$height,
     _ref$space = _ref.space,
     space = _ref$space === void 0 ? true : _ref$space,
     _ref$grow = _ref.grow,
@@ -8823,8 +8829,8 @@ var Widget = function Widget(_ref) {
     id: "widget-container-".concat(uuidString),
     version: version,
     direction: direction,
-    height: "h-auto",
-    width: "w-full",
+    height: height,
+    width: width,
     className: "".concat(className),
     grow: grow,
     space: space,
@@ -9879,7 +9885,6 @@ var getStylesForItem = function getStylesForItem() {
   var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var id = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
   try {
     if (itemName !== null) {
       // get the colors from the theme by default
@@ -9905,16 +9910,26 @@ var getStylesForItem = function getStylesForItem() {
       // scrollbars?
 
       var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 flex-grow" : "overlflow-hidden ".concat(grow, " mr-0");
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden  ".concat(grow, " mr-0");
       var hasChildren = "hasChildren" in overrides && overrides["hasChildren"] === true;
       var childCount = "childCount" in overrides && overrides["childCount"];
       var directionValue = "direction" in overrides ? overrides["direction"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
       var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
 
-      console.log("get styles for item ", id, itemName, overrides, paddingStyles, hasChildren, directionStyles);
+      // console.log(
+      //     "get styles for item ",
+      //     id,
+      //     itemName,
+      //     overrides,
+      //     paddingStyles,
+      //     hasChildren,
+      //     directionStyles
+      // );
+
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles);
-      console.log("additional srtyles ", itemName, id, additionalStyles);
+
+      //console.log("additional srtyles ", itemName, id, additionalStyles);
 
       // we have to begin with the defaults for the theme so we have access
       // and knowledge of what keys in the theme to return.
@@ -9988,10 +10003,10 @@ function getStyleName(objectType) {
 }
 
 function _typeof$e(obj) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$e(obj); }
-var _excluded$9 = ["children", "border"],
+var _excluded$a = ["children", "border"],
   _excluded2$6 = ["children", "scrollable"],
   _excluded3$6 = ["children"],
-  _excluded4$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"],
+  _excluded4$2 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"],
   _excluded5$1 = ["children", "border"],
   _excluded6$1 = ["children", "scrollable"],
   _excluded7$1 = ["children"],
@@ -10005,13 +10020,13 @@ function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { 
 function _defineProperty$a(obj, key, value) { key = _toPropertyKey$e(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$e(arg) { var key = _toPrimitive$e(arg, "string"); return _typeof$e(key) === "symbol" ? key : String(key); }
 function _toPrimitive$e(input, hint) { if (_typeof$e(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$e(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$9(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$9(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$9(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$a(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$a(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$a(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var PanelHeader = function PanelHeader(_ref) {
   var children = _ref.children,
     _ref$border = _ref.border,
     border = _ref$border === void 0 ? false : _ref$border,
-    props = _objectWithoutProperties$9(_ref, _excluded$9);
+    props = _objectWithoutProperties$a(_ref, _excluded$a);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, props);
@@ -10027,7 +10042,7 @@ var PanelBody = function PanelBody(_ref2) {
   var children = _ref2.children,
     _ref2$scrollable = _ref2.scrollable,
     scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
-    props = _objectWithoutProperties$9(_ref2, _excluded2$6);
+    props = _objectWithoutProperties$a(_ref2, _excluded2$6);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -10046,7 +10061,7 @@ var PanelBody = function PanelBody(_ref2) {
 };
 var PanelFooter = function PanelFooter(_ref3) {
   var children = _ref3.children,
-    props = _objectWithoutProperties$9(_ref3, _excluded3$6);
+    props = _objectWithoutProperties$a(_ref3, _excluded3$6);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, _objectSpread$9({}, props));
@@ -10070,7 +10085,7 @@ var Panel = function Panel(_ref4) {
     padding = _ref4$padding === void 0 ? true : _ref4$padding,
     _ref4$scrollable = _ref4.scrollable,
     scrollable = _ref4$scrollable === void 0 ? true : _ref4$scrollable,
-    props = _objectWithoutProperties$9(_ref4, _excluded4$1);
+    props = _objectWithoutProperties$a(_ref4, _excluded4$2);
   // Fetch the Styles from the utility
   var _useContext4 = useContext$1(ThemeContext),
     currentTheme = _useContext4.currentTheme;
@@ -10081,7 +10096,7 @@ var Panel = function Panel(_ref4) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(styles.string, " ").concat(height, " rounded-lg ").concat(padding === true ? "p-6" : "p-0"),
+    className: "".concat(styles.string, " ").concat(height, " rounded-lg overflow-hidden").concat(padding === true ? "p-6" : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -10103,7 +10118,7 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
   var children = _ref5.children,
     _ref5$border = _ref5.border,
     border = _ref5$border === void 0 ? false : _ref5$border,
-    props = _objectWithoutProperties$9(_ref5, _excluded5$1);
+    props = _objectWithoutProperties$a(_ref5, _excluded5$1);
   var _useContext5 = useContext$1(ThemeContext),
     currentTheme = _useContext5.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER_2, currentTheme, props);
@@ -10116,7 +10131,7 @@ var PanelBody2 = function PanelBody2(_ref6) {
   var children = _ref6.children,
     _ref6$scrollable = _ref6.scrollable,
     scrollable = _ref6$scrollable === void 0 ? false : _ref6$scrollable,
-    props = _objectWithoutProperties$9(_ref6, _excluded6$1);
+    props = _objectWithoutProperties$a(_ref6, _excluded6$1);
   var _useContext6 = useContext$1(ThemeContext),
     currentTheme = _useContext6.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -10135,7 +10150,7 @@ var PanelBody2 = function PanelBody2(_ref6) {
 };
 var PanelFooter2 = function PanelFooter2(_ref7) {
   var children = _ref7.children,
-    props = _objectWithoutProperties$9(_ref7, _excluded7$1);
+    props = _objectWithoutProperties$a(_ref7, _excluded7$1);
   var _useContext7 = useContext$1(ThemeContext),
     currentTheme = _useContext7.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, _objectSpread$9({}, props));
@@ -10158,7 +10173,7 @@ var Panel2 = function Panel2(_ref8) {
     padding = _ref8$padding === void 0 ? true : _ref8$padding,
     _ref8$scrollable = _ref8.scrollable,
     scrollable = _ref8$scrollable === void 0 ? true : _ref8$scrollable,
-    props = _objectWithoutProperties$9(_ref8, _excluded8$1);
+    props = _objectWithoutProperties$a(_ref8, _excluded8$1);
   var _useContext8 = useContext$1(ThemeContext),
     currentTheme = _useContext8.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -10189,7 +10204,7 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
   var children = _ref9.children,
     _ref9$border = _ref9.border,
     border = _ref9$border === void 0 ? false : _ref9$border,
-    props = _objectWithoutProperties$9(_ref9, _excluded9$1);
+    props = _objectWithoutProperties$a(_ref9, _excluded9$1);
   var _useContext9 = useContext$1(ThemeContext),
     currentTheme = _useContext9.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER_3, currentTheme, props);
@@ -10202,7 +10217,7 @@ var PanelBody3 = function PanelBody3(_ref10) {
   var children = _ref10.children,
     _ref10$scrollable = _ref10.scrollable,
     scrollable = _ref10$scrollable === void 0 ? false : _ref10$scrollable,
-    props = _objectWithoutProperties$9(_ref10, _excluded10$1);
+    props = _objectWithoutProperties$a(_ref10, _excluded10$1);
   try {
     var _useContext10 = useContext$1(ThemeContext),
       currentTheme = _useContext10.currentTheme;
@@ -10225,7 +10240,7 @@ var PanelBody3 = function PanelBody3(_ref10) {
 };
 var PanelFooter3 = function PanelFooter3(_ref11) {
   var children = _ref11.children,
-    props = _objectWithoutProperties$9(_ref11, _excluded11$1);
+    props = _objectWithoutProperties$a(_ref11, _excluded11$1);
   var _useContext11 = useContext$1(ThemeContext),
     currentTheme = _useContext11.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, _objectSpread$9({}, props));
@@ -10248,7 +10263,7 @@ var Panel3 = function Panel3(_ref12) {
     padding = _ref12$padding === void 0 ? true : _ref12$padding,
     _ref12$scrollable = _ref12.scrollable,
     scrollable = _ref12$scrollable === void 0 ? true : _ref12$scrollable,
-    props = _objectWithoutProperties$9(_ref12, _excluded12$1);
+    props = _objectWithoutProperties$a(_ref12, _excluded12$1);
   var _useContext12 = useContext$1(ThemeContext),
     currentTheme = _useContext12.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -10308,7 +10323,7 @@ var Modal = function Modal(_ref2) {
 Modal.Footer = ModalFooter;
 
 function _typeof$d(obj) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$d(obj); }
-var _excluded$8 = ["text", "padding", "onClick", "scrollable", "className"],
+var _excluded$9 = ["text", "padding", "onClick", "scrollable", "className"],
   _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className"],
   _excluded3$5 = ["text", "padding", "onClick", "scrollable", "className"];
 function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -10316,8 +10331,8 @@ function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { 
 function _defineProperty$9(obj, key, value) { key = _toPropertyKey$d(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$d(arg) { var key = _toPrimitive$d(arg, "string"); return _typeof$d(key) === "symbol" ? key : String(key); }
 function _toPrimitive$d(input, hint) { if (_typeof$d(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$d(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$8(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$8(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$8(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$9(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$9(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$9(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 function Paragraph(_ref) {
   var text = _ref.text;
     _ref.padding;
@@ -10327,7 +10342,7 @@ function Paragraph(_ref) {
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$8(_ref, _excluded$8);
+    props = _objectWithoutProperties$9(_ref, _excluded$9);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   // const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
@@ -10350,7 +10365,7 @@ function Paragraph2(_ref2) {
     scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
-    props = _objectWithoutProperties$8(_ref2, _excluded2$5);
+    props = _objectWithoutProperties$9(_ref2, _excluded2$5);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   // const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
@@ -10374,7 +10389,7 @@ function Paragraph3(_ref3) {
     scrollable = _ref3$scrollable === void 0 ? false : _ref3$scrollable,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
-    props = _objectWithoutProperties$8(_ref3, _excluded3$5);
+    props = _objectWithoutProperties$9(_ref3, _excluded3$5);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
@@ -10680,7 +10695,7 @@ function SubHeading3(_ref6) {
 }
 
 function _typeof$c(obj) { "@babel/helpers - typeof"; return _typeof$c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$c(obj); }
-var _excluded$7 = ["title", "onClick", "disabled", "padding", "textSize", "block"],
+var _excluded$8 = ["title", "onClick", "disabled", "padding", "textSize", "block"],
   _excluded2$4 = ["title", "onClick", "disabled", "textSize", "padding", "block"],
   _excluded3$4 = ["title", "onClick", "disabled", "textSize", "padding", "block"];
 function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -10688,8 +10703,8 @@ function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { 
 function _defineProperty$8(obj, key, value) { key = _toPropertyKey$c(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$c(arg) { var key = _toPrimitive$c(arg, "string"); return _typeof$c(key) === "symbol" ? key : String(key); }
 function _toPrimitive$c(input, hint) { if (_typeof$c(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$c(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$7(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$7(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$7(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$8(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$8(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$8(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Button = function Button(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "Cancel" : _ref$title,
@@ -10703,7 +10718,7 @@ var Button = function Button(_ref) {
     textSize = _ref$textSize === void 0 ? null : _ref$textSize,
     _ref$block = _ref.block,
     block = _ref$block === void 0 ? false : _ref$block,
-    props = _objectWithoutProperties$7(_ref, _excluded$7);
+    props = _objectWithoutProperties$8(_ref, _excluded$8);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
@@ -10738,7 +10753,7 @@ var Button2 = function Button2(_ref2) {
     padding = _ref2$padding === void 0 ? null : _ref2$padding,
     _ref2$block = _ref2.block,
     block = _ref2$block === void 0 ? false : _ref2$block,
-    props = _objectWithoutProperties$7(_ref2, _excluded2$4);
+    props = _objectWithoutProperties$8(_ref2, _excluded2$4);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
@@ -10772,7 +10787,7 @@ var Button3 = function Button3(_ref3) {
     padding = _ref3$padding === void 0 ? null : _ref3$padding,
     _ref3$block = _ref3.block,
     block = _ref3$block === void 0 ? false : _ref3$block,
-    props = _objectWithoutProperties$7(_ref3, _excluded3$4);
+    props = _objectWithoutProperties$8(_ref3, _excluded3$4);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
@@ -10796,7 +10811,7 @@ var Button3 = function Button3(_ref3) {
 };
 
 function _typeof$b(obj) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$b(obj); }
-var _excluded$6 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"],
+var _excluded$7 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"],
   _excluded2$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"],
   _excluded3$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"];
 function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -10804,8 +10819,8 @@ function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { 
 function _defineProperty$7(obj, key, value) { key = _toPropertyKey$b(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$b(arg) { var key = _toPrimitive$b(arg, "string"); return _typeof$b(key) === "symbol" ? key : String(key); }
 function _toPrimitive$b(input, hint) { if (_typeof$b(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$b(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$6(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$6(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$6(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$7(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$7(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$7(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var ButtonIcon = function ButtonIcon(_ref) {
   var _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
@@ -10822,7 +10837,7 @@ var ButtonIcon = function ButtonIcon(_ref) {
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
     _ref$disabled = _ref.disabled,
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-    props = _objectWithoutProperties$6(_ref, _excluded$6);
+    props = _objectWithoutProperties$7(_ref, _excluded$7);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
@@ -10865,7 +10880,7 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     backgroundColor = _ref2$backgroundColor === void 0 ? null : _ref2$backgroundColor,
     _ref2$disabled = _ref2.disabled,
     disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
-    props = _objectWithoutProperties$6(_ref2, _excluded2$3);
+    props = _objectWithoutProperties$7(_ref2, _excluded2$3);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON_2, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
@@ -10908,7 +10923,7 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
     _ref3$disabled = _ref3.disabled,
     disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
-    props = _objectWithoutProperties$6(_ref3, _excluded3$3);
+    props = _objectWithoutProperties$7(_ref3, _excluded3$3);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
@@ -10939,19 +10954,19 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
 };
 
 function _typeof$a(obj) { "@babel/helpers - typeof"; return _typeof$a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$a(obj); }
-var _excluded$5 = ["text", "enabled", "setEnabled"];
+var _excluded$6 = ["text", "enabled", "setEnabled"];
 function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { _defineProperty$6(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$6(obj, key, value) { key = _toPropertyKey$a(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$a(arg) { var key = _toPrimitive$a(arg, "string"); return _typeof$a(key) === "symbol" ? key : String(key); }
 function _toPrimitive$a(input, hint) { if (_typeof$a(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$a(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$5(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$5(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$5(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$6(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$6(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$6(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 function Toggle(_ref) {
   _ref.text;
     _ref.enabled;
     _ref.setEnabled;
-    var props = _objectWithoutProperties$5(_ref, _excluded$5);
+    var props = _objectWithoutProperties$6(_ref, _excluded$6);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   getStylesForItem(themeObjects.TOGGLE, currentTheme, _objectSpread$5({}, props));
@@ -11043,14 +11058,14 @@ CodeEditorSimple.defaultProps = {
 };
 
 function _typeof$8(obj) { "@babel/helpers - typeof"; return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$8(obj); }
-var _excluded$4 = ["code", "setCode", "uniqueKey", "language", "placeholder"];
+var _excluded$5 = ["code", "setCode", "uniqueKey", "language", "placeholder"];
 function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { _defineProperty$5(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$5(obj, key, value) { key = _toPropertyKey$8(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$8(arg) { var key = _toPrimitive$8(arg, "string"); return _typeof$8(key) === "symbol" ? key : String(key); }
 function _toPrimitive$8(input, hint) { if (_typeof$8(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$8(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$4(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$4(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$4(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$5(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$5(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$5(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 function CodeEditorInline(_ref) {
   var code = _ref.code,
     setCode = _ref.setCode,
@@ -11060,7 +11075,7 @@ function CodeEditorInline(_ref) {
     language = _ref$language === void 0 ? "js" : _ref$language,
     _ref$placeholder = _ref.placeholder,
     placeholder = _ref$placeholder === void 0 ? "Please enter JS code." : _ref$placeholder,
-    props = _objectWithoutProperties$4(_ref, _excluded$4);
+    props = _objectWithoutProperties$5(_ref, _excluded$5);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$4({}, props));
@@ -11092,7 +11107,7 @@ function CodeEditorInline(_ref) {
 }
 
 function _typeof$7(obj) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$7(obj); }
-var _excluded$3 = ["text", "textSize", "onClick"],
+var _excluded$4 = ["text", "textSize", "onClick"],
   _excluded2$2 = ["text", "textSize", "onClick"],
   _excluded3$2 = ["text", "textSize", "onClick"];
 function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -11100,15 +11115,15 @@ function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { 
 function _defineProperty$4(obj, key, value) { key = _toPropertyKey$7(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$7(arg) { var key = _toPrimitive$7(arg, "string"); return _typeof$7(key) === "symbol" ? key : String(key); }
 function _toPrimitive$7(input, hint) { if (_typeof$7(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$7(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$3(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$3(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$3(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$4(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$4(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$4(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Tag = function Tag(_ref) {
   var text = _ref.text,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref$textSize,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    props = _objectWithoutProperties$3(_ref, _excluded$3);
+    props = _objectWithoutProperties$4(_ref, _excluded$4);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
@@ -11126,7 +11141,7 @@ var Tag2 = function Tag2(_ref2) {
     textSize = _ref2$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref2$textSize,
     _ref2$onClick = _ref2.onClick,
     onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    props = _objectWithoutProperties$3(_ref2, _excluded2$2);
+    props = _objectWithoutProperties$4(_ref2, _excluded2$2);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
@@ -11144,7 +11159,7 @@ var Tag3 = function Tag3(_ref3) {
     textSize = _ref3$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref3$textSize,
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    props = _objectWithoutProperties$3(_ref3, _excluded3$2);
+    props = _objectWithoutProperties$4(_ref3, _excluded3$2);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
@@ -11511,10 +11526,7 @@ var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
   useEffect(function () {
     onQueryChange && onQueryChange(query);
   }, [query]);
-  return /*#__PURE__*/jsx(LayoutContainer, {
-    grow: false,
-    scrollable: false,
-    space: false,
+  return /*#__PURE__*/jsx(Widget, {
     children: /*#__PURE__*/jsx(InputText, {
       type: "search",
       value: currentRefinement,
@@ -11528,38 +11540,49 @@ var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
 };
 
 function _typeof$2(obj) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$2(obj); }
+var _excluded$3 = ["width", "height", "scrollable"];
 function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { _defineProperty$2(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$2(obj, key, value) { key = _toPropertyKey$2(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$2(arg) { var key = _toPrimitive$2(arg, "string"); return _typeof$2(key) === "symbol" ? key : String(key); }
 function _toPrimitive$2(input, hint) { if (_typeof$2(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$2(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var AlgoliaRefinementList = function AlgoliaRefinementList(props) {
+function _objectWithoutProperties$3(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$3(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$3(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var AlgoliaRefinementList = function AlgoliaRefinementList(_ref) {
+  var _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-auto" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-full" : _ref$height;
+    _ref.scrollable;
+    var props = _objectWithoutProperties$3(_ref, _excluded$3);
   // return null;
   var attribute = props.attribute;
-  console.log("attribute ", attribute);
+  console.log("attribute ", attribute, width, height);
   var _useRefinementList = useRefinementList(_objectSpread$2({
       attribute: "tags"
     }, props)),
     items = _useRefinementList.items,
     refine = _useRefinementList.refine;
-  return attribute && attribute !== "" && /*#__PURE__*/jsx("ul", {
-    className: "flex flex-col space-y-1 w-full flex-grow",
-    children: items.map(function (item) {
-      return /*#__PURE__*/jsxs("li", {
-        className: "px-2 py-1 cursor-pointer hover:text-indigo-600 hover:bg-gray-800 rounded justify-between flex flex-row xl:flex-row w-full",
-        onClick: function onClick(event) {
-          event.preventDefault();
-          refine(item.value);
-        },
-        children: [/*#__PURE__*/jsx("span", {
-          className: "text-sm text-gray-300 hover:text-indigo-500 ".concat(item.isRefined && "font-bold text-green-500"),
-          children: item.label
-        }), /*#__PURE__*/jsx(Tag, {
-          text: item.count,
-          color: "bg-gray-700",
-          textSize: "text-xs"
-        })]
-      }, item.label);
+  return attribute && attribute !== "" && /*#__PURE__*/jsx(Widget, {
+    children: /*#__PURE__*/jsx("ul", {
+      className: "flex flex-col space-y-1 ".concat(width, " ").concat(height),
+      children: items.map(function (item) {
+        return /*#__PURE__*/jsxs("li", {
+          className: "px-2 py-1 cursor-pointer hover:text-indigo-600 hover:bg-gray-800 rounded justify-between flex flex-row xl:flex-row w-full",
+          onClick: function onClick(event) {
+            event.preventDefault();
+            refine(item.value);
+          },
+          children: [/*#__PURE__*/jsx("span", {
+            className: "text-sm text-gray-300 hover:text-indigo-500 ".concat(item.isRefined && "font-bold text-green-500"),
+            children: item.label
+          }), /*#__PURE__*/jsx(Tag, {
+            text: item.count,
+            color: "bg-gray-700",
+            textSize: "text-xs"
+          })]
+        }, item.label);
+      })
     })
   });
 };
@@ -11568,7 +11591,7 @@ function _typeof$1(obj) { "@babel/helpers - typeof"; return _typeof$1 = "functio
 var _excluded$2 = ["title", "ping"],
   _excluded2$1 = ["children", "height", "width", "scrollable"],
   _excluded3$1 = ["children"],
-  _excluded4 = ["children", "height", "width", "scrollable"],
+  _excluded4$1 = ["children", "height", "width", "scrollable"],
   _excluded5 = ["title", "ping"],
   _excluded6 = ["children", "height", "width", "scrollable"],
   _excluded7 = ["children"],
@@ -11589,36 +11612,11 @@ var DashPanelHeader = function DashPanelHeader(_ref) {
     _ref$ping = _ref.ping,
     ping = _ref$ping === void 0 ? true : _ref$ping,
     props = _objectWithoutProperties$2(_ref, _excluded$2);
-  // const { currentTheme } = useContext(ThemeContext);
-  // const styles = getStylesForItem(
-  //     themeObjects.DASH_PANEL_HEADER,
-  //     currentTheme,
-  //     {
-  //         ...props,
-  //         width: "w-full",
-  //         height: "h-full",
-  //         scrollable: false,
-  //     }
-  // );
-  // return (
-  //     <div
-  //         className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
-  //     >
-  //         <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
-  //             {title}
-  //         </span>
-  //         {ping && (
-  //             <span class="relative flex h-3 w-3">
-  //                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-  //                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
-  //             </span>
-  //         )}
-  //     </div>
-  // );
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
-    height: "h-fit"
+    height: "h-fit",
+    grow: false
   }));
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-row rounded-t p-2 border-b justify-between items-center ".concat(styles.string),
@@ -11666,26 +11664,11 @@ var DashPanelBody = function DashPanelBody(_ref2) {
 var DashPanelFooter = function DashPanelFooter(_ref3) {
   var children = _ref3.children,
     props = _objectWithoutProperties$2(_ref3, _excluded3$1);
-  // const { currentTheme } = useContext(ThemeContext);
-  // const styles = getStylesForItem(
-  //     themeObjects.DASH_PANEL_FOOTER,
-  //     currentTheme,
-  //     {
-  //         ...props,
-  //         height: "h-auto",
-  //     }
-  // );
-  // return (
-  //     <div
-  //         className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs font-bold uppercase ${styles.string}`}
-  //     >
-  //         {children}
-  //     </div>
-  // );
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
-    height: "h-auto"
+    height: "h-fit",
+    grow: false
   }));
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ".concat(styles.string),
@@ -11695,12 +11678,12 @@ var DashPanelFooter = function DashPanelFooter(_ref3) {
 var DashPanel = function DashPanel(_ref4) {
   var children = _ref4.children,
     _ref4$height = _ref4.height,
-    height = _ref4$height === void 0 ? "h-full" : _ref4$height,
+    height = _ref4$height === void 0 ? "" : _ref4$height,
     _ref4$width = _ref4.width,
     width = _ref4$width === void 0 ? "w-full" : _ref4$width,
     _ref4$scrollable = _ref4.scrollable,
     scrollable = _ref4$scrollable === void 0 ? false : _ref4$scrollable,
-    props = _objectWithoutProperties$2(_ref4, _excluded4);
+    props = _objectWithoutProperties$2(_ref4, _excluded4$1);
   var _useContext4 = useContext$1(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
@@ -11728,7 +11711,8 @@ var DashPanelHeader2 = function DashPanelHeader2(_ref5) {
   var _useContext5 = useContext$1(ThemeContext),
     currentTheme = _useContext5.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
-    height: "h-fit"
+    height: "h-fit",
+    grow: false
   }));
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-row rounded-t p-2 border-b justify-between items-center ".concat(styles.string),
@@ -11776,7 +11760,10 @@ var DashPanelFooter2 = function DashPanelFooter2(_ref7) {
     props = _objectWithoutProperties$2(_ref7, _excluded7);
   var _useContext7 = useContext$1(ThemeContext),
     currentTheme = _useContext7.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_2, currentTheme, _objectSpread$1({}, props));
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    height: "h-fit",
+    grow: false
+  }));
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row rounded-b p-2 border-t justify-between items-center ".concat(styles.string),
     children: children
@@ -11818,7 +11805,10 @@ var DashPanelHeader3 = function DashPanelHeader3(_ref9) {
     props = _objectWithoutProperties$2(_ref9, _excluded9);
   var _useContext9 = useContext$1(ThemeContext),
     currentTheme = _useContext9.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_3, currentTheme, props);
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    height: "h-fit",
+    grow: false
+  }));
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-row rounded-t p-2 border-b justify-between items-center ".concat(styles.string),
     children: [/*#__PURE__*/jsx("span", {
@@ -11864,7 +11854,8 @@ var DashPanelFooter3 = function DashPanelFooter3(_ref11) {
   var _useContext11 = useContext$1(ThemeContext),
     currentTheme = _useContext11.currentTheme;
   var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
-    height: "h-auto"
+    height: "h-fit",
+    grow: false
   }));
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ".concat(styles.string),
@@ -12105,7 +12096,7 @@ var Workspace = function Workspace(_ref) {
     _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-auto" : _ref$height,
+    height = _ref$height === void 0 ? "" : _ref$height,
     _ref$direction = _ref.direction,
     direction = _ref$direction === void 0 ? "col" : _ref$direction,
     _ref$scrollable = _ref.scrollable,
@@ -12366,7 +12357,8 @@ var mockApi = {
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _excluded = ["apiMock", "children", "backgroundColor"],
   _excluded2 = ["apiMock", "children", "backgroundColor"],
-  _excluded3 = ["apiMock", "children", "backgroundColor"];
+  _excluded3 = ["apiMock", "children", "backgroundColor"],
+  _excluded4 = ["apiMock", "children", "backgroundColor"];
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -12407,9 +12399,8 @@ var MockWrapper = function MockWrapper(_ref) {
             id: "MockWrapperWorkspace",
             direction: "col",
             scrollable: true,
-            className: ""
-            // space={true}
-            ,
+            className: "",
+            space: true,
             grow: true,
             children: /*#__PURE__*/jsx(Widget, {
               uuid: "MockWrapperWidget",
@@ -12508,6 +12499,53 @@ var MockWorkspace = function MockWorkspace(_ref3) {
   });
 };
 
+/**
+ * MockAlgolia
+ *
+ */
+var MockAlgolia = function MockAlgolia(_ref4) {
+  _ref4.apiMock;
+    var children = _ref4.children;
+    _ref4.backgroundColor;
+    var props = _objectWithoutProperties(_ref4, _excluded4);
+  function getAppContext() {
+    return _objectSpread(_objectSpread({}, mock), {}, {
+      creds: {
+        appId: "2345"
+      },
+      settings: {
+        theme: "theme-1",
+        debug: false
+      },
+      debugMode: true
+    });
+  }
+  var searchClient = algoliasearch(process.env.REACT_APP_ALGOLIA_APP_ID, process.env.REACT_APP_ALGOLIA_API_KEY);
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col h-screen w-full m-auto overflow-hidden",
+    children: /*#__PURE__*/jsx(AppContext.Provider, {
+      value: getAppContext(),
+      children: /*#__PURE__*/jsx(ThemeContext.Provider, {
+        value: mock.theme.context,
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200",
+          children: /*#__PURE__*/jsx(Workspace, _objectSpread(_objectSpread({}, props), {}, {
+            children: /*#__PURE__*/jsx(InstantSearch, {
+              indexName: process.env.REACT_APP_ALGOLIA_INDEX_NAME,
+              searchClient: searchClient,
+              children: /*#__PURE__*/jsx(LayoutContainer, {
+                direction: "col",
+                scrollable: false,
+                children: children
+              })
+            })
+          }))
+        })
+      })
+    })
+  });
+};
+
 var mock = {
   theme: {
     themeName: "theme-1",
@@ -12515,13 +12553,7 @@ var mock = {
     rawThemes: themes,
     context: mockThemeContext
   },
-  api: mockApi,
-  themes: {
-    themeName: "theme-1",
-    themes: themes,
-    rawThemes: themes,
-    context: mockThemeContext
-  }
+  api: mockApi
 };
 var mockText = {
   title: "Title",
@@ -12530,4 +12562,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
