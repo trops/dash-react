@@ -1,30 +1,30 @@
 import React, { useEffect } from "react";
 import { useSearchBox } from "react-instantsearch-hooks-web";
 import { InputText } from "@dash";
-import { Widget } from "@dash/Widget";
+import { LayoutContainer } from "@dash/Layout";
 
-export const AlgoliaSearchBox = ({ id, props, onQueryChange = null }) => {
-    const {
-        currentRefinement,
-        refine,
-        disabled = false,
-        queryHook,
-        query,
-    } = useSearchBox(props);
+export const AlgoliaSearchBox = ({
+    id,
+    placeholder = "Search",
+    disabled = false,
+    onQueryChange = null,
+    ...props
+}) => {
+    const { currentRefinement, refine, queryHook, query } = useSearchBox(props);
 
     useEffect(() => {
         onQueryChange && onQueryChange(query);
     }, [query]);
 
     return (
-        <Widget>
+        <LayoutContainer height="" grow={false} space={false}>
             <InputText
                 type="search"
                 value={currentRefinement}
                 onChange={(event) => refine(event.currentTarget.value)}
                 disabled={disabled}
-                placeholder="Search"
+                placeholder={placeholder}
             />
-        </Widget>
+        </LayoutContainer>
     );
 };
