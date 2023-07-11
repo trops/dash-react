@@ -4773,7 +4773,7 @@ var Dashboard = function Dashboard(_ref) {
     children: /*#__PURE__*/jsx(LayoutContainer, {
       padding: false,
       space: true,
-      height: "h-screen",
+      height: "h-full",
       width: "w-full",
       direction: "row",
       scrollable: false,
@@ -4826,7 +4826,7 @@ var Dashboard = function Dashboard(_ref) {
         jsxs(LayoutContainer, {
           padding: false,
           space: true,
-          height: "h-screen",
+          height: "h-full",
           width: "w-full",
           direction: "col",
           scrollable: false,
