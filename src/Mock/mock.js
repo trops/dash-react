@@ -193,7 +193,7 @@ const MockAlgolia = ({
                     <div
                         className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200`}
                     >
-                        <Workspace {...props}>
+                        <Workspace {...props} test="Algolia Workspace">
                             <InstantSearch
                                 indexName={
                                     process.env.REACT_APP_ALGOLIA_INDEX_NAME

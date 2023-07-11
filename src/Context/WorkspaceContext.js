@@ -1,2 +1,2 @@
 import { createContext } from "react";
-export const WorkspaceContext = createContext(null);
+export const WorkspaceContext = createContext({ workspaceData: null });

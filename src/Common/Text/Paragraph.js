@@ -19,8 +19,6 @@ function Paragraph({
         props
     );
 
-    console.log("styles paragraph ", styles.string, className, styles);
-
     return (
         <LayoutContainer
             {...props}

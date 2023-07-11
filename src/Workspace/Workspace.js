@@ -26,7 +26,7 @@ export const Workspace = ({
     // Generate the UUID for the Workspace to identify
     const uuidString = getUUID(uuid);
     return (
-        <WorkspaceContext.Provider value={workspaceData}>
+        <WorkspaceContext.Provider value={{ workspaceData: props }}>
             <LayoutContainer
                 id={`${uuidString}`}
                 theme={theme}
@@ -38,14 +38,14 @@ export const Workspace = ({
                 grow={false}
                 space={space}
             >
-                {React.Children.map(children, (child) => {
+                {/* {React.Children.map(children, (child) => {
                     // child.props["workspaceProps"] = props;
                     return React.cloneElement(child, {
                         workspaceProps: props,
                     });
                     // return child;
-                })}
-                {/* {children} */}
+                })} */}
+                {children}
             </LayoutContainer>
         </WorkspaceContext.Provider>
     );

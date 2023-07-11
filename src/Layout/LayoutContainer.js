@@ -48,7 +48,6 @@ export const LayoutContainer = ({
         );
     }
 
-    console.log("styles string for Layer Container ", styles.string);
     return (
         <div
             id={containerId}
