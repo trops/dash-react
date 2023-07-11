@@ -38,7 +38,14 @@ export const Workspace = ({
                 grow={false}
                 space={space}
             >
-                {children}
+                {React.Children.map(children, (child) => {
+                    // child.props["workspaceProps"] = props;
+                    return React.cloneElement(child, {
+                        workspaceProps: props,
+                    });
+                    // return child;
+                })}
+                {/* {children} */}
             </LayoutContainer>
         </WorkspaceContext.Provider>
     );
