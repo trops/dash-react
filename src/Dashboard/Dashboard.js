@@ -343,7 +343,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                 <LayoutContainer
                     padding={false}
                     space={true}
-                    height="h-screen"
+                    height="h-full"
                     width="w-full"
                     direction="row"
                     scrollable={false}
@@ -402,7 +402,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                             <LayoutContainer
                                 padding={false}
                                 space={true}
-                                height="h-screen"
+                                height="h-full"
                                 width="w-full"
                                 direction="col"
                                 scrollable={false}
