@@ -8210,7 +8210,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
         width: "w-full",
         height: "h-full",
         grow: true,
-        space: false,
+        space: true,
         children: [preview === true && /*#__PURE__*/jsx(LayoutDragBuilder, {
           dashboardId: dashboardId,
           isDraggable: true,
@@ -8808,9 +8808,6 @@ var Widget = function Widget(_ref) {
     grow = _ref$grow === void 0 ? true : _ref$grow,
     props = _objectWithoutProperties$c(_ref, _excluded$c);
   var uuidString = getUUID(uuid);
-  var _useContext = useContext$1(WorkspaceContext),
-    workspaceData = _useContext.workspaceData;
-  console.log("WIDGET workspace data ", workspaceData);
   return /*#__PURE__*/jsx(WidgetContext.Provider, {
     value: {
       widgetData: _objectSpread$c({
@@ -8818,7 +8815,7 @@ var Widget = function Widget(_ref) {
       }, props)
     },
     children: /*#__PURE__*/jsx(LayoutContainer, {
-      id: "widget-container-".concat(uuidString),
+      id: "WIDGET-".concat(uuidString),
       version: version,
       direction: direction,
       height: height,
@@ -8828,7 +8825,7 @@ var Widget = function Widget(_ref) {
       space: space,
       scrollable: scrollable,
       children: children
-    }, "widget-container'-".concat(uuidString))
+    }, "WIDGET'-".concat(uuidString))
   });
 };
 
@@ -9909,16 +9906,6 @@ var getStylesForItem = function getStylesForItem() {
       var directionValue = "direction" in overrides ? overrides["direction"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
       var paddingStyles = itemName === themeObjects.LAYOUT_CONTAINER && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
-
-      // console.log(
-      //     "get styles for item ",
-      //     id,
-      //     itemName,
-      //     overrides,
-      //     paddingStyles,
-      //     hasChildren,
-      //     directionStyles
-      // );
 
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles);
 
@@ -12108,7 +12095,7 @@ var ComponentManager = {
   }
 };
 
-var _excluded$1 = ["uuid", "theme", "workspaceData", "children", "width", "height", "direction", "scrollable", "space", "className"];
+var _excluded$1 = ["uuid", "theme", "workspaceData", "children", "width", "height", "direction", "scrollable", "space", "grow", "className"];
 function _objectWithoutProperties$1(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$1(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose$1(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Workspace = function Workspace(_ref) {
@@ -12128,6 +12115,8 @@ var Workspace = function Workspace(_ref) {
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$space = _ref.space,
     space = _ref$space === void 0 ? true : _ref$space,
+    _ref$grow = _ref.grow,
+    grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$1(_ref, _excluded$1);
@@ -12138,14 +12127,14 @@ var Workspace = function Workspace(_ref) {
       workspaceData: props
     },
     children: /*#__PURE__*/jsx(LayoutContainer, {
-      id: "".concat(uuidString),
+      id: "WORKSPACE-".concat(uuidString),
       theme: theme,
       direction: direction,
       scrollable: scrollable,
       width: width,
       height: height,
       className: "".concat(className),
-      grow: false,
+      grow: grow,
       space: space,
       children: children
     })
