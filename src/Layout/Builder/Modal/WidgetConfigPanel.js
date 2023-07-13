@@ -268,6 +268,51 @@ export const WidgetConfigPanel = ({
 
                         <div className={`rounded flex flex-col p-2`}>
                             <span className="uppercase text-gray-300 font-bold text-sm">
+                                {"Spacing"}{" "}
+                                <span className="text-red-500">*</span>
+                            </span>
+                            <div className="text-xs text-gray-400 pb-2">
+                                If this item will be space child items evenly.
+                            </div>
+                            <SelectMenu
+                                name={"space"}
+                                onChange={handleUpdate}
+                                selectedValue={itemSelected.scrollable}
+                                textSize="text-base"
+                            >
+                                <option key={"space-yes"} value={true}>
+                                    Allow Spacing
+                                </option>
+                                <option key={"space-no"} value={false}>
+                                    No Spacing
+                                </option>
+                            </SelectMenu>
+                        </div>
+
+                        <div className={`rounded flex flex-col p-2`}>
+                            <span className="uppercase text-gray-300 font-bold text-sm">
+                                {"Grow"} <span className="text-red-500">*</span>
+                            </span>
+                            <div className="text-xs text-gray-400 pb-2">
+                                If this item will grow to fit the space.
+                            </div>
+                            <SelectMenu
+                                name={"grow"}
+                                onChange={handleUpdate}
+                                selectedValue={itemSelected.scrollable}
+                                textSize="text-base"
+                            >
+                                <option key={"grow-yes"} value={true}>
+                                    Allow Growing
+                                </option>
+                                <option key={"grow-no"} value={false}>
+                                    No Growing Allowed
+                                </option>
+                            </SelectMenu>
+                        </div>
+
+                        <div className={`rounded flex flex-col p-2`}>
+                            <span className="uppercase text-gray-300 font-bold text-sm">
                                 {"Direction"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
