@@ -22,6 +22,8 @@ export const LayoutGridContainer = ({
     id,
     parent,
     scrollable,
+    space,
+    grow,
     order,
     children = null,
     onClickAdd,
@@ -283,6 +285,8 @@ export const LayoutGridContainer = ({
                         scrollable={scrollable}
                         width={"w-full"}
                         height={`${height} min-h-24`}
+                        space={space}
+                        grow={grow}
                         className={`${preview === false && "p-3"} ${
                             direction === "col" ? "space-y-2" : "space-x-2"
                         }`}

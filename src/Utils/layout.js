@@ -71,6 +71,8 @@ export const renderLayout = ({
                         component,
                         canHaveChildren,
                         uuid,
+                        space,
+                        grow,
                     } = childLayout;
 
                     return hasChildren === 1 && canHaveChildren === true ? (
@@ -98,6 +100,8 @@ export const renderLayout = ({
                             isDraggable={isDraggable}
                             workspace={workspace}
                             height={height}
+                            space={space}
+                            grow={grow}
                         >
                             {id > 0 &&
                                 renderLayout({
@@ -146,6 +150,8 @@ export const renderLayout = ({
                             height={height}
                             direction={direction}
                             scrollable={scrollable}
+                            space={space}
+                            grow={grow}
                             preview={previewMode}
                             component={component}
                             onOpenConfig={onOpenConfig}
