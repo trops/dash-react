@@ -69,14 +69,14 @@ export const LayoutBuilder = ({
         // IMPORTANT DO NOT REMOVE!!!!
         // We have to check the diff in the layout and set
         // We also have to "reset" the layout upon a new layout...
-        console.log(
-            "layout builder workspace change ",
-            workspace["version"],
-            currentWorkspace["version"],
-            workspace,
-            currentWorkspace
-        );
-        console.log("resetting workspace ", workspace);
+        // console.log(
+        //     "layout builder workspace change ",
+        //     workspace["version"],
+        //     currentWorkspace["version"],
+        //     workspace,
+        //     currentWorkspace
+        // );
+        // console.log("resetting workspace ", workspace);
         setCurrentWorkspace(workspace);
 
         // if (

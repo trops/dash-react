@@ -32,6 +32,10 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         layout.type = "type" in obj ? obj.type : "widget";
         layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
+        // Space and Grow
+        // layout.grow = "";
+        layout.space = layout.workspace === "layout" ? true : false;
+
         // Add the MAIN workspace that
         layout.dashboardId = dashboardId;
 
@@ -75,12 +79,12 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         // last check for this being a container...
         if ("workspace" in layout) {
             if (layout.workspace === "layout") {
-                if (layout.width === "") {
-                    layout.width = "w-full";
-                }
-                if (layout.scrollable === "") {
-                    layout.scrollable = true;
-                }
+                // if (layout.width === "") {
+                //     layout.width = "w-full";
+                // }
+                // if (layout.scrollable === "") {
+                //     layout.scrollable = true;
+                // }
                 if (layout.direction === "") {
                     layout.direction = "col";
                 }

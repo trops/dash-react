@@ -19,7 +19,7 @@ export const Workspace = ({
     height = "",
     direction = "col",
     scrollable = false,
-    space = true,
+    space = false,
     grow = false,
     className = "",
     ...props // what should we do with the props here...
