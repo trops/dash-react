@@ -7804,6 +7804,54 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
           className: "rounded flex flex-col p-2",
           children: [/*#__PURE__*/jsxs("span", {
             className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Spacing", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "If this item will be space child items evenly."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "space",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.scrollable,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: true,
+              children: "Allow Spacing"
+            }, "space-yes"), /*#__PURE__*/jsx("option", {
+              value: false,
+              children: "No Spacing"
+            }, "space-no")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Grow", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "If this item will grow to fit the space."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "grow",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.scrollable,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: true,
+              children: "Allow Growing"
+            }, "grow-yes"), /*#__PURE__*/jsx("option", {
+              value: false,
+              children: "No Growing Allowed"
+            }, "grow-no")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
             children: ["Direction", " ", /*#__PURE__*/jsx("span", {
               className: "text-red-500",
               children: "*"
