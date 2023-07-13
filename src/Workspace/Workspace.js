@@ -20,6 +20,7 @@ export const Workspace = ({
     direction = "col",
     scrollable = false,
     space = true,
+    grow = false,
     className = "",
     ...props // what should we do with the props here...
 }) => {
@@ -28,23 +29,16 @@ export const Workspace = ({
     return (
         <WorkspaceContext.Provider value={{ workspaceData: props }}>
             <LayoutContainer
-                id={`${uuidString}`}
+                id={`WORKSPACE-${uuidString}`}
                 theme={theme}
                 direction={direction}
                 scrollable={scrollable}
                 width={width}
                 height={height}
                 className={`${className}`}
-                grow={false}
+                grow={grow}
                 space={space}
             >
-                {/* {React.Children.map(children, (child) => {
-                    // child.props["workspaceProps"] = props;
-                    return React.cloneElement(child, {
-                        workspaceProps: props,
-                    });
-                    // return child;
-                })} */}
                 {children}
             </LayoutContainer>
         </WorkspaceContext.Provider>

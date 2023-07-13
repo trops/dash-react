@@ -308,7 +308,7 @@ export const LayoutBuilder = ({
                     width={"w-full"}
                     height={"h-full"}
                     grow={true}
-                    space={false}
+                    space={true}
                 >
                     {preview === true && (
                         <LayoutDragBuilder

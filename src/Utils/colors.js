@@ -457,16 +457,6 @@ const getStylesForItem = (
                         : ""
                     : ""; // not layout container
 
-            // console.log(
-            //     "get styles for item ",
-            //     id,
-            //     itemName,
-            //     overrides,
-            //     paddingStyles,
-            //     hasChildren,
-            //     directionStyles
-            // );
-
             const additionalStyles = scrollbarStyles
                 .concat(" ")
                 .concat(directionStyles)

@@ -17,16 +17,13 @@ export const Widget = ({
     ...props
 }) => {
     const uuidString = getUUID(uuid);
-    const { workspaceData } = useContext(WorkspaceContext);
-
-    console.log("WIDGET workspace data ", workspaceData);
 
     return (
         <WidgetContext.Provider value={{ widgetData: { uuid, ...props } }}>
             <LayoutContainer
-                id={`widget-container-${uuidString}`}
+                id={`WIDGET-${uuidString}`}
                 version={version}
-                key={`widget-container'-${uuidString}`}
+                key={`WIDGET'-${uuidString}`}
                 direction={direction}
                 height={height}
                 width={width}
