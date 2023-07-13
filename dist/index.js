@@ -7780,6 +7780,30 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
           className: "rounded flex flex-col p-2",
           children: [/*#__PURE__*/jsxs("span", {
             className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Direction", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "The layout direction for the widget content."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "direction",
+            onChange: handleUpdate,
+            selectedValue: itemSelected && itemSelected.direction,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: "col",
+              children: "Vertical"
+            }, "direction-col"), /*#__PURE__*/jsx("option", {
+              value: "row",
+              children: "Horizontal"
+            }, "direction-row")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
             children: ["Scrolling", " ", /*#__PURE__*/jsx("span", {
               className: "text-red-500",
               children: "*"
@@ -7814,7 +7838,7 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
           }), /*#__PURE__*/jsxs(SelectMenu, {
             name: "space",
             onChange: handleUpdate,
-            selectedValue: itemSelected.scrollable,
+            selectedValue: itemSelected.space,
             textSize: "text-base",
             children: [/*#__PURE__*/jsx("option", {
               value: true,
@@ -7838,7 +7862,7 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
           }), /*#__PURE__*/jsxs(SelectMenu, {
             name: "grow",
             onChange: handleUpdate,
-            selectedValue: itemSelected.scrollable,
+            selectedValue: itemSelected.grow,
             textSize: "text-base",
             children: [/*#__PURE__*/jsx("option", {
               value: true,
@@ -7847,30 +7871,6 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
               value: false,
               children: "No Growing Allowed"
             }, "grow-no")]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Direction", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "The layout direction for the widget content."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "direction",
-            onChange: handleUpdate,
-            selectedValue: itemSelected && itemSelected.direction,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: "col",
-              children: "Vertical"
-            }, "direction-col"), /*#__PURE__*/jsx("option", {
-              value: "row",
-              children: "Horizontal"
-            }, "direction-row")]
           })]
         }), /*#__PURE__*/jsx("div", {
           className: "text-xs p-4 break-all",
