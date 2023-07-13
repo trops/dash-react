@@ -245,6 +245,31 @@ export const WidgetConfigPanel = ({
 
                         <div className={`rounded flex flex-col p-2`}>
                             <span className="uppercase text-gray-300 font-bold text-sm">
+                                {"Direction"}{" "}
+                                <span className="text-red-500">*</span>
+                            </span>
+                            <div className="text-xs text-gray-400 pb-2">
+                                The layout direction for the widget content.
+                            </div>
+                            <SelectMenu
+                                name={"direction"}
+                                onChange={handleUpdate}
+                                selectedValue={
+                                    itemSelected && itemSelected.direction
+                                }
+                                textSize="text-base"
+                            >
+                                <option key={"direction-col"} value="col">
+                                    Vertical
+                                </option>
+                                <option key={"direction-row"} value="row">
+                                    Horizontal
+                                </option>
+                            </SelectMenu>
+                        </div>
+
+                        <div className={`rounded flex flex-col p-2`}>
+                            <span className="uppercase text-gray-300 font-bold text-sm">
                                 {"Scrolling"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
@@ -277,7 +302,7 @@ export const WidgetConfigPanel = ({
                             <SelectMenu
                                 name={"space"}
                                 onChange={handleUpdate}
-                                selectedValue={itemSelected.scrollable}
+                                selectedValue={itemSelected.space}
                                 textSize="text-base"
                             >
                                 <option key={"space-yes"} value={true}>
@@ -299,7 +324,7 @@ export const WidgetConfigPanel = ({
                             <SelectMenu
                                 name={"grow"}
                                 onChange={handleUpdate}
-                                selectedValue={itemSelected.scrollable}
+                                selectedValue={itemSelected.grow}
                                 textSize="text-base"
                             >
                                 <option key={"grow-yes"} value={true}>
@@ -307,31 +332,6 @@ export const WidgetConfigPanel = ({
                                 </option>
                                 <option key={"grow-no"} value={false}>
                                     No Growing Allowed
-                                </option>
-                            </SelectMenu>
-                        </div>
-
-                        <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
-                                {"Direction"}{" "}
-                                <span className="text-red-500">*</span>
-                            </span>
-                            <div className="text-xs text-gray-400 pb-2">
-                                The layout direction for the widget content.
-                            </div>
-                            <SelectMenu
-                                name={"direction"}
-                                onChange={handleUpdate}
-                                selectedValue={
-                                    itemSelected && itemSelected.direction
-                                }
-                                textSize="text-base"
-                            >
-                                <option key={"direction-col"} value="col">
-                                    Vertical
-                                </option>
-                                <option key={"direction-row"} value="row">
-                                    Horizontal
                                 </option>
                             </SelectMenu>
                         </div>
