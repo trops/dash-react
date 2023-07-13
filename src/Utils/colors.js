@@ -446,7 +446,8 @@ const getStylesForItem = (
                     : "";
 
             const paddingStyles =
-                itemName === themeObjects.LAYOUT_CONTAINER &&
+                (itemName === themeObjects.LAYOUT_CONTAINER ||
+                    itemName === themeObjects.WORKSPACE) &&
                 hasChildren === true &&
                 childCount > 1 &&
                 directionValue !== null
@@ -456,6 +457,8 @@ const getStylesForItem = (
                             : "space-x-4"
                         : ""
                     : ""; // not layout container
+
+            console.log("padding styles ", paddingStyles);
 
             const additionalStyles = scrollbarStyles
                 .concat(" ")
