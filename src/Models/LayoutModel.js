@@ -21,6 +21,21 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                     ? false
                     : true
                 : false;
+
+        layout.space =
+            "space" in obj
+                ? obj["space"] === "false" || obj["space"] === false
+                    ? false
+                    : true
+                : false;
+
+        layout.grow =
+            "grow" in obj
+                ? obj["grow"] === "false" || obj["grow"] === false
+                    ? false
+                    : true
+                : false;
+
         layout.component = "component" in obj ? obj.component : null;
         layout.direction = "direction" in obj ? obj.direction : "col";
         layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
@@ -33,8 +48,6 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
         // Space and Grow
-        // layout.grow = "";
-        layout.space = layout.workspace === "layout" ? true : false;
 
         // Add the MAIN workspace that
         layout.dashboardId = dashboardId;
