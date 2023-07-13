@@ -1381,6 +1381,10 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     layout.type = "type" in obj ? obj.type : "widget";
     layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
+    // Space and Grow
+    // layout.grow = "";
+    layout.space = layout.workspace === "layout" ? true : false;
+
     // Add the MAIN workspace that
     layout.dashboardId = dashboardId;
 
@@ -1418,12 +1422,12 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     // last check for this being a container...
     if ("workspace" in layout) {
       if (layout.workspace === "layout") {
-        if (layout.width === "") {
-          layout.width = "w-full";
-        }
-        if (layout.scrollable === "") {
-          layout.scrollable = true;
-        }
+        // if (layout.width === "") {
+        //     layout.width = "w-full";
+        // }
+        // if (layout.scrollable === "") {
+        //     layout.scrollable = true;
+        // }
         if (layout.direction === "") {
           layout.direction = "col";
         }
@@ -8001,8 +8005,14 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     // IMPORTANT DO NOT REMOVE!!!!
     // We have to check the diff in the layout and set
     // We also have to "reset" the layout upon a new layout...
-    console.log("layout builder workspace change ", workspace["version"], currentWorkspace["version"], workspace, currentWorkspace);
-    console.log("resetting workspace ", workspace);
+    // console.log(
+    //     "layout builder workspace change ",
+    //     workspace["version"],
+    //     currentWorkspace["version"],
+    //     workspace,
+    //     currentWorkspace
+    // );
+    // console.log("resetting workspace ", workspace);
     setCurrentWorkspace(workspace);
 
     // if (
@@ -12114,7 +12124,7 @@ var Workspace = function Workspace(_ref) {
     _ref$scrollable = _ref.scrollable,
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$space = _ref.space,
-    space = _ref$space === void 0 ? true : _ref$space,
+    space = _ref$space === void 0 ? false : _ref$space,
     _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$className = _ref.className,
