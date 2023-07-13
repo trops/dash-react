@@ -9066,6 +9066,8 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     id = _ref.id,
     parent = _ref.parent,
     scrollable = _ref.scrollable,
+    space = _ref.space,
+    grow = _ref.grow,
     order = _ref.order,
     _ref$children = _ref.children,
     children = _ref$children === void 0 ? null : _ref$children,
@@ -9238,6 +9240,8 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
           scrollable: scrollable,
           width: "w-full",
           height: "".concat(height, " min-h-24"),
+          space: space,
+          grow: grow,
           className: "".concat(preview === false && "p-3", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
           children: children !== null && children
         }), preview === false && renderEditFooter()]
@@ -9320,7 +9324,9 @@ var renderLayout = function renderLayout(_ref) {
         height = childLayout.height,
         component = childLayout.component,
         canHaveChildren = childLayout.canHaveChildren,
-        uuid = childLayout.uuid;
+        uuid = childLayout.uuid,
+        space = childLayout.space,
+        grow = childLayout.grow;
       return hasChildren === 1 && canHaveChildren === true ? /*#__PURE__*/jsx(LayoutGridContainer, {
         uuid: uuid,
         id: id,
@@ -9342,6 +9348,8 @@ var renderLayout = function renderLayout(_ref) {
         isDraggable: isDraggable,
         workspace: workspace,
         height: height,
+        space: space,
+        grow: grow,
         children: id > 0 && renderLayout({
           dashboardId: dashboardId,
           item: childLayout,
@@ -9383,6 +9391,8 @@ var renderLayout = function renderLayout(_ref) {
         height: height,
         direction: direction,
         scrollable: scrollable,
+        space: space,
+        grow: grow,
         preview: previewMode,
         component: component,
         onOpenConfig: onOpenConfig,
