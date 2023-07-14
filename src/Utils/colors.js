@@ -458,7 +458,7 @@ const getStylesForItem = (
                         : ""
                     : ""; // not layout container
 
-            console.log("padding styles ", paddingStyles);
+            //console.log("padding styles ", paddingStyles);
 
             const additionalStyles = scrollbarStyles
                 .concat(" ")
