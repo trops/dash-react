@@ -9975,7 +9975,8 @@ var getStylesForItem = function getStylesForItem() {
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
       var paddingStyles = (itemName === themeObjects.LAYOUT_CONTAINER || itemName === themeObjects.WORKSPACE) && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
 
-      console.log("padding styles ", paddingStyles);
+      //console.log("padding styles ", paddingStyles);
+
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles);
 
       //console.log("additional srtyles ", itemName, id, additionalStyles);
