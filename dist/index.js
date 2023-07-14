@@ -10415,15 +10415,13 @@ function Paragraph(_ref) {
     props = _objectWithoutProperties$a(_ref, _excluded$a);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  // const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
   var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props);
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$8(_objectSpread$8(_objectSpread$8({}, props), {}, {
-    className: "".concat(className, " text-base xl:text-lg font-normal h-full w-full"),
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    className: "".concat(className, " ").concat(styles.string, " text-base xl:text-lg font-normal h-full w-full"),
     onClick: onClick,
-    scrollable: scrollable
-  }, styles), {}, {
+    scrollable: scrollable,
     children: text
-  }));
+  });
 }
 function Paragraph2(_ref2) {
   var text = _ref2.text;
@@ -10441,13 +10439,15 @@ function Paragraph2(_ref2) {
   var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$8(_objectSpread$8(_objectSpread$8({
-    className: "text-sm xl:text-base font-normal h-full w-full ".concat(className),
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    className: "text-sm xl:text-base font-normal h-full w-full ".concat(className, " ").concat(styles.string),
     onClick: onClick,
     scrollable: scrollable
-  }, styles), props), {}, {
+    // {...styles}
+    // {...props}
+    ,
     children: text
-  }));
+  });
 }
 function Paragraph3(_ref3) {
   var text = _ref3.text;
@@ -10464,13 +10464,15 @@ function Paragraph3(_ref3) {
   var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$8(_objectSpread$8(_objectSpread$8({
-    className: "text-xs xl:text-sm font-normal h-full w-full ".concat(className),
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    className: "text-xs xl:text-sm font-normal h-full w-full ".concat(className, " ").concat(styles.string),
     onClick: onClick,
     scrollable: scrollable
-  }, styles), props), {}, {
+    // {...styles}
+    // {...props}
+    ,
     children: text
-  }));
+  });
 }
 
 var MenuItem = function MenuItem(_ref) {
