@@ -10052,18 +10052,18 @@ function getStyleName(objectType) {
 }
 
 function _typeof$e(obj) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$e(obj); }
-var _excluded$b = ["children", "border"],
-  _excluded2$6 = ["children", "scrollable"],
-  _excluded3$6 = ["children"],
-  _excluded4$2 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow"],
-  _excluded5$1 = ["children", "border"],
-  _excluded6$1 = ["children", "scrollable"],
-  _excluded7$1 = ["children"],
-  _excluded8$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"],
-  _excluded9$1 = ["children", "border"],
-  _excluded10$1 = ["children", "scrollable"],
-  _excluded11$1 = ["children"],
-  _excluded12$1 = ["className", "horizontal", "children", "onClick", "width", "height", "padding", "scrollable"];
+var _excluded$b = ["children", "border", "className"],
+  _excluded2$6 = ["children", "scrollable", "className"],
+  _excluded3$6 = ["children", "className"],
+  _excluded4$2 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className"],
+  _excluded5$1 = ["children", "border", "className"],
+  _excluded6$1 = ["children", "scrollable", "className"],
+  _excluded7$1 = ["children", "className"],
+  _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className"],
+  _excluded9$1 = ["children", "border", "className"],
+  _excluded10$1 = ["children", "scrollable", "className"],
+  _excluded11$1 = ["children", "className"],
+  _excluded12$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className"];
 function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { _defineProperty$a(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$a(obj, key, value) { key = _toPropertyKey$e(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10075,6 +10075,8 @@ var PanelHeader = function PanelHeader(_ref) {
   var children = _ref.children,
     _ref$border = _ref.border,
     border = _ref$border === void 0 ? false : _ref$border,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$b(_ref, _excluded$b);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -10083,7 +10085,7 @@ var PanelHeader = function PanelHeader(_ref) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t p-6 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(styles.string),
+    className: "flex flex-row rounded-t p-6 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -10094,15 +10096,16 @@ var PanelBody = function PanelBody(_ref2) {
   var children = _ref2.children,
     _ref2$scrollable = _ref2.scrollable,
     scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
     props = _objectWithoutProperties$b(_ref2, _excluded2$6);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
     scrollable: false
   }));
-  console.log("panel body ", styles.string);
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
-    className: "".concat(styles.string, " p-6"),
+    className: "".concat(className, " ").concat(styles.string, " p-6"),
     scrollable: scrollable,
     width: "w-full",
     height: "h-full",
@@ -10113,6 +10116,8 @@ var PanelBody = function PanelBody(_ref2) {
 };
 var PanelFooter = function PanelFooter(_ref3) {
   var children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
     props = _objectWithoutProperties$b(_ref3, _excluded3$6);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -10121,13 +10126,12 @@ var PanelFooter = function PanelFooter(_ref3) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-6 border-t justify-between items-center ".concat(styles.string),
+    className: "flex flex-row rounded-b p-6 border-t justify-between items-center ".concat(className, " ").concat(styles.string),
     children: children
   });
 };
 var Panel = function Panel(_ref4) {
-  _ref4.className;
-    var _ref4$horizontal = _ref4.horizontal,
+  var _ref4$horizontal = _ref4.horizontal,
     horizontal = _ref4$horizontal === void 0 ? false : _ref4$horizontal,
     children = _ref4.children,
     _ref4$onClick = _ref4.onClick,
@@ -10142,6 +10146,8 @@ var Panel = function Panel(_ref4) {
     scrollable = _ref4$scrollable === void 0 ? true : _ref4$scrollable,
     _ref4$grow = _ref4.grow,
     grow = _ref4$grow === void 0 ? true : _ref4$grow,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className,
     props = _objectWithoutProperties$b(_ref4, _excluded4$2);
   // Fetch the Styles from the utility
   var _useContext4 = useContext$1(ThemeContext),
@@ -10154,7 +10160,7 @@ var Panel = function Panel(_ref4) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(styles.string, " ").concat(height, " rounded-lg overflow-hidden").concat(padding === true ? "p-6" : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " rounded-lg overflow-hidden").concat(padding === true ? "p-6" : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -10176,6 +10182,8 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
   var children = _ref5.children,
     _ref5$border = _ref5.border,
     border = _ref5$border === void 0 ? false : _ref5$border,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className,
     props = _objectWithoutProperties$b(_ref5, _excluded5$1);
   var _useContext5 = useContext$1(ThemeContext),
     currentTheme = _useContext5.currentTheme;
@@ -10184,7 +10192,7 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t p-4 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(styles.string),
+    className: "flex flex-row rounded-t p-4 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -10192,6 +10200,8 @@ var PanelBody2 = function PanelBody2(_ref6) {
   var children = _ref6.children,
     _ref6$scrollable = _ref6.scrollable,
     scrollable = _ref6$scrollable === void 0 ? false : _ref6$scrollable,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className,
     props = _objectWithoutProperties$b(_ref6, _excluded6$1);
   var _useContext6 = useContext$1(ThemeContext),
     currentTheme = _useContext6.currentTheme;
@@ -10200,7 +10210,7 @@ var PanelBody2 = function PanelBody2(_ref6) {
     height: "h-full"
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
-    className: "".concat(styles.string, " p-4"),
+    className: "".concat(className, " ").concat(styles.string, " p-4"),
     scrollable: scrollable,
     width: "w-full",
     height: "h-full",
@@ -10211,6 +10221,8 @@ var PanelBody2 = function PanelBody2(_ref6) {
 };
 var PanelFooter2 = function PanelFooter2(_ref7) {
   var children = _ref7.children,
+    _ref7$className = _ref7.className,
+    className = _ref7$className === void 0 ? "" : _ref7$className,
     props = _objectWithoutProperties$b(_ref7, _excluded7$1);
   var _useContext7 = useContext$1(ThemeContext),
     currentTheme = _useContext7.currentTheme;
@@ -10219,13 +10231,12 @@ var PanelFooter2 = function PanelFooter2(_ref7) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-4 justify-between items-center ".concat(styles.string),
+    className: "flex flex-row rounded-b p-4 justify-between items-center ".concat(className, " ").concat(styles.string),
     children: children
   });
 };
 var Panel2 = function Panel2(_ref8) {
-  _ref8.className;
-    var horizontal = _ref8.horizontal,
+  var horizontal = _ref8.horizontal,
     children = _ref8.children,
     _ref8$onClick = _ref8.onClick,
     onClick = _ref8$onClick === void 0 ? null : _ref8$onClick,
@@ -10237,6 +10248,8 @@ var Panel2 = function Panel2(_ref8) {
     padding = _ref8$padding === void 0 ? true : _ref8$padding,
     _ref8$scrollable = _ref8.scrollable,
     scrollable = _ref8$scrollable === void 0 ? true : _ref8$scrollable,
+    _ref8$className = _ref8.className,
+    className = _ref8$className === void 0 ? "" : _ref8$className,
     props = _objectWithoutProperties$b(_ref8, _excluded8$1);
   var _useContext8 = useContext$1(ThemeContext),
     currentTheme = _useContext8.currentTheme;
@@ -10247,7 +10260,7 @@ var Panel2 = function Panel2(_ref8) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(styles.string, " ").concat(padding === true ? "p-4" : "p-0", " ").concat(height, " rounded-md"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? "p-4" : "p-0", " ").concat(height, " rounded-md"),
     onClick: onClick,
     scrollable: scrollable,
     space: false,
@@ -10268,6 +10281,8 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
   var children = _ref9.children,
     _ref9$border = _ref9.border,
     border = _ref9$border === void 0 ? false : _ref9$border,
+    _ref9$className = _ref9.className,
+    className = _ref9$className === void 0 ? "" : _ref9$className,
     props = _objectWithoutProperties$b(_ref9, _excluded9$1);
   var _useContext9 = useContext$1(ThemeContext),
     currentTheme = _useContext9.currentTheme;
@@ -10276,7 +10291,7 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t p-2 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(styles.string),
+    className: "flex flex-row rounded-t p-2 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -10284,6 +10299,8 @@ var PanelBody3 = function PanelBody3(_ref10) {
   var children = _ref10.children,
     _ref10$scrollable = _ref10.scrollable,
     scrollable = _ref10$scrollable === void 0 ? false : _ref10$scrollable,
+    _ref10$className = _ref10.className,
+    className = _ref10$className === void 0 ? "" : _ref10$className,
     props = _objectWithoutProperties$b(_ref10, _excluded10$1);
   try {
     var _useContext10 = useContext$1(ThemeContext),
@@ -10292,7 +10309,7 @@ var PanelBody3 = function PanelBody3(_ref10) {
       scrollable: scrollable
     }));
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
-      className: "".concat(styles.string, " p-2"),
+      className: "".concat(className, " ").concat(styles.string, " p-2"),
       scrollable: scrollable,
       width: "w-full",
       height: "h-full",
@@ -10307,6 +10324,8 @@ var PanelBody3 = function PanelBody3(_ref10) {
 };
 var PanelFooter3 = function PanelFooter3(_ref11) {
   var children = _ref11.children,
+    _ref11$className = _ref11.className,
+    className = _ref11$className === void 0 ? "" : _ref11$className,
     props = _objectWithoutProperties$b(_ref11, _excluded11$1);
   var _useContext11 = useContext$1(ThemeContext),
     currentTheme = _useContext11.currentTheme;
@@ -10315,13 +10334,12 @@ var PanelFooter3 = function PanelFooter3(_ref11) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-2 justify-between items-center ".concat(styles.string),
+    className: "flex flex-row rounded-b p-2 justify-between items-center ".concat(className, " ").concat(styles.string),
     children: children
   });
 };
 var Panel3 = function Panel3(_ref12) {
-  _ref12.className;
-    var horizontal = _ref12.horizontal,
+  var horizontal = _ref12.horizontal,
     children = _ref12.children,
     _ref12$onClick = _ref12.onClick,
     onClick = _ref12$onClick === void 0 ? null : _ref12$onClick,
@@ -10333,6 +10351,8 @@ var Panel3 = function Panel3(_ref12) {
     padding = _ref12$padding === void 0 ? true : _ref12$padding,
     _ref12$scrollable = _ref12.scrollable,
     scrollable = _ref12$scrollable === void 0 ? true : _ref12$scrollable,
+    _ref12$className = _ref12.className,
+    className = _ref12$className === void 0 ? "" : _ref12$className,
     props = _objectWithoutProperties$b(_ref12, _excluded12$1);
   var _useContext12 = useContext$1(ThemeContext),
     currentTheme = _useContext12.currentTheme;
@@ -10343,7 +10363,7 @@ var Panel3 = function Panel3(_ref12) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$9(_objectSpread$9({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(styles.string, " ").concat(padding === true ? "p-2" : "p-0", " ").concat(height, " rounded"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? "p-2" : "p-0", " ").concat(height, " rounded"),
     onClick: onClick,
     scrollable: scrollable,
     space: false,
