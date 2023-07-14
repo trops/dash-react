@@ -7,7 +7,12 @@ import { LayoutContainer } from "@dash/Layout";
  * Panel
  */
 
-const PanelHeader = ({ children, border = false, ...props }) => {
+const PanelHeader = ({
+    children,
+    border = false,
+    className = "",
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
         ...props,
@@ -18,7 +23,7 @@ const PanelHeader = ({ children, border = false, ...props }) => {
         <div
             className={`flex flex-row rounded-t p-6 ${
                 border === true ? "border-b" : ""
-            } justify-between items-center ${styles.string}`}
+            } justify-between items-center ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -27,17 +32,22 @@ const PanelHeader = ({ children, border = false, ...props }) => {
 
 // PanelBody should not be scrollable, because the parent Panel container IS scrollable.
 
-const PanelBody = ({ children, scrollable = false, ...props }) => {
+const PanelBody = ({
+    children,
+    scrollable = false,
+    className = "",
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL, currentTheme, {
         ...props,
         scrollable: false,
     });
-    console.log("panel body ", styles.string);
+
     return (
         <LayoutContainer
             {...props}
-            className={`${styles.string} p-6`}
+            className={`${className} ${styles.string} p-6`}
             scrollable={scrollable}
             width={"w-full"}
             height={"h-full"}
@@ -49,7 +59,7 @@ const PanelBody = ({ children, scrollable = false, ...props }) => {
     );
 };
 
-const PanelFooter = ({ children, ...props }) => {
+const PanelFooter = ({ children, className = "", ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, {
         ...props,
@@ -58,7 +68,7 @@ const PanelFooter = ({ children, ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-6 border-t justify-between items-center ${styles.string}`}
+            className={`flex flex-row rounded-b p-6 border-t justify-between items-center ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -66,7 +76,6 @@ const PanelFooter = ({ children, ...props }) => {
 };
 
 const Panel = ({
-    className = "",
     horizontal = false,
     children,
     onClick = null,
@@ -75,6 +84,7 @@ const Panel = ({
     padding = true,
     scrollable = true, // this is the default for a panel
     grow = true,
+    className = "",
     ...props
 }) => {
     // Fetch the Styles from the utility
@@ -90,7 +100,9 @@ const Panel = ({
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
-            className={`${styles.string} ${height} rounded-lg overflow-hidden${
+            className={`${className} ${
+                styles.string
+            } ${height} rounded-lg overflow-hidden${
                 padding === true ? "p-6" : "p-0"
             }`}
             onClick={onClick}
@@ -112,7 +124,12 @@ Panel.Footer = PanelFooter;
  * Panel2
  */
 
-const PanelHeader2 = ({ children, border = false, ...props }) => {
+const PanelHeader2 = ({
+    children,
+    border = false,
+    className = "",
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_HEADER_2, currentTheme, {
         ...props,
@@ -123,14 +140,19 @@ const PanelHeader2 = ({ children, border = false, ...props }) => {
         <div
             className={`flex flex-row rounded-t p-4 ${
                 border === true ? "border-b" : ""
-            } justify-between items-center ${styles.string}`}
+            } justify-between items-center ${className} ${styles.string}`}
         >
             {children}
         </div>
     );
 };
 
-const PanelBody2 = ({ children, scrollable = false, ...props }) => {
+const PanelBody2 = ({
+    children,
+    scrollable = false,
+    className = "",
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, {
         ...props,
@@ -140,7 +162,7 @@ const PanelBody2 = ({ children, scrollable = false, ...props }) => {
     return (
         <LayoutContainer
             {...props}
-            className={`${styles.string} p-4`}
+            className={`${className} ${styles.string} p-4`}
             scrollable={scrollable}
             width={"w-full"}
             height={"h-full"}
@@ -152,7 +174,7 @@ const PanelBody2 = ({ children, scrollable = false, ...props }) => {
     );
 };
 
-const PanelFooter2 = ({ children, ...props }) => {
+const PanelFooter2 = ({ children, className = "", ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, {
         ...props,
@@ -161,7 +183,7 @@ const PanelFooter2 = ({ children, ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-4 justify-between items-center ${styles.string}`}
+            className={`flex flex-row rounded-b p-4 justify-between items-center ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -169,7 +191,6 @@ const PanelFooter2 = ({ children, ...props }) => {
 };
 
 const Panel2 = ({
-    className,
     horizontal,
     children,
     onClick = null,
@@ -177,6 +198,7 @@ const Panel2 = ({
     height = "",
     padding = true,
     scrollable = true,
+    className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -191,7 +213,7 @@ const Panel2 = ({
         <LayoutContainer
             {...props}
             direction={horizontal === true ? "row" : "col"}
-            className={`${styles.string} ${
+            className={`${className} ${styles.string} ${
                 padding === true ? "p-4" : "p-0"
             } ${height} rounded-md`}
             onClick={onClick}
@@ -214,7 +236,12 @@ Panel2.Footer = PanelFooter2;
  *
  */
 
-const PanelHeader3 = ({ children, border = false, ...props }) => {
+const PanelHeader3 = ({
+    children,
+    border = false,
+    className = "",
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_HEADER_3, currentTheme, {
         ...props,
@@ -226,14 +253,19 @@ const PanelHeader3 = ({ children, border = false, ...props }) => {
         <div
             className={`flex flex-row rounded-t p-2 ${
                 border === true ? "border-b" : ""
-            } justify-between items-center ${styles.string}`}
+            } justify-between items-center ${className} ${styles.string}`}
         >
             {children}
         </div>
     );
 };
 
-const PanelBody3 = ({ children, scrollable = false, ...props }) => {
+const PanelBody3 = ({
+    children,
+    scrollable = false,
+    className = "",
+    ...props
+}) => {
     try {
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
@@ -243,7 +275,7 @@ const PanelBody3 = ({ children, scrollable = false, ...props }) => {
         return (
             <LayoutContainer
                 {...props}
-                className={`${styles.string} p-2`}
+                className={`${className} ${styles.string} p-2`}
                 scrollable={scrollable}
                 width={"w-full"}
                 height={"h-full"}
@@ -259,7 +291,7 @@ const PanelBody3 = ({ children, scrollable = false, ...props }) => {
     }
 };
 
-const PanelFooter3 = ({ children, ...props }) => {
+const PanelFooter3 = ({ children, className = "", ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, {
         ...props,
@@ -268,7 +300,7 @@ const PanelFooter3 = ({ children, ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-2 justify-between items-center ${styles.string}`}
+            className={`flex flex-row rounded-b p-2 justify-between items-center ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -276,7 +308,6 @@ const PanelFooter3 = ({ children, ...props }) => {
 };
 
 const Panel3 = ({
-    className,
     horizontal,
     children,
     onClick = null,
@@ -284,6 +315,7 @@ const Panel3 = ({
     height = "",
     padding = true,
     scrollable = true,
+    className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -298,7 +330,7 @@ const Panel3 = ({
         <LayoutContainer
             {...props}
             direction={horizontal === true ? "row" : "col"}
-            className={`${styles.string} ${
+            className={`${className} ${styles.string} ${
                 padding === true ? "p-2" : "p-0"
             } ${height} rounded`}
             onClick={onClick}
