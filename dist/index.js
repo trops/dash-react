@@ -66,10 +66,15 @@ var WidgetApi = {
    * @param {object} events the payload for the event published
    */
   publishEvent: function publishEvent(name, events) {
-    if (this.pub() !== null && name !== null && events !== null) {
-      if ("pub" in this.pub()) {
-        this.pub().pub(name, events);
+    try {
+      console.log("trying to publish event ", name, events, this.pub());
+      if (this.pub() !== null && name !== null && events !== null) {
+        if ("pub" in this.pub()) {
+          this.pub().pub(name, events);
+        }
       }
+    } catch (e) {
+      console.log(e.message);
     }
   },
   /**
