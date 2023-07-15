@@ -73,12 +73,18 @@ export const WidgetApi = {
      * @param {object} handlers
      */
     registerListeners: function (listeners, handlers, uuid) {
-        if (this.pub() !== null && uuid !== null) {
-            if ("registerListeners" in this.pub()) {
-                if (this.pub()["registerListeners"] !== null) {
-                    this.pub().registerListeners(listeners, handlers, uuid);
+        try {
+            console.log("registering listeners ", listeners, handlers, uuid);
+            if (this.pub() !== null && uuid !== null) {
+                if ("registerListeners" in this.pub()) {
+                    if (this.pub()["registerListeners"] !== null) {
+                        console.log("we are inside!");
+                        this.pub().registerListeners(listeners, handlers, uuid);
+                    }
                 }
             }
+        } catch (e) {
+            console.log(e.message);
         }
     },
 
