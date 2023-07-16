@@ -37,14 +37,23 @@ const Template3 = (args) => {
         </MockWrapper>
     );
 };
+
+const Template4 = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <Tag3 {...args} />
+        </MockWrapper>
+    );
+};
+
 export const Primary = Template.bind({});
 export const Secondary = Template2.bind({});
 export const Tertiary = Template3.bind({});
+export const TertiaryClassName = Template4.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
     text: "Tag",
-    // backgroundColor: "bg-indigo-800",
     textColor: "text-gray-200",
 };
 
@@ -56,4 +65,10 @@ Secondary.args = {
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     text: "Tag 3",
+};
+
+TertiaryClassName.args = {
+    //👇 The args you need here will depend on your component
+    text: "Tag 3 Custom",
+    className: "bg-red-500 text-xl text-yellow-200 uppercase font-bold",
 };

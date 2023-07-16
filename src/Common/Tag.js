@@ -4,8 +4,9 @@ import { getStylesForItem, themeObjects } from "@dash/Utils";
 
 const Tag = ({
     text,
-    textSize = "text-xs xl:text-sm 2xl:text-sm",
+    textSize = "text-xs",
     onClick = null,
+    className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -14,14 +15,19 @@ const Tag = ({
         grow: false,
     });
 
+    // maybe we need to apply the className IF this exists?
+    // only allow the user to change the "style" not the structure
+    const stylesCalculated =
+        className !== ""
+            ? className
+            : `${styles.string} font-bold rounded ${
+                  onClick !== null && "cursor-pointer"
+              } ${textSize}`;
+
     return (
         <span
             onClick={onClick}
-            className={`flex flex-row w-fit rounded ${
-                onClick !== null && "cursor-pointer"
-            } ${
-                styles.string
-            } px-2 py-1 ${textSize} font-bold whitespace-nowrap items-center justify-center`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
         >
             {text}
         </span>
@@ -30,8 +36,9 @@ const Tag = ({
 
 const Tag2 = ({
     text,
-    textSize = "text-xs xl:text-sm 2xl:text-sm",
+    textSize = "text-xs",
     onClick = null,
+    className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -39,14 +46,22 @@ const Tag2 = ({
         ...props,
         grow: false,
     });
+
+    // maybe we need to apply the className IF this exists?
+    // only allow the user to change the "style" not the structure
+    // maybe we need to apply the className IF this exists?
+    // only allow the user to change the "style" not the structure
+    const stylesCalculated =
+        className !== ""
+            ? className
+            : `${styles.string} font-bold rounded ${
+                  onClick !== null && "cursor-pointer"
+              } ${textSize}`;
+
     return (
         <span
             onClick={onClick}
-            className={`flex flex-row w-fit rounded ${
-                onClick !== null && "cursor-pointer"
-            } ${
-                styles.string
-            } px-2 py-1 ${textSize} font-bold whitespace-nowrap items-center justify-center`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
         >
             {text}
         </span>
@@ -55,8 +70,9 @@ const Tag2 = ({
 
 const Tag3 = ({
     text,
-    textSize = "text-xs xl:text-sm 2xl:text-sm",
+    textSize = "text-xs",
     onClick = null,
+    className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -64,14 +80,20 @@ const Tag3 = ({
         ...props,
         grow: false,
     });
+
+    // maybe we need to apply the className IF this exists?
+    // only allow the user to change the "style" not the structure
+    const stylesCalculated =
+        className !== ""
+            ? className
+            : `${styles.string} font-bold rounded ${
+                  onClick !== null && "cursor-pointer"
+              } ${textSize}`;
+
     return (
         <span
             onClick={onClick}
-            className={`flex flex-row w-fit rounded ${
-                onClick !== null && "cursor-pointer"
-            } ${
-                styles.string
-            } px-2 py-1 ${textSize} font-bold whitespace-nowrap items-center justify-center`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
         >
             {text}
         </span>
