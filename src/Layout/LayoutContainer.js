@@ -13,7 +13,10 @@ export const LayoutContainer = ({
     space = true,
     grow = false,
     debug = false,
+    ...props
 }) => {
+    console.log("layout container props ", props);
+
     const containerId = getUUID(id);
     // get the styles
     const { currentTheme } = useContext(ThemeContext);
