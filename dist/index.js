@@ -7638,6 +7638,17 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
       });
     });
   }
+  function generateHeightFractions() {
+    // get the fraction variants for height
+    var fractions = tailwindHeightFractions();
+    return fractions.map(function (fractionObject) {
+      return /*#__PURE__*/jsx("option", {
+        name: fractionObject.name,
+        value: fractionObject.value,
+        children: fractionObject.fraction
+      });
+    });
+  }
   function handleUpdate(e) {
     try {
       var newItem = JSON.parse(JSON.stringify(itemSelected));
@@ -7729,6 +7740,7 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
       })]
     }, "config-item-".concat(key));
   }
+  console.log("height fractions ", generateHeightFractions());
   return itemSelected && /*#__PURE__*/jsxs("div", {
     className: "flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full",
     children: [/*#__PURE__*/jsx("div", {
@@ -7775,19 +7787,7 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
             children: [/*#__PURE__*/jsx("option", {
               value: "h-full",
               children: "Full Height"
-            }, "height-full"), /*#__PURE__*/jsx("option", {
-              value: "h-1/4 min-h-1/4",
-              children: "1/4"
-            }, "height-1-4"), /*#__PURE__*/jsx("option", {
-              value: "h-1/3 min-h-1/3",
-              children: "1/3"
-            }, "height-1-3"), /*#__PURE__*/jsx("option", {
-              value: "h-1/2 min-h-1/2",
-              children: "1/2"
-            }, "height-1-2"), /*#__PURE__*/jsx("option", {
-              value: "h-3/4 min-h-3/4",
-              children: "3/4"
-            }, "height-3-4"), /*#__PURE__*/jsx("option", {
+            }, "height-full"), generateHeightFractions(), /*#__PURE__*/jsx("option", {
               value: "h-fit",
               children: "Fit Content"
             }, "height-fit")]
@@ -9899,6 +9899,35 @@ function getBorderStyle(item) {
 //     isMaxOrderForItem,
 //     isMinOrderForItem
 // }
+
+/**
+ * Utils/css.js
+ *
+ * Utility functions for handling CSS generation
+ */
+
+/**
+ * tailwindHeightFractions
+ * Generate the height variants in fractions for tailwind
+ * @returns
+ */
+var tailwindHeightFractions = function tailwindHeightFractions() {
+  var numerators = [1, 2, 3, 4, 5, 6];
+  var denominators = [2, 3, 4, 5, 6];
+  var fractions = [];
+  denominators.forEach(function (denominator) {
+    numerators.forEach(function (numerator) {
+      if (numerator < denominator) {
+        fractions.push({
+          fraction: "".concat(numerator, "/").concat(denominator),
+          name: "height-".concat(numerator, "-").concat(denominator),
+          value: "h-".concat(numerator, "/").concat(denominator)
+        });
+      }
+    });
+  });
+  return fractions;
+};
 
 var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$PANEL, _themeObjects$PANEL_H, _themeObjects$PANEL_F, _themeObjects$PANEL_, _themeObjects$PANEL_H2, _themeObjects$PANEL_F2, _themeObjects$PANEL_2, _themeObjects$PANEL_H3, _themeObjects$PANEL_F3, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$HEADING, _themeObjects$HEADING2, _themeObjects$HEADING3, _themeObjects$SUBHEAD, _themeObjects$SUBHEAD2, _themeObjects$SUBHEAD3, _themeObjects$PARAGRA, _themeObjects$PARAGRA2, _themeObjects$PARAGRA3, _themeObjects$MENU_IT, _themeObjects$MENU_IT2, _themeObjects$MENU_IT3, _themeObjects$TAG, _themeObjects$TAG_, _themeObjects$TAG_2, _themeObjects$TOGGLE, _themeObjects$DASHBOA, _themeObjects$DASHBOA2, _themeObjects$DASHBOA3, _themeObjects$CODE_ED, _themeObjects$INPUT_T, _themeObjects$SELECT_, _themeObjects$DASH_PA, _themeObjects$DASH_PA2, _themeObjects$DASH_PA3, _themeObjects$DASH_PA4, _themeObjects$DASH_PA5, _themeObjects$DASH_PA6, _themeObjects$DASH_PA7, _themeObjects$DASH_PA8, _themeObjects$DASH_PA9, _colorMap;
 function _typeof$f(obj) { "@babel/helpers - typeof"; return _typeof$f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$f(obj); }
@@ -12689,4 +12718,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
