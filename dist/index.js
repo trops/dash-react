@@ -11244,9 +11244,9 @@ function CodeEditorInline(_ref) {
 }
 
 function _typeof$7(obj) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$7(obj); }
-var _excluded$5 = ["text", "textSize", "onClick"],
-  _excluded2$2 = ["text", "textSize", "onClick"],
-  _excluded3$2 = ["text", "textSize", "onClick"];
+var _excluded$5 = ["text", "textSize", "onClick", "className"],
+  _excluded2$2 = ["text", "textSize", "onClick", "className"],
+  _excluded3$2 = ["text", "textSize", "onClick", "className"];
 function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { _defineProperty$4(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$4(obj, key, value) { key = _toPropertyKey$7(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11257,54 +11257,74 @@ function _objectWithoutPropertiesLoose$5(source, excluded) { if (source == null)
 var Tag = function Tag(_ref) {
   var text = _ref.text,
     _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref$textSize,
+    textSize = _ref$textSize === void 0 ? "text-xs" : _ref$textSize,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$5(_ref, _excluded$5);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     grow: false
   }));
+
+  // maybe we need to apply the className IF this exists?
+  // only allow the user to change the "style" not the structure
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   return /*#__PURE__*/jsx("span", {
     onClick: onClick,
-    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
     children: text
   });
 };
 var Tag2 = function Tag2(_ref2) {
   var text = _ref2.text,
     _ref2$textSize = _ref2.textSize,
-    textSize = _ref2$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref2$textSize,
+    textSize = _ref2$textSize === void 0 ? "text-xs" : _ref2$textSize,
     _ref2$onClick = _ref2.onClick,
     onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
     props = _objectWithoutProperties$5(_ref2, _excluded2$2);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     grow: false
   }));
+
+  // maybe we need to apply the className IF this exists?
+  // only allow the user to change the "style" not the structure
+  // maybe we need to apply the className IF this exists?
+  // only allow the user to change the "style" not the structure
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   return /*#__PURE__*/jsx("span", {
     onClick: onClick,
-    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
     children: text
   });
 };
 var Tag3 = function Tag3(_ref3) {
   var text = _ref3.text,
     _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? "text-xs xl:text-sm 2xl:text-sm" : _ref3$textSize,
+    textSize = _ref3$textSize === void 0 ? "text-xs" : _ref3$textSize,
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
     props = _objectWithoutProperties$5(_ref3, _excluded3$2);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     grow: false
   }));
+
+  // maybe we need to apply the className IF this exists?
+  // only allow the user to change the "style" not the structure
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   return /*#__PURE__*/jsx("span", {
     onClick: onClick,
-    className: "flex flex-row w-fit rounded ".concat(onClick !== null && "cursor-pointer", " ").concat(styles.string, " px-2 py-1 ").concat(textSize, " font-bold whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
     children: text
   });
 };
