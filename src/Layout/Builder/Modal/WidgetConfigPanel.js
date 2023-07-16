@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SelectMenu, InputText, Button } from "@dash/Common";
+import { tailwindHeightFractions } from "@dash/Utils";
 
 export const WidgetConfigPanel = ({
     onSave = null,
@@ -49,6 +50,18 @@ export const WidgetConfigPanel = ({
                     }
                 })
                 .filter((p) => p !== null);
+        });
+    }
+
+    function generateHeightFractions() {
+        // get the fraction variants for height
+        const fractions = tailwindHeightFractions();
+        return fractions.map((fractionObject) => {
+            return (
+                <option name={fractionObject.name} value={fractionObject.value}>
+                    {fractionObject.fraction}
+                </option>
+            );
         });
     }
 
@@ -168,6 +181,7 @@ export const WidgetConfigPanel = ({
         );
     }
 
+    console.log("height fractions ", generateHeightFractions());
     return (
         itemSelected && (
             <div className="flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full">
@@ -204,6 +218,7 @@ export const WidgetConfigPanel = ({
                             <div className="text-xs text-gray-400 pb-2">
                                 The height of your Widget in the Layout.
                             </div>
+                            {/* {generateHeightFractions()} */}
                             <SelectMenu
                                 name={"height"}
                                 onChange={handleUpdate}
@@ -213,7 +228,8 @@ export const WidgetConfigPanel = ({
                                 <option key={"height-full"} value="h-full">
                                     Full Height
                                 </option>
-                                <option
+                                {generateHeightFractions()}
+                                {/* <option
                                     key={"height-1-4"}
                                     value="h-1/4 min-h-1/4"
                                 >
@@ -236,7 +252,7 @@ export const WidgetConfigPanel = ({
                                     value="h-3/4 min-h-3/4"
                                 >
                                     3/4
-                                </option>
+                                </option> */}
                                 <option key={"height-fit"} value="h-fit">
                                     Fit Content
                                 </option>
