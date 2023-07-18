@@ -7,11 +7,13 @@ import {
     SubHeading3,
     Paragraph3,
     Paragraph2,
+    Paragraph,
     MenuItem,
     Toggle,
 } from "@dash/Common";
 import { ThemeContext } from "@dash/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LayoutContainer } from "@dash/Layout";
 
 export const PanelWelcome = ({
     menuItems = [],
@@ -30,24 +32,27 @@ export const PanelWelcome = ({
     }, [theme, currentTheme, forceUpdate]);
 
     function renderWorkspaces() {
-        return workspaces.map((ws) => {
-            const isOrphan = workspaceIsOrphan(ws);
-            const icon = iconForMenuItem(ws.menuId);
-            return (
-                <MenuItem
-                    key={`workspace-${ws.id}`}
-                    onClick={() => onClickWorkspace(ws)}
-                >
-                    <Paragraph2 text={ws.name} />
-                    {isOrphan === true && (
-                        <FontAwesomeIcon icon="folder" className="pr-2" />
-                    )}
-                    {isOrphan === false && icon !== null && (
-                        <FontAwesomeIcon icon={icon} className="pr-2" />
-                    )}
-                </MenuItem>
-            );
-        });
+        return (
+            workspaces &&
+            workspaces.map((ws) => {
+                const isOrphan = workspaceIsOrphan(ws);
+                const icon = iconForMenuItem(ws.menuId);
+                return (
+                    <MenuItem
+                        key={`workspace-${ws.id}`}
+                        onClick={() => onClickWorkspace(ws)}
+                    >
+                        <Paragraph2 text={ws.name} />
+                        {isOrphan === true && (
+                            <FontAwesomeIcon icon="folder" className="pr-2" />
+                        )}
+                        {isOrphan === false && icon !== null && (
+                            <FontAwesomeIcon icon={icon} className="pr-2" />
+                        )}
+                    </MenuItem>
+                );
+            })
+        );
     }
 
     function workspaceIsOrphan(workspaceToCheck) {
@@ -77,11 +82,7 @@ export const PanelWelcome = ({
             <div
                 className={`flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center`}
             >
-                <Panel2
-                // className={
-                //     "items-center justify-center border-2 rounded-lg shadow"
-                // }
-                >
+                <Panel2>
                     <div className="flex flex-col w-full h-full overflow-hidden p-4">
                         <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
                             <div
@@ -119,12 +120,13 @@ export const PanelWelcome = ({
                                 </div>
                             </div>
                             <Panel3
-                                // className={`flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full p-10 overflow-hidden`}
                                 scrollable={false}
+                                space={true}
+                                direction={"col"}
                             >
                                 <Panel3.Header>
-                                    <SubHeading3
-                                        title={`You have ${menuItems.length} folders and ${workspaces.length} Dashboards created.`}
+                                    <Paragraph
+                                        text={`You have ${menuItems.length} folders and ${workspaces.length} Dashboards created.`}
                                         padding={false}
                                     />
                                     <ButtonIcon
@@ -134,29 +136,14 @@ export const PanelWelcome = ({
                                     />
                                 </Panel3.Header>
                                 <Panel3.Body>
-                                    {/* <div className="flex flex-row p-2 font-bold mb-4 justify-between items-center">
-                                        <SubHeading3
-                                            title={`You have ${menuItems.length} folders and ${workspaces.length} Dashboards created.`}
-                                            padding={false}
-                                        />
-                                        <ButtonIcon
-                                            icon="plus"
-                                            textSize={"text-lg"}
-                                            onClick={() =>
-                                                onClickCreateMenuItem()
-                                            }
-                                        />
-                                    </div> */}
-                                    {renderWorkspaces()}
-                                </Panel3.Body>
-                                {/* <Panel3
-                                    // className="flex flex-col space-y-4 py-4"
-                                    scrollable={true}
-                                >
-                                    <Panel3.Body>
+                                    <LayoutContainer
+                                        direction="col"
+                                        space={false}
+                                        className="space-y-1"
+                                    >
                                         {renderWorkspaces()}
-                                    </Panel3.Body>
-                                </Panel3> */}
+                                    </LayoutContainer>
+                                </Panel3.Body>
                             </Panel3>
                         </div>
                     </div>

@@ -11,7 +11,6 @@ export const MainSection = ({ children, backgroundColor = null }) => {
             : currentTheme !== null
             ? currentTheme["bg-primary-very-dark"]
             : "bg-black";
-    console.log("MAIN SECTION COLOR STYLE", backgroundColorStyle);
     return (
         currentTheme !== null && (
             <div
@@ -21,7 +20,4 @@ export const MainSection = ({ children, backgroundColor = null }) => {
             </div>
         )
     );
-    //  : (
-    //     <div className={`flex flex-col bg-gray-900 h-full overflow-hidden w-full`}>{children}</div>
-    // )
 };

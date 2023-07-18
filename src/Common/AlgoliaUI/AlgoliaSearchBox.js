@@ -12,9 +12,8 @@ export const AlgoliaSearchBox = ({
     ...props
 }) => {
     const { currentRefinement, refine, queryHook, query } = useSearchBox(props);
-    const { workspaceData } = useContext(WorkspaceContext);
-    const { widgetData } = useContext(WidgetContext);
-    console.log("ws data", workspaceData, widgetData);
+    // const { workspaceData } = useContext(WorkspaceContext);
+    // const { widgetData } = useContext(WidgetContext);
 
     useEffect(() => {
         onQueryChange && onQueryChange(query);

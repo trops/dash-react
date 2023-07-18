@@ -1,10 +1,21 @@
-import { AppWrapper, mock } from "@dash";
+import {
+    AppWrapper,
+    ThemeWrapper,
+    Dashboard,
+    MainSection,
+    mock,
+    ComponentManager,
+} from "@dash";
 import { AppContext, ThemeContext } from "../Context";
 // import "../tailwind.css";
 import { LayoutContainer, Widget, Workspace } from "..";
-
+import { Routes, Route, HashRouter } from "react-router-dom";
 import { InstantSearch } from "react-instantsearch-hooks-web";
 import algoliasearch from "algoliasearch";
+
+// Local Widgets that integrate with Dash
+import * as myWidgets from "../Widgets";
+import { mockApi } from "./api";
 
 const MockWrapper = ({
     apiMock = null,
@@ -215,4 +226,50 @@ const MockAlgolia = ({
     );
 };
 
-export { MockLayout, MockWrapper, MockWorkspace, MockAlgolia };
+const MockDashboard = ({
+    apiMock = null,
+    children,
+    backgroundColor = "bg-transparent",
+    ...props
+}) => {
+    // initialize the widgets
+    // do inside the dashboard?
+    // ComponentManager.init(dashWidgets);
+
+    // register the widgets in the Widgets directory for Mock purposes.
+    Object.keys(myWidgets).forEach((w) => {
+        ComponentManager.registerWidget(myWidgets[w], w);
+    });
+
+    function getAppContext() {
+        return {
+            ...mock,
+            creds: {
+                appId: "2345",
+            },
+            settings: {
+                theme: "theme-1",
+                debug: false,
+            },
+            debugMode: true,
+        };
+    }
+
+    return (
+        <HashRouter forceRefresh={true}>
+            <AppContext.Provider value={getAppContext()}>
+                <ThemeContext.Provider value={mock.theme.context}>
+                    <div className="flex flex-col w-screen h-screen overflow-hidden justify-between bg-red-500 p-0">
+                        <MainSection>
+                            <Routes>
+                                <Route path="/" element={children} />
+                            </Routes>
+                        </MainSection>
+                    </div>
+                </ThemeContext.Provider>
+            </AppContext.Provider>
+        </HashRouter>
+    );
+};
+
+export { MockLayout, MockWrapper, MockWorkspace, MockAlgolia, MockDashboard };

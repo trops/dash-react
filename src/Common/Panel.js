@@ -264,6 +264,7 @@ const PanelBody3 = ({
     children,
     scrollable = false,
     className = "",
+    space = true,
     ...props
 }) => {
     try {

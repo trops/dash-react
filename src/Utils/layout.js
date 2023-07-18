@@ -3,7 +3,9 @@ import {
     LayoutGridContainer,
     LayoutBuilderConfigMenuItem,
     LayoutBuilderConfigContainerMenuItem,
+    LayoutContainer,
 } from "@dash/Layout";
+import { Container } from "@dash";
 import { WidgetFactory } from "@dash/Widget";
 import { LayoutModel } from "@dash/Models";
 import { deepCopy } from "@dash/Utils";
@@ -253,6 +255,8 @@ export function renderComponent(component, id, params = {}, children = null) {
                 }
             }
 
+            //console.log("widget to render ", component);
+
             const WidgetToRender = WidgetFactory.render(
                 component,
                 `widget-${id}`,
@@ -262,7 +266,11 @@ export function renderComponent(component, id, params = {}, children = null) {
             return WidgetToRender ? (
                 WidgetToRender
             ) : (
-                <div className={`flex flex-col h-full`}>No</div>
+                <div
+                    className={`flex flex-col h-full justify-center w-full font-bold text-2xl items-center text-gray-200`}
+                >
+                    There was no Widget found
+                </div>
             );
         } else {
             return null;

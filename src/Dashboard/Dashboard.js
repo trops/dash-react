@@ -23,15 +23,14 @@ import { LayoutManagerModal } from "@dash/Layout";
 // import Notification from "../../Dashboard/common/Notification";
 import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
 
-export const Dashboard = ({ workspace = null, preview = true }) => {
+export const Dashboard = ({
+    dashApi = null, // use this API for the Dashboard (JS|Electron)
+    workspace = null,
+    preview = true,
+}) => {
     const { api, settings, creds } = useContext(AppContext);
     const { pub } = useContext(DashboardContext);
-    const {
-        currentTheme,
-        changeCurrentTheme,
-        changeThemesForApplication,
-        themesForApplication,
-    } = useContext(ThemeContext);
+    const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
 
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [isShowing, setIsShowing] = useState(false);
@@ -56,7 +55,14 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log("DASHBOARD ", menuItems, api, settings, workspaceConfig);
+        console.log(
+            "DASHBOARD ",
+            menuItems,
+            api,
+            settings,
+            workspaceConfig,
+            workspace
+        );
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
@@ -72,55 +78,63 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
         }
     }, [settings]);
 
-    // useEffect(() => {
-    //     console.log(menuItems);
-    //     if (menuItems.length === 0 && isLoadingMenuItems === false) {
-    //         setIsAddWidgetModalOpen(true);
-    //     }
-    // }, [menuItems]);
-
-    // function handleListenWorkspaceChange(message) {
-    //     console.log('workspace changed message ', message);
-    // }
-
     function loadWorkspaces() {
-        console.log("1. Loading Workspaces =========================");
-        setIsLoadingWorkspaces(() => true);
+        try {
+            console.log("1. Loading Workspaces =========================");
+            setIsLoadingWorkspaces(() => true);
 
-        api.removeAllListeners();
-        api.on(
-            api.events.WORKSPACE_LIST_COMPLETE,
-            handleLoadWorkspacesComplete
-        );
-        api.on(api.events.WORKSPACE_LIST_ERROR, handleLoadWorkspacesError);
+            /*
+            api.removeAllListeners();
+            api.on(
+                api.events.WORKSPACE_LIST_COMPLETE,
+                handleLoadWorkspacesComplete
+            );
+            api.on(api.events.WORKSPACE_LIST_ERROR, handleLoadWorkspacesError);
 
-        // API
-        api.workspace.listWorkspacesForApplication(creds.appId);
+            // API
+            api.workspace.listWorkspacesForApplication(creds.appId);
+            */
+
+            dashApi.listWorkspaces(
+                creds.appId,
+                handleLoadWorkspacesComplete,
+                handleLoadWorkspacesError
+            );
+        } catch (e) {
+            console.log("failed loadWorkspaces ", e.message);
+        }
     }
 
-    function handleLoadWorkspacesComplete(e, message) {
+    function handleLoadWorkspacesComplete(message) {
         console.log(
-            "2. Handle Load Workspaces Complete ======================"
+            "2. Handle Load Workspaces Complete ======================",
+            message
         );
-        // let's make sure we have the entire component configuration for each item?
-        const workspaces = deepCopy(message["workspaces"]);
-        const workspacesTemp = workspaces.map((ws) => {
-            // const layout = ws['layout'];
-            // push the LayoutModel back into the Widget here... (inflate)
-            const tempLayout = ws["layout"].map((layoutOG) => {
-                // console.log("layout OG ", layoutOG);
-                return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
+        try {
+            // let's make sure we have the entire component configuration for each item?
+            const workspaces = deepCopy(message["workspaces"]);
+            const workspacesTemp = workspaces.map((ws) => {
+                // const layout = ws['layout'];
+                // push the LayoutModel back into the Widget here... (inflate)
+                const tempLayout = ws["layout"].map((layoutOG) => {
+                    // console.log("layout OG ", layoutOG);
+                    return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
+                });
+                ws["layout"] = tempLayout;
+                return ws;
             });
-            ws["layout"] = tempLayout;
-            return ws;
-        });
 
-        // test the emit
-        pub.pub("dashboard.workspaceChange", { workspaces: workspacesTemp });
+            // test the emit
+            pub.pub("dashboard.workspaceChange", {
+                workspaces: workspacesTemp,
+            });
 
-        setWorkspaceConfig(() => workspacesTemp);
-        setIsLoadingWorkspaces(false);
-        forceUpdate();
+            setWorkspaceConfig(() => workspacesTemp);
+            setIsLoadingWorkspaces(false);
+            forceUpdate();
+        } catch (e) {
+            console.log("handle load workspaces complete ", e.message);
+        }
     }
 
     function handleLoadWorkspacesError(e, message) {
@@ -195,6 +209,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function renderMenuItems() {
+        console.log("menu items ", menuItems);
         return (
             menuItems !== undefined &&
             menuItems.length > 0 &&
@@ -224,21 +239,38 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
     }
 
     function loadMenuItems() {
-        setIsLoadingMenuItems(() => true);
-        // we have to remove the widgetConfig which contains the component
-        // sanitize the workspace layout remove widgetConfig items
-        // api.removeAllListeners();
-        api.on(api.events.MENU_ITEMS_LIST_COMPLETE, handleListMenuItemComplete);
-        api.on(api.events.MENU_ITEMS_LIST_ERROR, handleListMenuItemError);
+        try {
+            setIsLoadingMenuItems(() => true);
+            // we have to remove the widgetConfig which contains the component
+            // sanitize the workspace layout remove widgetConfig items
+            // api.removeAllListeners();
+            // api.on(
+            //     api.events.MENU_ITEMS_LIST_COMPLETE,
+            //     handleListMenuItemComplete
+            // );
+            // api.on(api.events.MENU_ITEMS_LIST_ERROR, handleListMenuItemError);
 
-        api.menuItems.listMenuItems(creds.appId);
+            // api.menuItems.listMenuItems(creds.appId);
+            dashApi.listMenuItems(
+                creds.appId,
+                handleListMenuItemComplete,
+                handleListMenuItemError
+            );
+        } catch (e) {
+            console.log("Error loading menu items", e.message);
+        }
     }
 
-    function handleListMenuItemComplete(e, message) {
-        setMenuItems(() => message.menuItems);
-        setIsLoadingMenuItems(() => false);
-        if (message.menuItems.length === 0) setIsAddWidgetModalOpen(true);
-        forceUpdate();
+    function handleListMenuItemComplete(message) {
+        try {
+            console.log("list menu items complete ", message);
+            setMenuItems(() => message.menuItems);
+            setIsLoadingMenuItems(() => false);
+            if (message.menuItems.length === 0) setIsAddWidgetModalOpen(true);
+            forceUpdate();
+        } catch (e) {
+            console.log("handle list menu items error ", e.message);
+        }
     }
 
     function handleListMenuItemError(e, message) {
@@ -351,7 +383,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                 >
                     <DndProvider backend={HTML5Backend}>
                         <div
-                            className={`flex flex-col space-y-1 ${currentTheme["bg-secondary-very-dark"]} p-2 items-center} h-full z-40 justify-between`}
+                            className={`flex flex-col space-y-1 ${currentTheme["bg-secondary-very-dark"]} p-2 items-center h-full z-40 justify-between`}
                         >
                             <div className="flex flex-col">
                                 <div className="w-10 h-10 items-center justify-center">
@@ -440,7 +472,7 @@ export const Dashboard = ({ workspace = null, preview = true }) => {
                             </LayoutContainer>
                         )}
 
-                        {workspaceSelected === null && (
+                        {workspaceSelected === null && workspaceConfig && (
                             <PanelWelcome
                                 menuItems={menuItems}
                                 workspaces={workspaceConfig}
