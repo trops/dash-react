@@ -6,13 +6,14 @@ import { themeObjects } from "@dash/Utils/themeObjects";
 
 const ButtonIcon = ({
     onClick = null,
-    icon = "xmark",
-    text = null,
+    icon = "",
+    text = "",
     block = false,
-    textSize = "text-xs lg:text-base 2xl:text-base",
+    textSize = "text-xs lg:text-base",
     iconSize = "h-4 w-4",
     backgroundColor = null,
     disabled = false,
+    className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -32,14 +33,28 @@ const ButtonIcon = ({
     const disabledStyles =
         onClick !== null && disabled === false && "cursor-pointer";
 
+    const spaceBetweenStyles =
+        icon !== "" && text !== ""
+            ? "space-x-1 px-4"
+            : text === ""
+            ? "space-x-0 px-0"
+            : "space-x-0 px-4";
+
     return (
         <div
             onClick={handleOnClick}
-            className={`flex flex-row ${styles.string} rounded font-medium items-center justify-center p-2 ${textSize} ${disabledStyles} whitespace-nowrap`}
+            className={`flex flex-row ${className} ${styles.string} rounded font-medium items-center justify-center ${spaceBetweenStyles} ${textSize} ${disabledStyles} whitespace-nowrap`}
         >
-            <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
+            {icon !== "" && (
+                <span className={`${text === "" && "p-2"}`}>
+                    <FontAwesomeIcon
+                        icon={icon}
+                        className={`${iconSize} justify-center items-center`}
+                    />
+                </span>
+            )}
             {text !== null && (
-                <span className={text === "" ? "ml-0" : "ml-2"}>{text}</span>
+                <span className={icon === "" ? "mx-0" : "mx-0"}>{text}</span>
             )}
         </div>
     );
@@ -47,8 +62,8 @@ const ButtonIcon = ({
 
 const ButtonIcon2 = ({
     onClick = null,
-    icon = "xmark",
-    text = null,
+    icon = "",
+    text = "",
     block = false,
     textSize = "text-xs lg:text-base 2xl:text-base",
     iconSize = "h-4 w-4",
@@ -73,12 +88,15 @@ const ButtonIcon2 = ({
     const disabledStyles =
         onClick !== null && disabled === false && "cursor-pointer";
 
+    const spaceBetweenStyles =
+        icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
+
     return (
         <div
             onClick={handleOnClick}
             className={`flex flex-row  ${
                 styles.string
-            } rounded font-medium items-center justify-center ${disabledStyles} p-2 ${textSize} ${
+            } rounded font-medium items-center justify-center ${spaceBetweenStyles} ${disabledStyles} p-2 ${textSize} ${
                 block && "w-full"
             } whitespace-nowrap`}
         >
@@ -92,8 +110,8 @@ const ButtonIcon2 = ({
 
 const ButtonIcon3 = ({
     onClick = null,
-    icon = "xmark",
-    text = null,
+    icon = "",
+    text = "",
     block = false,
     textSize = "text-xs lg:text-base 2xl:text-base",
     iconSize = "h-4 w-4",
@@ -117,6 +135,9 @@ const ButtonIcon3 = ({
     const disabledStyles =
         onClick !== null && disabled === false && "cursor-pointer";
 
+    const spaceBetweenStyles =
+        icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
+
     // center styles
     const center = "justify-center items-center cursor-pointer";
 
@@ -125,7 +146,7 @@ const ButtonIcon3 = ({
             onClick={handleOnClick}
             className={`flex flex-row ${
                 styles.string
-            } rounded font-medium ${center} ${disabledStyles} p-2 ${textSize} ${
+            } rounded font-medium ${center} ${spaceBetweenStyles} ${disabledStyles} p-2 ${textSize} ${
                 block === true && "w-full"
             } ${styles.string} whitespace-nowrap`}
         >

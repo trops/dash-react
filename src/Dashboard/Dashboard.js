@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { MainMenu, MenuSlideOverlay } from "@dash/Menu";
 import { LayoutContainer } from "@dash/Layout";
-import { ButtonIcon } from "@dash/Common";
 import { LayoutBuilder } from "@dash/Layout";
 import {
     DashboardContext,
-    AppContext,
     ThemeContext,
     DashboardWrapper,
 } from "@dash/Context";
@@ -18,18 +15,23 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DashboardHeader, DashboardFooter } from "@dash/Dashboard";
 import { PanelWelcome } from "./Panel/PanelWelcome";
-import { LayoutManagerModal } from "@dash/Layout";
+// import { LayoutManagerModal } from "@dash/Layout";
 
 // import Notification from "../../Dashboard/common/Notification";
 import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
 
 export const Dashboard = ({
-    dashApi = null, // use this API for the Dashboard (JS|Electron)
+    dashApi, // use this API for the Dashboard (JS|Electron)
+    credentials = null,
     workspace = null,
     preview = true,
 }) => {
-    const { api, settings, creds } = useContext(AppContext);
+    // const { api, settings, creds } = useContext(AppContext);
     const { pub } = useContext(DashboardContext);
+
+    /**
+     * ThemeContext
+     */
     const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
 
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
@@ -58,9 +60,11 @@ export const Dashboard = ({
         console.log(
             "DASHBOARD ",
             menuItems,
-            api,
-            settings,
+            dashApi,
+            pub,
+            //settings,
             workspaceConfig,
+            workspaceSelected,
             workspace
         );
         isLoadingWorkspaces === false && loadWorkspaces();
@@ -71,12 +75,13 @@ export const Dashboard = ({
     //     // forceUpdate();
     // }, [themesForApplication]);
 
-    useEffect(() => {
-        console.log("dashboard settings ", settings);
-        if (!settings) {
-            setIsSettingsModalOpen(true);
-        }
-    }, [settings]);
+    // useEffect(() => {
+    //     console.log("dashboard settings ", settings);
+    //     if (!settings) {
+    //         console.log("loading settings");
+    //         setIsSettingsModalOpen(true);
+    //     }
+    // }, [settings]);
 
     function loadWorkspaces() {
         try {
@@ -96,7 +101,7 @@ export const Dashboard = ({
             */
 
             dashApi.listWorkspaces(
-                creds.appId,
+                credentials.appId,
                 handleLoadWorkspacesComplete,
                 handleLoadWorkspacesError
             );
@@ -133,7 +138,7 @@ export const Dashboard = ({
             setIsLoadingWorkspaces(false);
             forceUpdate();
         } catch (e) {
-            console.log("handle load workspaces complete ", e.message);
+            console.log("handle load workspaces complete ERROR", e.message);
         }
     }
 
@@ -240,6 +245,7 @@ export const Dashboard = ({
 
     function loadMenuItems() {
         try {
+            console.log("loading menu items", credentials);
             setIsLoadingMenuItems(() => true);
             // we have to remove the widgetConfig which contains the component
             // sanitize the workspace layout remove widgetConfig items
@@ -252,7 +258,7 @@ export const Dashboard = ({
 
             // api.menuItems.listMenuItems(creds.appId);
             dashApi.listMenuItems(
-                creds.appId,
+                credentials.appId,
                 handleListMenuItemComplete,
                 handleListMenuItemError
             );
@@ -281,10 +287,17 @@ export const Dashboard = ({
     function handleSaveNewMenuItem(menuItem) {
         // we have to remove the widgetConfig which contains the component
         // sanitize the workspace layout remove widgetConfig items
-        api.removeAllListeners();
-        api.on(api.events.MENU_ITEMS_SAVE_COMPLETE, handleSaveMenuItemComplete);
-        api.on(api.events.MENU_ITEMS_SAVE_ERROR, handleSaveMenuItemError);
-        api.menuItems.saveMenuItem(creds.appId, menuItem);
+        // api.removeAllListeners();
+        // api.on(api.events.MENU_ITEMS_SAVE_COMPLETE, handleSaveMenuItemComplete);
+        // api.on(api.events.MENU_ITEMS_SAVE_ERROR, handleSaveMenuItemError);
+        // api.menuItems.saveMenuItem(creds.appId, menuItem);
+
+        dashApi.saveMenuItem(
+            appId,
+            menuItem,
+            handleSaveMenuItemComplete,
+            handleSaveMenuItemError
+        );
     }
 
     function handleSaveMenuItemComplete(e, message) {
@@ -324,16 +337,23 @@ export const Dashboard = ({
             // lets set a version so that we can compare...
             workspaceToSave["version"] = Date.now();
 
-            api.removeAllListeners();
-            api.on(
-                api.events.WORKSPACE_SAVE_COMPLETE,
-                handleSaveWorkspaceComplete
-            );
-            api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
+            // api.removeAllListeners();
+            // api.on(
+            //     api.events.WORKSPACE_SAVE_COMPLETE,
+            //     handleSaveWorkspaceComplete
+            // );
+            // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
-            api.workspace.saveWorkspaceForApplication(
-                creds.appId,
-                workspaceToSave
+            // api.workspace.saveWorkspaceForApplication(
+            //     creds.appId,
+            //     workspaceToSave
+            // );
+
+            dashApi.saveWorkspace(
+                credentials.appId,
+                workspaceToSave,
+                handleSaveWorkspaceComplete,
+                handleSaveWorkspaceError
             );
         } catch (e) {
             console.log(e.message);
@@ -368,10 +388,10 @@ export const Dashboard = ({
         setIsThemeManagerOpen(true);
     }
 
+    console.log(menuItems, currentTheme);
     return (
-        menuItems &&
-        currentTheme && (
-            <DashboardWrapper>
+        menuItems && (
+            <DashboardWrapper dashApi={dashApi} credentials={credentials}>
                 <LayoutContainer
                     padding={false}
                     space={true}
@@ -382,10 +402,10 @@ export const Dashboard = ({
                     grow={true}
                 >
                     <DndProvider backend={HTML5Backend}>
-                        <div
-                            className={`flex flex-col space-y-1 ${currentTheme["bg-secondary-very-dark"]} p-2 items-center h-full z-40 justify-between`}
-                        >
-                            <div className="flex flex-col">
+                        {/* <div
+                            className={`flex flex-col space-y-1 p-2 items-center h-full z-40 justify-between`}
+                        > */}
+                        {/* <div className="flex flex-col">
                                 <div className="w-10 h-10 items-center justify-center">
                                     <ButtonIcon
                                         icon="home"
@@ -395,8 +415,8 @@ export const Dashboard = ({
                                     />
                                 </div>
                                 {menuItems && renderMenuItems()}
-                            </div>
-                            <div className="flex flex-col">
+                            </div> */}
+                        {/* <div className="flex flex-col">
                                 <div className="w-10 h-10 items-center justify-center">
                                     <ButtonIcon
                                         icon="plus"
@@ -426,8 +446,8 @@ export const Dashboard = ({
                                         }
                                     />
                                 </div>
-                            </div>
-                        </div>
+                            </div> */}
+                        {/* </div> */}
 
                         {workspaceSelected !== null && (
                             // <div className="flex flex-col h-full w-full justify-between overflow-hidden">
@@ -466,6 +486,16 @@ export const Dashboard = ({
                                         workspace={workspaceSelected}
                                         preview={previewMode}
                                         onSaveChanges={handleClickSaveWorkspace}
+                                        onNewMenuItem={handleAddNewMenuItem}
+                                        onOpenThemeManager={
+                                            handleOpenThemeManager
+                                        }
+                                        onHome={() =>
+                                            setWorkspaceSelected(null)
+                                        }
+                                        onOpenSettings={() =>
+                                            setIsSettingsModalOpen(true)
+                                        }
                                     />
                                 )}
                                 {/* </div> */}
@@ -480,9 +510,18 @@ export const Dashboard = ({
                                 onClickCreateMenuItem={() =>
                                     setIsAddWidgetModalOpen(true)
                                 }
+                                onNewMenuItem={handleAddNewMenuItem}
+                                onOpenThemeManager={handleOpenThemeManager}
+                                onHome={() => setWorkspaceSelected(null)}
+                                onOpenSettings={() =>
+                                    setIsSettingsModalOpen(true)
+                                }
+                                onClickNew={handleClickNew}
+                                onClickNewWorkspace={handleClickNew}
+                                selectedMainItem={selectedMainItem}
                             />
                         )}
-                        <MenuSlideOverlay
+                        {/* <MenuSlideOverlay
                             workspaces={workspaceConfig}
                             open={isShowing}
                             setOpen={setIsShowing}
@@ -499,7 +538,7 @@ export const Dashboard = ({
                                     handleWorkspaceMenuChange
                                 }
                             />
-                        </MenuSlideOverlay>
+                        </MenuSlideOverlay> */}
 
                         <AddMenuItemModal
                             open={isAddItemModalOpen}

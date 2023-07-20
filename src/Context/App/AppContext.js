@@ -8,4 +8,7 @@
  */
 import { createContext } from "react";
 
-export const AppContext = createContext({ debugMode: false });
+export const AppContext = createContext({
+    settings: { theme: null },
+    debugMode: false,
+});

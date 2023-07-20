@@ -39,9 +39,9 @@ export const themes = {
 
 export const mockThemeContext = {
     key: Date.now(),
-    currentTheme: ThemeModel(themes["theme-1"])["dark"],
+    currentTheme: null, //ThemeModel(themes["theme-1"])["dark"],
     currentThemeKey: "theme-1",
-    theme: ThemeModel(themes["theme-1"]["dark"]),
+    theme: null, //ThemeModel(themes["theme-1"]["dark"]),
     themeKey: "theme-1",
     themeVariant: "dark",
     changeCurrentTheme: function () {},

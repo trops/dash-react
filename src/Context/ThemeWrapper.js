@@ -45,7 +45,7 @@ const themes = {
 
 export const ThemeWrapper = ({ theme = null, children }) => {
     // changeApplicationTheme will save this to the settings config
-    const { api, creds, changeApplicationTheme } = useContext(AppContext);
+    const { dashApi, credentials } = useContext(AppContext);
 
     const [chosenTheme, setChosenTheme] = useState(theme);
     const [themeName, setThemeName] = useState(null);
@@ -56,23 +56,35 @@ export const ThemeWrapper = ({ theme = null, children }) => {
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
+    console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials);
+
     useEffect(() => {
         // If the user has provided a theme as a override,
         // we can skip loading the themes...
 
+        // console.log(
+        //     "THEME WRAPPER ",
+        //     chosenTheme,
+        //     dashApi,
+        //     credentials,
+        //     themesForApplication
+        // );
+
         if (chosenTheme === null) {
-            //&& themesForApplication !== null) {
             if (theme !== null) {
                 const defaultTheme = ThemeModel(theme);
                 setThemeVariant(() => "dark");
                 setChosenTheme(() => defaultTheme);
             } else {
+                console.log("THEME IS NULL");
                 // if the themes for application is null...
                 // we have to load the themes...
                 if (themesForApplication === null) {
                     // finally
+                    console.log("load the themes");
                     themesForApplication === null && loadThemes();
                 } else {
+                    console.log("THEME HERE");
                     const themeKeyDefault =
                         themesForApplication !== null
                             ? Object.keys(themesForApplication)[0]
@@ -86,18 +98,33 @@ export const ThemeWrapper = ({ theme = null, children }) => {
                     setChosenTheme(() => defaultTheme);
                 }
             }
+        } else {
+            // we have a theme chosen but need to load the application themes overall...
+            if (themesForApplication === null) loadThemes();
         }
-    });
+    }, [dashApi, credentials, chosenTheme]);
 
+    /**
+     * loadThemes
+     * Load in the themes for this application
+     */
     function loadThemes() {
-        if (api && creds) {
-            api.removeAllListeners();
-            api.on(api.events.THEME_LIST_COMPLETE, handleLoadThemesComplete);
-            api.on(api.events.THEME_LIST_ERROR, handleLoadThemesError);
-            api.themes.listThemesForApplication(creds.appId);
+        console.log("load themes", dashApi);
+        if (dashApi && credentials) {
+            // api.removeAllListeners();
+            // api.on(api.events.THEME_LIST_COMPLETE, handleLoadThemesComplete);
+            // api.on(api.events.THEME_LIST_ERROR, handleLoadThemesError);
+            // api.themes.listThemesForApplication(creds.appId);
+            if (dashApi) {
+                dashApi.listThemes(
+                    credentials.appId,
+                    handleLoadThemesComplete,
+                    handleLoadThemesError
+                );
+            }
         } else {
             console.log("no api found");
-            checkThemes(api.themes.listThemesForApplication());
+            // checkThemes(dashA);
         }
     }
 
@@ -108,12 +135,13 @@ export const ThemeWrapper = ({ theme = null, children }) => {
      * @param {*} e
      * @param {*} message
      */
-    function handleLoadThemesComplete(e, message) {
+    function handleLoadThemesComplete(message) {
+        console.log("themes complete", message);
         if ("themes" in message) {
             checkThemes(message["themes"]);
-            if (theme === null) {
-                changeCurrentTheme(Object.keys(message["themes"])[0]);
-            }
+            // if (theme === null) {
+            //     changeCurrentTheme(Object.keys(message["themes"])[0]);
+            // }
         }
     }
 
@@ -149,12 +177,17 @@ export const ThemeWrapper = ({ theme = null, children }) => {
                 //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
                 // }
 
+                console.log(
+                    "themes complete checked ",
+                    themesChecked,
+                    chosenTheme
+                );
                 setThemesForApplication(() => themesChecked);
                 setRawThemes(() => rawThemes);
                 forceUpdate();
 
-                if (chosenTheme === null) {
-                    changeCurrentTheme(Object.keys(themesForApplication)[0]);
+                if (!chosenTheme) {
+                    changeCurrentTheme(Object.keys(themesChecked)[0]);
                 }
             }
         }
@@ -166,6 +199,7 @@ export const ThemeWrapper = ({ theme = null, children }) => {
     }
 
     const changeCurrentTheme = (themeKey) => {
+        console.log("changing current theme ", themeKey);
         if (rawThemes !== null) {
             console.log("changing theme to ", themeKey);
             const themeData = ThemeModel(rawThemes[themeKey]);
@@ -187,30 +221,35 @@ export const ThemeWrapper = ({ theme = null, children }) => {
     };
 
     const getValue = () => {
-        return {
-            key: Date.now(),
-            currentTheme:
-                chosenTheme !== null
-                    ? themeVariant in chosenTheme
-                        ? chosenTheme[themeVariant]
-                        : null
-                    : null,
-            currentThemeKey: themeName,
-            theme:
-                chosenTheme !== null
-                    ? themeVariant in chosenTheme
-                        ? chosenTheme[themeVariant]
-                        : null
-                    : null,
-            themeKey: themeName,
-            themeVariant,
-            changeCurrentTheme,
-            changeThemeVariant,
-            changeThemesForApplication,
-            loadThemes,
-            themes: themesForApplication,
-            rawThemes,
-        };
+        try {
+            return {
+                key: Date.now(),
+                currentTheme:
+                    chosenTheme !== null
+                        ? themeVariant in chosenTheme
+                            ? chosenTheme[themeVariant]
+                            : null
+                        : null,
+                currentThemeKey: themeName,
+                theme:
+                    chosenTheme !== null
+                        ? themeVariant in chosenTheme
+                            ? chosenTheme[themeVariant]
+                            : null
+                        : null,
+                themeKey: themeName,
+                themeVariant,
+                changeCurrentTheme,
+                changeThemeVariant,
+                changeThemesForApplication,
+                loadThemes,
+                themes: themesForApplication,
+                rawThemes,
+            };
+        } catch (e) {
+            console.log(e);
+            return {};
+        }
     };
 
     return (

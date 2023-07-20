@@ -1,15 +1,21 @@
 import React, { useContext } from "react";
-import { Button } from "@dash/Common";
+import { ButtonIcon, SubHeading3 } from "@dash/Common";
 import { ThemeContext } from "@dash/Context";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
+import { LayoutContainer } from "..";
 
 export const DashboardFooter = ({
+    workspace,
     preview,
     backgroundColor = null,
     borderColor = null,
     textColor = null,
     onClickEdit = null,
     onSaveChanges = null,
+    onNewMenuItem = null,
+    onOpenThemeManager = null,
+    onOpenSettings = null,
+    onHome = null,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const stylesFooter = getStylesForItem(
@@ -17,47 +23,106 @@ export const DashboardFooter = ({
         currentTheme,
         { borderColor, grow: false }
     );
-    const stylesButton = getStylesForItem(themeObjects.BUTTON, currentTheme, {
-        backgroundColor,
-        borderColor,
-        textColor,
-    });
+    const stylesButton = getStylesForItem(
+        themeObjects.DASHBOARD_FOOTER,
+        currentTheme,
+        {
+            backgroundColor,
+            borderColor,
+            textColor,
+        }
+    );
+
+    const handleAddNewMenuItem = () => {
+        onNewMenuItem && onNewMenuItem();
+    };
+
+    const handleOpenThemeManager = () => {
+        onOpenThemeManager && onOpenThemeManager();
+    };
+
+    const handleOpenSettings = () => {
+        onOpenSettings && onOpenSettings();
+    };
+
+    const handleHome = () => {
+        onHome && onHome();
+    };
+
+    console.log("DS workspace ", workspace);
 
     return (
-        <div
-            className={`flex flex-row p-2 justify-end border-t w-full ${stylesFooter.string}`}
+        // <div
+        //     className={`flex flex-row p-2 border-t w-full justify-between ${stylesFooter.string}`}
+        // >
+        <LayoutContainer
+            direction="row"
+            grow={false}
+            space={true}
+            className={`p-2 border-t ${stylesFooter.string}`}
         >
-            <div className="flex flex-row space-x-1 w-full justify-end">
+            <div className="flex flex-row justify-between w-full">
+                <div className="flex flex-row space-x-4">
+                    <div className="w-10 h-10 items-center justify-center">
+                        <ButtonIcon icon="arrow-left" onClick={handleHome} />
+                    </div>
+                    <div className="flex flex-row justify-center items-center">
+                        <SubHeading3
+                            title={workspace.name}
+                            padding={false}
+                            className="text-gray-700 font-bold text-base"
+                        />
+                    </div>
+                    {/* <div className="w-10 h-10 items-center justify-center">
+                        <ButtonIcon
+                            icon="plus"
+                            onClick={handleAddNewMenuItem}
+                            hoverBackgroundColor={"hover:bg-green-700"}
+                        />
+                    </div>
+                    <div className="w-10 h-10 items-center justify-center">
+                        <ButtonIcon
+                            icon="palette"
+                            onClick={handleOpenThemeManager}
+                            hoverBackgroundColor={"hover:bg-orange-700"}
+                        />
+                    </div>
+                    <div className="w-10 h-10 items-center justify-center">
+                        <ButtonIcon
+                            icon="computer"
+                            onClick={handleOpenSettings}
+                            hoverBackgroundColor={"hover:bg-orange-700"}
+                        />
+                    </div> */}
+                </div>
                 {preview === true && (
-                    <div className="flex flex-row space-x-2">
-                        <Button
-                            title={"Edit"}
-                            textSize={"text-lg"}
-                            padding={"py-2 px-4"}
+                    <div className="flex flex-row space-x-1">
+                        <ButtonIcon
+                            text={"Edit"}
                             onClick={onClickEdit}
-                            {...stylesButton}
+                            hoverBackgroundColor={"hover:bg-indigo-700"}
                         />
                     </div>
                 )}
+
                 {preview === false && (
-                    <div className="flex flex-row space-x-2 block">
-                        <Button
-                            title={"Cancel"}
-                            textSize={"text-lg"}
-                            padding={"py-2 px-4"}
+                    <div className="flex flex-row space-x-1">
+                        <ButtonIcon
+                            icon={"x-mark"}
+                            text={"Cancel"}
                             onClick={onClickEdit}
-                            {...stylesButton}
+                            hoverBackgroundColor={"hover:bg-indigo-700"}
                         />
-                        <Button
-                            title={"Save Changes"}
-                            textSize={"text-lg"}
-                            padding={"py-2 px-4"}
+                        <ButtonIcon
+                            icon="x-mark"
+                            text={"Save Changes"}
                             onClick={onSaveChanges}
-                            {...stylesButton}
+                            hoverBackgroundColor={"hover:bg-green-700"}
                         />
                     </div>
                 )}
             </div>
-        </div>
+            {/* </div> */}
+        </LayoutContainer>
     );
 };

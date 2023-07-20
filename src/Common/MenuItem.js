@@ -130,7 +130,7 @@ const MenuItem3 = ({
             onClick={onClick}
             className={`flex flex-row font-normal ${styles.string} ${
                 border === true && "border"
-            } p-2 px-4 rounded items-center space-x-2 cursor-pointer text-sm`}
+            } p-2 rounded items-center space-x-2 cursor-pointer text-sm`}
         >
             {children}
         </div>
@@ -139,7 +139,7 @@ const MenuItem3 = ({
             onClick={onClick}
             className={`flex flex-row font-normal ${backgroundColor} ${borderColor} ${textColor} ${
                 border === true && "border"
-            } p-2 px-4 rounded items-center space-x-2 cursor-pointer text-sm`}
+            } rounded items-center space-x-2 cursor-pointer text-sm`}
         >
             {children}
         </div>

@@ -38,6 +38,9 @@ import {
     faBabyCarriage,
     faPalette,
     faComputer,
+    faSun,
+    faMoon,
+    faFolderPlus,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
     faHome,
@@ -78,7 +81,10 @@ library.add(
     faEarListen,
     faSignal,
     faPalette,
-    faComputer
+    faComputer,
+    faSun,
+    faMoon,
+    faFolderPlus
 );
 
 export * from "./Api";

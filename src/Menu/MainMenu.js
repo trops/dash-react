@@ -11,9 +11,11 @@ import { deepCopy } from "@dash/Utils";
 import { InputText } from "@dash/Common/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeContext } from "@dash/Context";
+import { LayoutContainer } from "..";
 
 const MainMenuConst = ({
-    onClick = null,
+    onClickNewWorkspace = null,
+    onCreateNewFolder,
     active,
     menuItems,
     workspaces,
@@ -34,19 +36,25 @@ const MainMenuConst = ({
     }, [active, selectedMainItem]);
 
     function handleClickMenuItem(ws) {
-        onClick && onClick(ws);
+        onWorkspaceMenuChange && onWorkspaceMenuChange(ws);
+    }
+
+    function handleCreateNewFolder() {
+        onCreateNewFolder && onCreateNewFolder();
     }
 
     function renderWorkspaces(workspaces) {
         // We need to do this TWICE...
         // Once for the items that have a organized folder,
         // and once for the ones that do NOT....
-
-        return (
+        const m =
             workspaces &&
             menuItems
-                // .filter(mi => searchTerm !== '' ? true : (selectedMainItem !== null ? mi.id === selectedMainItem.id : true))
-                .filter((mi) => (searchTerm !== "" ? true : true))
+                .sort(function (a, b) {
+                    return a["name"]
+                        .toLowerCase()
+                        .localeCompare(b["name"].toLowerCase());
+                })
                 .map((menuItem) => {
                     // let's check to see if the user has applied any filters...
                     const folderSelected =
@@ -59,7 +67,7 @@ const MainMenuConst = ({
                             key={`menu-item-${menuItem.id}`}
                         >
                             <div
-                                className={`flex flex-row justify-between border-b ${currentTheme["border-secondary-medium"]} mb-2 p-2`}
+                                className={`flex flex-row justify-between border-b ${currentTheme["border-secondary-medium"]} mb-2 py-2 pl-2`}
                             >
                                 <div className="flex flex-row text-xs items-center">
                                     <FontAwesomeIcon icon={menuItem.icon} />
@@ -70,11 +78,20 @@ const MainMenuConst = ({
                                 <ButtonIcon
                                     icon="plus"
                                     textSize={"text-xs"}
+                                    padding={false}
                                     onClick={() => handleCreateNew(menuItem)}
+                                    className="hover:bg-green-500"
                                 />
                             </div>
                             <div className="flex flex-col pb-4 space-y-1">
                                 {workspaces
+                                    .sort(function (a, b) {
+                                        return a["name"]
+                                            .toLowerCase()
+                                            .localeCompare(
+                                                b["name"].toLowerCase()
+                                            );
+                                    })
                                     .filter(
                                         (w) =>
                                             "menuId" in w &&
@@ -107,8 +124,9 @@ const MainMenuConst = ({
                             </div>
                         </div>
                     );
-                })
-        );
+                });
+
+        return m;
     }
 
     function renderOrphanedWorkspaces(workspaces) {
@@ -117,29 +135,26 @@ const MainMenuConst = ({
         // and once for the ones that do NOT....
 
         return (
+            currentTheme &&
             workspaces && (
                 <div key={`menu-item-orphan`}>
-                    {selectedMainItem === null && (
-                        <div
-                            className={`flex flex-row justify-between border-b border-blue-700 mb-2 p-2 ${currentTheme["textSecondary"]}`}
-                        >
-                            <div className="flex flex-row text-xs items-center">
-                                <FontAwesomeIcon icon={"folder"} />
-                                <span className="p-2 uppercase font-bold">
-                                    Uncategorized
-                                </span>
-                            </div>
+                    <div
+                        className={`flex flex-row justify-between border-b border-gray-700 mb-2 py-2 ${currentTheme["textSecondary"]}`}
+                    >
+                        <div className="flex flex-row text-xs items-center">
+                            <FontAwesomeIcon icon={"folder"} />
+                            <span className="p-2 uppercase font-bold">
+                                Uncategorized
+                            </span>
                         </div>
-                    )}
+                    </div>
                     <div className="flex flex-col pb-4 space-y-1">
                         {workspaces
-                            .filter((mi) =>
-                                searchTerm !== ""
-                                    ? true
-                                    : selectedMainItem !== null
-                                    ? mi.menuId === selectedMainItem.id
-                                    : true
-                            )
+                            .sort(function (a, b) {
+                                return a["name"]
+                                    .toLowerCase()
+                                    .localeCompare(b["name"].toLowerCase());
+                            })
                             .filter((w) => workspaceIsOrphan(w) === true)
                             .filter((ws) =>
                                 searchTerm !== ""
@@ -148,6 +163,10 @@ const MainMenuConst = ({
                                           .includes(searchTerm.toLowerCase())
                                     : true
                             )
+                            .sort(function (a, b) {
+                                console.log(a["name"], b["name"]);
+                                return a["name"] - b["name"];
+                            })
                             .map((ws) => (
                                 <MainMenuItem
                                     highlight={searchTerm !== ""}
@@ -179,6 +198,7 @@ const MainMenuConst = ({
     }
 
     function handleDropMenuItem(dropData) {
+        console.log("handle drop menu item ", dropData);
         const { workspaceId, menuItemId } = dropData;
 
         let workspaceSelected = null;
@@ -192,17 +212,17 @@ const MainMenuConst = ({
             // we have to update the workspace menu id
             newWorkspace["menuId"] = menuItemId;
 
-            api.removeAllListeners();
-            api.on(
-                api.events.WORKSPACE_SAVE_COMPLETE,
-                handleSaveWorkspaceComplete
-            );
-            api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
+            // api.removeAllListeners();
+            // api.on(
+            //     api.events.WORKSPACE_SAVE_COMPLETE,
+            //     handleSaveWorkspaceComplete
+            // );
+            // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
-            api.workspace.saveWorkspaceForApplication(
-                creds.appId,
-                newWorkspace
-            );
+            // api.workspace.saveWorkspaceForApplication(
+            //     creds.appId,
+            //     newWorkspace
+            // );
         }
     }
 
@@ -227,8 +247,8 @@ const MainMenuConst = ({
             },
         ];
 
-        onClick &&
-            onClick({
+        onClickNewWorkspace &&
+            onClickNewWorkspace({
                 id: Date.now(),
                 name: "New Workspace",
                 label: "New",
@@ -243,23 +263,36 @@ const MainMenuConst = ({
     }
 
     return (
-        <div className="flex flex-col min-w-64 w-64 h-screen">
+        <div className="flex flex-col min-w-64 w-full h-full">
             <div className="flex flex-col space-y-2 w-full h-full">
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between items-center space-x-2">
                     <InputText
                         name="search-workspaces"
                         value={searchTerm}
-                        placeholder="Search Workspaces"
+                        placeholder="Search Dashboards"
                         onChange={handleChangeSearch}
-                        textSize="text-sm"
+                        textSize="text-lg"
+                        className="border-transparent focus:border-transparent focus:ring-0"
+                        hasBorder={false}
+                    />
+                    <ButtonIcon
+                        icon="folder-plus"
+                        textSize={"text-xs"}
+                        onClick={() => handleCreateNewFolder()}
+                        hoverBackgroundColor={"hover:bg-green-500"}
+                        backgroundColor={"bg-blue-700"}
                     />
                 </div>
-                <div className="flex flex-col pb-4 overflow-y-scroll h-full space-y-2">
+                <LayoutContainer
+                    direction="col"
+                    scrollable={true}
+                    space={false}
+                >
                     <DndProvider backend={HTML5Backend}>
                         {renderWorkspaces(workspaces)}
                         {renderOrphanedWorkspaces(workspaces)}
                     </DndProvider>
-                </div>
+                </LayoutContainer>
             </div>
         </div>
     );

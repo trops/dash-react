@@ -1,11 +1,4 @@
-import {
-    AppWrapper,
-    ThemeWrapper,
-    Dashboard,
-    MainSection,
-    mock,
-    ComponentManager,
-} from "@dash";
+import { MainSection, mock, ComponentManager } from "@dash";
 import { AppContext, ThemeContext } from "../Context";
 // import "../tailwind.css";
 import { LayoutContainer, Widget, Workspace } from "..";
@@ -257,17 +250,13 @@ const MockDashboard = ({
 
     return (
         <HashRouter forceRefresh={true}>
-            <AppContext.Provider value={getAppContext()}>
-                <ThemeContext.Provider value={mock.theme.context}>
-                    <div className="flex flex-col w-screen h-screen overflow-hidden justify-between bg-red-500 p-0">
-                        <MainSection>
-                            <Routes>
-                                <Route path="/" element={children} />
-                            </Routes>
-                        </MainSection>
-                    </div>
-                </ThemeContext.Provider>
-            </AppContext.Provider>
+            <div className="flex flex-col w-screen h-screen overflow-hidden justify-between p-0">
+                <MainSection>
+                    <Routes>
+                        <Route path="/" element={children} />
+                    </Routes>
+                </MainSection>
+            </div>
         </HashRouter>
     );
 };

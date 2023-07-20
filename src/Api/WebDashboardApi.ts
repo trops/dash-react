@@ -1,32 +1,55 @@
 import IDashboardApi from "./IDashboardApi";
+import * as apiEvents from "./events";
 
 class WebDashboardApi implements IDashboardApi {
-    api:any
+    /**
+     * api
+     * The api to be utilized for the requests (electron, react, custom ...)
+     */
+    api: any;
 
-    constructor(api?:any){
+    /**
+     * events
+     * Events to be used for the api calls (call, success, error)
+     */
+    events: apiEvents;
+
+    constructor(api: any) {
         this.api = api;
     }
 
-    listWorkspaces(appId, onSuccess, onError):Boolean {
+    listWorkspaces(appId, onSuccess, onError): Boolean {
         return true;
     }
 
-    listThemes(appId, onSuccess, onError):Boolean {
+    listThemes(appId, onSuccess, onError): Boolean {
         return true;
     }
 
-    listMenuItems(appId, onSuccess, onError):Boolean {
+    listMenuItems(appId, onSuccess, onError): Boolean {
         return true;
     }
 
-    saveMenuItem(appId, menuItem):Boolean {
+    listSettings(appId, onSuccess, onError): Boolean {
         return true;
     }
 
-    saveWorkspace(appId, workspaceToSave, onSuccess, onError):Boolean {
+    saveMenuItem(appId, menuItem): Boolean {
         return true;
     }
-    
-};
 
-export { WebDashboardApi }
+    saveWorkspace(appId, workspaceToSave, onSuccess, onError): Boolean {
+        return true;
+    }
+
+    saveSettings(
+        appId: string,
+        settings: any,
+        onSuccess?: any,
+        onError?: Error
+    ) {
+        return false;
+    }
+}
+
+export { WebDashboardApi };

@@ -68,9 +68,9 @@ export const LayoutBuilderGridItem = ({
         try {
             return (
                 preview === false && (
-                    <div className={`flex flex-col h-24`}>
+                    <div className={`flex flex-col h-fit`}>
                         <div
-                            className={`flex flex-col w-full text-xs text-gray-200 justify-start`}
+                            className={`flex flex-col w-full text-xs text-gray-200 justify-start p-2`}
                             onClick={handleOpenConfig}
                         >
                             {Object.keys(item["userPrefs"]).map((userPref) => {
@@ -177,13 +177,13 @@ export const LayoutBuilderGridItem = ({
                 <div
                     className={`flex flex-col border-4 ${getContainerBorderColor(
                         item["parentWorkspace"]
-                    )} rounded text-xs font-bold text-gray-200 z-0 min-h-64 p-2 overflow-hidden ${getContainerColor(
+                    )} rounded text-xs font-bold text-gray-200 z-0 p-2 overflow-hidden ${getContainerColor(
                         item["parentWorkspace"]
                     )}`}
                 >
                     <div
                         className={`flex flex-col ${scrollable} ${
-                            preview === false && "text-blue-900 rounded m-2"
+                            preview === false && "text-blue-900 rounded"
                         } `}
                         onClick={handleOpenConfig}
                     >
@@ -262,7 +262,7 @@ export const LayoutBuilderGridItem = ({
             </DragComponent>
         ) : (
             <div
-                className={`flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0 min-h-64 h-24`}
+                className={`flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0`}
             >
                 <div className="flex flex-row space-x-2 rounded-t justify-between w-full">
                     <div className="hidden xl:flex flex-row space-x-1 w-full justify-end p-2">

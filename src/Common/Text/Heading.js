@@ -9,6 +9,7 @@ function Heading({
     onClick = null,
     textColor = null,
     backgroundColor = null,
+    className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -20,7 +21,7 @@ function Heading({
     });
     return (
         <div
-            className={`flex flex-row ${paddingStyles} text-6xl font-bold ${
+            className={`flex flex-row ${className} ${paddingStyles} text-6xl font-bold ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -36,6 +37,7 @@ function Heading2({
     onClick = null,
     textColor = null,
     backgroundColor = null,
+    className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -47,7 +49,7 @@ function Heading2({
     });
     return (
         <div
-            className={`flex flex-row ${paddingStyles} text-5xl font-bold ${
+            className={`flex flex-row ${className} ${paddingStyles} text-5xl font-bold ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -63,6 +65,7 @@ function Heading3({
     onClick = null,
     textColor = null,
     backgroundColor = null,
+    className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -74,7 +77,7 @@ function Heading3({
     });
     return (
         <div
-            className={`flex flex-row ${paddingStyles} text-4xl font-bold ${
+            className={`flex flex-row ${className} ${paddingStyles} text-4xl font-bold ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -90,6 +93,7 @@ function SubHeading({
     onClick = null,
     textColor = null,
     backgroundColor = null,
+    className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -102,7 +106,7 @@ function SubHeading({
 
     return (
         <div
-            className={`flex flex-row w-full ${paddingStyles} text-3xl font-medium ${
+            className={`flex flex-row w-full ${className} ${paddingStyles} text-3xl font-medium ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -118,6 +122,7 @@ function SubHeading2({
     onClick = null,
     textColor = null,
     backgroundColor = null,
+    className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -129,7 +134,7 @@ function SubHeading2({
     });
     return (
         <div
-            className={`flex flex-row w-full ${paddingStyles} text-2xl font-medium ${
+            className={`flex flex-row w-full ${className} ${paddingStyles} text-2xl font-medium ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}
@@ -145,6 +150,7 @@ function SubHeading3({
     onClick = null,
     textColor = null,
     backgroundColor = null,
+    className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -157,7 +163,7 @@ function SubHeading3({
 
     return (
         <div
-            className={`flex flex-row w-full ${paddingStyles} text-2xl font-medium ${
+            className={`flex flex-row w-full ${className} ${paddingStyles} text-2xl ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}

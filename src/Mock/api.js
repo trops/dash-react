@@ -71,7 +71,7 @@ export const mockApi = {
         },
     },
     settings: {
-        getSettingsForApplication: function () {
+        listSettingsForApplication: function () {
             return { theme: "theme-1" };
         },
     },

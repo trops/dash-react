@@ -23,9 +23,9 @@ const DashPanelHeader = ({ title, ping = true, ...props }) => {
                 {title}
             </span>
             {ping && (
-                <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+                <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
                 </span>
             )}
         </div>
@@ -135,9 +135,9 @@ const DashPanelHeader2 = ({ title, ping = true, ...props }) => {
                 {title}
             </span>
             {ping && (
-                <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+                <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
                 </span>
             )}
         </div>
@@ -238,9 +238,9 @@ const DashPanelHeader3 = ({ title, ping = false, ...props }) => {
                 {title}
             </span>
             {ping && (
-                <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
+                <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-600"></span>
                 </span>
             )}
         </div>

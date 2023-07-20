@@ -3,6 +3,15 @@ import { MockDashboard, mock } from "@dash";
 import "@dash/tailwind.css";
 import { MockDashboardApi } from "../Api/MockDashboardApi";
 
+/**
+ * NOTE
+ *
+ * To instantiate the Dashboard, you MUST pass in a flavor of the API
+ * - ElectronDashboardApi
+ * - MockDashboardApi
+ * - WebDashboardApi
+ */
+//
 //👇 This default export determines where your story goes in the story list
 export default {
     title: "Dashboard",
@@ -11,17 +20,14 @@ export default {
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
-    // const workspaces = mock.api.workspace.listWorkspacesForApplication();
-    // console.log("workspaces ", workspaces["workspaces"][0]);
     return (
         <div className="flex flex-col h-full w-full">
-            <MockDashboard
-                api={mock.api}
-                theme={mock.theme}
-                args={args}
-                backgroundColor={"bg-gray-900"}
-            >
-                <Dashboard dashApi={new MockDashboardApi(mock.api)} {...args} />
+            <MockDashboard args={args} backgroundColor={"bg-gray-900"}>
+                <Dashboard
+                    dashApi={new MockDashboardApi(mock.api)}
+                    credentials={{ appId: "ZHSCSP4LMX" }}
+                    {...args}
+                />
             </MockDashboard>
         </div>
     );
@@ -33,4 +39,8 @@ DashboardTest.args = {
     preview: true,
     backgroundColor: "bg-gray-800",
     height: "h-full",
+};
+
+DashboardTest.parameters = {
+    layout: "fullscreen",
 };

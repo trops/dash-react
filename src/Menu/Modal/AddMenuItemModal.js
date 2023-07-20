@@ -9,9 +9,10 @@ import {
 } from "@dash/Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeContext } from "@dash/Context";
+import { LayoutContainer } from "@dash/Layout";
 
 export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
-    const { theme } = useContext(ThemeContext);
+    const { currentTheme } = useContext(ThemeContext);
     const [menuItemsSelected, setMenuItemsSelected] = useState(menuItems);
     const [menuItemNameSelected, setMenuItemNameSelected] = useState("");
     const [menuIconSelected, setMenuIconSelected] = useState(null);
@@ -115,13 +116,13 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
                     key={`icon-${icon}`}
                     className={`flex flex-col text-5xl p-4 ${
                         selected === true
-                            ? `${theme["bg-secondary-very-dark"]} ${theme["border-secondary-very-dark"]}`
-                            : theme["bg-secondary-medium"]
+                            ? `${currentTheme["bg-secondary-very-dark"]} ${currentTheme["border-secondary-very-dark"]}`
+                            : currentTheme["bg-secondary-medium"]
                     } h-fit w-full rounded border-4 ${
-                        theme["border-secondary-medium"]
+                        currentTheme["border-secondary-medium"]
                     } ${
                         selected === false &&
-                        `${theme["hover-bg-secondary-medium"]} ${theme["hover-border-secondary-dark"]}`
+                        `${currentTheme["hover-bg-secondary-medium"]} ${currentTheme["hover-border-secondary-dark"]}`
                     } cursor-pointer text-gray-200`}
                     onClick={() => setMenuIconSelected(icon)}
                 >
@@ -132,17 +133,17 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
     }
 
     return (
-        menuItemsSelected !== null && (
-            // <Modal isOpen={open} setIsOpen={setIsOpen} width={'w-5/6 2xl:w-3/4'} height="h-5/6">
+        menuItemsSelected !== null &&
+        currentTheme && (
             <Modal
                 isOpen={open}
                 setIsOpen={setIsOpen}
                 width={"w-11/12 xl:w-5/6"}
                 height="h-5/6"
             >
-                <Panel>
+                <Panel direction="col">
                     <div
-                        className={`flex flex-col w-full h-full  overflow-hidden`}
+                        className={`flex flex-col w-full h-full overflow-hidden`}
                     >
                         <div className="flex flex-col w-full h-full overflow-hidden">
                             <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-6">
@@ -171,9 +172,16 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
                                         />
                                     </div>
                                     <div className="flex flex-row rounded overflow-hidden justify-center items-center align-center w-full">
-                                        <div className="grid grid-cols-5 gap-4 w-full h-full overflow-y-scroll">
+                                        <LayoutContainer
+                                            direction="row"
+                                            scrollable={true}
+                                            space={false}
+                                            height={"h-full"}
+                                            width={"w-full"}
+                                            className="grid grid-cols-5 gap-4"
+                                        >
                                             {renderAvailableIcons()}
-                                        </div>
+                                        </LayoutContainer>
                                     </div>
                                 </div>
                             </div>

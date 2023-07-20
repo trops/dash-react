@@ -17,7 +17,7 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
         changeCurrentTheme,
         changeThemeVariant,
     } = useContext(ThemeContext);
-    const { api, creds, settings } = useContext(AppContext);
+    const { api, credentials, settings } = useContext(AppContext);
 
     const [themeSelected, setThemeSelected] = useState(null);
     const [rawThemeSelected, setRawThemeSelected] = useState(null);
@@ -32,12 +32,11 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
             setRawThemeSelected(null);
             setThemeKeySelected(null);
         } else {
+            console.log("Theme Manager ", settings);
             // if there is no key selected...
-            if (themeKeySelected === null) {
+            if (themeKeySelected === null && themes) {
                 const themeKeyTemp =
-                    themeKeySelected === null &&
-                    settings !== null &&
-                    "theme" in settings
+                    themeKeySelected === null && settings && "theme" in settings
                         ? settings["theme"] in themes
                             ? settings["theme"]
                             : Object.keys(themes)[0]

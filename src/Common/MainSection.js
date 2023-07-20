@@ -8,13 +8,14 @@ export const MainSection = ({ children, backgroundColor = null }) => {
     const backgroundColorStyle =
         backgroundColor !== null
             ? backgroundColor
-            : currentTheme !== null
+            : currentTheme
             ? currentTheme["bg-primary-very-dark"]
             : "bg-black";
+
     return (
         currentTheme !== null && (
             <div
-                className={`flex flex-col ${backgroundColorStyle} h-full overflow-hidden w-full`}
+                className={`flex flex-col ${backgroundColorStyle} h-full overflow-hidden w-full p-0 m-0`}
             >
                 {children}
             </div>

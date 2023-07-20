@@ -7,6 +7,7 @@ const MainMenuItem = ({ id, name, onDropItem, onClick, title }) => {
         type: "menu-item",
         item: { name, id },
         collect: (monitor) => {
+            console.log(monitor);
             return {
                 isDragging: monitor.isDragging(),
                 sourceIndex: monitor.sourceIndex,
@@ -33,7 +34,7 @@ const MainMenuItem = ({ id, name, onDropItem, onClick, title }) => {
         <div
             ref={dragPreview}
             onClick={onClick}
-            className={`flex w-full flex-col cursor-pointer space-y-1 p-2 h-full rounded font-hind text-sm opacity-20`}
+            className={`flex w-full flex-col cursor-pointer space-y-1 py-2 h-full rounded font-hind text-sm opacity-20`}
         >
             <div className="text-sm">{title}</div>
         </div>

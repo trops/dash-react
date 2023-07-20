@@ -24,7 +24,6 @@ function invert(shade) {
 }
 
 export const ThemeModel = (themeItem = {}) => {
-    console.log("color types theme model ", colorTypes);
     try {
         const obj = deepCopy(themeItem);
 

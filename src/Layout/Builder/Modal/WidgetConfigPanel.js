@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SelectMenu, InputText, Button } from "@dash/Common";
 import { tailwindHeightFractions } from "@dash/Utils";
+import { LayoutContainer } from "@dash/index";
 
 export const WidgetConfigPanel = ({
     onSave = null,
@@ -181,12 +182,17 @@ export const WidgetConfigPanel = ({
         );
     }
 
-    console.log("height fractions ", generateHeightFractions());
     return (
         itemSelected && (
             <div className="flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full">
                 <div className="flex flex-col w-full h-full overflow-hidden">
-                    <div className="flex flex-col space-y-2 w-full overflow-y-scroll">
+                    <LayoutContainer
+                        direction="col"
+                        scrollable={true}
+                        space={false}
+                        grow={true}
+                    >
+                        {/* <div className="flex flex-col space-y-2 w-full h-full"> */}
                         {renderCustomSettings()}
 
                         <div className={`rounded flex flex-col p-2`}>
@@ -229,30 +235,6 @@ export const WidgetConfigPanel = ({
                                     Full Height
                                 </option>
                                 {generateHeightFractions()}
-                                {/* <option
-                                    key={"height-1-4"}
-                                    value="h-1/4 min-h-1/4"
-                                >
-                                    1/4
-                                </option>
-                                <option
-                                    key={"height-1-3"}
-                                    value="h-1/3 min-h-1/3"
-                                >
-                                    1/3
-                                </option>
-                                <option
-                                    key={"height-1-2"}
-                                    value="h-1/2 min-h-1/2"
-                                >
-                                    1/2
-                                </option>
-                                <option
-                                    key={"height-3-4"}
-                                    value="h-3/4 min-h-3/4"
-                                >
-                                    3/4
-                                </option> */}
                                 <option key={"height-fit"} value="h-fit">
                                     Fit Content
                                 </option>
@@ -352,10 +334,10 @@ export const WidgetConfigPanel = ({
                             </SelectMenu>
                         </div>
 
-                        <div className="text-xs p-4 break-all">
+                        {/* <div className="text-xs p-4 break-all">
                             <pre>{JSON.stringify(itemSelected, null, 2)}</pre>
-                        </div>
-                    </div>
+                        </div> */}
+                    </LayoutContainer>
                 </div>
 
                 {onSave !== null && (

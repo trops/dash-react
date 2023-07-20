@@ -74,7 +74,7 @@ export const LayoutGridContainer = ({
             </div>
         ) : (
             <div
-                className={`flex flex-row px-2 pt-1 space-x-1 text-xs ${getContainerColor(
+                className={`flex flex-row px-2 space-x-1 text-xs ${getContainerColor(
                     item
                 )} text-gray-300 font-medium w-full`}
             />
@@ -109,7 +109,7 @@ export const LayoutGridContainer = ({
 
         return (
             <div
-                className={`flex flex-row space-x-1 justify-between w-full px-2 pb-2`}
+                className={`flex flex-row space-x-1 justify-between w-full px-2 pb-1`}
             >
                 {/* {item && "workspace" in item && (
                     <div className="flex flex-row space-x-1">
@@ -270,13 +270,14 @@ export const LayoutGridContainer = ({
                     id={`grid-container-parent-${id}`}
                     direction={"col"}
                     width={"w-full"}
-                    height={"min-h-24"}
+                    height={"h-fit"}
                     scrollable={false}
                     className={`rounded overflow-x-hidden ${
                         preview === false && "border-2 rounded"
                     } ${preview === false && getContainerBorderColor(item)} ${
                         preview === false && getBorderStyle()
                     } min-h-24`}
+                    space={preview}
                 >
                     {preview === false && renderEditHeader()}
                     <LayoutContainer
@@ -285,7 +286,7 @@ export const LayoutGridContainer = ({
                         scrollable={scrollable}
                         width={"w-full"}
                         height={`${height} min-h-24`}
-                        space={space}
+                        space={preview}
                         grow={grow}
                         className={`${preview === false && "p-3"} ${
                             direction === "col" ? "space-y-2" : "space-x-2"

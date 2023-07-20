@@ -332,7 +332,8 @@ export const PanelApplicationSettings = ({
                         </div>
                         <div className="text-xs text-gray-400 space-y-1">
                             <div className="flex flex-row text-xs text-gray-400">
-                                Type 'help' for more information
+                                Type 'help' for more information, 'exit' to
+                                leave.
                             </div>
                             <InputText
                                 name="name"

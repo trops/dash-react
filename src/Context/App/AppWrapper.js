@@ -28,6 +28,7 @@ export const AppWrapper = ({
     children,
     credentials = { appId: "my-app-id" },
     api,
+    dashApi,
     ...rest
 }) => {
     const [creds, setCreds] = useState(credentials);
@@ -76,15 +77,21 @@ export const AppWrapper = ({
     function loadSettings() {
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
-        if (api) {
-            api.removeAllListeners();
-            api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
-            api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
-            api.settings.getSettingsForApplication();
+        if (dashApi) {
+            // api.removeAllListeners();
+            // api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
+            // api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
+            // api.settings.getSettingsForApplication();
+            dashApi.listSettings(
+                credentials.appId,
+                handleGetSettingsComplete,
+                handleGetSettingsError
+            );
         }
     }
 
-    function handleGetSettingsComplete(e, message) {
+    function handleGetSettingsComplete(message) {
+        console.log("loaded settings ", message);
         if ("settings" in message) {
             let settingsObject;
             if (Object.keys(message["settings"]).length === 0) {
@@ -98,20 +105,29 @@ export const AppWrapper = ({
         }
         // set the settings model to the context
         setIsLoadingSettings(() => false);
+        forceUpdate();
     }
 
-    function handleGetSettingsError(e, message) {
-        console.log("settings load error ", e, message);
+    function handleGetSettingsError(e) {
+        console.log("settings load error ", e.message);
         setIsLoadingSettings(() => false);
     }
 
     function saveSettings() {
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
-        api.removeAllListeners();
-        api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
-        api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
-        api.settings.saveSettingsForApplication(settings);
+        // api.removeAllListeners();
+        // api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
+        // api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
+        // api.settings.saveSettingsForApplication(settings);
+        if (dashApi) {
+            dashApi.saveSettings(
+                credentials.appId,
+                settings,
+                handleGetSettingsComplete,
+                handleGetSettingsError
+            );
+        }
     }
 
     // function handleSaveSettingsComplete(e, message) {
@@ -141,8 +157,10 @@ export const AppWrapper = ({
             debugMode: debugMode,
             debugStyles: debugStyles,
             creds: creds,
+            credentials,
             searchClient: searchClient,
-            api: api,
+            api: dashApi,
+            dashApi,
             settings: settings,
             changeSearchClient,
             changeCreds,

@@ -135,7 +135,7 @@ export const PanelEditItem = ({ workspace, onUpdate, item = null }) => {
                             >
                                 Preview
                             </div>
-                            <div className={`flex flex-col p-4`}>
+                            <div className={`flex flex-col p-4 h-full`}>
                                 {itemSelected !== null &&
                                     workspaceSelected !== null &&
                                     renderEditContainer()}
