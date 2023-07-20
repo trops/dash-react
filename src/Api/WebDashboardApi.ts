@@ -50,6 +50,16 @@ class WebDashboardApi implements IDashboardApi {
     ) {
         return false;
     }
+
+    saveTheme(
+        appId: any,
+        themeKey: string,
+        rawTheme: {},
+        onSuccess: any,
+        onError: any
+    ): Boolean {
+        return false;
+    }
 }
 
 export { WebDashboardApi };

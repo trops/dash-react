@@ -3,8 +3,6 @@
  * An Interface that may be extended in order to provide different abstractions for functionality (Electron, JS, etc)
  */
 
-import * as apiEvents from "./events";
-
 interface IDashboardApi {
     /**
      * @param api Object
