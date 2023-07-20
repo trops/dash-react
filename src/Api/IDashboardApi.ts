@@ -106,11 +106,13 @@ interface IDashboardApi {
         onError: Error
     ) => Boolean;
 
-    saveTheme(appId,
+    saveTheme(
+        appId,
         themeKey: string,
         rawTheme: {},
-        onSuccess:any,
-        onError:any): Boolean;
+        onSuccess: any,
+        onError: any
+    ): Boolean;
 }
 
 export default IDashboardApi;

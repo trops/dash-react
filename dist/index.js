@@ -3712,9 +3712,9 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
     changeCurrentTheme = _useContext.changeCurrentTheme,
     changeThemeVariant = _useContext.changeThemeVariant;
   var _useContext2 = useContext$1(AppContext),
-    api = _useContext2.api;
-    _useContext2.credentials;
-    var settings = _useContext2.settings;
+    dashApi = _useContext2.dashApi,
+    credentials = _useContext2.credentials,
+    settings = _useContext2.settings;
   var _useState = useState(null),
     _useState2 = _slicedToArray$t(_useState, 2),
     themeSelected = _useState2[0],
@@ -3806,35 +3806,31 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
 
     // Here is where we have to add this theme to the themes available
     // and save to the themes file.
-    api.removeAllListeners();
-    api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeCompleteNew);
-    api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeErrorNew);
-    api.themes.saveThemeForApplication(creds.appId, themeKey, newRawTheme);
-  }
-  function handleSaveThemeCompleteNew(e, message) {
-    changeThemesForApplication(message["themes"]);
-    setRawThemeSelected(function () {
-      return message["theme"];
-    });
-    setThemeKeySelected(function () {
-      return message["key"];
-    });
-    var newTheme = ThemeModel(deepCopy(message["theme"]));
-    setThemeSelected(function () {
-      return newTheme;
-    });
-  }
-  function handleSaveThemeErrorNew(e, message) {
-    console.log(e, message);
+    // api.removeAllListeners();
+    // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeCompleteNew);
+    // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeErrorNew);
+
+    // api.themes.saveThemeForApplication(creds.appId, themeKey, newRawTheme);
+
+    if (dashApi) {
+      dashApi.saveTheme(credentials.appId, themeKeySelected, newRawTheme, handleSaveThemeComplete, handleSaveThemeError);
+    }
   }
   function handleSaveTheme() {
     if (themeKeySelected !== null && rawThemeSelected !== null) {
       // Here is where we have to add this theme to the themes available
       // and save to the themes file.
-      api.removeAllListeners();
-      api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeComplete);
-      api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeError);
-      api.themes.saveThemeForApplication(creds.appId, themeKeySelected, rawThemeSelected);
+      // api.removeAllListeners();
+      // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeComplete);
+      // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeError);
+      // api.themes.saveThemeForApplication(
+      //     creds.appId,
+      //     themeKeySelected,
+      //     rawThemeSelected
+      // );
+      if (dashApi) {
+        dashApi.saveTheme(credentials.appId, themeKeySelected, rawThemeSelected, handleSaveThemeComplete, handleSaveThemeError);
+      }
     }
     setIsEditing(false);
   }
@@ -12641,6 +12637,68 @@ var mockApi = {
   events: {},
   themes: {
     listThemesForApplication: function listThemesForApplication() {
+      return {
+        "theme-1": {
+          id: "theme-1678712201937",
+          name: "Default 1",
+          primary: "gray",
+          secondary: "gray",
+          tertiary: "blue",
+          neutral: "violet",
+          shadeBackgroundFrom: 600,
+          shadeBorderFrom: 600,
+          shadeTextFrom: 100,
+          dark: {},
+          light: {}
+        },
+        "theme-1678712201937": {
+          id: "theme-1678712201937",
+          name: "Testerama",
+          primary: "neutral",
+          secondary: "blue",
+          tertiary: "gray",
+          neutral: "gray",
+          shadeBackgroundFrom: 200,
+          shadeBorderFrom: 300,
+          shadeTextFrom: 700,
+          dark: {
+            "panel-3": {
+              backgroundColor: "bg-blue-200"
+            }
+          },
+          light: {}
+        },
+        "theme-1679660773803": {
+          id: "theme-1679660773803",
+          name: "Default Muted",
+          primary: "gray",
+          secondary: "emerald",
+          tertiary: "emerald",
+          neutral: "gray",
+          shadeBackgroundFrom: 200,
+          shadeBorderFrom: 300,
+          shadeTextFrom: 700,
+          dark: {
+            "panel-3": {
+              backgroundColor: "bg-amber-600"
+            }
+          },
+          light: {}
+        },
+        "theme-1679875712335": {
+          id: "theme-1679875712335",
+          name: "New Theme",
+          primary: "gray",
+          secondary: "slate",
+          tertiary: "orange",
+          neutral: "gray",
+          shadeBackgroundFrom: 200,
+          shadeBorderFrom: 300,
+          shadeTextFrom: 700
+        }
+      };
+    },
+    saveTheme: function saveTheme(appId, themeKey, rawTheme) {
       return {
         "theme-1": {
           id: "theme-1678712201937",
