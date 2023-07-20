@@ -125,6 +125,27 @@ class ElectronDashboardApi implements IDashboardApi {
         }
         return false;
     }
+
+    saveTheme(appId,
+        themeKey,
+        rawTheme,
+        onSuccess,
+        onError): Boolean {
+
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.api.events.THEME_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.api.events.THEME_SAVE_ERROR, onError);
+                this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
+                return true;
+            } catch (e) {
+                onError(e);
+                return false;
+            }
+        }
+        return false;
+    }
 }
 
 export { ElectronDashboardApi };

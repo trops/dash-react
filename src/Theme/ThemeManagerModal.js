@@ -17,7 +17,7 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
         changeCurrentTheme,
         changeThemeVariant,
     } = useContext(ThemeContext);
-    const { api, credentials, settings } = useContext(AppContext);
+    const { dashApi, credentials, settings } = useContext(AppContext);
 
     const [themeSelected, setThemeSelected] = useState(null);
     const [rawThemeSelected, setRawThemeSelected] = useState(null);
@@ -95,11 +95,21 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
 
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
-        api.removeAllListeners();
-        api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeCompleteNew);
-        api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeErrorNew);
+        // api.removeAllListeners();
+        // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeCompleteNew);
+        // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeErrorNew);
 
-        api.themes.saveThemeForApplication(creds.appId, themeKey, newRawTheme);
+        // api.themes.saveThemeForApplication(creds.appId, themeKey, newRawTheme);
+
+        if (dashApi) {
+            dashApi.saveTheme(
+                credentials.appId,
+                themeKeySelected,
+                newRawTheme,
+                handleSaveThemeComplete,
+                handleSaveThemeError
+            );
+        }
     }
 
     function handleSaveThemeCompleteNew(e, message) {
@@ -118,14 +128,23 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
         if (themeKeySelected !== null && rawThemeSelected !== null) {
             // Here is where we have to add this theme to the themes available
             // and save to the themes file.
-            api.removeAllListeners();
-            api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeComplete);
-            api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeError);
-            api.themes.saveThemeForApplication(
-                creds.appId,
-                themeKeySelected,
-                rawThemeSelected
-            );
+            // api.removeAllListeners();
+            // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeComplete);
+            // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeError);
+            // api.themes.saveThemeForApplication(
+            //     creds.appId,
+            //     themeKeySelected,
+            //     rawThemeSelected
+            // );
+            if (dashApi) {
+                dashApi.saveTheme(
+                    credentials.appId,
+                    themeKeySelected,
+                    rawThemeSelected,
+                    handleSaveThemeComplete,
+                    handleSaveThemeError
+                );
+            }
         }
         setIsEditing(false);
     }

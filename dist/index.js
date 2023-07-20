@@ -397,6 +397,454 @@ var AppContext = /*#__PURE__*/createContext({
   debugMode: false
 });
 
+/**
+ * LayoutModel
+ *
+ */
+var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId) {
+  try {
+    if (layoutItem === null || layoutItem === undefined) {
+      return null;
+    }
+    var obj = deepCopy(layoutItem);
+    var layout = {};
+    layout.id = "id" in obj ? obj["id"] : null;
+    layout.order = "order" in obj ? obj.order : null;
+    layout.scrollable = "scrollable" in obj ? obj["scrollable"] === "false" || obj["scrollable"] === false ? false : true : false;
+    layout.space = "space" in obj ? obj["space"] === "false" || obj["space"] === false ? false : true : false;
+    layout.grow = "grow" in obj ? obj["grow"] === "false" || obj["grow"] === false ? false : true : false;
+    layout.component = "component" in obj ? obj.component : null;
+    layout.direction = "direction" in obj ? obj.direction : "col";
+    layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
+    layout.canHaveChildren = "canHaveChildren" in obj ? obj.canHaveChildren : true;
+    layout.width = "width" in obj ? obj.width : "";
+    layout.height = "height" in obj ? obj.height : "h-full";
+    layout.parent = "parent" in obj ? obj.parent : 0;
+    layout.type = "type" in obj ? obj.type : "widget";
+    layout.workspace = "workspace" in obj ? obj.workspace : "layout";
+
+    // Space and Grow
+
+    // Add the MAIN workspace that
+    layout.dashboardId = dashboardId;
+
+    // Event listeners and corresponding handlers exposed by the developer in the configuration
+    layout.listeners = "listeners" in obj ? obj["listeners"] : {};
+    layout.eventHandlers = "eventHandlers" in obj ? obj["eventHandlers"] : [];
+    layout.siblingCount = "siblingCount" in obj ? obj["siblingCount"] : 0;
+
+    // let's get some specifics from the configuration file
+    // just in case these were missing
+
+    // layout.componentData = ComponentManager.getComponent(layout.component);
+
+    // generate a unique name so that we can store files, publish events etc
+    // all with this very specific identifier
+
+    layout.uuid = dashboardId !== undefined ? "".concat(dashboardId, "-").concat(layout["component"], "-").concat(layout.id) : "".concat(layout["component"], "-").concat(layout.id);
+
+    // if (layout.componentData !== undefined) {
+    //     if ("type" in layout.componentData)
+    //         layout.type = layout.componentData.type;
+    //     if ("workspace" in layout.componentData)
+    //         layout.workspace = layout.componentData.workspace;
+    // }
+
+    /// widget configuration
+    var widgetConfig = ComponentManager.config(obj["component"], obj);
+    if (widgetConfig !== null && widgetConfig !== undefined) {
+      Object.keys(widgetConfig).forEach(function (key) {
+        // console.log("LayoutModel key", key);
+        layout[key] = widgetConfig[key];
+      });
+    }
+
+    // last check for this being a container...
+    if ("workspace" in layout) {
+      if (layout.workspace === "layout") {
+        // if (layout.width === "") {
+        //     layout.width = "w-full";
+        // }
+        // if (layout.scrollable === "") {
+        //     layout.scrollable = true;
+        // }
+        if (layout.direction === "") {
+          layout.direction = "col";
+        }
+      }
+    }
+
+    // lets check to see if we already have the parent workspace?
+    if (layout.parentWorkspaceName === undefined || Object.keys(layout.parentWorkspace).length === 0) {
+      // get the nearest workspace and assign this as the parent for rendering
+      var tempLayout = deepCopy(layout);
+      var parentWS = getNearestParentWorkspace(workspaceLayout, tempLayout, tempLayout);
+      var parentWorkspaceName = "layout";
+      if (parentWS) {
+        if ("workspace" in parentWS) {
+          parentWorkspaceName = parentWS["workspace"];
+        }
+      }
+      layout.parentWorkspaceName = parentWorkspaceName;
+      layout.parentWorkspace = parentWS || {};
+    }
+    return layout;
+  } catch (e) {
+    console.log("layout model ", e.message);
+    return null;
+  }
+};
+
+/**
+ * ColorModel
+ *
+ * Handle all of the data for a color (theme)
+ */
+
+/**
+ *
+ * @param {Object} obj
+ * @returns
+ */
+var ColorModel = function ColorModel() {
+  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  try {
+    if (obj) {
+      // console.log("cm: ", obj);
+      var temp = deepCopy(obj);
+      var color = {};
+      color.panelType = "panelType" in temp ? temp.panelType : "main";
+      color.colorName = "colorName" in temp ? temp.colorName : "white";
+      color.colorType = "colorType" in temp ? temp.colorType !== undefined && temp.colorType !== null ? temp.colorType : "primary" : "primary";
+      color.shade = "shade" in temp ? temp.shade : 500;
+      color.variant = "variant" in temp ? temp.variant : "dark";
+      color.level = "level" in temp ? temp.level : "light";
+      color.objectType = "objectType" in temp ? temp.objectType : "bg";
+      color.styleName = getStyleName(color.objectType); //'background';
+
+      /**
+       * generate the display name
+       */
+      color.displayName = "displayName" in temp ? temp.name : capitalizeFirstLetter(color.colorName);
+
+      /**
+       * Strings for the theme class name and the class to be used in className
+       */
+      color.themeClass = "".concat(color.objectType, "-").concat(color.colorType, "-").concat(color.level);
+      color["class"] = "".concat(color.objectType, "-").concat(color.colorName, "-").concat(color.shade);
+
+      /**
+       * Grab the hex code via tailwind for the tailwind color
+       * This may change as we move to hex codes for selection
+       */
+      color.hex = colors[color.colorName];
+      return color;
+    }
+    return null;
+  } catch (e) {
+    console.log(e.message);
+    return obj;
+  }
+};
+
+var SettingsModel = function SettingsModel() {
+  var settingsObject = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var obj = deepCopy(settingsObject);
+  obj["debug"] = "debug" in obj ? obj["debug"] : false;
+  return obj;
+};
+
+/**
+ * WorkspaceModel
+ *
+ */
+var WorkspaceModel = function WorkspaceModel(workspaceItem) {
+  var obj = deepCopy(workspaceItem);
+  var workspace = {};
+  workspace.id = "id" in obj ? obj["id"] : null;
+  workspace.name = "name" in obj ? obj["name"] : "My Workspace";
+  workspace.type = "type" in obj ? obj["type"] : "layout";
+  workspace.label = "label" in obj ? obj["label"] : "Workspace";
+  workspace.layout = "layout" in obj ? obj["layout"] : [];
+  return workspace;
+};
+
+/**
+ * ThemeModel
+ *
+ */
+
+/**
+ * getNextLevel
+ * Need to generate the levels for tailwind
+ * @param {int} currentLevel
+ */
+function getNextLevel(currentLevel) {
+  var next = currentLevel + 100;
+  return next <= 900 ? next : currentLevel;
+}
+function invert(shade) {
+  return 900 - parseInt(shade, 10);
+}
+var ThemeModel = function ThemeModel() {
+  var themeItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  try {
+    var obj = deepCopy(themeItem);
+    var overrideDark = "dark" in themeItem ? themeItem["dark"] : null;
+    var overrideLight = "light" in themeItem ? themeItem["light"] : null;
+    var theme = {};
+    var info = {};
+    theme.id = "id" in obj ? obj["id"] : null;
+    theme.name = "name" in obj ? obj["name"] : "My Theme";
+
+    // for each of the color types we should set...
+    colorTypes.forEach(function (type) {
+      theme[type] = type in obj ? obj[type] : "gray";
+    });
+
+    // theme.primary = 'primary' in obj ? obj['primary'] : 'gray';
+    // theme.secondary = 'secondary' in obj ? obj['secondary'] : 'blue';
+    // theme.tertiary = 'tertiary' in obj ? obj['tertiary'] : 'indigo';
+
+    theme.shadeFrom = "shadeFrom" in obj ? obj["shadeFrom"] : 100;
+
+    // unused from
+    theme.shadeBackgroundFrom = "shadeBackgroundFrom" in obj ? obj["shadeBackgroundFrom"] : 100;
+    theme.shadeTextFrom = "shadeTextFrom" in obj ? obj["shadeTextFrom"] : 100;
+    theme.shadeBorderFrom = "shadeBorderFrom" in obj ? obj["shadeBorderFrom"] : 100;
+    theme.shadeTo = "shadeTo" in obj ? obj["shadeTo"] : 700;
+
+    // somehow generate the colors based on the theme inputs...
+    // light, medium, dark for each?
+    // example: bg-primary-light, bg-primary-medium, bg-primary-dark,
+
+    var variants = {
+      light: {
+        "very-light": 100,
+        light: 200,
+        medium: 300,
+        dark: 400,
+        "very-dark": 500
+      },
+      dark: {
+        "very-light": 500,
+        light: 600,
+        medium: 700,
+        dark: 800,
+        "very-dark": 900
+      }
+    };
+
+    // iterate over each color type "primary, secondary, tertiary ..."
+    // and generate the colors necessary (shades) based on tailwind
+    colorTypes.forEach(function (type) {
+      Object.keys(variants).forEach(function (variant) {
+        if (variant in theme === false) {
+          theme[variant] = {};
+        }
+        Object.keys(variants[variant]).forEach(function (shade) {
+          theme[variant]["bg-".concat(type, "-").concat(shade)] = "bg-".concat(theme[type], "-").concat(variants[variant][shade]);
+          theme[variant]["hover-bg-".concat(type, "-").concat(shade)] = "hover:bg-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
+          theme[variant]["hover-border-".concat(type, "-").concat(shade)] = "hover:border-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
+          theme[variant]["border-".concat(type, "-").concat(shade)] = "border-".concat(theme[type], "-").concat(variants[variant][shade]);
+          // we should be "flipping" these so dark text on light and light on dark...
+          theme[variant]["text-".concat(type, "-").concat(shade)] = "text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
+          theme[variant]["hover-text-".concat(type, "-").concat(shade)] = "hover:text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
+        });
+      });
+    });
+
+    // lets try gradients
+
+    // Primary
+
+    theme["dark"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
+    theme["light"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
+
+    // Secondary
+
+    theme["dark"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
+    theme["light"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], "  via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
+
+    // Tertiary
+
+    theme["dark"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["dark"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+    theme["light"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
+
+    // now for the overrides!
+    if (overrideDark !== null) {
+      Object.keys(overrideDark).forEach(function (key) {
+        theme["dark"][key] = overrideDark[key];
+      });
+    }
+    if (overrideLight !== null) {
+      Object.keys(overrideLight).forEach(function (key) {
+        theme["light"][key] = overrideLight[key];
+      });
+    }
+
+    // Primary, secondary, etc..
+    theme["light"]["name"] = theme.name;
+    colorTypes.forEach(function (type) {
+      theme["light"][type] = theme[type];
+    });
+    colorTypes.forEach(function (type) {
+      theme["dark"][type] = theme[type];
+    });
+    theme["dark"]["name"] = theme.name;
+
+    // transparent colors
+    theme["dark"]["bg-none"] = "bg-transparent";
+    theme["dark"]["border-none"] = "border-transparent";
+    theme["dark"]["hover-border-none"] = "hover:border-transparent";
+    theme["dark"]["hover-bg-none"] = "hover:bg-transparent";
+    theme["dark"]["hover-text-none"] = "hover:text-transparent";
+    theme["light"]["bg-none"] = "bg-transparent";
+    theme["light"]["border-none"] = "border-transparent";
+    theme["light"]["hover-border-none"] = "hover:border-transparent";
+    theme["light"]["hover-bg-none"] = "hover:bg-transparent";
+    theme["light"]["hover-text-none"] = "hover:text-transparent";
+    return theme;
+  } catch (e) {
+    console.log("ThemeModel ", e.message);
+    return {};
+  }
+};
+
+/*
+ "component": AnalyticsReportsWidget,
+    "type":"widget",
+    "workspace":"algolia-analytics",
+    "canHaveChildren": false,
+    "userConfig": {
+        "report": { type: 'select', displayName: "Report Type", instructions: "Select the report from the list", options: [
+            {
+                value: '',
+                displayName: 'User Select'
+            },
+            {
+                value: 'top-searches',
+                displayName: 'Top Searches'
+            },
+            {
+                value: 'top-searches-count',
+                displayName: 'Top Searches Count',
+            },
+            {
+                value: 'no-results',
+                displayName: 'No Results',
+            },
+            {
+                value: 'query-analytics',
+                displayName: 'Query Analytics',
+            }
+        ], required: false },
+        "indexName": { type: "text", defaultValue: "dev_find_accelerator", instructions: "Type the name of the index you wish to search", options: [], displayName: "Index Name", required: true },
+        "appId": { type: "text", defaultValue: process.env.REACT_APP_APP_ID, instructions: "Type the name of the appId", options: [], displayName: "App Id", required: true },
+        "apiKey": { type: "secret", defaultValue: process.env.REACT_APP_ALGOLIA_KEY, instructions: "Type the api key for this appId", options: [], displayName: "Api Key", required: true },
+    },
+    "styles": {
+        "backgroundColor": "bg-blue-900",
+        "borderColor": "border-blue-900"
+    },
+    "events": ["fetchAnalyticsComplete"],
+    "eventHandlers":['handleSearchChange','handleRefinementChange']
+*/
+/**
+ * ComponentConfigModel
+ * @param {object} o the data passed in to generate the model
+ * @returns <ComponentConfigModel>Object
+ */
+var ComponentConfigModel = function ComponentConfigModel() {
+  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  // console.log("config model in ", obj);
+  // const obj = deepCopy(o);
+
+  /**
+   * id
+   * The unique identifer for the component
+   */
+  obj.id = "id" in obj ? obj["id"] : null;
+
+  /**
+   * name
+   * The name of the component for display purposes
+   */
+  obj.name = "name" in obj ? obj["name"] : "My Workspace";
+
+  /**
+   * type
+   * The type of component (widget|workspace)
+   */
+  obj.type = "type" in obj ? obj["type"] : "workspace";
+
+  /**
+   * workspace
+   * The workspace this component belongs to
+   */
+  obj.workspace = "workspace" in obj ? obj["workspace"] : "workspace-dash";
+
+  /**
+   * userConfig
+   * Allow the end users to edit/input parameters into the edit widget layout panel
+   */
+  obj.userConfig = "userConfig" in obj ? obj["userConfig"] : {};
+
+  /**
+   * layout builder styles
+   */
+  obj.styles = "styles" in obj ? obj["styles"] : {
+    backgroundColor: "bg-blue-800",
+    borderColor: "border-blue-900"
+  };
+
+  // console.log("config: ", obj);
+
+  return obj;
+};
+
 function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
 function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
@@ -1400,454 +1848,6 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
       })
     })
   });
-};
-
-/**
- * LayoutModel
- *
- */
-var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId) {
-  try {
-    if (layoutItem === null || layoutItem === undefined) {
-      return null;
-    }
-    var obj = deepCopy(layoutItem);
-    var layout = {};
-    layout.id = "id" in obj ? obj["id"] : null;
-    layout.order = "order" in obj ? obj.order : null;
-    layout.scrollable = "scrollable" in obj ? obj["scrollable"] === "false" || obj["scrollable"] === false ? false : true : false;
-    layout.space = "space" in obj ? obj["space"] === "false" || obj["space"] === false ? false : true : false;
-    layout.grow = "grow" in obj ? obj["grow"] === "false" || obj["grow"] === false ? false : true : false;
-    layout.component = "component" in obj ? obj.component : null;
-    layout.direction = "direction" in obj ? obj.direction : "col";
-    layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
-    layout.canHaveChildren = "canHaveChildren" in obj ? obj.canHaveChildren : true;
-    layout.width = "width" in obj ? obj.width : "";
-    layout.height = "height" in obj ? obj.height : "h-full";
-    layout.parent = "parent" in obj ? obj.parent : 0;
-    layout.type = "type" in obj ? obj.type : "widget";
-    layout.workspace = "workspace" in obj ? obj.workspace : "layout";
-
-    // Space and Grow
-
-    // Add the MAIN workspace that
-    layout.dashboardId = dashboardId;
-
-    // Event listeners and corresponding handlers exposed by the developer in the configuration
-    layout.listeners = "listeners" in obj ? obj["listeners"] : {};
-    layout.eventHandlers = "eventHandlers" in obj ? obj["eventHandlers"] : [];
-    layout.siblingCount = "siblingCount" in obj ? obj["siblingCount"] : 0;
-
-    // let's get some specifics from the configuration file
-    // just in case these were missing
-
-    // layout.componentData = ComponentManager.getComponent(layout.component);
-
-    // generate a unique name so that we can store files, publish events etc
-    // all with this very specific identifier
-
-    layout.uuid = dashboardId !== undefined ? "".concat(dashboardId, "-").concat(layout["component"], "-").concat(layout.id) : "".concat(layout["component"], "-").concat(layout.id);
-
-    // if (layout.componentData !== undefined) {
-    //     if ("type" in layout.componentData)
-    //         layout.type = layout.componentData.type;
-    //     if ("workspace" in layout.componentData)
-    //         layout.workspace = layout.componentData.workspace;
-    // }
-
-    /// widget configuration
-    var widgetConfig = ComponentManager.config(obj["component"], obj);
-    if (widgetConfig !== null && widgetConfig !== undefined) {
-      Object.keys(widgetConfig).forEach(function (key) {
-        // console.log("LayoutModel key", key);
-        layout[key] = widgetConfig[key];
-      });
-    }
-
-    // last check for this being a container...
-    if ("workspace" in layout) {
-      if (layout.workspace === "layout") {
-        // if (layout.width === "") {
-        //     layout.width = "w-full";
-        // }
-        // if (layout.scrollable === "") {
-        //     layout.scrollable = true;
-        // }
-        if (layout.direction === "") {
-          layout.direction = "col";
-        }
-      }
-    }
-
-    // lets check to see if we already have the parent workspace?
-    if (layout.parentWorkspaceName === undefined || Object.keys(layout.parentWorkspace).length === 0) {
-      // get the nearest workspace and assign this as the parent for rendering
-      var tempLayout = deepCopy(layout);
-      var parentWS = getNearestParentWorkspace(workspaceLayout, tempLayout, tempLayout);
-      var parentWorkspaceName = "layout";
-      if (parentWS) {
-        if ("workspace" in parentWS) {
-          parentWorkspaceName = parentWS["workspace"];
-        }
-      }
-      layout.parentWorkspaceName = parentWorkspaceName;
-      layout.parentWorkspace = parentWS || {};
-    }
-    return layout;
-  } catch (e) {
-    console.log("layout model ", e.message);
-    return null;
-  }
-};
-
-/**
- * ColorModel
- *
- * Handle all of the data for a color (theme)
- */
-
-/**
- *
- * @param {Object} obj
- * @returns
- */
-var ColorModel = function ColorModel() {
-  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  try {
-    if (obj) {
-      // console.log("cm: ", obj);
-      var temp = deepCopy(obj);
-      var color = {};
-      color.panelType = "panelType" in temp ? temp.panelType : "main";
-      color.colorName = "colorName" in temp ? temp.colorName : "white";
-      color.colorType = "colorType" in temp ? temp.colorType !== undefined && temp.colorType !== null ? temp.colorType : "primary" : "primary";
-      color.shade = "shade" in temp ? temp.shade : 500;
-      color.variant = "variant" in temp ? temp.variant : "dark";
-      color.level = "level" in temp ? temp.level : "light";
-      color.objectType = "objectType" in temp ? temp.objectType : "bg";
-      color.styleName = getStyleName(color.objectType); //'background';
-
-      /**
-       * generate the display name
-       */
-      color.displayName = "displayName" in temp ? temp.name : capitalizeFirstLetter(color.colorName);
-
-      /**
-       * Strings for the theme class name and the class to be used in className
-       */
-      color.themeClass = "".concat(color.objectType, "-").concat(color.colorType, "-").concat(color.level);
-      color["class"] = "".concat(color.objectType, "-").concat(color.colorName, "-").concat(color.shade);
-
-      /**
-       * Grab the hex code via tailwind for the tailwind color
-       * This may change as we move to hex codes for selection
-       */
-      color.hex = colors[color.colorName];
-      return color;
-    }
-    return null;
-  } catch (e) {
-    console.log(e.message);
-    return obj;
-  }
-};
-
-var SettingsModel = function SettingsModel() {
-  var settingsObject = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var obj = deepCopy(settingsObject);
-  obj["debug"] = "debug" in obj ? obj["debug"] : false;
-  return obj;
-};
-
-/**
- * WorkspaceModel
- *
- */
-var WorkspaceModel = function WorkspaceModel(workspaceItem) {
-  var obj = deepCopy(workspaceItem);
-  var workspace = {};
-  workspace.id = "id" in obj ? obj["id"] : null;
-  workspace.name = "name" in obj ? obj["name"] : "My Workspace";
-  workspace.type = "type" in obj ? obj["type"] : "layout";
-  workspace.label = "label" in obj ? obj["label"] : "Workspace";
-  workspace.layout = "layout" in obj ? obj["layout"] : [];
-  return workspace;
-};
-
-/**
- * ThemeModel
- *
- */
-
-/**
- * getNextLevel
- * Need to generate the levels for tailwind
- * @param {int} currentLevel
- */
-function getNextLevel(currentLevel) {
-  var next = currentLevel + 100;
-  return next <= 900 ? next : currentLevel;
-}
-function invert(shade) {
-  return 900 - parseInt(shade, 10);
-}
-var ThemeModel = function ThemeModel() {
-  var themeItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  try {
-    var obj = deepCopy(themeItem);
-    var overrideDark = "dark" in themeItem ? themeItem["dark"] : null;
-    var overrideLight = "light" in themeItem ? themeItem["light"] : null;
-    var theme = {};
-    var info = {};
-    theme.id = "id" in obj ? obj["id"] : null;
-    theme.name = "name" in obj ? obj["name"] : "My Theme";
-
-    // for each of the color types we should set...
-    colorTypes.forEach(function (type) {
-      theme[type] = type in obj ? obj[type] : "gray";
-    });
-
-    // theme.primary = 'primary' in obj ? obj['primary'] : 'gray';
-    // theme.secondary = 'secondary' in obj ? obj['secondary'] : 'blue';
-    // theme.tertiary = 'tertiary' in obj ? obj['tertiary'] : 'indigo';
-
-    theme.shadeFrom = "shadeFrom" in obj ? obj["shadeFrom"] : 100;
-
-    // unused from
-    theme.shadeBackgroundFrom = "shadeBackgroundFrom" in obj ? obj["shadeBackgroundFrom"] : 100;
-    theme.shadeTextFrom = "shadeTextFrom" in obj ? obj["shadeTextFrom"] : 100;
-    theme.shadeBorderFrom = "shadeBorderFrom" in obj ? obj["shadeBorderFrom"] : 100;
-    theme.shadeTo = "shadeTo" in obj ? obj["shadeTo"] : 700;
-
-    // somehow generate the colors based on the theme inputs...
-    // light, medium, dark for each?
-    // example: bg-primary-light, bg-primary-medium, bg-primary-dark,
-
-    var variants = {
-      light: {
-        "very-light": 100,
-        light: 200,
-        medium: 300,
-        dark: 400,
-        "very-dark": 500
-      },
-      dark: {
-        "very-light": 500,
-        light: 600,
-        medium: 700,
-        dark: 800,
-        "very-dark": 900
-      }
-    };
-
-    // iterate over each color type "primary, secondary, tertiary ..."
-    // and generate the colors necessary (shades) based on tailwind
-    colorTypes.forEach(function (type) {
-      Object.keys(variants).forEach(function (variant) {
-        if (variant in theme === false) {
-          theme[variant] = {};
-        }
-        Object.keys(variants[variant]).forEach(function (shade) {
-          theme[variant]["bg-".concat(type, "-").concat(shade)] = "bg-".concat(theme[type], "-").concat(variants[variant][shade]);
-          theme[variant]["hover-bg-".concat(type, "-").concat(shade)] = "hover:bg-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
-          theme[variant]["hover-border-".concat(type, "-").concat(shade)] = "hover:border-".concat(theme[type], "-").concat(getNextLevel(variants[variant][shade]));
-          theme[variant]["border-".concat(type, "-").concat(shade)] = "border-".concat(theme[type], "-").concat(variants[variant][shade]);
-          // we should be "flipping" these so dark text on light and light on dark...
-          theme[variant]["text-".concat(type, "-").concat(shade)] = "text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
-          theme[variant]["hover-text-".concat(type, "-").concat(shade)] = "hover:text-".concat(theme[type], "-").concat(invert(variants[variant][shade]));
-        });
-      });
-    });
-
-    // lets try gradients
-
-    // Primary
-
-    theme["dark"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.primary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.primary, "-").concat(variants["dark"]["dark"]);
-    theme["light"]["bg-primary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-primary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.primary, "-").concat(variants["light"]["medium"], " via-").concat(theme.primary, "-").concat(variants["light"]["medium"], " to-").concat(theme.primary, "-").concat(variants["light"]["dark"]);
-
-    // Secondary
-
-    theme["dark"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["dark"]["dark"]);
-    theme["light"]["bg-secondary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], "  via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-secondary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.secondary, "-").concat(variants["light"]["medium"], " via-").concat(theme.secondary, "-").concat(variants["light"]["medium"], " to-").concat(theme.secondary, "-").concat(variants["light"]["dark"]);
-
-    // Tertiary
-
-    theme["dark"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["dark"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["dark"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["dark"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-right"] = "bg-gradient-to-r from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-bottom"] = "bg-gradient-to-b from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-left"] = "bg-gradient-to-l from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-top"] = "bg-gradient-to-t from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-top-right"] = "bg-gradient-to-tr from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-bottom-right"] = "bg-gradient-to-br from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-top-left"] = "bg-gradient-to-tl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-    theme["light"]["bg-tertiary-gradient-bottom-left"] = "bg-gradient-to-bl from-".concat(theme.tertiary, "-").concat(variants["light"]["medium"], " via-").concat(theme.tertiary, "-").concat(variants["light"]["medium"], " to-").concat(theme.tertiary, "-").concat(variants["light"]["dark"]);
-
-    // now for the overrides!
-    if (overrideDark !== null) {
-      Object.keys(overrideDark).forEach(function (key) {
-        theme["dark"][key] = overrideDark[key];
-      });
-    }
-    if (overrideLight !== null) {
-      Object.keys(overrideLight).forEach(function (key) {
-        theme["light"][key] = overrideLight[key];
-      });
-    }
-
-    // Primary, secondary, etc..
-    theme["light"]["name"] = theme.name;
-    colorTypes.forEach(function (type) {
-      theme["light"][type] = theme[type];
-    });
-    colorTypes.forEach(function (type) {
-      theme["dark"][type] = theme[type];
-    });
-    theme["dark"]["name"] = theme.name;
-
-    // transparent colors
-    theme["dark"]["bg-none"] = "bg-transparent";
-    theme["dark"]["border-none"] = "border-transparent";
-    theme["dark"]["hover-border-none"] = "hover:border-transparent";
-    theme["dark"]["hover-bg-none"] = "hover:bg-transparent";
-    theme["dark"]["hover-text-none"] = "hover:text-transparent";
-    theme["light"]["bg-none"] = "bg-transparent";
-    theme["light"]["border-none"] = "border-transparent";
-    theme["light"]["hover-border-none"] = "hover:border-transparent";
-    theme["light"]["hover-bg-none"] = "hover:bg-transparent";
-    theme["light"]["hover-text-none"] = "hover:text-transparent";
-    return theme;
-  } catch (e) {
-    console.log("ThemeModel ", e.message);
-    return {};
-  }
-};
-
-/*
- "component": AnalyticsReportsWidget,
-    "type":"widget",
-    "workspace":"algolia-analytics",
-    "canHaveChildren": false,
-    "userConfig": {
-        "report": { type: 'select', displayName: "Report Type", instructions: "Select the report from the list", options: [
-            {
-                value: '',
-                displayName: 'User Select'
-            },
-            {
-                value: 'top-searches',
-                displayName: 'Top Searches'
-            },
-            {
-                value: 'top-searches-count',
-                displayName: 'Top Searches Count',
-            },
-            {
-                value: 'no-results',
-                displayName: 'No Results',
-            },
-            {
-                value: 'query-analytics',
-                displayName: 'Query Analytics',
-            }
-        ], required: false },
-        "indexName": { type: "text", defaultValue: "dev_find_accelerator", instructions: "Type the name of the index you wish to search", options: [], displayName: "Index Name", required: true },
-        "appId": { type: "text", defaultValue: process.env.REACT_APP_APP_ID, instructions: "Type the name of the appId", options: [], displayName: "App Id", required: true },
-        "apiKey": { type: "secret", defaultValue: process.env.REACT_APP_ALGOLIA_KEY, instructions: "Type the api key for this appId", options: [], displayName: "Api Key", required: true },
-    },
-    "styles": {
-        "backgroundColor": "bg-blue-900",
-        "borderColor": "border-blue-900"
-    },
-    "events": ["fetchAnalyticsComplete"],
-    "eventHandlers":['handleSearchChange','handleRefinementChange']
-*/
-/**
- * ComponentConfigModel
- * @param {object} o the data passed in to generate the model
- * @returns <ComponentConfigModel>Object
- */
-var ComponentConfigModel = function ComponentConfigModel() {
-  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  // console.log("config model in ", obj);
-  // const obj = deepCopy(o);
-
-  /**
-   * id
-   * The unique identifer for the component
-   */
-  obj.id = "id" in obj ? obj["id"] : null;
-
-  /**
-   * name
-   * The name of the component for display purposes
-   */
-  obj.name = "name" in obj ? obj["name"] : "My Workspace";
-
-  /**
-   * type
-   * The type of component (widget|workspace)
-   */
-  obj.type = "type" in obj ? obj["type"] : "workspace";
-
-  /**
-   * workspace
-   * The workspace this component belongs to
-   */
-  obj.workspace = "workspace" in obj ? obj["workspace"] : "workspace-dash";
-
-  /**
-   * userConfig
-   * Allow the end users to edit/input parameters into the edit widget layout panel
-   */
-  obj.userConfig = "userConfig" in obj ? obj["userConfig"] : {};
-
-  /**
-   * layout builder styles
-   */
-  obj.styles = "styles" in obj ? obj["styles"] : {
-    backgroundColor: "bg-blue-800",
-    borderColor: "border-blue-900"
-  };
-
-  // console.log("config: ", obj);
-
-  return obj;
 };
 
 var ThemePane = function ThemePane(_ref) {
@@ -4647,7 +4647,6 @@ var Dashboard = function Dashboard(_ref) {
       pub.pub("dashboard.workspaceChange", {
         workspaces: workspacesTemp
       });
-      console.log("workspace selected ", workspacesTemp);
       setWorkspaceConfig(function () {
         return workspacesTemp;
       });
@@ -4944,7 +4943,8 @@ var Dashboard = function Dashboard(_ref) {
 };
 
 var DashboardFooter = function DashboardFooter(_ref) {
-  var preview = _ref.preview,
+  var workspace = _ref.workspace,
+    preview = _ref.preview,
     _ref$backgroundColor = _ref.backgroundColor,
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
     _ref$borderColor = _ref.borderColor,
@@ -4974,6 +4974,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
   var handleHome = function handleHome() {
     onHome && onHome();
   };
+  console.log("DS workspace ", workspace);
   return (
     /*#__PURE__*/
     // <div
@@ -4986,15 +4987,22 @@ var DashboardFooter = function DashboardFooter(_ref) {
       className: "p-2 border-t ".concat(stylesFooter.string),
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-row justify-between w-full",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "flex flex-row space-x-1",
-          children: /*#__PURE__*/jsx("div", {
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-4",
+          children: [/*#__PURE__*/jsx("div", {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
               icon: "arrow-left",
               onClick: handleHome
             })
-          })
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-row justify-center items-center",
+            children: /*#__PURE__*/jsx(SubHeading3, {
+              title: workspace.name,
+              padding: false,
+              className: "text-gray-700 font-bold text-base"
+            })
+          })]
         }), preview === true && /*#__PURE__*/jsx("div", {
           className: "flex flex-row space-x-1",
           children: /*#__PURE__*/jsx(ButtonIcon, {
@@ -6372,7 +6380,7 @@ var PanelEditItem = function PanelEditItem(_ref) {
             className: "flex p-2 text-xs ".concat(theme["text-secondary-dark"], " rounded-br uppercase font-bold "),
             children: "Preview"
           }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col p-4",
+            className: "flex flex-col p-4 h-full",
             children: itemSelected !== null && workspaceSelected !== null && renderEditContainer()
           })]
         })
@@ -7847,13 +7855,15 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
       })]
     }, "config-item-".concat(key));
   }
-  console.log("height fractions ", generateHeightFractions());
   return itemSelected && /*#__PURE__*/jsxs("div", {
     className: "flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full",
     children: [/*#__PURE__*/jsx("div", {
       className: "flex flex-col w-full h-full overflow-hidden",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col space-y-2 w-full overflow-y-scroll",
+      children: /*#__PURE__*/jsxs(LayoutContainer, {
+        direction: "col",
+        scrollable: true,
+        space: false,
+        grow: true,
         children: [renderCustomSettings(), /*#__PURE__*/jsxs("div", {
           className: "rounded flex flex-col p-2",
           children: [/*#__PURE__*/jsxs("span", {
@@ -7995,11 +8005,6 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
               children: "No Growing Allowed"
             }, "grow-no")]
           })]
-        }), /*#__PURE__*/jsx("div", {
-          className: "text-xs p-4 break-all",
-          children: /*#__PURE__*/jsx("pre", {
-            children: JSON.stringify(itemSelected, null, 2)
-          })
         })]
       })
     }), onSave !== null && /*#__PURE__*/jsx("div", {
@@ -8391,7 +8396,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
         width: "w-full",
         height: "h-full",
         grow: true,
-        space: true,
+        space: preview,
         children: [preview === true && /*#__PURE__*/jsx(LayoutDragBuilder, {
           dashboardId: dashboardId,
           isDraggable: true,
@@ -8709,9 +8714,9 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
   function renderUserPreferences() {
     try {
       return preview === false && /*#__PURE__*/jsx("div", {
-        className: "flex flex-col h-24",
+        className: "flex flex-col h-fit",
         children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-full text-xs text-gray-200 justify-start",
+          className: "flex flex-col w-full text-xs text-gray-200 justify-start p-2",
           onClick: handleOpenConfig,
           children: Object.keys(item["userPrefs"]).map(function (userPref) {
             return /*#__PURE__*/jsx("span", {
@@ -8777,9 +8782,9 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
       onDropItem: handleDropItem,
       width: width,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 z-0 min-h-64 p-2 overflow-hidden ").concat(getContainerColor(item["parentWorkspace"])),
+        className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 z-0 p-2 overflow-hidden ").concat(getContainerColor(item["parentWorkspace"])),
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col ".concat(scrollable, " ").concat(preview === false && "text-blue-900 rounded m-2", " "),
+          className: "flex flex-col ".concat(scrollable, " ").concat(preview === false && "text-blue-900 rounded", " "),
           onClick: handleOpenConfig,
           children: [preview === false && renderArrows(), preview === false && renderUserPreferences()]
         }), /*#__PURE__*/jsx("div", {
@@ -8820,7 +8825,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
         })]
       })
     }) : /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0 min-h-64 h-24",
+      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0",
       children: [/*#__PURE__*/jsx("div", {
         className: "flex flex-row space-x-2 rounded-t justify-between w-full",
         children: /*#__PURE__*/jsxs("div", {
@@ -9029,7 +9034,6 @@ var WidgetFactory = {
     var children = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
     try {
       var m = ComponentManager.componentMap();
-      console.log("factory ", m, component);
       if (component && m) {
         var isLayout = ComponentManager.isLayoutContainer(component);
         // grab the component from the map
@@ -9188,9 +9192,9 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     preview = _ref$preview === void 0 ? false : _ref$preview,
     id = _ref.id,
     parent = _ref.parent,
-    scrollable = _ref.scrollable,
-    space = _ref.space,
-    grow = _ref.grow,
+    scrollable = _ref.scrollable;
+    _ref.space;
+    var grow = _ref.grow,
     order = _ref.order,
     _ref$children = _ref.children,
     children = _ref$children === void 0 ? null : _ref$children,
@@ -9233,7 +9237,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
         children: "".concat(item["component"])
       })
     }) : /*#__PURE__*/jsx("div", {
-      className: "flex flex-row px-2 pt-1 space-x-1 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full")
+      className: "flex flex-row px-2 space-x-1 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full")
     });
   }
   function renderEditFooter() {
@@ -9249,7 +9253,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
     var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
     return /*#__PURE__*/jsx("div", {
-      className: "flex flex-row space-x-1 justify-between w-full px-2 pb-2",
+      className: "flex flex-row space-x-1 justify-between w-full px-2 pb-1",
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-row space-x-1 text-indigo-700",
         children: [canHaveChildren === true && /*#__PURE__*/jsx(ButtonIcon, {
@@ -9354,16 +9358,17 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
         id: "grid-container-parent-".concat(id),
         direction: "col",
         width: "w-full",
-        height: "min-h-24",
+        height: "h-fit",
         scrollable: false,
         className: "rounded overflow-x-hidden ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24"),
+        space: preview,
         children: [preview === false && renderEditHeader(), /*#__PURE__*/jsx(LayoutContainer, {
           id: "grid-container-".concat(id),
           direction: direction,
           scrollable: scrollable,
           width: "w-full",
           height: "".concat(height, " min-h-24"),
-          space: space,
+          space: preview,
           grow: grow,
           className: "".concat(preview === false && "p-3", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
           children: children !== null && children
@@ -10948,7 +10953,7 @@ function SubHeading3(_ref6) {
     grow: false
   });
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-2xl ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick,
     children: title
   });

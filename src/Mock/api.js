@@ -69,6 +69,68 @@ export const mockApi = {
                 },
             };
         },
+        saveTheme: function (appId, themeKey, rawTheme) {
+            return {
+                "theme-1": {
+                    id: "theme-1678712201937",
+                    name: "Default 1",
+                    primary: "gray",
+                    secondary: "gray",
+                    tertiary: "blue",
+                    neutral: "violet",
+                    shadeBackgroundFrom: 600,
+                    shadeBorderFrom: 600,
+                    shadeTextFrom: 100,
+                    dark: {},
+                    light: {},
+                },
+                "theme-1678712201937": {
+                    id: "theme-1678712201937",
+                    name: "Testerama",
+                    primary: "neutral",
+                    secondary: "blue",
+                    tertiary: "gray",
+                    neutral: "gray",
+                    shadeBackgroundFrom: 200,
+                    shadeBorderFrom: 300,
+                    shadeTextFrom: 700,
+                    dark: {
+                        "panel-3": {
+                            backgroundColor: "bg-blue-200",
+                        },
+                    },
+                    light: {},
+                },
+                "theme-1679660773803": {
+                    id: "theme-1679660773803",
+                    name: "Default Muted",
+                    primary: "gray",
+                    secondary: "emerald",
+                    tertiary: "emerald",
+                    neutral: "gray",
+                    shadeBackgroundFrom: 200,
+                    shadeBorderFrom: 300,
+                    shadeTextFrom: 700,
+                    dark: {
+                        "panel-3": {
+                            backgroundColor: "bg-amber-600",
+                        },
+                    },
+                    light: {},
+                },
+                "theme-1679875712335": {
+                    id: "theme-1679875712335",
+                    name: "New Theme",
+                    primary: "gray",
+                    secondary: "slate",
+                    tertiary: "orange",
+                    neutral: "gray",
+                    shadeBackgroundFrom: 200,
+                    shadeBorderFrom: 300,
+                    shadeTextFrom: 700,
+                },
+            };
+        },
     },
     settings: {
         listSettingsForApplication: function () {

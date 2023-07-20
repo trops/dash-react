@@ -69,8 +69,8 @@ interface IDashboardApi {
      */
     listMenuItems: (
         appId: string,
-        onSuccess?: { menuItems: [] },
-        onError?: Error
+        onSuccess: { menuItems: [] },
+        onError: Error
     ) => Boolean;
 
     /**
@@ -82,8 +82,8 @@ interface IDashboardApi {
     saveWorkspace: (
         appId: string,
         workspaceToSave: any,
-        onSuccess?: any,
-        onError?: Error
+        onSuccess: any,
+        onError: Error
     ) => Boolean;
 
     /**
@@ -95,16 +95,22 @@ interface IDashboardApi {
     saveMenuItem: (
         appId: string,
         menuItem: any,
-        onSuccess?: any,
-        onError?: Error
+        onSuccess: any,
+        onError: Error
     ) => Boolean;
 
     saveSettings: (
         appId: string,
         settings: any,
-        onSuccess?: any,
-        onError?: Error
+        onSuccess: any,
+        onError: Error
     ) => Boolean;
+
+    saveTheme(appId,
+        themeKey: string,
+        rawTheme: {},
+        onSuccess:any,
+        onError:any): Boolean;
 }
 
 export default IDashboardApi;
