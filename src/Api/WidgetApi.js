@@ -25,7 +25,7 @@ export const WidgetApi = {
                     removeAllListeners: api.removeAllListeners,
                     data: api.data,
                     algolia: api.algolia,
-                    events: api.publicEvents,
+                    events: api.events,
                 };
             }
         } catch (e) {

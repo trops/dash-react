@@ -43,9 +43,14 @@ const themes = {
     },
 };
 
-export const ThemeWrapper = ({ theme = null, children }) => {
+export const ThemeWrapper = ({
+    theme = null,
+    dashApi,
+    credentials,
+    children,
+}) => {
     // changeApplicationTheme will save this to the settings config
-    const { dashApi, credentials } = useContext(AppContext);
+    // const { dashApi, credentials } = useContext(AppContext);
 
     const [chosenTheme, setChosenTheme] = useState(theme);
     const [themeName, setThemeName] = useState(null);
@@ -62,13 +67,13 @@ export const ThemeWrapper = ({ theme = null, children }) => {
         // If the user has provided a theme as a override,
         // we can skip loading the themes...
 
-        // console.log(
-        //     "THEME WRAPPER ",
-        //     chosenTheme,
-        //     dashApi,
-        //     credentials,
-        //     themesForApplication
-        // );
+        console.log(
+            "THEME WRAPPER ",
+            chosenTheme,
+            dashApi,
+            credentials,
+            themesForApplication
+        );
 
         if (chosenTheme === null) {
             if (theme !== null) {

@@ -52,9 +52,6 @@ export const DashboardFooter = ({
     console.log("DS workspace ", workspace);
 
     return (
-        // <div
-        //     className={`flex flex-row p-2 border-t w-full justify-between ${stylesFooter.string}`}
-        // >
         <LayoutContainer
             direction="row"
             grow={false}
@@ -66,34 +63,15 @@ export const DashboardFooter = ({
                     <div className="w-10 h-10 items-center justify-center">
                         <ButtonIcon icon="arrow-left" onClick={handleHome} />
                     </div>
-                    <div className="flex flex-row justify-center items-center">
-                        <SubHeading3
-                            title={workspace.name}
-                            padding={false}
-                            className="text-gray-700 font-bold text-base"
-                        />
-                    </div>
-                    {/* <div className="w-10 h-10 items-center justify-center">
-                        <ButtonIcon
-                            icon="plus"
-                            onClick={handleAddNewMenuItem}
-                            hoverBackgroundColor={"hover:bg-green-700"}
-                        />
-                    </div>
-                    <div className="w-10 h-10 items-center justify-center">
-                        <ButtonIcon
-                            icon="palette"
-                            onClick={handleOpenThemeManager}
-                            hoverBackgroundColor={"hover:bg-orange-700"}
-                        />
-                    </div>
-                    <div className="w-10 h-10 items-center justify-center">
-                        <ButtonIcon
-                            icon="computer"
-                            onClick={handleOpenSettings}
-                            hoverBackgroundColor={"hover:bg-orange-700"}
-                        />
-                    </div> */}
+                    {workspace && (
+                        <div className="flex flex-row justify-center items-center">
+                            <SubHeading3
+                                title={workspace.name}
+                                padding={false}
+                                className="text-gray-700 font-bold text-base"
+                            />
+                        </div>
+                    )}
                 </div>
                 {preview === true && (
                     <div className="flex flex-row space-x-1">
@@ -122,7 +100,6 @@ export const DashboardFooter = ({
                     </div>
                 )}
             </div>
-            {/* </div> */}
         </LayoutContainer>
     );
 };

@@ -8,13 +8,15 @@ class ElectronDashboardApi implements IDashboardApi {
      * events
      * Events to be used for the api calls (call, success, error)
      */
-    events: apiEvents;
+    events: any;
 
     constructor(api: any, events?: any) {
         console.log("constructor events ", events, apiEvents);
         this.api = api;
         if (events) {
             this.events = events;
+        } else {
+            this.events = apiEvents;
         }
     }
 

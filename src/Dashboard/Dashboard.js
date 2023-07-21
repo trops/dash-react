@@ -391,7 +391,8 @@ export const Dashboard = ({
 
     console.log(menuItems, currentTheme);
     return (
-        menuItems && (
+        menuItems &&
+        currentTheme && (
             <DashboardWrapper dashApi={dashApi} credentials={credentials}>
                 <LayoutContainer
                     padding={false}
@@ -403,55 +404,7 @@ export const Dashboard = ({
                     grow={true}
                 >
                     <DndProvider backend={HTML5Backend}>
-                        {/* <div
-                            className={`flex flex-col space-y-1 p-2 items-center h-full z-40 justify-between`}
-                        > */}
-                        {/* <div className="flex flex-col">
-                                <div className="w-10 h-10 items-center justify-center">
-                                    <ButtonIcon
-                                        icon="home"
-                                        onClick={() =>
-                                            setWorkspaceSelected(null)
-                                        }
-                                    />
-                                </div>
-                                {menuItems && renderMenuItems()}
-                            </div> */}
-                        {/* <div className="flex flex-col">
-                                <div className="w-10 h-10 items-center justify-center">
-                                    <ButtonIcon
-                                        icon="plus"
-                                        onClick={handleAddNewMenuItem}
-                                        hoverBackgroundColor={
-                                            "hover:bg-green-700"
-                                        }
-                                    />
-                                </div>
-                                <div className="w-10 h-10 items-center justify-center">
-                                    <ButtonIcon
-                                        icon="palette"
-                                        onClick={handleOpenThemeManager}
-                                        hoverBackgroundColor={
-                                            "hover:bg-orange-700"
-                                        }
-                                    />
-                                </div>
-                                <div className="w-10 h-10 items-center justify-center">
-                                    <ButtonIcon
-                                        icon="computer"
-                                        onClick={() =>
-                                            setIsSettingsModalOpen(true)
-                                        }
-                                        hoverBackgroundColor={
-                                            "hover:bg-orange-700"
-                                        }
-                                    />
-                                </div>
-                            </div> */}
-                        {/* </div> */}
-
                         {workspaceSelected !== null && (
-                            // <div className="flex flex-col h-full w-full justify-between overflow-hidden">
                             <LayoutContainer
                                 padding={false}
                                 space={true}

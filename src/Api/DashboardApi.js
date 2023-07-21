@@ -53,7 +53,7 @@ export const DashboardApi = {
         const minified = {};
         minified["data"] = myApi.data;
         minified["algolia"] = myApi.algolia;
-        minified["events"] = myApi.publicEvents;
+        minified["events"] = myApi.events;
 
         this._api = minified;
     },

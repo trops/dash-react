@@ -8,7 +8,7 @@ import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
-import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, HashRouter, Routes } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -719,13 +719,21 @@ var ElectronDashboardApi = /** @class */ (function () {
  * MockDashboardApi
  * This Api will be used in the mock testing for Storybook and general testing
  */
+console.log(apiEvents);
 var MockDashboardApi = /** @class */ (function () {
     /**
      * constructor
      * @param object api
      */
-    function MockDashboardApi(api) {
+    function MockDashboardApi(api, events) {
         this.api = api;
+        if (events) {
+            this.events = events;
+        }
+        else {
+            this.events = apiEvents;
+        }
+        console.log("mock constructor ", this.events);
     }
     /**
      *
@@ -852,7 +860,20 @@ var WebDashboardApi = /** @class */ (function () {
     return WebDashboardApi;
 }());
 
-var ThemeContext = /*#__PURE__*/createContext("dark");
+var ThemeContext = /*#__PURE__*/createContext({
+  key: Date.now(),
+  currentTheme: "theme-1",
+  currentThemeKey: null,
+  theme: null,
+  themeKey: null,
+  themeVariant: "dark",
+  changeCurrentTheme: null,
+  changeThemeVariant: null,
+  changeThemesForApplication: null,
+  loadThemes: null,
+  themes: null,
+  rawThemes: null
+});
 
 function _typeof$K(obj) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$K(obj); }
 /**
@@ -5344,7 +5365,7 @@ var Dashboard = function Dashboard(_ref) {
     setIsThemeManagerOpen(true);
   }
   console.log(menuItems, currentTheme);
-  return menuItems && /*#__PURE__*/jsx(DashboardWrapper, {
+  return menuItems && currentTheme && /*#__PURE__*/jsx(DashboardWrapper, {
     dashApi: dashApi,
     credentials: credentials,
     children: /*#__PURE__*/jsx(LayoutContainer, {
@@ -5357,10 +5378,7 @@ var Dashboard = function Dashboard(_ref) {
       grow: true,
       children: /*#__PURE__*/jsxs(DndProvider, {
         backend: HTML5Backend,
-        children: [workspaceSelected !== null &&
-        /*#__PURE__*/
-        // <div className="flex flex-col h-full w-full justify-between overflow-hidden">
-        jsxs(LayoutContainer, {
+        children: [workspaceSelected !== null && /*#__PURE__*/jsxs(LayoutContainer, {
           padding: false,
           space: true,
           height: "h-full",
@@ -5491,7 +5509,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
               icon: "arrow-left",
               onClick: handleHome
             })
-          }), /*#__PURE__*/jsx("div", {
+          }), workspace && /*#__PURE__*/jsx("div", {
             className: "flex flex-row justify-center items-center",
             children: /*#__PURE__*/jsx(SubHeading3, {
               title: workspace.name,
@@ -5748,11 +5766,12 @@ var themes$1 = {
 var ThemeWrapper = function ThemeWrapper(_ref) {
   var _ref$theme = _ref.theme,
     theme = _ref$theme === void 0 ? null : _ref$theme,
+    dashApi = _ref.dashApi,
+    credentials = _ref.credentials,
     children = _ref.children;
   // changeApplicationTheme will save this to the settings config
-  var _useContext = useContext$1(AppContext),
-    dashApi = _useContext.dashApi,
-    credentials = _useContext.credentials;
+  // const { dashApi, credentials } = useContext(AppContext);
+
   var _useState = useState(theme),
     _useState2 = _slicedToArray$o(_useState, 2),
     chosenTheme = _useState2[0],
@@ -5784,14 +5803,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     // If the user has provided a theme as a override,
     // we can skip loading the themes...
 
-    // console.log(
-    //     "THEME WRAPPER ",
-    //     chosenTheme,
-    //     dashApi,
-    //     credentials,
-    //     themesForApplication
-    // );
-
+    console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials, themesForApplication);
     if (chosenTheme === null) {
       if (theme !== null) {
         var defaultTheme = ThemeModel(theme);
@@ -6163,38 +6175,14 @@ var WidgetContext = /*#__PURE__*/createContext({
 
 var DashboardWrapper = function DashboardWrapper(_ref) {
   var dashApi = _ref.dashApi,
-    credentials = _ref.credentials,
-    children = _ref.children;
-  //const { api } = useContext(AppContext);
-
-  function buildWidgetApi() {
-    var w = WidgetApi;
-    w.setPublisher(DashboardPublisher);
-    w.setElectronApi(dashApi);
-    return w;
-  }
-  function getValue() {
-    console.log({
-      widgetApi: buildWidgetApi(),
-      pub: DashboardPublisher,
-      dashApi: dashApi,
-      credentials: credentials
-    });
-    return {
-      widgetApi: buildWidgetApi(),
-      pub: DashboardPublisher,
-      dashApi: dashApi,
-      credentials: credentials
-    };
-  }
+    credentials = _ref.credentials;
+    _ref.children;
   return /*#__PURE__*/jsx(AppWrapper, {
     dashApi: dashApi,
     credentials: credentials,
     children: /*#__PURE__*/jsx(ThemeWrapper, {
-      children: /*#__PURE__*/jsx(DashboardContext.Provider, {
-        value: getValue(),
-        children: children
-      })
+      dashApi: dashApi,
+      credentials: credentials
     })
   });
 };
@@ -22711,7 +22699,7 @@ var MockAlgolia = function MockAlgolia(_ref4) {
 };
 var MockDashboard = function MockDashboard(_ref5) {
   _ref5.apiMock;
-    var children = _ref5.children;
+    _ref5.children;
     _ref5.backgroundColor;
     _objectWithoutProperties(_ref5, _excluded5);
   // initialize the widgets
@@ -22727,12 +22715,7 @@ var MockDashboard = function MockDashboard(_ref5) {
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col w-screen h-screen overflow-hidden justify-between p-0",
       children: /*#__PURE__*/jsx(MainSection, {
-        children: /*#__PURE__*/jsx(Routes, {
-          children: /*#__PURE__*/jsx(Route, {
-            path: "/",
-            element: children
-          })
-        })
+        children: /*#__PURE__*/jsx(Routes, {})
       })
     })
   });
