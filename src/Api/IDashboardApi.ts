@@ -10,6 +10,11 @@ interface IDashboardApi {
      * @example Electron api
      */
     api: any;
+
+    /**
+     * events
+     * The events that will be used throughout the API
+     */
     events: any;
 
     /**
@@ -23,8 +28,8 @@ interface IDashboardApi {
      */
     listWorkspaces: (
         appId: string,
-        onSuccess?: { workspaces: [] },
-        onError?: Error
+        onSuccess: { event:string, workspaces: [] },
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     /**
@@ -38,8 +43,8 @@ interface IDashboardApi {
      */
     listThemes: (
         appId: string,
-        onSuccess?: { themes: [] },
-        onError?: Error
+        onSuccess: {  event:string, themes: [] },
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     /**
@@ -52,8 +57,8 @@ interface IDashboardApi {
      */
     listSettings: (
         appId: string,
-        onSuccess: { settings: [] },
-        onError: Error
+        onSuccess: { event:string, settings: [] },
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     /**
@@ -67,8 +72,8 @@ interface IDashboardApi {
      */
     listMenuItems: (
         appId: string,
-        onSuccess: { menuItems: [] },
-        onError: Error
+        onSuccess: { event:string, menuItems: [] },
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     /**
@@ -80,8 +85,8 @@ interface IDashboardApi {
     saveWorkspace: (
         appId: string,
         workspaceToSave: any,
-        onSuccess: any,
-        onError: Error
+        onSuccess: { event:string, m:string },
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     /**
@@ -94,14 +99,14 @@ interface IDashboardApi {
         appId: string,
         menuItem: any,
         onSuccess: any,
-        onError: Error
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     saveSettings: (
         appId: string,
         settings: any,
         onSuccess: any,
-        onError: Error
+        onError: { event:string, e:Error }
     ) => Boolean;
 
     saveTheme(
@@ -109,7 +114,7 @@ interface IDashboardApi {
         themeKey: string,
         rawTheme: {},
         onSuccess: any,
-        onError: any
+        onError: { event:string, e:Error }
     ): Boolean;
 }
 
