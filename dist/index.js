@@ -350,299 +350,6 @@ var DashboardApi = {
   }
 };
 
-var ElectronDashboardApi = /** @class */ (function () {
-    function ElectronDashboardApi(api, events) {
-        console.log("constructor events ", events);
-        this.api = api;
-        if (events) {
-            this.events = events;
-        }
-    }
-    ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
-                this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
-                this.api.workspace.listWorkspacesForApplication(appId);
-                return true;
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return false;
-    };
-    ElectronDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.on(this.api.events.MENU_ITEMS_LIST_COMPLETE, onSuccess);
-                this.api.on(this.api.events.MENU_ITEMS_LIST_ERROR, onError);
-                this.api.menuItems.listMenuItems(appId);
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return false;
-    };
-    ElectronDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.api.events.THEME_LIST_COMPLETE, onSuccess);
-                this.api.on(this.api.events.THEME_LIST_ERROR, onError);
-                this.api.themes.listThemesForApplication(appId);
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return true;
-    };
-    ElectronDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.api.events.SETTINGS_GET_COMPLETE, onSuccess);
-                this.api.on(this.api.events.SETTINGS_GET_ERROR, onError);
-                this.api.settings.getSettingsForApplication(appId);
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return false;
-    };
-    ElectronDashboardApi.prototype.saveMenuItem = function (appId, menuItem, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.api.events.MENU_ITEMS_SAVE_COMPLETE, onSuccess);
-                this.api.on(this.api.events.MENU_ITEMS_SAVE_ERROR, onError);
-                this.api.menuItems.saveMenuItem(appId, menuItem);
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return true;
-    };
-    ElectronDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.api.events.WORKSPACE_SAVE_COMPLETE, onSuccess);
-                this.api.on(this.api.events.WORKSPACE_SAVE_ERROR, onError);
-                this.api.workspace.saveWorkspaceForApplication(appId, workspaceToSave);
-                return true;
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return false;
-    };
-    ElectronDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.api.events.SETTINGS_GET_COMPLETE, onSuccess);
-                this.api.on(this.api.events.SETTINGS_GET_ERROR, onError);
-                this.api.settings.saveSettingsForApplication(appId, settings);
-                return true;
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return false;
-    };
-    ElectronDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
-        if (this.api !== null) {
-            try {
-                this.api.removeAllListeners();
-                this.api.on(this.api.events.THEME_SAVE_COMPLETE, onSuccess);
-                this.api.on(this.api.events.THEME_SAVE_ERROR, onError);
-                this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
-                return true;
-            }
-            catch (e) {
-                onError(e);
-                return false;
-            }
-        }
-        else {
-            onError(new Error("No Api found"));
-        }
-        return false;
-    };
-    return ElectronDashboardApi;
-}());
-
-/**
- * MockDashboardApi
- * This Api will be used in the mock testing for Storybook and general testing
- */
-var MockDashboardApi = /** @class */ (function () {
-    /**
-     * constructor
-     * @param object api
-     */
-    function MockDashboardApi(api) {
-        this.api = api;
-    }
-    /**
-     *
-     * @param appId string the application id identifying the application
-     * @returns
-     */
-    MockDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
-        try {
-            var workspaces = this.api.workspace.listWorkspacesForApplication(appId);
-            if (workspaces !== undefined) {
-                onSuccess(workspaces);
-                return true;
-            }
-            else {
-                onError(new Error("No Workspaces Found"));
-            }
-        }
-        catch (e) {
-            onError(e);
-            return false;
-        }
-        return false;
-    };
-    MockDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
-        try {
-            var menuItems = this.api.menuItems.listMenuItems(appId);
-            if (menuItems !== undefined) {
-                onSuccess({ menuItems: menuItems });
-                return true;
-            }
-            else {
-                onError(new Error("No Menu Items Found"));
-            }
-        }
-        catch (e) {
-            onError(e);
-        }
-        return false;
-    };
-    MockDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
-        try {
-            var themes = this.api.themes.listThemesForApplication(appId);
-            if (themes) {
-                onSuccess({ themes: themes });
-                return true;
-            }
-        }
-        catch (e) {
-            onError(e);
-            return false;
-        }
-        return false;
-    };
-    MockDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
-        try {
-            var settings = this.api.settings.listSettingsForApplication(appId);
-            if (settings) {
-                onSuccess({ settings: settings });
-                return true;
-            }
-        }
-        catch (e) {
-            onError(e);
-            return false;
-        }
-        return false;
-    };
-    MockDashboardApi.prototype.saveMenuItem = function (appId, menuItem) {
-        return true;
-    };
-    MockDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave) {
-        return true;
-    };
-    MockDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
-        return false;
-    };
-    MockDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
-        try {
-            var savedThemeResult = this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
-            if (savedThemeResult) {
-                onSuccess({ themes: savedThemeResult });
-                return true;
-            }
-        }
-        catch (e) {
-            onError(e);
-            return false;
-        }
-        return false;
-    };
-    return MockDashboardApi;
-}());
-
-var WebDashboardApi = /** @class */ (function () {
-    function WebDashboardApi(api) {
-        this.api = api;
-    }
-    WebDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
-        return true;
-    };
-    WebDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
-        return true;
-    };
-    WebDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
-        return true;
-    };
-    WebDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
-        return true;
-    };
-    WebDashboardApi.prototype.saveMenuItem = function (appId, menuItem) {
-        return true;
-    };
-    WebDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
-        return true;
-    };
-    WebDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
-        return false;
-    };
-    WebDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
-        return false;
-    };
-    return WebDashboardApi;
-}());
-
 var SECURE_STORE_ENCRYPTION_CHECK = "secure-storage-encryption-check";
 var SECURE_STORE_ENCRYPTION_CHECK_COMPLETE = "secure-storage-encryption-check-complete";
 var SECURE_STORE_ENCRYPTION_CHECK_ERROR = "secure-storage-encryption-check-error";
@@ -832,6 +539,321 @@ var publicEvents = {
   algoliaEvents: algoliaEvents,
   dataEvents: dataEvents
 };
+
+var apiEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    publicEvents: publicEvents,
+    secureStorageEvents: secureStorageEvents,
+    algoliaEvents: algoliaEvents,
+    workspaceEvents: workspaceEvents,
+    layoutEvents: layoutEvents,
+    menuItemEvents: menuItemEvents,
+    themeEvents: themeEvents,
+    dataEvents: dataEvents,
+    settingsEvents: settingsEvents
+});
+
+var ElectronDashboardApi = /** @class */ (function () {
+    function ElectronDashboardApi(api, events) {
+        console.log("constructor events ", events, apiEvents);
+        this.api = api;
+        if (events) {
+            this.events = events;
+        }
+    }
+    ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
+                this.api.workspace.listWorkspacesForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.WORKSPACE_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.WORKSPACE_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.on(this.events.MENU_ITEMS_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.MENU_ITEMS_LIST_ERROR, onError);
+                this.api.menuItems.listMenuItems(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.MENU_ITEMS_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.MENU_ITEMS_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.THEME_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.THEME_LIST_ERROR, onError);
+                this.api.themes.listThemesForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.THEME_LIST_ERRORe);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.THEME_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.SETTINGS_GET_COMPLETE, onSuccess);
+                this.api.on(this.events.SETTINGS_GET_ERROR, onError);
+                this.api.settings.getSettingsForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.SETTINGS_GET_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.SETTINGS_GET_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveMenuItem = function (appId, menuItem, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.MENU_ITEMS_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.MENU_ITEMS_SAVE_ERROR, onError);
+                this.api.menuItems.saveMenuItem(appId, menuItem);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.MENU_ITEMS_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.MENU_ITEMS_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.WORKSPACE_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.WORKSPACE_SAVE_ERROR, onError);
+                this.api.workspace.saveWorkspaceForApplication(appId, workspaceToSave);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.WORKSPACE_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.WORKSPACE_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.SETTINGS_GET_COMPLETE, onSuccess);
+                this.api.on(this.events.SETTINGS_GET_ERROR, onError);
+                this.api.settings.saveSettingsForApplication(appId, settings);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.SETTINGS_GET_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.SETTINGS_GET_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.THEME_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.THEME_SAVE_ERROR, onError);
+                this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.THEME_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.THEME_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    return ElectronDashboardApi;
+}());
+
+/**
+ * MockDashboardApi
+ * This Api will be used in the mock testing for Storybook and general testing
+ */
+var MockDashboardApi = /** @class */ (function () {
+    /**
+     * constructor
+     * @param object api
+     */
+    function MockDashboardApi(api) {
+        this.api = api;
+    }
+    /**
+     *
+     * @param appId string the application id identifying the application
+     * @returns
+     */
+    MockDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
+        try {
+            var workspaces = this.api.workspace.listWorkspacesForApplication(appId);
+            if (workspaces !== undefined) {
+                onSuccess(this.events.WORKSPACE_LIST_COMPLETE, workspaces);
+                return true;
+            }
+            else {
+                onError(this.events.WORKSPACE_LIST_ERROR, new Error("No Workspaces Found"));
+                return false;
+            }
+        }
+        catch (e) {
+            onError(this.events.WORKSPACE_LIST_ERROR, e);
+            return false;
+        }
+    };
+    MockDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
+        try {
+            var menuItems = this.api.menuItems.listMenuItems(appId);
+            if (menuItems !== undefined) {
+                onSuccess(this.events.MENU_ITEMS_LIST_COMPLETE, {
+                    menuItems: menuItems,
+                });
+                return true;
+            }
+            else {
+                onError(this.events.MENU_ITEMS_LIST_ERROR, new Error("No Menu Items Found"));
+                return false;
+            }
+        }
+        catch (e) {
+            onError(this.events.MENU_ITEMS_LIST_COMPLETE, e);
+        }
+    };
+    MockDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
+        try {
+            var themes = this.api.themes.listThemesForApplication(appId);
+            if (themes) {
+                onSuccess(this.events.THEME_LIST_COMPLETE, { themes: themes });
+                return true;
+            }
+            else {
+                onError(this.events.THEME_LIST_ERROR, new Error("Theme list failed"));
+            }
+        }
+        catch (e) {
+            onError(this.events.THEME_LIST_ERROR, e);
+            return false;
+        }
+    };
+    MockDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
+        try {
+            var settings = this.api.settings.listSettingsForApplication(appId);
+            if (settings) {
+                onSuccess(this.events.SETTINGS_GET_COMPLETE, {
+                    settings: settings,
+                });
+                return true;
+            }
+            else {
+                onError(this.events.SETTINGS_GET_ERROR, new Error("Settings list error"));
+                return false;
+            }
+        }
+        catch (e) {
+            onError(this.events.SETTINGS_GET_ERROR, e);
+            return false;
+        }
+    };
+    MockDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
+        try {
+            var savedThemeResult = this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
+            if (savedThemeResult) {
+                onSuccess(this.events.THEME_SAVE_COMPLETE, {
+                    themes: savedThemeResult,
+                });
+                return true;
+            }
+            else {
+                onError(this.events.THEME_SAVE_ERROR, new Error("Theme save failed"));
+                return false;
+            }
+        }
+        catch (e) {
+            onError(this.events.THEME_SAVE_ERROR, e);
+            return false;
+        }
+    };
+    return MockDashboardApi;
+}());
+
+var WebDashboardApi = /** @class */ (function () {
+    function WebDashboardApi(api) {
+        this.api = api;
+    }
+    WebDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
+        return true;
+    };
+    WebDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
+        return true;
+    };
+    WebDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
+        return true;
+    };
+    WebDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
+        return true;
+    };
+    WebDashboardApi.prototype.saveMenuItem = function (appId, menuItem) {
+        return true;
+    };
+    WebDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
+        return true;
+    };
+    WebDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
+        return false;
+    };
+    WebDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
+        return false;
+    };
+    return WebDashboardApi;
+}());
 
 var ThemeContext = /*#__PURE__*/createContext("dark");
 
@@ -5106,7 +5128,7 @@ var Dashboard = function Dashboard(_ref) {
       console.log("failed loadWorkspaces ", e.message);
     }
   }
-  function handleLoadWorkspacesComplete(message) {
+  function handleLoadWorkspacesComplete(e, message) {
     console.log("2. Handle Load Workspaces Complete ======================", message);
     try {
       // let's make sure we have the entire component configuration for each item?

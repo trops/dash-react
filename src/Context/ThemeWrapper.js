@@ -135,7 +135,7 @@ export const ThemeWrapper = ({ theme = null, children }) => {
      * @param {*} e
      * @param {*} message
      */
-    function handleLoadThemesComplete(message) {
+    function handleLoadThemesComplete(e, message) {
         console.log("themes complete", message);
         if ("themes" in message) {
             checkThemes(message["themes"]);

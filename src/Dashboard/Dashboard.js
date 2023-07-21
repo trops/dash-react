@@ -111,7 +111,7 @@ export const Dashboard = ({
         }
     }
 
-    function handleLoadWorkspacesComplete(message) {
+    function handleLoadWorkspacesComplete(e, message) {
         console.log(
             "2. Handle Load Workspaces Complete ======================",
             message
@@ -268,7 +268,7 @@ export const Dashboard = ({
         }
     }
 
-    function handleListMenuItemComplete(message) {
+    function handleListMenuItemComplete(e, message) {
         try {
             console.log("list menu items complete ", message);
             setMenuItems(() => message.menuItems);

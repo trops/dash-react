@@ -90,7 +90,7 @@ export const AppWrapper = ({
         }
     }
 
-    function handleGetSettingsComplete(message) {
+    function handleGetSettingsComplete(e, message) {
         console.log("loaded settings ", message);
         if ("settings" in message) {
             let settingsObject;
@@ -108,8 +108,8 @@ export const AppWrapper = ({
         forceUpdate();
     }
 
-    function handleGetSettingsError(e) {
-        console.log("settings load error ", e.message);
+    function handleGetSettingsError(e, error) {
+        console.log("settings load error ", error.message);
         setIsLoadingSettings(() => false);
     }
 
