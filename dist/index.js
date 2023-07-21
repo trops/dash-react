@@ -8,7 +8,7 @@ import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
-import { useNavigate, useLocation, useParams, Link, HashRouter, Routes } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -42,7 +42,7 @@ var WidgetApi = {
           removeAllListeners: api.removeAllListeners,
           data: api.data,
           algolia: api.algolia,
-          events: api.publicEvents
+          events: api.events
         };
       }
     } catch (e) {
@@ -233,7 +233,7 @@ var ThemeApi = {
     var minified = {};
     minified["data"] = myApi.data;
     // minified['algolia'] = myApi.algolia;
-    minified["events"] = myApi.publicEvents;
+    minified["events"] = myApi.events;
     this._api = minified;
   },
   setThemes: function setThemes(data) {
@@ -332,7 +332,7 @@ var DashboardApi = {
     var minified = {};
     minified["data"] = myApi.data;
     minified["algolia"] = myApi.algolia;
-    minified["events"] = myApi.publicEvents;
+    minified["events"] = myApi.events;
     this._api = minified;
   },
   setSettings: function setSettings(settings) {
@@ -363,22 +363,6 @@ var SECURE_STORE_SET_DATA = "secure-storage-set-data";
 var SECURE_STORE_SET_DATA_COMPLETE = "secure-storage-set-data-complete";
 var SECURE_STORE_SET_DATA_ERROR = "secure-storage-set-data-error";
 
-var secureStorageEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    SECURE_STORE_ENCRYPTION_CHECK: SECURE_STORE_ENCRYPTION_CHECK,
-    SECURE_STORE_ENCRYPTION_CHECK_COMPLETE: SECURE_STORE_ENCRYPTION_CHECK_COMPLETE,
-    SECURE_STORE_ENCRYPTION_CHECK_ERROR: SECURE_STORE_ENCRYPTION_CHECK_ERROR,
-    SECURE_STORE_SET_DATA: SECURE_STORE_SET_DATA,
-    SECURE_STORE_SET_DATA_COMPLETE: SECURE_STORE_SET_DATA_COMPLETE,
-    SECURE_STORE_SET_DATA_ERROR: SECURE_STORE_SET_DATA_ERROR,
-    SECURE_STORE_GET_DATA: SECURE_STORE_GET_DATA,
-    SECURE_STORE_GET_DATA_COMPLETE: SECURE_STORE_GET_DATA_COMPLETE,
-    SECURE_STORE_GET_DATA_ERROR: SECURE_STORE_GET_DATA_ERROR,
-    SECURE_STORAGE_ENCRYPT_STRING: SECURE_STORAGE_ENCRYPT_STRING,
-    SECURE_STORAGE_ENCRYPT_STRING_COMPLETE: SECURE_STORAGE_ENCRYPT_STRING_COMPLETE,
-    SECURE_STORAGE_ENCRYPT_STRING_ERROR: SECURE_STORAGE_ENCRYPT_STRING_ERROR
-});
-
 /**
  * Event Constants File
  *
@@ -390,16 +374,6 @@ var ALGOLIA_LIST_INDICES_ERROR = "algolia-list-indices-error";
 var ALGOLIA_ANALYTICS_FOR_QUERY = "algolia-analytics-for-query";
 var ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE = "algolia-analytics-for-query-complete";
 var ALGOLIA_ANALYTICS_FOR_QUERY_ERROR = "algolia-analytics-for-query-error";
-
-var algoliaEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    ALGOLIA_LIST_INDICES: ALGOLIA_LIST_INDICES,
-    ALGOLIA_LIST_INDICES_COMPLETE: ALGOLIA_LIST_INDICES_COMPLETE,
-    ALGOLIA_LIST_INDICES_ERROR: ALGOLIA_LIST_INDICES_ERROR,
-    ALGOLIA_ANALYTICS_FOR_QUERY: ALGOLIA_ANALYTICS_FOR_QUERY,
-    ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE: ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE,
-    ALGOLIA_ANALYTICS_FOR_QUERY_ERROR: ALGOLIA_ANALYTICS_FOR_QUERY_ERROR
-});
 
 /**
  * Event Constants File
@@ -413,16 +387,6 @@ var WORKSPACE_SAVE = "workspace-save";
 var WORKSPACE_SAVE_COMPLETE = "workspace-save-complete";
 var WORKSPACE_SAVE_ERROR = "workspace-save-error";
 
-var workspaceEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    WORKSPACE_LIST: WORKSPACE_LIST,
-    WORKSPACE_LIST_COMPLETE: WORKSPACE_LIST_COMPLETE,
-    WORKSPACE_LIST_ERROR: WORKSPACE_LIST_ERROR,
-    WORKSPACE_SAVE: WORKSPACE_SAVE,
-    WORKSPACE_SAVE_COMPLETE: WORKSPACE_SAVE_COMPLETE,
-    WORKSPACE_SAVE_ERROR: WORKSPACE_SAVE_ERROR
-});
-
 /**
  * Event Constants File
  *
@@ -435,32 +399,12 @@ var LAYOUT_SAVE = "layout-save";
 var LAYOUT_SAVE_COMPLETE = "layout-save-complete";
 var LAYOUT_SAVE_ERROR = "layout-save-error";
 
-var layoutEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    LAYOUT_LIST: LAYOUT_LIST,
-    LAYOUT_LIST_COMPLETE: LAYOUT_LIST_COMPLETE,
-    LAYOUT_LIST_ERROR: LAYOUT_LIST_ERROR,
-    LAYOUT_SAVE: LAYOUT_SAVE,
-    LAYOUT_SAVE_COMPLETE: LAYOUT_SAVE_COMPLETE,
-    LAYOUT_SAVE_ERROR: LAYOUT_SAVE_ERROR
-});
-
 var MENU_ITEMS_SAVE = "menu-items-save";
 var MENU_ITEMS_SAVE_COMPLETE = "menu-items-save-complete";
 var MENU_ITEMS_SAVE_ERROR = "menu-items-save-error";
 var MENU_ITEMS_LIST = "menu-items-list";
 var MENU_ITEMS_LIST_COMPLETE = "menu-items-list-complete";
 var MENU_ITEMS_LIST_ERROR = "menu-items-list-error";
-
-var menuItemEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    MENU_ITEMS_LIST: MENU_ITEMS_LIST,
-    MENU_ITEMS_LIST_COMPLETE: MENU_ITEMS_LIST_COMPLETE,
-    MENU_ITEMS_LIST_ERROR: MENU_ITEMS_LIST_ERROR,
-    MENU_ITEMS_SAVE: MENU_ITEMS_SAVE,
-    MENU_ITEMS_SAVE_COMPLETE: MENU_ITEMS_SAVE_COMPLETE,
-    MENU_ITEMS_SAVE_ERROR: MENU_ITEMS_SAVE_ERROR
-});
 
 /**
  * Event Constants File
@@ -473,16 +417,6 @@ var THEME_LIST_ERROR = "theme-list-error";
 var THEME_SAVE = "theme-save";
 var THEME_SAVE_COMPLETE = "theme-save-complete";
 var THEME_SAVE_ERROR = "theme-save-error";
-
-var themeEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    THEME_LIST: THEME_LIST,
-    THEME_LIST_COMPLETE: THEME_LIST_COMPLETE,
-    THEME_LIST_ERROR: THEME_LIST_ERROR,
-    THEME_SAVE: THEME_SAVE,
-    THEME_SAVE_COMPLETE: THEME_SAVE_COMPLETE,
-    THEME_SAVE_ERROR: THEME_SAVE_ERROR
-});
 
 var DATA_JSON_TO_CSV_FILE = "data-json-to-csv-file";
 var DATA_JSON_TO_CSV_FILE_COMPLETE = "data-json-to-csv-file-complete";
@@ -497,8 +431,80 @@ var DATA_JSON_TO_CSV_STRING = "data-json-to-csv-string";
 var DATA_JSON_TO_CSV_STRING_COMPLETE = "data-json-to-csv-string-complete";
 var DATA_JSON_TO_CSV_STRING_ERROR = "data-json-to-csv-string-error";
 
-var dataEvents = /*#__PURE__*/Object.freeze({
+var SETTINGS_GET = "settings-get";
+var SETTINGS_GET_COMPLETE = "settings-get-complete";
+var SETTINGS_GET_ERROR = "settings-get-error";
+var SETTINGS_SAVE = "settings-save";
+var SETTINGS_SAVE_COMPLETE = "settings-save-complete";
+var SETTINGS_SAVE_ERROR = "settings-save-error";
+
+/**
+ * Events
+ *
+ * Sample events (constants) that are to be used for listeners
+ */
+
+// const publicEvents = {
+//     algoliaEvents,
+//     dataEvents,
+// };
+
+// export {
+//     publicEvents,
+//     secureStorageEvents,
+//     algoliaEvents,
+//     workspaceEvents,
+//     layoutEvents,
+//     menuItemEvents,
+//     themeEvents,
+//     dataEvents,
+//     settingsEvents,
+// };
+
+var apiEvents = /*#__PURE__*/Object.freeze({
     __proto__: null,
+    SECURE_STORE_ENCRYPTION_CHECK: SECURE_STORE_ENCRYPTION_CHECK,
+    SECURE_STORE_ENCRYPTION_CHECK_COMPLETE: SECURE_STORE_ENCRYPTION_CHECK_COMPLETE,
+    SECURE_STORE_ENCRYPTION_CHECK_ERROR: SECURE_STORE_ENCRYPTION_CHECK_ERROR,
+    SECURE_STORE_SET_DATA: SECURE_STORE_SET_DATA,
+    SECURE_STORE_SET_DATA_COMPLETE: SECURE_STORE_SET_DATA_COMPLETE,
+    SECURE_STORE_SET_DATA_ERROR: SECURE_STORE_SET_DATA_ERROR,
+    SECURE_STORE_GET_DATA: SECURE_STORE_GET_DATA,
+    SECURE_STORE_GET_DATA_COMPLETE: SECURE_STORE_GET_DATA_COMPLETE,
+    SECURE_STORE_GET_DATA_ERROR: SECURE_STORE_GET_DATA_ERROR,
+    SECURE_STORAGE_ENCRYPT_STRING: SECURE_STORAGE_ENCRYPT_STRING,
+    SECURE_STORAGE_ENCRYPT_STRING_COMPLETE: SECURE_STORAGE_ENCRYPT_STRING_COMPLETE,
+    SECURE_STORAGE_ENCRYPT_STRING_ERROR: SECURE_STORAGE_ENCRYPT_STRING_ERROR,
+    ALGOLIA_LIST_INDICES: ALGOLIA_LIST_INDICES,
+    ALGOLIA_LIST_INDICES_COMPLETE: ALGOLIA_LIST_INDICES_COMPLETE,
+    ALGOLIA_LIST_INDICES_ERROR: ALGOLIA_LIST_INDICES_ERROR,
+    ALGOLIA_ANALYTICS_FOR_QUERY: ALGOLIA_ANALYTICS_FOR_QUERY,
+    ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE: ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE,
+    ALGOLIA_ANALYTICS_FOR_QUERY_ERROR: ALGOLIA_ANALYTICS_FOR_QUERY_ERROR,
+    WORKSPACE_LIST: WORKSPACE_LIST,
+    WORKSPACE_LIST_COMPLETE: WORKSPACE_LIST_COMPLETE,
+    WORKSPACE_LIST_ERROR: WORKSPACE_LIST_ERROR,
+    WORKSPACE_SAVE: WORKSPACE_SAVE,
+    WORKSPACE_SAVE_COMPLETE: WORKSPACE_SAVE_COMPLETE,
+    WORKSPACE_SAVE_ERROR: WORKSPACE_SAVE_ERROR,
+    LAYOUT_LIST: LAYOUT_LIST,
+    LAYOUT_LIST_COMPLETE: LAYOUT_LIST_COMPLETE,
+    LAYOUT_LIST_ERROR: LAYOUT_LIST_ERROR,
+    LAYOUT_SAVE: LAYOUT_SAVE,
+    LAYOUT_SAVE_COMPLETE: LAYOUT_SAVE_COMPLETE,
+    LAYOUT_SAVE_ERROR: LAYOUT_SAVE_ERROR,
+    MENU_ITEMS_LIST: MENU_ITEMS_LIST,
+    MENU_ITEMS_LIST_COMPLETE: MENU_ITEMS_LIST_COMPLETE,
+    MENU_ITEMS_LIST_ERROR: MENU_ITEMS_LIST_ERROR,
+    MENU_ITEMS_SAVE: MENU_ITEMS_SAVE,
+    MENU_ITEMS_SAVE_COMPLETE: MENU_ITEMS_SAVE_COMPLETE,
+    MENU_ITEMS_SAVE_ERROR: MENU_ITEMS_SAVE_ERROR,
+    THEME_LIST: THEME_LIST,
+    THEME_LIST_COMPLETE: THEME_LIST_COMPLETE,
+    THEME_LIST_ERROR: THEME_LIST_ERROR,
+    THEME_SAVE: THEME_SAVE,
+    THEME_SAVE_COMPLETE: THEME_SAVE_COMPLETE,
+    THEME_SAVE_ERROR: THEME_SAVE_ERROR,
     DATA_JSON_TO_CSV_FILE: DATA_JSON_TO_CSV_FILE,
     DATA_JSON_TO_CSV_FILE_COMPLETE: DATA_JSON_TO_CSV_FILE_COMPLETE,
     DATA_JSON_TO_CSV_FILE_ERROR: DATA_JSON_TO_CSV_FILE_ERROR,
@@ -510,18 +516,7 @@ var dataEvents = /*#__PURE__*/Object.freeze({
     DATA_SAVE_TO_FILE_ERROR: DATA_SAVE_TO_FILE_ERROR,
     DATA_READ_FROM_FILE: DATA_READ_FROM_FILE,
     DATA_READ_FROM_FILE_COMPLETE: DATA_READ_FROM_FILE_COMPLETE,
-    DATA_READ_FROM_FILE_ERROR: DATA_READ_FROM_FILE_ERROR
-});
-
-var SETTINGS_GET = "settings-get";
-var SETTINGS_GET_COMPLETE = "settings-get-complete";
-var SETTINGS_GET_ERROR = "settings-get-error";
-var SETTINGS_SAVE = "settings-save";
-var SETTINGS_SAVE_COMPLETE = "settings-save-complete";
-var SETTINGS_SAVE_ERROR = "settings-save-error";
-
-var settingsEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
+    DATA_READ_FROM_FILE_ERROR: DATA_READ_FROM_FILE_ERROR,
     SETTINGS_GET: SETTINGS_GET,
     SETTINGS_GET_COMPLETE: SETTINGS_GET_COMPLETE,
     SETTINGS_GET_ERROR: SETTINGS_GET_ERROR,
@@ -530,35 +525,15 @@ var settingsEvents = /*#__PURE__*/Object.freeze({
     SETTINGS_SAVE_ERROR: SETTINGS_SAVE_ERROR
 });
 
-/**
- * Events
- *
- * Sample events (constants) that are to be used for listeners
- */
-var publicEvents = {
-  algoliaEvents: algoliaEvents,
-  dataEvents: dataEvents
-};
-
-var apiEvents = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    publicEvents: publicEvents,
-    secureStorageEvents: secureStorageEvents,
-    algoliaEvents: algoliaEvents,
-    workspaceEvents: workspaceEvents,
-    layoutEvents: layoutEvents,
-    menuItemEvents: menuItemEvents,
-    themeEvents: themeEvents,
-    dataEvents: dataEvents,
-    settingsEvents: settingsEvents
-});
-
 var ElectronDashboardApi = /** @class */ (function () {
     function ElectronDashboardApi(api, events) {
         console.log("constructor events ", events, apiEvents);
         this.api = api;
         if (events) {
             this.events = events;
+        }
+        else {
+            this.events = apiEvents;
         }
     }
     ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
@@ -719,21 +694,21 @@ var ElectronDashboardApi = /** @class */ (function () {
  * MockDashboardApi
  * This Api will be used in the mock testing for Storybook and general testing
  */
-console.log(apiEvents);
+console.log("API EVENTS ", apiEvents);
 var MockDashboardApi = /** @class */ (function () {
     /**
      * constructor
      * @param object api
      */
-    function MockDashboardApi(api, events) {
+    function MockDashboardApi(api) {
         this.api = api;
-        if (events) {
-            this.events = events;
-        }
-        else {
-            this.events = apiEvents;
-        }
-        console.log("mock constructor ", this.events);
+        this.events = apiEvents;
+        // if (events) {
+        //     this.events = events;
+        // } else {
+        //     this.events = apiEvents;
+        // }
+        // console.log("mock constructor ", this.events.WORKSPACE_LIST_COMPLETE);
     }
     /**
      *
@@ -742,6 +717,7 @@ var MockDashboardApi = /** @class */ (function () {
      */
     MockDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
         try {
+            console.log("listWorkspaces", this);
             var workspaces = this.api.workspace.listWorkspacesForApplication(appId);
             if (workspaces !== undefined) {
                 onSuccess(this.events.WORKSPACE_LIST_COMPLETE, workspaces);
@@ -5489,58 +5465,52 @@ var DashboardFooter = function DashboardFooter(_ref) {
     onHome && onHome();
   };
   console.log("DS workspace ", workspace);
-  return (
-    /*#__PURE__*/
-    // <div
-    //     className={`flex flex-row p-2 border-t w-full justify-between ${stylesFooter.string}`}
-    // >
-    jsx(LayoutContainer, {
-      direction: "row",
-      grow: false,
-      space: true,
-      className: "p-2 border-t ".concat(stylesFooter.string),
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row justify-between w-full",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-4",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "w-10 h-10 items-center justify-center",
-            children: /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "arrow-left",
-              onClick: handleHome
-            })
-          }), workspace && /*#__PURE__*/jsx("div", {
-            className: "flex flex-row justify-center items-center",
-            children: /*#__PURE__*/jsx(SubHeading3, {
-              title: workspace.name,
-              padding: false,
-              className: "text-gray-700 font-bold text-base"
-            })
-          })]
-        }), preview === true && /*#__PURE__*/jsx("div", {
-          className: "flex flex-row space-x-1",
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    direction: "row",
+    grow: false,
+    space: true,
+    className: "p-2 border-t ".concat(stylesFooter.string),
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row justify-between w-full",
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-4",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "w-10 h-10 items-center justify-center",
           children: /*#__PURE__*/jsx(ButtonIcon, {
-            text: "Edit",
-            onClick: onClickEdit,
-            hoverBackgroundColor: "hover:bg-indigo-700"
+            icon: "arrow-left",
+            onClick: handleHome
           })
-        }), preview === false && /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-1",
-          children: [/*#__PURE__*/jsx(ButtonIcon, {
-            icon: "x-mark",
-            text: "Cancel",
-            onClick: onClickEdit,
-            hoverBackgroundColor: "hover:bg-indigo-700"
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "x-mark",
-            text: "Save Changes",
-            onClick: onSaveChanges,
-            hoverBackgroundColor: "hover:bg-green-700"
-          })]
+        }), workspace && /*#__PURE__*/jsx("div", {
+          className: "flex flex-row justify-center items-center",
+          children: /*#__PURE__*/jsx(SubHeading3, {
+            title: workspace.name,
+            padding: false,
+            className: "text-gray-700 font-bold text-base"
+          })
         })]
-      })
+      }), preview === true && /*#__PURE__*/jsx("div", {
+        className: "flex flex-row space-x-1",
+        children: /*#__PURE__*/jsx(ButtonIcon, {
+          text: "Edit",
+          onClick: onClickEdit,
+          hoverBackgroundColor: "hover:bg-indigo-700"
+        })
+      }), preview === false && /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-1",
+        children: [/*#__PURE__*/jsx(ButtonIcon, {
+          icon: "x-mark",
+          text: "Cancel",
+          onClick: onClickEdit,
+          hoverBackgroundColor: "hover:bg-indigo-700"
+        }), /*#__PURE__*/jsx(ButtonIcon, {
+          icon: "x-mark",
+          text: "Save Changes",
+          onClick: onSaveChanges,
+          hoverBackgroundColor: "hover:bg-green-700"
+        })]
+      })]
     })
-  );
+  });
 };
 
 function _slicedToArray$p(arr, i) { return _arrayWithHoles$p(arr) || _iterableToArrayLimit$p(arr, i) || _unsupportedIterableToArray$q(arr, i) || _nonIterableRest$p(); }
@@ -6175,14 +6145,38 @@ var WidgetContext = /*#__PURE__*/createContext({
 
 var DashboardWrapper = function DashboardWrapper(_ref) {
   var dashApi = _ref.dashApi,
-    credentials = _ref.credentials;
-    _ref.children;
+    credentials = _ref.credentials,
+    children = _ref.children;
+  function buildWidgetApi() {
+    var w = WidgetApi;
+    w.setPublisher(DashboardPublisher);
+    w.setElectronApi(dashApi);
+    return w;
+  }
+  function getValue() {
+    // console.log({
+    //     widgetApi: buildWidgetApi(),
+    //     pub: DashboardPublisher,
+    //     dashApi,
+    //     credentials,
+    // });
+    return {
+      widgetApi: buildWidgetApi(),
+      pub: DashboardPublisher,
+      dashApi: dashApi,
+      credentials: credentials
+    };
+  }
   return /*#__PURE__*/jsx(AppWrapper, {
     dashApi: dashApi,
     credentials: credentials,
     children: /*#__PURE__*/jsx(ThemeWrapper, {
       dashApi: dashApi,
-      credentials: credentials
+      credentials: credentials,
+      children: /*#__PURE__*/jsx(DashboardContext.Provider, {
+        value: getValue(),
+        children: children
+      })
     })
   });
 };
@@ -22699,7 +22693,7 @@ var MockAlgolia = function MockAlgolia(_ref4) {
 };
 var MockDashboard = function MockDashboard(_ref5) {
   _ref5.apiMock;
-    _ref5.children;
+    var children = _ref5.children;
     _ref5.backgroundColor;
     _objectWithoutProperties(_ref5, _excluded5);
   // initialize the widgets
@@ -22715,7 +22709,12 @@ var MockDashboard = function MockDashboard(_ref5) {
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col w-screen h-screen overflow-hidden justify-between p-0",
       children: /*#__PURE__*/jsx(MainSection, {
-        children: /*#__PURE__*/jsx(Routes, {})
+        children: /*#__PURE__*/jsx(Routes, {
+          children: /*#__PURE__*/jsx(Route, {
+            path: "/",
+            element: children
+          })
+        })
       })
     })
   });
@@ -22737,4 +22736,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, algoliaEvents, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, dataEvents, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, layoutEvents, menuItemEvents, mock, mockText, numChildrenForLayout, objectTypes, publicEvents, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, secureStorageEvents, settingsEvents, shades, styleClassNames, tailwindHeightFractions, themeEvents, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter, workspaceEvents };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
