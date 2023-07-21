@@ -846,9 +846,6 @@ var WebDashboardApi = /** @class */ (function () {
     WebDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
         return true;
     };
-    WebDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
-        return false;
-    };
     WebDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
         return false;
     };
