@@ -6,7 +6,7 @@ const MENU_ITEMS_LIST = "menu-items-list";
 const MENU_ITEMS_LIST_COMPLETE = "menu-items-list-complete";
 const MENU_ITEMS_LIST_ERROR = "menu-items-list-error";
 
-module.exports = {
+export {
     MENU_ITEMS_LIST,
     MENU_ITEMS_LIST_COMPLETE,
     MENU_ITEMS_LIST_ERROR,

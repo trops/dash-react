@@ -12,7 +12,7 @@ const ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE =
     "algolia-analytics-for-query-complete";
 const ALGOLIA_ANALYTICS_FOR_QUERY_ERROR = "algolia-analytics-for-query-error";
 
-module.exports = {
+export {
     ALGOLIA_LIST_INDICES,
     ALGOLIA_LIST_INDICES_COMPLETE,
     ALGOLIA_LIST_INDICES_ERROR,

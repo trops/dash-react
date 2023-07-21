@@ -11,7 +11,7 @@ const THEME_SAVE = "theme-save";
 const THEME_SAVE_COMPLETE = "theme-save-complete";
 const THEME_SAVE_ERROR = "theme-save-error";
 
-module.exports = {
+export {
     THEME_LIST,
     THEME_LIST_COMPLETE,
     THEME_LIST_ERROR,

@@ -611,29 +611,195 @@ var WebDashboardApi = /** @class */ (function () {
     return WebDashboardApi;
 }());
 
-function _typeof$L(obj) { "@babel/helpers - typeof"; return _typeof$L = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$L(obj); }
-function ownKeys$E(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread$E(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$E(Object(source), !0).forEach(function (key) { _defineProperty$G(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$E(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty$G(obj, key, value) { key = _toPropertyKey$K(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey$K(arg) { var key = _toPrimitive$K(arg, "string"); return _typeof$L(key) === "symbol" ? key : String(key); }
-function _toPrimitive$K(input, hint) { if (_typeof$L(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$L(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var SECURE_STORE_ENCRYPTION_CHECK = "secure-storage-encryption-check";
+var SECURE_STORE_ENCRYPTION_CHECK_COMPLETE = "secure-storage-encryption-check-complete";
+var SECURE_STORE_ENCRYPTION_CHECK_ERROR = "secure-storage-encryption-check-error";
+var SECURE_STORAGE_ENCRYPT_STRING = "secure-storage-encrypt-string";
+var SECURE_STORAGE_ENCRYPT_STRING_COMPLETE = "secure-storage-encrypt-string-complete";
+var SECURE_STORAGE_ENCRYPT_STRING_ERROR = "secure-storage-encrypt-string-error";
+var SECURE_STORE_GET_DATA = "secure-storage-get-data";
+var SECURE_STORE_GET_DATA_COMPLETE = "secure-storage-get-data-complete";
+var SECURE_STORE_GET_DATA_ERROR = "secure-storage-get-data-error";
+var SECURE_STORE_SET_DATA = "secure-storage-set-data";
+var SECURE_STORE_SET_DATA_COMPLETE = "secure-storage-set-data-complete";
+var SECURE_STORE_SET_DATA_ERROR = "secure-storage-set-data-error";
+
+var secureStorageEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    SECURE_STORE_ENCRYPTION_CHECK: SECURE_STORE_ENCRYPTION_CHECK,
+    SECURE_STORE_ENCRYPTION_CHECK_COMPLETE: SECURE_STORE_ENCRYPTION_CHECK_COMPLETE,
+    SECURE_STORE_ENCRYPTION_CHECK_ERROR: SECURE_STORE_ENCRYPTION_CHECK_ERROR,
+    SECURE_STORE_SET_DATA: SECURE_STORE_SET_DATA,
+    SECURE_STORE_SET_DATA_COMPLETE: SECURE_STORE_SET_DATA_COMPLETE,
+    SECURE_STORE_SET_DATA_ERROR: SECURE_STORE_SET_DATA_ERROR,
+    SECURE_STORE_GET_DATA: SECURE_STORE_GET_DATA,
+    SECURE_STORE_GET_DATA_COMPLETE: SECURE_STORE_GET_DATA_COMPLETE,
+    SECURE_STORE_GET_DATA_ERROR: SECURE_STORE_GET_DATA_ERROR,
+    SECURE_STORAGE_ENCRYPT_STRING: SECURE_STORAGE_ENCRYPT_STRING,
+    SECURE_STORAGE_ENCRYPT_STRING_COMPLETE: SECURE_STORAGE_ENCRYPT_STRING_COMPLETE,
+    SECURE_STORAGE_ENCRYPT_STRING_ERROR: SECURE_STORAGE_ENCRYPT_STRING_ERROR
+});
+
+/**
+ * Event Constants File
+ *
+ * This file contains event constants that may be used as a type ahead reference for listeners.
+ */
+var ALGOLIA_LIST_INDICES = "algolia-list-indices";
+var ALGOLIA_LIST_INDICES_COMPLETE = "algolia-list-indices-complete";
+var ALGOLIA_LIST_INDICES_ERROR = "algolia-list-indices-error";
+var ALGOLIA_ANALYTICS_FOR_QUERY = "algolia-analytics-for-query";
+var ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE = "algolia-analytics-for-query-complete";
+var ALGOLIA_ANALYTICS_FOR_QUERY_ERROR = "algolia-analytics-for-query-error";
+
+var algoliaEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    ALGOLIA_LIST_INDICES: ALGOLIA_LIST_INDICES,
+    ALGOLIA_LIST_INDICES_COMPLETE: ALGOLIA_LIST_INDICES_COMPLETE,
+    ALGOLIA_LIST_INDICES_ERROR: ALGOLIA_LIST_INDICES_ERROR,
+    ALGOLIA_ANALYTICS_FOR_QUERY: ALGOLIA_ANALYTICS_FOR_QUERY,
+    ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE: ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE,
+    ALGOLIA_ANALYTICS_FOR_QUERY_ERROR: ALGOLIA_ANALYTICS_FOR_QUERY_ERROR
+});
+
+/**
+ * Event Constants File
+ *
+ * This file contains event constants that may be used as a type ahead reference for listeners.
+ */
+var WORKSPACE_LIST = "workspace-list";
+var WORKSPACE_LIST_COMPLETE = "workspace-list-complete";
+var WORKSPACE_LIST_ERROR = "workspace-list-error";
+var WORKSPACE_SAVE = "workspace-save";
+var WORKSPACE_SAVE_COMPLETE = "workspace-save-complete";
+var WORKSPACE_SAVE_ERROR = "workspace-save-error";
+
+var workspaceEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    WORKSPACE_LIST: WORKSPACE_LIST,
+    WORKSPACE_LIST_COMPLETE: WORKSPACE_LIST_COMPLETE,
+    WORKSPACE_LIST_ERROR: WORKSPACE_LIST_ERROR,
+    WORKSPACE_SAVE: WORKSPACE_SAVE,
+    WORKSPACE_SAVE_COMPLETE: WORKSPACE_SAVE_COMPLETE,
+    WORKSPACE_SAVE_ERROR: WORKSPACE_SAVE_ERROR
+});
+
+/**
+ * Event Constants File
+ *
+ * This file contains event constants that may be used as a type ahead reference for listeners.
+ */
+var LAYOUT_LIST = "layout-list";
+var LAYOUT_LIST_COMPLETE = "layout-list-complete";
+var LAYOUT_LIST_ERROR = "layout-list-error";
+var LAYOUT_SAVE = "layout-save";
+var LAYOUT_SAVE_COMPLETE = "layout-save-complete";
+var LAYOUT_SAVE_ERROR = "layout-save-error";
+
+var layoutEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    LAYOUT_LIST: LAYOUT_LIST,
+    LAYOUT_LIST_COMPLETE: LAYOUT_LIST_COMPLETE,
+    LAYOUT_LIST_ERROR: LAYOUT_LIST_ERROR,
+    LAYOUT_SAVE: LAYOUT_SAVE,
+    LAYOUT_SAVE_COMPLETE: LAYOUT_SAVE_COMPLETE,
+    LAYOUT_SAVE_ERROR: LAYOUT_SAVE_ERROR
+});
+
+var MENU_ITEMS_SAVE = "menu-items-save";
+var MENU_ITEMS_SAVE_COMPLETE = "menu-items-save-complete";
+var MENU_ITEMS_SAVE_ERROR = "menu-items-save-error";
+var MENU_ITEMS_LIST = "menu-items-list";
+var MENU_ITEMS_LIST_COMPLETE = "menu-items-list-complete";
+var MENU_ITEMS_LIST_ERROR = "menu-items-list-error";
+
+var menuItemEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    MENU_ITEMS_LIST: MENU_ITEMS_LIST,
+    MENU_ITEMS_LIST_COMPLETE: MENU_ITEMS_LIST_COMPLETE,
+    MENU_ITEMS_LIST_ERROR: MENU_ITEMS_LIST_ERROR,
+    MENU_ITEMS_SAVE: MENU_ITEMS_SAVE,
+    MENU_ITEMS_SAVE_COMPLETE: MENU_ITEMS_SAVE_COMPLETE,
+    MENU_ITEMS_SAVE_ERROR: MENU_ITEMS_SAVE_ERROR
+});
+
+/**
+ * Event Constants File
+ *
+ * This file contains event constants that may be used as a type ahead reference for listeners.
+ */
+var THEME_LIST = "theme-list";
+var THEME_LIST_COMPLETE = "theme-list-complete";
+var THEME_LIST_ERROR = "theme-list-error";
+var THEME_SAVE = "theme-save";
+var THEME_SAVE_COMPLETE = "theme-save-complete";
+var THEME_SAVE_ERROR = "theme-save-error";
+
+var themeEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    THEME_LIST: THEME_LIST,
+    THEME_LIST_COMPLETE: THEME_LIST_COMPLETE,
+    THEME_LIST_ERROR: THEME_LIST_ERROR,
+    THEME_SAVE: THEME_SAVE,
+    THEME_SAVE_COMPLETE: THEME_SAVE_COMPLETE,
+    THEME_SAVE_ERROR: THEME_SAVE_ERROR
+});
+
+var DATA_JSON_TO_CSV_FILE = "data-json-to-csv-file";
+var DATA_JSON_TO_CSV_FILE_COMPLETE = "data-json-to-csv-file-complete";
+var DATA_JSON_TO_CSV_FILE_ERROR = "data-json-to-csv-file-error";
+var DATA_READ_FROM_FILE = "data-read-from-file";
+var DATA_READ_FROM_FILE_COMPLETE = "data-read-from-file-complete";
+var DATA_READ_FROM_FILE_ERROR = "data-read-from-file-error";
+var DATA_SAVE_TO_FILE = "data-save-to-file";
+var DATA_SAVE_TO_FILE_COMPLETE = "data-save-to-file-complete";
+var DATA_SAVE_TO_FILE_ERROR = "data-save-to-file-error";
+var DATA_JSON_TO_CSV_STRING = "data-json-to-csv-string";
+var DATA_JSON_TO_CSV_STRING_COMPLETE = "data-json-to-csv-string-complete";
+var DATA_JSON_TO_CSV_STRING_ERROR = "data-json-to-csv-string-error";
+
+var dataEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    DATA_JSON_TO_CSV_FILE: DATA_JSON_TO_CSV_FILE,
+    DATA_JSON_TO_CSV_FILE_COMPLETE: DATA_JSON_TO_CSV_FILE_COMPLETE,
+    DATA_JSON_TO_CSV_FILE_ERROR: DATA_JSON_TO_CSV_FILE_ERROR,
+    DATA_JSON_TO_CSV_STRING: DATA_JSON_TO_CSV_STRING,
+    DATA_JSON_TO_CSV_STRING_COMPLETE: DATA_JSON_TO_CSV_STRING_COMPLETE,
+    DATA_JSON_TO_CSV_STRING_ERROR: DATA_JSON_TO_CSV_STRING_ERROR,
+    DATA_SAVE_TO_FILE: DATA_SAVE_TO_FILE,
+    DATA_SAVE_TO_FILE_COMPLETE: DATA_SAVE_TO_FILE_COMPLETE,
+    DATA_SAVE_TO_FILE_ERROR: DATA_SAVE_TO_FILE_ERROR,
+    DATA_READ_FROM_FILE: DATA_READ_FROM_FILE,
+    DATA_READ_FROM_FILE_COMPLETE: DATA_READ_FROM_FILE_COMPLETE,
+    DATA_READ_FROM_FILE_ERROR: DATA_READ_FROM_FILE_ERROR
+});
+
+var SETTINGS_GET = "settings-get";
+var SETTINGS_GET_COMPLETE = "settings-get-complete";
+var SETTINGS_GET_ERROR = "settings-get-error";
+var SETTINGS_SAVE = "settings-save";
+var SETTINGS_SAVE_COMPLETE = "settings-save-complete";
+var SETTINGS_SAVE_ERROR = "settings-save-error";
+
+var settingsEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    SETTINGS_GET: SETTINGS_GET,
+    SETTINGS_GET_COMPLETE: SETTINGS_GET_COMPLETE,
+    SETTINGS_GET_ERROR: SETTINGS_GET_ERROR,
+    SETTINGS_SAVE: SETTINGS_SAVE,
+    SETTINGS_SAVE_COMPLETE: SETTINGS_SAVE_COMPLETE,
+    SETTINGS_SAVE_ERROR: SETTINGS_SAVE_ERROR
+});
+
 /**
  * Events
  *
  * Sample events (constants) that are to be used for listeners
  */
-var secureStorageEvents = require("./secureStorageEvents");
-var algoliaEvents = require("./algoliaEvents");
-var workspaceEvents = require("./workspaceEvents");
-var layoutEvents = require("./layoutEvents");
-var menuItemEvents = require("./menuItemEvents");
-var themeEvents = require("./themeEvents");
-var dataEvents = require("./dataEvents");
-var settingsEvents = require("./settingsEvents");
-var publicEvents = _objectSpread$E(_objectSpread$E({}, algoliaEvents), dataEvents);
-module.exports = _objectSpread$E(_objectSpread$E(_objectSpread$E(_objectSpread$E(_objectSpread$E(_objectSpread$E(_objectSpread$E(_objectSpread$E({
-  publicEvents: publicEvents
-}, secureStorageEvents), algoliaEvents), workspaceEvents), layoutEvents), menuItemEvents), themeEvents), dataEvents), settingsEvents);
+var publicEvents = {
+  algoliaEvents: algoliaEvents,
+  dataEvents: dataEvents
+};
 
 var ThemeContext = /*#__PURE__*/createContext("dark");
 
@@ -22546,4 +22712,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus);
 
-export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, algoliaEvents, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, dataEvents, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, layoutEvents, menuItemEvents, mock, mockText, numChildrenForLayout, objectTypes, publicEvents, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, secureStorageEvents, settingsEvents, shades, styleClassNames, tailwindHeightFractions, themeEvents, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter, workspaceEvents };

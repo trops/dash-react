@@ -6,7 +6,7 @@ const SETTINGS_SAVE = "settings-save";
 const SETTINGS_SAVE_COMPLETE = "settings-save-complete";
 const SETTINGS_SAVE_ERROR = "settings-save-error";
 
-module.exports = {
+export {
     SETTINGS_GET,
     SETTINGS_GET_COMPLETE,
     SETTINGS_GET_ERROR,

@@ -18,7 +18,7 @@ const SECURE_STORE_SET_DATA = "secure-storage-set-data";
 const SECURE_STORE_SET_DATA_COMPLETE = "secure-storage-set-data-complete";
 const SECURE_STORE_SET_DATA_ERROR = "secure-storage-set-data-error";
 
-module.exports = {
+export {
     SECURE_STORE_ENCRYPTION_CHECK,
     SECURE_STORE_ENCRYPTION_CHECK_COMPLETE,
     SECURE_STORE_ENCRYPTION_CHECK_ERROR,

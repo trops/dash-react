@@ -3,28 +3,28 @@
  *
  * Sample events (constants) that are to be used for listeners
  */
-const secureStorageEvents = require("./secureStorageEvents");
-const algoliaEvents = require("./algoliaEvents");
-const workspaceEvents = require("./workspaceEvents");
-const layoutEvents = require("./layoutEvents");
-const menuItemEvents = require("./menuItemEvents");
-const themeEvents = require("./themeEvents");
-const dataEvents = require("./dataEvents");
-const settingsEvents = require("./settingsEvents");
+import * as secureStorageEvents from "./secureStorageEvents";
+import * as algoliaEvents from "./algoliaEvents";
+import * as workspaceEvents from "./workspaceEvents";
+import * as layoutEvents from "./layoutEvents";
+import * as menuItemEvents from "./menuItemEvents";
+import * as themeEvents from "./themeEvents";
+import * as dataEvents from "./dataEvents";
+import * as settingsEvents from "./settingsEvents";
 
 const publicEvents = {
-    ...algoliaEvents,
-    ...dataEvents,
+    algoliaEvents,
+    dataEvents,
 };
 
-module.exports = {
+export {
     publicEvents,
-    ...secureStorageEvents,
-    ...algoliaEvents,
-    ...workspaceEvents,
-    ...layoutEvents,
-    ...menuItemEvents,
-    ...themeEvents,
-    ...dataEvents,
-    ...settingsEvents,
+    secureStorageEvents,
+    algoliaEvents,
+    workspaceEvents,
+    layoutEvents,
+    menuItemEvents,
+    themeEvents,
+    dataEvents,
+    settingsEvents,
 };

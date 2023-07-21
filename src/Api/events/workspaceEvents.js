@@ -11,7 +11,7 @@ const WORKSPACE_SAVE = "workspace-save";
 const WORKSPACE_SAVE_COMPLETE = "workspace-save-complete";
 const WORKSPACE_SAVE_ERROR = "workspace-save-error";
 
-module.exports = {
+export {
     WORKSPACE_LIST,
     WORKSPACE_LIST_COMPLETE,
     WORKSPACE_LIST_ERROR,

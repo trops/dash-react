@@ -11,7 +11,7 @@ const LAYOUT_SAVE = "layout-save";
 const LAYOUT_SAVE_COMPLETE = "layout-save-complete";
 const LAYOUT_SAVE_ERROR = "layout-save-error";
 
-module.exports = {
+export {
     LAYOUT_LIST,
     LAYOUT_LIST_COMPLETE,
     LAYOUT_LIST_ERROR,
