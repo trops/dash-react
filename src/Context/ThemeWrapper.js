@@ -109,19 +109,13 @@ export const ThemeWrapper = ({ theme = null, children }) => {
      * Load in the themes for this application
      */
     function loadThemes() {
-        console.log("load themes", dashApi);
+        console.log("load themes", dashApi, credentials);
         if (dashApi && credentials) {
-            // api.removeAllListeners();
-            // api.on(api.events.THEME_LIST_COMPLETE, handleLoadThemesComplete);
-            // api.on(api.events.THEME_LIST_ERROR, handleLoadThemesError);
-            // api.themes.listThemesForApplication(creds.appId);
-            if (dashApi) {
-                dashApi.listThemes(
-                    credentials.appId,
-                    handleLoadThemesComplete,
-                    handleLoadThemesError
-                );
-            }
+            dashApi.listThemes(
+                credentials.appId,
+                handleLoadThemesComplete,
+                handleLoadThemesError
+            );
         } else {
             console.log("no api found");
             // checkThemes(dashA);

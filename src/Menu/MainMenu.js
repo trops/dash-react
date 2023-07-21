@@ -22,7 +22,6 @@ const MainMenuConst = ({
     selectedMainItem = null,
     onWorkspaceMenuChange,
 }) => {
-    const { api, creds } = useContext(AppContext);
     const { currentTheme } = useContext(ThemeContext);
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -67,7 +66,10 @@ const MainMenuConst = ({
                             key={`menu-item-${menuItem.id}`}
                         >
                             <div
-                                className={`flex flex-row justify-between border-b ${currentTheme["border-secondary-medium"]} mb-2 py-2 pl-2`}
+                                className={`flex flex-row justify-between border-b ${
+                                    currentTheme &&
+                                    currentTheme["border-secondary-medium"]
+                                } mb-2 py-2 pl-2`}
                             >
                                 <div className="flex flex-row text-xs items-center">
                                     <FontAwesomeIcon icon={menuItem.icon} />
