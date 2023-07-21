@@ -10,21 +10,29 @@ class ElectronDashboardApi implements IDashboardApi {
      */
     events: apiEvents;
 
-    constructor(api: any) {
+    constructor(api: any, events?:any) {
+        console.log("constructor events ", events);
         this.api = api;
+        if (events) {
+            this.events = events;
+        }
     }
 
     listWorkspaces(appId, onSuccess, onError): Boolean {
         if (this.api !== null) {
             try {
+                
                 this.api.removeAllListeners();
                 this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
                 this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
                 this.api.workspace.listWorkspacesForApplication(appId);
                 return true;
             } catch (e) {
+                onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return false;
     }
@@ -39,8 +47,11 @@ class ElectronDashboardApi implements IDashboardApi {
                 this.api.on(this.api.events.MENU_ITEMS_LIST_ERROR, onError);
                 this.api.menuItems.listMenuItems(appId);
             } catch (e) {
+                onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return false;
     }
@@ -56,6 +67,8 @@ class ElectronDashboardApi implements IDashboardApi {
                 onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return true;
     }
@@ -71,6 +84,8 @@ class ElectronDashboardApi implements IDashboardApi {
                 onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return false;
     }
@@ -86,8 +101,11 @@ class ElectronDashboardApi implements IDashboardApi {
                 this.api.on(this.api.events.MENU_ITEMS_SAVE_ERROR, onError);
                 this.api.menuItems.saveMenuItem(appId, menuItem);
             } catch (e) {
+                onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return true;
     }
@@ -104,8 +122,11 @@ class ElectronDashboardApi implements IDashboardApi {
                 );
                 return true;
             } catch (e) {
+                onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return false;
     }
@@ -122,6 +143,8 @@ class ElectronDashboardApi implements IDashboardApi {
                 onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return false;
     }
@@ -142,6 +165,8 @@ class ElectronDashboardApi implements IDashboardApi {
                 onError(e);
                 return false;
             }
+        } else {
+            onError(new Error("No Api found"));
         }
         return false;
     }
