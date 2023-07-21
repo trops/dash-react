@@ -6,6 +6,7 @@ import filesize from "rollup-plugin-filesize";
 import autoprefixer from "autoprefixer";
 import external from "rollup-plugin-peer-deps-external";
 import pkg from "./package.json";
+import typescript from "@rollup/plugin-typescript";
 
 const INPUT_FILE_PATH = "src/index.js";
 const OUTPUT_NAME = "Dash";
@@ -32,6 +33,7 @@ const PLUGINS = [
     }),
     resolve({
         browser: true,
+        extensions: [".cjs", ".js", ".jsx", ".json", ".ts", ".tsx", ".css"],
         /*resolveOnly: [
       /^(?!react$)/,
       /^(?!react-dom$)/,
@@ -43,6 +45,7 @@ const PLUGINS = [
         include: "node_modules/**",
     }),
     filesize(),
+    typescript({ sourceMap: true, rootDir: "./src" }),
 ];
 
 const EXTERNAL = ["react", "react-dom", "prop-types"];

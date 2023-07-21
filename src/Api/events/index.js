@@ -12,13 +12,13 @@ const themeEvents = require("./themeEvents");
 const dataEvents = require("./dataEvents");
 const settingsEvents = require("./settingsEvents");
 
-const public = {
+const publicEvents = {
     ...algoliaEvents,
     ...dataEvents,
 };
 
 module.exports = {
-    public,
+    publicEvents,
     ...secureStorageEvents,
     ...algoliaEvents,
     ...workspaceEvents,

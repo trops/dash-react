@@ -3,6 +3,7 @@
     "version": "0.1.64",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
+    "typescript": "^2.6.2",
     "publishConfig": {
         "@trops:registry": "https://npm.pkg.github.com",
         "access": "restricted"
@@ -95,6 +96,7 @@
         "@rollup/plugin-alias": "^4.0.3",
         "@rollup/plugin-commonjs": "^24.0.1",
         "@rollup/plugin-node-resolve": "^15.0.1",
+        "@rollup/plugin-typescript": "^11.1.2",
         "@storybook/addon-actions": "^7.1.0",
         "@storybook/addon-essentials": "^7.1.0",
         "@storybook/addon-interactions": "^7.1.0",
@@ -173,6 +175,7 @@
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/react-fontawesome": "^0.1.18",
-        "tailwindcss": "^3.2.7"
+        "tailwindcss": "^3.2.7",
+        "typescript": "^5.1.6"
     }
 }
