@@ -5241,7 +5241,7 @@ var Dashboard = function Dashboard(_ref) {
       console.log("Error loading menu items", e.message);
     }
   }
-  function handleListMenuItemComplete(message) {
+  function handleListMenuItemComplete(e, message) {
     try {
       console.log("list menu items complete ", message);
       setMenuItems(function () {
@@ -5860,7 +5860,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
    * @param {*} e
    * @param {*} message
    */
-  function handleLoadThemesComplete(message) {
+  function handleLoadThemesComplete(e, message) {
     console.log("themes complete", message);
     if ("themes" in message) {
       checkThemes(message["themes"]);
@@ -6083,7 +6083,7 @@ var AppWrapper = function AppWrapper(_ref) {
       dashApi.listSettings(credentials.appId, handleGetSettingsComplete, handleGetSettingsError);
     }
   }
-  function handleGetSettingsComplete(message) {
+  function handleGetSettingsComplete(e, message) {
     console.log("loaded settings ", message);
     if ("settings" in message) {
       var settingsObject;
@@ -6106,8 +6106,8 @@ var AppWrapper = function AppWrapper(_ref) {
     });
     forceUpdate();
   }
-  function handleGetSettingsError(e) {
-    console.log("settings load error ", e.message);
+  function handleGetSettingsError(e, error) {
+    console.log("settings load error ", error.message);
     setIsLoadingSettings(function () {
       return false;
     });

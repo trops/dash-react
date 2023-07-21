@@ -42,14 +42,7 @@ class WebDashboardApi implements IDashboardApi {
         return true;
     }
 
-    saveSettings(
-        appId: string,
-        settings: any,
-        onSuccess?: any,
-        onError?: Error
-    ) {
-        return false;
-    }
+    saveSettings: (appId: string, settings: any, onSuccess: { event: string; message: any; }, onError: { event: string; e: Error; }) => Boolean;
 
     saveTheme(
         appId: any,
