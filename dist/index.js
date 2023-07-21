@@ -351,8 +351,12 @@ var DashboardApi = {
 };
 
 var ElectronDashboardApi = /** @class */ (function () {
-    function ElectronDashboardApi(api) {
+    function ElectronDashboardApi(api, events) {
+        console.log("constructor events ", events);
         this.api = api;
+        if (events) {
+            this.events = events;
+        }
     }
     ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
         if (this.api !== null) {
@@ -364,8 +368,12 @@ var ElectronDashboardApi = /** @class */ (function () {
                 return true;
             }
             catch (e) {
+                onError(e);
                 return false;
             }
+        }
+        else {
+            onError(new Error("No Api found"));
         }
         return false;
     };
@@ -377,8 +385,12 @@ var ElectronDashboardApi = /** @class */ (function () {
                 this.api.menuItems.listMenuItems(appId);
             }
             catch (e) {
+                onError(e);
                 return false;
             }
+        }
+        else {
+            onError(new Error("No Api found"));
         }
         return false;
     };
@@ -395,6 +407,9 @@ var ElectronDashboardApi = /** @class */ (function () {
                 return false;
             }
         }
+        else {
+            onError(new Error("No Api found"));
+        }
         return true;
     };
     ElectronDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
@@ -410,6 +425,9 @@ var ElectronDashboardApi = /** @class */ (function () {
                 return false;
             }
         }
+        else {
+            onError(new Error("No Api found"));
+        }
         return false;
     };
     ElectronDashboardApi.prototype.saveMenuItem = function (appId, menuItem, onSuccess, onError) {
@@ -421,8 +439,12 @@ var ElectronDashboardApi = /** @class */ (function () {
                 this.api.menuItems.saveMenuItem(appId, menuItem);
             }
             catch (e) {
+                onError(e);
                 return false;
             }
+        }
+        else {
+            onError(new Error("No Api found"));
         }
         return true;
     };
@@ -436,8 +458,12 @@ var ElectronDashboardApi = /** @class */ (function () {
                 return true;
             }
             catch (e) {
+                onError(e);
                 return false;
             }
+        }
+        else {
+            onError(new Error("No Api found"));
         }
         return false;
     };
@@ -455,6 +481,9 @@ var ElectronDashboardApi = /** @class */ (function () {
                 return false;
             }
         }
+        else {
+            onError(new Error("No Api found"));
+        }
         return false;
     };
     ElectronDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
@@ -470,6 +499,9 @@ var ElectronDashboardApi = /** @class */ (function () {
                 onError(e);
                 return false;
             }
+        }
+        else {
+            onError(new Error("No Api found"));
         }
         return false;
     };

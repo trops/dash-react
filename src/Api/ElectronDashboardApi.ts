@@ -10,7 +10,7 @@ class ElectronDashboardApi implements IDashboardApi {
      */
     events: apiEvents;
 
-    constructor(api: any, events?:any) {
+    constructor(api: any, events?: any) {
         console.log("constructor events ", events);
         this.api = api;
         if (events) {
@@ -21,7 +21,6 @@ class ElectronDashboardApi implements IDashboardApi {
     listWorkspaces(appId, onSuccess, onError): Boolean {
         if (this.api !== null) {
             try {
-                
                 this.api.removeAllListeners();
                 this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
                 this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);

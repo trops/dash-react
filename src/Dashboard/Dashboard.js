@@ -99,12 +99,13 @@ export const Dashboard = ({
             // API
             api.workspace.listWorkspacesForApplication(creds.appId);
             */
-
-            dashApi.listWorkspaces(
-                credentials.appId,
-                handleLoadWorkspacesComplete,
-                handleLoadWorkspacesError
-            );
+            if (dashApi) {
+                dashApi.listWorkspaces(
+                    credentials.appId,
+                    handleLoadWorkspacesComplete,
+                    handleLoadWorkspacesError
+                );
+            }
         } catch (e) {
             console.log("failed loadWorkspaces ", e.message);
         }
