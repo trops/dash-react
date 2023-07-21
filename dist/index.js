@@ -1563,11 +1563,8 @@ var MainMenuConst = function MainMenuConst(_ref) {
     _ref$selectedMainItem = _ref.selectedMainItem,
     selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
     onWorkspaceMenuChange = _ref.onWorkspaceMenuChange;
-  var _useContext = useContext$1(AppContext);
-    _useContext.api;
-    _useContext.creds;
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
   var _useState = useState(""),
     _useState2 = _slicedToArray$y(_useState, 2),
     searchTerm = _useState2[0],
@@ -1599,7 +1596,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
       return /*#__PURE__*/jsxs("div", {
         className: "".concat(folderSelected && "rounded"),
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-between border-b ".concat(currentTheme["border-secondary-medium"], " mb-2 py-2 pl-2"),
+          className: "flex flex-row justify-between border-b ".concat(currentTheme && currentTheme["border-secondary-medium"], " mb-2 py-2 pl-2"),
           children: [/*#__PURE__*/jsxs("div", {
             className: "flex flex-row text-xs items-center",
             children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
@@ -5835,15 +5832,9 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
    * Load in the themes for this application
    */
   function loadThemes() {
-    console.log("load themes", dashApi);
+    console.log("load themes", dashApi, credentials);
     if (dashApi && credentials) {
-      // api.removeAllListeners();
-      // api.on(api.events.THEME_LIST_COMPLETE, handleLoadThemesComplete);
-      // api.on(api.events.THEME_LIST_ERROR, handleLoadThemesError);
-      // api.themes.listThemesForApplication(creds.appId);
-      if (dashApi) {
-        dashApi.listThemes(credentials.appId, handleLoadThemesComplete, handleLoadThemesError);
-      }
+      dashApi.listThemes(credentials.appId, handleLoadThemesComplete, handleLoadThemesError);
     } else {
       console.log("no api found");
       // checkThemes(dashA);
