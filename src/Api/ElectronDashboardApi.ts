@@ -68,7 +68,7 @@ class ElectronDashboardApi implements IDashboardApi {
                 this.api.themes.listThemesForApplication(appId);
                 return true;
             } catch (e) {
-                onError(this.events.THEME_LIST_ERRORe);
+                onError(this.events.THEME_LIST_ERROR, e);
                 return false;
             }
         } else {

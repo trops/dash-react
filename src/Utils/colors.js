@@ -379,8 +379,6 @@ const colorMap = {
     [themeObjects.LAYOUT_CONTAINER]: {},
 };
 
-console.log("COLOR MAP ", colorMap);
-
 /**
  * getStylesForItem
  * @param {string} itemName the name of the component (button, panel, etc)
