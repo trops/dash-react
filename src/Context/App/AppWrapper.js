@@ -116,10 +116,6 @@ export const AppWrapper = ({
     function saveSettings() {
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
-        // api.removeAllListeners();
-        // api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
-        // api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
-        // api.settings.saveSettingsForApplication(settings);
         if (dashApi) {
             dashApi.saveSettings(
                 credentials.appId,
@@ -171,6 +167,8 @@ export const AppWrapper = ({
     }
 
     return (
-        <AppContext.Provider value={getValue()}>{children}</AppContext.Provider>
+        <AppContext.Provider value={getValue()}>
+            {settings !== null && children}
+        </AppContext.Provider>
     );
 };

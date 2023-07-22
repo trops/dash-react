@@ -890,9 +890,7 @@ var WorkspaceContext = /*#__PURE__*/createContext({
  * }
  */
 var AppContext = /*#__PURE__*/createContext({
-  settings: {
-    theme: null
-  },
+  settings: null,
   debugMode: false
 });
 
@@ -5340,11 +5338,11 @@ var Dashboard = function Dashboard(_ref) {
   function handleOpenThemeManager() {
     setIsThemeManagerOpen(true);
   }
-  console.log(menuItems, currentTheme);
-  return menuItems && currentTheme && /*#__PURE__*/jsx(DashboardWrapper, {
+  console.log("Dashboard ", menuItems, currentTheme);
+  return /*#__PURE__*/jsx(DashboardWrapper, {
     dashApi: dashApi,
     credentials: credentials,
-    children: /*#__PURE__*/jsx(LayoutContainer, {
+    children: menuItems && currentTheme && /*#__PURE__*/jsx(LayoutContainer, {
       padding: false,
       space: true,
       height: "h-full",
@@ -5940,7 +5938,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
   };
   return /*#__PURE__*/jsx(ThemeContext.Provider, {
     value: getValue(),
-    children: children
+    children: currentTheme !== null && children
   });
 };
 
@@ -6085,10 +6083,6 @@ var AppWrapper = function AppWrapper(_ref) {
   function saveSettings() {
     // Here is where we have to add this theme to the themes available
     // and save to the themes file.
-    // api.removeAllListeners();
-    // api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
-    // api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
-    // api.settings.saveSettingsForApplication(settings);
     if (dashApi) {
       dashApi.saveSettings(credentials.appId, settings, handleGetSettingsComplete, handleGetSettingsError);
     }
@@ -6135,7 +6129,7 @@ var AppWrapper = function AppWrapper(_ref) {
   }
   return /*#__PURE__*/jsx(AppContext.Provider, {
     value: getValue(),
-    children: children
+    children: settings !== null && children
   });
 };
 
@@ -12005,8 +11999,7 @@ function _getPrototypeOf$3(o) { _getPrototypeOf$3 = Object.setPrototypeOf ? Obje
       return /*#__PURE__*/jsx("div", {
         className: "flex flex-row p-4 bg-gray-200 dark:bg-gray-900 w-full justify-center mt-auto text-xs text-center items-center",
         children: /*#__PURE__*/jsx("span", {
-          className: "text-gray-300 dark:text-gray-600",
-          children: "Team RAM @2022"
+          className: "text-gray-300 dark:text-gray-600"
         })
       });
     }

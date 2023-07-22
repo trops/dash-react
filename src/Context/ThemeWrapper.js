@@ -253,7 +253,7 @@ export const ThemeWrapper = ({
 
     return (
         <ThemeContext.Provider value={getValue()}>
-            {children}
+            {currentTheme !== null && children}
         </ThemeContext.Provider>
     );
 };

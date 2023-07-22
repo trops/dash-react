@@ -389,11 +389,10 @@ export const Dashboard = ({
         setIsThemeManagerOpen(true);
     }
 
-    console.log(menuItems, currentTheme);
+    console.log("Dashboard ", menuItems, currentTheme);
     return (
-        menuItems &&
-        currentTheme && (
-            <DashboardWrapper dashApi={dashApi} credentials={credentials}>
+        <DashboardWrapper dashApi={dashApi} credentials={credentials}>
+            {menuItems && currentTheme && (
                 <LayoutContainer
                     padding={false}
                     space={true}
@@ -529,7 +528,7 @@ export const Dashboard = ({
                         />
                     </DndProvider>
                 </LayoutContainer>
-            </DashboardWrapper>
-        )
+            )}
+        </DashboardWrapper>
     );
 };
