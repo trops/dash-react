@@ -12,10 +12,31 @@ export * from "./themeEvents";
 export * from "./dataEvents";
 export * from "./settingsEvents";
 
+// console.log("workspace evenbts ", ...workspaceEvents);
+
 // const publicEvents = {
 //     algoliaEvents,
 //     dataEvents,
 // };
+
+// export { publicEvents };
+// const publicEvents = {
+//     algoliaEvents,
+//     dataEvents,
+// };
+
+// const events = {
+//     secureStorageEvents,
+//     settingsEvents,
+//     algoliaEvents,
+//     workspaceEvents,
+//     layoutEvents,
+//     dataEvents,
+//     menuItemEvents,
+//     themeEvents,
+// };
+
+// export { events };
 
 // export {
 //     publicEvents,

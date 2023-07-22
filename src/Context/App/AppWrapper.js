@@ -24,13 +24,7 @@ const debugStyles = {
     },
 };
 
-export const AppWrapper = ({
-    children,
-    credentials = { appId: "my-app-id" },
-    api,
-    dashApi,
-    ...rest
-}) => {
+export const AppWrapper = ({ children, credentials = null, dashApi }) => {
     const [creds, setCreds] = useState(credentials);
     const [debugMode, setDebugmode] = useState(false);
     const [searchClient, setSearchClient] = useState(null);
@@ -39,10 +33,11 @@ export const AppWrapper = ({
     const [isSavingSettings, setIsSavingSettings] = useState(false);
 
     useEffect(() => {
+        console.log("App Wrapper ", settings, isLoadingSettings);
         if (settings === null && isLoadingSettings === false) {
             loadSettings();
         }
-    }, [settings]);
+    }, [credentials, settings]);
 
     function changeSearchClient(searchClientTo) {
         setSearchClient(() => searchClientTo);
@@ -77,11 +72,8 @@ export const AppWrapper = ({
     function loadSettings() {
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
-        if (dashApi) {
-            // api.removeAllListeners();
-            // api.on(api.events.SETTINGS_GET_COMPLETE, handleGetSettingsComplete);
-            // api.on(api.events.SETTINGS_GET_ERROR, handleGetSettingsError);
-            // api.settings.getSettingsForApplication();
+        console.log("loading settings ", settings, dashApi, credentials);
+        if (dashApi && credentials) {
             dashApi.listSettings(
                 credentials.appId,
                 handleGetSettingsComplete,
@@ -105,7 +97,7 @@ export const AppWrapper = ({
         }
         // set the settings model to the context
         setIsLoadingSettings(() => false);
-        forceUpdate();
+        // forceUpdate();
     }
 
     function handleGetSettingsError(e, error) {
@@ -148,27 +140,30 @@ export const AppWrapper = ({
     // }
 
     function getValue() {
-        return {
-            key: Date.now(),
-            debugMode: debugMode,
-            debugStyles: debugStyles,
-            creds: creds,
-            credentials,
-            searchClient: searchClient,
-            api: dashApi,
-            dashApi,
-            settings: settings,
-            changeSearchClient,
-            changeCreds,
-            changeDebugMode,
-            changeSettings,
-            changeApplicationTheme,
-        };
+        try {
+            return {
+                key: Date.now(),
+                debugMode: debugMode,
+                debugStyles: debugStyles,
+                creds: creds,
+                credentials,
+                searchClient: searchClient,
+                api: dashApi,
+                dashApi,
+                settings: settings,
+                changeSearchClient,
+                changeCreds,
+                changeDebugMode,
+                changeSettings,
+                changeApplicationTheme,
+            };
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
     }
 
     return (
-        <AppContext.Provider value={getValue()}>
-            {settings !== null && children}
-        </AppContext.Provider>
+        <AppContext.Provider value={getValue()}>{children}</AppContext.Provider>
     );
 };

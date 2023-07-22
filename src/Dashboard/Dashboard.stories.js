@@ -20,8 +20,9 @@ export default {
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
-    return (
-        <div className="flex flex-col h-full w-full">
+    try {
+        return (
+            // <div className="flex flex-col h-screen w-full">
             <MockDashboard args={args} backgroundColor={"bg-gray-900"}>
                 <Dashboard
                     dashApi={new MockDashboardApi(mock.api)}
@@ -29,8 +30,12 @@ const Template = (args) => {
                     {...args}
                 />
             </MockDashboard>
-        </div>
-    );
+            // </div>
+        );
+    } catch (e) {
+        console.log(e);
+        return <div>test</div>;
+    }
 };
 
 export const DashboardTest = Template.bind({});

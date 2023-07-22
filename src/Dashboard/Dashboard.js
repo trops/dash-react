@@ -22,7 +22,7 @@ import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
 
 export const Dashboard = ({
     dashApi, // use this API for the Dashboard (JS|Electron)
-    credentials = null,
+    credentials,
     workspace = null,
     preview = true,
 }) => {
@@ -57,16 +57,17 @@ export const Dashboard = ({
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        console.log(
-            "DASHBOARD ",
-            menuItems,
-            dashApi,
-            pub,
-            //settings,
-            workspaceConfig,
-            workspaceSelected,
-            workspace
-        );
+        // console.log(
+        //     "DASHBOARD ",
+        //     menuItems,
+        //     dashApi,
+        //     pub,
+        //     //settings,
+        //     workspaceConfig,
+        //     workspaceSelected,
+        //     workspace
+        // );
+        console.log("dashboard use effect");
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
@@ -88,18 +89,7 @@ export const Dashboard = ({
             console.log("1. Loading Workspaces =========================");
             setIsLoadingWorkspaces(() => true);
 
-            /*
-            api.removeAllListeners();
-            api.on(
-                api.events.WORKSPACE_LIST_COMPLETE,
-                handleLoadWorkspacesComplete
-            );
-            api.on(api.events.WORKSPACE_LIST_ERROR, handleLoadWorkspacesError);
-
-            // API
-            api.workspace.listWorkspacesForApplication(creds.appId);
-            */
-            if (dashApi) {
+            if (dashApi && credentials) {
                 dashApi.listWorkspaces(
                     credentials.appId,
                     handleLoadWorkspacesComplete,
@@ -214,31 +204,31 @@ export const Dashboard = ({
         }
     }
 
-    function renderMenuItems() {
-        console.log("menu items ", menuItems);
-        return (
-            menuItems !== undefined &&
-            menuItems.length > 0 &&
-            menuItems.map((menuItem, index) => {
-                const selected =
-                    selectedMainItem !== null
-                        ? selectedMainItem.id === menuItem.id
-                        : false;
-                return (
-                    <DashboardMenuItem
-                        key={`menu-item-${menuItem.id}`}
-                        id={menuItem.id}
-                        icon={menuItem.icon}
-                        item={menuItem}
-                        name={menuItem.name}
-                        onClick={() => handleClickMainMenu(menuItem)}
-                        selected={selected}
-                        theme={currentTheme}
-                    />
-                );
-            })
-        );
-    }
+    // function renderMenuItems() {
+    //     console.log("menu items ", menuItems);
+    //     return (
+    //         menuItems !== undefined &&
+    //         menuItems.length > 0 &&
+    //         menuItems.map((menuItem, index) => {
+    //             const selected =
+    //                 selectedMainItem !== null
+    //                     ? selectedMainItem.id === menuItem.id
+    //                     : false;
+    //             return (
+    //                 <DashboardMenuItem
+    //                     key={`menu-item-${menuItem.id}`}
+    //                     id={menuItem.id}
+    //                     icon={menuItem.icon}
+    //                     item={menuItem}
+    //                     name={menuItem.name}
+    //                     onClick={() => handleClickMainMenu(menuItem)}
+    //                     selected={selected}
+    //                     theme={currentTheme}
+    //                 />
+    //             );
+    //         })
+    //     );
+    // }
 
     function handleAddNewMenuItem() {
         setIsAddWidgetModalOpen(true);
@@ -388,11 +378,18 @@ export const Dashboard = ({
     function handleOpenThemeManager() {
         setIsThemeManagerOpen(true);
     }
-
-    console.log("Dashboard ", menuItems, currentTheme);
+    {
+        /* <LayoutManagerModal
+                            open={isThemeManagerOpen}
+                            setIsOpen={() =>
+                                setIsThemeManagerOpen(!isThemeManagerOpen)
+                            }
+                        /> */
+    }
+    // console.log("Dashboard ", menuItems, currentTheme, dashApi);
     return (
         <DashboardWrapper dashApi={dashApi} credentials={credentials}>
-            {menuItems && currentTheme && (
+            {menuItems && (
                 <LayoutContainer
                     padding={false}
                     space={true}
@@ -451,7 +448,6 @@ export const Dashboard = ({
                                         }
                                     />
                                 )}
-                                {/* </div> */}
                             </LayoutContainer>
                         )}
 
@@ -474,24 +470,6 @@ export const Dashboard = ({
                                 selectedMainItem={selectedMainItem}
                             />
                         )}
-                        {/* <MenuSlideOverlay
-                            workspaces={workspaceConfig}
-                            open={isShowing}
-                            setOpen={setIsShowing}
-                            selectedMainItem={selectedMainItem}
-                            handleClick={handleClick}
-                        >
-                            <MainMenu
-                                menuItems={menuItems}
-                                workspaces={workspaceConfig}
-                                onClickNew={handleClickNew}
-                                onClick={handleClick}
-                                selectedMainItem={selectedMainItem}
-                                onWorkspaceMenuChange={
-                                    handleWorkspaceMenuChange
-                                }
-                            />
-                        </MenuSlideOverlay> */}
 
                         <AddMenuItemModal
                             open={isAddItemModalOpen}
@@ -513,13 +491,6 @@ export const Dashboard = ({
                                 forceUpdate();
                             }}
                         />
-
-                        {/* <LayoutManagerModal
-                            open={isThemeManagerOpen}
-                            setIsOpen={() =>
-                                setIsThemeManagerOpen(!isThemeManagerOpen)
-                            }
-                        /> */}
 
                         <ApplicationSettingsModal
                             open={isSettingsModalOpen}

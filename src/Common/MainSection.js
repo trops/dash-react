@@ -5,17 +5,18 @@ export const MainSection = ({ children, backgroundColor = null }) => {
     const { currentTheme } = useContext(ThemeContext);
 
     // we have to parse out all of the color overrides if they exist.
-    const backgroundColorStyle =
-        backgroundColor !== null
+    function backgroundColorStyle() {
+        return backgroundColor !== null
             ? backgroundColor
             : currentTheme
             ? currentTheme["bg-primary-very-dark"]
             : "bg-black";
+    }
 
     return (
         currentTheme !== null && (
             <div
-                className={`flex flex-col ${backgroundColorStyle} h-full overflow-hidden w-full p-0 m-0`}
+                className={`flex flex-col ${backgroundColorStyle()} h-full overflow-hidden w-full p-0 m-0`}
             >
                 {children}
             </div>

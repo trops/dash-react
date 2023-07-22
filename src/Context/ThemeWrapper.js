@@ -107,7 +107,7 @@ export const ThemeWrapper = ({
             // we have a theme chosen but need to load the application themes overall...
             if (themesForApplication === null) loadThemes();
         }
-    }, [dashApi, credentials, chosenTheme]);
+    }, [chosenTheme]);
 
     /**
      * loadThemes
@@ -253,7 +253,7 @@ export const ThemeWrapper = ({
 
     return (
         <ThemeContext.Provider value={getValue()}>
-            {currentTheme !== null && children}
+            {children}
         </ThemeContext.Provider>
     );
 };

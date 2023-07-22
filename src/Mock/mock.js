@@ -1,7 +1,6 @@
 import { MainSection, mock, ComponentManager } from "@dash";
-import { AppContext, ThemeContext } from "../Context";
-// import "../tailwind.css";
-import { LayoutContainer, Widget, Workspace } from "..";
+import { AppContext, ThemeContext, ThemeWrapper } from "../Context";
+import { LayoutContainer, MockDashboardApi, Widget, Workspace } from "..";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { InstantSearch } from "react-instantsearch-hooks-web";
 import algoliasearch from "algoliasearch";
@@ -9,12 +8,13 @@ import algoliasearch from "algoliasearch";
 // Local Widgets that integrate with Dash
 import * as myWidgets from "../Widgets";
 import { mockApi } from "./api";
+import ErrorBoundary from "../Common/ErrorBoundary";
 
 const MockWrapper = ({
+    api,
     apiMock = null,
     children,
     backgroundColor = "bg-transparent",
-    ...props
 }) => {
     function getAppContext() {
         return {
@@ -30,12 +30,15 @@ const MockWrapper = ({
         };
     }
 
-    console.log("Mock theme context", mock.theme.context);
+    console.log("Mock theme context", mock.theme.context, api);
 
     return (
         <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
             <AppContext.Provider value={getAppContext()}>
-                <ThemeContext.Provider value={mock.theme.context}>
+                <ThemeWrapper
+                    credentials={getAppContext().creds}
+                    dashApi={new MockDashboardApi(api)}
+                >
                     <div
                         className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200`}
                     >
@@ -63,7 +66,8 @@ const MockWrapper = ({
                             </Widget>
                         </Workspace>
                     </div>
-                </ThemeContext.Provider>
+                </ThemeWrapper>
+                {/* </ThemeContext.Provider> */}
             </AppContext.Provider>
         </div>
     );
@@ -220,10 +224,10 @@ const MockAlgolia = ({
 };
 
 const MockDashboard = ({
+    api,
     apiMock = null,
     children,
     backgroundColor = "bg-transparent",
-    ...props
 }) => {
     // initialize the widgets
     // do inside the dashboard?
@@ -250,13 +254,9 @@ const MockDashboard = ({
 
     return (
         <HashRouter forceRefresh={true}>
-            <div className="flex flex-col w-screen h-screen overflow-hidden justify-between p-0">
-                <MainSection>
-                    <Routes>
-                        <Route path="/" element={children} />
-                    </Routes>
-                </MainSection>
-            </div>
+            <Routes>
+                <Route path="/" element={children} />
+            </Routes>
         </HashRouter>
     );
 };
