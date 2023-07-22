@@ -378,14 +378,7 @@ export const Dashboard = ({
                             }
                         /> */
     }
-    console.log(
-        "Dashboard ",
-        menuItems,
-        currentTheme,
-        dashApi,
-        workspaceSelected,
-        workspaceConfig
-    );
+
     return (
         <DashboardWrapper dashApi={dashApi} credentials={credentials}>
             {menuItems && (

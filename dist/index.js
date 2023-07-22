@@ -5031,9 +5031,9 @@ var Dashboard = function Dashboard(_ref) {
   /**
    * ThemeContext
    */
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme,
-    changeCurrentTheme = _useContext2.changeCurrentTheme;
+  var _useContext2 = useContext$1(ThemeContext);
+    _useContext2.currentTheme;
+    var changeCurrentTheme = _useContext2.changeCurrentTheme;
   var _useState = useState(workspace),
     _useState2 = _slicedToArray$q(_useState, 2),
     workspaceSelected = _useState2[0],
@@ -5383,7 +5383,6 @@ var Dashboard = function Dashboard(_ref) {
   function handleOpenThemeManager() {
     setIsThemeManagerOpen(true);
   }
-  console.log("Dashboard ", menuItems, currentTheme, dashApi, workspaceSelected, workspaceConfig);
   return /*#__PURE__*/jsx(DashboardWrapper, {
     dashApi: dashApi,
     credentials: credentials,
@@ -5783,8 +5782,8 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     credentials = _ref.credentials,
     children = _ref.children;
   // changeApplicationTheme will save this to the settings config
-  // const { dashApi, credentials } = useContext(AppContext);
-
+  var _useContext = useContext$1(AppContext),
+    changeApplicationTheme = _useContext.changeApplicationTheme;
   var _useState = useState(theme),
     _useState2 = _slicedToArray$o(_useState, 2),
     chosenTheme = _useState2[0],
@@ -5867,9 +5866,6 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     console.log("load themes", dashApi, credentials);
     if (dashApi && credentials) {
       dashApi.listThemes(credentials.appId, handleLoadThemesComplete, handleLoadThemesError);
-    } else {
-      console.log("no api found");
-      // checkThemes(dashA);
     }
   }
 
@@ -5881,8 +5877,9 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
    * @param {*} message
    */
   function handleLoadThemesComplete(e, message) {
-    console.log("themes complete", message);
+    console.log("themes complete", e, message);
     if ("themes" in message) {
+      console.log("we have some themes in the message", message["themes"]);
       checkThemes(message["themes"]);
       // if (theme === null) {
       //     changeCurrentTheme(Object.keys(message["themes"])[0]);
@@ -5894,6 +5891,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     try {
       var themesChecked = {};
       var _rawThemes = {};
+      console.log("themes to check ", themesToCheck);
       if (themesToCheck !== null) {
         if (Object.keys(themesToCheck).length === 0) {
           Object.keys(themes$1).forEach(function (themeKey) {
@@ -12223,7 +12221,6 @@ var MainSection = function MainSection(_ref) {
   function backgroundColorStyle() {
     return backgroundColor !== null ? backgroundColor : currentTheme ? currentTheme["bg-primary-very-dark"] : "bg-black";
   }
-  console.log("main section ", currentTheme);
   return currentTheme !== null && /*#__PURE__*/jsx("div", {
     className: "flex flex-col ".concat(backgroundColorStyle(), " h-full overflow-hidden w-full p-0 m-0"),
     children: children

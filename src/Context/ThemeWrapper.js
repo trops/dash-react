@@ -50,7 +50,7 @@ export const ThemeWrapper = ({
     children,
 }) => {
     // changeApplicationTheme will save this to the settings config
-    // const { dashApi, credentials } = useContext(AppContext);
+    const { changeApplicationTheme } = useContext(AppContext);
 
     const [chosenTheme, setChosenTheme] = useState(theme);
     const [themeName, setThemeName] = useState(null);
@@ -121,9 +121,6 @@ export const ThemeWrapper = ({
                 handleLoadThemesComplete,
                 handleLoadThemesError
             );
-        } else {
-            console.log("no api found");
-            // checkThemes(dashA);
         }
     }
 
@@ -135,8 +132,12 @@ export const ThemeWrapper = ({
      * @param {*} message
      */
     function handleLoadThemesComplete(e, message) {
-        console.log("themes complete", message);
+        console.log("themes complete", e, message);
         if ("themes" in message) {
+            console.log(
+                "we have some themes in the message",
+                message["themes"]
+            );
             checkThemes(message["themes"]);
             // if (theme === null) {
             //     changeCurrentTheme(Object.keys(message["themes"])[0]);
@@ -149,6 +150,7 @@ export const ThemeWrapper = ({
             let themesChecked = {};
             let rawThemes = {};
 
+            console.log("themes to check ", themesToCheck);
             if (themesToCheck !== null) {
                 if (Object.keys(themesToCheck).length === 0) {
                     Object.keys(themes).forEach((themeKey) => {

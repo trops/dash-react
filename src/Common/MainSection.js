@@ -13,8 +13,6 @@ export const MainSection = ({ children, backgroundColor = null }) => {
             : "bg-black";
     }
 
-    console.log("main section ", currentTheme);
-
     return (
         currentTheme !== null && (
             <div
