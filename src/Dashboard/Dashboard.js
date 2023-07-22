@@ -57,24 +57,24 @@ export const Dashboard = ({
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
-        // console.log(
-        //     "DASHBOARD ",
-        //     menuItems,
-        //     dashApi,
-        //     pub,
-        //     //settings,
-        //     workspaceConfig,
-        //     workspaceSelected,
-        //     workspace
-        // );
+        console.log(
+            "DASHBOARD ",
+            menuItems,
+            dashApi,
+            pub,
+            settings,
+            workspaceConfig,
+            workspaceSelected,
+            workspace
+        );
         console.log("dashboard use effect");
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
 
-    // useEffect(() => {
-    //     // forceUpdate();
-    // }, [themesForApplication]);
+    useEffect(() => {
+        // forceUpdate();
+    }, [themesForApplication]);
 
     // useEffect(() => {
     //     console.log("dashboard settings ", settings);
@@ -137,22 +137,22 @@ export const Dashboard = ({
         setWorkspaceConfig({});
     }
 
-    function handleClickMainMenu(menuItem) {
-        console.log("clicked ", menuItem, selectedMainItem);
-        if (selectedMainItem === null) {
-            setSelectedMainItem(() => menuItem);
-        } else {
-            if (menuItem.id === selectedMainItem.id) {
-                setSelectedMainItem(null);
-            } else {
-                setSelectedMainItem(() => menuItem);
-            }
-        }
+    // function handleClickMainMenu(menuItem) {
+    //     console.log("clicked ", menuItem, selectedMainItem);
+    //     if (selectedMainItem === null) {
+    //         setSelectedMainItem(() => menuItem);
+    //     } else {
+    //         if (menuItem.id === selectedMainItem.id) {
+    //             setSelectedMainItem(null);
+    //         } else {
+    //             setSelectedMainItem(() => menuItem);
+    //         }
+    //     }
 
-        if (!isShowing && menuItem.name !== "home") {
-            setIsShowing(!isShowing);
-        }
-    }
+    //     if (!isShowing && menuItem.name !== "home") {
+    //         setIsShowing(!isShowing);
+    //     }
+    // }
 
     // Sub Menu
     // The user has chosen a workspace and we need to load that workspace data

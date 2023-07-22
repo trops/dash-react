@@ -387,15 +387,6 @@ var WORKSPACE_SAVE = "workspace-save";
 var WORKSPACE_SAVE_COMPLETE = "workspace-save-complete";
 var WORKSPACE_SAVE_ERROR = "workspace-save-error";
 
-// export {
-//     WORKSPACE_LIST,
-//     WORKSPACE_LIST_COMPLETE,
-//     WORKSPACE_LIST_ERROR,
-//     WORKSPACE_SAVE,
-//     WORKSPACE_SAVE_COMPLETE,
-//     WORKSPACE_SAVE_ERROR,
-// };
-
 /**
  * Event Constants File
  *
@@ -5101,24 +5092,14 @@ var Dashboard = function Dashboard(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    // console.log(
-    //     "DASHBOARD ",
-    //     menuItems,
-    //     dashApi,
-    //     pub,
-    //     //settings,
-    //     workspaceConfig,
-    //     workspaceSelected,
-    //     workspace
-    // );
+    console.log("DASHBOARD ", menuItems, dashApi, pub, settings, workspaceConfig, workspaceSelected, workspace);
     console.log("dashboard use effect");
     isLoadingWorkspaces === false && loadWorkspaces();
     isLoadingMenuItems === false && loadMenuItems();
   }, [workspace]);
-
-  // useEffect(() => {
-  //     // forceUpdate();
-  // }, [themesForApplication]);
+  useEffect(function () {
+    // forceUpdate();
+  }, [themesForApplication]);
 
   // useEffect(() => {
   //     console.log("dashboard settings ", settings);
@@ -5175,6 +5156,23 @@ var Dashboard = function Dashboard(_ref) {
   function handleLoadWorkspacesError(e, message) {
     setWorkspaceConfig({});
   }
+
+  // function handleClickMainMenu(menuItem) {
+  //     console.log("clicked ", menuItem, selectedMainItem);
+  //     if (selectedMainItem === null) {
+  //         setSelectedMainItem(() => menuItem);
+  //     } else {
+  //         if (menuItem.id === selectedMainItem.id) {
+  //             setSelectedMainItem(null);
+  //         } else {
+  //             setSelectedMainItem(() => menuItem);
+  //         }
+  //     }
+
+  //     if (!isShowing && menuItem.name !== "home") {
+  //         setIsShowing(!isShowing);
+  //     }
+  // }
 
   // Sub Menu
   // The user has chosen a workspace and we need to load that workspace data
@@ -12213,6 +12211,7 @@ var MainSection = function MainSection(_ref) {
   function backgroundColorStyle() {
     return backgroundColor !== null ? backgroundColor : currentTheme ? currentTheme["bg-primary-very-dark"] : "bg-black";
   }
+  console.log("main section ", currentTheme);
   return currentTheme !== null && /*#__PURE__*/jsx("div", {
     className: "flex flex-col ".concat(backgroundColorStyle(), " h-full overflow-hidden w-full p-0 m-0"),
     children: children
