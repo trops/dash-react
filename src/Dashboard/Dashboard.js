@@ -240,14 +240,6 @@ export const Dashboard = ({
             setIsLoadingMenuItems(() => true);
             // we have to remove the widgetConfig which contains the component
             // sanitize the workspace layout remove widgetConfig items
-            // api.removeAllListeners();
-            // api.on(
-            //     api.events.MENU_ITEMS_LIST_COMPLETE,
-            //     handleListMenuItemComplete
-            // );
-            // api.on(api.events.MENU_ITEMS_LIST_ERROR, handleListMenuItemError);
-
-            // api.menuItems.listMenuItems(creds.appId);
             dashApi.listMenuItems(
                 credentials.appId,
                 handleListMenuItemComplete,

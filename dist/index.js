@@ -4525,6 +4525,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
+    console.log("Panel Welcome use effect", currentTheme);
     forceUpdate();
   }, [theme, currentTheme, forceUpdate]);
   var handleAddNewMenuItem = function handleAddNewMenuItem() {
@@ -4542,7 +4543,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
   var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
     selectedMainItem && onClickNewWorkspace && onClickNewWorkspace(data);
   };
-  return /*#__PURE__*/jsx("div", {
+  return currentTheme && /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center",
@@ -5268,14 +5269,6 @@ var Dashboard = function Dashboard(_ref) {
       });
       // we have to remove the widgetConfig which contains the component
       // sanitize the workspace layout remove widgetConfig items
-      // api.removeAllListeners();
-      // api.on(
-      //     api.events.MENU_ITEMS_LIST_COMPLETE,
-      //     handleListMenuItemComplete
-      // );
-      // api.on(api.events.MENU_ITEMS_LIST_ERROR, handleListMenuItemError);
-
-      // api.menuItems.listMenuItems(creds.appId);
       dashApi.listMenuItems(credentials.appId, handleListMenuItemComplete, handleListMenuItemError);
     } catch (e) {
       console.log("Error loading menu items", e.message);

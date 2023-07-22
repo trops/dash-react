@@ -37,6 +37,7 @@ export const PanelWelcome = ({
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
+        console.log("Panel Welcome use effect", currentTheme);
         forceUpdate();
     }, [theme, currentTheme, forceUpdate]);
 
@@ -115,123 +116,140 @@ export const PanelWelcome = ({
     };
 
     return (
-        <div
-            className={`flex flex-row w-full h-full overflow-hidden items-center justify-center`}
-        >
+        currentTheme && (
             <div
-                className={`flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center`}
+                className={`flex flex-row w-full h-full overflow-hidden items-center justify-center`}
             >
-                <Panel2 horizontal={true} padding={false}>
-                    <div
-                        className={`flex flex-col space-y-1 p-2 h-full justify-between ${
-                            currentTheme && currentTheme["bg-primary-very-dark"]
-                        }`}
-                    >
-                        {/* <div className="w-10 h-10 items-center justify-center">
+                <div
+                    className={`flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center`}
+                >
+                    <Panel2 horizontal={true} padding={false}>
+                        <div
+                            className={`flex flex-col space-y-1 p-2 h-full justify-between ${
+                                currentTheme &&
+                                currentTheme["bg-primary-very-dark"]
+                            }`}
+                        >
+                            {/* <div className="w-10 h-10 items-center justify-center">
                             <ButtonIcon icon="home" onClick={handleHome} />
                         </div> */}
-                        <div className="w-10 h-10 items-center justify-center">
-                            <ButtonIcon
-                                icon="plus"
-                                onClick={handleClickNewDashboard}
-                                hoverBackgroundColor={"hover:bg-green-700"}
-                                backgroundColor={"bg-blue-600"}
-                            />
-                        </div>
-                        <div className="flex flex-col space-y-1">
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon
-                                    icon="folder-plus"
-                                    onClick={handleAddNewMenuItem}
+                                    icon="plus"
+                                    onClick={handleClickNewDashboard}
                                     hoverBackgroundColor={"hover:bg-green-700"}
+                                    backgroundColor={"bg-blue-600"}
                                 />
                             </div>
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon={
-                                        themeVariant === "dark" ? "sun" : "moon"
-                                    }
-                                    onClick={() =>
-                                        changeThemeVariant(
+                            <div className="flex flex-col space-y-1">
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="folder-plus"
+                                        onClick={handleAddNewMenuItem}
+                                        hoverBackgroundColor={
+                                            "hover:bg-green-700"
+                                        }
+                                    />
+                                </div>
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon={
                                             themeVariant === "dark"
-                                                ? "light"
-                                                : "dark"
-                                        )
-                                    }
-                                />
-                            </div>
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon="palette"
-                                    onClick={handleOpenThemeManager}
-                                    hoverBackgroundColor={"hover:bg-orange-700"}
-                                />
-                            </div>
-                            <div className="w-10 h-10 items-center justify-center">
-                                <ButtonIcon
-                                    icon="computer"
-                                    onClick={handleOpenSettings}
-                                    hoverBackgroundColor={"hover:bg-orange-700"}
-                                />
+                                                ? "sun"
+                                                : "moon"
+                                        }
+                                        onClick={() =>
+                                            changeThemeVariant(
+                                                themeVariant === "dark"
+                                                    ? "light"
+                                                    : "dark"
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="palette"
+                                        onClick={handleOpenThemeManager}
+                                        hoverBackgroundColor={
+                                            "hover:bg-orange-700"
+                                        }
+                                    />
+                                </div>
+                                <div className="w-10 h-10 items-center justify-center">
+                                    <ButtonIcon
+                                        icon="computer"
+                                        onClick={handleOpenSettings}
+                                        hoverBackgroundColor={
+                                            "hover:bg-orange-700"
+                                        }
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col w-full h-full overflow-hidden p-4">
-                        <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
-                            <div
-                                className={`flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between`}
-                            >
-                                <div className="flex flex-col rounded py-10 space-y-4">
-                                    <Heading title={"Dash."} padding={false} />
-                                    <div className="flex-row hidden 2xl:flex w-full ">
-                                        <SubHeading3
-                                            title={"Dashboard Generator."}
+                        <div className="flex flex-col w-full h-full overflow-hidden p-4">
+                            <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
+                                <div
+                                    className={`flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between`}
+                                >
+                                    <div className="flex flex-col rounded py-10 space-y-4">
+                                        <Heading
+                                            title={"Dash."}
                                             padding={false}
                                         />
+                                        <div className="flex-row hidden 2xl:flex w-full ">
+                                            <SubHeading3
+                                                title={"Dashboard Generator."}
+                                                padding={false}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row space-x-2 items-center">
+                                        {theme !== null &&
+                                            theme !== undefined && (
+                                                <Tag
+                                                    text={`${theme["name"]}`}
+                                                    onClick={null}
+                                                />
+                                            )}
                                     </div>
                                 </div>
-                                <div className="flex flex-row space-x-2 items-center">
-                                    {theme !== null && theme !== undefined && (
-                                        <Tag
-                                            text={`${theme["name"]}`}
-                                            onClick={null}
-                                        />
-                                    )}
-                                </div>
+                                <Panel3
+                                    scrollable={false}
+                                    space={true}
+                                    direction={"col"}
+                                >
+                                    <Panel3.Body>
+                                        <LayoutContainer
+                                            direction="col"
+                                            space={false}
+                                            className="space-y-1"
+                                            scrollable={true}
+                                        >
+                                            <MainMenu
+                                                menuItems={menuItems}
+                                                workspaces={workspaces}
+                                                onClickNewWorkspace={
+                                                    handleClickNewWorkspace
+                                                }
+                                                selectedMainItem={
+                                                    selectedMainItem
+                                                }
+                                                onWorkspaceMenuChange={
+                                                    onClickWorkspace
+                                                }
+                                                onCreateNewFolder={
+                                                    handleAddNewMenuItem
+                                                }
+                                            />
+                                        </LayoutContainer>
+                                    </Panel3.Body>
+                                </Panel3>
                             </div>
-                            <Panel3
-                                scrollable={false}
-                                space={true}
-                                direction={"col"}
-                            >
-                                <Panel3.Body>
-                                    <LayoutContainer
-                                        direction="col"
-                                        space={false}
-                                        className="space-y-1"
-                                        scrollable={true}
-                                    >
-                                        <MainMenu
-                                            menuItems={menuItems}
-                                            workspaces={workspaces}
-                                            onClickNewWorkspace={
-                                                handleClickNewWorkspace
-                                            }
-                                            selectedMainItem={selectedMainItem}
-                                            onWorkspaceMenuChange={
-                                                onClickWorkspace
-                                            }
-                                            onCreateNewFolder={
-                                                handleAddNewMenuItem
-                                            }
-                                        />
-                                    </LayoutContainer>
-                                </Panel3.Body>
-                            </Panel3>
                         </div>
-                    </div>
-                </Panel2>
+                    </Panel2>
+                </div>
             </div>
-        </div>
+        )
     );
 };
