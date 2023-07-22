@@ -5092,14 +5092,17 @@ var Dashboard = function Dashboard(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    console.log("DASHBOARD ", menuItems, dashApi, pub, settings, workspaceConfig, workspaceSelected, workspace);
+    console.log("DASHBOARD ", menuItems, dashApi, pub,
+    // settings,
+    workspaceConfig, workspaceSelected, workspace);
     console.log("dashboard use effect");
     isLoadingWorkspaces === false && loadWorkspaces();
     isLoadingMenuItems === false && loadMenuItems();
   }, [workspace]);
-  useEffect(function () {
-    // forceUpdate();
-  }, [themesForApplication]);
+
+  // useEffect(() => {
+  //     // forceUpdate();
+  // }, [themesForApplication]);
 
   // useEffect(() => {
   //     console.log("dashboard settings ", settings);

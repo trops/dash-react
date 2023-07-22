@@ -62,7 +62,7 @@ export const Dashboard = ({
             menuItems,
             dashApi,
             pub,
-            settings,
+            // settings,
             workspaceConfig,
             workspaceSelected,
             workspace
@@ -72,9 +72,9 @@ export const Dashboard = ({
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
 
-    useEffect(() => {
-        // forceUpdate();
-    }, [themesForApplication]);
+    // useEffect(() => {
+    //     // forceUpdate();
+    // }, [themesForApplication]);
 
     // useEffect(() => {
     //     console.log("dashboard settings ", settings);
