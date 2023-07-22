@@ -121,9 +121,9 @@ export const Dashboard = ({
             });
 
             // test the emit
-            pub.pub("dashboard.workspaceChange", {
-                workspaces: workspacesTemp,
-            });
+            // pub.pub("dashboard.workspaceChange", {
+            //     workspaces: workspacesTemp,
+            // });
 
             setWorkspaceConfig(() => workspacesTemp);
             setIsLoadingWorkspaces(false);
@@ -386,7 +386,14 @@ export const Dashboard = ({
                             }
                         /> */
     }
-    // console.log("Dashboard ", menuItems, currentTheme, dashApi);
+    console.log(
+        "Dashboard ",
+        menuItems,
+        currentTheme,
+        dashApi,
+        workspaceSelected,
+        workspaceConfig
+    );
     return (
         <DashboardWrapper dashApi={dashApi} credentials={credentials}>
             {menuItems && (

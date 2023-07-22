@@ -67,13 +67,13 @@ export const ThemeWrapper = ({
         // If the user has provided a theme as a override,
         // we can skip loading the themes...
 
-        console.log(
-            "THEME WRAPPER ",
-            chosenTheme,
-            dashApi,
-            credentials,
-            themesForApplication
-        );
+        // console.log(
+        //     "THEME WRAPPER ",
+        //     chosenTheme,
+        //     dashApi,
+        //     credentials,
+        //     themesForApplication
+        // );
 
         if (chosenTheme === null) {
             if (theme !== null) {

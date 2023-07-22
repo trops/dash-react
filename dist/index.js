@@ -5039,9 +5039,9 @@ var Dashboard = function Dashboard(_ref) {
   /**
    * ThemeContext
    */
-  var _useContext2 = useContext$1(ThemeContext);
-    _useContext2.currentTheme;
-    var changeCurrentTheme = _useContext2.changeCurrentTheme;
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme,
+    changeCurrentTheme = _useContext2.changeCurrentTheme;
   var _useState = useState(workspace),
     _useState2 = _slicedToArray$q(_useState, 2),
     workspaceSelected = _useState2[0],
@@ -5158,9 +5158,10 @@ var Dashboard = function Dashboard(_ref) {
       });
 
       // test the emit
-      pub.pub("dashboard.workspaceChange", {
-        workspaces: workspacesTemp
-      });
+      // pub.pub("dashboard.workspaceChange", {
+      //     workspaces: workspacesTemp,
+      // });
+
       setWorkspaceConfig(function () {
         return workspacesTemp;
       });
@@ -5388,7 +5389,7 @@ var Dashboard = function Dashboard(_ref) {
   function handleOpenThemeManager() {
     setIsThemeManagerOpen(true);
   }
-  // console.log("Dashboard ", menuItems, currentTheme, dashApi);
+  console.log("Dashboard ", menuItems, currentTheme, dashApi, workspaceSelected, workspaceConfig);
   return /*#__PURE__*/jsx(DashboardWrapper, {
     dashApi: dashApi,
     credentials: credentials,
@@ -5821,7 +5822,14 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     // If the user has provided a theme as a override,
     // we can skip loading the themes...
 
-    console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials, themesForApplication);
+    // console.log(
+    //     "THEME WRAPPER ",
+    //     chosenTheme,
+    //     dashApi,
+    //     credentials,
+    //     themesForApplication
+    // );
+
     if (chosenTheme === null) {
       if (theme !== null) {
         var defaultTheme = ThemeModel(theme);
