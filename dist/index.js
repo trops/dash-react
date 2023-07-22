@@ -5888,51 +5888,60 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
   }
 
   function checkThemes(themesToCheck) {
-    var themesChecked = {};
-    var rawThemes = {};
-    if (themesToCheck !== null) {
-      if (Object.keys(themesToCheck).length === 0) {
-        Object.keys(themes$1).forEach(function (themeKey) {
-          var themeObject = ThemeModel(themes$1[themeKey]);
-          rawThemes[themeKey] = themes$1[themeKey];
-          themesChecked[themeKey] = themeObject;
-        });
-        setThemesForApplication(function () {
-          return themesChecked;
-        });
-        setRawThemes(function () {
-          return rawThemes;
-        });
-      } else {
-        // let's make sure all of the information is there!
-        Object.keys(themesToCheck).forEach(function (themeKey) {
-          var themeObject = ThemeModel(themesToCheck[themeKey]);
-          rawThemes[themeKey] = themesToCheck[themeKey];
-          themesChecked[themeKey] = themeObject;
-        });
+    try {
+      var themesChecked = {};
+      var _rawThemes = {};
+      if (themesToCheck !== null) {
+        if (Object.keys(themesToCheck).length === 0) {
+          Object.keys(themes$1).forEach(function (themeKey) {
+            var themeObject = ThemeModel(themes$1[themeKey]);
+            _rawThemes[themeKey] = themes$1[themeKey];
+            themesChecked[themeKey] = themeObject;
+          });
+          setThemesForApplication(function () {
+            return themesChecked;
+          });
+          setRawThemes(function () {
+            return _rawThemes;
+          });
+        } else {
+          // let's make sure all of the information is there!
+          Object.keys(themesToCheck).forEach(function (themeKey) {
+            var themeObject = ThemeModel(themesToCheck[themeKey]);
+            _rawThemes[themeKey] = themesToCheck[themeKey];
+            themesChecked[themeKey] = themeObject;
+          });
 
-        // console.log('themes to check AFTER had keys', themesChecked);
+          // console.log('themes to check AFTER had keys', themesChecked);
 
-        // now let's add our default themes as well
-        // if ('theme-1' in themesChecked === false) {
-        //     themesChecked['theme-1'] = ThemeModel(themes['theme-1']);
-        // }
-        // if ('theme-2' in themesChecked === false) {
-        //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
-        // }
+          // now let's add our default themes as well
+          // if ('theme-1' in themesChecked === false) {
+          //     themesChecked['theme-1'] = ThemeModel(themes['theme-1']);
+          // }
+          // if ('theme-2' in themesChecked === false) {
+          //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
+          // }
 
-        console.log("themes complete checked ", themesChecked, chosenTheme);
-        setThemesForApplication(function () {
-          return themesChecked;
-        });
-        setRawThemes(function () {
-          return rawThemes;
-        });
-        forceUpdate();
-        if (!chosenTheme) {
+          console.log("themes complete checked ", themesChecked, chosenTheme);
+          setThemesForApplication(function () {
+            return themesChecked;
+          });
+          setRawThemes(function () {
+            return _rawThemes;
+          });
+
+          // if (!chosenTheme) {
+          //     changeCurrentTheme(Object.keys(themesChecked)[0]);
+          // }
+        }
+        // set the theme
+        if (!chosenTheme && Object.keys(themesChecked).length > 0) {
           changeCurrentTheme(Object.keys(themesChecked)[0]);
         }
+        forceUpdate();
       }
+    } catch (e) {
+      console.log("themes check error ", e.message);
     }
   }
   function handleLoadThemesError(e, message) {

@@ -145,50 +145,59 @@ export const ThemeWrapper = ({
     }
 
     function checkThemes(themesToCheck) {
-        let themesChecked = {};
-        let rawThemes = {};
+        try {
+            let themesChecked = {};
+            let rawThemes = {};
 
-        if (themesToCheck !== null) {
-            if (Object.keys(themesToCheck).length === 0) {
-                Object.keys(themes).forEach((themeKey) => {
-                    const themeObject = ThemeModel(themes[themeKey]);
-                    rawThemes[themeKey] = themes[themeKey];
-                    themesChecked[themeKey] = themeObject;
-                });
+            if (themesToCheck !== null) {
+                if (Object.keys(themesToCheck).length === 0) {
+                    Object.keys(themes).forEach((themeKey) => {
+                        const themeObject = ThemeModel(themes[themeKey]);
+                        rawThemes[themeKey] = themes[themeKey];
+                        themesChecked[themeKey] = themeObject;
+                    });
 
-                setThemesForApplication(() => themesChecked);
-                setRawThemes(() => rawThemes);
-            } else {
-                // let's make sure all of the information is there!
-                Object.keys(themesToCheck).forEach((themeKey) => {
-                    const themeObject = ThemeModel(themesToCheck[themeKey]);
-                    rawThemes[themeKey] = themesToCheck[themeKey];
-                    themesChecked[themeKey] = themeObject;
-                });
+                    setThemesForApplication(() => themesChecked);
+                    setRawThemes(() => rawThemes);
+                } else {
+                    // let's make sure all of the information is there!
+                    Object.keys(themesToCheck).forEach((themeKey) => {
+                        const themeObject = ThemeModel(themesToCheck[themeKey]);
+                        rawThemes[themeKey] = themesToCheck[themeKey];
+                        themesChecked[themeKey] = themeObject;
+                    });
 
-                // console.log('themes to check AFTER had keys', themesChecked);
+                    // console.log('themes to check AFTER had keys', themesChecked);
 
-                // now let's add our default themes as well
-                // if ('theme-1' in themesChecked === false) {
-                //     themesChecked['theme-1'] = ThemeModel(themes['theme-1']);
-                // }
-                // if ('theme-2' in themesChecked === false) {
-                //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
-                // }
+                    // now let's add our default themes as well
+                    // if ('theme-1' in themesChecked === false) {
+                    //     themesChecked['theme-1'] = ThemeModel(themes['theme-1']);
+                    // }
+                    // if ('theme-2' in themesChecked === false) {
+                    //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
+                    // }
 
-                console.log(
-                    "themes complete checked ",
-                    themesChecked,
-                    chosenTheme
-                );
-                setThemesForApplication(() => themesChecked);
-                setRawThemes(() => rawThemes);
-                forceUpdate();
+                    console.log(
+                        "themes complete checked ",
+                        themesChecked,
+                        chosenTheme
+                    );
+                    setThemesForApplication(() => themesChecked);
+                    setRawThemes(() => rawThemes);
 
-                if (!chosenTheme) {
+                    // if (!chosenTheme) {
+                    //     changeCurrentTheme(Object.keys(themesChecked)[0]);
+                    // }
+                }
+                // set the theme
+                if (!chosenTheme && Object.keys(themesChecked).length > 0) {
                     changeCurrentTheme(Object.keys(themesChecked)[0]);
                 }
+
+                forceUpdate();
             }
+        } catch (e) {
+            console.log("themes check error ", e.message);
         }
     }
 
