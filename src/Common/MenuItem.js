@@ -52,7 +52,6 @@ const MenuItem = ({
 
 const MenuItem2 = ({
     onClick = null,
-    theme = true,
     border = false,
     backgroundColor = null,
     selectedBackgroundColor = null,
@@ -63,6 +62,7 @@ const MenuItem2 = ({
     hoverBackgroundColor = null,
     children,
     selected = false,
+    className = "",
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
@@ -76,23 +76,20 @@ const MenuItem2 = ({
         selected,
     });
 
-    return theme === true ? (
+    const baseStyles = `${
+        onClick && "cursor-pointer"
+    } p-2 px-4 rounded items-center space-x-2 ${
+        border === true && "border-2"
+    } ${border === true && "border-2"}`;
+
+    const baseTextStyles = `text-base font-medium`;
+
+    return (
         <div
             onClick={onClick}
-            className={`flex flex-row font-medium ${styles.string} ${
-                border === true && "border-2"
-            } ${
-                border === true && "border-2"
-            } p-2 px-4 rounded items-center space-x-2 cursor-pointer text-base`}
-        >
-            {children}
-        </div>
-    ) : (
-        <div
-            onClick={onClick}
-            className={`flex flex-row font-medium ${backgroundColor} ${borderColor} ${textColor} ${
-                border === true && "border"
-            } p-2 rounded items-center space-x-2 cursor-pointer text-base`}
+            className={`flex flex-row ${baseStyles} ${
+                className !== "" ? className : baseTextStyles
+            } ${styles.string} `}
         >
             {children}
         </div>
@@ -113,6 +110,7 @@ const MenuItem3 = ({
     hoverBackgroundColor = null,
     children,
     selected = false,
+    className = "",
     id,
     type,
 }) => {
@@ -128,31 +126,38 @@ const MenuItem3 = ({
         selected,
     });
 
-    return theme === true ? (
+    const baseStyles = `${
+        onClick && "cursor-pointer"
+    } p-2 px-4 rounded items-center space-x-2 ${
+        border === true && "border-2"
+    } ${border === true && "border-2"}`;
+
+    const baseTextStyles = `text-sm font-normal`;
+
+    return (
         <div
-            id={id}
-            type={type}
-            ref={innerRef}
             onClick={onClick}
-            className={`flex flex-row font-normal ${styles.string} ${
-                border === true && "border"
-            } p-2 rounded items-center space-x-2 cursor-pointer text-sm`}
-        >
-            {children}
-        </div>
-    ) : (
-        <div
-            id={id}
-            type={type}
-            ref={innerRef}
-            onClick={onClick}
-            className={`flex flex-row font-normal ${backgroundColor} ${borderColor} ${textColor} ${
-                border === true && "border"
-            } rounded items-center space-x-2 cursor-pointer text-sm`}
+            className={`flex flex-row ${baseStyles} ${
+                className !== "" ? className : baseTextStyles
+            } ${styles.string} `}
         >
             {children}
         </div>
     );
+
+    // return (
+    //     <div
+    //         id={id}
+    //         type={type}
+    //         ref={innerRef}
+    //         onClick={onClick}
+    //         className={`flex flex-row font-normal ${styles.string} ${
+    //             border === true && "border"
+    //         } p-2 rounded items-center space-x-2 cursor-pointer text-sm`}
+    //     >
+    //         {children}
+    //     </div>
+    // );
 };
 
 export { MenuItem, MenuItem2, MenuItem3 };

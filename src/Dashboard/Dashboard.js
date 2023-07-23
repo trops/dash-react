@@ -8,7 +8,7 @@ import {
 } from "@dash/Context";
 import { deepCopy } from "@dash/Utils";
 import { LayoutModel } from "@dash/Models";
-import { AddMenuItemModal, DashboardMenuItem } from "@dash/Menu";
+import { AddMenuItemModal } from "@dash/Menu";
 import { ThemeManagerModal } from "@dash/Theme";
 
 import { DndProvider } from "react-dnd";
@@ -236,7 +236,7 @@ export const Dashboard = ({
 
         if (dashApi && credentials) {
             dashApi.saveMenuItem(
-                appId,
+                credentials.appId,
                 MenuItemModel(menuItem),
                 handleSaveMenuItemComplete,
                 handleSaveMenuItemError

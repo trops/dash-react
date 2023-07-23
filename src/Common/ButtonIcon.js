@@ -100,7 +100,9 @@ const ButtonIcon2 = ({
                 block && "w-full"
             } whitespace-nowrap`}
         >
-            <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
+            {icon !== "" && (
+                <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
+            )}
             {text !== null && (
                 <span className={text === "" ? "ml-0" : "ml-2"}>{text}</span>
             )}
@@ -150,7 +152,9 @@ const ButtonIcon3 = ({
                 block === true && "w-full"
             } ${styles.string} whitespace-nowrap`}
         >
-            <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
+            {icon !== "" && (
+                <FontAwesomeIcon icon={icon} className={`${iconSize}`} />
+            )}
             {text !== null && (
                 <span className={text === "" ? "ml-0" : "ml-2"}>{text}</span>
             )}

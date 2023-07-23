@@ -16,8 +16,8 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
     const [menuItemsSelected, setMenuItemsSelected] = useState(menuItems);
     const [menuItemNameSelected, setMenuItemNameSelected] = useState("");
     const [menuIconSelected, setMenuIconSelected] = useState(null);
-    const [, updateState] = React.useState();
-    const forceUpdate = React.useCallback(() => updateState({}), []);
+    // const [, updateState] = React.useState();
+    // const forceUpdate = React.useCallback(() => updateState({}), []);
 
     useEffect(() => {
         if (

@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem3, MenuItem2 } from "@dash/Common";
+import { MenuItem } from "@dash/Common";
 import { DragDropWidget } from "./DragDropWidget";
 
 const MainMenuItem = ({ workspaceMenuId, onDropItem, onClick, title }) => {
@@ -10,7 +10,9 @@ const MainMenuItem = ({ workspaceMenuId, onDropItem, onClick, title }) => {
             type={"menu-item"}
             onDropItem={onDropItem}
         >
-            <MenuItem2 onClick={onClick}>{title}</MenuItem2>
+            <MenuItem onClick={onClick} className={"p-4 font-bold rounded"}>
+                {title}
+            </MenuItem>
         </DragDropWidget>
     );
 };
