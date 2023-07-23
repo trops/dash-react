@@ -804,6 +804,30 @@ var MockDashboardApi = /** @class */ (function () {
             return false;
         }
     };
+    MockDashboardApi.prototype.saveMenuItem = function (appId, menuItem, onSuccess, onError) {
+        return false;
+    };
+    MockDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
+        try {
+            // PRETEND WE SAVED IT
+            var workspaces = this.api.workspace.listWorkspacesForApplication(appId);
+            if (workspaces !== undefined) {
+                onSuccess(this.events.WORKSPACE_SAVE_COMPLETE, { workspaces: workspaces });
+                return true;
+            }
+            else {
+                onError(this.events.WORKSPACE_SAVE_ERROR, new Error("Workspace Save Failed, could not list workspaces"));
+                return false;
+            }
+        }
+        catch (e) {
+            onError(this.events.WORKSPACE_SAVE_ERROR, e);
+            return false;
+        }
+    };
+    MockDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
+        return false;
+    };
     MockDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
         try {
             var savedThemeResult = this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
@@ -1069,22 +1093,29 @@ var SettingsModel = function SettingsModel() {
   return obj;
 };
 
+var MenuItemModel = function MenuItemModel() {
+  var menuItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var obj = menuItem !== null && menuItem !== undefined ? deepCopy(menuItem) : {};
+  var m = {};
+  m.id = "id" in obj ? obj["id"] : 1;
+  m.name = "name" in obj ? obj["name"] : "Uncategorized";
+  m.folder = "icon" in obj ? obj["icon"] : "folder";
+  return m;
+};
+
 /**
  * WorkspaceModel
  *
  */
 var WorkspaceModel = function WorkspaceModel(workspaceItem) {
-  var obj = deepCopy(workspaceItem);
+  var obj = workspaceItem !== null && workspaceItem !== undefined ? deepCopy(workspaceItem) : {};
   var workspace = {};
   workspace.id = "id" in obj ? obj["id"] : null;
   workspace.name = "name" in obj ? obj["name"] : "My Workspace";
   workspace.type = "type" in obj ? obj["type"] : "layout";
   workspace.label = "label" in obj ? obj["label"] : "Workspace";
   workspace.layout = "layout" in obj ? obj["layout"] : [];
-  workspace.menuItem = {
-    id: 1,
-    name: "Uncategorized"
-  };
+  workspace.menuItem = MenuItemModel();
   return workspace;
 };
 
@@ -1591,24 +1622,6 @@ var MainMenuConst = function MainMenuConst(_ref) {
     searchTerm = _useState2[0],
     setSearchTerm = _useState2[1];
 
-  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
-  //     accept: "menu-item",
-  //     drop: (_item, monitor) => {
-  //         console.log("DROP? ", _item, monitor);
-  //         const didDrop = monitor.didDrop();
-  //         if (didDrop) {
-  //             return;
-  //         }
-  //         return { id, type, dropIndex: id };
-  //     },
-  //     collect: (monitor) => {
-  //         return {
-  //             isDragging: monitor.isDragging,
-  //             isOverCurrent: monitor.isOver({ shallow: true }),
-  //         };
-  //     },
-  // });
-
   /**
    * useEffect
    * We can use the useEffect lifecycle to load the init for the plugins
@@ -1636,6 +1649,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
         id: menuItem.id,
         name: menuItem.name,
         menuItem: menuItem,
+        onCreateNew: handleCreateNew,
         children: workspaces.sort(function (a, b) {
           return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
         }).filter(function (w) {
@@ -4622,9 +4636,8 @@ var PanelWelcome = function PanelWelcome(_ref) {
     var _ref$onOpenThemeManag = _ref.onOpenThemeManager,
     onOpenThemeManager = _ref$onOpenThemeManag === void 0 ? null : _ref$onOpenThemeManag,
     _ref$onOpenSettings = _ref.onOpenSettings,
-    onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings,
-    _ref$onClickNew = _ref.onClickNew,
-    onClickNew = _ref$onClickNew === void 0 ? null : _ref$onClickNew;
+    onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings;
+    _ref.onClickNew;
   var _useContext = useContext$1(ThemeContext),
     theme = _useContext.theme,
     currentTheme = _useContext.currentTheme,
@@ -4694,11 +4707,61 @@ var PanelWelcome = function PanelWelcome(_ref) {
   var handleOpenSettings = function handleOpenSettings() {
     onOpenSettings && onOpenSettings();
   };
-  var handleClickNewDashboard = function handleClickNewDashboard() {
-    onClickNew && onClickNew();
-  };
+
+  /**
+   * 
+    function handleCreateNew(menuItem) {
+      const newLayout = [
+          {
+              id: 1,
+              order: 1,
+              direction: "col",
+              width: "w-full",
+              component: "Container",
+              hasChildren: 1,
+              scrollable: true,
+              parent: 0,
+              menuId: selectedMainItem["id"],
+          },
+      ];
+       onClickNewWorkspace &&
+          onClickNewWorkspace({
+              id: Date.now(),
+              name: "New Workspace",
+              label: "New",
+              type: selectedMainItem,
+              layout: newLayout,
+              menuId: menuItem["id"],
+          });
+  }
+   */
   var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
-    selectedMainItem && onClickNewWorkspace && onClickNewWorkspace(data);
+    if (!selectedMainItem) {
+      selectedMainItem = {
+        id: 1,
+        name: "Uncategorized",
+        icon: "folder"
+      };
+    }
+
+    // if we have no data, we have to create a layout
+    var newLayout = [];
+    if (!data) {
+      newLayout = [{
+        id: new Date.now(),
+        order: 1,
+        direction: "col",
+        width: "w-full",
+        component: "LayoutContainer",
+        hasChildren: 1,
+        scrollable: false,
+        parent: 0,
+        menuId: selectedMainItem // default menu item id is 1
+      }];
+    }
+
+    console.log(newLayout);
+    selectedMainItem && onClickNewWorkspace && onClickNewWorkspace(newLayout);
   };
   return currentTheme && /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
@@ -4713,7 +4776,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
               icon: "plus",
-              onClick: handleClickNewDashboard,
+              onClick: handleClickNewWorkspace,
               hoverBackgroundColor: "hover:bg-green-700",
               backgroundColor: "bg-blue-600"
             })
@@ -5200,7 +5263,7 @@ var Dashboard = function Dashboard(_ref) {
   var _useContext2 = useContext$1(ThemeContext);
     _useContext2.currentTheme;
     var changeCurrentTheme = _useContext2.changeCurrentTheme;
-  var _useState = useState(workspace),
+  var _useState = useState(WorkspaceModel(workspace)),
     _useState2 = _slicedToArray$q(_useState, 2),
     workspaceSelected = _useState2[0],
     setWorkspaceSelected = _useState2[1];
@@ -5305,7 +5368,7 @@ var Dashboard = function Dashboard(_ref) {
         });
 
         ws["layout"] = tempLayout;
-        return ws;
+        return WorkspaceModel(ws);
       });
 
       // test the emit
@@ -5372,7 +5435,7 @@ var Dashboard = function Dashboard(_ref) {
         return null;
       });
       setWorkspaceSelected(function () {
-        return ws;
+        return WorkspaceModel(ws);
       });
     }
 
@@ -5691,7 +5754,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
         }), workspace && /*#__PURE__*/jsx("div", {
           className: "flex flex-row justify-center items-center",
           children: /*#__PURE__*/jsx(SubHeading3, {
-            title: workspace.name,
+            title: "".concat(workspace.name, " in ").concat(workspace.menuItem.name),
             padding: false,
             className: "text-gray-700 font-bold text-base"
           })
@@ -23028,4 +23091,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus);
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
