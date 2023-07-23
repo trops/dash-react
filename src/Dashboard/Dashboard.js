@@ -158,9 +158,13 @@ export const Dashboard = ({
     }
 
     function handleClickNew(workspaceItem) {
-        console.log("clicked add new ", workspaceItem, previewMode);
-        setPreviewMode(() => false);
-        setWorkspaceSelected(() => workspaceItem);
+        try {
+            console.log("clicked add new ", workspaceItem, previewMode);
+            setPreviewMode(() => false);
+            setWorkspaceSelected(() => workspaceItem);
+        } catch (e) {
+            console.log("handle click new ", e);
+        }
     }
 
     function handleWorkspaceChange(ws) {

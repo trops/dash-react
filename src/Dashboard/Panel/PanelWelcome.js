@@ -16,6 +16,7 @@ import { ThemeContext } from "@dash/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LayoutContainer } from "@dash/Layout";
 import { MainMenu } from "@dash/Menu";
+import { WorkspaceModel } from "../../Models";
 
 export const PanelWelcome = ({
     menuItems = [],
@@ -63,37 +64,39 @@ export const PanelWelcome = ({
     };
 
     const handleClickNewWorkspace = (data) => {
-        if (!selectedMainItem) {
-            selectedMainItem = {
-                id: 1,
-                name: "Uncategorized",
-                icon: "folder",
-            };
-        }
+        try {
+            console.log("new workspace clicked ", data);
+            if (data === undefined) {
+                selectedMainItem = 1;
+            } else {
+                selectedMainItem = data.id;
+            }
 
-        // if we have no data, we have to create a layout
-        let newLayout = [];
-        if (!data) {
-            newLayout = [
+            console.log(selectedMainItem);
+
+            // if we have no data, we have to create a layout
+            const newLayout = [
                 {
-                    id: new Date.now(),
+                    id: Date.now(),
                     order: 1,
                     direction: "col",
                     width: "w-full",
-                    component: "LayoutContainer",
+                    component: "Container",
                     hasChildren: 1,
                     scrollable: false,
                     parent: 0,
                     menuId: selectedMainItem, // default menu item id is 1
                 },
             ];
+
+            const newWorkspace = new WorkspaceModel(newLayout);
+
+            console.log(newLayout, selectedMainItem);
+
+            onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
+        } catch (e) {
+            console.log(e);
         }
-
-        console.log(newLayout);
-
-        selectedMainItem &&
-            onClickNewWorkspace &&
-            onClickNewWorkspace(newLayout);
     };
 
     const handleClickWorkspace = (data) => {
@@ -117,7 +120,7 @@ export const PanelWelcome = ({
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon
                                     icon="plus"
-                                    onClick={handleClickNewWorkspace}
+                                    onClick={() => handleClickNewWorkspace()}
                                     hoverBackgroundColor={"hover:bg-green-700"}
                                     backgroundColor={"bg-blue-600"}
                                 />

@@ -247,29 +247,30 @@ const MainMenuConst = ({
     }
 
     function handleCreateNew(menuItem) {
-        const newLayout = [
-            {
-                id: 1,
-                order: 1,
-                direction: "col",
-                width: "w-full",
-                component: "Container",
-                hasChildren: 1,
-                scrollable: true,
-                parent: 0,
-                menuId: selectedMainItem["id"],
-            },
-        ];
+        // const newLayout = [
+        //     {
+        //         id: 1,
+        //         order: 1,
+        //         direction: "col",
+        //         width: "w-full",
+        //         component: "Container",
+        //         hasChildren: 1,
+        //         scrollable: true,
+        //         parent: 0,
+        //         menuId: selectedMainItem["id"],
+        //     },
+        // ];
 
         onClickNewWorkspace &&
-            onClickNewWorkspace({
-                id: Date.now(),
-                name: "New Workspace",
-                label: "New",
-                type: selectedMainItem,
-                layout: newLayout,
-                menuId: menuItem["id"],
-            });
+            onClickNewWorkspace(
+                menuItem
+                // id: Date.now(),
+                // name: "New Workspace",
+                // label: "New",
+                // type: selectedMainItem,
+                // layout: newLayout,
+                // menuId: menuItem["id"],
+            );
     }
 
     function handleChangeSearch(e) {
