@@ -66,7 +66,7 @@ export const DashboardFooter = ({
                     {workspace && (
                         <div className="flex flex-row justify-center items-center">
                             <SubHeading3
-                                title={`${workspace.name} in ${workspace.menuItem.name}`}
+                                title={`${workspace.name}`}
                                 padding={false}
                                 className="text-gray-700 font-bold text-base"
                             />

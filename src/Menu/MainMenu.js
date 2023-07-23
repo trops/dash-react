@@ -105,7 +105,7 @@ const MainMenuConst = ({
                                         highlight={searchTerm !== ""}
                                         id={ws.id}
                                         workspaceId={ws.id}
-                                        workspaceMenuId={ws.menuItem.id}
+                                        workspaceMenuId={ws.menuId}
                                         name={ws.name}
                                         key={`main-menu-item-ws-${ws.id}`}
                                         onClick={(e) => handleClickMenuItem(ws)}
@@ -167,7 +167,7 @@ const MainMenuConst = ({
                                     highlight={searchTerm !== ""}
                                     menuItem={menuItem}
                                     workspaceId={ws.id}
-                                    workspaceMenuId={ws.menuItem.id}
+                                    workspaceMenuId={ws.menuId}
                                     id={ws.id}
                                     name={ws.name}
                                     key={`main-menu-item-ws-${ws.id}`}
