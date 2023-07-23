@@ -102,13 +102,70 @@ export const PanelWelcome = ({
     };
 
     const handleClickNewDashboard = () => {
+        console.log("new dashboard");
         onClickNew && onClickNew();
     };
 
-    const handleClickNewFolder = () => {};
+    /**
+     * 
+      function handleCreateNew(menuItem) {
+        const newLayout = [
+            {
+                id: 1,
+                order: 1,
+                direction: "col",
+                width: "w-full",
+                component: "Container",
+                hasChildren: 1,
+                scrollable: true,
+                parent: 0,
+                menuId: selectedMainItem["id"],
+            },
+        ];
 
+        onClickNewWorkspace &&
+            onClickNewWorkspace({
+                id: Date.now(),
+                name: "New Workspace",
+                label: "New",
+                type: selectedMainItem,
+                layout: newLayout,
+                menuId: menuItem["id"],
+            });
+    }
+     */
     const handleClickNewWorkspace = (data) => {
-        selectedMainItem && onClickNewWorkspace && onClickNewWorkspace(data);
+        if (!selectedMainItem) {
+            selectedMainItem = {
+                id: 1,
+                name: "Uncategorized",
+                icon: "folder",
+            };
+        }
+
+        // if we have no data, we have to create a layout
+        let newLayout = [];
+        if (!data) {
+            newLayout = [
+                {
+                    id: new Date.now(),
+                    order: 1,
+                    direction: "col",
+                    width: "w-full",
+                    component: "LayoutContainer",
+                    hasChildren: 1,
+                    scrollable: false,
+                    parent: 0,
+                    menuId: selectedMainItem, // default menu item id is 1
+                },
+            ];
+        }
+
+        console.log(newLayout);
+
+        selectedMainItem &&
+            onClickNewWorkspace &&
+            onClickNewWorkspace(newLayout);
     };
 
     const handleClickWorkspace = (data) => {
@@ -135,7 +192,7 @@ export const PanelWelcome = ({
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon
                                     icon="plus"
-                                    onClick={handleClickNewDashboard}
+                                    onClick={handleClickNewWorkspace}
                                     hoverBackgroundColor={"hover:bg-green-700"}
                                     backgroundColor={"bg-blue-600"}
                                 />

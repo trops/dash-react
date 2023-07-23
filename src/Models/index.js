@@ -4,3 +4,4 @@ export * from "./SettingsModel";
 export * from "./WorkspaceModel";
 export * from "./ThemeModel";
 export * from "./ComponentConfigModel";
+export * from "./MenuItemModel";

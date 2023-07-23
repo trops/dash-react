@@ -29,24 +29,6 @@ const MainMenuConst = ({
     const { currentTheme } = useContext(ThemeContext);
     const [searchTerm, setSearchTerm] = useState("");
 
-    // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
-    //     accept: "menu-item",
-    //     drop: (_item, monitor) => {
-    //         console.log("DROP? ", _item, monitor);
-    //         const didDrop = monitor.didDrop();
-    //         if (didDrop) {
-    //             return;
-    //         }
-    //         return { id, type, dropIndex: id };
-    //     },
-    //     collect: (monitor) => {
-    //         return {
-    //             isDragging: monitor.isDragging,
-    //             isOverCurrent: monitor.isOver({ shallow: true }),
-    //         };
-    //     },
-    // });
-
     /**
      * useEffect
      * We can use the useEffect lifecycle to load the init for the plugins
@@ -87,6 +69,7 @@ const MainMenuConst = ({
                             id={menuItem.id}
                             name={menuItem.name}
                             menuItem={menuItem}
+                            onCreateNew={handleCreateNew}
                         >
                             {workspaces
                                 .sort(function (a, b) {

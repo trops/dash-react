@@ -15,6 +15,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DashboardHeader, DashboardFooter } from "@dash/Dashboard";
 import { PanelWelcome } from "./Panel/PanelWelcome";
+import { WorkspaceModel, MenuItemModel } from "../Models";
+
 // import { LayoutManagerModal } from "@dash/Layout";
 
 // import Notification from "../../Dashboard/common/Notification";
@@ -34,7 +36,9 @@ export const Dashboard = ({
      */
     const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
 
-    const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
+    const [workspaceSelected, setWorkspaceSelected] = useState(
+        WorkspaceModel(workspace)
+    );
     const [isShowing, setIsShowing] = useState(false);
     const [selectedMainItem, setSelectedMainItem] = useState({
         name: "home",
@@ -117,7 +121,7 @@ export const Dashboard = ({
                     return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
                 });
                 ws["layout"] = tempLayout;
-                return ws;
+                return WorkspaceModel(ws);
             });
 
             // test the emit
@@ -178,7 +182,7 @@ export const Dashboard = ({
 
         if (ws) {
             setWorkspaceSelected(() => null);
-            setWorkspaceSelected(() => ws);
+            setWorkspaceSelected(() => WorkspaceModel(ws));
         }
 
         // pub.removeAllListeners();

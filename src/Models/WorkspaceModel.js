@@ -3,9 +3,13 @@
  *
  */
 import { deepCopy } from "@dash/Utils";
+import { MenuItemModel } from "./MenuItemModel";
 
 export const WorkspaceModel = (workspaceItem) => {
-    const obj = deepCopy(workspaceItem);
+    const obj =
+        workspaceItem !== null && workspaceItem !== undefined
+            ? deepCopy(workspaceItem)
+            : {};
 
     const workspace = {};
 
@@ -14,7 +18,7 @@ export const WorkspaceModel = (workspaceItem) => {
     workspace.type = "type" in obj ? obj["type"] : "layout";
     workspace.label = "label" in obj ? obj["label"] : "Workspace";
     workspace.layout = "layout" in obj ? obj["layout"] : [];
-    workspace.menuItem = { id: 1, name: "Uncategorized" };
+    workspace.menuItem = MenuItemModel();
 
     return workspace;
 };
