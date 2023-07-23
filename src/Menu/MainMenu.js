@@ -87,8 +87,8 @@ const MainMenuConst = ({
                                 })
                                 .filter(
                                     (w) =>
-                                        "menuItem" in w &&
-                                        w.menuItem.id === menuItem.id
+                                        "menuId" in w &&
+                                        w.menuId === menuItem.id
                                 )
                                 .filter((ws) =>
                                     searchTerm !== ""

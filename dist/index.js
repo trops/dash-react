@@ -1690,7 +1690,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
         children: workspaces.sort(function (a, b) {
           return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
         }).filter(function (w) {
-          return "menuItem" in w && w.menuItem.id === menuItem.id;
+          return "menuId" in w && w.menuId === menuItem.id;
         }).filter(function (ws) {
           return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
         }).map(function (ws) {
