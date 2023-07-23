@@ -226,23 +226,11 @@ const MainMenuConst = ({
                 // we have to update the workspace menu id
                 newWorkspace["menuId"] = menuItemId;
 
-                // api.removeAllListeners();
-                // api.on(
-                //     api.events.WORKSPACE_SAVE_COMPLETE,
-                //     handleSaveWorkspaceComplete
-                // );
-                // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
-
-                // api.workspace.saveWorkspaceForApplication(
-                //     creds.appId,
-                //     newWorkspace
-                // );
-
                 if (dashApi && credentials) {
                     dashApi.saveWorkspace(
                         credentials.appId,
                         newWorkspace,
-                        handleSaveWorkspaceComplete,
+                        handleSaveWorkspaceMenuIdComplete,
                         handleSaveWorkspaceError
                     );
                 }
@@ -250,6 +238,10 @@ const MainMenuConst = ({
         } catch (e) {
             console.log(e);
         }
+    }
+
+    function handleSaveWorkspaceMenuIdComplete(e, message) {
+        console.log("workspace save complete ", message);
     }
 
     function handleSaveWorkspaceComplete(e, message) {
