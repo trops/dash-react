@@ -1663,7 +1663,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
         children: workspaces.sort(function (a, b) {
           return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
         }).filter(function (w) {
-          return "menuId" in w && w.menuId === menuItem.id;
+          return "menuItem" in w && w.menuItem.id === menuItem.id;
         }).filter(function (ws) {
           return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
         }).map(function (ws) {
@@ -1672,7 +1672,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
             highlight: searchTerm !== "",
             id: ws.id,
             workspaceId: ws.id,
-            workspaceMenuId: ws.menuId,
+            workspaceMenuId: ws.menuItem.id,
             name: ws.name,
             onClick: function onClick(e) {
               return handleClickMenuItem(ws);
@@ -1686,7 +1686,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
             }
           }, "main-menu-item-ws-".concat(ws.id));
         })
-      });
+      }, "menu-item-".concat(menuItem.id));
     });
     return m;
   }
@@ -1719,7 +1719,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
             highlight: searchTerm !== "",
             menuItem: menuItem,
             workspaceId: ws.id,
-            workspaceMenuId: ws.menuId,
+            workspaceMenuId: ws.menuItem.id,
             id: ws.id,
             name: ws.name,
             onClick: function onClick(e) {
@@ -1734,7 +1734,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
             }
           }, "main-menu-item-ws-".concat(ws.id));
         })
-      })
+      }, "menu-item-".concat(menuItem.id))
     }, "menu-item-orphan");
   }
 
