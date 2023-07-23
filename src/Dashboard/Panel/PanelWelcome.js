@@ -72,23 +72,18 @@ export const PanelWelcome = ({
                 selectedMainItem = data.id;
             }
 
-            console.log(selectedMainItem);
-
             // if we have no data, we have to create a layout
-            const newLayout = [
-                {
-                    id: Date.now(),
-                    order: 1,
-                    direction: "col",
-                    width: "w-full",
-                    component: "Container",
-                    hasChildren: 1,
-                    scrollable: false,
-                    parent: 0,
-                    menuId: selectedMainItem, // default menu item id is 1
-                },
-            ];
-
+            const newLayout = {
+                id: Date.now(),
+                order: 1,
+                direction: "col",
+                width: "w-full",
+                component: "Container",
+                hasChildren: 1,
+                scrollable: false,
+                parent: 0,
+                menuId: selectedMainItem, // default menu item id is 1
+            };
             const newWorkspace = new WorkspaceModel(newLayout);
 
             console.log(newLayout, selectedMainItem);

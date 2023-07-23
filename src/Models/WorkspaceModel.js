@@ -47,7 +47,7 @@ export const WorkspaceModel = (workspaceItem) => {
         return w;
     }
 
-    workspace.id = "id" in obj ? obj["id"] : null;
+    workspace.id = "id" in obj ? obj["id"] : Date.now();
     workspace.name = "name" in obj ? obj["name"] : "My Workspace";
     workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "layout";
     workspace.label = "label" in obj ? obj["label"] : "Workspace";

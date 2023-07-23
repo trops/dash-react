@@ -812,7 +812,7 @@ var MockDashboardApi = /** @class */ (function () {
             // PRETEND WE SAVED IT
             var workspaces = this.api.workspace.listWorkspacesForApplication(appId);
             if (workspaces !== undefined) {
-                onSuccess(this.events.WORKSPACE_SAVE_COMPLETE, { workspaces: workspaces });
+                onSuccess(this.events.WORKSPACE_SAVE_COMPLETE, workspaces);
                 return true;
             }
             else {
@@ -1135,7 +1135,7 @@ var WorkspaceModel = function WorkspaceModel(workspaceItem) {
     });
     return w;
   }
-  workspace.id = "id" in obj ? obj["id"] : null;
+  workspace.id = "id" in obj ? obj["id"] : Date.now();
   workspace.name = "name" in obj ? obj["name"] : "My Workspace";
   workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "layout";
   workspace.label = "label" in obj ? obj["label"] : "Workspace";
@@ -4709,10 +4709,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
       } else {
         selectedMainItem = data.id;
       }
-      console.log(selectedMainItem);
 
       // if we have no data, we have to create a layout
-      var newLayout = [{
+      var newLayout = {
         id: Date.now(),
         order: 1,
         direction: "col",
@@ -4722,7 +4721,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
         scrollable: false,
         parent: 0,
         menuId: selectedMainItem // default menu item id is 1
-      }];
+      };
 
       var newWorkspace = new WorkspaceModel(newLayout);
       console.log(newLayout, selectedMainItem);
@@ -5592,8 +5591,9 @@ var Dashboard = function Dashboard(_ref) {
           },
           onOpenSettings: function onOpenSettings() {
             return setIsSettingsModalOpen(true);
-          },
-          onClickNew: handleClickNew,
+          }
+          //onClickNew={handleClickNew}
+          ,
           onClickNewWorkspace: handleClickNew,
           selectedMainItem: selectedMainItem
         }), /*#__PURE__*/jsx(AddMenuItemModal, {
