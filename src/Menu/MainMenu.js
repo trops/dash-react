@@ -73,6 +73,7 @@ const MainMenuConst = ({
                     //         : false;
                     return (
                         <MainMenuSection
+                            key={`menu-item-${menuItem.id}`}
                             id={menuItem.id}
                             name={menuItem.name}
                             menuItem={menuItem}
@@ -86,8 +87,8 @@ const MainMenuConst = ({
                                 })
                                 .filter(
                                     (w) =>
-                                        "menuId" in w &&
-                                        w.menuId === menuItem.id
+                                        "menuItem" in w &&
+                                        w.menuItem.id === menuItem.id
                                 )
                                 .filter((ws) =>
                                     searchTerm !== ""
@@ -104,7 +105,7 @@ const MainMenuConst = ({
                                         highlight={searchTerm !== ""}
                                         id={ws.id}
                                         workspaceId={ws.id}
-                                        workspaceMenuId={ws.menuId}
+                                        workspaceMenuId={ws.menuItem.id}
                                         name={ws.name}
                                         key={`main-menu-item-ws-${ws.id}`}
                                         onClick={(e) => handleClickMenuItem(ws)}
@@ -140,6 +141,7 @@ const MainMenuConst = ({
             workspaces && (
                 <div key={`menu-item-orphan`}>
                     <MainMenuSection
+                        key={`menu-item-${menuItem.id}`}
                         id={menuItem.id}
                         name={menuItem.name}
                         menuItem={menuItem}
@@ -165,7 +167,7 @@ const MainMenuConst = ({
                                     highlight={searchTerm !== ""}
                                     menuItem={menuItem}
                                     workspaceId={ws.id}
-                                    workspaceMenuId={ws.menuId}
+                                    workspaceMenuId={ws.menuItem.id}
                                     id={ws.id}
                                     name={ws.name}
                                     key={`main-menu-item-ws-${ws.id}`}
@@ -207,6 +209,7 @@ const MainMenuConst = ({
             const workspaceArray = workspaces.filter(
                 (ws) => ws.id === workspaceId
             );
+
             if (workspaceArray.length > 0) {
                 workspaceSelected = workspaceArray[0];
             }
