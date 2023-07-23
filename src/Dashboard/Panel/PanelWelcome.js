@@ -41,50 +41,6 @@ export const PanelWelcome = ({
         forceUpdate();
     }, [theme, currentTheme, forceUpdate]);
 
-    // function renderWorkspaces() {
-    //     return (
-    //         workspaces &&
-    //         workspaces.map((ws) => {
-    //             const isOrphan = workspaceIsOrphan(ws);
-    //             const icon = iconForMenuItem(ws.menuId);
-    //             return (
-    //                 <MenuItem
-    //                     key={`workspace-${ws.id}`}
-    //                     onClick={() => onClickWorkspace(ws)}
-    //                 >
-    //                     <Paragraph2 text={ws.name} />
-    //                     {isOrphan === true && (
-    //                         <FontAwesomeIcon icon="folder" className="pr-2" />
-    //                     )}
-    //                     {isOrphan === false && icon !== null && (
-    //                         <FontAwesomeIcon icon={icon} className="pr-2" />
-    //                     )}
-    //                 </MenuItem>
-    //             );
-    //         })
-    //     );
-    // }
-
-    // function workspaceIsOrphan(workspaceToCheck) {
-    //     return (
-    //         menuItems.filter(
-    //             (menuItem) => menuItem.id === workspaceToCheck.menuId
-    //         ).length === 0
-    //     );
-    // }
-
-    // function iconForMenuItem(menuId) {
-    //     try {
-    //         const matches = menuItems.filter(
-    //             (menuItem) =>
-    //                 parseInt(menuItem["id"], 10) === parseInt(menuId, 10)
-    //         );
-    //         return matches.length > 0 ? matches[0]["icon"] : null;
-    //     } catch (e) {
-    //         return null;
-    //     }
-    // }
-
     const handleAddNewMenuItem = () => {
         onNewMenuItem && onNewMenuItem();
     };
@@ -106,34 +62,6 @@ export const PanelWelcome = ({
         onClickNew && onClickNew();
     };
 
-    /**
-     * 
-      function handleCreateNew(menuItem) {
-        const newLayout = [
-            {
-                id: 1,
-                order: 1,
-                direction: "col",
-                width: "w-full",
-                component: "Container",
-                hasChildren: 1,
-                scrollable: true,
-                parent: 0,
-                menuId: selectedMainItem["id"],
-            },
-        ];
-
-        onClickNewWorkspace &&
-            onClickNewWorkspace({
-                id: Date.now(),
-                name: "New Workspace",
-                label: "New",
-                type: selectedMainItem,
-                layout: newLayout,
-                menuId: menuItem["id"],
-            });
-    }
-     */
     const handleClickNewWorkspace = (data) => {
         if (!selectedMainItem) {
             selectedMainItem = {
@@ -186,9 +114,6 @@ export const PanelWelcome = ({
                                 currentTheme && currentTheme["bg-tertiary-dark"]
                             }`}
                         >
-                            {/* <div className="w-10 h-10 items-center justify-center">
-                            <ButtonIcon icon="home" onClick={handleHome} />
-                        </div> */}
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon
                                     icon="plus"

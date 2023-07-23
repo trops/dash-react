@@ -29,6 +29,9 @@ const MainMenuConst = ({
     const { currentTheme } = useContext(ThemeContext);
     const [searchTerm, setSearchTerm] = useState("");
 
+    // Force Update
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
     /**
      * useEffect
      * We can use the useEffect lifecycle to load the init for the plugins
@@ -37,6 +40,10 @@ const MainMenuConst = ({
     useEffect(() => {
         setSearchTerm("");
     }, [active, selectedMainItem]);
+
+    useEffect(() => {
+        forceUpdate();
+    }, [workspaces]);
 
     function handleClickMenuItem(ws) {
         onWorkspaceMenuChange && onWorkspaceMenuChange(ws);

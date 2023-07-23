@@ -37,7 +37,7 @@ export const Dashboard = ({
     const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
 
     const [workspaceSelected, setWorkspaceSelected] = useState(
-        WorkspaceModel(workspace)
+        null //WorkspaceModel(workspace)
     );
     const [isShowing, setIsShowing] = useState(false);
     const [selectedMainItem, setSelectedMainItem] = useState({
@@ -75,6 +75,10 @@ export const Dashboard = ({
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);
+
+    // useEffect(() => {
+    //     forceUpdate();
+    // }, [workspaceConfig]);
 
     // useEffect(() => {
     //     // forceUpdate();
@@ -138,26 +142,8 @@ export const Dashboard = ({
     }
 
     function handleLoadWorkspacesError(e, message) {
-        setWorkspaceConfig({});
+        setWorkspaceConfig([]);
     }
-
-    // function handleClickMainMenu(menuItem) {
-    //     console.log("clicked ", menuItem, selectedMainItem);
-    //     if (selectedMainItem === null) {
-    //         setSelectedMainItem(() => menuItem);
-    //     } else {
-    //         if (menuItem.id === selectedMainItem.id) {
-    //             setSelectedMainItem(null);
-    //         } else {
-    //             setSelectedMainItem(() => menuItem);
-    //         }
-    //     }
-
-    //     if (!isShowing && menuItem.name !== "home") {
-    //         setIsShowing(!isShowing);
-    //     }
-    // }
-
     // Sub Menu
     // The user has chosen a workspace and we need to load that workspace data
     // into the workspace component.
@@ -179,14 +165,11 @@ export const Dashboard = ({
 
     function handleWorkspaceChange(ws) {
         console.log(" dashboard workspace change", ws);
-
         if (ws) {
+            setPreviewMode(() => false);
             setWorkspaceSelected(() => null);
             setWorkspaceSelected(() => WorkspaceModel(ws));
         }
-
-        // pub.removeAllListeners();
-        // loadWorkspaces();
     }
 
     function renderComponent(workspaceItem) {
@@ -208,32 +191,6 @@ export const Dashboard = ({
         }
     }
 
-    // function renderMenuItems() {
-    //     console.log("menu items ", menuItems);
-    //     return (
-    //         menuItems !== undefined &&
-    //         menuItems.length > 0 &&
-    //         menuItems.map((menuItem, index) => {
-    //             const selected =
-    //                 selectedMainItem !== null
-    //                     ? selectedMainItem.id === menuItem.id
-    //                     : false;
-    //             return (
-    //                 <DashboardMenuItem
-    //                     key={`menu-item-${menuItem.id}`}
-    //                     id={menuItem.id}
-    //                     icon={menuItem.icon}
-    //                     item={menuItem}
-    //                     name={menuItem.name}
-    //                     onClick={() => handleClickMainMenu(menuItem)}
-    //                     selected={selected}
-    //                     theme={currentTheme}
-    //                 />
-    //             );
-    //         })
-    //     );
-    // }
-
     function handleAddNewMenuItem() {
         setIsAddWidgetModalOpen(true);
     }
@@ -244,11 +201,13 @@ export const Dashboard = ({
             setIsLoadingMenuItems(() => true);
             // we have to remove the widgetConfig which contains the component
             // sanitize the workspace layout remove widgetConfig items
-            dashApi.listMenuItems(
-                credentials.appId,
-                handleListMenuItemComplete,
-                handleListMenuItemError
-            );
+            if (dashApi && credentials) {
+                dashApi.listMenuItems(
+                    credentials.appId,
+                    handleListMenuItemComplete,
+                    handleListMenuItemError
+                );
+            }
         } catch (e) {
             console.log("Error loading menu items", e.message);
         }
@@ -274,17 +233,15 @@ export const Dashboard = ({
     function handleSaveNewMenuItem(menuItem) {
         // we have to remove the widgetConfig which contains the component
         // sanitize the workspace layout remove widgetConfig items
-        // api.removeAllListeners();
-        // api.on(api.events.MENU_ITEMS_SAVE_COMPLETE, handleSaveMenuItemComplete);
-        // api.on(api.events.MENU_ITEMS_SAVE_ERROR, handleSaveMenuItemError);
-        // api.menuItems.saveMenuItem(creds.appId, menuItem);
 
-        dashApi.saveMenuItem(
-            appId,
-            menuItem,
-            handleSaveMenuItemComplete,
-            handleSaveMenuItemError
-        );
+        if (dashApi && credentials) {
+            dashApi.saveMenuItem(
+                appId,
+                MenuItemModel(menuItem),
+                handleSaveMenuItemComplete,
+                handleSaveMenuItemError
+            );
+        }
     }
 
     function handleSaveMenuItemComplete(e, message) {
@@ -324,24 +281,14 @@ export const Dashboard = ({
             // lets set a version so that we can compare...
             workspaceToSave["version"] = Date.now();
 
-            // api.removeAllListeners();
-            // api.on(
-            //     api.events.WORKSPACE_SAVE_COMPLETE,
-            //     handleSaveWorkspaceComplete
-            // );
-            // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
-
-            // api.workspace.saveWorkspaceForApplication(
-            //     creds.appId,
-            //     workspaceToSave
-            // );
-
-            dashApi.saveWorkspace(
-                credentials.appId,
-                workspaceToSave,
-                handleSaveWorkspaceComplete,
-                handleSaveWorkspaceError
-            );
+            if (dashApi && credentials) {
+                dashApi.saveWorkspace(
+                    credentials.appId,
+                    workspaceToSave,
+                    handleSaveWorkspaceComplete,
+                    handleSaveWorkspaceError
+                );
+            }
         } catch (e) {
             console.log(e.message);
         }
