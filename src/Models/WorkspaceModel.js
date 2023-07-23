@@ -14,6 +14,7 @@ export const WorkspaceModel = (workspaceItem) => {
     workspace.type = "type" in obj ? obj["type"] : "layout";
     workspace.label = "label" in obj ? obj["label"] : "Workspace";
     workspace.layout = "layout" in obj ? obj["layout"] : [];
+    workspace.menuItem = { id: 1, name: "Uncategorized" };
 
     return workspace;
 };

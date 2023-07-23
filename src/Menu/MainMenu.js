@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "@dash/Common/WrappedComponent";
-import { MainMenuItem } from "@dash/Menu";
+
+import { MainMenuItem, MainMenuSection } from "@dash/Menu";
 import { ButtonIcon } from "@dash/Common";
 
 // Drag
@@ -11,7 +12,8 @@ import { deepCopy } from "@dash/Utils";
 import { InputText } from "@dash/Common/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeContext } from "@dash/Context";
-import { LayoutContainer } from "..";
+import { LayoutContainer, MenuSlideOverlay } from "..";
+import { useDrop } from "react-dnd";
 
 const MainMenuConst = ({
     onClickNewWorkspace = null,
@@ -21,9 +23,29 @@ const MainMenuConst = ({
     workspaces,
     selectedMainItem = null,
     onWorkspaceMenuChange,
+    onClick,
 }) => {
+    const { dashApi, credentials } = useContext(AppContext);
     const { currentTheme } = useContext(ThemeContext);
     const [searchTerm, setSearchTerm] = useState("");
+
+    // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
+    //     accept: "menu-item",
+    //     drop: (_item, monitor) => {
+    //         console.log("DROP? ", _item, monitor);
+    //         const didDrop = monitor.didDrop();
+    //         if (didDrop) {
+    //             return;
+    //         }
+    //         return { id, type, dropIndex: id };
+    //     },
+    //     collect: (monitor) => {
+    //         return {
+    //             isDragging: monitor.isDragging,
+    //             isOverCurrent: monitor.isOver({ shallow: true }),
+    //         };
+    //     },
+    // });
 
     /**
      * useEffect
@@ -56,75 +78,56 @@ const MainMenuConst = ({
                 })
                 .map((menuItem) => {
                     // let's check to see if the user has applied any filters...
-                    const folderSelected =
-                        selectedMainItem !== null
-                            ? menuItem.id === selectedMainItem.id
-                            : false;
+                    // const folderSelected =
+                    //     selectedMainItem !== null
+                    //         ? menuItem.id === selectedMainItem.id
+                    //         : false;
                     return (
-                        <div
-                            className={`${folderSelected && "rounded"}`}
-                            key={`menu-item-${menuItem.id}`}
+                        <MainMenuSection
+                            id={menuItem.id}
+                            name={menuItem.name}
+                            menuItem={menuItem}
                         >
-                            <div
-                                className={`flex flex-row justify-between border-b ${
-                                    currentTheme &&
-                                    currentTheme["border-secondary-medium"]
-                                } mb-2 py-2 pl-2`}
-                            >
-                                <div className="flex flex-row text-xs items-center">
-                                    <FontAwesomeIcon icon={menuItem.icon} />
-                                    <span className="p-2 uppercase font-bold">
-                                        {menuItem.name}
-                                    </span>
-                                </div>
-                                <ButtonIcon
-                                    icon="plus"
-                                    textSize={"text-xs"}
-                                    padding={false}
-                                    onClick={() => handleCreateNew(menuItem)}
-                                    className="hover:bg-green-500"
-                                />
-                            </div>
-                            <div className="flex flex-col pb-4 space-y-1">
-                                {workspaces
-                                    .sort(function (a, b) {
-                                        return a["name"]
-                                            .toLowerCase()
-                                            .localeCompare(
-                                                b["name"].toLowerCase()
-                                            );
-                                    })
-                                    .filter(
-                                        (w) =>
-                                            "menuId" in w &&
-                                            w.menuId === menuItem.id
-                                    )
-                                    .filter((ws) =>
-                                        searchTerm !== ""
-                                            ? ws.name
-                                                  .toLowerCase()
-                                                  .includes(
-                                                      searchTerm.toLowerCase()
-                                                  )
-                                            : true
-                                    )
-                                    .map((ws) => (
-                                        <MainMenuItem
-                                            highlight={searchTerm !== ""}
-                                            id={ws.id}
-                                            name={ws.name}
-                                            key={`main-menu-item-ws-${ws.id}`}
-                                            onClick={(e) =>
-                                                handleClickMenuItem(ws)
-                                            }
-                                            title={ws.name}
-                                            onDropItem={(e) =>
-                                                handleDropMenuItem(e)
-                                            }
-                                        />
-                                    ))}
-                            </div>
-                        </div>
+                            {workspaces
+                                .sort(function (a, b) {
+                                    return a["name"]
+                                        .toLowerCase()
+                                        .localeCompare(b["name"].toLowerCase());
+                                })
+                                .filter(
+                                    (w) =>
+                                        "menuId" in w &&
+                                        w.menuId === menuItem.id
+                                )
+                                .filter((ws) =>
+                                    searchTerm !== ""
+                                        ? ws.name
+                                              .toLowerCase()
+                                              .includes(
+                                                  searchTerm.toLowerCase()
+                                              )
+                                        : true
+                                )
+                                .map((ws) => (
+                                    <MainMenuItem
+                                        menuItem={menuItem}
+                                        highlight={searchTerm !== ""}
+                                        id={ws.id}
+                                        workspaceId={ws.id}
+                                        workspaceMenuId={ws.menuId}
+                                        name={ws.name}
+                                        key={`main-menu-item-ws-${ws.id}`}
+                                        onClick={(e) => handleClickMenuItem(ws)}
+                                        title={ws.name}
+                                        onDropItem={(e) =>
+                                            handleDropMenuItem({
+                                                workspaceId: ws.id,
+                                                menuItemId: e.dropIndex,
+                                            })
+                                        }
+                                    />
+                                ))}
+                        </MainMenuSection>
                     );
                 });
 
@@ -136,21 +139,22 @@ const MainMenuConst = ({
         // Once for the items that have a organized folder,
         // and once for the ones that do NOT....
 
+        const menuItem = {
+            id: 1,
+            name: "Uncategorized",
+            icon: "folder",
+        };
+
         return (
             currentTheme &&
             workspaces && (
                 <div key={`menu-item-orphan`}>
-                    <div
-                        className={`flex flex-row justify-between border-b border-gray-700 mb-2 py-2 ${currentTheme["textSecondary"]}`}
+                    <MainMenuSection
+                        id={menuItem.id}
+                        name={menuItem.name}
+                        menuItem={menuItem}
+                        onCreateNew={handleCreateNew}
                     >
-                        <div className="flex flex-row text-xs items-center">
-                            <FontAwesomeIcon icon={"folder"} />
-                            <span className="p-2 uppercase font-bold">
-                                Uncategorized
-                            </span>
-                        </div>
-                    </div>
-                    <div className="flex flex-col pb-4 space-y-1">
                         {workspaces
                             .sort(function (a, b) {
                                 return a["name"]
@@ -165,22 +169,27 @@ const MainMenuConst = ({
                                           .includes(searchTerm.toLowerCase())
                                     : true
                             )
-                            .sort(function (a, b) {
-                                console.log(a["name"], b["name"]);
-                                return a["name"] - b["name"];
-                            })
+                            .sort((a, b) => a["name"] - b["name"])
                             .map((ws) => (
                                 <MainMenuItem
                                     highlight={searchTerm !== ""}
+                                    menuItem={menuItem}
+                                    workspaceId={ws.id}
+                                    workspaceMenuId={ws.menuId}
                                     id={ws.id}
                                     name={ws.name}
                                     key={`main-menu-item-ws-${ws.id}`}
                                     onClick={(e) => handleClickMenuItem(ws)}
                                     title={ws.name}
-                                    onDropItem={(e) => handleDropMenuItem(e)}
+                                    onDropItem={(e) => {
+                                        handleDropMenuItem({
+                                            workspaceId: ws.id,
+                                            menuItemId: e.dropIndex,
+                                        });
+                                    }}
                                 />
                             ))}
-                    </div>
+                    </MainMenuSection>
                 </div>
             )
         );
@@ -200,39 +209,57 @@ const MainMenuConst = ({
     }
 
     function handleDropMenuItem(dropData) {
-        console.log("handle drop menu item ", dropData);
-        const { workspaceId, menuItemId } = dropData;
+        try {
+            console.log("handle drop menu item ", dropData);
+            const { workspaceId, menuItemId } = dropData;
 
-        let workspaceSelected = null;
-        const workspaceArray = workspaces.filter((ws) => ws.id === workspaceId);
-        if (workspaceArray.length > 0) {
-            workspaceSelected = workspaceArray[0];
-        }
+            let workspaceSelected = null;
+            const workspaceArray = workspaces.filter(
+                (ws) => ws.id === workspaceId
+            );
+            if (workspaceArray.length > 0) {
+                workspaceSelected = workspaceArray[0];
+            }
 
-        if (workspaceSelected) {
-            const newWorkspace = deepCopy(workspaceSelected);
-            // we have to update the workspace menu id
-            newWorkspace["menuId"] = menuItemId;
+            if (workspaceSelected) {
+                const newWorkspace = deepCopy(workspaceSelected);
+                // we have to update the workspace menu id
+                newWorkspace["menuId"] = menuItemId;
 
-            // api.removeAllListeners();
-            // api.on(
-            //     api.events.WORKSPACE_SAVE_COMPLETE,
-            //     handleSaveWorkspaceComplete
-            // );
-            // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
+                // api.removeAllListeners();
+                // api.on(
+                //     api.events.WORKSPACE_SAVE_COMPLETE,
+                //     handleSaveWorkspaceComplete
+                // );
+                // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
-            // api.workspace.saveWorkspaceForApplication(
-            //     creds.appId,
-            //     newWorkspace
-            // );
+                // api.workspace.saveWorkspaceForApplication(
+                //     creds.appId,
+                //     newWorkspace
+                // );
+
+                if (dashApi && credentials) {
+                    dashApi.saveWorkspace(
+                        credentials.appId,
+                        newWorkspace,
+                        handleSaveWorkspaceComplete,
+                        handleSaveWorkspaceError
+                    );
+                }
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 
     function handleSaveWorkspaceComplete(e, message) {
+        console.log("workspace save complete ", message);
         onWorkspaceMenuChange();
     }
 
-    function handleSaveWorkspaceError(e, message) {}
+    function handleSaveWorkspaceError(e, message) {
+        console.log(message);
+    }
 
     function handleCreateNew(menuItem) {
         const newLayout = [
@@ -277,24 +304,25 @@ const MainMenuConst = ({
                         className="border-transparent focus:border-transparent focus:ring-0"
                         hasBorder={false}
                     />
-                    <ButtonIcon
+                    {/* <ButtonIcon
                         icon="folder-plus"
                         textSize={"text-xs"}
                         onClick={() => handleCreateNewFolder()}
                         hoverBackgroundColor={"hover:bg-green-500"}
                         backgroundColor={"bg-blue-700"}
-                    />
+                    /> */}
                 </div>
-                <LayoutContainer
-                    direction="col"
-                    scrollable={true}
-                    space={false}
-                >
-                    <DndProvider backend={HTML5Backend}>
+                <DndProvider backend={HTML5Backend}>
+                    <LayoutContainer
+                        direction="col"
+                        scrollable={true}
+                        space={true}
+                        className="py-2"
+                    >
                         {renderWorkspaces(workspaces)}
                         {renderOrphanedWorkspaces(workspaces)}
-                    </DndProvider>
-                </LayoutContainer>
+                    </LayoutContainer>
+                </DndProvider>
             </div>
         </div>
     );

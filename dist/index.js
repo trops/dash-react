@@ -1,9 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer, faSun, faMoon, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 export { faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faArrowsLeftRight, faArrowsUpDown, faBaby, faBabyCarriage, faBullhorn, faClone, faCode, faCog, faComputer, faDatabase, faEarListen, faEye, faFolder, faHammer, faHome, faLeaf, faMagnifyingGlass, faMinus, faPalette, faPencil, faPhone, faPlug, faPlus, faPuzzlePiece, faRobot, faSeedling, faSignal, faSquare, faSquareCheck, faTrash, faTrophy, faXmark } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef, createElement } from 'react';
+import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment as Fragment$1, useRef, createElement } from 'react';
 import { Transition, Dialog, Disclosure } from '@headlessui/react';
-import { jsx, jsxs } from 'react/jsx-runtime';
+import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -1081,6 +1081,10 @@ var WorkspaceModel = function WorkspaceModel(workspaceItem) {
   workspace.type = "type" in obj ? obj["type"] : "layout";
   workspace.label = "label" in obj ? obj["label"] : "Workspace";
   workspace.layout = "layout" in obj ? obj["layout"] : [];
+  workspace.menuItem = {
+    id: 1,
+    name: "Uncategorized"
+  };
   return workspace;
 };
 
@@ -1360,12 +1364,12 @@ var ComponentConfigModel = function ComponentConfigModel() {
   return obj;
 };
 
-function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
-function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
-function _arrayLikeToArray$A(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$z(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$z(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$A(arr, i) { return _arrayWithHoles$A(arr) || _iterableToArrayLimit$A(arr, i) || _unsupportedIterableToArray$B(arr, i) || _nonIterableRest$A(); }
+function _nonIterableRest$A() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$B(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$B(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$B(o, minLen); }
+function _arrayLikeToArray$B(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$A(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$A(arr) { if (Array.isArray(arr)) return arr; }
 function DashboardMenuItem(_ref) {
   _ref.theme;
     var item = _ref.item,
@@ -1376,11 +1380,11 @@ function DashboardMenuItem(_ref) {
     onClick = _ref.onClick;
     _ref.selected;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$z(_useState, 2);
+    _useState2 = _slicedToArray$A(_useState, 2);
     _useState2[0];
     var setHasDropped = _useState2[1];
   var _useState3 = useState(false),
-    _useState4 = _slicedToArray$z(_useState3, 2);
+    _useState4 = _slicedToArray$A(_useState3, 2);
     _useState4[0];
     var setHasDroppedOnChild = _useState4[1];
   var _useDrop = useDrop({
@@ -1420,7 +1424,7 @@ function DashboardMenuItem(_ref) {
         };
       }
     }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray$z(_useDrop, 2),
+    _useDrop2 = _slicedToArray$A(_useDrop, 2),
     _useDrop2$ = _useDrop2[0];
     _useDrop2$.isOver;
     var isOverCurrent = _useDrop2$.isOverCurrent;
@@ -1560,28 +1564,50 @@ var SelectMenu = function SelectMenu(_ref) {
   });
 };
 
-function _slicedToArray$y(arr, i) { return _arrayWithHoles$y(arr) || _iterableToArrayLimit$y(arr, i) || _unsupportedIterableToArray$z(arr, i) || _nonIterableRest$y(); }
-function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$z(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$z(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$z(o, minLen); }
-function _arrayLikeToArray$z(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$y(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$y(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
+function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
+function _arrayLikeToArray$A(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$z(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$z(arr) { if (Array.isArray(arr)) return arr; }
 var MainMenuConst = function MainMenuConst(_ref) {
   var _ref$onClickNewWorksp = _ref.onClickNewWorkspace,
-    onClickNewWorkspace = _ref$onClickNewWorksp === void 0 ? null : _ref$onClickNewWorksp,
-    onCreateNewFolder = _ref.onCreateNewFolder,
-    active = _ref.active,
+    onClickNewWorkspace = _ref$onClickNewWorksp === void 0 ? null : _ref$onClickNewWorksp;
+    _ref.onCreateNewFolder;
+    var active = _ref.active,
     menuItems = _ref.menuItems,
     workspaces = _ref.workspaces,
     _ref$selectedMainItem = _ref.selectedMainItem,
     selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
     onWorkspaceMenuChange = _ref.onWorkspaceMenuChange;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    _ref.onClick;
+  var _useContext = useContext$1(AppContext),
+    dashApi = _useContext.dashApi,
+    credentials = _useContext.credentials;
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
   var _useState = useState(""),
-    _useState2 = _slicedToArray$y(_useState, 2),
+    _useState2 = _slicedToArray$z(_useState, 2),
     searchTerm = _useState2[0],
     setSearchTerm = _useState2[1];
+
+  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
+  //     accept: "menu-item",
+  //     drop: (_item, monitor) => {
+  //         console.log("DROP? ", _item, monitor);
+  //         const didDrop = monitor.didDrop();
+  //         if (didDrop) {
+  //             return;
+  //         }
+  //         return { id, type, dropIndex: id };
+  //     },
+  //     collect: (monitor) => {
+  //         return {
+  //             isDragging: monitor.isDragging,
+  //             isOverCurrent: monitor.isOver({ shallow: true }),
+  //         };
+  //     },
+  // });
 
   /**
    * useEffect
@@ -1594,9 +1620,6 @@ var MainMenuConst = function MainMenuConst(_ref) {
   function handleClickMenuItem(ws) {
     onWorkspaceMenuChange && onWorkspaceMenuChange(ws);
   }
-  function handleCreateNewFolder() {
-    onCreateNewFolder && onCreateNewFolder();
-  }
   function renderWorkspaces(workspaces) {
     // We need to do this TWICE...
     // Once for the items that have a organized folder,
@@ -1605,52 +1628,41 @@ var MainMenuConst = function MainMenuConst(_ref) {
       return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
     }).map(function (menuItem) {
       // let's check to see if the user has applied any filters...
-      var folderSelected = selectedMainItem !== null ? menuItem.id === selectedMainItem.id : false;
-      return /*#__PURE__*/jsxs("div", {
-        className: "".concat(folderSelected && "rounded"),
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-between border-b ".concat(currentTheme && currentTheme["border-secondary-medium"], " mb-2 py-2 pl-2"),
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row text-xs items-center",
-            children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-              icon: menuItem.icon
-            }), /*#__PURE__*/jsx("span", {
-              className: "p-2 uppercase font-bold",
-              children: menuItem.name
-            })]
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "plus",
-            textSize: "text-xs",
-            padding: false,
-            onClick: function onClick() {
-              return handleCreateNew(menuItem);
+      // const folderSelected =
+      //     selectedMainItem !== null
+      //         ? menuItem.id === selectedMainItem.id
+      //         : false;
+      return /*#__PURE__*/jsx(MainMenuSection, {
+        id: menuItem.id,
+        name: menuItem.name,
+        menuItem: menuItem,
+        children: workspaces.sort(function (a, b) {
+          return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
+        }).filter(function (w) {
+          return "menuId" in w && w.menuId === menuItem.id;
+        }).filter(function (ws) {
+          return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        }).map(function (ws) {
+          return /*#__PURE__*/jsx(MainMenuItem, {
+            menuItem: menuItem,
+            highlight: searchTerm !== "",
+            id: ws.id,
+            workspaceId: ws.id,
+            workspaceMenuId: ws.menuId,
+            name: ws.name,
+            onClick: function onClick(e) {
+              return handleClickMenuItem(ws);
             },
-            className: "hover:bg-green-500"
-          })]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col pb-4 space-y-1",
-          children: workspaces.sort(function (a, b) {
-            return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
-          }).filter(function (w) {
-            return "menuId" in w && w.menuId === menuItem.id;
-          }).filter(function (ws) {
-            return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
-          }).map(function (ws) {
-            return /*#__PURE__*/jsx(MainMenuItem, {
-              highlight: searchTerm !== "",
-              id: ws.id,
-              name: ws.name,
-              onClick: function onClick(e) {
-                return handleClickMenuItem(ws);
-              },
-              title: ws.name,
-              onDropItem: function onDropItem(e) {
-                return handleDropMenuItem(e);
-              }
-            }, "main-menu-item-ws-".concat(ws.id));
-          })
-        })]
-      }, "menu-item-".concat(menuItem.id));
+            title: ws.name,
+            onDropItem: function onDropItem(e) {
+              return handleDropMenuItem({
+                workspaceId: ws.id,
+                menuItemId: e.dropIndex
+              });
+            }
+          }, "main-menu-item-ws-".concat(ws.id));
+        })
+      });
     });
     return m;
   }
@@ -1659,20 +1671,17 @@ var MainMenuConst = function MainMenuConst(_ref) {
     // Once for the items that have a organized folder,
     // and once for the ones that do NOT....
 
-    return currentTheme && workspaces && /*#__PURE__*/jsxs("div", {
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex flex-row justify-between border-b border-gray-700 mb-2 py-2 ".concat(currentTheme["textSecondary"]),
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row text-xs items-center",
-          children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-            icon: "folder"
-          }), /*#__PURE__*/jsx("span", {
-            className: "p-2 uppercase font-bold",
-            children: "Uncategorized"
-          })]
-        })
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex flex-col pb-4 space-y-1",
+    var menuItem = {
+      id: 1,
+      name: "Uncategorized",
+      icon: "folder"
+    };
+    return currentTheme && workspaces && /*#__PURE__*/jsx("div", {
+      children: /*#__PURE__*/jsx(MainMenuSection, {
+        id: menuItem.id,
+        name: menuItem.name,
+        menuItem: menuItem,
+        onCreateNew: handleCreateNew,
         children: workspaces.sort(function (a, b) {
           return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
         }).filter(function (w) {
@@ -1680,11 +1689,13 @@ var MainMenuConst = function MainMenuConst(_ref) {
         }).filter(function (ws) {
           return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
         }).sort(function (a, b) {
-          console.log(a["name"], b["name"]);
           return a["name"] - b["name"];
         }).map(function (ws) {
           return /*#__PURE__*/jsx(MainMenuItem, {
             highlight: searchTerm !== "",
+            menuItem: menuItem,
+            workspaceId: ws.id,
+            workspaceMenuId: ws.menuId,
             id: ws.id,
             name: ws.name,
             onClick: function onClick(e) {
@@ -1692,11 +1703,14 @@ var MainMenuConst = function MainMenuConst(_ref) {
             },
             title: ws.name,
             onDropItem: function onDropItem(e) {
-              return handleDropMenuItem(e);
+              handleDropMenuItem({
+                workspaceId: ws.id,
+                menuItemId: e.dropIndex
+              });
             }
           }, "main-menu-item-ws-".concat(ws.id));
         })
-      })]
+      })
     }, "menu-item-orphan");
   }
 
@@ -1711,33 +1725,48 @@ var MainMenuConst = function MainMenuConst(_ref) {
     }).length === 0;
   }
   function handleDropMenuItem(dropData) {
-    console.log("handle drop menu item ", dropData);
-    var workspaceId = dropData.workspaceId,
-      menuItemId = dropData.menuItemId;
-    var workspaceSelected = null;
-    var workspaceArray = workspaces.filter(function (ws) {
-      return ws.id === workspaceId;
-    });
-    if (workspaceArray.length > 0) {
-      workspaceSelected = workspaceArray[0];
-    }
-    if (workspaceSelected) {
-      var newWorkspace = deepCopy(workspaceSelected);
-      // we have to update the workspace menu id
-      newWorkspace["menuId"] = menuItemId;
+    try {
+      console.log("handle drop menu item ", dropData);
+      var workspaceId = dropData.workspaceId,
+        menuItemId = dropData.menuItemId;
+      var workspaceSelected = null;
+      var workspaceArray = workspaces.filter(function (ws) {
+        return ws.id === workspaceId;
+      });
+      if (workspaceArray.length > 0) {
+        workspaceSelected = workspaceArray[0];
+      }
+      if (workspaceSelected) {
+        var newWorkspace = deepCopy(workspaceSelected);
+        // we have to update the workspace menu id
+        newWorkspace["menuId"] = menuItemId;
 
-      // api.removeAllListeners();
-      // api.on(
-      //     api.events.WORKSPACE_SAVE_COMPLETE,
-      //     handleSaveWorkspaceComplete
-      // );
-      // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
+        // api.removeAllListeners();
+        // api.on(
+        //     api.events.WORKSPACE_SAVE_COMPLETE,
+        //     handleSaveWorkspaceComplete
+        // );
+        // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
 
-      // api.workspace.saveWorkspaceForApplication(
-      //     creds.appId,
-      //     newWorkspace
-      // );
+        // api.workspace.saveWorkspaceForApplication(
+        //     creds.appId,
+        //     newWorkspace
+        // );
+
+        if (dashApi && credentials) {
+          dashApi.saveWorkspace(credentials.appId, newWorkspace, handleSaveWorkspaceComplete, handleSaveWorkspaceError);
+        }
+      }
+    } catch (e) {
+      console.log(e);
     }
+  }
+  function handleSaveWorkspaceComplete(e, message) {
+    console.log("workspace save complete ", message);
+    onWorkspaceMenuChange();
+  }
+  function handleSaveWorkspaceError(e, message) {
+    console.log(message);
   }
   function handleCreateNew(menuItem) {
     var newLayout = [{
@@ -1767,9 +1796,9 @@ var MainMenuConst = function MainMenuConst(_ref) {
     className: "flex flex-col min-w-64 w-full h-full",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex flex-col space-y-2 w-full h-full",
-      children: [/*#__PURE__*/jsxs("div", {
+      children: [/*#__PURE__*/jsx("div", {
         className: "flex flex-row justify-between items-center space-x-2",
-        children: [/*#__PURE__*/jsx(InputText, {
+        children: /*#__PURE__*/jsx(InputText, {
           name: "search-workspaces",
           value: searchTerm,
           placeholder: "Search Dashboards",
@@ -1777,21 +1806,14 @@ var MainMenuConst = function MainMenuConst(_ref) {
           textSize: "text-lg",
           className: "border-transparent focus:border-transparent focus:ring-0",
           hasBorder: false
-        }), /*#__PURE__*/jsx(ButtonIcon, {
-          icon: "folder-plus",
-          textSize: "text-xs",
-          onClick: function onClick() {
-            return handleCreateNewFolder();
-          },
-          hoverBackgroundColor: "hover:bg-green-500",
-          backgroundColor: "bg-blue-700"
-        })]
-      }), /*#__PURE__*/jsx(LayoutContainer, {
-        direction: "col",
-        scrollable: true,
-        space: false,
-        children: /*#__PURE__*/jsxs(DndProvider, {
-          backend: HTML5Backend,
+        })
+      }), /*#__PURE__*/jsx(DndProvider, {
+        backend: HTML5Backend,
+        children: /*#__PURE__*/jsxs(LayoutContainer, {
+          direction: "col",
+          scrollable: true,
+          space: true,
+          className: "py-2",
           children: [renderWorkspaces(workspaces), renderOrphanedWorkspaces(workspaces)]
         })
       })]
@@ -1800,74 +1822,187 @@ var MainMenuConst = function MainMenuConst(_ref) {
 };
 var MainMenu = withRouter(MainMenuConst);
 
-function _slicedToArray$x(arr, i) { return _arrayWithHoles$x(arr) || _iterableToArrayLimit$x(arr, i) || _unsupportedIterableToArray$y(arr, i) || _nonIterableRest$x(); }
-function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$y(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$y(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$y(o, minLen); }
-function _arrayLikeToArray$y(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$x(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$x(arr) { if (Array.isArray(arr)) return arr; }
-var MainMenuItem = function MainMenuItem(_ref) {
+function _slicedToArray$y(arr, i) { return _arrayWithHoles$y(arr) || _iterableToArrayLimit$y(arr, i) || _unsupportedIterableToArray$z(arr, i) || _nonIterableRest$y(); }
+function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$z(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$z(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$z(o, minLen); }
+function _arrayLikeToArray$z(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$y(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$y(arr) { if (Array.isArray(arr)) return arr; }
+var DragDropWidget$1 = function DragDropWidget(_ref) {
   var id = _ref.id,
-    name = _ref.name,
-    onDropItem = _ref.onDropItem,
-    onClick = _ref.onClick,
-    title = _ref.title;
+    type = _ref.type,
+    width = _ref.width,
+    children = _ref.children,
+    onDropItem = _ref.onDropItem;
   var _useDrag = useDrag(function () {
       return {
-        type: "menu-item",
+        type: type,
         item: {
-          name: name,
-          id: id
+          id: id,
+          type: type
         },
         collect: function collect(monitor) {
-          console.log(monitor);
           return {
             isDragging: monitor.isDragging(),
             sourceIndex: monitor.sourceIndex
           };
         },
-        hover: function hover(item, monitor) {},
         monitor: function monitor() {
           return {
             isDragging: collected.isDragging
           };
         },
         end: function end(item, monitor) {
-          console.log("end ", item);
           var dropResult = monitor.getDropResult();
           if (item && dropResult) {
-            // on Drop, we would like to pass this data back to the AlgoliaUIFactory component in the page preview
-            // where we can then freeze the hits and not use the connectedHits, but rather the frozen hits, to reposition
-            // the grid...and then prompt the user to make a rule? (if they unfreeze, it will resume to Algolia search)
             onDropItem({
-              workspaceId: item.id,
-              menuItemId: dropResult.id
+              sourceIndex: item.id,
+              dropIndex: dropResult.id
             });
           }
         }
       };
     }),
-    _useDrag2 = _slicedToArray$x(_useDrag, 3),
+    _useDrag2 = _slicedToArray$y(_useDrag, 3),
     collected = _useDrag2[0],
     drag = _useDrag2[1],
     dragPreview = _useDrag2[2];
-  return collected.isDragging ? /*#__PURE__*/jsx("div", {
-    ref: dragPreview,
-    onClick: onClick,
-    className: "flex w-full flex-col cursor-pointer space-y-1 py-2 h-full rounded font-hind text-sm opacity-20",
-    children: /*#__PURE__*/jsx("div", {
-      className: "text-sm",
+
+  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
+  //     accept: type,
+  //     drop: (_item, monitor) => {
+  //         const didDrop = monitor.didDrop();
+  //         if (didDrop) {
+  //             return;
+  //         }
+  //         return { id, type, dropIndex: id };
+  //     },
+  //     collect: (monitor) => ({
+  //         isDragging: monitor.isDragging,
+  //         isOverCurrent: monitor.isOver({ shallow: true }),
+  //     }),
+  // });
+
+  function renderDragItem() {
+    return collected.isDragging ? /*#__PURE__*/jsx("div", {
+      ref: dragPreview,
+      className: "h-full flex flex-col min-h-64 w-full opacity-50",
+      children: children
+    }) : /*#__PURE__*/jsx("div", {
+      ref: drag,
+      id: collected.id,
+      type: collected.type,
+      className: "scale-100 flex flex-col ".concat(width, " min-w-xl rounded min-h-64 h-full"),
+      style: {
+        animationDelay: "-.75s",
+        animationDuration: ".25s"
+      },
+      children: children
+    });
+  }
+  return /*#__PURE__*/jsx(Fragment, {
+    children: renderDragItem()
+  });
+};
+
+var MainMenuItem = function MainMenuItem(_ref) {
+  var workspaceMenuId = _ref.workspaceMenuId,
+    onDropItem = _ref.onDropItem,
+    onClick = _ref.onClick,
+    title = _ref.title;
+  return /*#__PURE__*/jsx(DragDropWidget$1, {
+    id: workspaceMenuId,
+    width: "w-full",
+    type: "menu-item",
+    onDropItem: onDropItem,
+    children: /*#__PURE__*/jsx(MenuItem2, {
+      onClick: onClick,
       children: title
     })
-  }) : /*#__PURE__*/jsx(MenuItem3, {
-    ref: drag,
-    id: collected.id,
-    type: collected.type,
-    onClick: onClick,
-    children: /*#__PURE__*/jsx("div", {
-      className: "text-sm",
-      children: title
-    })
+  });
+};
+
+function _slicedToArray$x(arr, i) { return _arrayWithHoles$x(arr) || _iterableToArrayLimit$x(arr, i) || _unsupportedIterableToArray$y(arr, i) || _nonIterableRest$x(); }
+function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$y(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$y(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$y(o, minLen); }
+function _arrayLikeToArray$y(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$x(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$x(arr) { if (Array.isArray(arr)) return arr; }
+var MainMenuSection = function MainMenuSection(_ref) {
+  var id = _ref.id,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "menu-item" : _ref$type,
+    menuItem = _ref.menuItem,
+    children = _ref.children,
+    onCreateNew = _ref.onCreateNew;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+
+  // Drop Functionality
+  var _useDrop = useDrop({
+      accept: type,
+      drop: function drop(_item, monitor) {
+        var didDrop = monitor.didDrop();
+        if (didDrop) {
+          return;
+        }
+        return {
+          id: id,
+          type: type,
+          dropIndex: id
+        };
+      },
+      canDrop: function canDrop(obj) {
+        return obj.id !== menuItem.id;
+      },
+      collect: function collect(monitor) {
+        return {
+          isDragging: monitor.isDragging,
+          isOverCurrent: monitor.isOver({
+            shallow: true
+          }),
+          canDrop: monitor.canDrop()
+        };
+      }
+    }),
+    _useDrop2 = _slicedToArray$x(_useDrop, 2),
+    _useDrop2$ = _useDrop2[0];
+    _useDrop2$.isOver;
+    var isOverCurrent = _useDrop2$.isOverCurrent,
+    canDrop = _useDrop2$.canDrop,
+    drop = _useDrop2[1];
+  function handleCreateNew(menuItem) {
+    onCreateNew && onCreateNew(menuItem);
+  }
+  return /*#__PURE__*/jsxs("div", {
+    ref: drop,
+    id: menuItem.id,
+    className: "flex flex-col p-1 rounded ".concat(isOverCurrent && canDrop ? "".concat(currentTheme["bg-primary-very-dark"], " opacity-70") : "".concat(currentTheme["bg-tertiary-dark"], " opacity-100"), " px-1"),
+    children: [/*#__PURE__*/jsxs("div", {
+      className: "flex flex-row justify-between border-b ".concat(currentTheme && currentTheme["border-secondary-medium"], " p-2 pl-2 mb-2"),
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row text-xs items-center",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: menuItem.icon
+        }), /*#__PURE__*/jsx("span", {
+          className: "p-2 uppercase font-bold text-gray-500",
+          children: menuItem.name
+        })]
+      }), /*#__PURE__*/jsx(ButtonIcon, {
+        icon: "plus",
+        textSize: "text-xs",
+        padding: false,
+        onClick: function onClick() {
+          return handleCreateNew(menuItem);
+        },
+        className: "hover:bg-green-500 bg-transparent"
+      })]
+    }), /*#__PURE__*/jsx(LayoutContainer, {
+      direction: "col",
+      space: false,
+      className: "space-y-1",
+      children: children
+    })]
   });
 };
 
@@ -1879,7 +2014,7 @@ var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
     currentTheme = _useContext.currentTheme;
   return currentTheme && /*#__PURE__*/jsx(Transition.Root, {
     show: open,
-    as: Fragment,
+    as: Fragment$1,
     children: /*#__PURE__*/jsx(Dialog, {
       as: "div",
       className: "fixed inset-0 overflow-hidden",
@@ -1887,7 +2022,7 @@ var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
       children: /*#__PURE__*/jsxs("div", {
         className: "absolute inset-0 overflow-hidden z-30",
         children: [/*#__PURE__*/jsx(Transition.Child, {
-          as: Fragment,
+          as: Fragment$1,
           enter: "ease-in-out duration-400",
           enterFrom: "opacity-0",
           enterTo: "opacity-100",
@@ -1900,7 +2035,7 @@ var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
         }), /*#__PURE__*/jsx("div", {
           className: "pointer-events-none fixed inset-y-0 left-0 flex max-w-full pl-0",
           children: /*#__PURE__*/jsx(Transition.Child, {
-            as: Fragment,
+            as: Fragment$1,
             enter: "transform transition ease-in-out duration-400 sm:duration-700",
             enterFrom: "-translate-x-full",
             enterTo: "translate-x-0",
@@ -2104,7 +2239,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
                 className: "space-y-2",
                 children: function children(_ref) {
                   _ref.open;
-                  return /*#__PURE__*/jsxs(Fragment, {
+                  return /*#__PURE__*/jsxs(Fragment$1, {
                     children: [/*#__PURE__*/jsx(Disclosure.Button, {
                       className: classNames(item.current ? "text-indigo-300" : "text-gray-300 hover:bg-gray-700 hover:text-gray-200", "w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
                       children: /*#__PURE__*/jsxs(Link, {
@@ -4519,6 +4654,51 @@ var PanelWelcome = function PanelWelcome(_ref) {
     console.log("Panel Welcome use effect", currentTheme);
     forceUpdate();
   }, [theme, currentTheme, forceUpdate]);
+
+  // function renderWorkspaces() {
+  //     return (
+  //         workspaces &&
+  //         workspaces.map((ws) => {
+  //             const isOrphan = workspaceIsOrphan(ws);
+  //             const icon = iconForMenuItem(ws.menuId);
+  //             return (
+  //                 <MenuItem
+  //                     key={`workspace-${ws.id}`}
+  //                     onClick={() => onClickWorkspace(ws)}
+  //                 >
+  //                     <Paragraph2 text={ws.name} />
+  //                     {isOrphan === true && (
+  //                         <FontAwesomeIcon icon="folder" className="pr-2" />
+  //                     )}
+  //                     {isOrphan === false && icon !== null && (
+  //                         <FontAwesomeIcon icon={icon} className="pr-2" />
+  //                     )}
+  //                 </MenuItem>
+  //             );
+  //         })
+  //     );
+  // }
+
+  // function workspaceIsOrphan(workspaceToCheck) {
+  //     return (
+  //         menuItems.filter(
+  //             (menuItem) => menuItem.id === workspaceToCheck.menuId
+  //         ).length === 0
+  //     );
+  // }
+
+  // function iconForMenuItem(menuId) {
+  //     try {
+  //         const matches = menuItems.filter(
+  //             (menuItem) =>
+  //                 parseInt(menuItem["id"], 10) === parseInt(menuId, 10)
+  //         );
+  //         return matches.length > 0 ? matches[0]["icon"] : null;
+  //     } catch (e) {
+  //         return null;
+  //     }
+  // }
+
   var handleAddNewMenuItem = function handleAddNewMenuItem() {
     onNewMenuItem && onNewMenuItem();
   };
@@ -4542,7 +4722,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
         horizontal: true,
         padding: false,
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme && currentTheme["bg-primary-very-dark"]),
+          className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme && currentTheme["bg-tertiary-dark"]),
           children: [/*#__PURE__*/jsx("div", {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
@@ -7717,7 +7897,7 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
           className: "flex flex-row text-xl font-bold text-white justify-between",
           children: [/*#__PURE__*/jsx("div", {
             className: "flex flex-row text-xl font-bold text-white p-2 space-x-2 justify-center items-center",
-            children: itemSelected && /*#__PURE__*/jsxs(Fragment, {
+            children: itemSelected && /*#__PURE__*/jsxs(Fragment$1, {
               children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
                 icon: "folder"
               }), /*#__PURE__*/jsx("span", {
@@ -11276,7 +11456,9 @@ var MenuItem2 = function MenuItem2(_ref2) {
   });
 };
 var MenuItem3 = function MenuItem3(_ref3) {
-  var _ref3$onClick = _ref3.onClick,
+  var _ref3$innerRef = _ref3.innerRef,
+    innerRef = _ref3$innerRef === void 0 ? null : _ref3$innerRef,
+    _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$theme = _ref3.theme,
     theme = _ref3$theme === void 0 ? true : _ref3$theme,
@@ -11298,7 +11480,9 @@ var MenuItem3 = function MenuItem3(_ref3) {
     hoverBackgroundColor = _ref3$hoverBackground === void 0 ? null : _ref3$hoverBackground,
     children = _ref3.children,
     _ref3$selected = _ref3.selected,
-    selected = _ref3$selected === void 0 ? false : _ref3$selected;
+    selected = _ref3$selected === void 0 ? false : _ref3$selected,
+    id = _ref3.id,
+    type = _ref3.type;
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.MENU_ITEM_3, currentTheme, {
@@ -11312,10 +11496,16 @@ var MenuItem3 = function MenuItem3(_ref3) {
     selected: selected
   });
   return theme === true ? /*#__PURE__*/jsx("div", {
+    id: id,
+    type: type,
+    ref: innerRef,
     onClick: onClick,
     className: "flex flex-row font-normal ".concat(styles.string, " ").concat(border === true && "border", " p-2 rounded items-center space-x-2 cursor-pointer text-sm"),
     children: children
   }) : /*#__PURE__*/jsx("div", {
+    id: id,
+    type: type,
+    ref: innerRef,
     onClick: onClick,
     className: "flex flex-row font-normal ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " rounded items-center space-x-2 cursor-pointer text-sm"),
     children: children
@@ -12134,7 +12324,7 @@ var mainApi = window.mainApi;
                   children: "Home"
                 })]
               })
-            }), selectedAppId !== undefined && /*#__PURE__*/jsxs(Fragment, {
+            }), selectedAppId !== undefined && /*#__PURE__*/jsxs(Fragment$1, {
               children: [/*#__PURE__*/jsx("li", {
                 children: /*#__PURE__*/jsx("div", {
                   className: "flex items-center",
@@ -12158,7 +12348,7 @@ var mainApi = window.mainApi;
                   children: selectedAppId
                 })
               })]
-            }), selectedIndexName !== undefined && /*#__PURE__*/jsxs(Fragment, {
+            }), selectedIndexName !== undefined && /*#__PURE__*/jsxs(Fragment$1, {
               children: [/*#__PURE__*/jsx("li", {
                 children: /*#__PURE__*/jsx("div", {
                   className: "flex items-center",
@@ -22852,4 +23042,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus);
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };

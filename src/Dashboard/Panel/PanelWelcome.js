@@ -41,49 +41,49 @@ export const PanelWelcome = ({
         forceUpdate();
     }, [theme, currentTheme, forceUpdate]);
 
-    function renderWorkspaces() {
-        return (
-            workspaces &&
-            workspaces.map((ws) => {
-                const isOrphan = workspaceIsOrphan(ws);
-                const icon = iconForMenuItem(ws.menuId);
-                return (
-                    <MenuItem
-                        key={`workspace-${ws.id}`}
-                        onClick={() => onClickWorkspace(ws)}
-                    >
-                        <Paragraph2 text={ws.name} />
-                        {isOrphan === true && (
-                            <FontAwesomeIcon icon="folder" className="pr-2" />
-                        )}
-                        {isOrphan === false && icon !== null && (
-                            <FontAwesomeIcon icon={icon} className="pr-2" />
-                        )}
-                    </MenuItem>
-                );
-            })
-        );
-    }
+    // function renderWorkspaces() {
+    //     return (
+    //         workspaces &&
+    //         workspaces.map((ws) => {
+    //             const isOrphan = workspaceIsOrphan(ws);
+    //             const icon = iconForMenuItem(ws.menuId);
+    //             return (
+    //                 <MenuItem
+    //                     key={`workspace-${ws.id}`}
+    //                     onClick={() => onClickWorkspace(ws)}
+    //                 >
+    //                     <Paragraph2 text={ws.name} />
+    //                     {isOrphan === true && (
+    //                         <FontAwesomeIcon icon="folder" className="pr-2" />
+    //                     )}
+    //                     {isOrphan === false && icon !== null && (
+    //                         <FontAwesomeIcon icon={icon} className="pr-2" />
+    //                     )}
+    //                 </MenuItem>
+    //             );
+    //         })
+    //     );
+    // }
 
-    function workspaceIsOrphan(workspaceToCheck) {
-        return (
-            menuItems.filter(
-                (menuItem) => menuItem.id === workspaceToCheck.menuId
-            ).length === 0
-        );
-    }
+    // function workspaceIsOrphan(workspaceToCheck) {
+    //     return (
+    //         menuItems.filter(
+    //             (menuItem) => menuItem.id === workspaceToCheck.menuId
+    //         ).length === 0
+    //     );
+    // }
 
-    function iconForMenuItem(menuId) {
-        try {
-            const matches = menuItems.filter(
-                (menuItem) =>
-                    parseInt(menuItem["id"], 10) === parseInt(menuId, 10)
-            );
-            return matches.length > 0 ? matches[0]["icon"] : null;
-        } catch (e) {
-            return null;
-        }
-    }
+    // function iconForMenuItem(menuId) {
+    //     try {
+    //         const matches = menuItems.filter(
+    //             (menuItem) =>
+    //                 parseInt(menuItem["id"], 10) === parseInt(menuId, 10)
+    //         );
+    //         return matches.length > 0 ? matches[0]["icon"] : null;
+    //     } catch (e) {
+    //         return null;
+    //     }
+    // }
 
     const handleAddNewMenuItem = () => {
         onNewMenuItem && onNewMenuItem();
@@ -126,8 +126,7 @@ export const PanelWelcome = ({
                     <Panel2 horizontal={true} padding={false}>
                         <div
                             className={`flex flex-col space-y-1 p-2 h-full justify-between ${
-                                currentTheme &&
-                                currentTheme["bg-primary-very-dark"]
+                                currentTheme && currentTheme["bg-tertiary-dark"]
                             }`}
                         >
                             {/* <div className="w-10 h-10 items-center justify-center">

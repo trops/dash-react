@@ -100,6 +100,7 @@ const MenuItem2 = ({
 };
 
 const MenuItem3 = ({
+    innerRef = null,
     onClick = null,
     theme = true,
     border = false,
@@ -112,6 +113,8 @@ const MenuItem3 = ({
     hoverBackgroundColor = null,
     children,
     selected = false,
+    id,
+    type,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.MENU_ITEM_3, currentTheme, {
@@ -127,6 +130,9 @@ const MenuItem3 = ({
 
     return theme === true ? (
         <div
+            id={id}
+            type={type}
+            ref={innerRef}
             onClick={onClick}
             className={`flex flex-row font-normal ${styles.string} ${
                 border === true && "border"
@@ -136,6 +142,9 @@ const MenuItem3 = ({
         </div>
     ) : (
         <div
+            id={id}
+            type={type}
+            ref={innerRef}
             onClick={onClick}
             className={`flex flex-row font-normal ${backgroundColor} ${borderColor} ${textColor} ${
                 border === true && "border"
