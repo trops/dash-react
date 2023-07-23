@@ -24,12 +24,12 @@ export const PanelWelcome = ({
     selectedMainItem = null,
     onClickWorkspace = null,
     onClickNewWorkspace,
-    onClickCreateMenuItem = null,
+    //onClickCreateMenuItem = null,
     onNewMenuItem = null,
-    onHome = null,
+    //onHome = null,
     onOpenThemeManager = null,
     onOpenSettings = null,
-    onClickNew = null,
+    //onClickNew = null,
 }) => {
     const { theme, currentTheme, changeThemeVariant, themeVariant } =
         useContext(ThemeContext);
@@ -54,18 +54,17 @@ export const PanelWelcome = ({
         onOpenSettings && onOpenSettings();
     };
 
-    const handleHome = () => {
-        onHome && onHome();
-    };
+    // const handleHome = () => {
+    //     onHome && onHome();
+    // };
 
-    const handleClickNewDashboard = () => {
-        console.log("new dashboard");
-        onClickNew && onClickNew();
-    };
+    // const handleClickNewDashboard = () => {
+    //     console.log("new dashboard");
+    //     onClickNew && onClickNew();
+    // };
 
     const handleClickNewWorkspace = (data) => {
         try {
-            console.log("new workspace clicked ", data);
             if (data === undefined) {
                 selectedMainItem = 1;
             } else {
@@ -74,7 +73,7 @@ export const PanelWelcome = ({
 
             // if we have no data, we have to create a layout
             const newLayout = {
-                id: Date.now(),
+                id: 1,
                 order: 1,
                 direction: "col",
                 width: "w-full",
@@ -84,9 +83,7 @@ export const PanelWelcome = ({
                 parent: 0,
                 menuId: selectedMainItem, // default menu item id is 1
             };
-            const newWorkspace = new WorkspaceModel(newLayout);
-
-            console.log(newLayout, selectedMainItem);
+            const newWorkspace = new WorkspaceModel({ layout: [newLayout] });
 
             onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
         } catch (e) {
@@ -94,9 +91,9 @@ export const PanelWelcome = ({
         }
     };
 
-    const handleClickWorkspace = (data) => {
-        onClickWorkspace && onClickWorkspace(data);
-    };
+    // const handleClickWorkspace = (data) => {
+    //     onClickWorkspace && onClickWorkspace(data);
+    // };
 
     return (
         currentTheme && (
@@ -108,9 +105,7 @@ export const PanelWelcome = ({
                 >
                     <Panel2 horizontal={true} padding={false}>
                         <div
-                            className={`flex flex-col space-y-1 p-2 h-full justify-between ${
-                                currentTheme && currentTheme["bg-tertiary-dark"]
-                            }`}
+                            className={`flex flex-col space-y-1 p-2 h-full justify-between border-r border-gray-800 bg-gray-700`}
                         >
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon
@@ -169,9 +164,9 @@ export const PanelWelcome = ({
                         <div className="flex flex-col w-full h-full overflow-hidden p-4">
                             <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
                                 <div
-                                    className={`flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between`}
+                                    className={`flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-6 justify-between`}
                                 >
-                                    <div className="flex flex-col rounded py-10 space-y-4">
+                                    <div className="flex flex-col rounded py-4 space-y-4">
                                         <Heading
                                             title={"Dash."}
                                             padding={false}
@@ -187,8 +182,10 @@ export const PanelWelcome = ({
                                         {theme !== null &&
                                             theme !== undefined && (
                                                 <Tag
-                                                    text={`${theme["name"]}`}
-                                                    onClick={null}
+                                                    text={`Current theme: ${theme["name"]}`}
+                                                    onClick={
+                                                        handleOpenThemeManager
+                                                    }
                                                 />
                                             )}
                                     </div>

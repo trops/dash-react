@@ -3,7 +3,7 @@
  *
  */
 import { deepCopy } from "@dash/Utils";
-import { MenuItemModel } from "./MenuItemModel";
+import { LayoutModel } from "./LayoutModel";
 
 export const WorkspaceModel = (workspaceItem) => {
     const obj =
@@ -21,10 +21,10 @@ export const WorkspaceModel = (workspaceItem) => {
         "menuId",
         "version",
     ];
-    const validWorkspaceTypes = ["layout", "widget"];
+    const validWorkspaceTypes = ["layout", "widget", "workspace"];
 
     function sanitizeType(t) {
-        return validWorkspaceTypes.includes(t) === true ? t : "layout";
+        return validWorkspaceTypes.includes(t) === true ? t : "workspace";
     }
 
     /**
@@ -38,21 +38,66 @@ export const WorkspaceModel = (workspaceItem) => {
      */
     function sanitizeWorkspaceObject(w) {
         Object.keys(w).forEach((workspaceKey) => {
-            console.log("checking key ", workspaceKey);
             if (validWorkspaceProperties.includes(workspaceKey) === false) {
-                console.log("deleting key ", workspaceKey);
-                delete w[workspaceKey];
+                // delete w[workspaceKey];
             }
         });
         return w;
     }
 
+    function sanitizeLayout(layout, workspaceId) {
+        if (layout) {
+            if (layout.length > 0) {
+                return layout;
+            } else {
+                return [
+                    LayoutModel(
+                        {
+                            workspace: "layout",
+                            type: "workspace",
+                            dashboardId: workspaceId,
+                        },
+                        [],
+                        workspaceId
+                    ),
+                ];
+            }
+        }
+    }
+
     workspace.id = "id" in obj ? obj["id"] : Date.now();
-    workspace.name = "name" in obj ? obj["name"] : "My Workspace";
-    workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "layout";
-    workspace.label = "label" in obj ? obj["label"] : "Workspace";
+    workspace.name = "name" in obj ? obj["name"] : "New Workspace";
+    workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "workspace";
+    workspace.label = "label" in obj ? obj["label"] : "New Workspace";
+    workspace.version = "version" in obj ? obj["version"] : 1;
     workspace.layout = "layout" in obj ? obj["layout"] : [];
-    //workspace.menuItem = MenuItemModel();
+    // workspace.layout =
+    //     "layout" in obj
+    //         ? sanitizeLayout(obj["layout"], workspace.id)
+    //         : [
+    //               LayoutModel(
+    //                   {
+    //                       workspace: "layout",
+    //                       type: "workspace",
+    //                       dashboardId: workspace.id,
+    //                       parent: 0,
+    //                       id: 1,
+    //                   },
+    //                   [],
+    //                   workspace.id
+    //               ),
+    //               LayoutModel(
+    //                   {
+    //                       id: 2,
+    //                       workspace: workspace.name,
+    //                       type: "layout",
+    //                       dashboardId: workspace.id,
+    //                       parent: 1,
+    //                   },
+    //                   [],
+    //                   workspace.id
+    //               ),
+    //           ];
     workspace.menuId = "menuId" in obj ? obj["menuId"] : 1;
 
     return sanitizeWorkspaceObject(workspace);

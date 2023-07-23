@@ -15,7 +15,7 @@ import {
     getNextHighestOrder,
     getBorderStyle,
 } from "@dash/Utils";
-import { WidgetConfigPanel } from "@dash/Layout";
+import { WidgetConfigPanel, LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
 import { LayoutModel } from "@dash/Models";
 import { ThemeContext } from "@dash/Context";
@@ -27,7 +27,7 @@ export const LayoutBuilderAddItemModal = ({
     item = null,
     onSaveItem = null,
 }) => {
-    const { theme } = useContext(ThemeContext);
+    const { currentTheme } = useContext(ThemeContext);
 
     const [searchTerm, setSearchTerm] = useState("");
     const [menuItemSelected, setMenuItemSelected] = useState(null);
@@ -284,7 +284,13 @@ export const LayoutBuilderAddItemModal = ({
                         className={`flex flex-col w-full h-full overflow-hidden`}
                     >
                         <div className="flex flex-row w-full h-full space-x-4 overflow-hidden rounded">
-                            <div className="flex flex-col h-full rounded p-4 text-gray-200 overflow-y-scroll w-1/4 space-y-4">
+                            <LayoutContainer
+                                direction="col"
+                                width="w-1/4"
+                                space={true}
+                                scrollable={true}
+                                className={`h-full rounded p-4 text-gray-200`}
+                            >
                                 {/* render the widget item here. */}
                                 <div className="flex flex-row pb-4">
                                     <InputText
@@ -312,10 +318,18 @@ export const LayoutBuilderAddItemModal = ({
                                         {renderWidgets()}
                                     </div>
                                 </div>
-                            </div>
+                            </LayoutContainer>
 
-                            <div
+                            {/* <div
                                 className={`flex flex-row h-full text-gray-200 overflow-y-scroll w-full rounded p-4 space-x-4 ${theme["bg-secondary-dark"]}`}
+                            > */}
+                            <LayoutContainer
+                                direction="row"
+                                space={true}
+                                grow={true}
+                                scrollable={true}
+                                width={"w-full"}
+                                className={`p-4 ${currentTheme["bg-secondary-dark"]}`}
                             >
                                 {/* render the widget item here. */}
                                 {menuItemSelected === null && (
@@ -382,10 +396,11 @@ export const LayoutBuilderAddItemModal = ({
                                         />
                                     </div>
                                 )}
-                            </div>
+                            </LayoutContainer>
+                            {/* </div> */}
                         </div>
                         <div
-                            className={`flex flex-row justify-end ${theme["bg-primary-very-dark"]} p-4 rounded-br rounded-bl border-t ${theme["border-primary-dark"]}`}
+                            className={`flex flex-row justify-end ${currentTheme["bg-primary-very-dark"]} p-4 rounded-br rounded-bl border-t ${currentTheme["border-primary-dark"]}`}
                         >
                             <div className="flex flex-row space-x-2">
                                 <Button

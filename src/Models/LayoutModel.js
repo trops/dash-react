@@ -13,8 +13,8 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         const obj = deepCopy(layoutItem);
         const layout = {};
 
-        layout.id = "id" in obj ? obj["id"] : null;
-        layout.order = "order" in obj ? obj.order : null;
+        layout.id = "id" in obj ? obj["id"] : 1;
+        layout.order = "order" in obj ? obj.order : 1;
         layout.scrollable =
             "scrollable" in obj
                 ? obj["scrollable"] === "false" || obj["scrollable"] === false
@@ -36,15 +36,15 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                     : true
                 : false;
 
-        layout.component = "component" in obj ? obj.component : null;
+        layout.component = "component" in obj ? obj.component : "Container";
         layout.direction = "direction" in obj ? obj.direction : "col";
         layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
         layout.canHaveChildren =
             "canHaveChildren" in obj ? obj.canHaveChildren : true;
-        layout.width = "width" in obj ? obj.width : "";
+        layout.width = "width" in obj ? obj.width : "w-full";
         layout.height = "height" in obj ? obj.height : "h-full";
         layout.parent = "parent" in obj ? obj.parent : 0;
-        layout.type = "type" in obj ? obj.type : "widget";
+        layout.type = "type" in obj ? obj.type : "layout";
         layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
         // Space and Grow

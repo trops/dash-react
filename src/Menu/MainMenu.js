@@ -247,19 +247,19 @@ const MainMenuConst = ({
     }
 
     function handleCreateNew(menuItem) {
-        // const newLayout = [
-        //     {
-        //         id: 1,
-        //         order: 1,
-        //         direction: "col",
-        //         width: "w-full",
-        //         component: "Container",
-        //         hasChildren: 1,
-        //         scrollable: true,
-        //         parent: 0,
-        //         menuId: selectedMainItem["id"],
-        //     },
-        // ];
+        const newLayout = [
+            {
+                id: 1,
+                order: 1,
+                direction: "col",
+                width: "w-full",
+                component: "Container",
+                hasChildren: 1,
+                scrollable: true,
+                parent: 0,
+                menuId: selectedMainItem["id"],
+            },
+        ];
 
         onClickNewWorkspace &&
             onClickNewWorkspace(

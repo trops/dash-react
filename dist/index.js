@@ -947,19 +947,19 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     }
     var obj = deepCopy(layoutItem);
     var layout = {};
-    layout.id = "id" in obj ? obj["id"] : null;
-    layout.order = "order" in obj ? obj.order : null;
+    layout.id = "id" in obj ? obj["id"] : 1;
+    layout.order = "order" in obj ? obj.order : 1;
     layout.scrollable = "scrollable" in obj ? obj["scrollable"] === "false" || obj["scrollable"] === false ? false : true : false;
     layout.space = "space" in obj ? obj["space"] === "false" || obj["space"] === false ? false : true : false;
     layout.grow = "grow" in obj ? obj["grow"] === "false" || obj["grow"] === false ? false : true : false;
-    layout.component = "component" in obj ? obj.component : null;
+    layout.component = "component" in obj ? obj.component : "Container";
     layout.direction = "direction" in obj ? obj.direction : "col";
     layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
     layout.canHaveChildren = "canHaveChildren" in obj ? obj.canHaveChildren : true;
-    layout.width = "width" in obj ? obj.width : "";
+    layout.width = "width" in obj ? obj.width : "w-full";
     layout.height = "height" in obj ? obj.height : "h-full";
     layout.parent = "parent" in obj ? obj.parent : 0;
-    layout.type = "type" in obj ? obj.type : "widget";
+    layout.type = "type" in obj ? obj.type : "layout";
     layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
     // Space and Grow
@@ -1093,16 +1093,6 @@ var SettingsModel = function SettingsModel() {
   return obj;
 };
 
-var MenuItemModel = function MenuItemModel() {
-  var menuItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var obj = menuItem !== null && menuItem !== undefined ? deepCopy(menuItem) : {};
-  var m = {};
-  m.id = "id" in obj ? obj["id"] : 1;
-  m.name = "name" in obj ? obj["name"] : "Uncategorized";
-  m.folder = "icon" in obj ? obj["icon"] : "folder";
-  return m;
-};
-
 /**
  * WorkspaceModel
  *
@@ -1110,10 +1100,9 @@ var MenuItemModel = function MenuItemModel() {
 var WorkspaceModel = function WorkspaceModel(workspaceItem) {
   var obj = workspaceItem !== null && workspaceItem !== undefined ? deepCopy(workspaceItem) : {};
   var workspace = {};
-  var validWorkspaceProperties = ["id", "name", "type", "label", "layout", "menuId", "version"];
-  var validWorkspaceTypes = ["layout", "widget"];
+  var validWorkspaceTypes = ["layout", "widget", "workspace"];
   function sanitizeType(t) {
-    return validWorkspaceTypes.includes(t) === true ? t : "layout";
+    return validWorkspaceTypes.includes(t) === true ? t : "workspace";
   }
 
   /**
@@ -1127,20 +1116,42 @@ var WorkspaceModel = function WorkspaceModel(workspaceItem) {
    */
   function sanitizeWorkspaceObject(w) {
     Object.keys(w).forEach(function (workspaceKey) {
-      console.log("checking key ", workspaceKey);
-      if (validWorkspaceProperties.includes(workspaceKey) === false) {
-        console.log("deleting key ", workspaceKey);
-        delete w[workspaceKey];
-      }
     });
     return w;
   }
   workspace.id = "id" in obj ? obj["id"] : Date.now();
-  workspace.name = "name" in obj ? obj["name"] : "My Workspace";
-  workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "layout";
-  workspace.label = "label" in obj ? obj["label"] : "Workspace";
+  workspace.name = "name" in obj ? obj["name"] : "New Workspace";
+  workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "workspace";
+  workspace.label = "label" in obj ? obj["label"] : "New Workspace";
+  workspace.version = "version" in obj ? obj["version"] : 1;
   workspace.layout = "layout" in obj ? obj["layout"] : [];
-  //workspace.menuItem = MenuItemModel();
+  // workspace.layout =
+  //     "layout" in obj
+  //         ? sanitizeLayout(obj["layout"], workspace.id)
+  //         : [
+  //               LayoutModel(
+  //                   {
+  //                       workspace: "layout",
+  //                       type: "workspace",
+  //                       dashboardId: workspace.id,
+  //                       parent: 0,
+  //                       id: 1,
+  //                   },
+  //                   [],
+  //                   workspace.id
+  //               ),
+  //               LayoutModel(
+  //                   {
+  //                       id: 2,
+  //                       workspace: workspace.name,
+  //                       type: "layout",
+  //                       dashboardId: workspace.id,
+  //                       parent: 1,
+  //                   },
+  //                   [],
+  //                   workspace.id
+  //               ),
+  //           ];
   workspace.menuId = "menuId" in obj ? obj["menuId"] : 1;
   return sanitizeWorkspaceObject(workspace);
   // return workspace;
@@ -1420,6 +1431,16 @@ var ComponentConfigModel = function ComponentConfigModel() {
   // console.log("config: ", obj);
 
   return obj;
+};
+
+var MenuItemModel = function MenuItemModel() {
+  var menuItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var obj = menuItem !== null && menuItem !== undefined ? deepCopy(menuItem) : {};
+  var m = {};
+  m.id = "id" in obj ? obj["id"] : 1;
+  m.name = "name" in obj ? obj["name"] : "Uncategorized";
+  m.folder = "icon" in obj ? obj["icon"] : "folder";
+  return m;
 };
 
 function _slicedToArray$A(arr, i) { return _arrayWithHoles$A(arr) || _iterableToArrayLimit$A(arr, i) || _unsupportedIterableToArray$B(arr, i) || _nonIterableRest$A(); }
@@ -1806,20 +1827,17 @@ var MainMenuConst = function MainMenuConst(_ref) {
     console.log(message);
   }
   function handleCreateNew(menuItem) {
-    // const newLayout = [
-    //     {
-    //         id: 1,
-    //         order: 1,
-    //         direction: "col",
-    //         width: "w-full",
-    //         component: "Container",
-    //         hasChildren: 1,
-    //         scrollable: true,
-    //         parent: 0,
-    //         menuId: selectedMainItem["id"],
-    //     },
-    // ];
-
+    [{
+      id: 1,
+      order: 1,
+      direction: "col",
+      width: "w-full",
+      component: "Container",
+      hasChildren: 1,
+      scrollable: true,
+      parent: 0,
+      menuId: selectedMainItem["id"]
+    }];
     onClickNewWorkspace && onClickNewWorkspace(menuItem
     // id: Date.now(),
     // name: "New Workspace",
@@ -4667,16 +4685,13 @@ var PanelWelcome = function PanelWelcome(_ref) {
     selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
     _ref$onClickWorkspace = _ref.onClickWorkspace,
     onClickWorkspace = _ref$onClickWorkspace === void 0 ? null : _ref$onClickWorkspace,
-    onClickNewWorkspace = _ref.onClickNewWorkspace;
-    _ref.onClickCreateMenuItem;
-    var _ref$onNewMenuItem = _ref.onNewMenuItem,
-    onNewMenuItem = _ref$onNewMenuItem === void 0 ? null : _ref$onNewMenuItem;
-    _ref.onHome;
-    var _ref$onOpenThemeManag = _ref.onOpenThemeManager,
+    onClickNewWorkspace = _ref.onClickNewWorkspace,
+    _ref$onNewMenuItem = _ref.onNewMenuItem,
+    onNewMenuItem = _ref$onNewMenuItem === void 0 ? null : _ref$onNewMenuItem,
+    _ref$onOpenThemeManag = _ref.onOpenThemeManager,
     onOpenThemeManager = _ref$onOpenThemeManag === void 0 ? null : _ref$onOpenThemeManag,
     _ref$onOpenSettings = _ref.onOpenSettings,
     onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings;
-    _ref.onClickNew;
   var _useContext = useContext$1(ThemeContext),
     theme = _useContext.theme,
     currentTheme = _useContext.currentTheme,
@@ -4701,9 +4716,18 @@ var PanelWelcome = function PanelWelcome(_ref) {
   var handleOpenSettings = function handleOpenSettings() {
     onOpenSettings && onOpenSettings();
   };
+
+  // const handleHome = () => {
+  //     onHome && onHome();
+  // };
+
+  // const handleClickNewDashboard = () => {
+  //     console.log("new dashboard");
+  //     onClickNew && onClickNew();
+  // };
+
   var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
     try {
-      console.log("new workspace clicked ", data);
       if (data === undefined) {
         selectedMainItem = 1;
       } else {
@@ -4712,7 +4736,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
 
       // if we have no data, we have to create a layout
       var newLayout = {
-        id: Date.now(),
+        id: 1,
         order: 1,
         direction: "col",
         width: "w-full",
@@ -4723,13 +4747,19 @@ var PanelWelcome = function PanelWelcome(_ref) {
         menuId: selectedMainItem // default menu item id is 1
       };
 
-      var newWorkspace = new WorkspaceModel(newLayout);
-      console.log(newLayout, selectedMainItem);
+      var newWorkspace = new WorkspaceModel({
+        layout: [newLayout]
+      });
       onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
     } catch (e) {
       console.log(e);
     }
   };
+
+  // const handleClickWorkspace = (data) => {
+  //     onClickWorkspace && onClickWorkspace(data);
+  // };
+
   return currentTheme && /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
     children: /*#__PURE__*/jsx("div", {
@@ -4738,7 +4768,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
         horizontal: true,
         padding: false,
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme && currentTheme["bg-tertiary-dark"]),
+          className: "flex flex-col space-y-1 p-2 h-full justify-between border-r border-gray-800 bg-gray-700",
           children: [/*#__PURE__*/jsx("div", {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
@@ -4787,9 +4817,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
           children: /*#__PURE__*/jsxs("div", {
             className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
             children: [/*#__PURE__*/jsxs("div", {
-              className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between",
+              className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-6 justify-between",
               children: [/*#__PURE__*/jsxs("div", {
-                className: "flex flex-col rounded py-10 space-y-4",
+                className: "flex flex-col rounded py-4 space-y-4",
                 children: [/*#__PURE__*/jsx(Heading, {
                   title: "Dash.",
                   padding: false
@@ -4803,8 +4833,8 @@ var PanelWelcome = function PanelWelcome(_ref) {
               }), /*#__PURE__*/jsx("div", {
                 className: "flex flex-row space-x-2 items-center",
                 children: theme !== null && theme !== undefined && /*#__PURE__*/jsx(Tag, {
-                  text: "".concat(theme["name"]),
-                  onClick: null
+                  text: "Current theme: ".concat(theme["name"]),
+                  onClick: handleOpenThemeManager
                 })
               })]
             }), /*#__PURE__*/jsx(Panel3, {
@@ -6619,7 +6649,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
     _ref$onSaveItem = _ref.onSaveItem,
     onSaveItem = _ref$onSaveItem === void 0 ? null : _ref$onSaveItem;
   var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme;
+    currentTheme = _useContext.currentTheme;
   var _useState = useState(""),
     _useState2 = _slicedToArray$l(_useState, 2),
     searchTerm = _useState2[0],
@@ -6842,8 +6872,12 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
         className: "flex flex-col w-full h-full overflow-hidden",
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex flex-row w-full h-full space-x-4 overflow-hidden rounded",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-col h-full rounded p-4 text-gray-200 overflow-y-scroll w-1/4 space-y-4",
+          children: [/*#__PURE__*/jsxs(LayoutContainer, {
+            direction: "col",
+            width: "w-1/4",
+            space: true,
+            scrollable: true,
+            className: "h-full rounded p-4 text-gray-200",
             children: [/*#__PURE__*/jsx("div", {
               className: "flex flex-row pb-4",
               children: /*#__PURE__*/jsx(InputText, {
@@ -6873,8 +6907,13 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
                 children: renderWidgets()
               })]
             })]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row h-full text-gray-200 overflow-y-scroll w-full rounded p-4 space-x-4 ".concat(theme["bg-secondary-dark"]),
+          }), /*#__PURE__*/jsxs(LayoutContainer, {
+            direction: "row",
+            space: true,
+            grow: true,
+            scrollable: true,
+            width: "w-full",
+            className: "p-4 ".concat(currentTheme["bg-secondary-dark"]),
             children: [menuItemSelected === null && /*#__PURE__*/jsx("div", {
               className: "flex-col h-full rounded font-medium text-gray-400 w-full xl:w-1/2 p-10",
               children: /*#__PURE__*/jsxs("div", {
@@ -6919,7 +6958,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
             })]
           })]
         }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-row justify-end ".concat(theme["bg-primary-very-dark"], " p-4 rounded-br rounded-bl border-t ").concat(theme["border-primary-dark"]),
+          className: "flex flex-row justify-end ".concat(currentTheme["bg-primary-very-dark"], " p-4 rounded-br rounded-bl border-t ").concat(currentTheme["border-primary-dark"]),
           children: /*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
             children: [/*#__PURE__*/jsx(Button, {
