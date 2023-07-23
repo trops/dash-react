@@ -1806,26 +1806,30 @@ var MainMenuConst = function MainMenuConst(_ref) {
     console.log(message);
   }
   function handleCreateNew(menuItem) {
-    var newLayout = [{
-      id: 1,
-      order: 1,
-      direction: "col",
-      width: "w-full",
-      component: "Container",
-      hasChildren: 1,
-      scrollable: true,
-      parent: 0,
-      menuId: selectedMainItem["id"]
-    }];
-    onClickNewWorkspace && onClickNewWorkspace({
-      id: Date.now(),
-      name: "New Workspace",
-      label: "New",
-      type: selectedMainItem,
-      layout: newLayout,
-      menuId: menuItem["id"]
-    });
+    // const newLayout = [
+    //     {
+    //         id: 1,
+    //         order: 1,
+    //         direction: "col",
+    //         width: "w-full",
+    //         component: "Container",
+    //         hasChildren: 1,
+    //         scrollable: true,
+    //         parent: 0,
+    //         menuId: selectedMainItem["id"],
+    //     },
+    // ];
+
+    onClickNewWorkspace && onClickNewWorkspace(menuItem
+    // id: Date.now(),
+    // name: "New Workspace",
+    // label: "New",
+    // type: selectedMainItem,
+    // layout: newLayout,
+    // menuId: menuItem["id"],
+    );
   }
+
   function handleChangeSearch(e) {
     setSearchTerm(e.target.value);
   }
@@ -4698,32 +4702,34 @@ var PanelWelcome = function PanelWelcome(_ref) {
     onOpenSettings && onOpenSettings();
   };
   var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
-    if (!selectedMainItem) {
-      selectedMainItem = {
-        id: 1,
-        name: "Uncategorized",
-        icon: "folder"
-      };
-    }
+    try {
+      console.log("new workspace clicked ", data);
+      if (data === undefined) {
+        selectedMainItem = 1;
+      } else {
+        selectedMainItem = data.id;
+      }
+      console.log(selectedMainItem);
 
-    // if we have no data, we have to create a layout
-    var newLayout = [];
-    if (!data) {
-      newLayout = [{
-        id: new Date.now(),
+      // if we have no data, we have to create a layout
+      var newLayout = [{
+        id: Date.now(),
         order: 1,
         direction: "col",
         width: "w-full",
-        component: "LayoutContainer",
+        component: "Container",
         hasChildren: 1,
         scrollable: false,
         parent: 0,
         menuId: selectedMainItem // default menu item id is 1
       }];
-    }
 
-    console.log(newLayout);
-    selectedMainItem && onClickNewWorkspace && onClickNewWorkspace(newLayout);
+      var newWorkspace = new WorkspaceModel(newLayout);
+      console.log(newLayout, selectedMainItem);
+      onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return currentTheme && /*#__PURE__*/jsx("div", {
     className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
@@ -4738,7 +4744,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
               icon: "plus",
-              onClick: handleClickNewWorkspace,
+              onClick: function onClick() {
+                return handleClickNewWorkspace();
+              },
               hoverBackgroundColor: "hover:bg-green-700",
               backgroundColor: "bg-blue-600"
             })
@@ -5369,13 +5377,17 @@ var Dashboard = function Dashboard(_ref) {
     });
   }
   function handleClickNew(workspaceItem) {
-    console.log("clicked add new ", workspaceItem, previewMode);
-    setPreviewMode(function () {
-      return false;
-    });
-    setWorkspaceSelected(function () {
-      return workspaceItem;
-    });
+    try {
+      console.log("clicked add new ", workspaceItem, previewMode);
+      setPreviewMode(function () {
+        return false;
+      });
+      setWorkspaceSelected(function () {
+        return workspaceItem;
+      });
+    } catch (e) {
+      console.log("handle click new ", e);
+    }
   }
   function handleWorkspaceChange(ws) {
     console.log(" dashboard workspace change", ws);

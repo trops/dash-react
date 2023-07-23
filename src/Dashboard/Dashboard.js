@@ -412,7 +412,7 @@ export const Dashboard = ({
                                 onOpenSettings={() =>
                                     setIsSettingsModalOpen(true)
                                 }
-                                onClickNew={handleClickNew}
+                                //onClickNew={handleClickNew}
                                 onClickNewWorkspace={handleClickNew}
                                 selectedMainItem={selectedMainItem}
                             />
