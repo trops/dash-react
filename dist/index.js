@@ -1622,6 +1622,13 @@ var MainMenuConst = function MainMenuConst(_ref) {
     searchTerm = _useState2[0],
     setSearchTerm = _useState2[1];
 
+  // Force Update
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$z(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
   /**
    * useEffect
    * We can use the useEffect lifecycle to load the init for the plugins
@@ -1630,6 +1637,9 @@ var MainMenuConst = function MainMenuConst(_ref) {
   useEffect(function () {
     setSearchTerm("");
   }, [active, selectedMainItem]);
+  useEffect(function () {
+    forceUpdate();
+  }, [workspaces]);
   function handleClickMenuItem(ws) {
     onWorkspaceMenuChange && onWorkspaceMenuChange(ws);
   }
@@ -4653,51 +4663,6 @@ var PanelWelcome = function PanelWelcome(_ref) {
     console.log("Panel Welcome use effect", currentTheme);
     forceUpdate();
   }, [theme, currentTheme, forceUpdate]);
-
-  // function renderWorkspaces() {
-  //     return (
-  //         workspaces &&
-  //         workspaces.map((ws) => {
-  //             const isOrphan = workspaceIsOrphan(ws);
-  //             const icon = iconForMenuItem(ws.menuId);
-  //             return (
-  //                 <MenuItem
-  //                     key={`workspace-${ws.id}`}
-  //                     onClick={() => onClickWorkspace(ws)}
-  //                 >
-  //                     <Paragraph2 text={ws.name} />
-  //                     {isOrphan === true && (
-  //                         <FontAwesomeIcon icon="folder" className="pr-2" />
-  //                     )}
-  //                     {isOrphan === false && icon !== null && (
-  //                         <FontAwesomeIcon icon={icon} className="pr-2" />
-  //                     )}
-  //                 </MenuItem>
-  //             );
-  //         })
-  //     );
-  // }
-
-  // function workspaceIsOrphan(workspaceToCheck) {
-  //     return (
-  //         menuItems.filter(
-  //             (menuItem) => menuItem.id === workspaceToCheck.menuId
-  //         ).length === 0
-  //     );
-  // }
-
-  // function iconForMenuItem(menuId) {
-  //     try {
-  //         const matches = menuItems.filter(
-  //             (menuItem) =>
-  //                 parseInt(menuItem["id"], 10) === parseInt(menuId, 10)
-  //         );
-  //         return matches.length > 0 ? matches[0]["icon"] : null;
-  //     } catch (e) {
-  //         return null;
-  //     }
-  // }
-
   var handleAddNewMenuItem = function handleAddNewMenuItem() {
     onNewMenuItem && onNewMenuItem();
   };
@@ -4707,34 +4672,6 @@ var PanelWelcome = function PanelWelcome(_ref) {
   var handleOpenSettings = function handleOpenSettings() {
     onOpenSettings && onOpenSettings();
   };
-
-  /**
-   * 
-    function handleCreateNew(menuItem) {
-      const newLayout = [
-          {
-              id: 1,
-              order: 1,
-              direction: "col",
-              width: "w-full",
-              component: "Container",
-              hasChildren: 1,
-              scrollable: true,
-              parent: 0,
-              menuId: selectedMainItem["id"],
-          },
-      ];
-       onClickNewWorkspace &&
-          onClickNewWorkspace({
-              id: Date.now(),
-              name: "New Workspace",
-              label: "New",
-              type: selectedMainItem,
-              layout: newLayout,
-              menuId: menuItem["id"],
-          });
-  }
-   */
   var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
     if (!selectedMainItem) {
       selectedMainItem = {
@@ -5263,7 +5200,8 @@ var Dashboard = function Dashboard(_ref) {
   var _useContext2 = useContext$1(ThemeContext);
     _useContext2.currentTheme;
     var changeCurrentTheme = _useContext2.changeCurrentTheme;
-  var _useState = useState(WorkspaceModel(workspace)),
+  var _useState = useState(null //WorkspaceModel(workspace)
+    ),
     _useState2 = _slicedToArray$q(_useState, 2),
     workspaceSelected = _useState2[0],
     setWorkspaceSelected = _useState2[1];
@@ -5330,6 +5268,10 @@ var Dashboard = function Dashboard(_ref) {
   }, [workspace]);
 
   // useEffect(() => {
+  //     forceUpdate();
+  // }, [workspaceConfig]);
+
+  // useEffect(() => {
   //     // forceUpdate();
   // }, [themesForApplication]);
 
@@ -5386,26 +5328,8 @@ var Dashboard = function Dashboard(_ref) {
     }
   }
   function handleLoadWorkspacesError(e, message) {
-    setWorkspaceConfig({});
+    setWorkspaceConfig([]);
   }
-
-  // function handleClickMainMenu(menuItem) {
-  //     console.log("clicked ", menuItem, selectedMainItem);
-  //     if (selectedMainItem === null) {
-  //         setSelectedMainItem(() => menuItem);
-  //     } else {
-  //         if (menuItem.id === selectedMainItem.id) {
-  //             setSelectedMainItem(null);
-  //         } else {
-  //             setSelectedMainItem(() => menuItem);
-  //         }
-  //     }
-
-  //     if (!isShowing && menuItem.name !== "home") {
-  //         setIsShowing(!isShowing);
-  //     }
-  // }
-
   // Sub Menu
   // The user has chosen a workspace and we need to load that workspace data
   // into the workspace component.
@@ -5431,6 +5355,9 @@ var Dashboard = function Dashboard(_ref) {
   function handleWorkspaceChange(ws) {
     console.log(" dashboard workspace change", ws);
     if (ws) {
+      setPreviewMode(function () {
+        return false;
+      });
       setWorkspaceSelected(function () {
         return null;
       });
@@ -5438,11 +5365,7 @@ var Dashboard = function Dashboard(_ref) {
         return WorkspaceModel(ws);
       });
     }
-
-    // pub.removeAllListeners();
-    // loadWorkspaces();
   }
-
   function renderComponent(workspaceItem) {
     try {
       console.log("changing workspace ", workspaceItem);
@@ -5461,33 +5384,6 @@ var Dashboard = function Dashboard(_ref) {
       return null;
     }
   }
-
-  // function renderMenuItems() {
-  //     console.log("menu items ", menuItems);
-  //     return (
-  //         menuItems !== undefined &&
-  //         menuItems.length > 0 &&
-  //         menuItems.map((menuItem, index) => {
-  //             const selected =
-  //                 selectedMainItem !== null
-  //                     ? selectedMainItem.id === menuItem.id
-  //                     : false;
-  //             return (
-  //                 <DashboardMenuItem
-  //                     key={`menu-item-${menuItem.id}`}
-  //                     id={menuItem.id}
-  //                     icon={menuItem.icon}
-  //                     item={menuItem}
-  //                     name={menuItem.name}
-  //                     onClick={() => handleClickMainMenu(menuItem)}
-  //                     selected={selected}
-  //                     theme={currentTheme}
-  //                 />
-  //             );
-  //         })
-  //     );
-  // }
-
   function handleAddNewMenuItem() {
     setIsAddWidgetModalOpen(true);
   }
@@ -5499,7 +5395,9 @@ var Dashboard = function Dashboard(_ref) {
       });
       // we have to remove the widgetConfig which contains the component
       // sanitize the workspace layout remove widgetConfig items
-      dashApi.listMenuItems(credentials.appId, handleListMenuItemComplete, handleListMenuItemError);
+      if (dashApi && credentials) {
+        dashApi.listMenuItems(credentials.appId, handleListMenuItemComplete, handleListMenuItemError);
+      }
     } catch (e) {
       console.log("Error loading menu items", e.message);
     }
@@ -5530,12 +5428,10 @@ var Dashboard = function Dashboard(_ref) {
   function handleSaveNewMenuItem(menuItem) {
     // we have to remove the widgetConfig which contains the component
     // sanitize the workspace layout remove widgetConfig items
-    // api.removeAllListeners();
-    // api.on(api.events.MENU_ITEMS_SAVE_COMPLETE, handleSaveMenuItemComplete);
-    // api.on(api.events.MENU_ITEMS_SAVE_ERROR, handleSaveMenuItemError);
-    // api.menuItems.saveMenuItem(creds.appId, menuItem);
 
-    dashApi.saveMenuItem(appId, menuItem, handleSaveMenuItemComplete, handleSaveMenuItemError);
+    if (dashApi && credentials) {
+      dashApi.saveMenuItem(appId, MenuItemModel(menuItem), handleSaveMenuItemComplete, handleSaveMenuItemError);
+    }
   }
   function handleSaveMenuItemComplete(e, message) {
     setIsAddWidgetModalOpen(false);
@@ -5567,20 +5463,9 @@ var Dashboard = function Dashboard(_ref) {
 
       // lets set a version so that we can compare...
       workspaceToSave["version"] = Date.now();
-
-      // api.removeAllListeners();
-      // api.on(
-      //     api.events.WORKSPACE_SAVE_COMPLETE,
-      //     handleSaveWorkspaceComplete
-      // );
-      // api.on(api.events.WORKSPACE_SAVE_ERROR, handleSaveWorkspaceError);
-
-      // api.workspace.saveWorkspaceForApplication(
-      //     creds.appId,
-      //     workspaceToSave
-      // );
-
-      dashApi.saveWorkspace(credentials.appId, workspaceToSave, handleSaveWorkspaceComplete, handleSaveWorkspaceError);
+      if (dashApi && credentials) {
+        dashApi.saveWorkspace(credentials.appId, workspaceToSave, handleSaveWorkspaceComplete, handleSaveWorkspaceError);
+      }
     } catch (e) {
       console.log(e.message);
     }
