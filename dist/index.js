@@ -1110,13 +1110,40 @@ var MenuItemModel = function MenuItemModel() {
 var WorkspaceModel = function WorkspaceModel(workspaceItem) {
   var obj = workspaceItem !== null && workspaceItem !== undefined ? deepCopy(workspaceItem) : {};
   var workspace = {};
+  var validWorkspaceProperties = ["id", "name", "type", "label", "layout", "menuId", "version"];
+  var validWorkspaceTypes = ["layout", "widget"];
+  function sanitizeType(t) {
+    return validWorkspaceTypes.includes(t) === true ? t : "layout";
+  }
+
+  /**
+   * sanitize workspace model
+   *
+   * If this contains any properties that are NOT part of the model
+   * we should remove them
+   *
+   * @param {object} w the workspace model
+   * @returns
+   */
+  function sanitizeWorkspaceObject(w) {
+    Object.keys(w).forEach(function (workspaceKey) {
+      console.log("checking key ", workspaceKey);
+      if (validWorkspaceProperties.includes(workspaceKey) === false) {
+        console.log("deleting key ", workspaceKey);
+        delete w[workspaceKey];
+      }
+    });
+    return w;
+  }
   workspace.id = "id" in obj ? obj["id"] : null;
   workspace.name = "name" in obj ? obj["name"] : "My Workspace";
-  workspace.type = "type" in obj ? obj["type"] : "layout";
+  workspace.type = "type" in obj ? sanitizeType(obj["type"]) : "layout";
   workspace.label = "label" in obj ? obj["label"] : "Workspace";
   workspace.layout = "layout" in obj ? obj["layout"] : [];
-  workspace.menuItem = MenuItemModel();
-  return workspace;
+  //workspace.menuItem = MenuItemModel();
+  workspace.menuId = "menuId" in obj ? obj["menuId"] : 1;
+  return sanitizeWorkspaceObject(workspace);
+  // return workspace;
 };
 
 /**
@@ -1672,7 +1699,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
             highlight: searchTerm !== "",
             id: ws.id,
             workspaceId: ws.id,
-            workspaceMenuId: ws.menuItem.id,
+            workspaceMenuId: ws.menuId,
             name: ws.name,
             onClick: function onClick(e) {
               return handleClickMenuItem(ws);
@@ -1719,7 +1746,7 @@ var MainMenuConst = function MainMenuConst(_ref) {
             highlight: searchTerm !== "",
             menuItem: menuItem,
             workspaceId: ws.id,
-            workspaceMenuId: ws.menuItem.id,
+            workspaceMenuId: ws.menuId,
             id: ws.id,
             name: ws.name,
             onClick: function onClick(e) {
@@ -5637,7 +5664,7 @@ var DashboardFooter = function DashboardFooter(_ref) {
         }), workspace && /*#__PURE__*/jsx("div", {
           className: "flex flex-row justify-center items-center",
           children: /*#__PURE__*/jsx(SubHeading3, {
-            title: "".concat(workspace.name, " in ").concat(workspace.menuItem.name),
+            title: "".concat(workspace.name),
             padding: false,
             className: "text-gray-700 font-bold text-base"
           })
