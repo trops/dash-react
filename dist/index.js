@@ -1925,8 +1925,9 @@ var MainMenuItem = function MainMenuItem(_ref) {
     width: "w-full",
     type: "menu-item",
     onDropItem: onDropItem,
-    children: /*#__PURE__*/jsx(MenuItem2, {
+    children: /*#__PURE__*/jsx(MenuItem, {
       onClick: onClick,
+      className: "p-4 font-bold rounded",
       children: title
     })
   });
@@ -2344,12 +2345,9 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
     _useState6 = _slicedToArray$w(_useState5, 2),
     menuIconSelected = _useState6[0],
     setMenuIconSelected = _useState6[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$w(_React$useState, 2),
-    updateState = _React$useState2[1];
-  React.useCallback(function () {
-    return updateState({});
-  }, []);
+  // const [, updateState] = React.useState();
+  // const forceUpdate = React.useCallback(() => updateState({}), []);
+
   useEffect(function () {
     if (open === true && menuItemsSelected === null && menuItemsSelected !== menuItems) {
       setMenuItemsSelected(function () {
@@ -5430,7 +5428,7 @@ var Dashboard = function Dashboard(_ref) {
     // sanitize the workspace layout remove widgetConfig items
 
     if (dashApi && credentials) {
-      dashApi.saveMenuItem(appId, MenuItemModel(menuItem), handleSaveMenuItemComplete, handleSaveMenuItemError);
+      dashApi.saveMenuItem(credentials.appId, MenuItemModel(menuItem), handleSaveMenuItemComplete, handleSaveMenuItemError);
     }
   }
   function handleSaveMenuItemComplete(e, message) {
@@ -11346,8 +11344,6 @@ var MenuItem = function MenuItem(_ref) {
 var MenuItem2 = function MenuItem2(_ref2) {
   var _ref2$onClick = _ref2.onClick,
     onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    _ref2$theme = _ref2.theme,
-    theme = _ref2$theme === void 0 ? true : _ref2$theme,
     _ref2$border = _ref2.border,
     border = _ref2$border === void 0 ? false : _ref2$border,
     _ref2$backgroundColor = _ref2.backgroundColor,
@@ -11366,7 +11362,9 @@ var MenuItem2 = function MenuItem2(_ref2) {
     hoverBackgroundColor = _ref2$hoverBackground === void 0 ? null : _ref2$hoverBackground,
     children = _ref2.children,
     _ref2$selected = _ref2.selected,
-    selected = _ref2$selected === void 0 ? false : _ref2$selected;
+    selected = _ref2$selected === void 0 ? false : _ref2$selected,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
@@ -11379,24 +11377,20 @@ var MenuItem2 = function MenuItem2(_ref2) {
     selectedTextColor: selectedTextColor,
     selected: selected
   });
-  return theme === true ? /*#__PURE__*/jsx("div", {
+  var baseStyles = "".concat(onClick && "cursor-pointer", " p-2 px-4 rounded items-center space-x-2 ").concat(border === true && "border-2", " ").concat(border === true && "border-2");
+  var baseTextStyles = "text-base font-medium";
+  return /*#__PURE__*/jsx("div", {
     onClick: onClick,
-    className: "flex flex-row font-medium ".concat(styles.string, " ").concat(border === true && "border-2", " ").concat(border === true && "border-2", " p-2 px-4 rounded items-center space-x-2 cursor-pointer text-base"),
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    onClick: onClick,
-    className: "flex flex-row font-medium ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " p-2 rounded items-center space-x-2 cursor-pointer text-base"),
+    className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " "),
     children: children
   });
 };
 var MenuItem3 = function MenuItem3(_ref3) {
-  var _ref3$innerRef = _ref3.innerRef,
-    innerRef = _ref3$innerRef === void 0 ? null : _ref3$innerRef,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    _ref3$theme = _ref3.theme,
-    theme = _ref3$theme === void 0 ? true : _ref3$theme,
-    _ref3$border = _ref3.border,
+  _ref3.innerRef;
+    var _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick;
+    _ref3.theme;
+    var _ref3$border = _ref3.border,
     border = _ref3$border === void 0 ? false : _ref3$border,
     _ref3$borderColor = _ref3.borderColor,
     borderColor = _ref3$borderColor === void 0 ? null : _ref3$borderColor,
@@ -11415,8 +11409,10 @@ var MenuItem3 = function MenuItem3(_ref3) {
     children = _ref3.children,
     _ref3$selected = _ref3.selected,
     selected = _ref3$selected === void 0 ? false : _ref3$selected,
-    id = _ref3.id,
-    type = _ref3.type;
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+    _ref3.id;
+    _ref3.type;
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.MENU_ITEM_3, currentTheme, {
@@ -11429,21 +11425,27 @@ var MenuItem3 = function MenuItem3(_ref3) {
     selectedTextColor: selectedTextColor,
     selected: selected
   });
-  return theme === true ? /*#__PURE__*/jsx("div", {
-    id: id,
-    type: type,
-    ref: innerRef,
+  var baseStyles = "".concat(onClick && "cursor-pointer", " p-2 px-4 rounded items-center space-x-2 ").concat(border === true && "border-2", " ").concat(border === true && "border-2");
+  var baseTextStyles = "text-sm font-normal";
+  return /*#__PURE__*/jsx("div", {
     onClick: onClick,
-    className: "flex flex-row font-normal ".concat(styles.string, " ").concat(border === true && "border", " p-2 rounded items-center space-x-2 cursor-pointer text-sm"),
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    id: id,
-    type: type,
-    ref: innerRef,
-    onClick: onClick,
-    className: "flex flex-row font-normal ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border", " rounded items-center space-x-2 cursor-pointer text-sm"),
+    className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " "),
     children: children
   });
+
+  // return (
+  //     <div
+  //         id={id}
+  //         type={type}
+  //         ref={innerRef}
+  //         onClick={onClick}
+  //         className={`flex flex-row font-normal ${styles.string} ${
+  //             border === true && "border"
+  //         } p-2 rounded items-center space-x-2 cursor-pointer text-sm`}
+  //     >
+  //         {children}
+  //     </div>
+  // );
 };
 
 function Heading(_ref) {
@@ -11819,7 +11821,7 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
   return /*#__PURE__*/jsxs("div", {
     onClick: handleOnClick,
     className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
-    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+    children: [icon !== "" && /*#__PURE__*/jsx(FontAwesomeIcon, {
       icon: icon,
       className: "".concat(iconSize)
     }), text !== null && /*#__PURE__*/jsx("span", {
@@ -11866,7 +11868,7 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
   return /*#__PURE__*/jsxs("div", {
     onClick: handleOnClick,
     className: "flex flex-row ".concat(styles.string, " rounded font-medium ").concat(center, " ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-2 ").concat(textSize, " ").concat(block === true && "w-full", " ").concat(styles.string, " whitespace-nowrap"),
-    children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+    children: [icon !== "" && /*#__PURE__*/jsx(FontAwesomeIcon, {
       icon: icon,
       className: "".concat(iconSize)
     }), text !== null && /*#__PURE__*/jsx("span", {
