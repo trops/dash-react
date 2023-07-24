@@ -2562,24 +2562,33 @@ var ThemePane = function ThemePane(_ref) {
     _ref$onInputChange = _ref.onInputChange,
     onInputChange = _ref$onInputChange === void 0 ? null : _ref$onInputChange,
     _ref$inputPlaceholder = _ref.inputPlaceholder,
-    inputPlaceholder = _ref$inputPlaceholder === void 0 ? "" : _ref$inputPlaceholder,
-    _ref$scroll = _ref.scroll,
-    scroll = _ref$scroll === void 0 ? true : _ref$scroll;
-  return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col text-xs h-full p-1 space-y-2 scrollbar ".concat(scroll === true ? "overflow-y-scroll" : "overflow-hidden", " rounded w-full"),
-    children: [inputValue !== null && onInputChange !== null && /*#__PURE__*/jsx("div", {
-      className: "flex flex-row",
-      children: /*#__PURE__*/jsx(InputText, {
-        value: searchTerm,
-        textSize: "text-sm",
-        onChange: onInputChange,
-        placeholder: inputPlaceholder
-      })
-    }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-col text-xs break-all h-full space-y-2 w-full",
-      children: children
-    })]
-  });
+    inputPlaceholder = _ref$inputPlaceholder === void 0 ? "" : _ref$inputPlaceholder;
+    _ref.scroll;
+  return (
+    /*#__PURE__*/
+    // <div
+    //     className={`flex flex-col text-xs h-full p-1 space-y-2 scrollbar ${
+    //         scroll === true ? "overflow-y-scroll" : "overflow-hidden"
+    //     } rounded w-full`}
+    // >
+    jsxs(LayoutContainer, {
+      direction: "col",
+      scrollable: false,
+      className: "rounded",
+      children: [inputValue !== null && onInputChange !== null && /*#__PURE__*/jsx("div", {
+        className: "flex flex-row",
+        children: /*#__PURE__*/jsx(InputText, {
+          value: searchTerm,
+          textSize: "text-sm",
+          onChange: onInputChange,
+          placeholder: inputPlaceholder
+        })
+      }), /*#__PURE__*/jsx("div", {
+        className: "flex flex-col text-xs break-all h-full space-y-2 w-full",
+        children: children
+      })]
+    })
+  );
 };
 
 /**
@@ -2723,99 +2732,19 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
     themeVariant = _ref.themeVariant,
     onClick = _ref.onClick;
   function handleClickItem(itemType, styles) {
-    // get the styles for the item and display...
-    var temp = {
-      item: itemType,
-      styles: styles
-    };
-    // setItemSelected(() => temp);
-    // setItemColorSelected(null);
-    onClick(temp);
-  }
-  function renderText() {
-    var headingStyles = getStylesForItem(themeObjects.HEADING, theme[themeVariant]);
-    var heading2Styles = getStylesForItem(themeObjects.HEADING_2, theme[themeVariant]);
-    var heading3Styles = getStylesForItem(themeObjects.HEADING_3, theme[themeVariant]);
-    var subHeadingStyles = getStylesForItem(themeObjects.SUBHEADING, theme[themeVariant]);
-    var subHeading2Styles = getStylesForItem(themeObjects.SUBHEADING_2, theme[themeVariant]);
-    var subHeading3Styles = getStylesForItem(themeObjects.SUBHEADING_3, theme[themeVariant]);
-    var paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH, theme[themeVariant]);
-    var paragraph2Styles = getStylesForItem(themeObjects.PARAGRAPH_2, theme[themeVariant]);
-    var paragraph3Styles = getStylesForItem(themeObjects.PARAGRAPH_3, theme[themeVariant]);
-    var inputTextStyles = getStylesForItem(themeObjects.INPUT_TEXT, theme[themeVariant]);
-    return /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col space-y-4 p-4",
-      children: [/*#__PURE__*/jsx(Heading, _objectSpread$z(_objectSpread$z({
-        title: "Heading"
-      }, headingStyles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.HEADING, headingStyles);
-        }
-      })), /*#__PURE__*/jsx(Heading2, _objectSpread$z(_objectSpread$z({
-        title: "Heading 2"
-      }, heading2Styles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.HEADING_2, heading2Styles);
-        }
-      })), /*#__PURE__*/jsx(Heading3, _objectSpread$z(_objectSpread$z({
-        title: "Heading 3"
-      }, heading3Styles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.HEADING_3, heading3Styles);
-        }
-      })), /*#__PURE__*/jsx(SubHeading, _objectSpread$z(_objectSpread$z({
-        title: "Subheading"
-      }, subHeadingStyles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
-        }
-      })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$z(_objectSpread$z({
-        title: "Subheading 2"
-      }, subHeading2Styles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
-        }
-      })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$z(_objectSpread$z({
-        title: "Subheading 3"
-      }, subHeading3Styles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
-        }
-      })), /*#__PURE__*/jsx(Paragraph, _objectSpread$z(_objectSpread$z({
-        text: "The quick brown fox jumps over the lazy dog."
-      }, paragraphStyles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
-        }
-      })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$z(_objectSpread$z({
-        text: "The quick brown fox jumps over the lazy dog."
-      }, paragraph2Styles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
-        }
-      })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$z(_objectSpread$z({
-        text: "The quick brown fox jumps over the lazy dog."
-      }, paragraph3Styles), {}, {
-        padding: false,
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
-        }
-      })), /*#__PURE__*/jsx(InputText, _objectSpread$z(_objectSpread$z({
-        value: "value"
-      }, inputTextStyles), {}, {
-        onClick: function onClick() {
-          return handleClickItem(themeObjects.INPUT_TEXT, inputTextStyles);
-        }
-      }))]
-    });
+    try {
+      console.log("clicked item ", itemType, styles);
+      // get the styles for the item and display...
+      var temp = {
+        item: itemType,
+        styles: styles
+      };
+      // setItemSelected(() => temp);
+      // setItemColorSelected(null);
+      onClick(temp);
+    } catch (e) {
+      console.log(e);
+    }
   }
   function renderPanels() {
     var styles = getStylesForItem(themeObjects.PANEL, theme[themeVariant]);
@@ -2845,46 +2774,49 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
     var menuItem3Styles = getStylesForItem(themeObjects.MENU_ITEM_3, theme[themeVariant]);
     var tag3Styles = getStylesForItem(themeObjects.TAG_3, theme[themeVariant]);
     return /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col space-y-4 h-100 p-4",
+      className: "flex flex-col space-y-4 p-4",
       children: [/*#__PURE__*/jsxs("div", {
         className: "flex flex-row bg-gray-900 p-4 space-x-4 rounded justify-between",
-        children: [/*#__PURE__*/jsx(Panel, _objectSpread$z(_objectSpread$z({
-          className: "p-6 rounded border-4 space-y-4 cursor-pointer",
-          height: "h-40"
-        }, styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PANEL, styles);
-          },
-          padding: false,
-          children: /*#__PURE__*/jsx("span", {
-            className: "uppercase text-gray-50 font-bold",
+        children: [/*#__PURE__*/jsxs(Panel, _objectSpread$z(_objectSpread$z({}, styles), {}, {
+          scrollable: false,
+          className: "rounded",
+          children: [/*#__PURE__*/jsx(Panel.Header, {
+            className: "text-xs uppercase font-bold",
             children: "Panel"
-          })
-        })), /*#__PURE__*/jsx(Panel2, _objectSpread$z(_objectSpread$z({
-          className: "p-6 rounded border-4 space-y-4 cursor-pointer"
+          }), /*#__PURE__*/jsx(Panel.Body, {
+            onClick: function onClick() {
+              handleClickItem(themeObjects.PANEL, styles);
+            }
+          })]
+        })), /*#__PURE__*/jsxs(Panel2, _objectSpread$z(_objectSpread$z({
+          className: "rounded"
         }, styles2), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PANEL_2, styles2);
-          },
-          padding: false,
-          children: /*#__PURE__*/jsx("span", {
-            className: "uppercase text-gray-50 font-bold",
+          scrollable: false,
+          children: [/*#__PURE__*/jsx(Panel2.Header, {
+            className: "text-xs uppercase font-bold",
             children: "Panel 2"
-          })
-        })), /*#__PURE__*/jsx(Panel3, _objectSpread$z(_objectSpread$z({
-          className: "p-6 rounded border-4 space-y-4 w-full cursor-pointer"
+          }), /*#__PURE__*/jsx(Panel2.Body, {
+            onClick: function onClick() {
+              handleClickItem(themeObjects.PANEL_2, styles2);
+            }
+          })]
+        })), /*#__PURE__*/jsxs(Panel3, _objectSpread$z(_objectSpread$z({
+          className: "rounded"
         }, styles3), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PANEL_3, styles3);
-          },
-          padding: false,
-          children: /*#__PURE__*/jsx("span", {
-            className: "uppercase text-gray-50 font-bold",
+          scrollable: false,
+          children: [/*#__PURE__*/jsx(Panel2.Header, {
+            className: "text-xs uppercase font-bold",
             children: "Panel 3"
-          })
+          }), /*#__PURE__*/jsx(Panel3.Body, {
+            onClick: function onClick() {
+              handleClickItem(themeObjects.PANEL_3, styles3);
+            }
+          })]
         }))]
       }), /*#__PURE__*/jsxs(Panel, _objectSpread$z(_objectSpread$z({
-        className: "p-6 rounded border-4 space-y-4"
+        className: "p-6 rounded border-4 space-y-4",
+        scrollable: false,
+        height: "h-fit"
       }, styles), {}, {
         children: [/*#__PURE__*/jsx(Heading, _objectSpread$z(_objectSpread$z({
           title: "Heading"
@@ -2971,7 +2903,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             }
           }))]
         }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-4 w-full",
+          className: "flex flex-row space-x-4 w-full h-fit",
           children: [/*#__PURE__*/jsxs("div", {
             className: "flex flex-row space-x-2",
             children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$z(_objectSpread$z({
@@ -3065,7 +2997,8 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           }))]
         })]
       })), /*#__PURE__*/jsxs(Panel2, _objectSpread$z(_objectSpread$z({
-        className: "p-6 rounded border-4 space-y-4"
+        className: "p-6 rounded border-4 space-y-4",
+        height: "h-fit"
       }, styles2), {}, {
         children: [/*#__PURE__*/jsx(Heading, _objectSpread$z(_objectSpread$z({
           title: "Heading"
@@ -3249,6 +3182,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
         className: "p-6 rounded border-4 space-y-4"
       }, styles3), {}, {
         padding: false,
+        height: "h-fit",
         children: [/*#__PURE__*/jsx(Heading, _objectSpread$z(_objectSpread$z({
           title: "Heading"
         }, headingStyles), {}, {
@@ -3430,6 +3364,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       })), /*#__PURE__*/jsxs(Panel2, _objectSpread$z(_objectSpread$z({
         className: "p-6 rounded border-4 space-y-4"
       }, styles2), {}, {
+        height: "h-fit",
         padding: false,
         children: [/*#__PURE__*/jsx(Heading2, _objectSpread$z(_objectSpread$z({
           title: "Heading 2"
@@ -3487,6 +3422,7 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       })), /*#__PURE__*/jsxs(Panel3, _objectSpread$z(_objectSpread$z({
         className: "p-6 rounded border-4 space-y-4"
       }, styles3), {}, {
+        height: "h-fit",
         padding: false,
         children: [/*#__PURE__*/jsx(Heading3, _objectSpread$z(_objectSpread$z({
           title: "Heading 3"
@@ -3544,12 +3480,10 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       }))]
     });
   }
-  return /*#__PURE__*/jsxs(ThemePane, {
-    children: [renderPanels(), /*#__PURE__*/jsx(Panel, {
-      className: "p-10 rounded space-y-4 h-fit",
-      padding: false,
-      children: renderText()
-    })]
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    scrollable: true,
+    direction: "col",
+    children: renderPanels()
   });
 };
 
@@ -3612,7 +3546,7 @@ var ColorTile = function ColorTile(_ref) {
   // };
 
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 ".concat(selected === true ? "border-yellow-500" : "border-gray-800", " hover:border-yellow-500 border-gray-800 ").concat(c["class"], " ").concat(width, " ").concat(height),
+    className: "flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 text-xs ".concat(selected === true ? "border-yellow-500" : "border-gray-800", " hover:border-yellow-500 border-gray-800 ").concat(c["class"], " ").concat(width, " ").concat(height),
     onClick: function onClick() {
       return _onClick !== null ? _onClick(_objectSpread$y(_objectSpread$y({}, c), rest)) : null;
     },
@@ -3732,10 +3666,14 @@ var PreviewColorsPane = function PreviewColorsPane(_ref) {
 };
 
 var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
-  var _ref$colorType = _ref.colorType,
+  var _ref$currentColor = _ref.currentColor,
+    currentColor = _ref$currentColor === void 0 ? null : _ref$currentColor,
+    _ref$colorType = _ref.colorType,
     colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$onCancel = _ref.onCancel,
+    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel,
     _ref$onMouseOver = _ref.onMouseOver,
     onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
     _ref$shade = _ref.shade,
@@ -3748,23 +3686,19 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
     console.log("chose color temp ", data);
     onMouseOver !== null && onMouseOver(data);
   }
+  function handleCancel() {
+    onCancel && onCancel(currentColor);
+  }
   function renderAvailableColors() {
     return colorNames.sort().map(function (colorName) {
       return shades.filter(function (c) {
         return shade === null ? true : c === shade;
       }).map(function (shadeLevel) {
-        // console.log(
-        //     "available ",
-        //     colorName,
-        //     shadeLevel,
-        //     colorType,
-        //     "hello"
-        // );
         return /*#__PURE__*/jsxs("div", {
           className: "flex flex-row justify-between items-center",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "font-bold",
-            children: [colorName, " ", shadeLevel]
+          children: [/*#__PURE__*/jsx("span", {
+            className: "font-bold text-xs",
+            children: colorName
           }), /*#__PURE__*/jsx(ColorTile, {
             width: "w-2/3",
             colorType: colorType,
@@ -3778,12 +3712,33 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
       });
     });
   }
-  return /*#__PURE__*/jsx(ThemePane, {
-    children: /*#__PURE__*/jsx("div", {
-      className: "grid grid-cols-1 gap-1",
-      children: renderAvailableColors()
+  return (
+    /*#__PURE__*/
+    // <LayoutContainer
+    //     direction="col"
+    //     scrollable={false}
+    //     className="space-y-1"
+    //     height={"h-full"}
+    // >
+    jsxs(DashPanel, {
+      height: "h-full",
+      scrollable: true,
+      children: [/*#__PURE__*/jsx(DashPanel.Header, {
+        title: "AvailableColors"
+      }), /*#__PURE__*/jsx(DashPanel.Body, {
+        scrollable: true,
+        height: "h-full",
+        children: renderAvailableColors()
+      }), onCancel && /*#__PURE__*/jsx(DashPanel.Footer, {
+        children: /*#__PURE__*/jsx(Button, {
+          title: "Cancel",
+          block: true,
+          onClick: handleCancel
+        })
+      })]
     })
-  });
+    // </LayoutContainer>
+  );
 };
 
 function _slicedToArray$v(arr, i) { return _arrayWithHoles$v(arr) || _iterableToArrayLimit$v(arr, i) || _unsupportedIterableToArray$w(arr, i) || _nonIterableRest$v(); }
@@ -3793,22 +3748,19 @@ function _arrayLikeToArray$w(arr, len) { if (len == null || len > arr.length) le
 function _iterableToArrayLimit$v(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles$v(arr) { if (Array.isArray(arr)) return arr; }
 var ThemeMenuPane = function ThemeMenuPane(_ref) {
-  var theme = _ref.theme,
+  var _ref$currentColor = _ref.currentColor,
+    currentColor = _ref$currentColor === void 0 ? null : _ref$currentColor,
+    theme = _ref.theme,
     onChooseColor = _ref.onChooseColor,
-    onChooseReplacementColor = _ref.onChooseReplacementColor;
+    onChooseReplacementColor = _ref.onChooseReplacementColor,
+    _ref$onCancel = _ref.onCancel,
+    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel;
   var _useState = useState(null),
     _useState2 = _slicedToArray$v(_useState, 2),
     selectedColor = _useState2[0],
     setSelectedColor = _useState2[1];
   var _useContext = useContext$1(ThemeContext),
     themeVariant = _useContext.themeVariant;
-  // const [, updateState] = React.useState();
-  // const forceUpdate = React.useCallback(() => updateState({}), []);
-
-  // useEffect(() => {
-  //     forceUpdate();
-  // }, [theme]);
-
   function handleSelectColor(c, colorType) {
     setSelectedColor({
       color: c,
@@ -3818,12 +3770,10 @@ var ThemeMenuPane = function ThemeMenuPane(_ref) {
     });
     onChooseColor(c);
   }
-
-  // function handleSelectColorTemp(c, colorType) {
-  //     setSelectedColor({ color: c, colorType, type: c['objectType'], itemType: c['itemType'] });
-  //     onChooseColor(c);
-  // }
-
+  function handleCancelSelectColor(color) {
+    setSelectedColor(null);
+    onCancel && onCancel(color);
+  }
   function handleReplaceColor(_ref2) {
     var _ref2$panelType = _ref2.panelType,
       panelType = _ref2$panelType === void 0 ? "main" : _ref2$panelType,
@@ -3861,15 +3811,17 @@ var ThemeMenuPane = function ThemeMenuPane(_ref) {
       onChooseReplacementColor(selectedColor, r);
     }
   }
-  return /*#__PURE__*/jsxs(ThemePane, {
-    className: "space-y-2",
-    children: [(selectedColor === null || selectedColor["color"]["panelType"] === "main") && /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col rounded w-full bg-gray-800 space-y-2",
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
-        children: "Main"
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex flex-row w-full space-x-2 p-4",
+  return /*#__PURE__*/jsxs(LayoutContainer, {
+    direction: "col",
+    scrollable: true,
+    children: [(selectedColor === null || selectedColor["color"]["panelType"] === "main") && /*#__PURE__*/jsxs(DashPanel, {
+      scrollable: false,
+      height: "h-fit",
+      children: [/*#__PURE__*/jsx(DashPanel.Header, {
+        title: "Main"
+      }), /*#__PURE__*/jsx(DashPanel.Body, {
+        scrollable: false,
+        height: "h-full",
         children: colorTypes.filter(function (ct) {
           return selectedColor !== null ? selectedColor["color"]["panelType"] === "main" && selectedColor["color"]["colorType"] === ct : true;
         }).map(function (colorType) {
@@ -3891,8 +3843,16 @@ var ThemeMenuPane = function ThemeMenuPane(_ref) {
           });
         })
       })]
-    }), (selectedColor === null || selectedColor["color"]["panelType"] === "sub") && /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded w-full space-y-2 min-h-1/4 overflow-y-scroll ".concat(selectedColor !== null ? "h-1/4" : "h-full"),
+    }), (selectedColor === null || selectedColor["color"]["panelType"] === "sub") &&
+    /*#__PURE__*/
+    // <div
+    //     className={`flex flex-col rounded w-full space-y-2 min-h-1/4 overflow-y-scroll ${
+    //         selectedColor !== null ? "h-1/4" : "h-full"
+    //     }`}
+    // >
+    jsx(LayoutContainer, {
+      scrollable: true,
+      direction: "col",
       children: colorTypes.filter(function (ct) {
         return selectedColor !== null ? selectedColor["color"]["panelType"] === "sub" && selectedColor["color"]["colorType"] === ct : true;
       }).map(function (colorType) {
@@ -3915,7 +3875,7 @@ var ThemeMenuPane = function ThemeMenuPane(_ref) {
               var shade = parts[parts.length - 1];
               var selected = selectedColor !== null ? colorType === selectedColor["color"]["colorType"] && colorLevelName === selectedColor["color"]["level"] && selectedColor["color"]["panelType"] === "sub" : false;
               return /*#__PURE__*/jsxs("div", {
-                className: "flex flex-row justify-between py-2 items-center border-b border-gray-700 px-2",
+                className: "flex flex-row justify-between py-1 items-center border-b border-gray-700 px-2",
                 children: [/*#__PURE__*/jsx("span", {
                   className: "text-sm font-bold text-gray-300",
                   children: colorLevelName
@@ -3939,20 +3899,13 @@ var ThemeMenuPane = function ThemeMenuPane(_ref) {
           })]
         });
       })
-    }), selectedColor !== null && /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col roundedw-full bg-gray-800 space-y-4 overflow-hidden h-full",
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
-        children: "Available Colors"
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex flex-col p-2 h-full overflow-y-scroll",
-        children: /*#__PURE__*/jsx(AvailableColorsGridPane, {
-          colorType: selectedColor["color"]["colorType"],
-          onClick: handleReplaceColor,
-          onMouseOver: handleReplaceColorTemp,
-          shade: selectedColor["color"]["panelType"] === "main" ? 500 : null
-        })
-      })]
+    }), selectedColor !== null && /*#__PURE__*/jsx(AvailableColorsGridPane, {
+      currentColor: currentColor,
+      colorType: selectedColor["color"]["colorType"],
+      onClick: handleReplaceColor,
+      onCancel: handleCancelSelectColor,
+      onMouseOver: handleReplaceColorTemp,
+      shade: selectedColor["color"]["panelType"] === "main" ? 500 : null
     })]
   });
 };
@@ -4020,7 +3973,24 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
     console.log("select ", color);
     setThemeNameToEdit(color);
   }
+  function handleSelectColorCancel(color) {
+    console.log("cancelling ", color);
+    var newTheme = deepCopy(rawTheme);
+
+    // // set the MAIN color
+    if (themeNameToEdit["panelType"] === "main") {
+      newTheme[color["colorType"]] = color["colorName"];
+      onUpdate(newTheme, themeKey);
+      forceUpdate();
+    }
+    if (themeNameToEdit["panelType"] === "sub") {
+      newTheme[themeVariant][themeNameToEdit["themeClass"]] = color["class"];
+      onUpdate(newTheme, themeKey);
+      forceUpdate();
+    }
+  }
   function handleSelectReplacementColor(color, colorReplacement) {
+    console.log("handle select replacement color ", color, colorReplacement);
     var newTheme = deepCopy(rawTheme);
     var replacementColorModel = ColorModel(colorReplacement);
     // set the MAIN color
@@ -4173,11 +4143,13 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
             }), /*#__PURE__*/jsxs("div", {
               className: "flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1",
               children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-col min-w-1/4 w-1/4",
+                className: "flex flex-col min-w-1/4 w-1/4 h-full overflow-hidden",
                 children: /*#__PURE__*/jsx(ThemeMenuPane, {
+                  currentColor: themeNameToEdit,
                   theme: themeSelected,
                   onChooseColor: handleSelectColor,
-                  onChooseReplacementColor: handleSelectReplacementColor
+                  onChooseReplacementColor: handleSelectReplacementColor,
+                  onCancel: handleSelectColorCancel
                 })
               }), themeSelected && /*#__PURE__*/jsx("div", {
                 className: "flex flex-col ".concat(itemSelected === null ? "w-3/4" : "w-1/2"),
@@ -4262,7 +4234,7 @@ var ThemePickerGridPane = function ThemePickerGridPane(_ref) {
     return colors.map(function (color) {
       return /*#__PURE__*/jsx("div", {
         className: "rounded ".concat(color["color"], " h-20 w-full")
-      }, "theme-grid-".concat(color));
+      }, "theme-grid-".concat(color.type));
     });
   }
   function renderCurrentThemes() {
@@ -4314,9 +4286,9 @@ var ThemeTitlePane = function ThemeTitlePane(_ref) {
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col rounded p-6 py-10 space-y-4 w-full hidden xl:flex",
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row",
+          className: "flex flex-row justify-between",
           children: [/*#__PURE__*/jsx(Heading, {
-            title: "Color.",
+            title: "Theme.",
             padding: false,
             textColor: "text-gray-300"
           }), /*#__PURE__*/jsx(ButtonIcon, {
@@ -4372,7 +4344,7 @@ var PanelThemePicker = function PanelThemePicker(_ref) {
   return /*#__PURE__*/jsx(Panel, {
     theme: false,
     backgroundColor: "bg-transparent",
-    padding: false,
+    padding: true,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col w-full h-full xl:space-x-4 overflow-hidden",
       children: /*#__PURE__*/jsxs("div", {
@@ -4566,7 +4538,7 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
   return /*#__PURE__*/jsx(Modal, {
     isOpen: open,
     setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-5/6",
+    width: "w-11/12 xl:w-full",
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
       backgroundColor: "bg-slate-800",
@@ -6457,7 +6429,7 @@ var Layout = function Layout(_ref) {
   });
 };
 
-var _excluded$x = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug"];
+var _excluded$x = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick"];
 function _objectWithoutProperties$x(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$x(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose$x(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var LayoutContainer = function LayoutContainer(_ref) {
@@ -6478,10 +6450,10 @@ var LayoutContainer = function LayoutContainer(_ref) {
     _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$debug = _ref.debug,
-    debug = _ref$debug === void 0 ? false : _ref$debug;
+    debug = _ref$debug === void 0 ? false : _ref$debug,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? undefined : _ref$onClick;
     _objectWithoutProperties$x(_ref, _excluded$x);
-  // console.log("layout container props ", props);
-
   var containerId = getUUID(id);
   // get the styles
   var _useContext = useContext$1(ThemeContext),
@@ -6508,6 +6480,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
   return /*#__PURE__*/jsxs("div", {
     id: containerId,
     className: "flex ".concat(styles.string, " ").concat(width, " ").concat(height, " ").concat(className),
+    onClick: onClick,
     children: [debug === false && children, debug === true && renderDebugger(children, styles.string)]
   });
 };
@@ -10930,15 +10903,15 @@ function getStyleName(objectType) {
 
 function _typeof$z(obj) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$z(obj); }
 var _excluded$u = ["children", "border", "className"],
-  _excluded2$6 = ["children", "scrollable", "className"],
+  _excluded2$6 = ["children", "scrollable", "className", "onClick"],
   _excluded3$6 = ["children", "className"],
   _excluded4$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className"],
   _excluded5$1 = ["children", "border", "className"],
-  _excluded6$1 = ["children", "scrollable", "className"],
+  _excluded6$1 = ["children", "scrollable", "className", "onClick"],
   _excluded7$1 = ["children", "className"],
   _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className"],
   _excluded9$1 = ["children", "border", "className"],
-  _excluded10$1 = ["children", "scrollable", "className", "space"],
+  _excluded10$1 = ["children", "scrollable", "className", "space", "onClick"],
   _excluded11$1 = ["children", "className"],
   _excluded12$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className"];
 function ownKeys$t(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -10958,7 +10931,6 @@ var PanelHeader = function PanelHeader(_ref) {
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
-    height: "h-auto",
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
@@ -10975,6 +10947,8 @@ var PanelBody = function PanelBody(_ref2) {
     scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? undefined : _ref2$onClick,
     props = _objectWithoutProperties$u(_ref2, _excluded2$6);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -10988,6 +10962,7 @@ var PanelBody = function PanelBody(_ref2) {
     height: "h-full",
     direction: props.horizontal === true ? "row" : "col",
     space: false,
+    onClick: onClick,
     children: children
   }));
 };
@@ -11012,7 +10987,7 @@ var Panel = function Panel(_ref4) {
     horizontal = _ref4$horizontal === void 0 ? false : _ref4$horizontal,
     children = _ref4.children,
     _ref4$onClick = _ref4.onClick,
-    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick,
+    onClick = _ref4$onClick === void 0 ? undefined : _ref4$onClick,
     _ref4$width = _ref4.width,
     width = _ref4$width === void 0 ? "w-full" : _ref4$width,
     _ref4$height = _ref4.height,
@@ -11037,7 +11012,7 @@ var Panel = function Panel(_ref4) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " rounded-lg overflow-hidden").concat(padding === true ? "p-6" : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " rounded-lg overflow-hidden border ").concat(padding === true ? "p-6" : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -11079,6 +11054,8 @@ var PanelBody2 = function PanelBody2(_ref6) {
     scrollable = _ref6$scrollable === void 0 ? false : _ref6$scrollable,
     _ref6$className = _ref6.className,
     className = _ref6$className === void 0 ? "" : _ref6$className,
+    _ref6$onClick = _ref6.onClick,
+    onClick = _ref6$onClick === void 0 ? undefined : _ref6$onClick,
     props = _objectWithoutProperties$u(_ref6, _excluded6$1);
   var _useContext6 = useContext$1(ThemeContext),
     currentTheme = _useContext6.currentTheme;
@@ -11093,6 +11070,7 @@ var PanelBody2 = function PanelBody2(_ref6) {
     height: "h-full",
     direction: props.horizontal === true ? "row" : "col",
     space: false,
+    onClick: onClick,
     children: children
   }));
 };
@@ -11116,7 +11094,7 @@ var Panel2 = function Panel2(_ref8) {
   var horizontal = _ref8.horizontal,
     children = _ref8.children,
     _ref8$onClick = _ref8.onClick,
-    onClick = _ref8$onClick === void 0 ? null : _ref8$onClick,
+    onClick = _ref8$onClick === void 0 ? undefined : _ref8$onClick,
     _ref8$width = _ref8.width,
     width = _ref8$width === void 0 ? "w-full" : _ref8$width,
     _ref8$height = _ref8.height,
@@ -11179,13 +11157,17 @@ var PanelBody3 = function PanelBody3(_ref10) {
     _ref10$className = _ref10.className,
     className = _ref10$className === void 0 ? "" : _ref10$className;
     _ref10.space;
-    var props = _objectWithoutProperties$u(_ref10, _excluded10$1);
+    var _ref10$onClick = _ref10.onClick,
+    onClick = _ref10$onClick === void 0 ? undefined : _ref10$onClick,
+    props = _objectWithoutProperties$u(_ref10, _excluded10$1);
   try {
     var _useContext10 = useContext$1(ThemeContext),
       currentTheme = _useContext10.currentTheme;
     var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
-      scrollable: scrollable
+      scrollable: false,
+      height: "h-full"
     }));
+    console.log("styles for panel body 3 ", styles.string);
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({}, props), {}, {
       className: "".concat(className, " ").concat(styles.string, " p-2"),
       scrollable: scrollable,
@@ -11193,6 +11175,7 @@ var PanelBody3 = function PanelBody3(_ref10) {
       height: "h-full",
       direction: props.horizontal === true ? "row" : "col",
       space: false,
+      onClick: onClick,
       children: children
     }));
   } catch (e) {
@@ -11220,7 +11203,7 @@ var Panel3 = function Panel3(_ref12) {
   var horizontal = _ref12.horizontal,
     children = _ref12.children,
     _ref12$onClick = _ref12.onClick,
-    onClick = _ref12$onClick === void 0 ? null : _ref12$onClick,
+    onClick = _ref12$onClick === void 0 ? undefined : _ref12$onClick,
     _ref12$width = _ref12.width,
     width = _ref12$width === void 0 ? "w-full" : _ref12$width,
     _ref12$height = _ref12.height,
@@ -11241,10 +11224,11 @@ var Panel3 = function Panel3(_ref12) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? "p-2" : "p-0", " ").concat(height, " rounded"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? "p-2" : "p-0", " rounded"),
     onClick: onClick,
     scrollable: scrollable,
     space: false,
+    height: height,
     children: children
   }));
 };
@@ -12641,7 +12625,7 @@ function _objectWithoutPropertiesLoose$l(source, excluded) { if (source == null)
 var DashPanelHeader = function DashPanelHeader(_ref) {
   var title = _ref.title,
     _ref$ping = _ref.ping,
-    ping = _ref$ping === void 0 ? true : _ref$ping,
+    ping = _ref$ping === void 0 ? false : _ref$ping,
     props = _objectWithoutProperties$l(_ref, _excluded$l);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -12737,7 +12721,7 @@ DashPanel.Footer = DashPanelFooter;
 var DashPanelHeader2 = function DashPanelHeader2(_ref5) {
   var title = _ref5.title,
     _ref5$ping = _ref5.ping,
-    ping = _ref5$ping === void 0 ? true : _ref5$ping,
+    ping = _ref5$ping === void 0 ? false : _ref5$ping,
     props = _objectWithoutProperties$l(_ref5, _excluded5);
   var _useContext5 = useContext$1(ThemeContext),
     currentTheme = _useContext5.currentTheme;
