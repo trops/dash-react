@@ -25,6 +25,7 @@ import { getStylesForItem } from "@dash/Utils/colors";
 import PreviewColorsPane from "./Pane/PreviewColorsPane";
 import AvailableColorsPane from "./Pane/AvailableColorsPane";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { LayoutContainer } from "../../Layout";
 
 export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
     const { themeVariant, rawThemes } = useContext(ThemeContext);
@@ -272,6 +273,32 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
         );
     }
 
+    function renderThemeMenu() {
+        const menuItems = [
+            {
+                name: "Primary Color",
+                value: "primary",
+            },
+            {
+                name: "Primary Color",
+                value: "primary",
+            },
+            {
+                name: "Primary Color",
+                value: "primary",
+            },
+        ];
+        return (
+            <LayoutContainer direction="col" space={true} scrollable={true}>
+                {menuItems.map((menuItem) => {
+                    <div className="flex flex-row space-x-2">
+                        {menuItem.name}
+                    </div>;
+                })}
+            </LayoutContainer>
+        );
+    }
+
     return (
         <Panel theme={false} backgroundColor={""} padding={false}>
             <div className="flex flex-col w-full h-full xl:space-x-4 overflow-hidden">
@@ -286,28 +313,29 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
                                 className={`flex flex-row h-full rounded w-full overflow-hidden bg-gray-900 space-x-0 xl:space-x-2 p-2`}
                             >
                                 {/* Theme Preview */}
-                                <MainColorsPane
+                                {/* <MainColorsPane
                                     theme={theme}
                                     variant={themeVariant}
                                     useSelected={false}
-                                />
+                                /> */}
                                 <ThemePane>
                                     <Panel
                                         padding={false}
                                         className={
                                             "p-4 rounded h-full overflow-y-scroll"
                                         }
+                                        scrollable={false}
                                         {...getStylesForItem(
                                             themeObjects.PANEL,
                                             theme[themeVariant]
                                         )}
                                     >
-                                        <div className="flex flex-col space-y-2">
-                                            {renderButtons()}
-                                            {renderButtonIcon()}
-                                            {renderMenuItem()}
-                                            {renderText()}
-                                        </div>
+                                        {/* <div className="flex flex-col space-y-2"> */}
+                                        {renderButtons()}
+                                        {renderButtonIcon()}
+                                        {renderMenuItem()}
+                                        {renderText()}
+                                        {/* </div> */}
                                     </Panel>
                                 </ThemePane>
                                 {itemSelected !== null && (

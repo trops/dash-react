@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ThemePane from "./ThemePane";
 import AvailableColorMenuItem from "../MenuItem/AvailableColorMenuItem";
 import { colorNames, shades } from "@dash/Utils/colors";
+import { Button } from "../../../Common";
 
 const AvailableColorsPane = ({ onChooseColor }) => {
     const [searchColorTerm, setSearchColorTerm] = useState("");
@@ -30,6 +31,7 @@ const AvailableColorsPane = ({ onChooseColor }) => {
             inputPlaceholder="Available Colors"
         >
             {renderAvailableColors()}
+            <Button title="Cancel" />
         </ThemePane>
     );
 };

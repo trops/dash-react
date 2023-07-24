@@ -23,7 +23,7 @@ export const PanelThemePicker = ({
     }
 
     return (
-        <Panel theme={false} backgroundColor={"bg-transparent"} padding={false}>
+        <Panel theme={false} backgroundColor={"bg-transparent"} padding={true}>
             <div className="flex flex-col w-full h-full xl:space-x-4 overflow-hidden">
                 <div className="flex flex-row h-full rounded xl:space-x-4 w-full">
                     <ThemeTitlePane

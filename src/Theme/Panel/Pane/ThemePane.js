@@ -1,6 +1,7 @@
 import React from "react";
 import { InputText } from "@dash/Common/Form";
-
+import { Layout, LayoutContainer } from "../../../Layout";
+import { Button } from "../../../Common";
 const ThemePane = ({
     children,
     searchTerm,
@@ -10,11 +11,12 @@ const ThemePane = ({
     scroll = true,
 }) => {
     return (
-        <div
-            className={`flex flex-col text-xs h-full p-1 space-y-2 scrollbar ${
-                scroll === true ? "overflow-y-scroll" : "overflow-hidden"
-            } rounded w-full`}
-        >
+        // <div
+        //     className={`flex flex-col text-xs h-full p-1 space-y-2 scrollbar ${
+        //         scroll === true ? "overflow-y-scroll" : "overflow-hidden"
+        //     } rounded w-full`}
+        // >
+        <LayoutContainer direction="col" scrollable={false} className="rounded">
             {inputValue !== null && onInputChange !== null && (
                 <div className="flex flex-row">
                     <InputText
@@ -28,7 +30,7 @@ const ThemePane = ({
             <div className="flex flex-col text-xs break-all h-full space-y-2 w-full">
                 {children}
             </div>
-        </div>
+        </LayoutContainer>
     );
 };
 

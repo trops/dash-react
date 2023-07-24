@@ -28,7 +28,7 @@ const ThemePickerGridPane = ({ themeKey, onChooseTheme }) => {
         return colors.map((color) => {
             return (
                 <div
-                    key={`theme-grid-${color}`}
+                    key={`theme-grid-${color.type}`}
                     className={`rounded ${color["color"]} h-20 w-full`}
                 ></div>
             );

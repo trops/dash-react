@@ -13,10 +13,9 @@ export const LayoutContainer = ({
     space = true,
     grow = false,
     debug = false,
+    onClick = undefined,
     ...props
 }) => {
-    // console.log("layout container props ", props);
-
     const containerId = getUUID(id);
     // get the styles
     const { currentTheme } = useContext(ThemeContext);
@@ -55,6 +54,7 @@ export const LayoutContainer = ({
         <div
             id={containerId}
             className={`flex ${styles.string} ${width} ${height} ${className}`}
+            onClick={onClick}
         >
             {debug === false && children}
             {debug === true && renderDebugger(children, styles.string)}

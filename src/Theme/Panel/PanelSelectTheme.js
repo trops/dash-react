@@ -9,6 +9,8 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { deepCopy } from "@dash/Utils/objects";
 import { InputText } from "@dash/Common/Form";
 import { ColorModel } from "@dash/Models";
+import { LayoutContainer } from "../../Layout";
+import { themeObjects, colorTypes } from "../../Utils";
 
 export const PanelSelectTheme = ({
     onUpdate,
@@ -51,7 +53,31 @@ export const PanelSelectTheme = ({
         setThemeNameToEdit(color);
     }
 
+    function handleSelectColorCancel(color) {
+        console.log("cancelling ", color);
+        const newTheme = deepCopy(rawTheme);
+
+        // // set the MAIN color
+        if (themeNameToEdit["panelType"] === "main") {
+            newTheme[color["colorType"]] = color["colorName"];
+            onUpdate(newTheme, themeKey);
+            forceUpdate();
+        }
+
+        if (themeNameToEdit["panelType"] === "sub") {
+            newTheme[themeVariant][themeNameToEdit["themeClass"]] =
+                color["class"];
+            onUpdate(newTheme, themeKey);
+            forceUpdate();
+        }
+    }
+
     function handleSelectReplacementColor(color, colorReplacement) {
+        console.log(
+            "handle select replacement color ",
+            color,
+            colorReplacement
+        );
         const newTheme = deepCopy(rawTheme);
         const replacementColorModel = ColorModel(colorReplacement);
         // set the MAIN color
@@ -176,6 +202,31 @@ export const PanelSelectTheme = ({
         }
     }
 
+    function renderThemeMenu() {
+        const menuItems = [...colorTypes, ...Object.keys(themeObjects)];
+        return (
+            <LayoutContainer
+                direction="col"
+                space={false}
+                scrollable={true}
+                className="space-y-1"
+            >
+                {menuItems.map((menuItem) => {
+                    return (
+                        <div
+                            className="flex flex-row space-x-2 text-gray-200 rounded p-2 bg-blue-800"
+                            onClick={() => showPreview(menuItem)}
+                        >
+                            {menuItem}
+                        </div>
+                    );
+                })}
+            </LayoutContainer>
+        );
+    }
+
+    function showPreview(item) {}
+
     return (
         <Panel theme={false} backgroundColor={""} padding={false}>
             <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
@@ -205,13 +256,15 @@ export const PanelSelectTheme = ({
                                 />
                             </div>
                             <div className="flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1">
-                                <div className="flex flex-col min-w-1/4 w-1/4">
+                                <div className="flex flex-col min-w-1/4 w-1/4 h-full overflow-hidden">
                                     <ThemeMenuPane
+                                        currentColor={themeNameToEdit}
                                         theme={themeSelected}
                                         onChooseColor={handleSelectColor}
                                         onChooseReplacementColor={
                                             handleSelectReplacementColor
                                         }
+                                        onCancel={handleSelectColorCancel}
                                     />
                                 </div>
                                 {themeSelected && (
@@ -229,6 +282,7 @@ export const PanelSelectTheme = ({
                                         />
                                     </div>
                                 )}
+
                                 <div className="flex flex-col w-1/4 min-w-1/4 p-1 space-y-1">
                                     {itemSelected !== null && (
                                         <div

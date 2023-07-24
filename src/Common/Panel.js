@@ -16,7 +16,6 @@ const PanelHeader = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
         ...props,
-        height: "h-auto",
         grow: false,
     });
     return (
@@ -36,6 +35,7 @@ const PanelBody = ({
     children,
     scrollable = false,
     className = "",
+    onClick = undefined,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -53,6 +53,7 @@ const PanelBody = ({
             height={"h-full"}
             direction={props.horizontal === true ? "row" : "col"}
             space={false}
+            onClick={onClick}
         >
             {children}
         </LayoutContainer>
@@ -78,7 +79,7 @@ const PanelFooter = ({ children, className = "", ...props }) => {
 const Panel = ({
     horizontal = false,
     children,
-    onClick = null,
+    onClick = undefined,
     width = "w-full",
     height = "h-full", // leave as blank so the panel will not take up full height if not warranted
     padding = true,
@@ -102,7 +103,7 @@ const Panel = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} rounded-lg overflow-hidden${
+            } ${height} rounded-lg overflow-hidden border ${
                 padding === true ? "p-6" : "p-0"
             }`}
             onClick={onClick}
@@ -151,6 +152,7 @@ const PanelBody2 = ({
     children,
     scrollable = false,
     className = "",
+    onClick = undefined,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -168,6 +170,7 @@ const PanelBody2 = ({
             height={"h-full"}
             direction={props.horizontal === true ? "row" : "col"}
             space={false}
+            onClick={onClick}
         >
             {children}
         </LayoutContainer>
@@ -193,7 +196,7 @@ const PanelFooter2 = ({ children, className = "", ...props }) => {
 const Panel2 = ({
     horizontal,
     children,
-    onClick = null,
+    onClick = undefined,
     width = "w-full",
     height = "",
     padding = true,
@@ -220,7 +223,6 @@ const Panel2 = ({
             scrollable={scrollable}
             space={false}
         >
-            {/* <div className="h-full w-full">{children}</div> */}
             {children}
         </LayoutContainer>
     );
@@ -265,14 +267,17 @@ const PanelBody3 = ({
     scrollable = false,
     className = "",
     space = true,
+    onClick = undefined,
     ...props
 }) => {
     try {
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
             ...props,
-            scrollable,
+            scrollable: false,
+            height: "h-full",
         });
+        console.log("styles for panel body 3 ", styles.string);
         return (
             <LayoutContainer
                 {...props}
@@ -282,6 +287,7 @@ const PanelBody3 = ({
                 height={"h-full"}
                 direction={props.horizontal === true ? "row" : "col"}
                 space={false}
+                onClick={onClick}
             >
                 {children}
             </LayoutContainer>
@@ -311,7 +317,7 @@ const PanelFooter3 = ({ children, className = "", ...props }) => {
 const Panel3 = ({
     horizontal,
     children,
-    onClick = null,
+    onClick = undefined,
     width = "w-full",
     height = "",
     padding = true,
@@ -333,10 +339,11 @@ const Panel3 = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${styles.string} ${
                 padding === true ? "p-2" : "p-0"
-            } ${height} rounded`}
+            } rounded`}
             onClick={onClick}
             scrollable={scrollable}
             space={false}
+            height={height}
         >
             {children}
         </LayoutContainer>

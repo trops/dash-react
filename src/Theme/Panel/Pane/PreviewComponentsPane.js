@@ -28,17 +28,23 @@ import {
     Tag3,
     InputText,
 } from "@dash/Common";
+import { LayoutContainer } from "../../../Layout";
 
 import { getStylesForItem } from "@dash/Utils/colors";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
 const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
     function handleClickItem(itemType, styles) {
-        // get the styles for the item and display...
-        const temp = { item: itemType, styles };
-        // setItemSelected(() => temp);
-        // setItemColorSelected(null);
-        onClick(temp);
+        try {
+            console.log("clicked item ", itemType, styles);
+            // get the styles for the item and display...
+            const temp = { item: itemType, styles };
+            // setItemSelected(() => temp);
+            // setItemColorSelected(null);
+            onClick(temp);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     function renderText() {
@@ -86,7 +92,8 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
         );
 
         return (
-            <div className="flex flex-col space-y-4 p-4">
+            // <div className="flex flex-col space-y-4 p-4">
+            <LayoutContainer direction="col" scrollable={false}>
                 <Heading
                     title={"Heading"}
                     {...headingStyles}
@@ -184,7 +191,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                         )
                     }
                 />
-            </div>
+            </LayoutContainer>
         );
     }
 
@@ -291,54 +298,58 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
         );
 
         return (
-            <div className="flex flex-col space-y-4 h-100 p-4">
+            <div className="flex flex-col space-y-4 p-4">
                 <div className="flex flex-row bg-gray-900 p-4 space-x-4 rounded justify-between">
-                    <Panel
-                        className={
-                            "p-6 rounded border-4 space-y-4 cursor-pointer"
-                        }
-                        height="h-40"
-                        {...styles}
-                        onClick={() =>
-                            handleClickItem(themeObjects.PANEL, styles)
-                        }
-                        padding={false}
-                    >
-                        <span className="uppercase text-gray-50 font-bold">
+                    <Panel {...styles} scrollable={false} className="rounded">
+                        <Panel.Header className={"text-xs uppercase font-bold"}>
                             Panel
-                        </span>
+                        </Panel.Header>
+                        <Panel.Body
+                            onClick={() => {
+                                handleClickItem(themeObjects.PANEL, styles);
+                            }}
+                        ></Panel.Body>
                     </Panel>
                     <Panel2
-                        className={
-                            "p-6 rounded border-4 space-y-4 cursor-pointer"
-                        }
+                        className={"rounded"}
                         {...styles2}
-                        onClick={() =>
-                            handleClickItem(themeObjects.PANEL_2, styles2)
-                        }
-                        padding={false}
+                        scrollable={false}
                     >
-                        <span className="uppercase text-gray-50 font-bold">
+                        <Panel2.Header
+                            className={"text-xs uppercase font-bold"}
+                        >
                             Panel 2
-                        </span>
+                        </Panel2.Header>
+                        <Panel2.Body
+                            onClick={() => {
+                                handleClickItem(themeObjects.PANEL_2, styles2);
+                            }}
+                        ></Panel2.Body>
                     </Panel2>
                     <Panel3
-                        className={
-                            "p-6 rounded border-4 space-y-4 w-full cursor-pointer"
-                        }
+                        className={"rounded"}
                         {...styles3}
-                        onClick={() =>
-                            handleClickItem(themeObjects.PANEL_3, styles3)
-                        }
-                        padding={false}
+                        scrollable={false}
                     >
-                        <span className="uppercase text-gray-50 font-bold">
+                        <Panel2.Header
+                            className={"text-xs uppercase font-bold"}
+                        >
                             Panel 3
-                        </span>
+                        </Panel2.Header>
+                        <Panel3.Body
+                            onClick={() => {
+                                handleClickItem(themeObjects.PANEL_3, styles3);
+                            }}
+                        ></Panel3.Body>
                     </Panel3>
                 </div>
 
-                <Panel className={"p-6 rounded border-4 space-y-4"} {...styles}>
+                <Panel
+                    className={"p-6 rounded border-4 space-y-4"}
+                    scrollable={false}
+                    height={"h-fit"}
+                    {...styles}
+                >
                     <Heading
                         title={"Heading"}
                         {...headingStyles}
@@ -467,7 +478,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                             }
                         />
                     </div>
-                    <div className="flex flex-row space-x-4 w-full">
+                    <div className="flex flex-row space-x-4 w-full h-fit">
                         <div className="flex flex-row space-x-2">
                             <ButtonIcon
                                 text="Button Icon"
@@ -605,6 +616,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
 
                 <Panel2
                     className={"p-6 rounded border-4 space-y-4"}
+                    height={"h-fit"}
                     {...styles2}
                 >
                     <Heading
@@ -875,6 +887,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                     className={"p-6 rounded border-4 space-y-4"}
                     {...styles3}
                     padding={false}
+                    height={"h-fit"}
                 >
                     <Heading
                         title={"Heading"}
@@ -1143,6 +1156,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                 <Panel2
                     className={"p-6 rounded border-4 space-y-4"}
                     {...styles2}
+                    height={"h-fit"}
                     padding={false}
                 >
                     <Heading2
@@ -1235,6 +1249,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                 <Panel3
                     className={"p-6 rounded border-4 space-y-4"}
                     {...styles3}
+                    height={"h-fit"}
                     padding={false}
                 >
                     <Heading3
@@ -1328,12 +1343,12 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
     }
 
     return (
-        <ThemePane>
+        <LayoutContainer scrollable={true} direction="col">
             {renderPanels()}
-            <Panel className={"p-10 rounded space-y-4 h-fit"} padding={false}>
+            {/* <Panel className={"p-10 rounded space-y-4 h-fit"} padding={false}>
                 {renderText()}
-            </Panel>
-        </ThemePane>
+            </Panel> */}
+        </LayoutContainer>
     );
 };
 

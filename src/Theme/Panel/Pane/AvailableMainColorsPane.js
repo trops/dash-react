@@ -1,6 +1,7 @@
 import React from "react";
 import ThemePane from "./ThemePane";
 import { colorNames } from "@dash/Utils/colors";
+import { Button } from "../../../Common";
 
 const AvailableMainColorsPane = ({
     theme,
@@ -35,6 +36,7 @@ const AvailableMainColorsPane = ({
             <div className="flex grid grid-cols-3 w-full overflow-y-scroll">
                 {renderAvailableColors()}
             </div>
+            <Button title="Cancel" />
         </ThemePane>
     );
 };

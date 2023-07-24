@@ -176,7 +176,7 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
         <Modal
             isOpen={open}
             setIsOpen={setIsOpen}
-            width={"w-11/12 xl:w-5/6"}
+            width={"w-11/12 xl:w-full"}
             height="h-5/6"
         >
             <Panel backgroundColor={"bg-slate-800"} padding={false}>
@@ -194,7 +194,6 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
                                     rawTheme={rawThemeSelected}
                                 />
                             )}
-
                             {themeSelected && isEditing === true && (
                                 <PanelSelectTheme
                                     theme={themeSelected}

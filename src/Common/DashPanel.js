@@ -4,7 +4,7 @@ import { getStylesForItem, themeObjects } from "../Utils";
 import { Panel, Panel2, Panel3 } from "./Panel";
 import { LayoutContainer } from "@dash/Layout";
 
-const DashPanelHeader = ({ title, ping = true, ...props }) => {
+const DashPanelHeader = ({ title, ping = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.DASH_PANEL_HEADER,
@@ -116,7 +116,7 @@ DashPanel.Header = DashPanelHeader;
 DashPanel.Body = DashPanelBody;
 DashPanel.Footer = DashPanelFooter;
 
-const DashPanelHeader2 = ({ title, ping = true, ...props }) => {
+const DashPanelHeader2 = ({ title, ping = false, ...props }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.DASH_PANEL_HEADER_2,

@@ -44,7 +44,7 @@ const ColorTile = ({
 
     return (
         <div
-            className={`flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 ${
+            className={`flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 text-xs ${
                 selected === true ? "border-yellow-500" : "border-gray-800"
             } hover:border-yellow-500 border-gray-800 ${
                 c.class

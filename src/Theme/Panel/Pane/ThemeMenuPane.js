@@ -5,17 +5,19 @@ import AvailableColorsGridPane from "./AvailableColorsGridPane";
 import ThemePane from "./ThemePane";
 import { ThemeContext } from "@dash/Context";
 import { ColorModel } from "@dash/Models";
+import { LayoutContainer } from "../../../Layout";
+import { DashPanel } from "../../../Common";
 
-const ThemeMenuPane = ({ theme, onChooseColor, onChooseReplacementColor }) => {
+const ThemeMenuPane = ({
+    currentColor = null,
+    theme,
+    onChooseColor,
+    onChooseReplacementColor,
+    onCancel = null,
+}) => {
     const [selectedColor, setSelectedColor] = useState(null);
 
     const { themeVariant } = useContext(ThemeContext);
-    // const [, updateState] = React.useState();
-    // const forceUpdate = React.useCallback(() => updateState({}), []);
-
-    // useEffect(() => {
-    //     forceUpdate();
-    // }, [theme]);
 
     function handleSelectColor(c, colorType) {
         setSelectedColor({
@@ -27,10 +29,10 @@ const ThemeMenuPane = ({ theme, onChooseColor, onChooseReplacementColor }) => {
         onChooseColor(c);
     }
 
-    // function handleSelectColorTemp(c, colorType) {
-    //     setSelectedColor({ color: c, colorType, type: c['objectType'], itemType: c['itemType'] });
-    //     onChooseColor(c);
-    // }
+    function handleCancelSelectColor(color) {
+        setSelectedColor(null);
+        onCancel && onCancel(color);
+    }
 
     function handleReplaceColor({
         panelType = "main",
@@ -60,14 +62,12 @@ const ThemeMenuPane = ({ theme, onChooseColor, onChooseReplacementColor }) => {
     }
 
     return (
-        <ThemePane className={"space-y-2"}>
+        <LayoutContainer direction="col" scrollable={true}>
             {(selectedColor === null ||
                 selectedColor["color"]["panelType"] === "main") && (
-                <div className="flex flex-col rounded w-full bg-gray-800 space-y-2">
-                    <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
-                        Main
-                    </div>
-                    <div className="flex flex-row w-full space-x-2 p-4">
+                <DashPanel scrollable={false} height={"h-fit"}>
+                    <DashPanel.Header title={"Main"} />
+                    <DashPanel.Body scrollable={false} height="h-full">
                         {colorTypes
                             .filter((ct) =>
                                 selectedColor !== null
@@ -96,17 +96,18 @@ const ThemeMenuPane = ({ theme, onChooseColor, onChooseReplacementColor }) => {
                                     />
                                 );
                             })}
-                    </div>
-                </div>
+                    </DashPanel.Body>
+                </DashPanel>
             )}
 
             {(selectedColor === null ||
                 selectedColor["color"]["panelType"] === "sub") && (
-                <div
-                    className={`flex flex-col rounded w-full space-y-2 min-h-1/4 overflow-y-scroll ${
-                        selectedColor !== null ? "h-1/4" : "h-full"
-                    }`}
-                >
+                // <div
+                //     className={`flex flex-col rounded w-full space-y-2 min-h-1/4 overflow-y-scroll ${
+                //         selectedColor !== null ? "h-1/4" : "h-full"
+                //     }`}
+                // >
+                <LayoutContainer scrollable={true} direction="col">
                     {colorTypes
                         .filter((ct) =>
                             selectedColor !== null
@@ -161,7 +162,7 @@ const ThemeMenuPane = ({ theme, onChooseColor, onChooseReplacementColor }) => {
                                                               "sub"
                                                         : false;
                                                 return (
-                                                    <div className="flex flex-row justify-between py-2 items-center border-b border-gray-700 px-2">
+                                                    <div className="flex flex-row justify-between py-1 items-center border-b border-gray-700 px-2">
                                                         <span className="text-sm font-bold text-gray-300">
                                                             {colorLevelName}
                                                         </span>
@@ -198,28 +199,23 @@ const ThemeMenuPane = ({ theme, onChooseColor, onChooseReplacementColor }) => {
                                 </div>
                             );
                         })}
-                </div>
+                </LayoutContainer>
             )}
             {selectedColor !== null && (
-                <div className="flex flex-col roundedw-full bg-gray-800 space-y-4 overflow-hidden h-full">
-                    <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
-                        Available Colors
-                    </div>
-                    <div className="flex flex-col p-2 h-full overflow-y-scroll">
-                        <AvailableColorsGridPane
-                            colorType={selectedColor["color"]["colorType"]}
-                            onClick={handleReplaceColor}
-                            onMouseOver={handleReplaceColorTemp}
-                            shade={
-                                selectedColor["color"]["panelType"] === "main"
-                                    ? 500
-                                    : null
-                            }
-                        />
-                    </div>
-                </div>
+                <AvailableColorsGridPane
+                    currentColor={currentColor}
+                    colorType={selectedColor["color"]["colorType"]}
+                    onClick={handleReplaceColor}
+                    onCancel={handleCancelSelectColor}
+                    onMouseOver={handleReplaceColorTemp}
+                    shade={
+                        selectedColor["color"]["panelType"] === "main"
+                            ? 500
+                            : null
+                    }
+                />
             )}
-        </ThemePane>
+        </LayoutContainer>
     );
 };
 
