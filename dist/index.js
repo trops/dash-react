@@ -8,7 +8,8 @@ import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
-import ReactMustache from 'react-mustache';
+import 'react-mustache';
+import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
@@ -12097,13 +12098,45 @@ function CodeEditorInline(_ref) {
 
 var CodeRenderer = function CodeRenderer(_ref) {
   var template = _ref.template,
-    data = _ref.data;
+    data = _ref.data,
+    _ref$Component = _ref.Component,
+    Component = _ref$Component === void 0 ? "div" : _ref$Component;
   var parsedTemplate = typeof template !== "string" ? JSON.stringify(template) : template;
-  return /*#__PURE__*/jsx(ReactMustache, {
-    Component: "div",
-    template: parsedTemplate,
-    data: data
-  });
+
+  // function renderTemplate(parsedTemplate) {
+  //     try {
+  //         return (
+  //             <ReactMustache
+  //                 Component="div"
+  //                 template={parsedTemplate}
+  //                 data={data}
+  //             />
+  //         );
+  //     } catch (e) {
+  //         console.log(e);
+  //     }
+  // }
+  // return renderTemplate(parsedTemplate);
+
+  function compileTemplate(template, data) {
+    try {
+      // lazy template compiling
+      var __html = Mustache.render(template, data);
+      return /*#__PURE__*/jsx(Component, {
+        dangerouslySetInnerHTML: {
+          __html: __html
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      return /*#__PURE__*/jsx(Component, {
+        dangerouslySetInnerHTML: {
+          __html: "One moment please"
+        }
+      });
+    }
+  }
+  return compileTemplate(parsedTemplate, data);
 };
 
 function _typeof$s(obj) { "@babel/helpers - typeof"; return _typeof$s = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$s(obj); }
