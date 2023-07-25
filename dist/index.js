@@ -12109,7 +12109,9 @@ var CodeRenderer = function CodeRenderer(_ref) {
   function sanitizeTemplate(template) {
     // remove the escaped double quotes if any
     var t = template.replace(/\\"/g, '"');
-    return translateClassName(t);
+    // t = t.slice(0, -1) + "`";
+    // t = "`" + t.slice(1);
+    return translateClassName("".concat(t));
   }
   function translateClassName(template) {
     return template.replaceAll("className=", "class=");

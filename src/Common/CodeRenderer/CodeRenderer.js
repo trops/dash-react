@@ -12,8 +12,10 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
      */
     function sanitizeTemplate(template) {
         // remove the escaped double quotes if any
-        const t = template.replace(/\\"/g, '"');
-        return translateClassName(t);
+        let t = template.replace(/\\"/g, '"');
+        // t = t.slice(0, -1) + "`";
+        // t = "`" + t.slice(1);
+        return translateClassName(`${t}`);
     }
 
     function translateClassName(template) {
