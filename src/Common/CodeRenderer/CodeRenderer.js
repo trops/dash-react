@@ -7,6 +7,17 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
     const parsedTemplate =
         typeof template !== "string" ? JSON.stringify(template) : template;
 
+    /**
+     * sanitize any args, params that need to be updated/translated
+     */
+    function sanitizeTemplate(template) {
+        return translateClassName(template);
+    }
+
+    function translateClassName(template) {
+        return template.replaceAll("className=", "class=");
+    }
+
     // function renderTemplate(parsedTemplate) {
     //     try {
     //         return (
@@ -24,14 +35,21 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
 
     function compileTemplate(template, data) {
         try {
+            console.log(template);
             // lazy template compiling
-            const __html = Mustache.render(template, data);
+            const __html = Mustache.render(sanitizeTemplate(template), data);
+            console.log(__html);
             return <Component dangerouslySetInnerHTML={{ __html }} />;
         } catch (e) {
             console.log(e);
             return (
                 <Component
-                    dangerouslySetInnerHTML={{ __html: "One moment please" }}
+                    dangerouslySetInnerHTML={{
+                        __html: sanitizeTemplate(
+                            '<div className="text-red-600 font-bold">Something is wonky...</div>',
+                            {}
+                        ),
+                    }}
                 />
             );
         }

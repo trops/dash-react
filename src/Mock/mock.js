@@ -1,4 +1,4 @@
-import { MainSection, mock, ComponentManager } from "@dash";
+import { mock, ComponentManager } from "@dash";
 import { AppContext, ThemeContext, ThemeWrapper } from "../Context";
 import { LayoutContainer, MockDashboardApi, Widget, Workspace } from "..";
 import { Routes, Route, HashRouter } from "react-router-dom";
@@ -7,8 +7,6 @@ import algoliasearch from "algoliasearch";
 
 // Local Widgets that integrate with Dash
 import * as myWidgets from "../Widgets";
-import { mockApi } from "./api";
-import ErrorBoundary from "../Common/ErrorBoundary";
 
 const MockWrapper = ({
     api,
