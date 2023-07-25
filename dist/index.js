@@ -12111,36 +12111,20 @@ var CodeRenderer = function CodeRenderer(_ref) {
     var t = template.replace(/\\"/g, '"');
     // t = t.slice(0, -1) + "`";
     // t = "`" + t.slice(1);
-    return translateClassName("".concat(t));
+    t = translateClassName("".concat(t));
+    return "".concat(t);
   }
   function translateClassName(template) {
     return template.replaceAll("className=", "class=");
   }
-
-  // function renderTemplate(parsedTemplate) {
-  //     try {
-  //         return (
-  //             <ReactMustache
-  //                 Component="div"
-  //                 template={parsedTemplate}
-  //                 data={data}
-  //             />
-  //         );
-  //     } catch (e) {
-  //         console.log(e);
-  //     }
-  // }
-  // return renderTemplate(parsedTemplate);
-
   function compileTemplate(template, data) {
     try {
-      console.log(template);
       // lazy template compiling
       var __html = Mustache.render(sanitizeTemplate(template), data);
       console.log(__html);
       return /*#__PURE__*/jsx(Component, {
         dangerouslySetInnerHTML: {
-          __html: __html
+          __html: "".concat(__html)
         }
       });
     } catch (e) {
