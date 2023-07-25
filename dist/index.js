@@ -12061,11 +12061,12 @@ function CodeEditorInline(_ref) {
     _ref$language = _ref.language,
     language = _ref$language === void 0 ? "js" : _ref$language,
     _ref$placeholder = _ref.placeholder,
-    placeholder = _ref$placeholder === void 0 ? "Please enter JS code." : _ref$placeholder,
+    placeholder = _ref$placeholder === void 0 ? null : _ref$placeholder,
     props = _objectWithoutProperties$p(_ref, _excluded$p);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$o({}, props));
+  var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-hidden"),
     children: /*#__PURE__*/jsx("div", {
@@ -12075,7 +12076,7 @@ function CodeEditorInline(_ref) {
         children: /*#__PURE__*/jsx(CodeEditor, {
           value: code,
           language: language,
-          placeholder: placeholder,
+          placeholder: placeholderValue,
           onChange: function onChange(evn) {
             return setCode(evn.target.value);
           },
@@ -12673,6 +12674,7 @@ var DashPanelBody = function DashPanelBody(_ref2) {
     height: height,
     space: false,
     direction: "col",
+    grow: true,
     children: children
   }));
 };
