@@ -57,6 +57,7 @@ const DashPanelBody = ({
             height={height}
             space={false}
             direction="col"
+            grow={true}
         >
             {children}
         </LayoutContainer>

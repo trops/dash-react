@@ -8,13 +8,16 @@ export function CodeEditorInline({
     setCode,
     uniqueKey = "12345",
     language = "js",
-    placeholder = "Please enter JS code.",
+    placeholder = null,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, {
         ...props,
     });
+
+    const placeholderValue =
+        placeholder !== null ? placeholder : `Enter ${language} code`;
     return (
         <div
             key={`code-editor-${uniqueKey}`}
@@ -27,7 +30,7 @@ export function CodeEditorInline({
                     <CodeEditor
                         value={code}
                         language={language}
-                        placeholder={placeholder}
+                        placeholder={placeholderValue}
                         onChange={(evn) => setCode(evn.target.value)}
                         padding={15}
                         style={{
