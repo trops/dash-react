@@ -11,7 +11,9 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
      * sanitize any args, params that need to be updated/translated
      */
     function sanitizeTemplate(template) {
-        return translateClassName(template);
+        // remove the escaped double quotes if any
+        const t = template.replace(/\\"/g, '"');
+        return translateClassName(t);
     }
 
     function translateClassName(template) {

@@ -12107,7 +12107,9 @@ var CodeRenderer = function CodeRenderer(_ref) {
    * sanitize any args, params that need to be updated/translated
    */
   function sanitizeTemplate(template) {
-    return translateClassName(template);
+    // remove the escaped double quotes if any
+    var t = template.replace(/\\"/g, '"');
+    return translateClassName(t);
   }
   function translateClassName(template) {
     return template.replaceAll("className=", "class=");

@@ -1,4 +1,4 @@
-import { MockWrapper, MockLayout, mock, mockText } from "../../Mock";
+import { MockWrapper } from "../../Mock";
 import { CodeRenderer } from "./CodeRenderer";
 import "@dash/tailwind.css";
 
