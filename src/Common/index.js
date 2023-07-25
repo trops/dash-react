@@ -7,6 +7,7 @@ export * from "./Button";
 export * from "./ButtonIcon";
 export * from "./Toggle";
 export { CodeEditorInline } from "./CodeEditor";
+export { CodeRenderer } from "./CodeRenderer";
 export * from "./Tag";
 
 export * from "./Container";
