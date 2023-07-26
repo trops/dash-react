@@ -54,9 +54,14 @@ const event = {
         const subscriptionsToEvent = this.list.get(eventType);
         if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
             subscriptionsToEvent.forEach((subscriber) => {
-                // console.log("calling handler ", subscriber["uuid"]);
+                console.log(
+                    "calling handler ",
+                    subscriber["uuid"],
+                    args,
+                    subscriber
+                );
                 if ("action" in subscriber && subscriber.action !== undefined) {
-                    subscriber["action"](...args);
+                    subscriber["action"]({ eventType, ...args });
                 }
             });
         }

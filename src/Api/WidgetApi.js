@@ -83,7 +83,6 @@ export const WidgetApi = {
             if (this.pub() !== null && uuid !== null) {
                 if ("registerListeners" in this.pub()) {
                     if (this.pub()["registerListeners"] !== null) {
-                        console.log("we are inside!");
                         this.pub().registerListeners(listeners, handlers, uuid);
                     }
                 }
