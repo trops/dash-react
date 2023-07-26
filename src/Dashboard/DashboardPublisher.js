@@ -61,7 +61,7 @@ const event = {
                     subscriber
                 );
                 if ("action" in subscriber && subscriber.action !== undefined) {
-                    subscriber["action"]({ eventType, ...args });
+                    subscriber["action"](eventType, args);
                 }
             });
         }
