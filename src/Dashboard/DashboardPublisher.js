@@ -63,11 +63,11 @@ const event = {
                 const objectToSend = {
                     message: args[0],
                     event: eventType,
-                    uuid,
+                    uuid: subscriber["uuid"],
                 };
                 console.log("SEND ", objectToSend);
                 if ("action" in subscriber && subscriber.action !== undefined) {
-                    subscriber["action"](objectToSend);
+                    subscriber["action"]({ ...objectToSend });
                 }
             });
         }
