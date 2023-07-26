@@ -5825,8 +5825,14 @@ var event = {
     if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
       subscriptionsToEvent.forEach(function (subscriber) {
         console.log("calling handler ", subscriber["uuid"], args, subscriber);
+        var objectToSend = {
+          message: args[0],
+          event: eventType,
+          uuid: uuid
+        };
+        console.log("SEND ", objectToSend);
         if ("action" in subscriber && subscriber.action !== undefined) {
-          subscriber["action"](eventType, args);
+          subscriber["action"](objectToSend);
         }
       });
     }

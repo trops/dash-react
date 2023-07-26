@@ -60,8 +60,14 @@ const event = {
                     args,
                     subscriber
                 );
+                const objectToSend = {
+                    message: args[0],
+                    event: eventType,
+                    uuid,
+                };
+                console.log("SEND ", objectToSend);
                 if ("action" in subscriber && subscriber.action !== undefined) {
-                    subscriber["action"](eventType, args);
+                    subscriber["action"](objectToSend);
                 }
             });
         }
