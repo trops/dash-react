@@ -12128,7 +12128,7 @@ var CodeRenderer = function CodeRenderer(_ref) {
   function compileTemplate(template, data) {
     try {
       // lazy template compiling
-      var __html = Mustache.render(sanitizeTemplate(template), data);
+      var __html = Mustache.render(sanitizeTemplate(template), parsedData);
       console.log(__html);
       return /*#__PURE__*/jsx(Component, {
         dangerouslySetInnerHTML: {
@@ -12144,7 +12144,7 @@ var CodeRenderer = function CodeRenderer(_ref) {
       });
     }
   }
-  return compileTemplate(parsedTemplate, parsedData);
+  return compileTemplate(parsedTemplate);
 };
 
 function _typeof$r(obj) { "@babel/helpers - typeof"; return _typeof$r = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$r(obj); }

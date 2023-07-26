@@ -23,7 +23,10 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
     function compileTemplate(template, data) {
         try {
             // lazy template compiling
-            const __html = Mustache.render(sanitizeTemplate(template), data);
+            const __html = Mustache.render(
+                sanitizeTemplate(template),
+                parsedData
+            );
             console.log(__html);
             return (
                 <Component dangerouslySetInnerHTML={{ __html: `${__html}` }} />
