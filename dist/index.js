@@ -8,7 +8,6 @@ import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
-import 'react-mustache';
 import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
@@ -12113,7 +12112,7 @@ var CodeRenderer = function CodeRenderer(_ref) {
     _ref$Component = _ref.Component,
     Component = _ref$Component === void 0 ? "div" : _ref$Component;
   var parsedTemplate = typeof template !== "string" ? JSON.stringify(template) : template;
-
+  var parsedData = typeof data === "string" ? JSON.parse(data) : data;
   /**
    * sanitize any args, params that need to be updated/translated
    */
@@ -12145,7 +12144,7 @@ var CodeRenderer = function CodeRenderer(_ref) {
       });
     }
   }
-  return compileTemplate(parsedTemplate, data);
+  return compileTemplate(parsedTemplate, parsedData);
 };
 
 function _typeof$r(obj) { "@babel/helpers - typeof"; return _typeof$r = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$r(obj); }

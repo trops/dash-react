@@ -1,12 +1,11 @@
-import React, { Component } from "react";
-import ReactMustache from "react-mustache";
-// const Mustache = require("mustache");
+import React from "react";
 import Mustache from "mustache";
 
 export const CodeRenderer = ({ template, data, Component = "div" }) => {
     const parsedTemplate =
         typeof template !== "string" ? JSON.stringify(template) : template;
 
+    const parsedData = typeof data === "string" ? JSON.parse(data) : data;
     /**
      * sanitize any args, params that need to be updated/translated
      */
@@ -44,5 +43,5 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
         }
     }
 
-    return compileTemplate(parsedTemplate, data);
+    return compileTemplate(parsedTemplate, parsedData);
 };
