@@ -69,6 +69,8 @@ export const LayoutGridContainer = ({
     function handleQuickAdd(item, toItem) {
         try {
             console.log(item, toItem, workspace);
+
+            item.component = item["name"];
             const layoutItem = getLayoutItemForWorkspace(
                 item,
                 workspace,

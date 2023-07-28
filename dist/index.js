@@ -10009,6 +10009,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
   function handleQuickAdd(item, toItem) {
     try {
       console.log(item, toItem, workspace);
+      item.component = item["name"];
       var layoutItem = getLayoutItemForWorkspace(item, workspace, toItem);
       console.log("layout item ", layoutItem);
       onClickQuickAdd(layoutItem.layout, toItem);
