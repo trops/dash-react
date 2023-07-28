@@ -5,7 +5,7 @@ import { themeObjects } from "@dash/Utils/themeObjects";
 
 const Button = ({
     title = "Cancel",
-    onClick = null,
+    onClick = undefined,
     disabled = false,
     padding = null,
     textSize = null,

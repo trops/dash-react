@@ -27,12 +27,10 @@ export const CodeRenderer = ({ template, data, Component = "div" }) => {
                 sanitizeTemplate(template),
                 parsedData
             );
-            console.log(__html);
             return (
                 <Component dangerouslySetInnerHTML={{ __html: `${__html}` }} />
             );
         } catch (e) {
-            console.log(e);
             return (
                 <Component
                     dangerouslySetInnerHTML={{
