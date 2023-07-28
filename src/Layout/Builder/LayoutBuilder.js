@@ -109,6 +109,7 @@ export const LayoutBuilder = ({
 
     function onClickQuickAdd(item, toItem) {
         console.log("quick add ", item, toItem);
+        handleClickConfirmAdd(item, toItem);
     }
 
     function handleClickConfirmAdd(itemChosen, toItem) {

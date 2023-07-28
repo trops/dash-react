@@ -1,8 +1,8 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer, faSun, faMoon, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning } from '@fortawesome/free-solid-svg-icons';
 export { faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faArrowsLeftRight, faArrowsUpDown, faBaby, faBabyCarriage, faBullhorn, faClone, faCode, faCog, faComputer, faDatabase, faEarListen, faEye, faFolder, faHammer, faHome, faLeaf, faMagnifyingGlass, faMinus, faPalette, faPencil, faPhone, faPlug, faPlus, faPuzzlePiece, faRobot, faSeedling, faSignal, faSquare, faSquareCheck, faTrash, faTrophy, faXmark } from '@fortawesome/free-solid-svg-icons';
 import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment as Fragment$1, useRef, createElement } from 'react';
-import { Transition, Dialog, Disclosure } from '@headlessui/react';
+import { Transition, Dialog, Disclosure, Menu } from '@headlessui/react';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
@@ -12,6 +12,7 @@ import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import parseArgs from 'minimist';
 import algoliasearch from 'algoliasearch';
@@ -2134,7 +2135,7 @@ function _defineProperty$C(obj, key, value) { key = _toPropertyKey$G(key); if (k
 function _toPropertyKey$G(arg) { var key = _toPrimitive$G(arg, "string"); return _typeof$G(key) === "symbol" ? key : String(key); }
 function _toPrimitive$G(input, hint) { if (_typeof$G(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$G(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var mainApi$1 = window.mainApi;
-function classNames() {
+function classNames$1() {
   for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
     classes[_key] = arguments[_key];
   }
@@ -2286,7 +2287,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
             children: navigation.map(function (item) {
               return !item.children ? /*#__PURE__*/jsxs(Link, {
                 to: item.href,
-                className: classNames(item.current ? "bg-gray-800 text-indigo-400 font-bold" : "bg-gray-900 text-gray-500 hover:bg-gray-700 hover:text-gray-200", "group w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
+                className: classNames$1(item.current ? "bg-gray-800 text-indigo-400 font-bold" : "bg-gray-900 text-gray-500 hover:bg-gray-700 hover:text-gray-200", "group w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
                 children: [item.icon !== undefined && /*#__PURE__*/jsx(FontAwesomeIcon, {
                   icon: item.icon,
                   className: "text-gray-400"
@@ -2301,7 +2302,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
                   _ref.open;
                   return /*#__PURE__*/jsxs(Fragment$1, {
                     children: [/*#__PURE__*/jsx(Disclosure.Button, {
-                      className: classNames(item.current ? "text-indigo-300" : "text-gray-300 hover:bg-gray-700 hover:text-gray-200", "w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
+                      className: classNames$1(item.current ? "text-indigo-300" : "text-gray-300 hover:bg-gray-700 hover:text-gray-200", "w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
                       children: /*#__PURE__*/jsxs(Link, {
                         to: item.href,
                         className: "flex flex-row space-x-2 items-center justify-center",
@@ -2322,7 +2323,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
                           onClick: function onClick() {
                             return _this2.handlePath(subItem.href);
                           },
-                          className: classNames(subItem.current ? "bg-gray-800 text-indigo-300" : "text-gray-500 hover:bg-indigo-800 hover:text-gray-200", "group w-full flex items-center justify-start pl-3 pr-2 py-2 text-sm lg:text-base 2xl:text-base font-medium rounded-md hover:text-gray-200 hover:bg-gray-700 cursor-pointer space-x-2"),
+                          className: classNames$1(subItem.current ? "bg-gray-800 text-indigo-300" : "text-gray-500 hover:bg-indigo-800 hover:text-gray-200", "group w-full flex items-center justify-start pl-3 pr-2 py-2 text-sm lg:text-base 2xl:text-base font-medium rounded-md hover:text-gray-200 hover:bg-gray-700 cursor-pointer space-x-2"),
                           children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
                             icon: subItem.icon
                           }), /*#__PURE__*/jsx("span", {
@@ -2346,7 +2347,7 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
               onClick: function onClick() {
                 return _this2.handlePath("/settings");
               },
-              className: classNames(isSettingsSelected ? "text-indigo-300" : "text-gray-500 hover:bg-gray-800 hover:text-gray-200", "group w-full flex items-center p-0 pl-0 2xl:p-2 2xl:pl-3 text-left text-lg 2xl:text-xl font-bold rounded-md focus:outline-none space-x-2 cursor-pointer"),
+              className: classNames$1(isSettingsSelected ? "text-indigo-300" : "text-gray-500 hover:bg-gray-800 hover:text-gray-200", "group w-full flex items-center p-0 pl-0 2xl:p-2 2xl:pl-3 text-left text-lg 2xl:text-xl font-bold rounded-md focus:outline-none space-x-2 cursor-pointer"),
               children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
                 icon: "gear",
                 className: "text-gray-500"
@@ -8815,6 +8816,64 @@ var LayoutBuilderConfigMenuItem = function LayoutBuilderConfigMenuItem(_ref) {
   });
 };
 
+function classNames() {
+  for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
+    classes[_key] = arguments[_key];
+  }
+  return classes.filter(Boolean).join(" ");
+}
+var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
+  var _ref$onClickItem = _ref.onClickItem,
+    onClickItem = _ref$onClickItem === void 0 ? undefined : _ref$onClickItem,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    item = _ref.item;
+    _ref.workspace;
+  var widgetsForWorkspace = getWidgetsForWorkspace(item);
+  console.log("widgets for workspace ", widgetsForWorkspace);
+  return /*#__PURE__*/jsxs(Menu, {
+    as: "div",
+    className: "relative inline-block text-left",
+    children: [/*#__PURE__*/jsx("div", {
+      children: /*#__PURE__*/jsxs(Menu.Button, {
+        className: "inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-1 text-sm font-semibold ".concat(className, " hover:bg-gray-800"),
+        children: ["Quick Add", /*#__PURE__*/jsx(ChevronDownIcon, {
+          className: "-mr-1 h-5 w-5 text-gray-400",
+          "aria-hidden": "true"
+        })]
+      })
+    }), /*#__PURE__*/jsx(Transition, {
+      as: Fragment$1,
+      enter: "transition ease-out duration-100",
+      enterFrom: "transform opacity-0 scale-95",
+      enterTo: "transform opacity-100 scale-100",
+      leave: "transition ease-in duration-75",
+      leaveFrom: "transform opacity-100 scale-100",
+      leaveTo: "transform opacity-0 scale-95",
+      children: /*#__PURE__*/jsx(Menu.Items, {
+        className: "absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
+        children: /*#__PURE__*/jsx("div", {
+          className: "py-1",
+          children: widgetsForWorkspace.map(function (c) {
+            return /*#__PURE__*/jsx(Menu.Item, {
+              onClick: function onClick() {
+                return onClickItem(c);
+              },
+              children: function children(_ref2) {
+                var active = _ref2.active;
+                return /*#__PURE__*/jsx("span", {
+                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm"),
+                  children: c.name
+                });
+              }
+            });
+          })
+        })
+      })
+    })]
+  });
+};
+
 function _slicedToArray$b(arr, i) { return _arrayWithHoles$b(arr) || _iterableToArrayLimit$b(arr, i) || _unsupportedIterableToArray$c(arr, i) || _nonIterableRest$b(); }
 function _nonIterableRest$b() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$c(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$c(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$c(o, minLen); }
@@ -8920,15 +8979,24 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     setIsAddWidgetModalOpen(true);
     forceUpdate();
   }
+  function onClickQuickAdd(item, toItem) {
+    console.log("quick add ", item, toItem);
+    handleClickConfirmAdd(item, toItem);
+  }
   function handleClickConfirmAdd(itemChosen, toItem) {
-    var layout = currentWorkspace["layout"];
-    var hasChildren = itemChosen["type"] === "workspace";
-    var newLayout = addItemToItemLayout(layout, toItem["id"], itemChosen, hasChildren);
-    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-    newWorkspace["layout"] = newLayout;
-    setCurrentWorkspace(newWorkspace);
-    setIsAddWidgetModalOpen(false);
-    forceUpdate();
+    try {
+      console.log("confirm add ", itemChosen, toItem);
+      var layout = currentWorkspace["layout"];
+      var hasChildren = itemChosen["type"] === "workspace";
+      var newLayout = addItemToItemLayout(layout, toItem["id"], itemChosen, hasChildren);
+      var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+      newWorkspace["layout"] = newLayout;
+      setCurrentWorkspace(newWorkspace);
+      setIsAddWidgetModalOpen(false);
+      forceUpdate();
+    } catch (e) {
+      console.log(e);
+    }
   }
   function handleSaveNewWorkspace(newWorkspace) {
     console.log("builder save workspace ", newWorkspace);
@@ -8937,9 +9005,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     });
     setIsConfigModalOpen(false);
     onWorkspaceChange(newWorkspace);
-    //forceUpdate();
   }
-
   function onClickRemove(id) {
     var layout = currentWorkspace["layout"];
     var newLayout = removeItemFromLayout(layout, id);
@@ -9109,6 +9175,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           debugMode: debugMode,
           previewMode: preview,
           onClickAdd: onClickAdd,
+          onClickQuickAdd: onClickQuickAdd,
           onClickRemove: onClickRemove,
           onClickShrink: onClickShrink,
           onClickExpand: onClickExpand,
@@ -9132,6 +9199,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           debugMode: debugMode,
           previewMode: preview,
           onClickAdd: onClickAdd,
+          onClickQuickAdd: onClickQuickAdd,
           onClickRemove: onClickRemove,
           onClickShrink: onClickShrink,
           onClickExpand: onClickExpand,
@@ -9182,6 +9250,7 @@ var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
     debugMode = _ref.debugMode,
     previewMode = _ref.previewMode,
     onClickAdd = _ref.onClickAdd,
+    onClickQuickAdd = _ref.onClickQuickAdd,
     onDropItem = _ref.onDropItem,
     onClickRemove = _ref.onClickRemove,
     onClickShrink = _ref.onClickShrink,
@@ -9203,6 +9272,7 @@ var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
       debugMode: debugMode,
       previewMode: previewMode,
       onClickAdd: onClickAdd,
+      onClickQuickAdd: onClickQuickAdd,
       onClickRemove: onClickRemove,
       onClickShrink: onClickShrink,
       onClickExpand: onClickExpand,
@@ -9221,6 +9291,7 @@ var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
     debugMode: debugMode,
     previewMode: previewMode,
     onClickAdd: onClickAdd,
+    onClickQuickAdd: onClickQuickAdd,
     onClickRemove: onClickRemove,
     onClickShrink: onClickShrink,
     onClickExpand: onClickExpand,
@@ -9241,6 +9312,7 @@ var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
     debugMode = _ref.debugMode,
     previewMode = _ref.previewMode,
     onClickAdd = _ref.onClickAdd,
+    onClickQuickAdd = _ref.onClickQuickAdd,
     onDropItem = _ref.onDropItem,
     onClickRemove = _ref.onClickRemove,
     onClickShrink = _ref.onClickShrink,
@@ -9262,6 +9334,7 @@ var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
       debugMode: debugMode,
       previewMode: previewMode,
       onClickAdd: onClickAdd,
+      onClickQuickAdd: onClickQuickAdd,
       onClickRemove: onClickRemove,
       onClickShrink: onClickShrink,
       onClickExpand: onClickExpand,
@@ -9280,6 +9353,7 @@ var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
     debugMode: debugMode,
     previewMode: previewMode,
     onClickAdd: onClickAdd,
+    onClickQuickAdd: onClickQuickAdd,
     onClickRemove: onClickRemove,
     onClickShrink: onClickShrink,
     onClickExpand: onClickExpand,
@@ -9901,6 +9975,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     _ref$children = _ref.children,
     children = _ref$children === void 0 ? null : _ref$children,
     onClickAdd = _ref.onClickAdd,
+    onClickQuickAdd = _ref.onClickQuickAdd,
     onClickRemove = _ref.onClickRemove,
     onChangeDirection = _ref.onChangeDirection,
     onChangeOrder = _ref.onChangeOrder,
@@ -9931,13 +10006,33 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
   function handleChangeOrder(direction) {
     onChangeOrder(item, direction);
   }
+  function handleQuickAdd(item, toItem) {
+    try {
+      console.log(item, toItem, workspace);
+      var layoutItem = getLayoutItemForWorkspace(item, workspace, toItem);
+      console.log("layout item ", layoutItem);
+      onClickQuickAdd(layoutItem.layout, toItem);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   function renderEditHeader() {
-    return item["workspace"] !== "layout" ? /*#__PURE__*/jsx("div", {
-      className: "flex flex-row px-2 p-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full"),
-      children: /*#__PURE__*/jsx("span", {
+    return item["workspace"] !== "layout" ? /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row px-2 p-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
+      children: [/*#__PURE__*/jsx("span", {
         className: "",
         children: "".concat(item["component"])
-      })
+      }), /*#__PURE__*/jsx("div", {
+        id: "quick-add-menu",
+        className: "flex flex-row",
+        children: /*#__PURE__*/jsx(LayoutQuickAddMenu, {
+          className: "text-gray-200 ".concat(getContainerColor(item)),
+          item: item,
+          onClickItem: function onClickItem(i) {
+            return handleQuickAdd(i, item);
+          }
+        })
+      })]
     }) : /*#__PURE__*/jsx("div", {
       className: "flex flex-row px-2 space-x-1 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full")
     });
@@ -10080,6 +10175,196 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
   }) : renderComponentContainer(children);
 };
 
+// TODO, move this into a argument as opposed to a file...
+var _componentMap = {};
+var ComponentManager = {
+  // _componentMap: {},
+
+  /**
+   * init
+   * @param {object} configs
+   */
+  init: function init(configs) {
+    var _this = this;
+    if (configs) {
+      Object.keys(configs).forEach(function (key) {
+        _this.registerWidget(configs[key], key);
+      });
+    }
+  },
+  setComponentMap: function setComponentMap(cm) {
+    _componentMap = cm;
+  },
+  componentMap: function componentMap() {
+    return _componentMap;
+  },
+  registerWidget: function registerWidget(widgetConfig, widgetKey) {
+    var tempComponentMap = this.componentMap();
+    tempComponentMap[widgetKey] = ComponentConfigModel(widgetConfig["default"]);
+    this.setComponentMap(tempComponentMap);
+  },
+  /**
+   * map
+   * Get a map of all of the registered components in the application
+   * @returns object
+   */
+  map: function map() {
+    // copy
+    var componentsCopy = deepCopy(this.componentMap());
+    if (componentsCopy) {
+      // additional INTERNAL components that we need
+      componentsCopy["Container"] = {
+        component: LayoutContainer,
+        canHaveChildren: true,
+        userConfig: {},
+        workspace: "layout",
+        type: "workspace",
+        width: "w-full"
+      };
+      return componentsCopy;
+    }
+    return {};
+  },
+  /**
+   * getComponent
+   * Fetch the React Component from the map of registered components
+   * @param {string} component
+   * @returns
+   */
+  getComponent: function getComponent(component) {
+    try {
+      if (component && this.componentMap()) {
+        if (ComponentManager.isLayoutContainer(component) === false) {
+          var m = this.componentMap();
+          var cmp = component in m ? m[component] : null;
+          if (cmp !== null) {
+            cmp["componentName"] = component;
+            return cmp;
+          }
+        } else {
+          return {
+            component: LayoutContainer,
+            canHaveChildren: true,
+            userConfig: {},
+            workspace: "layout",
+            type: "workspace",
+            width: "w-full"
+          };
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+  },
+  config: function config(component) {
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    if (component) {
+      var requiredFields = {
+        type: {
+          value: "text"
+        },
+        required: {
+          value: false
+        },
+        options: {
+          value: []
+        },
+        defaultValue: {
+          value: ""
+        }
+      };
+
+      // get the component configuration from the map
+      var components = ComponentManager.map();
+      if (component in components) {
+        // let c = deepCopy(components['component']);
+        var c = JSON.parse(JSON.stringify(components[component]));
+
+        // tack on the component name
+        c["component"] = component;
+
+        // if no userConfig key. let's add it for the next step
+        if ("userConfig" in c === false) {
+          c["userConfig"] = {};
+        }
+
+        // if (isLayout === false) {
+        var userPrefs = {};
+        // now we can make sure the configuration is "complete"
+        if ("userConfig" in c) {
+          Object.keys(c["userConfig"]).forEach(function (key) {
+            // check the required fields!
+            Object.keys(requiredFields).forEach(function (k) {
+              if (k in c["userConfig"][key]) {
+                if (k in c["userConfig"][key] === false) {
+                  c["userConfig"][key] = requiredFields[k]["value"];
+                }
+              }
+            });
+            // set the user preferences
+            userPrefs[key] = ComponentManager.userPrefsForItem("userPrefs" in data ? data : c, key, c["userConfig"][key]);
+          });
+        }
+
+        // set the user preferences here
+        c["userPrefs"] = userPrefs;
+        return {
+          type: c["type"],
+          workspace: c["workspace"],
+          canHaveChildren: c["canHaveChildren"],
+          userPrefs: c["userPrefs"],
+          userConfig: c["userConfig"],
+          styles: "styles" in c ? c["styles"] : {},
+          events: "events" in c ? c["events"] : [],
+          eventHandlers: "eventHandlers" in c ? c["eventHandlers"] : []
+        };
+
+        // } else {
+        //     return c;
+        // }
+      }
+
+      return null;
+    }
+    return null;
+  },
+  /**
+   * userConfig
+   * We want to make sure all of the keys are available, and if not, set defaults...
+   * @param {object} config the current configuration object
+   * @returns
+   */
+  userPrefsForItem: function userPrefsForItem(item, key, config) {
+    try {
+      var prefsForItem = {};
+      if ("userPrefs" in item) {
+        if (key in item["userPrefs"]) {
+          prefsForItem = item["userPrefs"][key];
+        } else {
+          if ("defaultValue" in config) {
+            prefsForItem = config["defaultValue"];
+          }
+        }
+      } else {
+        // no user preferences in the item yet so we can try and set the defaults.
+        prefsForItem = "defaultValue" in config ? config["defaultValue"] : "";
+      }
+      return prefsForItem;
+    } catch (e) {
+      return {};
+    }
+  },
+  /**
+   * isLayoutContainer
+   * Check if the component is a layout container
+   * @param {string} component the string name of the component to be matched in the component config file
+   * @returns boolean
+   */
+  isLayoutContainer: function isLayoutContainer(component) {
+    return component === "LayoutContainer" || component === "Container";
+  }
+};
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray$9(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$9(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$9(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$9(o, minLen); }
@@ -10119,6 +10404,8 @@ var renderLayout = function renderLayout(_ref) {
     previewMode = _ref$previewMode === void 0 ? false : _ref$previewMode,
     _ref$onClickAdd = _ref.onClickAdd,
     onClickAdd = _ref$onClickAdd === void 0 ? null : _ref$onClickAdd,
+    _ref$onClickQuickAdd = _ref.onClickQuickAdd,
+    onClickQuickAdd = _ref$onClickQuickAdd === void 0 ? undefined : _ref$onClickQuickAdd,
     _ref$onClickRemove = _ref.onClickRemove,
     onClickRemove = _ref$onClickRemove === void 0 ? null : _ref$onClickRemove,
     _ref$onClickShrink = _ref.onClickShrink,
@@ -10169,6 +10456,7 @@ var renderLayout = function renderLayout(_ref) {
         direction: direction,
         scrollable: scrollable,
         onClickAdd: onClickAdd,
+        onClickQuickAdd: onClickQuickAdd,
         order: order,
         preview: previewMode,
         onOpenConfig: onOpenConfig,
@@ -10188,6 +10476,7 @@ var renderLayout = function renderLayout(_ref) {
           debugMode: debugMode,
           previewMode: previewMode,
           onClickAdd: onClickAdd,
+          onClickQuickAdd: onClickQuickAdd,
           onClickRemove: onClickRemove,
           onClickShrink: onClickShrink,
           onClickExpand: onClickExpand,
@@ -10210,6 +10499,7 @@ var renderLayout = function renderLayout(_ref) {
         col: order,
         order: order,
         onClickAdd: onClickAdd,
+        onClickQuickAdd: onClickQuickAdd,
         onClickRemove: onClickRemove,
         onClickExpand: onClickExpand,
         onClickShrink: onClickShrink,
@@ -10688,6 +10978,67 @@ function getBorderStyle(item) {
     return WidgetFactory.workspace(item["component"]) === "layout" ? "border-dashed" : "border-2";
   } catch (e) {
     return "";
+  }
+}
+function getWidgetsForWorkspace(workspaceItem) {
+  try {
+    var componentMap = ComponentManager.map();
+    console.log("component map ", componentMap);
+    var workspaceType = workspaceItem ? workspaceItem["workspace"] : null;
+    var canAddChildren = workspaceItem ? workspaceItem["canHaveChildren"] : true;
+    var parentWorkspaceType = workspaceItem["parentWorkspaceName"] !== null && workspaceItem["parentWorkspaceName"] !== undefined ? workspaceItem["parentWorkspaceName"] : "layout";
+    if (parentWorkspaceType !== null) {
+      var options = workspaceType !== null && canAddChildren && Object.keys(componentMap).sort().filter(function (c) {
+        return componentMap[c]["type"] === "widget";
+      }).filter(function (c) {
+        return workspaceType !== null ? componentMap[c]["workspace"] === parentWorkspaceType : true;
+      }).map(function (w) {
+        return componentMap[w];
+      });
+      // .map((w) => renderMenuItem("widget", w));
+
+      // return <div className="flex flex-col rounded space-y-1">{options}</div>;
+      return options;
+    } else {
+      // return <div className="flex flex-col rounded"></div>;
+      return [];
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+function getLayoutItemForWorkspace(item, workspace) {
+  var parentItem = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  try {
+    console.log("layout", item, workspace, parentItem);
+    var layoutModel = LayoutModel(item, workspace["layout"], workspace["id"]);
+
+    // we have to give the widget an ID
+    var nextId = getNextHighestId(workspace["layout"]);
+    var nextOrderData = getNextHighestOrder(workspace["layout"]);
+    var nextOrder = nextOrderData["highest"];
+    layoutModel.id = nextId;
+    layoutModel.order = nextOrder;
+    parentItem && "id" in parentItem ? layoutModel["parent"] = parentItem["id"] : 0;
+    layoutModel["parentWorkspace"] = item["parentWorkspace"];
+    layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
+    // layoutModel["parent"] = item["id"];
+    // nearest parent workspace (use the original widget/workspace clicked
+    // to begin looking...
+
+    // lets add the data to the original workspace...
+    var newWorkspace = JSON.parse(JSON.stringify(workspace));
+    newWorkspace["layout"] = [layoutModel["parentWorkspace"], layoutModel];
+    return {
+      layout: layoutModel,
+      newWorkspace: newWorkspace
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      layout: null,
+      newWorkspace: null
+    };
   }
 }
 
@@ -11700,7 +12051,7 @@ var Button = function Button(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "Cancel" : _ref$title,
     _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    onClick = _ref$onClick === void 0 ? undefined : _ref$onClick,
     _ref$disabled = _ref.disabled,
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     _ref$padding = _ref.padding,
@@ -12129,14 +12480,12 @@ var CodeRenderer = function CodeRenderer(_ref) {
     try {
       // lazy template compiling
       var __html = Mustache.render(sanitizeTemplate(template), parsedData);
-      console.log(__html);
       return /*#__PURE__*/jsx(Component, {
         dangerouslySetInnerHTML: {
           __html: "".concat(__html)
         }
       });
     } catch (e) {
-      console.log(e);
       return /*#__PURE__*/jsx(Component, {
         dangerouslySetInnerHTML: {
           __html: sanitizeTemplate('<div className="text-red-600 font-bold">Something is wonky...</div>')
@@ -12961,196 +13310,6 @@ var DashPanel3 = function DashPanel3(_ref12) {
 DashPanel3.Header = DashPanelHeader3;
 DashPanel3.Body = DashPanelBody3;
 DashPanel3.Footer = DashPanelFooter3;
-
-// TODO, move this into a argument as opposed to a file...
-var _componentMap = {};
-var ComponentManager = {
-  // _componentMap: {},
-
-  /**
-   * init
-   * @param {object} configs
-   */
-  init: function init(configs) {
-    var _this = this;
-    if (configs) {
-      Object.keys(configs).forEach(function (key) {
-        _this.registerWidget(configs[key], key);
-      });
-    }
-  },
-  setComponentMap: function setComponentMap(cm) {
-    _componentMap = cm;
-  },
-  componentMap: function componentMap() {
-    return _componentMap;
-  },
-  registerWidget: function registerWidget(widgetConfig, widgetKey) {
-    var tempComponentMap = this.componentMap();
-    tempComponentMap[widgetKey] = ComponentConfigModel(widgetConfig["default"]);
-    this.setComponentMap(tempComponentMap);
-  },
-  /**
-   * map
-   * Get a map of all of the registered components in the application
-   * @returns object
-   */
-  map: function map() {
-    // copy
-    var componentsCopy = deepCopy(this.componentMap());
-    if (componentsCopy) {
-      // additional INTERNAL components that we need
-      componentsCopy["Container"] = {
-        component: LayoutContainer,
-        canHaveChildren: true,
-        userConfig: {},
-        workspace: "layout",
-        type: "workspace",
-        width: "w-full"
-      };
-      return componentsCopy;
-    }
-    return {};
-  },
-  /**
-   * getComponent
-   * Fetch the React Component from the map of registered components
-   * @param {string} component
-   * @returns
-   */
-  getComponent: function getComponent(component) {
-    try {
-      if (component && this.componentMap()) {
-        if (ComponentManager.isLayoutContainer(component) === false) {
-          var m = this.componentMap();
-          var cmp = component in m ? m[component] : null;
-          if (cmp !== null) {
-            cmp["componentName"] = component;
-            return cmp;
-          }
-        } else {
-          return {
-            component: LayoutContainer,
-            canHaveChildren: true,
-            userConfig: {},
-            workspace: "layout",
-            type: "workspace",
-            width: "w-full"
-          };
-        }
-      }
-    } catch (e) {
-      return null;
-    }
-  },
-  config: function config(component) {
-    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    if (component) {
-      var requiredFields = {
-        type: {
-          value: "text"
-        },
-        required: {
-          value: false
-        },
-        options: {
-          value: []
-        },
-        defaultValue: {
-          value: ""
-        }
-      };
-
-      // get the component configuration from the map
-      var components = ComponentManager.map();
-      if (component in components) {
-        // let c = deepCopy(components['component']);
-        var c = JSON.parse(JSON.stringify(components[component]));
-
-        // tack on the component name
-        c["component"] = component;
-
-        // if no userConfig key. let's add it for the next step
-        if ("userConfig" in c === false) {
-          c["userConfig"] = {};
-        }
-
-        // if (isLayout === false) {
-        var userPrefs = {};
-        // now we can make sure the configuration is "complete"
-        if ("userConfig" in c) {
-          Object.keys(c["userConfig"]).forEach(function (key) {
-            // check the required fields!
-            Object.keys(requiredFields).forEach(function (k) {
-              if (k in c["userConfig"][key]) {
-                if (k in c["userConfig"][key] === false) {
-                  c["userConfig"][key] = requiredFields[k]["value"];
-                }
-              }
-            });
-            // set the user preferences
-            userPrefs[key] = ComponentManager.userPrefsForItem("userPrefs" in data ? data : c, key, c["userConfig"][key]);
-          });
-        }
-
-        // set the user preferences here
-        c["userPrefs"] = userPrefs;
-        return {
-          type: c["type"],
-          workspace: c["workspace"],
-          canHaveChildren: c["canHaveChildren"],
-          userPrefs: c["userPrefs"],
-          userConfig: c["userConfig"],
-          styles: "styles" in c ? c["styles"] : {},
-          events: "events" in c ? c["events"] : [],
-          eventHandlers: "eventHandlers" in c ? c["eventHandlers"] : []
-        };
-
-        // } else {
-        //     return c;
-        // }
-      }
-
-      return null;
-    }
-    return null;
-  },
-  /**
-   * userConfig
-   * We want to make sure all of the keys are available, and if not, set defaults...
-   * @param {object} config the current configuration object
-   * @returns
-   */
-  userPrefsForItem: function userPrefsForItem(item, key, config) {
-    try {
-      var prefsForItem = {};
-      if ("userPrefs" in item) {
-        if (key in item["userPrefs"]) {
-          prefsForItem = item["userPrefs"][key];
-        } else {
-          if ("defaultValue" in config) {
-            prefsForItem = config["defaultValue"];
-          }
-        }
-      } else {
-        // no user preferences in the item yet so we can try and set the defaults.
-        prefsForItem = "defaultValue" in config ? config["defaultValue"] : "";
-      }
-      return prefsForItem;
-    } catch (e) {
-      return {};
-    }
-  },
-  /**
-   * isLayoutContainer
-   * Check if the component is a layout container
-   * @param {string} component the string name of the component to be matched in the component config file
-   * @returns boolean
-   */
-  isLayoutContainer: function isLayoutContainer(component) {
-    return component === "LayoutContainer" || component === "Container";
-  }
-};
 
 var _excluded$k = ["uuid", "theme", "workspaceData", "children", "width", "height", "direction", "scrollable", "space", "grow", "className"];
 function _objectWithoutProperties$k(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$k(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
@@ -23027,6 +23186,6 @@ var mockText = {
   paragraph: "Here is the body of the panelHere is the body of the panelHere\n    is the body of the panelHere is the body of the panelHere is the\n    body of the panelHere is the body of the panelHere is the body\n    of the panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panel panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the panel\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panel panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the panel\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panelHere is the body of the\n    panelHere is the body of the panel"
 };
 
-library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus);
+library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning);
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
