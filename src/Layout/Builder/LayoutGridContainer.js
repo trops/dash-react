@@ -1,9 +1,10 @@
 import React from "react";
-import { ButtonIcon, Tag } from "@dash/Common";
+import { ButtonIcon, ButtonIcon3, Tag } from "@dash/Common";
 import DropComponent from "@dash/Common/Draggable/DropComponent";
 import DragComponent from "@dash/Common/Draggable/DragComponent";
 import { WidgetFactory } from "@dash/Widget";
 import { LayoutContainer } from "@dash/Layout";
+import { LayoutQuickAddMenu } from "@dash/Layout";
 import {
     getContainerBorderColor,
     getContainerColor,
@@ -14,6 +15,7 @@ import {
     renderComponent,
 } from "@dash/Utils";
 import { ComponentManager } from "@dash";
+import { getLayoutItemForWorkspace } from "../../Utils";
 
 export const LayoutGridContainer = ({
     item,
@@ -27,6 +29,7 @@ export const LayoutGridContainer = ({
     order,
     children = null,
     onClickAdd,
+    onClickQuickAdd,
     onClickRemove,
     onChangeDirection,
     onChangeOrder,
@@ -63,14 +66,37 @@ export const LayoutGridContainer = ({
         onChangeOrder(item, direction);
     }
 
+    function handleQuickAdd(item, toItem) {
+        try {
+            console.log(item, toItem, workspace);
+            const layoutItem = getLayoutItemForWorkspace(
+                item,
+                workspace,
+                toItem
+            );
+
+            console.log("layout item ", layoutItem);
+            onClickQuickAdd(layoutItem.layout, toItem);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     function renderEditHeader() {
         return item["workspace"] !== "layout" ? (
             <div
                 className={`flex flex-row px-2 p-2 space-x-1 text-sm font-bold ${getContainerColor(
                     item
-                )} text-gray-300 w-full`}
+                )} text-gray-300 w-full justify-between items-center`}
             >
                 <span className="">{`${item["component"]}`}</span>
+                <div id="quick-add-menu" className="flex flex-row">
+                    <LayoutQuickAddMenu
+                        className={`text-gray-200 ${getContainerColor(item)}`}
+                        item={item}
+                        onClickItem={(i) => handleQuickAdd(i, item)}
+                    />
+                </div>
             </div>
         ) : (
             <div

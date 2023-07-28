@@ -107,21 +107,30 @@ export const LayoutBuilder = ({
         forceUpdate();
     }
 
-    function handleClickConfirmAdd(itemChosen, toItem) {
-        const layout = currentWorkspace["layout"];
-        const hasChildren = itemChosen["type"] === "workspace";
-        const newLayout = addItemToItemLayout(
-            layout,
-            toItem["id"],
-            itemChosen,
-            hasChildren
-        );
-        const newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-        newWorkspace["layout"] = newLayout;
+    function onClickQuickAdd(item, toItem) {
+        console.log("quick add ", item, toItem);
+    }
 
-        setCurrentWorkspace(newWorkspace);
-        setIsAddWidgetModalOpen(false);
-        forceUpdate();
+    function handleClickConfirmAdd(itemChosen, toItem) {
+        try {
+            console.log("confirm add ", itemChosen, toItem);
+            const layout = currentWorkspace["layout"];
+            const hasChildren = itemChosen["type"] === "workspace";
+            const newLayout = addItemToItemLayout(
+                layout,
+                toItem["id"],
+                itemChosen,
+                hasChildren
+            );
+            const newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+            newWorkspace["layout"] = newLayout;
+
+            setCurrentWorkspace(newWorkspace);
+            setIsAddWidgetModalOpen(false);
+            forceUpdate();
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     function handleSaveNewWorkspace(newWorkspace) {
@@ -129,7 +138,6 @@ export const LayoutBuilder = ({
         setCurrentWorkspace(() => newWorkspace);
         setIsConfigModalOpen(false);
         onWorkspaceChange(newWorkspace);
-        //forceUpdate();
     }
 
     function onClickRemove(id) {
@@ -322,6 +330,7 @@ export const LayoutBuilder = ({
                             debugMode={debugMode}
                             previewMode={preview}
                             onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}
@@ -347,6 +356,7 @@ export const LayoutBuilder = ({
                             debugMode={debugMode}
                             previewMode={preview}
                             onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}

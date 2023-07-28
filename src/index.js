@@ -41,6 +41,7 @@ import {
     faSun,
     faMoon,
     faFolderPlus,
+    faBoltLightning,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
     faHome,
@@ -84,7 +85,8 @@ library.add(
     faComputer,
     faSun,
     faMoon,
-    faFolderPlus
+    faFolderPlus,
+    faBoltLightning
 );
 
 export * from "./Api";

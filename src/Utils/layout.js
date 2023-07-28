@@ -3,12 +3,11 @@ import {
     LayoutGridContainer,
     LayoutBuilderConfigMenuItem,
     LayoutBuilderConfigContainerMenuItem,
-    LayoutContainer,
 } from "@dash/Layout";
-import { Container } from "@dash";
 import { WidgetFactory } from "@dash/Widget";
 import { LayoutModel } from "@dash/Models";
 import { deepCopy } from "@dash/Utils";
+import { ComponentManager } from "../ComponentManager";
 
 function compareChildren(a, b) {
     if (a.order < b.order) {
@@ -38,6 +37,7 @@ export const renderLayout = ({
     debugMode = false,
     previewMode = false,
     onClickAdd = null,
+    onClickQuickAdd = undefined,
     onClickRemove = null,
     onClickShrink = null,
     onClickExpand = null,
@@ -93,6 +93,7 @@ export const renderLayout = ({
                             direction={direction}
                             scrollable={scrollable}
                             onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
                             order={order}
                             preview={previewMode}
                             onOpenConfig={onOpenConfig}
@@ -114,6 +115,7 @@ export const renderLayout = ({
                                     debugMode,
                                     previewMode,
                                     onClickAdd,
+                                    onClickQuickAdd,
                                     onClickRemove,
                                     onClickShrink,
                                     onClickExpand,
@@ -141,6 +143,7 @@ export const renderLayout = ({
                             col={order}
                             order={order}
                             onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
                             onClickRemove={onClickRemove}
                             onClickExpand={onClickExpand}
                             onClickShrink={onClickShrink}
@@ -709,6 +712,87 @@ export function getBorderStyle(item) {
             : "border-2";
     } catch (e) {
         return "";
+    }
+}
+
+export function getWidgetsForWorkspace(workspaceItem) {
+    try {
+        const componentMap = ComponentManager.map();
+        console.log("component map ", componentMap);
+        const workspaceType = workspaceItem ? workspaceItem["workspace"] : null;
+        const canAddChildren = workspaceItem
+            ? workspaceItem["canHaveChildren"]
+            : true;
+
+        const parentWorkspaceType =
+            workspaceItem["parentWorkspaceName"] !== null &&
+            workspaceItem["parentWorkspaceName"] !== undefined
+                ? workspaceItem["parentWorkspaceName"]
+                : "layout";
+
+        if (parentWorkspaceType !== null) {
+            const options =
+                workspaceType !== null &&
+                canAddChildren &&
+                Object.keys(componentMap)
+                    .sort()
+                    .filter((c) => componentMap[c]["type"] === "widget")
+                    .filter((c) =>
+                        workspaceType !== null
+                            ? componentMap[c]["workspace"] ===
+                              parentWorkspaceType
+                            : true
+                    )
+                    .map((w) => componentMap[w]);
+            // .map((w) => renderMenuItem("widget", w));
+
+            // return <div className="flex flex-col rounded space-y-1">{options}</div>;
+            return options;
+        } else {
+            // return <div className="flex flex-col rounded"></div>;
+            return [];
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export function getLayoutItemForWorkspace(item, workspace, parentItem = null) {
+    try {
+        console.log("layout", item, workspace, parentItem);
+
+        const layoutModel = LayoutModel(
+            item,
+            workspace["layout"],
+            workspace["id"]
+        );
+
+        // we have to give the widget an ID
+        const nextId = getNextHighestId(workspace["layout"]);
+        const nextOrderData = getNextHighestOrder(workspace["layout"]);
+        const nextOrder = nextOrderData["highest"];
+
+        layoutModel.id = nextId;
+        layoutModel.order = nextOrder;
+
+        parentItem && "id" in parentItem
+            ? (layoutModel["parent"] = parentItem["id"])
+            : 0;
+
+        layoutModel["parentWorkspace"] = item["parentWorkspace"];
+        layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
+        // layoutModel["parent"] = item["id"];
+        // nearest parent workspace (use the original widget/workspace clicked
+        // to begin looking...
+
+        // lets add the data to the original workspace...
+        const newWorkspace = JSON.parse(JSON.stringify(workspace));
+        newWorkspace["layout"] = [layoutModel["parentWorkspace"], layoutModel];
+
+        return { layout: layoutModel, newWorkspace };
+    } catch (e) {
+        console.log(e);
+        return { layout: null, newWorkspace: null };
     }
 }
 
