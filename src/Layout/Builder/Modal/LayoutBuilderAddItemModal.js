@@ -226,6 +226,7 @@ export const LayoutBuilderAddItemModal = ({
 
     function renderAddContainer(itemData) {
         try {
+            console.log("add container", itemData);
             const workspaceSelectedTemp = JSON.parse(
                 JSON.stringify(workspaceSelected)
             );

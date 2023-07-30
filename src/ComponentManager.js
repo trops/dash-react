@@ -47,6 +47,7 @@ export const ComponentManager = {
         if (componentsCopy) {
             // additional INTERNAL components that we need
             componentsCopy["Container"] = {
+                name: "Container",
                 component: LayoutContainer,
                 canHaveChildren: true,
                 userConfig: {},
@@ -76,6 +77,7 @@ export const ComponentManager = {
                     }
                 } else {
                     return {
+                        name: "Container",
                         component: LayoutContainer,
                         canHaveChildren: true,
                         userConfig: {},

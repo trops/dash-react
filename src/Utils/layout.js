@@ -757,6 +757,48 @@ export function getWidgetsForWorkspace(workspaceItem) {
     }
 }
 
+export function getWorkspacesForWorkspace(workspaceItem, searchTerm = "") {
+    const componentMap = ComponentManager.map();
+    const canAddChildren = workspaceItem ? workspaceItem.canHaveChildren : true;
+
+    // We want to make sure the workspaceItem (parent) can have children from the config
+    // We also want to limit the workspaces to layout only
+    // if the parent workspace is NOT layout, we only allow "layout" components
+
+    const options =
+        canAddChildren === true &&
+        workspaceItem["parentWorkspaceName"] === "layout"
+            ? Object.keys(componentMap)
+                  .sort()
+                  .filter((i) =>
+                      searchTerm !== ""
+                          ? i.toLowerCase().includes(searchTerm)
+                          : true
+                  )
+                  .filter(
+                      (c) =>
+                          componentMap[c]["type"] === "workspace" ||
+                          componentMap[c]["workspace"] === "layout"
+                  )
+                  .map(
+                      (w) => componentMap[w] /*renderMenuItem("workspace", w) */
+                  )
+            : Object.keys(componentMap)
+                  .sort()
+                  .filter((i) =>
+                      searchTerm !== ""
+                          ? i.toLowerCase().includes(searchTerm)
+                          : true
+                  )
+                  .filter((c) => componentMap[c]["workspace"] === "layout")
+                  .map(
+                      (w) => componentMap[w] /*renderMenuItem("workspace", w)*/
+                  );
+
+    return options;
+    // return <div className="flex flex-col rounded space-y-1">{options}</div>;
+}
+
 export function getLayoutItemForWorkspace(item, workspace, parentItem = null) {
     try {
         console.log("layout", item, workspace, parentItem);

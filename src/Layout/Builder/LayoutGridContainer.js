@@ -69,7 +69,7 @@ export const LayoutGridContainer = ({
     function handleQuickAdd(item, toItem) {
         try {
             console.log(item, toItem, workspace);
-
+            // set the component
             item.component = item["name"];
             const layoutItem = getLayoutItemForWorkspace(
                 item,
@@ -104,8 +104,19 @@ export const LayoutGridContainer = ({
             <div
                 className={`flex flex-row px-2 space-x-1 text-xs ${getContainerColor(
                     item
-                )} text-gray-300 font-medium w-full`}
-            />
+                )} text-gray-300 font-medium w-full justify-end`}
+            >
+                <div
+                    id="quick-add-menu"
+                    className="flex flex-row justify-end py-1 px-1"
+                >
+                    <LayoutQuickAddMenu
+                        className={`text-gray-200 ${getContainerColor(item)}`}
+                        item={item}
+                        onClickItem={(i) => handleQuickAdd(i, item)}
+                    />
+                </div>
+            </div>
         );
     }
 
