@@ -6818,6 +6818,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
   }
   function renderAddContainer(itemData) {
     try {
+      console.log("add container", itemData);
       var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
       if (item.parentWorkspace !== undefined && item.parentWorkspace !== null) {
         // let's make a custom layout with the parent workspace and the item selected
@@ -8829,15 +8830,16 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     item = _ref.item;
     _ref.workspace;
+  var workspacesForWorkspace = getWorkspacesForWorkspace(item);
   var widgetsForWorkspace = getWidgetsForWorkspace(item);
-  console.log("widgets for workspace ", widgetsForWorkspace);
+  console.log("widgets for workspace ", widgetsForWorkspace, workspacesForWorkspace);
   return /*#__PURE__*/jsxs(Menu, {
     as: "div",
     className: "relative inline-block text-left",
     children: [/*#__PURE__*/jsx("div", {
       children: /*#__PURE__*/jsxs(Menu.Button, {
         className: "inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-1 text-sm font-semibold ".concat(className, " hover:bg-gray-800"),
-        children: ["Quick Add", /*#__PURE__*/jsx(ChevronDownIcon, {
+        children: ["Add", /*#__PURE__*/jsx(ChevronDownIcon, {
           className: "-mr-1 h-5 w-5 text-gray-400",
           "aria-hidden": "true"
         })]
@@ -8852,22 +8854,35 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
       leaveTo: "transform opacity-0 scale-95",
       children: /*#__PURE__*/jsx(Menu.Items, {
         className: "absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
-        children: /*#__PURE__*/jsx("div", {
+        children: /*#__PURE__*/jsxs("div", {
           className: "py-1",
-          children: widgetsForWorkspace.map(function (c) {
+          children: [workspacesForWorkspace.map(function (w) {
+            return /*#__PURE__*/jsx(Menu.Item, {
+              onClick: function onClick() {
+                return onClickItem(w);
+              },
+              children: function children(_ref2) {
+                var active = _ref2.active;
+                return /*#__PURE__*/jsx("span", {
+                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm"),
+                  children: w.name
+                });
+              }
+            });
+          }), widgetsForWorkspace.map(function (c) {
             return /*#__PURE__*/jsx(Menu.Item, {
               onClick: function onClick() {
                 return onClickItem(c);
               },
-              children: function children(_ref2) {
-                var active = _ref2.active;
+              children: function children(_ref3) {
+                var active = _ref3.active;
                 return /*#__PURE__*/jsx("span", {
                   className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm"),
                   children: c.name
                 });
               }
             });
-          })
+          })]
         })
       })
     })]
@@ -10009,6 +10024,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
   function handleQuickAdd(item, toItem) {
     try {
       console.log(item, toItem, workspace);
+      // set the component
       item.component = item["name"];
       var layoutItem = getLayoutItemForWorkspace(item, workspace, toItem);
       console.log("layout item ", layoutItem);
@@ -10035,7 +10051,18 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
         })
       })]
     }) : /*#__PURE__*/jsx("div", {
-      className: "flex flex-row px-2 space-x-1 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full")
+      className: "flex flex-row px-2 space-x-1 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full justify-end"),
+      children: /*#__PURE__*/jsx("div", {
+        id: "quick-add-menu",
+        className: "flex flex-row justify-end py-1 px-1",
+        children: /*#__PURE__*/jsx(LayoutQuickAddMenu, {
+          className: "text-gray-200 ".concat(getContainerColor(item)),
+          item: item,
+          onClickItem: function onClickItem(i) {
+            return handleQuickAdd(i, item);
+          }
+        })
+      })
     });
   }
   function renderEditFooter() {
@@ -10215,6 +10242,7 @@ var ComponentManager = {
     if (componentsCopy) {
       // additional INTERNAL components that we need
       componentsCopy["Container"] = {
+        name: "Container",
         component: LayoutContainer,
         canHaveChildren: true,
         userConfig: {},
@@ -10244,6 +10272,7 @@ var ComponentManager = {
           }
         } else {
           return {
+            name: "Container",
             component: LayoutContainer,
             canHaveChildren: true,
             userConfig: {},
@@ -11008,6 +11037,33 @@ function getWidgetsForWorkspace(workspaceItem) {
     console.log(e);
   }
 }
+function getWorkspacesForWorkspace(workspaceItem) {
+  var searchTerm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  var componentMap = ComponentManager.map();
+  var canAddChildren = workspaceItem ? workspaceItem.canHaveChildren : true;
+
+  // We want to make sure the workspaceItem (parent) can have children from the config
+  // We also want to limit the workspaces to layout only
+  // if the parent workspace is NOT layout, we only allow "layout" components
+
+  var options = canAddChildren === true && workspaceItem["parentWorkspaceName"] === "layout" ? Object.keys(componentMap).sort().filter(function (i) {
+    return searchTerm !== "" ? i.toLowerCase().includes(searchTerm) : true;
+  }).filter(function (c) {
+    return componentMap[c]["type"] === "workspace" || componentMap[c]["workspace"] === "layout";
+  }).map(function (w) {
+    return componentMap[w];
+  } /*renderMenuItem("workspace", w) */) : Object.keys(componentMap).sort().filter(function (i) {
+    return searchTerm !== "" ? i.toLowerCase().includes(searchTerm) : true;
+  }).filter(function (c) {
+    return componentMap[c]["workspace"] === "layout";
+  }).map(function (w) {
+    return componentMap[w];
+  } /*renderMenuItem("workspace", w)*/);
+
+  return options;
+  // return <div className="flex flex-col rounded space-y-1">{options}</div>;
+}
+
 function getLayoutItemForWorkspace(item, workspace) {
   var parentItem = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   try {
@@ -23189,4 +23245,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning);
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
