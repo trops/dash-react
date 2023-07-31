@@ -919,6 +919,9 @@ function getUUID(uuid) {
   var r = Math.floor(Math.random() * 10000);
   return uuid === undefined ? "".concat(prefix, "-").concat(r) : uuid;
 }
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
 var WorkspaceContext = /*#__PURE__*/createContext({
   workspaceData: null
@@ -1545,21 +1548,21 @@ var withRouter = function withRouter(Component) {
 };
 
 function _typeof$J(obj) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$J(obj); }
-var _excluded$B = ["title", "textSize", "fontWeight"];
+var _excluded$C = ["title", "textSize", "fontWeight"];
 function ownKeys$D(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$D(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$D(Object(source), !0).forEach(function (key) { _defineProperty$F(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$D(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$F(obj, key, value) { key = _toPropertyKey$J(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$J(arg) { var key = _toPrimitive$J(arg, "string"); return _typeof$J(key) === "symbol" ? key : String(key); }
 function _toPrimitive$J(input, hint) { if (_typeof$J(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$J(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$B(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$B(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$B(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$C(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$C(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$C(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var FormLabel = function FormLabel(_ref) {
   var title = _ref.title,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? null : _ref$textSize,
     _ref$fontWeight = _ref.fontWeight,
     fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
-    props = _objectWithoutProperties$B(_ref, _excluded$B);
+    props = _objectWithoutProperties$C(_ref, _excluded$C);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$D({}, props));
@@ -1571,14 +1574,14 @@ var FormLabel = function FormLabel(_ref) {
 };
 
 function _typeof$I(obj) { "@babel/helpers - typeof"; return _typeof$I = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$I(obj); }
-var _excluded$A = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
+var _excluded$B = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
 function ownKeys$C(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$C(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$C(Object(source), !0).forEach(function (key) { _defineProperty$E(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$C(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$E(obj, key, value) { key = _toPropertyKey$I(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$I(arg) { var key = _toPrimitive$I(arg, "string"); return _typeof$I(key) === "symbol" ? key : String(key); }
 function _toPrimitive$I(input, hint) { if (_typeof$I(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$I(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$A(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$A(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$A(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$B(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$B(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$B(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var InputText = function InputText(_ref) {
   var onChange = _ref.onChange,
     onKeyDown = _ref.onKeyDown,
@@ -1598,7 +1601,7 @@ var InputText = function InputText(_ref) {
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? "text-sm lg:text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$A(_ref, _excluded$A);
+    props = _objectWithoutProperties$B(_ref, _excluded$B);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$C({}, props));
@@ -1616,14 +1619,14 @@ var InputText = function InputText(_ref) {
 };
 
 function _typeof$H(obj) { "@babel/helpers - typeof"; return _typeof$H = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$H(obj); }
-var _excluded$z = ["name", "onChange", "selectedValue", "children", "textSize"];
+var _excluded$A = ["name", "onChange", "selectedValue", "children", "textSize"];
 function ownKeys$B(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$B(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$B(Object(source), !0).forEach(function (key) { _defineProperty$D(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$B(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$D(obj, key, value) { key = _toPropertyKey$H(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$H(arg) { var key = _toPrimitive$H(arg, "string"); return _typeof$H(key) === "symbol" ? key : String(key); }
 function _toPrimitive$H(input, hint) { if (_typeof$H(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$H(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$z(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$z(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$z(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$A(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$A(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$A(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var SelectMenu = function SelectMenu(_ref) {
   var name = _ref.name,
     onChange = _ref.onChange,
@@ -1631,7 +1634,7 @@ var SelectMenu = function SelectMenu(_ref) {
     children = _ref.children,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? "text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$z(_ref, _excluded$z);
+    props = _objectWithoutProperties$A(_ref, _excluded$A);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$B({}, props));
@@ -3489,14 +3492,14 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
 };
 
 function _typeof$E(obj) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$E(obj); }
-var _excluded$y = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
+var _excluded$z = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
 function ownKeys$z(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$z(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$z(Object(source), !0).forEach(function (key) { _defineProperty$A(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$z(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$A(obj, key, value) { key = _toPropertyKey$E(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$E(arg) { var key = _toPrimitive$E(arg, "string"); return _typeof$E(key) === "symbol" ? key : String(key); }
 function _toPrimitive$E(input, hint) { if (_typeof$E(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$E(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$y(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$y(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$y(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$z(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$z(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$z(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var ColorTile = function ColorTile(_ref) {
   var _ref$colorFromTheme = _ref.colorFromTheme,
     colorFromTheme = _ref$colorFromTheme === void 0 ? null : _ref$colorFromTheme,
@@ -3520,7 +3523,7 @@ var ColorTile = function ColorTile(_ref) {
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-10" : _ref$height,
-    rest = _objectWithoutProperties$y(_ref, _excluded$y);
+    rest = _objectWithoutProperties$z(_ref, _excluded$z);
   var c = ColorModel(_objectSpread$z({
     colorFromTheme: colorFromTheme,
     colorName: colorName,
@@ -5407,7 +5410,6 @@ var Dashboard = function Dashboard(_ref) {
   }
   function renderComponent(workspaceItem) {
     try {
-      console.log("changing workspace ", workspaceItem);
       return workspaceItem !== undefined ? /*#__PURE__*/jsx(LayoutBuilder, {
         dashboardId: workspaceItem["id"],
         preview: previewMode,
@@ -6442,9 +6444,9 @@ var Layout = function Layout(_ref) {
   });
 };
 
-var _excluded$x = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick"];
-function _objectWithoutProperties$x(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$x(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$x(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _excluded$y = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick"];
+function _objectWithoutProperties$y(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$y(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$y(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var LayoutContainer = function LayoutContainer(_ref) {
   var id = _ref.id,
     children = _ref.children,
@@ -6466,7 +6468,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
     debug = _ref$debug === void 0 ? false : _ref$debug,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? undefined : _ref$onClick;
-    _objectWithoutProperties$x(_ref, _excluded$x);
+    _objectWithoutProperties$y(_ref, _excluded$y);
   var containerId = getUUID(id);
   // get the styles
   var _useContext = useContext$1(ThemeContext),
@@ -6566,13 +6568,13 @@ var LayoutManagerPicker = function LayoutManagerPicker() {
   });
 };
 
-var _excluded$w = ["open", "setIsOpen"];
-function _objectWithoutProperties$w(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$w(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$w(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _excluded$x = ["open", "setIsOpen"];
+function _objectWithoutProperties$x(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$x(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$x(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var LayoutManagerModal = function LayoutManagerModal(_ref) {
   var open = _ref.open,
     setIsOpen = _ref.setIsOpen,
-    props = _objectWithoutProperties$w(_ref, _excluded$w);
+    props = _objectWithoutProperties$x(_ref, _excluded$x);
   function handleSelectLayout(data) {
     console.log(data);
   }
@@ -6855,6 +6857,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
     width: "w-5/6",
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col w-full h-full overflow-hidden",
         children: [/*#__PURE__*/jsxs("div", {
@@ -7174,8 +7177,10 @@ var PanelCode = function PanelCode(_ref) {
           children: [/*#__PURE__*/jsx("div", {
             className: "flex ".concat(theme["bg-secondary-very-dark"], " p-2 text-xs text-gray-300 rounded-br uppercase font-bold"),
             children: "Code Editor"
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col text-green-600 overflow-y-scroll ".concat(theme["bg-secondary-very-dark"]),
+          }), /*#__PURE__*/jsx(LayoutContainer, {
+            direction: "col",
+            scrollable: true,
+            className: "text-green-600 ".concat(theme["bg-secondary-very-dark"]),
             children: itemSelected !== null && workspaceSelected !== null && /*#__PURE__*/jsx("div", {
               className: "text-xs break-all h-full ".concat(theme["bg-secondary-very-dark"]),
               children: /*#__PURE__*/jsx(CodeEditorInline, {
@@ -7596,8 +7601,10 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
             children: [/*#__PURE__*/jsxs("span", {
               className: "uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2",
               children: ["Available Events", " "]
-            }), /*#__PURE__*/jsx("div", {
-              className: "flex flex-col h-full overflow-y-scroll p-2",
+            }), /*#__PURE__*/jsx(LayoutContainer, {
+              direction: "col",
+              scrollable: true,
+              className: "p-2",
               children: eventHandlerSelected !== null && renderAvailableEvents()
             })]
           })]
@@ -7687,6 +7694,7 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
     width: "w-11/12 xl:w-5/6",
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col w-full h-full overflow-hidden",
         children: [/*#__PURE__*/jsxs("div", {
@@ -8836,7 +8844,7 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
   console.log("widgets for workspace ", widgetsForWorkspace, workspacesForWorkspace);
   return /*#__PURE__*/jsxs(Menu, {
     as: "div",
-    className: "absolute inline-block text-left z-50",
+    className: "fixed inline-block text-left z-50",
     children: [/*#__PURE__*/jsx("div", {
       children: /*#__PURE__*/jsxs(Menu.Button, {
         className: "flex items-center rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-none",
@@ -8857,9 +8865,9 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
       leaveFrom: "transform opacity-100 scale-100",
       leaveTo: "transform opacity-0 scale-95",
       children: /*#__PURE__*/jsx(Menu.Items, {
-        className: "absolute right-0 z-50 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
+        className: "fixed right-0 z-50 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
         children: /*#__PURE__*/jsxs("div", {
-          className: "py-1",
+          className: "py-1 z-50",
           children: [workspacesForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
             className: "px-4 py-3",
             children: /*#__PURE__*/jsx("p", {
@@ -8874,7 +8882,7 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
               children: function children(_ref2) {
                 var active = _ref2.active;
                 return /*#__PURE__*/jsxs("span", {
-                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2"),
+                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2 z-50"),
                   children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
                     icon: "square"
                   }), /*#__PURE__*/jsx("span", {
@@ -8884,7 +8892,7 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
               }
             });
           }), widgetsForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
-            className: "px-4 py-3",
+            className: "px-4 py-3 z-50",
             children: /*#__PURE__*/jsx("p", {
               className: "text-sm text-gray-400",
               children: "Widgets"
@@ -8897,7 +8905,7 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
               children: function children(_ref3) {
                 var active = _ref3.active;
                 return /*#__PURE__*/jsxs("span", {
-                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2"),
+                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2 z-50"),
                   children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
                     icon: "cog"
                   }), /*#__PURE__*/jsx("span", {
@@ -9473,7 +9481,7 @@ function DragComponent(_ref) {
     ref: drag,
     id: collected.id,
     type: collected.type,
-    className: "scale-100 flex flex-col ".concat(width, " min-w-xl rounded min-h-fit"),
+    className: "scale-100 flex flex-col ".concat(width, " min-w-xl rounded min-h-fit z-10"),
     style: {
       animationDelay: "-.75s",
       animationDuration: ".25s"
@@ -9482,6 +9490,13 @@ function DragComponent(_ref) {
   });
 }
 
+/**
+ * LayoutBuilderGridItem
+ * An item without any Children in the editable layout
+ *
+ * @param {*} param0
+ * @returns
+ */
 var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
   var item = _ref.item,
     workspace = _ref.workspace,
@@ -9498,9 +9513,9 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
     onChangeOrder = _ref.onChangeOrder,
     onOpenConfig = _ref.onOpenConfig,
     onOpenEvents = _ref.onOpenEvents,
-    onDropItem = _ref.onDropItem,
-    width = _ref.width,
-    direction = _ref.direction,
+    onDropItem = _ref.onDropItem;
+    _ref.width;
+    var direction = _ref.direction,
     isDraggable = _ref.isDraggable;
   function handleClickRemove(e) {
     console.log("clicked remove ", e);
@@ -9595,9 +9610,9 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
       type: drag,
       parent: parent,
       onDropItem: handleDropItem,
-      width: width,
+      width: "w-full",
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 z-0 p-2 overflow-hidden ").concat(getContainerColor(item["parentWorkspace"])),
+        className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 p-2 ").concat(getContainerColor(item["parentWorkspace"])),
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex flex-col ".concat(scrollable, " ").concat(preview === false && "text-blue-900 rounded", " "),
           onClick: handleOpenConfig,
@@ -9640,7 +9655,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
         })]
       })
     }) : /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0",
+      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 grow",
       children: [/*#__PURE__*/jsx("div", {
         className: "flex flex-row space-x-2 rounded-t justify-between w-full",
         children: /*#__PURE__*/jsxs("div", {
@@ -9780,14 +9795,14 @@ function DropComponent(_ref) {
 }
 
 function _typeof$B(obj) { "@babel/helpers - typeof"; return _typeof$B = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$B(obj); }
-var _excluded$v = ["uuid", "children", "version", "direction", "scrollable", "className", "width", "height", "space", "grow"];
+var _excluded$w = ["uuid", "children", "version", "direction", "scrollable", "className", "width", "height", "space", "grow"];
 function ownKeys$w(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$w(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$w(Object(source), !0).forEach(function (key) { _defineProperty$x(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$w(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$x(obj, key, value) { key = _toPropertyKey$B(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey$B(arg) { var key = _toPrimitive$B(arg, "string"); return _typeof$B(key) === "symbol" ? key : String(key); }
 function _toPrimitive$B(input, hint) { if (_typeof$B(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$B(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties$v(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$v(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose$v(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutProperties$w(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$w(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$w(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var Widget = function Widget(_ref) {
   var uuid = _ref.uuid,
     children = _ref.children,
@@ -9807,7 +9822,7 @@ var Widget = function Widget(_ref) {
     space = _ref$space === void 0 ? true : _ref$space,
     _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? true : _ref$grow,
-    props = _objectWithoutProperties$v(_ref, _excluded$v);
+    props = _objectWithoutProperties$w(_ref, _excluded$w);
   var uuidString = getUUID(uuid);
   return /*#__PURE__*/jsx(WidgetContext.Provider, {
     value: {
@@ -10000,82 +10015,160 @@ var WidgetFactory = {
   }
 };
 
+var _excluded$v = ["layoutItem", "workspace", "direction", "order", "parent", "onClickAdd", "onChangeDirection", "onChangeOrder", "onRemove", "onOpenConfig"];
+function _objectWithoutProperties$v(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$v(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose$v(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var LayoutItemEditHeader = function LayoutItemEditHeader(_ref) {
+  var layoutItem = _ref.layoutItem,
+    workspace = _ref.workspace,
+    direction = _ref.direction,
+    order = _ref.order,
+    parent = _ref.parent,
+    onClickAdd = _ref.onClickAdd,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onRemove = _ref.onRemove,
+    onOpenConfig = _ref.onOpenConfig;
+    _objectWithoutProperties$v(_ref, _excluded$v);
+  function renderEditFooter(item) {
+    var config = ComponentManager.config(item["component"], item);
+    var canHaveChildren = config ? config["canHaveChildren"] : false;
+    var numChildren = numChildrenForLayout(item, workspace["layout"]);
+
+    // determine the parent layout direction...
+    var parentLayout = getLayoutItemById(workspace["layout"], item["parent"]);
+    var parentDirection = parentLayout ? parentLayout["direction"] : item["parentWorkspace"]["direction"];
+
+    // determine if the item is at the "start/end" of the col/row
+    var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
+    var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
+    var isContainer = item["component"] === "Container";
+    var textColor = isContainer === true ? "text-gray-700" : "text-gray-300";
+    console.log("HEADER ", isContainer, textColor, item);
+    return /*#__PURE__*/jsx("div", {
+      className: "flex flex-row space-x-1 justify-between w-full pb-1",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-1 ".concat(textColor),
+        children: [canHaveChildren === true && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "plus",
+          onClick: onClickAdd,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-green-700",
+          className: "".concat(textColor)
+        }), /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "".concat(direction === "col" ? "arrows-left-right" : "arrows-up-down"),
+          onClick: onChangeDirection,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700",
+          className: "".concat(textColor)
+        }), /*#__PURE__*/jsx(ButtonIcon3, {
+          className: "".concat(textColor),
+          icon: "cog",
+          onClick: onOpenConfig,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700"
+        }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "".concat(parentDirection === "col" ? "arrow-up" : "arrow-left"),
+          iconSize: "h-3 w-3",
+          onClick: function onClick() {
+            return onChangeOrder("down");
+          },
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700",
+          className: "".concat(textColor)
+        }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "".concat(parentDirection === "col" ? "arrow-down" : "arrow-right"),
+          iconSize: "h-3 w-3",
+          onClick: function onClick() {
+            return onChangeOrder("up");
+          },
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700",
+          className: "".concat(textColor)
+        }), parent > 0 && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "trash",
+          iconSize: "h-3 w-3",
+          onClick: onRemove,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-red-900",
+          className: "".concat(textColor)
+        })]
+      })
+    });
+  }
+  function renderEditHeader(item) {
+    return item["workspace"] !== "layout" ? /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row px-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
+      children: [/*#__PURE__*/jsx("span", {
+        className: "text-xs font-medium",
+        children: "".concat(item["component"])
+      }), /*#__PURE__*/jsx("div", {
+        id: "quick-add-menu",
+        className: "flex flex-row",
+        children: renderEditFooter(layoutItem)
+      })]
+    }) : /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row space-x-1 px-2 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full justify-between items-center z-10"),
+      children: [/*#__PURE__*/jsx("span", {
+        className: "text-xs font-medium text-gray-500",
+        children: "".concat(item["component"])
+      }), /*#__PURE__*/jsx("div", {
+        id: "quick-add-menu",
+        className: "flex flex-row justify-end py-1 px-1",
+        children: renderEditFooter(layoutItem)
+      })]
+    });
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full justify-end z-10 flex-shrink",
+    children: renderEditHeader(layoutItem)
+  });
+};
+
 var LayoutGridContainer = function LayoutGridContainer(_ref) {
   var item = _ref.item,
     workspace = _ref.workspace,
     _ref$preview = _ref.preview,
     preview = _ref$preview === void 0 ? false : _ref$preview,
-    id = _ref.id;
-    _ref.parent;
-    var scrollable = _ref.scrollable;
+    id = _ref.id,
+    parent = _ref.parent,
+    scrollable = _ref.scrollable;
     _ref.space;
-    var grow = _ref.grow;
-    _ref.order;
-    var _ref$children = _ref.children,
-    children = _ref$children === void 0 ? null : _ref$children;
-    _ref.onClickAdd;
-    var onClickQuickAdd = _ref.onClickQuickAdd;
-    _ref.onClickRemove;
-    _ref.onChangeDirection;
-    _ref.onChangeOrder;
-    _ref.onOpenConfig;
+    var grow = _ref.grow,
+    order = _ref.order,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children,
+    onClickAdd = _ref.onClickAdd;
+    _ref.onClickQuickAdd;
+    var onClickRemove = _ref.onClickRemove,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onOpenConfig = _ref.onOpenConfig;
     _ref.onOpenEvents;
     var width = _ref.width,
     direction = _ref.direction,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-full" : _ref$height,
     onDropItem = _ref.onDropItem;
+  function handleClickAdd() {
+    onClickAdd(item);
+  }
+  function handleClickRemove(item) {
+    onClickRemove(id);
+  }
+  function handleChangeDirection(item) {
+    onChangeDirection(id, direction);
+  }
+  function handleOpenConfig() {
+    onOpenConfig(item);
+  }
   function handleDropItem(item) {
     if (onDropItem) {
       onDropItem(item);
     }
   }
-  function handleQuickAdd(item, toItem) {
-    try {
-      console.log(item, toItem, workspace);
-      // set the component
-      item.component = item["name"];
-      var layoutItem = getLayoutItemForWorkspace(item, workspace, toItem);
-      console.log("layout item ", layoutItem);
-      onClickQuickAdd(layoutItem.layout, toItem);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  function renderEditHeader() {
-    return item["workspace"] !== "layout" ? /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row px-2 py-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
-      children: [/*#__PURE__*/jsx("span", {
-        className: "text-sm font-bold",
-        children: "".concat(item["component"])
-      }), /*#__PURE__*/jsx("div", {
-        id: "quick-add-menu",
-        className: "flex flex-row",
-        children: /*#__PURE__*/jsx(LayoutQuickAddMenu, {
-          className: "text-gray-200 ".concat(getContainerColor(item)),
-          item: item,
-          onClickItem: function onClickItem(i) {
-            return handleQuickAdd(i, item);
-          }
-        })
-      })]
-    }) : /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row px-2 py-1 space-x-1 mt-1 ml-1 mr-1 rounded text-xs text-gray-300 font-medium w-full justify-between items-center bg-gray-800",
-      children: [/*#__PURE__*/jsx("span", {
-        className: "text-sm font-bold text-gray-500",
-        children: "".concat(item["component"])
-      }), /*#__PURE__*/jsx("div", {
-        id: "quick-add-menu",
-        className: "flex flex-row justify-end py-1 px-1",
-        children: /*#__PURE__*/jsx(LayoutQuickAddMenu, {
-          className: "text-gray-200 ".concat(getContainerColor(item)),
-          item: item,
-          onClickItem: function onClickItem(i) {
-            return handleQuickAdd(i, item);
-          }
-        })
-      })]
-    });
+  function handleChangeOrder(direction) {
+    onChangeOrder(item, direction);
   }
   function getBorderStyle() {
     try {
@@ -10135,9 +10228,20 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
         width: "w-full",
         height: "h-fit",
         scrollable: false,
-        className: "rounded overflow-x-hidden ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24"),
+        className: "rounded overflow-x-hidden ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24 ").concat(item["component"] === "Container" && "", " z-10"),
         space: preview,
-        children: [preview === false && renderEditHeader(), /*#__PURE__*/jsx(LayoutContainer, {
+        children: [preview === false && /*#__PURE__*/jsx(LayoutItemEditHeader, {
+          layoutItem: item,
+          workspace: workspace,
+          direction: direction,
+          order: order,
+          parent: parent,
+          onChangeOrder: handleChangeOrder,
+          onChangeDirection: handleChangeDirection,
+          onRemove: handleClickRemove,
+          onClickAdd: handleClickAdd,
+          onOpenConfig: handleOpenConfig
+        }), /*#__PURE__*/jsx(LayoutContainer, {
           id: "grid-container-".concat(id),
           direction: direction,
           scrollable: scrollable,
@@ -10145,7 +10249,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
           height: "".concat(height, " min-h-24"),
           space: preview,
           grow: grow,
-          className: "".concat(preview === false && "p-3", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
+          className: "".concat(preview === false && item["component"] !== "Container" ? "p-3" : "px-1", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
           children: children !== null && children
         })]
       })
@@ -10573,7 +10677,7 @@ function renderComponent(component, id) {
 
       var WidgetToRender = WidgetFactory.render(component, "widget-".concat(id), params, children);
       return WidgetToRender ? WidgetToRender : /*#__PURE__*/jsx("div", {
-        className: "flex flex-col h-full justify-center w-full font-bold text-2xl items-center text-gray-200",
+        className: "flex flex-col h-full justify-center w-full font-bold text-2xl items-center text-gray-200 z-10",
         children: "There was no Widget found"
       });
     } else {
@@ -10987,6 +11091,15 @@ function getWidgetsForWorkspace(workspaceItem) {
     console.log(e);
   }
 }
+
+/**
+ * getWorkspacesForWorkspace
+ * Get the available Layout items (workspaces, containers) that may be added
+ * to the workspace/container item passed in
+ * @param {object} workspaceItem the layout type item
+ * @param {string} searchTerm the optional search term
+ * @returns Array an array of available layout objects
+ */
 function getWorkspacesForWorkspace(workspaceItem) {
   var searchTerm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
   var componentMap = ComponentManager.map();
@@ -11626,7 +11739,7 @@ var Modal = function Modal(_ref2) {
     onClose: function onClose() {
       return setIsOpen(false);
     },
-    className: "relative z-50 overflow-hidden rounded",
+    className: "relative z-40 overflow-hidden rounded",
     children: [/*#__PURE__*/jsx("div", {
       className: "fixed inset-0 bg-black/90",
       "aria-hidden": "true",
@@ -12160,9 +12273,9 @@ var Button3 = function Button3(_ref3) {
 };
 
 function _typeof$v(obj) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$v(obj); }
-var _excluded$r = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className"],
-  _excluded2$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"],
-  _excluded3$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled"];
+var _excluded$r = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "disabled", "className"],
+  _excluded2$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className"],
+  _excluded3$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className"];
 function ownKeys$q(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$q(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$q(Object(source), !0).forEach(function (key) { _defineProperty$r(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$q(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$r(obj, key, value) { key = _toPropertyKey$v(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -12179,8 +12292,9 @@ var ButtonIcon = function ButtonIcon(_ref) {
     text = _ref$text === void 0 ? "" : _ref$text;
     _ref.block;
     var _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs lg:text-base" : _ref$textSize,
-    _ref$iconSize = _ref.iconSize,
+    textSize = _ref$textSize === void 0 ? "text-xs lg:text-base" : _ref$textSize;
+    _ref.textColor;
+    var _ref$iconSize = _ref.iconSize,
     iconSize = _ref$iconSize === void 0 ? "h-4 w-4" : _ref$iconSize,
     _ref$backgroundColor = _ref.backgroundColor,
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
@@ -12235,6 +12349,8 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     backgroundColor = _ref2$backgroundColor === void 0 ? null : _ref2$backgroundColor,
     _ref2$disabled = _ref2.disabled,
     disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
     props = _objectWithoutProperties$r(_ref2, _excluded2$3);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -12252,10 +12368,13 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
   var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
   return /*#__PURE__*/jsxs("div", {
     onClick: handleOnClick,
-    className: "flex flex-row  ".concat(styles.string, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-2 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
-    children: [icon !== "" && /*#__PURE__*/jsx(FontAwesomeIcon, {
-      icon: icon,
-      className: "".concat(iconSize)
+    className: "flex flex-row  ".concat(styles.string, " ").concat(className, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-1 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
+    children: [icon !== "" && /*#__PURE__*/jsx("span", {
+      className: "".concat(text === "" && "p-1"),
+      children: /*#__PURE__*/jsx(FontAwesomeIcon, {
+        icon: icon,
+        className: "".concat(iconSize, " justify-center items-center")
+      })
     }), text !== null && /*#__PURE__*/jsx("span", {
       className: text === "" ? "ml-0" : "ml-2",
       children: text
@@ -12272,13 +12391,15 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     _ref3$block = _ref3.block,
     block = _ref3$block === void 0 ? false : _ref3$block,
     _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref3$textSize,
+    textSize = _ref3$textSize === void 0 ? "text-xs lg:text-sm 2xl:text-sm" : _ref3$textSize,
     _ref3$iconSize = _ref3.iconSize,
-    iconSize = _ref3$iconSize === void 0 ? "h-4 w-4" : _ref3$iconSize,
+    iconSize = _ref3$iconSize === void 0 ? "h-3 w-3" : _ref3$iconSize,
     _ref3$backgroundColor = _ref3.backgroundColor,
     backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
     _ref3$disabled = _ref3.disabled,
     disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
     props = _objectWithoutProperties$r(_ref3, _excluded3$3);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -12293,16 +12414,19 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     }
   }
   var disabledStyles = onClick !== null && disabled === false && "cursor-pointer";
-  var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
+  var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-1" : "space-x-0 px-0";
 
   // center styles
   var center = "justify-center items-center cursor-pointer";
   return /*#__PURE__*/jsxs("div", {
     onClick: handleOnClick,
-    className: "flex flex-row ".concat(styles.string, " rounded font-medium ").concat(center, " ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-2 ").concat(textSize, " ").concat(block === true && "w-full", " ").concat(styles.string, " whitespace-nowrap"),
-    children: [icon !== "" && /*#__PURE__*/jsx(FontAwesomeIcon, {
-      icon: icon,
-      className: "".concat(iconSize)
+    className: "flex flex-row ".concat(className, " ").concat(styles.string, " rounded font-medium ").concat(center, " ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " ").concat(textSize, " ").concat(block === true && "w-full", " ").concat(styles.string, " whitespace-nowrap"),
+    children: [icon !== "" && /*#__PURE__*/jsx("span", {
+      className: "".concat(text === "" && "p-1"),
+      children: /*#__PURE__*/jsx(FontAwesomeIcon, {
+        icon: icon,
+        className: "".concat(iconSize, " justify-center items-center")
+      })
     }), text !== null && /*#__PURE__*/jsx("span", {
       className: text === "" ? "ml-0" : "ml-2",
       children: text
@@ -23195,4 +23319,4 @@ var mockText = {
 
 library.add(faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faDatabase, faEarListen, faSignal, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning);
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getRandomInt, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
