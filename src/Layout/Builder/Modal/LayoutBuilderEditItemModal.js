@@ -146,9 +146,9 @@ export const LayoutBuilderEditItemModal = ({
                 width={"w-5/6 2xl:w-3/4"}
                 height="h-5/6"
             >
-                <Panel>
+                <Panel padding={false}>
                     <div
-                        className={`flex flex-col w-full h-full space-y-2 overflow-hidden p-4`}
+                        className={`flex flex-col w-full h-full space-y-2 overflow-hidden`}
                     >
                         <div className="flex flex-row text-xl font-bold text-white justify-between">
                             <div className="flex flex-row text-xl font-bold text-white p-2 space-x-2 justify-center items-center">

@@ -1,3 +1,10 @@
+/**
+ * LayoutBuilderGridItem
+ * An item without any Children in the editable layout
+ *
+ * @param {*} param0
+ * @returns
+ */
 import React from "react";
 import { ButtonIcon, Tag } from "@dash/Common";
 import DragComponent from "@dash/Common/Draggable/DragComponent";
@@ -172,12 +179,12 @@ export const LayoutBuilderGridItem = ({
                 type={drag}
                 parent={parent}
                 onDropItem={handleDropItem}
-                width={width}
+                width={"w-full"}
             >
                 <div
                     className={`flex flex-col border-4 ${getContainerBorderColor(
                         item["parentWorkspace"]
-                    )} rounded text-xs font-bold text-gray-200 z-0 p-2 overflow-hidden ${getContainerColor(
+                    )} rounded text-xs font-bold text-gray-200 p-2 ${getContainerColor(
                         item["parentWorkspace"]
                     )}`}
                 >
@@ -262,7 +269,7 @@ export const LayoutBuilderGridItem = ({
             </DragComponent>
         ) : (
             <div
-                className={`flex flex-col border-4 rounded text-xs font-bold text-gray-200 overflow-hidden grow z-0`}
+                className={`flex flex-col border-4 rounded text-xs font-bold text-gray-200 grow`}
             >
                 <div className="flex flex-row space-x-2 rounded-t justify-between w-full">
                     <div className="hidden xl:flex flex-row space-x-1 w-full justify-end p-2">

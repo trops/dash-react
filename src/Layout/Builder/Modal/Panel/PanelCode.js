@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { CodeEditorInline, Panel } from "@dash/Common";
 import deepEqual from "deep-equal";
 import { ThemeContext } from "@dash/Context/ThemeContext";
+import { LayoutContainer } from "../../../LayoutContainer";
 
 export const PanelCode = ({ workspace, onUpdate, item = null }) => {
     const { theme } = useContext(ThemeContext);
@@ -70,8 +71,10 @@ export const PanelCode = ({ workspace, onUpdate, item = null }) => {
                             >
                                 Code Editor
                             </div>
-                            <div
-                                className={`flex flex-col text-green-600 overflow-y-scroll ${theme["bg-secondary-very-dark"]}`}
+                            <LayoutContainer
+                                direction="col"
+                                scrollable={true}
+                                className={`text-green-600 ${theme["bg-secondary-very-dark"]}`}
                             >
                                 {itemSelected !== null &&
                                     workspaceSelected !== null && (
@@ -89,7 +92,7 @@ export const PanelCode = ({ workspace, onUpdate, item = null }) => {
                                             />
                                         </div>
                                     )}
-                            </div>
+                            </LayoutContainer>
                         </div>
                     </div>
                 </div>

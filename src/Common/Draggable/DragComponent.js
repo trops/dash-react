@@ -50,7 +50,7 @@ export default function DragComponent({
             ref={drag}
             id={collected.id}
             type={collected.type}
-            className={`scale-100 flex flex-col ${width} min-w-xl rounded min-h-fit`}
+            className={`scale-100 flex flex-col ${width} min-w-xl rounded min-h-fit z-10`}
             style={{ animationDelay: "-.75s", animationDuration: ".25s" }}
         >
             {children}

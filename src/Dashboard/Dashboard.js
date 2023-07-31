@@ -178,7 +178,6 @@ export const Dashboard = ({
 
     function renderComponent(workspaceItem) {
         try {
-            console.log("changing workspace ", workspaceItem);
             return workspaceItem !== undefined ? (
                 <LayoutBuilder
                     dashboardId={workspaceItem["id"]}

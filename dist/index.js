@@ -12,7 +12,7 @@ import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 import deepEqual from 'deep-equal';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import parseArgs from 'minimist';
 import algoliasearch from 'algoliasearch';
@@ -7074,6 +7074,7 @@ var PanelEditItem = function PanelEditItem(_ref) {
     }
   }
   return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
+    padding: false,
     children: /*#__PURE__*/jsxs("div", {
       className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
       children: [/*#__PURE__*/jsx("div", {
@@ -7888,8 +7889,9 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
     width: "w-5/6 2xl:w-3/4",
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full space-y-2 overflow-hidden p-4",
+        className: "flex flex-col w-full h-full space-y-2 overflow-hidden",
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex flex-row text-xl font-bold text-white justify-between",
           children: [/*#__PURE__*/jsx("div", {
@@ -8825,22 +8827,24 @@ function classNames() {
 }
 var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
   var _ref$onClickItem = _ref.onClickItem,
-    onClickItem = _ref$onClickItem === void 0 ? undefined : _ref$onClickItem,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
-    item = _ref.item;
+    onClickItem = _ref$onClickItem === void 0 ? undefined : _ref$onClickItem;
+    _ref.className;
+    var item = _ref.item;
     _ref.workspace;
   var workspacesForWorkspace = getWorkspacesForWorkspace(item);
   var widgetsForWorkspace = getWidgetsForWorkspace(item);
   console.log("widgets for workspace ", widgetsForWorkspace, workspacesForWorkspace);
   return /*#__PURE__*/jsxs(Menu, {
     as: "div",
-    className: "relative inline-block text-left",
+    className: "absolute inline-block text-left z-50",
     children: [/*#__PURE__*/jsx("div", {
       children: /*#__PURE__*/jsxs(Menu.Button, {
-        className: "inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-1 text-sm font-semibold ".concat(className, " hover:bg-gray-800"),
-        children: ["Add", /*#__PURE__*/jsx(ChevronDownIcon, {
-          className: "-mr-1 h-5 w-5 text-gray-400",
+        className: "flex items-center rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-none",
+        children: [/*#__PURE__*/jsx("span", {
+          className: "sr-only",
+          children: "Open options"
+        }), /*#__PURE__*/jsx(EllipsisVerticalIcon, {
+          className: "h-5 w-5",
           "aria-hidden": "true"
         })]
       })
@@ -8853,22 +8857,38 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
       leaveFrom: "transform opacity-100 scale-100",
       leaveTo: "transform opacity-0 scale-95",
       children: /*#__PURE__*/jsx(Menu.Items, {
-        className: "absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
+        className: "absolute right-0 z-50 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
         children: /*#__PURE__*/jsxs("div", {
           className: "py-1",
-          children: [workspacesForWorkspace.map(function (w) {
+          children: [workspacesForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
+            className: "px-4 py-3",
+            children: /*#__PURE__*/jsx("p", {
+              className: "text-sm text-gray-400",
+              children: "Layout/Function"
+            })
+          }), workspacesForWorkspace.map(function (w) {
             return /*#__PURE__*/jsx(Menu.Item, {
               onClick: function onClick() {
                 return onClickItem(w);
               },
               children: function children(_ref2) {
                 var active = _ref2.active;
-                return /*#__PURE__*/jsx("span", {
-                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm"),
-                  children: w.name
+                return /*#__PURE__*/jsxs("span", {
+                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2"),
+                  children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                    icon: "square"
+                  }), /*#__PURE__*/jsx("span", {
+                    children: w.name
+                  })]
                 });
               }
             });
+          }), widgetsForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
+            className: "px-4 py-3",
+            children: /*#__PURE__*/jsx("p", {
+              className: "text-sm text-gray-400",
+              children: "Widgets"
+            })
           }), widgetsForWorkspace.map(function (c) {
             return /*#__PURE__*/jsx(Menu.Item, {
               onClick: function onClick() {
@@ -8876,9 +8896,13 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
               },
               children: function children(_ref3) {
                 var active = _ref3.active;
-                return /*#__PURE__*/jsx("span", {
-                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm"),
-                  children: c.name
+                return /*#__PURE__*/jsxs("span", {
+                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2"),
+                  children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                    icon: "cog"
+                  }), /*#__PURE__*/jsx("span", {
+                    children: c.name
+                  })]
                 });
               }
             });
@@ -9981,45 +10005,30 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     workspace = _ref.workspace,
     _ref$preview = _ref.preview,
     preview = _ref$preview === void 0 ? false : _ref$preview,
-    id = _ref.id,
-    parent = _ref.parent,
-    scrollable = _ref.scrollable;
+    id = _ref.id;
+    _ref.parent;
+    var scrollable = _ref.scrollable;
     _ref.space;
-    var grow = _ref.grow,
-    order = _ref.order,
-    _ref$children = _ref.children,
-    children = _ref$children === void 0 ? null : _ref$children,
-    onClickAdd = _ref.onClickAdd,
-    onClickQuickAdd = _ref.onClickQuickAdd,
-    onClickRemove = _ref.onClickRemove,
-    onChangeDirection = _ref.onChangeDirection,
-    onChangeOrder = _ref.onChangeOrder,
-    onOpenConfig = _ref.onOpenConfig;
+    var grow = _ref.grow;
+    _ref.order;
+    var _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children;
+    _ref.onClickAdd;
+    var onClickQuickAdd = _ref.onClickQuickAdd;
+    _ref.onClickRemove;
+    _ref.onChangeDirection;
+    _ref.onChangeOrder;
+    _ref.onOpenConfig;
     _ref.onOpenEvents;
     var width = _ref.width,
     direction = _ref.direction,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-full" : _ref$height,
     onDropItem = _ref.onDropItem;
-  function handleClickAdd() {
-    onClickAdd(item);
-  }
-  function handleClickRemove(item) {
-    onClickRemove(id);
-  }
-  function handleChangeDirection(item) {
-    onChangeDirection(id, direction);
-  }
-  function handleOpenConfig() {
-    onOpenConfig(item);
-  }
   function handleDropItem(item) {
     if (onDropItem) {
       onDropItem(item);
     }
-  }
-  function handleChangeOrder(direction) {
-    onChangeOrder(item, direction);
   }
   function handleQuickAdd(item, toItem) {
     try {
@@ -10035,9 +10044,9 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
   }
   function renderEditHeader() {
     return item["workspace"] !== "layout" ? /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row px-2 p-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
+      className: "flex flex-row px-2 py-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
       children: [/*#__PURE__*/jsx("span", {
-        className: "",
+        className: "text-sm font-bold",
         children: "".concat(item["component"])
       }), /*#__PURE__*/jsx("div", {
         id: "quick-add-menu",
@@ -10050,9 +10059,12 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
           }
         })
       })]
-    }) : /*#__PURE__*/jsx("div", {
-      className: "flex flex-row px-2 space-x-1 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full justify-end"),
-      children: /*#__PURE__*/jsx("div", {
+    }) : /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row px-2 py-1 space-x-1 mt-1 ml-1 mr-1 rounded text-xs text-gray-300 font-medium w-full justify-between items-center bg-gray-800",
+      children: [/*#__PURE__*/jsx("span", {
+        className: "text-sm font-bold text-gray-500",
+        children: "".concat(item["component"])
+      }), /*#__PURE__*/jsx("div", {
         id: "quick-add-menu",
         className: "flex flex-row justify-end py-1 px-1",
         children: /*#__PURE__*/jsx(LayoutQuickAddMenu, {
@@ -10062,69 +10074,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
             return handleQuickAdd(i, item);
           }
         })
-      })
-    });
-  }
-  function renderEditFooter() {
-    var config = ComponentManager.config(item["component"], item);
-    var canHaveChildren = config ? config["canHaveChildren"] : false;
-    var numChildren = numChildrenForLayout(item, workspace["layout"]);
-
-    // determine the parent layout direction...
-    var parentLayout = getLayoutItemById(workspace["layout"], item["parent"]);
-    var parentDirection = parentLayout ? parentLayout["direction"] : item["parentWorkspace"]["direction"];
-
-    // determine if the item is at the "start/end" of the col/row
-    var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
-    var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
-    return /*#__PURE__*/jsx("div", {
-      className: "flex flex-row space-x-1 justify-between w-full px-2 pb-1",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row space-x-1 text-indigo-700",
-        children: [canHaveChildren === true && /*#__PURE__*/jsx(ButtonIcon, {
-          textColor: "text-gray-700",
-          hoverTextColor: "hover:text-gray-300",
-          icon: "plus",
-          onClick: handleClickAdd,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-green-700"
-        }), /*#__PURE__*/jsx(ButtonIcon, {
-          textColor: "text-gray-700",
-          hoverTextColor: "hover:text-gray-300",
-          icon: "".concat(direction === "col" ? "arrows-left-right" : "arrows-up-down"),
-          onClick: handleChangeDirection,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700"
-        }), /*#__PURE__*/jsx(ButtonIcon, {
-          textColor: "text-gray-700",
-          hoverTextColor: "hover:text-gray-300",
-          icon: "cog",
-          onClick: handleOpenConfig,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700"
-        }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-          icon: "".concat(parentDirection === "col" ? "arrow-up" : "arrow-left"),
-          onClick: function onClick() {
-            return handleChangeOrder("down");
-          },
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700"
-        }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-          icon: "".concat(parentDirection === "col" ? "arrow-down" : "arrow-right"),
-          onClick: function onClick() {
-            return handleChangeOrder("up");
-          },
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700"
-        }), parent > 0 && /*#__PURE__*/jsx(ButtonIcon, {
-          textColor: "text-gray-700",
-          hoverTextColor: "hover:text-gray-300",
-          icon: "trash",
-          onClick: handleClickRemove,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-red-900"
-        })]
-      })
+      })]
     });
   }
   function getBorderStyle() {
@@ -10197,7 +10147,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
           grow: grow,
           className: "".concat(preview === false && "p-3", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
           children: children !== null && children
-        }), preview === false && renderEditFooter()]
+        })]
       })
     })
   }) : renderComponentContainer(children);

@@ -15,7 +15,9 @@ import {
     renderComponent,
 } from "@dash/Utils";
 import { ComponentManager } from "@dash";
-import { getLayoutItemForWorkspace } from "../../Utils";
+import { getLayoutItemForWorkspace, getRandomInt } from "../../Utils";
+
+import { LayoutItemEditHeader } from "./Menu/LayoutItemEditHeader";
 
 export const LayoutGridContainer = ({
     item,
@@ -87,34 +89,34 @@ export const LayoutGridContainer = ({
     function renderEditHeader() {
         return item["workspace"] !== "layout" ? (
             <div
-                className={`flex flex-row px-2 p-2 space-x-1 text-sm font-bold ${getContainerColor(
+                id={`${item["component"]}-heading-${getRandomInt(10000)}`}
+                className={`flex flex-row px-2 py-1 space-x-1 text-xs font-bold ${getContainerColor(
                     item
                 )} text-gray-300 w-full justify-between items-center`}
             >
-                <span className="">{`${item["component"]}`}</span>
+                <span className="text-xs">{`${item["component"]}`}</span>
                 <div id="quick-add-menu" className="flex flex-row">
-                    <LayoutQuickAddMenu
+                    {/* <LayoutQuickAddMenu
                         className={`text-gray-200 ${getContainerColor(item)}`}
                         item={item}
                         onClickItem={(i) => handleQuickAdd(i, item)}
-                    />
+                    /> */}
                 </div>
             </div>
         ) : (
             <div
-                className={`flex flex-row px-2 space-x-1 text-xs ${getContainerColor(
-                    item
-                )} text-gray-300 font-medium w-full justify-end`}
+                className={`flex flex-row px-2 py-1 space-x-1 mt-1 ml-1 mr-1 rounded text-xs text-gray-300 font-medium w-full justify-between items-center bg-gray-800`}
             >
+                <span className="text-xs font-medium text-gray-500">{`${item["component"]}`}</span>
                 <div
                     id="quick-add-menu"
                     className="flex flex-row justify-end py-1 px-1"
                 >
-                    <LayoutQuickAddMenu
+                    {/* <LayoutQuickAddMenu
                         className={`text-gray-200 ${getContainerColor(item)}`}
                         item={item}
                         onClickItem={(i) => handleQuickAdd(i, item)}
-                    />
+                    /> */}
                 </div>
             </div>
         );
@@ -315,10 +317,25 @@ export const LayoutGridContainer = ({
                         preview === false && "border-2 rounded"
                     } ${preview === false && getContainerBorderColor(item)} ${
                         preview === false && getBorderStyle()
-                    } min-h-24`}
+                    } min-h-24 ${item["component"] === "Container" && ""} z-10`}
                     space={preview}
                 >
-                    {preview === false && renderEditHeader()}
+                    {/* {preview === false && renderEditFooter()} */}
+                    {/* {preview === false && renderEditHeader()} */}
+                    {preview === false && (
+                        <LayoutItemEditHeader
+                            layoutItem={item}
+                            workspace={workspace}
+                            direction={direction}
+                            order={order}
+                            parent={parent}
+                            onChangeOrder={handleChangeOrder}
+                            onChangeDirection={handleChangeDirection}
+                            onRemove={handleClickRemove}
+                            onClickAdd={handleClickAdd}
+                            onOpenConfig={handleOpenConfig}
+                        />
+                    )}
                     <LayoutContainer
                         id={`grid-container-${id}`}
                         direction={direction}
@@ -327,13 +344,16 @@ export const LayoutGridContainer = ({
                         height={`${height} min-h-24`}
                         space={preview}
                         grow={grow}
-                        className={`${preview === false && "p-3"} ${
-                            direction === "col" ? "space-y-2" : "space-x-2"
-                        }`}
+                        className={`${
+                            preview === false &&
+                            item["component"] !== "Container"
+                                ? "p-3"
+                                : "px-1"
+                        } ${direction === "col" ? "space-y-2" : "space-x-2"}`}
                     >
                         {children !== null && children}
                     </LayoutContainer>
-                    {preview === false && renderEditFooter()}
+                    {/* {preview === false && renderEditFooter()} */}
                 </LayoutContainer>
             </DragComponent>
         </DropComponent>

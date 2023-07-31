@@ -68,7 +68,7 @@ export const LayoutBuilderConfigModal = ({
                 width={"w-11/12 xl:w-5/6"}
                 height="h-5/6"
             >
-                <Panel>
+                <Panel padding={false}>
                     <div
                         className={`flex flex-col w-full h-full overflow-hidden`}
                     >

@@ -1,11 +1,13 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ButtonIcon } from "../../../Common";
 import {
     getWidgetsForWorkspace,
     getWorkspacesForWorkspace,
 } from "../../../Utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -26,14 +28,24 @@ export const LayoutQuickAddMenu = ({
     );
 
     return (
-        <Menu as="div" className="relative inline-block text-left">
-            <div>
+        <Menu as="div" className="fixed inline-block text-left z-50">
+            {/* <div>
                 <Menu.Button
                     className={`inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-1 text-sm font-semibold ${className} hover:bg-gray-800`}
                 >
                     Add
                     <ChevronDownIcon
                         className="-mr-1 h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                    />
+                </Menu.Button>
+            </div> */}
+
+            <div>
+                <Menu.Button className="flex items-center rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-none">
+                    <span className="sr-only">Open options</span>
+                    <EllipsisVerticalIcon
+                        className="h-5 w-5"
                         aria-hidden="true"
                     />
                 </Menu.Button>
@@ -48,8 +60,15 @@ export const LayoutQuickAddMenu = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
+                <Menu.Items className="fixed right-0 z-50 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1 z-50">
+                        {workspacesForWorkspace.length > 0 && (
+                            <div className="px-4 py-3">
+                                <p className="text-sm text-gray-400">
+                                    Layout/Function
+                                </p>
+                            </div>
+                        )}
                         {workspacesForWorkspace.map((w) => {
                             return (
                                 <Menu.Item onClick={() => onClickItem(w)}>
@@ -59,15 +78,21 @@ export const LayoutQuickAddMenu = ({
                                                 active
                                                     ? "bg-gray-100 text-gray-900"
                                                     : "text-gray-700",
-                                                "block px-4 py-2 text-sm"
+                                                "block px-4 py-2 text-sm space-x-2 z-50"
                                             )}
                                         >
-                                            {w.name}
+                                            <FontAwesomeIcon icon="square" />
+                                            <span>{w.name}</span>
                                         </span>
                                     )}
                                 </Menu.Item>
                             );
                         })}
+                        {widgetsForWorkspace.length > 0 && (
+                            <div className="px-4 py-3 z-50">
+                                <p className="text-sm text-gray-400">Widgets</p>
+                            </div>
+                        )}
                         {widgetsForWorkspace.map((c) => {
                             return (
                                 <Menu.Item onClick={() => onClickItem(c)}>
@@ -77,10 +102,11 @@ export const LayoutQuickAddMenu = ({
                                                 active
                                                     ? "bg-gray-100 text-gray-900"
                                                     : "text-gray-700",
-                                                "block px-4 py-2 text-sm"
+                                                "block px-4 py-2 text-sm space-x-2 z-50"
                                             )}
                                         >
-                                            {c.name}
+                                            <FontAwesomeIcon icon="cog" />
+                                            <span>{c.name}</span>
                                         </span>
                                     )}
                                 </Menu.Item>

@@ -6,4 +6,9 @@ function getUUID(uuid, prefix = "") {
     const r = Math.floor(Math.random() * 10000);
     return uuid === undefined ? `${prefix}-${r}` : uuid;
 }
-export { capitalizeFirstLetter, getUUID };
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
+export { capitalizeFirstLetter, getUUID, getRandomInt };

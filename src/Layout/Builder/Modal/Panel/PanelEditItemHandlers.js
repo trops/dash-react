@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { deepCopy, replaceItemInLayout } from "@dash/Utils";
 import deepEqual from "deep-equal";
 import { ThemeContext } from "@dash/Context";
+import { LayoutContainer } from "../../../LayoutContainer";
 
 export const PanelEditItemHandlers = ({
     workspace,
@@ -542,10 +543,14 @@ export const PanelEditItemHandlers = ({
                                 <span className="uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2">
                                     Available Events{" "}
                                 </span>
-                                <div className="flex flex-col h-full overflow-y-scroll p-2">
+                                <LayoutContainer
+                                    direction="col"
+                                    scrollable={true}
+                                    className="p-2"
+                                >
                                     {eventHandlerSelected !== null &&
                                         renderAvailableEvents()}
-                                </div>
+                                </LayoutContainer>
                             </div>
                         </div>
                     </div>

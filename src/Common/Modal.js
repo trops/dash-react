@@ -15,7 +15,7 @@ const Modal = ({
         <Dialog
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            className="relative z-50 overflow-hidden rounded"
+            className="relative z-40 overflow-hidden rounded"
         >
             {/* The backdrop, rendered as a fixed sibling to the panel container */}
             <div

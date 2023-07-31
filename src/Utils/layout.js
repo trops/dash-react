@@ -270,7 +270,7 @@ export function renderComponent(component, id, params = {}, children = null) {
                 WidgetToRender
             ) : (
                 <div
-                    className={`flex flex-col h-full justify-center w-full font-bold text-2xl items-center text-gray-200`}
+                    className={`flex flex-col h-full justify-center w-full font-bold text-2xl items-center text-gray-200 z-10`}
                 >
                     There was no Widget found
                 </div>
@@ -757,6 +757,14 @@ export function getWidgetsForWorkspace(workspaceItem) {
     }
 }
 
+/**
+ * getWorkspacesForWorkspace
+ * Get the available Layout items (workspaces, containers) that may be added
+ * to the workspace/container item passed in
+ * @param {object} workspaceItem the layout type item
+ * @param {string} searchTerm the optional search term
+ * @returns Array an array of available layout objects
+ */
 export function getWorkspacesForWorkspace(workspaceItem, searchTerm = "") {
     const componentMap = ComponentManager.map();
     const canAddChildren = workspaceItem ? workspaceItem.canHaveChildren : true;

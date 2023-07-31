@@ -123,7 +123,7 @@ export const PanelEditItem = ({ workspace, onUpdate, item = null }) => {
     return (
         itemSelected &&
         workspaceSelected && (
-            <Panel>
+            <Panel padding={false}>
                 <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
                     <div className="flex flex-col w-3/4 min-w-3/4 h-full rounded">
                         {/* render the widget item here. */}
