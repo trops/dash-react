@@ -48,7 +48,6 @@ var WidgetApi = {
         };
       }
     } catch (e) {
-      console.log("Error Setting Electron API ", e.message);
     }
   },
   setSettings: function setSettings(settings) {
@@ -70,14 +69,12 @@ var WidgetApi = {
    */
   publishEvent: function publishEvent(name, events) {
     try {
-      console.log("trying to publish event ", name, events, this.pub());
       if (this.pub() !== null && name !== null && events !== null) {
         if ("pub" in this.pub()) {
           this.pub().pub(name, events);
         }
       }
     } catch (e) {
-      console.log(e.message);
     }
   },
   /**
@@ -92,7 +89,6 @@ var WidgetApi = {
    */
   registerListeners: function registerListeners(listeners, handlers, uuid) {
     try {
-      console.log("registering listeners ", listeners, handlers, uuid);
       if (this.pub() !== null && uuid !== null) {
         if ("registerListeners" in this.pub()) {
           if (this.pub()["registerListeners"] !== null) {
@@ -101,7 +97,6 @@ var WidgetApi = {
         }
       }
     } catch (e) {
-      console.log(e.message);
     }
   },
   /**
@@ -187,7 +182,6 @@ var WidgetApi = {
         eApi.data.readData(toFilename);
       }
     } catch (e) {
-      console.log(e);
     }
   }
 };
@@ -255,7 +249,6 @@ var ThemeApi = {
       this.setUuid(uuidInput);
       this.setApi(apiInput);
     } catch (e) {
-      console.log(e);
     }
   },
   /**
@@ -323,7 +316,6 @@ var DashboardApi = {
       // initialize the apis
       this._theme = ThemeApi;
     } catch (e) {
-      console.log(e);
     }
   },
   setApi: function setApi(myApi) {
@@ -1033,7 +1025,6 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     }
     return layout;
   } catch (e) {
-    console.log("layout model ", e.message);
     return null;
   }
 };
@@ -1085,7 +1076,6 @@ var ColorModel = function ColorModel() {
     }
     return null;
   } catch (e) {
-    console.log(e.message);
     return obj;
   }
 };
@@ -1340,7 +1330,6 @@ var ThemeModel = function ThemeModel() {
     theme["light"]["hover-text-none"] = "hover:text-transparent";
     return theme;
   } catch (e) {
-    console.log("ThemeModel ", e.message);
     return {};
   }
 };
@@ -1479,12 +1468,6 @@ function DashboardMenuItem(_ref) {
         }
         setHasDropped(true);
         setHasDroppedOnChild(didDrop);
-        console.log("dropped ", {
-          id: id,
-          type: type,
-          dropIndex: id,
-          obj: item
-        });
         return {
           id: id,
           type: type,
@@ -1802,7 +1785,6 @@ var MainMenuConst = function MainMenuConst(_ref) {
   }
   function handleDropMenuItem(dropData) {
     try {
-      console.log("handle drop menu item ", dropData);
       var workspaceId = dropData.workspaceId,
         menuItemId = dropData.menuItemId;
       var workspaceSelected = null;
@@ -1821,14 +1803,11 @@ var MainMenuConst = function MainMenuConst(_ref) {
         }
       }
     } catch (e) {
-      console.log(e);
     }
   }
   function handleSaveWorkspaceMenuIdComplete(e, message) {
-    console.log("workspace save complete ", message);
   }
   function handleSaveWorkspaceError(e, message) {
-    console.log(message);
   }
   function handleCreateNew(menuItem) {
     [{
@@ -2142,7 +2121,6 @@ var SideMenu = /*#__PURE__*/function (_React$Component) {
     }
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty$C(_assertThisInitialized$5(_this), "handlePath", function (path) {
-      console.log("PATH ", path);
       _this.props.navigate(path);
     });
     _defineProperty$C(_assertThisInitialized$5(_this), "generatePageChildren", function (pages, indexName) {
@@ -2408,7 +2386,6 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
     }
   }, [open, menuItems]);
   function handleMenuNameChange(e) {
-    console.log("name change ", e.target.value);
     setMenuItemNameSelected(function () {
       return e.target.value;
     });
@@ -2446,7 +2423,6 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
       //     setIsOpen(false);
       // }
     } catch (e) {
-      console.log(e);
     }
   }
   function renderAvailableIcons() {
@@ -2725,7 +2701,6 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
     onClick = _ref.onClick;
   function handleClickItem(itemType, styles) {
     try {
-      console.log("clicked item ", itemType, styles);
       // get the styles for the item and display...
       var temp = {
         item: itemType,
@@ -2735,7 +2710,6 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
       // setItemColorSelected(null);
       onClick(temp);
     } catch (e) {
-      console.log(e);
     }
   }
   function renderPanels() {
@@ -3671,11 +3645,9 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
     _ref$shade = _ref.shade,
     shade = _ref$shade === void 0 ? null : _ref$shade;
   function handleChooseColor(data) {
-    console.log("chose color ", data);
     onClick !== null && onClick(data);
   }
   function handleChooseColorTemp(data) {
-    console.log("chose color temp ", data);
     onMouseOver !== null && onMouseOver(data);
   }
   function handleCancel() {
@@ -3962,11 +3934,9 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
     // if (color['panelType'] === 'sub') {
     //     console.log('color selected SUB ', color);
     // }
-    console.log("select ", color);
     setThemeNameToEdit(color);
   }
   function handleSelectColorCancel(color) {
-    console.log("cancelling ", color);
     var newTheme = deepCopy(rawTheme);
 
     // // set the MAIN color
@@ -3982,7 +3952,6 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
     }
   }
   function handleSelectReplacementColor(color, colorReplacement) {
-    console.log("handle select replacement color ", color, colorReplacement);
     var newTheme = deepCopy(rawTheme);
     var replacementColorModel = ColorModel(colorReplacement);
     // set the MAIN color
@@ -4015,7 +3984,6 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
         onUpdate(newTheme, themeKey);
       }
     } catch (e) {
-      console.log("error selecting ", e.message);
     }
   }
   function handleSelectComponent(data) {
@@ -4042,7 +4010,6 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
         setItemColorSelected(null);
       }
     } catch (e) {
-      console.log("error selecting ", e.message);
     }
   }
   function handleSelectColorForItemTemp(data) {
@@ -4063,12 +4030,10 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
           newTheme[themeVariant][itemType] = {};
         }
         newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
-        console.log("new theme ", newTheme);
         // push the new color change to the theme manager modal
         onUpdate(newTheme, themeKey);
       }
     } catch (e) {
-      console.log("error selecting ", e.message);
     }
   }
   function handleResetStylesForItem(itemType) {
@@ -4084,7 +4049,6 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
         onUpdate(newTheme, themeKey);
       }
     } catch (e) {
-      console.log("error selecting ", e.message);
     }
   }
   function handleResetStylesForTheme(itemType) {
@@ -4100,7 +4064,6 @@ var PanelSelectTheme = function PanelSelectTheme(_ref) {
         onUpdate(newTheme, themeKey);
       }
     } catch (e) {
-      console.log("error selecting ", e.message);
     }
   }
   return /*#__PURE__*/jsx(Panel, {
@@ -4411,7 +4374,6 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
       setRawThemeSelected(null);
       setThemeKeySelected(null);
     } else {
-      console.log("Theme Manager ", settings);
       // if there is no key selected...
       if (themeKeySelected === null && themes) {
         var themeKeyTemp = themeKeySelected === null && settings && "theme" in settings ? settings["theme"] in themes ? settings["theme"] : Object.keys(themes)[0] : Object.keys(themes)[0];
@@ -4507,7 +4469,6 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
     setIsEditing(false);
   }
   function handleSaveThemeError(e, message) {
-    console.log("theme save error ", e, message);
   }
   function handleChooseTheme(themeKey) {
     setThemeSelected(function () {
@@ -4668,7 +4629,6 @@ var PanelWelcome = function PanelWelcome(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    console.log("Panel Welcome use effect", currentTheme);
     forceUpdate();
   }, [theme, currentTheme, forceUpdate]);
   var handleAddNewMenuItem = function handleAddNewMenuItem() {
@@ -4716,7 +4676,6 @@ var PanelWelcome = function PanelWelcome(_ref) {
       });
       onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
     } catch (e) {
-      console.log(e);
     }
   };
 
@@ -5001,7 +4960,6 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
             stringObject = "".concat(JSON.stringify(themeKeys, null, 2));
           }
         } else {
-          console.log("theme list?");
           if (args[0] === "list") {
             // theme keys list
             var _themeKeys = Object.keys(themes).join("\n");
@@ -5286,10 +5244,6 @@ var Dashboard = function Dashboard(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    console.log("DASHBOARD ", menuItems, dashApi, pub,
-    // settings,
-    workspaceConfig, workspaceSelected, workspace);
-    console.log("dashboard use effect");
     isLoadingWorkspaces === false && loadWorkspaces();
     isLoadingMenuItems === false && loadMenuItems();
   }, [workspace]);
@@ -5312,7 +5266,6 @@ var Dashboard = function Dashboard(_ref) {
 
   function loadWorkspaces() {
     try {
-      console.log("1. Loading Workspaces =========================");
       setIsLoadingWorkspaces(function () {
         return true;
       });
@@ -5320,11 +5273,9 @@ var Dashboard = function Dashboard(_ref) {
         dashApi.listWorkspaces(credentials.appId, handleLoadWorkspacesComplete, handleLoadWorkspacesError);
       }
     } catch (e) {
-      console.log("failed loadWorkspaces ", e.message);
     }
   }
   function handleLoadWorkspacesComplete(e, message) {
-    console.log("2. Handle Load Workspaces Complete ======================", message);
     try {
       // let's make sure we have the entire component configuration for each item?
       var workspaces = deepCopy(message["workspaces"]);
@@ -5351,7 +5302,6 @@ var Dashboard = function Dashboard(_ref) {
       setIsLoadingWorkspaces(false);
       forceUpdate();
     } catch (e) {
-      console.log("handle load workspaces complete ERROR", e.message);
     }
   }
   function handleLoadWorkspacesError(e, message) {
@@ -5361,7 +5311,6 @@ var Dashboard = function Dashboard(_ref) {
   // The user has chosen a workspace and we need to load that workspace data
   // into the workspace component.
   function handleClick(workspaceItem) {
-    console.log("3. workspace change from PanelWelcome Click ==================", workspaceItem);
     // pub.removeAllListeners();
     setWorkspaceSelected(function () {
       return workspaceItem;
@@ -5372,7 +5321,6 @@ var Dashboard = function Dashboard(_ref) {
   }
   function handleClickNew(workspaceItem) {
     try {
-      console.log("clicked add new ", workspaceItem, previewMode);
       setPreviewMode(function () {
         return false;
       });
@@ -5380,11 +5328,9 @@ var Dashboard = function Dashboard(_ref) {
         return workspaceItem;
       });
     } catch (e) {
-      console.log("handle click new ", e);
     }
   }
   function handleWorkspaceChange(ws) {
-    console.log(" dashboard workspace change", ws);
     if (ws) {
       setPreviewMode(function () {
         return false;
@@ -5410,7 +5356,6 @@ var Dashboard = function Dashboard(_ref) {
         }
       }, "LayoutBuilder-".concat(workspaceItem["id"])) : null;
     } catch (e) {
-      console.log(e);
       return null;
     }
   }
@@ -5419,7 +5364,6 @@ var Dashboard = function Dashboard(_ref) {
   }
   function loadMenuItems() {
     try {
-      console.log("loading menu items", credentials);
       setIsLoadingMenuItems(function () {
         return true;
       });
@@ -5429,12 +5373,10 @@ var Dashboard = function Dashboard(_ref) {
         dashApi.listMenuItems(credentials.appId, handleListMenuItemComplete, handleListMenuItemError);
       }
     } catch (e) {
-      console.log("Error loading menu items", e.message);
     }
   }
   function handleListMenuItemComplete(e, message) {
     try {
-      console.log("list menu items complete ", message);
       setMenuItems(function () {
         return message.menuItems;
       });
@@ -5444,7 +5386,6 @@ var Dashboard = function Dashboard(_ref) {
       if (message.menuItems.length === 0) setIsAddWidgetModalOpen(true);
       forceUpdate();
     } catch (e) {
-      console.log("handle list menu items error ", e.message);
     }
   }
   function handleListMenuItemError(e, message) {
@@ -5468,10 +5409,8 @@ var Dashboard = function Dashboard(_ref) {
     loadMenuItems();
   }
   function handleSaveMenuItemError(e, message) {
-    console.log(e, message);
   }
   function handleWorkspaceNameChange(name) {
-    console.log("workspace name change ", name);
     var tempWorkspace = deepCopy(workspaceSelected);
     tempWorkspace["name"] = name;
     setWorkspaceSelected(function () {
@@ -5480,7 +5419,6 @@ var Dashboard = function Dashboard(_ref) {
   }
   function handleClickSaveWorkspace() {
     try {
-      console.log("dashboard clicked save workspace ", workspaceSelected);
       // we have to remove the widgetConfig which contains the component
       // sanitize the workspace layout remove widgetConfig items
       var workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
@@ -5497,11 +5435,9 @@ var Dashboard = function Dashboard(_ref) {
         dashApi.saveWorkspace(credentials.appId, workspaceToSave, handleSaveWorkspaceComplete, handleSaveWorkspaceError);
       }
     } catch (e) {
-      console.log(e.message);
     }
   }
   function handleSaveWorkspaceComplete(e, message) {
-    console.log("handle save complete ", e, message);
     // setPreviewMode(true);
     // onTogglePreview();
     // onWorkspaceChange();
@@ -5522,7 +5458,6 @@ var Dashboard = function Dashboard(_ref) {
     });
   }
   function handleSaveWorkspaceError(e, message) {
-    console.log(e, message);
   }
   function handleOpenThemeManager() {
     setIsThemeManagerOpen(true);
@@ -5602,7 +5537,6 @@ var Dashboard = function Dashboard(_ref) {
             return setIsThemeManagerOpen(!isThemeManagerOpen);
           },
           onSave: function onSave(themeKey) {
-            console.log("saving and changing", themeKey);
             changeCurrentTheme(themeKey);
             setIsThemeManagerOpen(function () {
               return false;
@@ -5651,7 +5585,6 @@ var DashboardFooter = function DashboardFooter(_ref) {
   var handleHome = function handleHome() {
     onHome && onHome();
   };
-  console.log("DS workspace ", workspace);
   return /*#__PURE__*/jsx(LayoutContainer, {
     direction: "row",
     grow: false,
@@ -5821,13 +5754,11 @@ var event = {
     var subscriptionsToEvent = this.list.get(eventType);
     if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
       subscriptionsToEvent.forEach(function (subscriber) {
-        console.log("calling handler ", subscriber["uuid"], args, subscriber);
         var objectToSend = {
           message: args[0],
           event: eventType,
           uuid: subscriber["uuid"]
         };
-        console.log("SEND ", objectToSend);
         if ("action" in subscriber && subscriber.action !== undefined) {
           subscriber["action"](_objectSpread$x({}, objectToSend));
         }
@@ -5967,7 +5898,6 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
   var forceUpdate = React.useCallback(function () {
     return updateState({});
   }, []);
-  console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials);
   useEffect(function () {
     // If the user has provided a theme as a override,
     // we can skip loading the themes...
@@ -5990,15 +5920,12 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
           return defaultTheme;
         });
       } else {
-        console.log("THEME IS NULL");
         // if the themes for application is null...
         // we have to load the themes...
         if (themesForApplication === null) {
           // finally
-          console.log("load the themes");
           themesForApplication === null && loadThemes();
         } else {
-          console.log("THEME HERE");
           var themeKeyDefault = themesForApplication !== null ? Object.keys(themesForApplication)[0] : "theme-1";
           var _defaultTheme = ThemeModel(themesForApplication !== null ? themesForApplication[themeKeyDefault] : themes$1[themeKeyDefault]);
           setThemeVariant(function () {
@@ -6020,7 +5947,6 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
    * Load in the themes for this application
    */
   function loadThemes() {
-    console.log("load themes", dashApi, credentials);
     if (dashApi && credentials) {
       dashApi.listThemes(credentials.appId, handleLoadThemesComplete, handleLoadThemesError);
     }
@@ -6034,9 +5960,7 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
    * @param {*} message
    */
   function handleLoadThemesComplete(e, message) {
-    console.log("themes complete", e, message);
     if ("themes" in message) {
-      console.log("we have some themes in the message", message["themes"]);
       checkThemes(message["themes"]);
       // if (theme === null) {
       //     changeCurrentTheme(Object.keys(message["themes"])[0]);
@@ -6048,7 +5972,6 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
     try {
       var themesChecked = {};
       var _rawThemes = {};
-      console.log("themes to check ", themesToCheck);
       if (themesToCheck !== null) {
         if (Object.keys(themesToCheck).length === 0) {
           Object.keys(themes$1).forEach(function (themeKey) {
@@ -6079,8 +6002,6 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
           // if ('theme-2' in themesChecked === false) {
           //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
           // }
-
-          console.log("themes complete checked ", themesChecked, chosenTheme);
           setThemesForApplication(function () {
             return themesChecked;
           });
@@ -6099,17 +6020,13 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
         forceUpdate();
       }
     } catch (e) {
-      console.log("themes check error ", e.message);
     }
   }
   function handleLoadThemesError(e, message) {
-    console.log("error loading themes ", e, message);
     setThemesForApplication(null);
   }
   var changeCurrentTheme = function changeCurrentTheme(themeKey) {
-    console.log("changing current theme ", themeKey);
     if (rawThemes !== null) {
-      console.log("changing theme to ", themeKey);
       var themeData = ThemeModel(rawThemes[themeKey]);
       if (themeKey !== null) {
         setChosenTheme(function () {
@@ -6148,7 +6065,6 @@ var ThemeWrapper = function ThemeWrapper(_ref) {
         rawThemes: rawThemes
       };
     } catch (e) {
-      console.log(e);
       return {};
     }
   };
@@ -6211,7 +6127,6 @@ var AppWrapper = function AppWrapper(_ref) {
     _useState12[0];
     _useState12[1];
   useEffect(function () {
-    console.log("App Wrapper ", settings, isLoadingSettings);
     if (settings === null && isLoadingSettings === false) {
       loadSettings();
     }
@@ -6253,13 +6168,11 @@ var AppWrapper = function AppWrapper(_ref) {
   function loadSettings() {
     // Here is where we have to add this theme to the themes available
     // and save to the themes file.
-    console.log("loading settings ", settings, dashApi, credentials);
     if (dashApi && credentials) {
       dashApi.listSettings(credentials.appId, handleGetSettingsComplete, handleGetSettingsError);
     }
   }
   function handleGetSettingsComplete(e, message) {
-    console.log("loaded settings ", message);
     if ("settings" in message) {
       var settingsObject;
       if (Object.keys(message["settings"]).length === 0) {
@@ -6283,7 +6196,6 @@ var AppWrapper = function AppWrapper(_ref) {
   }
 
   function handleGetSettingsError(e, error) {
-    console.log("settings load error ", error.message);
     setIsLoadingSettings(function () {
       return false;
     });
@@ -6336,7 +6248,6 @@ var AppWrapper = function AppWrapper(_ref) {
         changeApplicationTheme: changeApplicationTheme
       };
     } catch (e) {
-      console.log(e);
       return null;
     }
   }
@@ -6361,12 +6272,6 @@ var DashboardWrapper = function DashboardWrapper(_ref) {
     return w;
   }
   function getValue() {
-    console.log({
-      widgetApi: buildWidgetApi(),
-      pub: DashboardPublisher,
-      dashApi: dashApi,
-      credentials: credentials
-    });
     return {
       widgetApi: buildWidgetApi(),
       pub: DashboardPublisher,
@@ -6408,7 +6313,6 @@ var Layout = function Layout(_ref) {
     _useContext.debugStyles;
   var workspaceDataFromContext = useContext$1(WorkspaceContext);
   useEffect(function () {
-    console.log("LAYOUT effect", workspaceDataFromContext);
   });
   function debugClasses() {
     // const styles = debugStyles !== null && debugStyles !== undefined
@@ -6562,12 +6466,10 @@ function _objectWithoutProperties$x(source, excluded) { if (source == null) retu
 function _objectWithoutPropertiesLoose$x(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var LayoutManagerModal = function LayoutManagerModal(_ref) {
   var open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    props = _objectWithoutProperties$x(_ref, _excluded$x);
+    setIsOpen = _ref.setIsOpen;
+    _objectWithoutProperties$x(_ref, _excluded$x);
   function handleSelectLayout(data) {
-    console.log(data);
   }
-  console.log("layout manager modal props", props);
   return /*#__PURE__*/jsxs(Modal, {
     isOpen: open,
     setIsOpen: setIsOpen,
@@ -6667,7 +6569,6 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
     }
   }, [item, open, workspace]);
   useEffect(function () {
-    console.log("menu item selected ", menuItemSelected);
   }, [menuItemSelected]);
   function renderWidgets() {
     var componentMap = ComponentManager.map();
@@ -6749,14 +6650,11 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
       });
       forceUpdate();
     } catch (e) {
-      console.log(e);
     }
   }
   function handleAddItem(data) {
-    console.log("HANDLE ADD ITEM ", data);
     // The "item" is the item we selected in the layout to add TO
     // The menuItemSelected is the item we chose from the list...
-    console.log("adding item", menuItemSelected, item);
     onSaveItem(menuItemSelected, item);
   }
   function renderMenuItem(type, componentName) {
@@ -6779,7 +6677,6 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
 
   function handleUpdate(e, layoutItem) {
     try {
-      console.log("widget data changed ", layoutItem);
 
       // let configItem = ComponentManager.config(data['component'], data);
 
@@ -6804,12 +6701,10 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
       });
       // forceUpdate();
     } catch (e) {
-      console.log("ERROR ", e.message);
     }
   }
   function renderAddContainer(itemData) {
     try {
-      console.log("add container", itemData);
       var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
       if (item.parentWorkspace !== undefined && item.parentWorkspace !== null) {
         // let's make a custom layout with the parent workspace and the item selected
@@ -6837,7 +6732,6 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
         });
       }
     } catch (e) {
-      console.log(e);
     }
   }
   return item && /*#__PURE__*/jsx(Modal, {
@@ -6994,7 +6888,6 @@ var PanelEditItem = function PanelEditItem(_ref) {
     //console.log('EFFECT PanelEditItem', workspace, workspaceSelected, item['userPrefs'], itemSelected['userPrefs']);
     //console.log('COMPARE RESULT: ', deepEqual(item, itemSelected));
     if (deepEqual(item, itemSelected) === false) {
-      console.log("COMPARE CHECK DIFFERENT!");
       setItemSelected(function () {
         return item;
       });
@@ -7014,7 +6907,6 @@ var PanelEditItem = function PanelEditItem(_ref) {
   }, [workspace, item]);
 
   function handleUpdate(e, data) {
-    console.log("handling update ", e, data);
     var workspaceTemp = WorkspaceModel(workspaceSelected);
     var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
     workspaceTemp.layout = newLayout;
@@ -7026,7 +6918,6 @@ var PanelEditItem = function PanelEditItem(_ref) {
   }
   function renderEditContainer() {
     try {
-      console.log("RENDERING EDIT CONTAINER ", itemSelected);
       if (itemSelected !== null && workspaceSelected !== null) {
         var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
         if (itemSelected.parentWorkspace !== undefined && itemSelected.parentWorkspace !== null) {
@@ -7061,7 +6952,6 @@ var PanelEditItem = function PanelEditItem(_ref) {
         }
       }
     } catch (e) {
-      console.log(e);
       return null;
     }
   }
@@ -7300,21 +7190,17 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
         // and now set the handler to the unique event
         currentListeners[eventHandlerSelected] = uniqueEventsSelected;
-        console.log("DONE ", currentListeners);
         // setEventsSelected(() => currentListeners);
         handleSaveChanges(currentListeners);
       }
     } catch (e) {
-      console.log(e);
     }
   }
   function handleRemoveEvent(eventString) {
     try {
-      console.log("removing event", eventString, eventHandlerSelected, eventsSelected);
       if (eventHandlerSelected) {
         // grab the current listeners OBJECT from the itemSelected
         var currentListeners = deepCopy(itemSelected["listeners"]);
-        console.log("current listeners for item ", currentListeners);
 
         // 1. Remove the event from the temp array of events (from current item)
         // filter out the event listener selected (eventString)
@@ -7335,14 +7221,12 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
           // the listeners entirely.
           delete currentListeners[eventHandlerSelected];
         }
-        console.log("New temp events ", eventsSelectedTemp, currentListeners);
 
         // setEventsSelected(() => currentListeners);
 
         handleSaveChanges(currentListeners);
       }
     } catch (e) {
-      console.log("handleRemoveEvent ", eventString, e.message);
     }
   }
   function handleSelectEventHandler(handler) {
@@ -7368,7 +7252,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     // hmm, removing the event handler....
     // we should remove this key from the listeners then save the changes...
     var currentListeners = deepCopy(itemSelected["listeners"]);
-    console.log("current listeners for item remove handler ", handler, currentListeners);
 
     // ok we have some events, and need to set them as the value for the handler selected
 
@@ -7395,9 +7278,7 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   function handleSaveChanges() {
     var currentListeners = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     try {
-      console.log("SAVE CHANGES ", currentListeners);
       if (workspaceSelected !== null && eventHandlerSelected !== null && "id" in itemSelected && itemSelected["id"] !== null) {
-        console.log("saving changes", currentListeners);
         // let's copy the workspace selected to replace the listeners
         var tempWorkspace = deepCopy(workspaceSelected);
 
@@ -7408,13 +7289,10 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
         // now lets add to it...
         layoutItem["listeners"] = currentListeners;
         tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
-        console.log("new layout listeners ", layoutItem["listeners"]);
-        console.log("new workspace ", tempWorkspace.layout);
         // // save the new workspace
         onUpdate(layoutItem, tempWorkspace);
       }
     } catch (e) {
-      console.log("handle save changes ", e);
     }
   }
 
@@ -7428,7 +7306,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
 
   function isSelectedEvent(event) {
     try {
-      console.log("listeners for selected item ", itemSelected["listeners"], itemSelected["id"], event, eventHandlerSelected);
       if (event && eventHandlerSelected) {
         // const listenerArray = workspaceSelected.layout
         //     .filter((a) => {
@@ -7462,7 +7339,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
     }
   }
   function renderAvailableEvents() {
-    console.log("render available items ", itemSelected);
     if (workspaceSelected !== null) {
       return workspaceSelected.layout.filter(function (l) {
         return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
@@ -7487,7 +7363,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
             .map(function (event) {
               var eventString = "".concat(layout["component"], "[").concat(layout["id"], "].").concat(event);
               var selected = isSelectedEvent(eventString);
-              console.log("SELECTED ", eventString, selected);
               return /*#__PURE__*/jsxs("div", {
                 onClick: function onClick() {
                   return selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString);
@@ -7530,7 +7405,6 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
             }) // remove any possible duplicates
             .map(function (handler) {
               var selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false; //isHandlerSelected(handler);
-              console.log("selected handler ", selected, eventHandlerSelected);
               return /*#__PURE__*/jsx("div", {
                 onClick: function onClick() {
                   return selected ? handleRemoveEventHandler(handler) : handleSelectEventHandler(handler);
@@ -7663,7 +7537,6 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
    * @param {*} workspaceChanged the Workspace item
    */
   function handleEditChange(itemChanged, workspaceChanged) {
-    console.log("handle edit ", itemChanged, workspaceChanged);
     setItemSelected(function () {
       return itemChanged;
     });
@@ -7674,7 +7547,6 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
     forceUpdate();
   }
   function handleSaveConfig() {
-    console.log("saving from config panel ", workspaceSelected);
     onSaveWorkspace(workspaceSelected);
   }
   return itemSelected !== null && /*#__PURE__*/jsx(Modal, {
@@ -7804,19 +7676,15 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
     }
   }, [open, workspace, item]);
   function handleSaveChanges(itemData) {
-    console.log("edit modal save changes ", itemData);
     if (itemData !== null) {
-      console.log("handleSaveChanges ", itemData);
       onUpdate(itemData);
       setItemSelected(null);
       setIsOpen(false);
     }
   }
   function handleUpdate(data) {
-    console.log("handle update widget panel ", data);
     var workspaceTemp = WorkspaceModel(workspaceSelected);
     var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
-    console.log("new layout ", newLayout);
     workspaceTemp.layout = newLayout;
     setWorkspaceSelected(function () {
       return workspaceTemp;
@@ -7862,7 +7730,6 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
         }
       }
     } catch (e) {
-      console.log(e);
       return null;
     }
   }
@@ -7980,7 +7847,6 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
     return updateState({});
   }, []);
   useEffect(function () {
-    console.log("event workspace ", workspaceSelected, workspace);
     if (open === true && workspaceSelected === null && workspaceSelected !== workspace) {
       setWorkspaceSelected(function () {
         return workspace;
@@ -8082,11 +7948,9 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
         // check if we have the hander "key" in the events object
         var tempEvents = [];
         var tempEventsSelected = deepCopy(eventsSelected);
-        console.log("temp events selected ", tempEventsSelected);
         if (eventHandlerSelected in tempEventsSelected) {
           tempEvents = tempEventsSelected[eventHandlerSelected];
         }
-        console.log("temp events selected ", tempEvents);
         tempEvents.push(eventString);
         var uniqueEventsSelected = tempEvents.filter(function (value, index, array) {
           return array.indexOf(value) === index;
@@ -8095,10 +7959,8 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
         setEventsSelected(function () {
           return tempEventsSelected;
         });
-        console.log("DONE ", tempEventsSelected);
       }
     } catch (e) {
-      console.log(e);
     }
   }
   function handleRemoveEvent(eventString) {
@@ -8175,7 +8037,6 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
         setIsOpen(false);
       }
     } catch (e) {
-      console.log(e);
     }
   }
 
@@ -8235,7 +8096,6 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
   function isSelectedEvent(event) {
     try {
       if (eventsSelected !== null && eventHandlerSelected) {
-        console.log("checking is event selected ", eventsSelected, eventsSelected[eventHandlerSelected], event);
         return eventsSelected[eventHandlerSelected].includes(event);
       }
       return false;
@@ -8430,7 +8290,6 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
   }, [item]);
   function handleSaveChanges() {
     // setItemSelected(null);
-    console.log("SAVE ", itemSelected);
     onSave && onSave(itemSelected);
     // setItemSelected(null);
   }
@@ -8476,13 +8335,11 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
       newItem[name] = value;
       if (value === "false") newItem[name] = false;
       if (value === "true") newItem[name] = true;
-      console.log("new item ", newItem);
       setItemSelected(function () {
         return newItem;
       });
       onChange(e, newItem);
     } catch (e) {
-      console.log(e);
     }
   }
   function handleTextChangeCustom(e, config) {
@@ -8830,7 +8687,6 @@ var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
     _ref.workspace;
   var workspacesForWorkspace = getWorkspacesForWorkspace(item);
   var widgetsForWorkspace = getWidgetsForWorkspace(item);
-  console.log("widgets for workspace ", widgetsForWorkspace, workspacesForWorkspace);
   return /*#__PURE__*/jsxs(Menu, {
     as: "div",
     className: "fixed inline-block text-left z-50",
@@ -9016,12 +8872,10 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     forceUpdate();
   }
   function onClickQuickAdd(item, toItem) {
-    console.log("quick add ", item, toItem);
     handleClickConfirmAdd(item, toItem);
   }
   function handleClickConfirmAdd(itemChosen, toItem) {
     try {
-      console.log("confirm add ", itemChosen, toItem);
       var layout = currentWorkspace["layout"];
       var hasChildren = itemChosen["type"] === "workspace";
       var newLayout = addItemToItemLayout(layout, toItem["id"], itemChosen, hasChildren);
@@ -9031,11 +8885,9 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       setIsAddWidgetModalOpen(false);
       forceUpdate();
     } catch (e) {
-      console.log(e);
     }
   }
   function handleSaveNewWorkspace(newWorkspace) {
-    console.log("builder save workspace ", newWorkspace);
     setCurrentWorkspace(function () {
       return newWorkspace;
     });
@@ -9065,14 +8917,11 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       });
       forceUpdate();
     } catch (e) {
-      console.log(e);
     }
   }
   function onClickShrink(id, currentWidth) {
-    console.log("shrink ", id, currentWidth);
   }
   function onClickExpand(id, currentWidth) {
-    console.log("expand ", id, currentWidth);
   }
   function onChangeDirection(id, currentDirection) {
     var layout = currentWorkspace["layout"];
@@ -9083,7 +8932,6 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     forceUpdate();
   }
   function onChangeOrder(item, direction) {
-    console.log("changing order ", item["order"], direction);
     var currentOrder = parseInt(item["order"], 10);
     var layout = currentWorkspace["layout"];
     var nextItem = null;
@@ -9099,7 +8947,6 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       // increase current item by 1 (1,2 3 ...2 moves "down" to 1 and 1 to 2)
       // increase the existing item with this new order (check) by 1
       nextItem = getNextHighestItemInLayout(layoutFiltered, currentOrder);
-      console.log("next highest item ", nextItem);
       // item['order'] = nextItem['order'];
       // nextItem['order'] = currentOrder;
     }
@@ -9110,7 +8957,6 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
       nextItem = getNextLowestItemInLayout(layoutFiltered, currentOrder);
       // item['order'] = nextItem['order'];
       // nextItem['order'] = currentOrder;
-      console.log("next lowest item ", nextItem);
     }
 
     // we have to loop through and set the new items...
@@ -9120,11 +8966,9 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     if (nextItem) {
       Object.keys(currentWorkspace.layout).forEach(function (li) {
         if (currentWorkspace.layout[li]["id"] === nextItem["id"]) {
-          console.log("setting to current", currentWorkspace.layout[li]["id"]);
           newWorkspace.layout[li]["order"] = currentOrder;
         }
         if (newWorkspace.layout[li]["id"] === item["id"]) {
-          console.log("setting to next", currentWorkspace.layout[li]["id"]);
           newWorkspace.layout[li]["order"] = nextItem["order"];
         }
       });
@@ -9137,7 +8981,6 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     forceUpdate();
   }
   function handleSaveConfiguration(data) {
-    console.log("SAVING CONFIG ", data);
     var newWorkspace = saveItemToWorkspace(data);
     setCurrentWorkspace(newWorkspace);
     setIsConfigOpen(false);
@@ -9147,9 +8990,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     onTogglePreview();
   }
   function handleSaveWidgetChanges(data) {
-    console.log("LayoutBuilder SAVE WIDGET CHANGES ", data);
     var newWorkspace = saveItemToWorkspace(data);
-    console.log("NEW WORKSPACE ", newWorkspace);
     setCurrentWorkspace(function () {
       return newWorkspace;
     });
@@ -9182,7 +9023,6 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     forceUpdate();
   }
   function handleClickEvents(d) {
-    console.log(d);
     setItemSelected(function () {
       return d;
     });
@@ -9507,14 +9347,12 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
     var direction = _ref.direction,
     isDraggable = _ref.isDraggable;
   function handleClickRemove(e) {
-    console.log("clicked remove ", e);
     onClickRemove(id);
   }
   function handleChangeDirection() {
     onChangeDirection(id, direction);
   }
   function handleChangeOrder(direction) {
-    console.log("changing order ", order);
     onChangeOrder(item, direction);
   }
   function handleOpenConfig() {
@@ -9546,7 +9384,6 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
         })
       });
     } catch (e) {
-      console.log(e);
       return null;
     }
   }
@@ -10033,7 +9870,6 @@ var LayoutItemEditHeader = function LayoutItemEditHeader(_ref) {
     var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
     var isContainer = item["component"] === "Container";
     var textColor = isContainer === true ? "text-gray-700" : "text-gray-300";
-    console.log("HEADER ", isContainer, textColor, item);
     return /*#__PURE__*/jsx("div", {
       className: "flex flex-row space-x-1 justify-between w-full pb-1",
       children: /*#__PURE__*/jsxs("div", {
@@ -10595,7 +10431,6 @@ var renderLayout = function renderLayout(_ref) {
       }, "grid-item-".concat(uuid, "-").concat(previewMode === true ? "view" : "edit"));
     });
   } catch (e) {
-    console.log(e);
   }
 };
 function renderLayoutMenu(_ref2) {
@@ -10639,7 +10474,6 @@ function renderLayoutMenu(_ref2) {
       });
     });
   } catch (e) {
-    console.log(e);
   }
 }
 
@@ -10947,7 +10781,6 @@ function getNearestParentWorkspace(workspaceLayout, currentItem, parentItem) {
     }
     return {};
   } catch (e) {
-    console.log("get nearest parent error ", e.message);
     return {};
   }
 }
@@ -10984,7 +10817,6 @@ function getContainerBorderColor(item) {
     }
     return color;
   } catch (e) {
-    console.log(e);
     return color;
   }
 }
@@ -11056,7 +10888,6 @@ function getBorderStyle(item) {
 function getWidgetsForWorkspace(workspaceItem) {
   try {
     var componentMap = ComponentManager.map();
-    console.log("component map ", componentMap);
     var workspaceType = workspaceItem ? workspaceItem["workspace"] : null;
     var canAddChildren = workspaceItem ? workspaceItem["canHaveChildren"] : true;
     var parentWorkspaceType = workspaceItem["parentWorkspaceName"] !== null && workspaceItem["parentWorkspaceName"] !== undefined ? workspaceItem["parentWorkspaceName"] : "layout";
@@ -11077,7 +10908,6 @@ function getWidgetsForWorkspace(workspaceItem) {
       return [];
     }
   } catch (e) {
-    console.log(e);
   }
 }
 
@@ -11119,7 +10949,6 @@ function getWorkspacesForWorkspace(workspaceItem) {
 function getLayoutItemForWorkspace(item, workspace) {
   var parentItem = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   try {
-    console.log("layout", item, workspace, parentItem);
     var layoutModel = LayoutModel(item, workspace["layout"], workspace["id"]);
 
     // we have to give the widget an ID
@@ -11143,7 +10972,6 @@ function getLayoutItemForWorkspace(item, workspace) {
       newWorkspace: newWorkspace
     };
   } catch (e) {
-    console.log(e);
     return {
       layout: null,
       newWorkspace: null
@@ -11336,7 +11164,6 @@ var getStylesForItem = function getStylesForItem() {
       return stylesObject;
     }
   } catch (e) {
-    console.log("getStylesforItem", e.message);
     return {
       string: ""
     };
@@ -11639,7 +11466,6 @@ var PanelBody3 = function PanelBody3(_ref10) {
       scrollable: false,
       height: "h-full"
     }));
-    console.log("styles for panel body 3 ", styles.string);
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({}, props), {}, {
       className: "".concat(className, " ").concat(styles.string, " p-2"),
       scrollable: scrollable,
@@ -11651,7 +11477,6 @@ var PanelBody3 = function PanelBody3(_ref10) {
       children: children
     }));
   } catch (e) {
-    console.log(e.message);
     return null;
   }
 };
@@ -12734,7 +12559,6 @@ var Container = function Container(_ref) {
 function ErrorMessage(_ref) {
   var title = _ref.title,
     onClose = _ref.onClose;
-  console.log("error ", title);
   return /*#__PURE__*/jsx("div", {
     onClick: onClose,
     className: "flex flex-row w-full p-4 2xl:px-6 2xl:py-4 text-2xl xl:text3xl bg-indigo-700 opacity-75 rounded text-gray-300 dark:bg-indigo-800 dark:text-gray-200 font-bold",
@@ -12884,7 +12708,7 @@ var mainApi = window.mainApi;
               }), /*#__PURE__*/jsx("li", {
                 children: /*#__PURE__*/jsx("div", {
                   onClick: function onClick() {
-                    return console.log("nope.");
+                    return (void 0);
                   },
                   className: "text-xs font-bold text-gray-200 cursor-pointer",
                   children: selectedIndexName
@@ -13092,7 +12916,6 @@ var AlgoliaRefinementList = function AlgoliaRefinementList(_ref) {
     var props = _objectWithoutProperties$m(_ref, _excluded$m);
   // return null;
   var attribute = props.attribute;
-  console.log("attribute ", attribute, width, height);
   var _useRefinementList = useRefinementList(_objectSpread$m({
       attribute: "tags"
     }, props)),
@@ -13222,12 +13045,11 @@ var DashPanel = function DashPanel(_ref4) {
     props = _objectWithoutProperties$l(_ref4, _excluded4);
   var _useContext4 = useContext$1(ThemeContext),
     currentTheme = _useContext4.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$l(_objectSpread$l({}, props), {}, {
+  getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$l(_objectSpread$l({}, props), {}, {
     width: width,
     height: height,
     scrollable: scrollable
   }));
-  console.log("DASH PANEL styles ", styles.string);
   return /*#__PURE__*/jsx(Panel, {
     padding: false,
     scrollable: scrollable,
@@ -20597,7 +20419,6 @@ var SearchMonitorWidget = function SearchMonitorWidget(props) {
         widgetApi.registerListeners(listeners, handlers, uuid);
       }
     } catch (e) {
-      console.log(e.message);
     }
   });
   function handleSearchChange(message) {
@@ -20727,7 +20548,6 @@ var CustomPagination = function CustomPagination(_ref) {
           text: page + 1,
           onClick: function onClick(event) {
             event.preventDefault();
-            console.log("refine to page ", page);
             pageChange(page);
             refine(page);
           }
@@ -20768,7 +20588,6 @@ var CustomNSFilterBar = function CustomNSFilterBar(_ref) {
     widgetApi = _useContext.widgetApi;
   function handleFilterChange(e) {
     if (widgetApi) {
-      console.log("clicked filter ", e, "CustomNSFilterBar[".concat(id, "].filtersChanged"));
       // submit the event
       widgetApi.publishEvent("CustomNSFilterBar[".concat(id, "].filtersChanged"), {
         filter: e
@@ -20918,7 +20737,6 @@ var CustomRefinements = function CustomRefinements(_ref) {
             return /*#__PURE__*/jsxs("li", {
               className: "px-2 py-1 cursor-pointer hover:text-indigo-600 hover:bg-gray-800 rounded justify-between flex flex-row xl:flex-row w-full",
               onClick: function onClick(event) {
-                console.log("refining item ", item.value);
                 event.preventDefault();
                 refine(item.value);
                 handleRefinementChange(item.value);
@@ -21399,7 +21217,6 @@ var CustomHits = function CustomHits(_ref) {
   var _useContext = useContext$1(DashboardContext),
     widgetApi = _useContext.widgetApi;
   function handleDropItem(item) {
-    console.log("Dropped item", item);
     widgetApi.publishEvent("CustomHits[".concat(id, "].onDropHit"), item);
   }
   return /*#__PURE__*/jsx(Widget, _objectSpread$a(_objectSpread$a({
@@ -21521,11 +21338,9 @@ var SimpleSearch = function SimpleSearch(_ref) {
   }
   function refinementsChanged(data) {}
   function pageChanged(page) {
-    console.log("page changed in SimpleSearch ", page);
     setCurrentPage(parseInt(page.page));
   }
   function filtersChanged(filter) {
-    console.log("neural filter listened ", filter);
     // setNeuralFilter(filter["filter"]);
   }
 
@@ -21658,7 +21473,6 @@ var AlgoliaSearchWorkspace = function AlgoliaSearchWorkspace(_ref) {
     if (searchClient === null) {
       // set the search client
       if (indexName && apiKey && appId) {
-        console.log("SETTING SEARCH CLIENT");
         var searchClientTemp = algoliasearch(appId, apiKey);
         setSearchClient(searchClientTemp);
       }
@@ -21677,7 +21491,6 @@ var AlgoliaSearchWorkspace = function AlgoliaSearchWorkspace(_ref) {
     currentPage = _useState4[0],
     setCurrentPage = _useState4[1];
   function pageChanged(page) {
-    console.log("page changed in Algolia Workspace ", page);
     setCurrentPage(page.page);
   }
   return indexName ? /*#__PURE__*/jsx(Workspace, _objectSpread$9(_objectSpread$9({}, props), {}, {
@@ -21811,7 +21624,6 @@ var AlgoliaJCrewWorkspace = function AlgoliaJCrewWorkspace(_ref) {
     if (searchClient === null) {
       // set the search client
       if (indexName && apiKey && appId) {
-        console.log("SETTING SEARCH CLIENT");
         var searchClientTemp = algoliasearch(appId, apiKey);
         setSearchClient(searchClientTemp);
       }
@@ -21830,7 +21642,6 @@ var AlgoliaJCrewWorkspace = function AlgoliaJCrewWorkspace(_ref) {
     currentPage = _useState4[0],
     setCurrentPage = _useState4[1];
   function pageChanged(page) {
-    console.log("page changed in Algolia Workspace ", page);
     setCurrentPage(page.page);
   }
   return indexName ? /*#__PURE__*/jsx(Workspace, _objectSpread$8(_objectSpread$8({}, props), {}, {
@@ -21959,7 +21770,6 @@ var SaveDataWorkspace = function SaveDataWorkspace(_ref) {
   var _ref$filename = _ref.filename,
     filename = _ref$filename === void 0 ? null : _ref$filename,
     children = _ref.children;
-  console.log("filename in workspace", filename);
   return /*#__PURE__*/jsx(Workspace, {
     space: true,
     scrollable: false,
@@ -22049,7 +21859,6 @@ var SaveDataWidget = function SaveDataWidget(props) {
         // register listeners
         widgetApi.registerListeners(listeners, handlers, uuid);
       } catch (e) {
-        console.log("Save data widget ", e.message);
       }
     }
   }, [listeners]);
@@ -22073,20 +21882,16 @@ var SaveDataWidget = function SaveDataWidget(props) {
         uuid: uuid
       });
     } catch (e) {
-      console.log("error storing data ", e.message);
     }
   }
   function handleSaveDataComplete(e, data) {
     try {
       widgetApi.publishEvent("SaveDataWidget[".concat(id, "].saveDataComplete"), data);
     } catch (e) {
-      console.log("save data error", e.message);
     }
   }
   function handleSaveDataError(e, error) {
-    console.log("save data error ", e, JSON.stringify(error));
   }
-  console.log("save data props", props);
   return /*#__PURE__*/jsx(Widget, _objectSpread$7(_objectSpread$7({}, props), {}, {
     children: /*#__PURE__*/jsxs(DashPanel3, {
       children: [/*#__PURE__*/jsx(DashPanel3.Header, {
@@ -22214,7 +22019,6 @@ var ReadDataWidget = function ReadDataWidget(props) {
    */
   function handleSaveDataComplete(data) {
     if (data) {
-      console.log("save data complete ", data);
       readData(filename);
     }
   }
@@ -22225,7 +22029,6 @@ var ReadDataWidget = function ReadDataWidget(props) {
   function readData(filename) {
     try {
       if (filename && widgetApi) {
-        console.log("reading data");
         // make the API call here to save the data.
         widgetApi.readData({
           filename: filename,
@@ -22235,15 +22038,12 @@ var ReadDataWidget = function ReadDataWidget(props) {
         });
       }
     } catch (e) {
-      console.log("error reading data ", e.message);
     }
   }
   function handleReadDataComplete(e, data) {
-    console.log("read data complete ", JSON.stringify(data.data));
     setNotification(data["data"]);
   }
   function handleReadDataError(error) {
-    console.log("read data error ", JSON.stringify(error));
     setNotification(error);
   }
   return /*#__PURE__*/jsx(Widget, _objectSpread$6(_objectSpread$6({}, props), {}, {
@@ -22325,7 +22125,6 @@ var sampleClient$3 = {
 var ListenWidgetWorkspace = function ListenWidgetWorkspace(_ref) {
   var children = _ref.children,
     props = _objectWithoutProperties$5(_ref, _excluded$5);
-  console.log("listen widget workspace ", props);
   return /*#__PURE__*/jsx(Workspace, _objectSpread$5(_objectSpread$5({}, props), {}, {
     children: /*#__PURE__*/jsx(ListenWidgetContext.Provider, {
       value: {
@@ -22410,7 +22209,6 @@ var ListenWidgetWidget = function ListenWidgetWidget(_ref) {
         return data;
       });
     } catch (e) {
-      console.log("HEARD SOMETHING ERROR", e.message);
     }
   }
   function renderNoise() {
@@ -22934,18 +22732,16 @@ var RadarTransformWidget = function RadarTransformWidget(_ref) {
   var _useContext2 = useContext$1(DashboardContext);
     _useContext2.widgetApi;
   var _useState = useState(""),
-    _useState2 = _slicedToArray(_useState, 2),
-    url = _useState2[0],
-    setUrl = _useState2[1];
+    _useState2 = _slicedToArray(_useState, 2);
+    _useState2[0];
+    var setUrl = _useState2[1];
   /**
    * goGetUrl
    * @param {SyntheticEvent} e the button onClick event
    */
   function goGetUrl(e) {
-    console.log(url);
   }
   function onChangeUrl(e) {
-    console.log(e);
     setUrl(e.target.value);
   }
   return /*#__PURE__*/jsx(Widget, _objectSpread$1(_objectSpread$1({}, props), {}, {
@@ -23099,7 +22895,6 @@ var MockWrapper = function MockWrapper(_ref) {
       debugMode: true
     });
   }
-  console.log("Mock theme context", mock.theme.context, api);
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-col h-screen w-full m-auto overflow-hidden",
     children: /*#__PURE__*/jsx(AppContext.Provider, {

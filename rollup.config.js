@@ -7,6 +7,7 @@ import autoprefixer from "autoprefixer";
 import external from "rollup-plugin-peer-deps-external";
 import pkg from "./package.json";
 import typescript from "@rollup/plugin-typescript";
+import strip from "@rollup/plugin-strip";
 
 const INPUT_FILE_PATH = "src/index.js";
 const OUTPUT_NAME = "Dash";
@@ -46,6 +47,7 @@ const PLUGINS = [
     }),
     filesize(),
     typescript({ sourceMap: true, rootDir: "./src" }),
+    strip(),
 ];
 
 const EXTERNAL = ["react", "react-dom", "prop-types"];
