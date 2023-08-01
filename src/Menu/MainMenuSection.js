@@ -4,7 +4,7 @@ import { useDrop } from "react-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonIcon } from "@dash/Common";
 import { LayoutContainer } from "../Layout";
-import { Paragraph3 } from "../Common";
+import { Panel3, Paragraph3 } from "../Common";
 
 export const MainMenuSection = ({
     id,
@@ -42,20 +42,19 @@ export const MainMenuSection = ({
     }
 
     return (
-        <div
+        <Panel3
             ref={drop}
             id={menuItem.id}
+            scrollable={false}
+            grow={false}
+            horizontal={true}
             className={`flex flex-col p-1 rounded ${
-                isOverCurrent && canDrop
-                    ? `${currentTheme["bg-primary-very-dark"]} opacity-70`
-                    : `${currentTheme["bg-tertiary-dark"]} opacity-100`
+                isOverCurrent &&
+                canDrop &&
+                `${currentTheme["bg-primary-very-dark"]}`
             } px-1`}
         >
-            <div
-                className={`flex flex-row justify-between border-b ${
-                    currentTheme && currentTheme["border-secondary-medium"]
-                } p-2 pl-2 mb-2`}
-            >
+            <div className={`flex flex-row justify-between p-2 pl-2`}>
                 <div className="flex flex-row text-xs items-center space-x-2">
                     <FontAwesomeIcon icon={menuItem.icon} />
                     <Paragraph3
@@ -78,6 +77,6 @@ export const MainMenuSection = ({
             >
                 {children}
             </LayoutContainer>
-        </div>
+        </Panel3>
     );
 };

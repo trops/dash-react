@@ -1962,7 +1962,7 @@ var MainMenuItem = function MainMenuItem(_ref) {
     width: "w-full",
     type: "menu-item",
     onDropItem: onDropItem,
-    children: /*#__PURE__*/jsx(MenuItem, {
+    children: /*#__PURE__*/jsx(MenuItem3, {
       onClick: onClick,
       className: "p-4 font-bold rounded",
       children: title
@@ -2022,12 +2022,15 @@ var MainMenuSection = function MainMenuSection(_ref) {
   function handleCreateNew(menuItem) {
     onCreateNew && onCreateNew(menuItem);
   }
-  return /*#__PURE__*/jsxs("div", {
+  return /*#__PURE__*/jsxs(Panel3, {
     ref: drop,
     id: menuItem.id,
-    className: "flex flex-col p-1 rounded ".concat(isOverCurrent && canDrop ? "".concat(currentTheme["bg-primary-very-dark"], " opacity-70") : "".concat(currentTheme["bg-tertiary-dark"], " opacity-100"), " px-1"),
+    scrollable: false,
+    grow: false,
+    horizontal: true,
+    className: "flex flex-col p-1 rounded ".concat(isOverCurrent && canDrop && "".concat(currentTheme["bg-primary-very-dark"]), " px-1"),
     children: [/*#__PURE__*/jsxs("div", {
-      className: "flex flex-row justify-between border-b ".concat(currentTheme && currentTheme["border-secondary-medium"], " p-2 pl-2 mb-2"),
+      className: "flex flex-row justify-between p-2 pl-2",
       children: [/*#__PURE__*/jsxs("div", {
         className: "flex flex-row text-xs items-center space-x-2",
         children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
@@ -2468,6 +2471,7 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
       direction: "col",
+      padding: false,
       children: /*#__PURE__*/jsx("div", {
         className: "flex flex-col w-full h-full overflow-hidden",
         children: /*#__PURE__*/jsxs("div", {
@@ -5179,6 +5183,7 @@ var ApplicationSettingsModal = function ApplicationSettingsModal(_ref) {
     width: "w-11/12 xl:w-5/6",
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col w-full h-full overflow-hidden",
         children: [/*#__PURE__*/jsx("div", {

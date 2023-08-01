@@ -141,7 +141,7 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
                 width={"w-11/12 xl:w-5/6"}
                 height="h-5/6"
             >
-                <Panel direction="col">
+                <Panel direction="col" padding={false}>
                     <div
                         className={`flex flex-col w-full h-full overflow-hidden`}
                     >
