@@ -62,7 +62,7 @@ function Paragraph3({
     padding = true,
     onClick = null,
     scrollable = false,
-    className = "",
+    className = "text-xs xl:text-sm font-normal",
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -73,11 +73,9 @@ function Paragraph3({
 
     return (
         <LayoutContainer
-            className={`text-xs xl:text-sm font-normal h-full w-full ${className} ${styles.string}`}
+            className={`h-full w-full ${className} ${styles.string}`}
             onClick={onClick}
             scrollable={scrollable}
-            // {...styles}
-            // {...props}
         >
             {text}
         </LayoutContainer>

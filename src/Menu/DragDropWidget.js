@@ -3,7 +3,7 @@
  *
  * event: onDropItem
  */
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag } from "react-dnd";
 
 export const DragDropWidget = ({ id, type, width, children, onDropItem }) => {
     const [collected, drag, dragPreview] = useDrag(() => ({
@@ -26,21 +26,6 @@ export const DragDropWidget = ({ id, type, width, children, onDropItem }) => {
             }
         },
     }));
-
-    // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
-    //     accept: type,
-    //     drop: (_item, monitor) => {
-    //         const didDrop = monitor.didDrop();
-    //         if (didDrop) {
-    //             return;
-    //         }
-    //         return { id, type, dropIndex: id };
-    //     },
-    //     collect: (monitor) => ({
-    //         isDragging: monitor.isDragging,
-    //         isOverCurrent: monitor.isOver({ shallow: true }),
-    //     }),
-    // });
 
     function renderDragItem() {
         return collected.isDragging ? (

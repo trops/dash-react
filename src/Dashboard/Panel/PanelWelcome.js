@@ -105,7 +105,7 @@ export const PanelWelcome = ({
                 >
                     <Panel2 horizontal={true} padding={false}>
                         <div
-                            className={`flex flex-col space-y-1 p-2 h-full justify-between border-r border-gray-800 bg-gray-700`}
+                            className={`flex flex-col space-y-1 p-2 h-full justify-between`}
                         >
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon

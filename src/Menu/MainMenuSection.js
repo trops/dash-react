@@ -4,6 +4,7 @@ import { useDrop } from "react-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonIcon } from "@dash/Common";
 import { LayoutContainer } from "../Layout";
+import { Paragraph3 } from "../Common";
 
 export const MainMenuSection = ({
     id,
@@ -55,11 +56,12 @@ export const MainMenuSection = ({
                     currentTheme && currentTheme["border-secondary-medium"]
                 } p-2 pl-2 mb-2`}
             >
-                <div className="flex flex-row text-xs items-center">
+                <div className="flex flex-row text-xs items-center space-x-2">
                     <FontAwesomeIcon icon={menuItem.icon} />
-                    <span className="p-2 uppercase font-bold text-gray-500">
-                        {menuItem.name}
-                    </span>
+                    <Paragraph3
+                        text={menuItem.name}
+                        className="font-bold uppercase text-xs items-center"
+                    />
                 </div>
                 <ButtonIcon
                     icon="plus"
