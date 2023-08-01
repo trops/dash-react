@@ -180,6 +180,7 @@ export const LayoutBuilderAddItemModal = ({
     function renderMenuItem(type, componentName) {
         return (
             <MenuItem3
+                key={`menu-item-${componentName}`}
                 onClick={() =>
                     handleClickItem({ type, component: componentName })
                 }
@@ -188,12 +189,6 @@ export const LayoutBuilderAddItemModal = ({
             </MenuItem3>
         );
     }
-
-    // function handleUpdateMenuItem(data) {
-    //     console.log('changed ', data);
-    //     setMenuItemSelected(() => data);
-    //     forceUpdate();
-    // }
 
     function handleUpdate(e, layoutItem) {
         try {
@@ -321,9 +316,6 @@ export const LayoutBuilderAddItemModal = ({
                                 </div>
                             </LayoutContainer>
 
-                            {/* <div
-                                className={`flex flex-row h-full text-gray-200 overflow-y-scroll w-full rounded p-4 space-x-4 ${theme["bg-secondary-dark"]}`}
-                            > */}
                             <LayoutContainer
                                 direction="row"
                                 space={true}

@@ -86,13 +86,11 @@ export const DashboardFooter = ({
                 {preview === false && (
                     <div className="flex flex-row space-x-1">
                         <ButtonIcon
-                            icon={"x-mark"}
                             text={"Cancel"}
                             onClick={onClickEdit}
                             hoverBackgroundColor={"hover:bg-indigo-700"}
                         />
                         <ButtonIcon
-                            icon="x-mark"
                             text={"Save Changes"}
                             onClick={onSaveChanges}
                             hoverBackgroundColor={"hover:bg-green-700"}

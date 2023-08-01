@@ -5618,12 +5618,10 @@ var DashboardFooter = function DashboardFooter(_ref) {
       }), preview === false && /*#__PURE__*/jsxs("div", {
         className: "flex flex-row space-x-1",
         children: [/*#__PURE__*/jsx(ButtonIcon, {
-          icon: "x-mark",
           text: "Cancel",
           onClick: onClickEdit,
           hoverBackgroundColor: "hover:bg-indigo-700"
         }), /*#__PURE__*/jsx(ButtonIcon, {
-          icon: "x-mark",
           text: "Save Changes",
           onClick: onSaveChanges,
           hoverBackgroundColor: "hover:bg-green-700"
@@ -6666,15 +6664,8 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
         });
       },
       children: componentName
-    });
+    }, "menu-item-".concat(componentName));
   }
-
-  // function handleUpdateMenuItem(data) {
-  //     console.log('changed ', data);
-  //     setMenuItemSelected(() => data);
-  //     forceUpdate();
-  // }
-
   function handleUpdate(e, layoutItem) {
     try {
 
