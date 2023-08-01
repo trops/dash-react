@@ -1930,22 +1930,6 @@ var DragDropWidget$1 = function DragDropWidget(_ref) {
     collected = _useDrag2[0],
     drag = _useDrag2[1],
     dragPreview = _useDrag2[2];
-
-  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
-  //     accept: type,
-  //     drop: (_item, monitor) => {
-  //         const didDrop = monitor.didDrop();
-  //         if (didDrop) {
-  //             return;
-  //         }
-  //         return { id, type, dropIndex: id };
-  //     },
-  //     collect: (monitor) => ({
-  //         isDragging: monitor.isDragging,
-  //         isOverCurrent: monitor.isOver({ shallow: true }),
-  //     }),
-  // });
-
   function renderDragItem() {
     return collected.isDragging ? /*#__PURE__*/jsx("div", {
       ref: dragPreview,
@@ -2045,12 +2029,12 @@ var MainMenuSection = function MainMenuSection(_ref) {
     children: [/*#__PURE__*/jsxs("div", {
       className: "flex flex-row justify-between border-b ".concat(currentTheme && currentTheme["border-secondary-medium"], " p-2 pl-2 mb-2"),
       children: [/*#__PURE__*/jsxs("div", {
-        className: "flex flex-row text-xs items-center",
+        className: "flex flex-row text-xs items-center space-x-2",
         children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
           icon: menuItem.icon
-        }), /*#__PURE__*/jsx("span", {
-          className: "p-2 uppercase font-bold text-gray-500",
-          children: menuItem.name
+        }), /*#__PURE__*/jsx(Paragraph3, {
+          text: menuItem.name,
+          className: "font-bold uppercase text-xs items-center"
         })]
       }), /*#__PURE__*/jsx(ButtonIcon, {
         icon: "plus",
@@ -4744,7 +4728,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
         horizontal: true,
         padding: false,
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-1 p-2 h-full justify-between border-r border-gray-800 bg-gray-700",
+          className: "flex flex-col space-y-1 p-2 h-full justify-between",
           children: [/*#__PURE__*/jsx("div", {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
@@ -11822,7 +11806,7 @@ function Paragraph3(_ref3) {
     _ref3$scrollable = _ref3.scrollable,
     scrollable = _ref3$scrollable === void 0 ? false : _ref3$scrollable,
     _ref3$className = _ref3.className,
-    className = _ref3$className === void 0 ? "" : _ref3$className,
+    className = _ref3$className === void 0 ? "text-xs xl:text-sm font-normal" : _ref3$className,
     props = _objectWithoutProperties$t(_ref3, _excluded3$5);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -11830,12 +11814,9 @@ function Paragraph3(_ref3) {
     scrollable: scrollable
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "text-xs xl:text-sm font-normal h-full w-full ".concat(className, " ").concat(styles.string),
+    className: "h-full w-full ".concat(className, " ").concat(styles.string),
     onClick: onClick,
-    scrollable: scrollable
-    // {...styles}
-    // {...props}
-    ,
+    scrollable: scrollable,
     children: text
   });
 }
