@@ -1,8 +1,6 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { ButtonIcon } from "../../../Common";
 import {
     getWidgetsForWorkspace,
     getWorkspacesForWorkspace,

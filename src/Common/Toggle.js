@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Switch } from "@headlessui/react";
 import { ThemeContext, getStylesForItem, themeObjects } from "@dash";
 
 function Toggle({ text = "", enabled = false, setEnabled, ...props }) {

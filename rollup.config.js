@@ -74,7 +74,7 @@ const config = OUTPUT_DATA.map(({ file, format }) => ({
         dir: "dist",
         // preserveModules: true, // indicate not create a single-file
         // preserveModulesRoot: 'src',
-        // sourcemap:true,
+        sourcemap: true,
         //file,
         //dir: "dist",
         format,

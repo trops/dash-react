@@ -1,6 +1,6 @@
 {
     "name": "@trops/dash-react",
-    "version": "0.1.108",
+    "version": "0.1.109",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "typescript": "^2.6.2",
@@ -15,7 +15,7 @@
         "build": "npm run prettify && npm run build:css && npm run prod",
         "build:css": "tailwindcss -i src/index.css -o src/tailwind.css -m",
         "release-workflow": "",
-        "prod": "npm run prettify && npm run clean-dist && npm run clean-package && npm run roll && npm run copy && npm run pack-local-esm && npm run copy-package",
+        "prod": "NODE_ENV=prod npm run prettify && npm run clean-dist && npm run clean-package && npm run roll && npm run copy && npm run pack-local-esm && npm run copy-package",
         "dry": "npm run prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && npm run roll && yarn copy && yarn pack-local-esm && yarn copy-package",
         "clean-dist": "rm -r ./dist/* || exit 0",
         "clean-package": "rm -r ./package/* || exit 0",
