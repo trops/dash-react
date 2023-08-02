@@ -1,6 +1,12 @@
 import { mock, ComponentManager } from "@dash";
 import { AppContext, ThemeContext, ThemeWrapper } from "../Context";
-import { LayoutContainer, MockDashboardApi, Widget, Workspace } from "..";
+import {
+    LayoutContainer,
+    MockDashboardApi,
+    Widget,
+    Workspace,
+    DashboardWrapper,
+} from "..";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { InstantSearch } from "react-instantsearch-hooks-web";
 import algoliasearch from "algoliasearch";
@@ -259,4 +265,22 @@ const MockDashboard = ({
     );
 };
 
-export { MockLayout, MockWrapper, MockWorkspace, MockAlgolia, MockDashboard };
+const MockDashboardWrapper = ({ children }) => {
+    return (
+        <DashboardWrapper
+            dashApi={new MockDashboardApi(mock.api)}
+            credentials={{ appId: "ZHSCSP4LMX" }}
+        >
+            {children}
+        </DashboardWrapper>
+    );
+};
+
+export {
+    MockLayout,
+    MockWrapper,
+    MockWorkspace,
+    MockAlgolia,
+    MockDashboard,
+    MockDashboardWrapper,
+};

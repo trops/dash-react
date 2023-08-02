@@ -61,7 +61,7 @@ export const ThemeWrapper = ({
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
-    console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials);
+    // console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials);
 
     useEffect(() => {
         // If the user has provided a theme as a override,
@@ -151,6 +151,7 @@ export const ThemeWrapper = ({
             let rawThemes = {};
 
             console.log("themes to check ", themesToCheck);
+
             if (themesToCheck !== null) {
                 if (Object.keys(themesToCheck).length === 0) {
                     Object.keys(themes).forEach((themeKey) => {
@@ -193,13 +194,17 @@ export const ThemeWrapper = ({
                 }
                 // set the theme
                 if (!chosenTheme && Object.keys(themesChecked).length > 0) {
+                    console.log(
+                        "set current theme",
+                        Object.keys(themesChecked)[0]
+                    );
                     changeCurrentTheme(Object.keys(themesChecked)[0]);
                 }
 
                 forceUpdate();
             }
         } catch (e) {
-            console.log("themes check error ", e.message);
+            console.log("themes check error ", e);
         }
     }
 
@@ -209,9 +214,7 @@ export const ThemeWrapper = ({
     }
 
     const changeCurrentTheme = (themeKey) => {
-        console.log("changing current theme ", themeKey);
         if (rawThemes !== null) {
-            console.log("changing theme to ", themeKey);
             const themeData = ThemeModel(rawThemes[themeKey]);
             if (themeKey !== null) {
                 setChosenTheme(() => themeData);
@@ -232,6 +235,7 @@ export const ThemeWrapper = ({
 
     const getValue = () => {
         try {
+            console.log("GET VALUE THEME WRAPPER", chosenTheme);
             return {
                 key: Date.now(),
                 currentTheme:

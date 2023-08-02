@@ -64,9 +64,17 @@ export const AppWrapper = ({ children, credentials = null, dashApi }) => {
     }
 
     function changeApplicationTheme(themeKey) {
-        const s = deepCopy(settings);
-        s["theme"] = themeKey;
-        changeSettings(s);
+        try {
+            let s = deepCopy(settings);
+            if (s) {
+                if ("theme" in s && themeKey) {
+                    s["theme"] = themeKey;
+                }
+                changeSettings(s);
+            }
+        } catch (e) {
+            console.log("error changing theme ", e, themeKey);
+        }
     }
 
     function loadSettings() {

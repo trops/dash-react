@@ -4,8 +4,13 @@ import { WidgetApi } from "@dash/Api";
 import { AppWrapper } from "./App/AppWrapper";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { MainSection } from "../Common";
+import { useContext } from "react";
+import { ThemeContext } from "./ThemeContext";
 
 export const DashboardWrapper = ({ dashApi, credentials, children }) => {
+    // use the contexts to pass through any information
+    const { currentTheme } = useContext(ThemeContext);
+
     function buildWidgetApi() {
         const w = WidgetApi;
         w.setPublisher(DashboardPublisher);
@@ -14,7 +19,7 @@ export const DashboardWrapper = ({ dashApi, credentials, children }) => {
     }
 
     function getValue() {
-        console.log({
+        console.log("dashboard wrapper ", {
             widgetApi: buildWidgetApi(),
             pub: DashboardPublisher,
             dashApi,
@@ -35,6 +40,7 @@ export const DashboardWrapper = ({ dashApi, credentials, children }) => {
                     <MainSection>
                         <DashboardContext.Provider value={getValue()}>
                             {children}
+                            {currentTheme && JSON.stringify(currentTheme)}
                         </DashboardContext.Provider>
                     </MainSection>
                 </div>
