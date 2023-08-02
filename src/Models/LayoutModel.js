@@ -40,11 +40,26 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         layout.direction = "direction" in obj ? obj.direction : "col";
         layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
         layout.canHaveChildren =
-            "canHaveChildren" in obj ? obj.canHaveChildren : true;
+            "canHaveChildren" in obj
+                ? obj.canHaveChildren !== undefined
+                    ? obj.canHaveChildren
+                    : false
+                : true;
         layout.width = "width" in obj ? obj.width : "w-full";
         layout.height = "height" in obj ? obj.height : "h-full";
         layout.parent = "parent" in obj ? obj.parent : 0;
+
+        /**
+         * type
+         * The type of the component
+         * @example widget, workspace, layout
+         */
         layout.type = "type" in obj ? obj.type : "layout";
+
+        /**
+         * workspace
+         * The name of the Workspace the component belongs to (can exist in as a child)
+         */
         layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
         // Space and Grow

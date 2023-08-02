@@ -11,6 +11,7 @@ export const LayoutDragBuilderEdit = ({
     onClickAdd,
     onClickQuickAdd,
     onDropItem,
+    onDragItem,
     onClickRemove,
     onClickShrink,
     onClickExpand,
@@ -41,6 +42,7 @@ export const LayoutDragBuilderEdit = ({
                 onOpenEvents,
                 onSaveConfiguration,
                 onDropItem,
+                onDragItem,
                 workspace,
             })}
         </DndProvider>
@@ -62,6 +64,7 @@ export const LayoutDragBuilderEdit = ({
             onOpenEvents,
             onSaveConfiguration,
             onDropItem,
+            onDragItem,
             workspace,
         })
     );

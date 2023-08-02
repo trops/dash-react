@@ -32,7 +32,6 @@ export const PanelThemePicker = ({
                         onClickNewTheme={handleCreateNewTheme}
                         onChooseVariant={onChangeVariant}
                     />
-
                     <div className="flex flex-col w-full w-1/2 xl:w-3/4">
                         {theme !== null && (
                             <div

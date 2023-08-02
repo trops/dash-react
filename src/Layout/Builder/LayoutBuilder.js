@@ -19,6 +19,15 @@ import {
     LayoutBuilderConfigModal,
     LayoutBuilderEditItemModal,
 } from "@dash/Layout/Builder/Modal";
+import {
+    getComponentInLayout,
+    getParentForLayoutItem,
+    getParentWorkspaceForItem,
+    isContainer,
+    isWidget,
+    isWorkspace,
+    traverseParentTree,
+} from "../../Utils";
 
 // import LayoutBuilderEditItemModal from "./Modal/LayoutBuilderEditItemModal";
 // import LayoutBuilderEventModal from "./Modal/LayoutBuilderEventModal";
@@ -150,21 +159,99 @@ export const LayoutBuilder = ({
         forceUpdate();
     }
 
+    function onDragItem(item) {
+        console.log("onDragItem LayoutBuilder ", item);
+    }
+
     function onDropItem(item) {
         try {
-            const { sourceIndex, dropIndex } = item;
-            // we have to find the item
-            // then we have to set the parent id to a different id
-            const layout = currentWorkspace["layout"];
-            const newLayout = updateParentForItem(
-                layout,
-                sourceIndex,
-                dropIndex
+            // console.log("dropped item ", item);
+
+            const draggedId = item["sourceIndex"];
+            const droppedId = item["dropIndex"];
+
+            const draggedComponent = getComponentInLayout(
+                draggedId,
+                currentWorkspace["layout"]
             );
-            const newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-            newWorkspace["layout"] = newLayout;
-            setCurrentWorkspace(() => newWorkspace);
-            forceUpdate();
+            const droppedComponent = getComponentInLayout(
+                droppedId,
+                currentWorkspace["layout"]
+            );
+
+            // console.log("FOUND IT IN LAYOUT ", draggedComponent);
+            const isDraggedWidget = isWidget(draggedComponent);
+            const isDroppedWidget = isWidget(droppedComponent);
+            // console.log(
+            //     "RESULT ",
+            //     "widget: ",
+            //     isDraggedWidget,
+            //     "drop widget: ",
+            //     isDroppedWidget,
+            //     "container: ",
+            //     isContainer(droppedComponent),
+            //     "workspace: ",
+            //     isWorkspace(droppedComponent)
+            // );
+
+            // We have to determine if we are allowed to DROP the DRAGGED item
+            // onto the DROPPED ITEM...
+
+            // RULES
+            // 1. IF DRAG item is a widget, and the DROPPED item is a Container...
+            //      the next workspace parent of the DROPPED item MUST match the widget workspace type
+            if (
+                isWidget(draggedComponent) === true &&
+                isContainer(droppedComponent) === true
+            ) {
+                const parent = getParentWorkspaceForItem(
+                    droppedId,
+                    currentWorkspace["layout"],
+                    draggedComponent["workspace"]
+                );
+                // If there is no parent workspace that matches the dragged item in the chain, (encapsulating)
+                // then we have to return as this child does not belong where the user has dropped the component
+                if (parent === null) return;
+            }
+            //     return;
+            // 2. If DRAG item is a Workspace, and DROPPED item is a Container - OK
+
+            // 2a If DRAG item is a Workspace, and DROPPED item is a Workspace - FAIL
+            if (
+                isWorkspace(draggedComponent) === true &&
+                isWorkspace(droppedComponent) === true
+            )
+                return;
+
+            // traverseParentTree(currentWorkspace["layout"], {
+            //     parent: item["dropIndex"],
+            //     current: item["sourceIndex"],
+            // });
+
+            if (currentWorkspace) {
+                const { sourceIndex, dropIndex } = item;
+                // we have to find the item
+                // then we have to set the parent id to a different id
+                const layout = currentWorkspace["layout"];
+                const newLayout = updateParentForItem(
+                    layout,
+                    sourceIndex,
+                    dropIndex
+                );
+                if (newLayout) {
+                    const newWorkspace = JSON.parse(
+                        JSON.stringify(currentWorkspace)
+                    );
+
+                    newWorkspace["layout"] = newLayout;
+                    setCurrentWorkspace(() => newWorkspace);
+                    forceUpdate();
+                } else {
+                    // console.log("failed new layout", newLayout);
+                }
+            } else {
+                // console.log("no current workspace ", currentWorkspace);
+            }
         } catch (e) {
             console.log(e);
         }
@@ -338,6 +425,7 @@ export const LayoutBuilder = ({
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
+                            onDragItem={onDragItem}
                             onOpenConfig={handleClickEditItem} //{handleClickConfigure}
                             onOpenEvents={handleClickEvents}
                             onSaveConfiguration={handleSaveConfiguration}
@@ -364,6 +452,7 @@ export const LayoutBuilder = ({
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
+                            onDragItem={onDragItem}
                             onOpenConfig={handleClickEditItem} //{handleClickConfigure}
                             onOpenEvents={handleClickEvents}
                             onSaveConfiguration={handleSaveConfiguration}

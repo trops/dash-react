@@ -55,7 +55,7 @@ export const LayoutItemEditHeader = ({
         const textColor =
             isContainer === true ? "text-gray-700" : "text-gray-300";
 
-        console.log("HEADER ", isContainer, textColor, item);
+        //console.log("HEADER ", isContainer, textColor, item);
 
         return (
             <div

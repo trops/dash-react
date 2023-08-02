@@ -15,7 +15,12 @@ import {
     renderComponent,
 } from "@dash/Utils";
 import { ComponentManager } from "@dash";
-import { getLayoutItemForWorkspace, getRandomInt } from "../../Utils";
+import {
+    getLayoutItemForWorkspace,
+    getRandomInt,
+    isContainer,
+    isWorkspace,
+} from "../../Utils";
 
 import { LayoutItemEditHeader } from "./Menu/LayoutItemEditHeader";
 
@@ -41,6 +46,7 @@ export const LayoutGridContainer = ({
     direction,
     height = "h-full",
     onDropItem,
+    onDragItem,
 }) => {
     function handleClickAdd() {
         onClickAdd(item);
@@ -62,6 +68,13 @@ export const LayoutGridContainer = ({
         if (onDropItem) {
             onDropItem(item);
         }
+    }
+
+    function handleDragItem(item) {
+        console.log("dragging item ", item);
+        // if (onDragItem) {
+        //     onDragItem(item);
+        // }
     }
 
     function handleChangeOrder(direction) {
@@ -260,34 +273,22 @@ export const LayoutGridContainer = ({
     }
 
     function dropType(item) {
-        if (
-            item["type"] === "workspace" &&
-            item["component"] !== "Container" &&
-            item["component"] !== "LayoutContainer"
-        ) {
+        // if item is a Workspace, and NOT a container, can only drop into a Container (layout)
+        if (isWorkspace(item) === true) {
             return ["layout", item["parentWorkspaceName"]];
         }
-        if (
-            item["component"] === "Container" ||
-            item["component"] === "LayoutContainer"
-        ) {
+        // if a container, we can place this into ANY other container or workspace
+        if (isContainer(item) === true) {
             return getAllWorkspaceNames();
         }
         return ["layout", item["parentWorkspaceName"]];
     }
 
     function dragType(item) {
-        if (
-            item["type"] === "workspace" &&
-            item["component"] !== "Container" &&
-            item["component"] !== "LayoutContainer"
-        ) {
+        if (isWorkspace(item) === true) {
             return item["parentWorkspaceName"];
         }
-        if (
-            item["component"] === "Container" ||
-            item["component"] === "LayoutContainer"
-        ) {
+        if (isContainer(item)) {
             return "layout";
         }
         return item["parentWorkspaceName"];
@@ -305,6 +306,7 @@ export const LayoutGridContainer = ({
                 id={id}
                 type={dragType(item)}
                 onDropItem={handleDropItem}
+                onDragItem={handleDragItem}
                 width={"w-full"}
             >
                 <LayoutContainer

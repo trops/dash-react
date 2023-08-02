@@ -46,6 +46,7 @@ export const renderLayout = ({
     onOpenConfig = null,
     onOpenEvents = null,
     onDropItem = null,
+    onDragItem = undefined,
     dashboardId,
 }) => {
     try {
@@ -99,6 +100,7 @@ export const renderLayout = ({
                             onOpenConfig={onOpenConfig}
                             onOpenEvents={onOpenEvents}
                             onDropItem={onDropItem}
+                            onDragItem={onDragItem}
                             width={width}
                             isDraggable={isDraggable}
                             workspace={workspace}
@@ -125,6 +127,7 @@ export const renderLayout = ({
                                     onOpenConfig,
                                     onOpenEvents,
                                     onDropItem,
+                                    onDragItem,
                                     workspace,
                                     isDraggable,
                                 })}
@@ -150,6 +153,7 @@ export const renderLayout = ({
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
+                            onDragItem={onDragItem}
                             name={id}
                             width={width}
                             height={height}
@@ -283,6 +287,118 @@ export function renderComponent(component, id, params = {}, children = null) {
     }
 }
 
+/**
+ * getComponentInLayout
+ * @param {int} componentId
+ * @param {array} layout the array of Layout items
+ * @returns
+ */
+export function getComponentInLayout(componentId, layout) {
+    try {
+        let item = null;
+        layout.forEach((l) => {
+            if (l.id === componentId) {
+                item = l;
+            }
+        });
+        return item;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
+/**
+ * getParentWorkspaceForItem
+ * Loop recursively through the layout until we hit a Workspace (traverse upwards for each parent)
+ * DO NOT return a Container as this is NOT a workspace
+ * @param {array} componentId
+ * @param {object} layout
+ */
+export function getParentWorkspaceForItem(componentId, layout, workspaceName) {
+    // The workspace we will be returning as the parent
+    let workspaceFound = null;
+    /**
+     * recurse
+     * The recursive function that will allow us to search up the parent chain for a matching workspace
+     * @param {int} componentId the id of the component we are searching for in the layout
+     * @param {array} layout the layout of components in the workspace
+     * @param {string} workspaceName the name of the workspace we are looking for (workspace of the component)
+     */
+    function recurse(componentId, layout, workspaceName) {
+        const componentInLayout = getComponentInLayout(componentId, layout);
+        layout.forEach((layoutItem) => {
+            if (layoutItem["id"] === componentInLayout["parent"]) {
+                // If the component we found is NOT a Workspace...
+                if (isWorkspace(layoutItem) === false) {
+                    return recurse(layoutItem["id"], layout, workspaceName);
+                } else {
+                    // If we have a match then we are cool...else keep going!
+                    if (layoutItem["workspace"] === workspaceName) {
+                        // Matched, so this is our Workspace
+                        workspaceFound = layoutItem;
+                        return layoutItem;
+                    } else {
+                        return recurse(layoutItem["id"], layout, workspaceName);
+                    }
+                }
+            }
+        });
+    }
+
+    // let's light this candle.
+    recurse(componentId, layout, workspaceName);
+
+    return workspaceFound;
+}
+
+export function isWidget(item) {
+    try {
+        return item["canHaveChildren"] === false && item["type"] === "widget";
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}
+
+export function isContainer(item) {
+    try {
+        return (
+            item["canHaveChildren"] === true &&
+            (item["component"] === "Container" ||
+                item["component"] === "LayoutContainer")
+        );
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}
+
+export function isWorkspace(item) {
+    try {
+        return isWidget(item) === false && isContainer(item) === false;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}
+
+export function traverseParentTree(layout, item) {
+    // const componentMap = ComponentManager.map();
+    return layout.map((c) => {
+        console.log("tree: ", c, c["id"], item["parent"]);
+        if (item["parent"] === c["id"]) {
+            console.log("tree MATCH: ", c, c);
+        }
+    });
+}
+
+/**
+ * getNExtHighestParentId
+ * @param {*} tempLayout
+ * @param {*} currentParent
+ * @returns
+ */
 export function getNextHighestParentId(tempLayout, currentParent) {
     // loop through the layout to find the next highest parent id
     let parentId = -1;
@@ -397,12 +513,16 @@ export function getNextLowestItemInLayout(tempLayout, currentOrder) {
 }
 
 export function getParentForLayoutItem(tempLayout, id) {
-    const match = tempLayout.filter((t) => t["id"] === id);
-    let parentId = null;
-    if (match.length > 0) {
-        parentId = match[0]["parent"];
+    try {
+        const match = tempLayout.filter((t) => t["id"] === id);
+        let parentId = null;
+        if (match.length > 0) {
+            parentId = match[0]["parent"];
+        }
+        return parentId ? getLayoutItemById(tempLayout, parentId) : null;
+    } catch (e) {
+        console.log("getParentForLayoutItem ", e.message);
     }
-    return parentId ? getLayoutItemById(tempLayout, parentId) : null;
 }
 
 export function getLayoutItemById(tempLayout, id) {

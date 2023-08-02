@@ -26,14 +26,18 @@ export default function DropComponent({
                 return { id, type, dropIndex: id, obj: item };
             }, // the id and the type AGAIN of the item for dropping
             canDrop: (obj) => {
-                return obj.id !== 1 && item.canHaveChildren === true; // && obj.parent !== id; // cant drop in these places
+                return obj.id !== 1 && item.canHaveChildren === true;
             }, // this will cause the elements that are droppable to be styles (if we choose!)
-            collect: (monitor) => ({
-                // isOver: monitor.isOver(),
-                // canDrop: monitor.canDrop(),
-                isDragging: monitor.isDragging,
-                isOverCurrent: monitor.isOver({ shallow: true }),
-            }),
+
+            collect: (monitor) => {
+                // console.log(monitor);
+                return {
+                    isOver: monitor.isOver(),
+                    // canDrop: monitor.canDrop(),
+                    isDragging: monitor.isDragging,
+                    isOverCurrent: monitor.isOver({ shallow: true }),
+                };
+            },
         },
         [setHasDropped, setHasDroppedOnChild]
     );

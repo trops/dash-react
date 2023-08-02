@@ -34,6 +34,7 @@ export const LayoutBuilderGridItem = ({
     onOpenConfig,
     onOpenEvents,
     onDropItem,
+    onDragItem,
     width,
     direction,
     isDraggable,
@@ -74,7 +75,8 @@ export const LayoutBuilderGridItem = ({
     function renderUserPreferences() {
         try {
             return (
-                preview === false && (
+                preview === false &&
+                item.hasOwnProperty("userPrefs") && (
                     <div className={`flex flex-col h-fit`}>
                         <div
                             className={`flex flex-col w-full text-xs text-gray-200 justify-start p-2`}
@@ -109,6 +111,13 @@ export const LayoutBuilderGridItem = ({
         }
     }
 
+    function handleDragItem(item) {
+        // we have to shuffle the parent of the source item to the drag item
+        if (onDragItem) {
+            onDragItem(item);
+        }
+    }
+
     function handleClickEvents() {
         onOpenEvents(item);
     }
@@ -121,6 +130,8 @@ export const LayoutBuilderGridItem = ({
     function renderEvents() {}
 
     function dragType(item) {
+        console.log("widget drag type ", item["workspace"]);
+
         if (
             item["type"] === "workspace" &&
             item["component"] !== "Container" &&
@@ -179,6 +190,7 @@ export const LayoutBuilderGridItem = ({
                 type={drag}
                 parent={parent}
                 onDropItem={handleDropItem}
+                onDragItem={handleDragItem}
                 width={"w-full"}
             >
                 <div

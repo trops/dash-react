@@ -77,6 +77,25 @@ export const ComponentConfigModel = (obj = {}) => {
     obj.userConfig = "userConfig" in obj ? obj["userConfig"] : {};
 
     /**
+     * canHaveChildren
+     * If the component is allowed to have child components
+     */
+    obj.canHaveChildren =
+        "canHaveChildren" in obj ? obj["canHaveChildren"] : false;
+
+    /**
+     * events
+     * The events that the component is emitting
+     */
+    obj.events = "events" in obj ? obj["events"] : [];
+
+    /**
+     * eventHandlers
+     * The Names of the functions that are listened to in the component and can be handled inside the component
+     */
+    obj.eventHandlers = "eventHandlers" in obj ? obj["eventHandlers"] : [];
+
+    /**
      * layout builder styles
      */
     obj.styles =
@@ -87,7 +106,7 @@ export const ComponentConfigModel = (obj = {}) => {
                   borderColor: "border-blue-900",
               };
 
-    // console.log("config: ", obj);
+    console.log("config: ", obj);
 
     return obj;
 };
