@@ -951,11 +951,22 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
     layout.component = "component" in obj ? obj.component : "Container";
     layout.direction = "direction" in obj ? obj.direction : "col";
     layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
-    layout.canHaveChildren = "canHaveChildren" in obj ? obj.canHaveChildren : true;
+    layout.canHaveChildren = "canHaveChildren" in obj ? obj.canHaveChildren !== undefined ? obj.canHaveChildren : false : true;
     layout.width = "width" in obj ? obj.width : "w-full";
     layout.height = "height" in obj ? obj.height : "h-full";
     layout.parent = "parent" in obj ? obj.parent : 0;
+
+    /**
+     * type
+     * The type of the component
+     * @example widget, workspace, layout
+     */
     layout.type = "type" in obj ? obj.type : "layout";
+
+    /**
+     * workspace
+     * The name of the Workspace the component belongs to (can exist in as a child)
+     */
     layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
     // Space and Grow
@@ -1414,15 +1425,30 @@ var ComponentConfigModel = function ComponentConfigModel() {
   obj.userConfig = "userConfig" in obj ? obj["userConfig"] : {};
 
   /**
+   * canHaveChildren
+   * If the component is allowed to have child components
+   */
+  obj.canHaveChildren = "canHaveChildren" in obj ? obj["canHaveChildren"] : false;
+
+  /**
+   * events
+   * The events that the component is emitting
+   */
+  obj.events = "events" in obj ? obj["events"] : [];
+
+  /**
+   * eventHandlers
+   * The Names of the functions that are listened to in the component and can be handled inside the component
+   */
+  obj.eventHandlers = "eventHandlers" in obj ? obj["eventHandlers"] : [];
+
+  /**
    * layout builder styles
    */
   obj.styles = "styles" in obj ? obj["styles"] : {
     backgroundColor: "bg-blue-800",
     borderColor: "border-blue-900"
   };
-
-  // console.log("config: ", obj);
-
   return obj;
 };
 
@@ -8893,20 +8919,75 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     setCurrentWorkspace(newWorkspace);
     forceUpdate();
   }
+  function onDragItem(item) {
+  }
   function onDropItem(item) {
     try {
-      var sourceIndex = item.sourceIndex,
-        dropIndex = item.dropIndex;
-      // we have to find the item
-      // then we have to set the parent id to a different id
-      var layout = currentWorkspace["layout"];
-      var newLayout = updateParentForItem(layout, sourceIndex, dropIndex);
-      var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-      newWorkspace["layout"] = newLayout;
-      setCurrentWorkspace(function () {
-        return newWorkspace;
-      });
-      forceUpdate();
+      // console.log("dropped item ", item);
+
+      var draggedId = item["sourceIndex"];
+      var droppedId = item["dropIndex"];
+      var draggedComponent = getComponentInLayout(draggedId, currentWorkspace["layout"]);
+      var droppedComponent = getComponentInLayout(droppedId, currentWorkspace["layout"]);
+
+      // console.log("FOUND IT IN LAYOUT ", draggedComponent);
+      var isDraggedWidget = isWidget(draggedComponent);
+      var isDroppedWidget = isWidget(droppedComponent);
+      // console.log(
+      //     "RESULT ",
+      //     "widget: ",
+      //     isDraggedWidget,
+      //     "drop widget: ",
+      //     isDroppedWidget,
+      //     "container: ",
+      //     isContainer(droppedComponent),
+      //     "workspace: ",
+      //     isWorkspace(droppedComponent)
+      // );
+
+      // We have to determine if we are allowed to DROP the DRAGGED item
+      // onto the DROPPED ITEM...
+
+      // RULES
+      // 1. IF DRAG item is a widget, and the DROPPED item is a Container...
+      //      the next workspace parent of the DROPPED item MUST match the widget workspace type
+      if (isWidget(draggedComponent) === true && isContainer(droppedComponent) === true) {
+        var parent = getParentWorkspaceForItem(droppedId, currentWorkspace["layout"], draggedComponent["workspace"]);
+        // If there is no parent workspace that matches the dragged item in the chain, (encapsulating)
+        // then we have to return as this child does not belong where the user has dropped the component
+        if (parent === null) return;
+      }
+      //     return;
+      // 2. If DRAG item is a Workspace, and DROPPED item is a Container - OK
+
+      // 2a If DRAG item is a Workspace, and DROPPED item is a Workspace - FAIL
+      if (isWorkspace(draggedComponent) === true && isWorkspace(droppedComponent) === true) return;
+
+      // traverseParentTree(currentWorkspace["layout"], {
+      //     parent: item["dropIndex"],
+      //     current: item["sourceIndex"],
+      // });
+
+      if (currentWorkspace) {
+        var sourceIndex = item.sourceIndex,
+          dropIndex = item.dropIndex;
+        // we have to find the item
+        // then we have to set the parent id to a different id
+        var layout = currentWorkspace["layout"];
+        var newLayout = updateParentForItem(layout, sourceIndex, dropIndex);
+        if (newLayout) {
+          var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+          newWorkspace["layout"] = newLayout;
+          setCurrentWorkspace(function () {
+            return newWorkspace;
+          });
+          forceUpdate();
+        } else {
+          // console.log("failed new layout", newLayout);
+        }
+      } else {
+        // console.log("no current workspace ", currentWorkspace);
+      }
     } catch (e) {
     }
   }
@@ -9049,6 +9130,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           onChangeDirection: onChangeDirection,
           onChangeOrder: onChangeOrder,
           onDropItem: onDropItem,
+          onDragItem: onDragItem,
           onOpenConfig: handleClickEditItem //{handleClickConfigure}
           ,
           onOpenEvents: handleClickEvents,
@@ -9073,6 +9155,7 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
           onChangeDirection: onChangeDirection,
           onChangeOrder: onChangeOrder,
           onDropItem: onDropItem,
+          onDragItem: onDragItem,
           onOpenConfig: handleClickEditItem //{handleClickConfigure}
           ,
           onOpenEvents: handleClickEvents,
@@ -9181,6 +9264,7 @@ var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
     onClickAdd = _ref.onClickAdd,
     onClickQuickAdd = _ref.onClickQuickAdd,
     onDropItem = _ref.onDropItem,
+    onDragItem = _ref.onDragItem,
     onClickRemove = _ref.onClickRemove,
     onClickShrink = _ref.onClickShrink,
     onClickExpand = _ref.onClickExpand,
@@ -9211,6 +9295,7 @@ var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
       onOpenEvents: onOpenEvents,
       onSaveConfiguration: onSaveConfiguration,
       onDropItem: onDropItem,
+      onDragItem: onDragItem,
       workspace: workspace
     })
   }, "dnd-provider-edit") : renderLayout({
@@ -9230,6 +9315,7 @@ var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
     onOpenEvents: onOpenEvents,
     onSaveConfiguration: onSaveConfiguration,
     onDropItem: onDropItem,
+    onDragItem: onDragItem,
     workspace: workspace
   });
 };
@@ -9252,6 +9338,10 @@ function DragComponent(_ref) {
     children = _ref.children,
     onDropItem = _ref.onDropItem;
     _ref.onDragItem;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$a(_useState, 2);
+    _useState2[0];
+    _useState2[1];
   var _useDrag = useDrag(function () {
       return {
         type: type,
@@ -9261,16 +9351,14 @@ function DragComponent(_ref) {
           parent: parent,
           obj: obj
         },
-        collect: function collect(monitor) {
+        collect: function collect(monitor, props) {
+          // console.log("collect ", monitor.getItem());
+          // alert the parent that we are dragging
+          // onDragItem(monitor.getItem());
           return {
             isDragging: monitor.isDragging(),
-            sourceIndex: monitor.sourceIndex
-          };
-        },
-        hover: function hover(item, monitor) {},
-        monitor: function monitor() {
-          return {
-            isDragging: collected.isDragging
+            sourceIndex: monitor.sourceIndex,
+            item: monitor.getItem()
           };
         },
         end: function end(item, monitor) {
@@ -9280,6 +9368,7 @@ function DragComponent(_ref) {
             // where we can then freeze the hits and not use the connectedHits, but rather the frozen hits, to reposition
             // the grid...and then prompt the user to make a rule? (if they unfreeze, it will resume to Algolia search)
             onDropItem({
+              itemDropped: item,
               sourceIndex: item.id,
               dropIndex: dropResult.id,
               layoutId: dropResult.type,
@@ -9333,7 +9422,8 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
     onChangeOrder = _ref.onChangeOrder,
     onOpenConfig = _ref.onOpenConfig,
     onOpenEvents = _ref.onOpenEvents,
-    onDropItem = _ref.onDropItem;
+    onDropItem = _ref.onDropItem,
+    onDragItem = _ref.onDragItem;
     _ref.width;
     var direction = _ref.direction,
     isDraggable = _ref.isDraggable;
@@ -9361,7 +9451,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
   }
   function renderUserPreferences() {
     try {
-      return preview === false && /*#__PURE__*/jsx("div", {
+      return preview === false && item.hasOwnProperty("userPrefs") && /*#__PURE__*/jsx("div", {
         className: "flex flex-col h-fit",
         children: /*#__PURE__*/jsx("div", {
           className: "flex flex-col w-full text-xs text-gray-200 justify-start p-2",
@@ -9385,6 +9475,12 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
     // we have to shuffle the parent of the source item to the drop item
     if (onDropItem) {
       onDropItem(item);
+    }
+  }
+  function handleDragItem(item) {
+    // we have to shuffle the parent of the source item to the drag item
+    if (onDragItem) {
+      onDragItem(item);
     }
   }
   function handleClickEvents() {
@@ -9427,6 +9523,7 @@ var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
       type: drag,
       parent: parent,
       onDropItem: handleDropItem,
+      onDragItem: handleDragItem,
       width: "w-full",
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 p-2 ").concat(getContainerColor(item["parentWorkspace"])),
@@ -9576,13 +9673,14 @@ function DropComponent(_ref) {
       },
       // the id and the type AGAIN of the item for dropping
       canDrop: function canDrop(obj) {
-        return obj.id !== 1 && item.canHaveChildren === true; // && obj.parent !== id; // cant drop in these places
+        return obj.id !== 1 && item.canHaveChildren === true;
       },
-
       // this will cause the elements that are droppable to be styles (if we choose!)
+
       collect: function collect(monitor) {
+        // console.log(monitor);
         return {
-          // isOver: monitor.isOver(),
+          isOver: monitor.isOver(),
           // canDrop: monitor.canDrop(),
           isDragging: monitor.isDragging,
           isOverCurrent: monitor.isOver({
@@ -9861,6 +9959,9 @@ var LayoutItemEditHeader = function LayoutItemEditHeader(_ref) {
     var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
     var isContainer = item["component"] === "Container";
     var textColor = isContainer === true ? "text-gray-700" : "text-gray-300";
+
+    //console.log("HEADER ", isContainer, textColor, item);
+
     return /*#__PURE__*/jsx("div", {
       className: "flex flex-row space-x-1 justify-between w-full pb-1",
       children: /*#__PURE__*/jsxs("div", {
@@ -9966,6 +10067,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-full" : _ref$height,
     onDropItem = _ref.onDropItem;
+    _ref.onDragItem;
   function handleClickAdd() {
     onClickAdd(item);
   }
@@ -9983,6 +10085,12 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
       onDropItem(item);
     }
   }
+  function handleDragItem(item) {
+    // if (onDragItem) {
+    //     onDragItem(item);
+    // }
+  }
+
   function handleChangeOrder(direction) {
     onChangeOrder(item, direction);
   }
@@ -10010,19 +10118,21 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
     return null;
   }
   function dropType(item) {
-    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
+    // if item is a Workspace, and NOT a container, can only drop into a Container (layout)
+    if (isWorkspace(item) === true) {
       return ["layout", item["parentWorkspaceName"]];
     }
-    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
+    // if a container, we can place this into ANY other container or workspace
+    if (isContainer(item) === true) {
       return getAllWorkspaceNames();
     }
     return ["layout", item["parentWorkspaceName"]];
   }
   function dragType(item) {
-    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
+    if (isWorkspace(item) === true) {
       return item["parentWorkspaceName"];
     }
-    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
+    if (isContainer(item)) {
       return "layout";
     }
     return item["parentWorkspaceName"];
@@ -10037,6 +10147,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
       id: id,
       type: dragType(item),
       onDropItem: handleDropItem,
+      onDragItem: handleDragItem,
       width: "w-full",
       children: /*#__PURE__*/jsxs(LayoutContainer, {
         id: "grid-container-parent-".concat(id),
@@ -10322,6 +10433,8 @@ var renderLayout = function renderLayout(_ref) {
     onOpenEvents = _ref$onOpenEvents === void 0 ? null : _ref$onOpenEvents,
     _ref$onDropItem = _ref.onDropItem,
     onDropItem = _ref$onDropItem === void 0 ? null : _ref$onDropItem,
+    _ref$onDragItem = _ref.onDragItem,
+    onDragItem = _ref$onDragItem === void 0 ? undefined : _ref$onDragItem,
     dashboardId = _ref.dashboardId;
   try {
     // Go through each item in the Workspace Layout to render the items.
@@ -10362,6 +10475,7 @@ var renderLayout = function renderLayout(_ref) {
         onOpenConfig: onOpenConfig,
         onOpenEvents: onOpenEvents,
         onDropItem: onDropItem,
+        onDragItem: onDragItem,
         width: width,
         isDraggable: isDraggable,
         workspace: workspace,
@@ -10386,6 +10500,7 @@ var renderLayout = function renderLayout(_ref) {
           onOpenConfig: onOpenConfig,
           onOpenEvents: onOpenEvents,
           onDropItem: onDropItem,
+          onDragItem: onDragItem,
           workspace: workspace,
           isDraggable: isDraggable
         })
@@ -10406,6 +10521,7 @@ var renderLayout = function renderLayout(_ref) {
         onChangeDirection: onChangeDirection,
         onChangeOrder: onChangeOrder,
         onDropItem: onDropItem,
+        onDragItem: onDragItem,
         name: id,
         width: width,
         height: height,
@@ -10501,6 +10617,103 @@ function renderComponent(component, id) {
     return null;
   }
 }
+
+/**
+ * getComponentInLayout
+ * @param {int} componentId
+ * @param {array} layout the array of Layout items
+ * @returns
+ */
+function getComponentInLayout(componentId, layout) {
+  try {
+    var item = null;
+    layout.forEach(function (l) {
+      if (l.id === componentId) {
+        item = l;
+      }
+    });
+    return item;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * getParentWorkspaceForItem
+ * Loop recursively through the layout until we hit a Workspace (traverse upwards for each parent)
+ * DO NOT return a Container as this is NOT a workspace
+ * @param {array} componentId
+ * @param {object} layout
+ */
+function getParentWorkspaceForItem(componentId, layout, workspaceName) {
+  // The workspace we will be returning as the parent
+  var workspaceFound = null;
+  /**
+   * recurse
+   * The recursive function that will allow us to search up the parent chain for a matching workspace
+   * @param {int} componentId the id of the component we are searching for in the layout
+   * @param {array} layout the layout of components in the workspace
+   * @param {string} workspaceName the name of the workspace we are looking for (workspace of the component)
+   */
+  function recurse(componentId, layout, workspaceName) {
+    var componentInLayout = getComponentInLayout(componentId, layout);
+    layout.forEach(function (layoutItem) {
+      if (layoutItem["id"] === componentInLayout["parent"]) {
+        // If the component we found is NOT a Workspace...
+        if (isWorkspace(layoutItem) === false) {
+          return recurse(layoutItem["id"], layout, workspaceName);
+        } else {
+          // If we have a match then we are cool...else keep going!
+          if (layoutItem["workspace"] === workspaceName) {
+            // Matched, so this is our Workspace
+            workspaceFound = layoutItem;
+            return layoutItem;
+          } else {
+            return recurse(layoutItem["id"], layout, workspaceName);
+          }
+        }
+      }
+    });
+  }
+
+  // let's light this candle.
+  recurse(componentId, layout, workspaceName);
+  return workspaceFound;
+}
+function isWidget(item) {
+  try {
+    return item["canHaveChildren"] === false && item["type"] === "widget";
+  } catch (e) {
+    return false;
+  }
+}
+function isContainer(item) {
+  try {
+    return item["canHaveChildren"] === true && (item["component"] === "Container" || item["component"] === "LayoutContainer");
+  } catch (e) {
+    return false;
+  }
+}
+function isWorkspace(item) {
+  try {
+    return isWidget(item) === false && isContainer(item) === false;
+  } catch (e) {
+    return false;
+  }
+}
+function traverseParentTree(layout, item) {
+  // const componentMap = ComponentManager.map();
+  return layout.map(function (c) {
+    if (item["parent"] === c["id"]) ;
+  });
+}
+
+/**
+ * getNExtHighestParentId
+ * @param {*} tempLayout
+ * @param {*} currentParent
+ * @returns
+ */
 function getNextHighestParentId(tempLayout, currentParent) {
   // loop through the layout to find the next highest parent id
   var parentId = -1;
@@ -10613,14 +10826,17 @@ function getNextLowestItemInLayout(tempLayout, currentOrder) {
   return nextItem;
 }
 function getParentForLayoutItem(tempLayout, id) {
-  var match = tempLayout.filter(function (t) {
-    return t["id"] === id;
-  });
-  var parentId = null;
-  if (match.length > 0) {
-    parentId = match[0]["parent"];
+  try {
+    var match = tempLayout.filter(function (t) {
+      return t["id"] === id;
+    });
+    var parentId = null;
+    if (match.length > 0) {
+      parentId = match[0]["parent"];
+    }
+    return parentId ? getLayoutItemById(tempLayout, parentId) : null;
+  } catch (e) {
   }
-  return parentId ? getLayoutItemById(tempLayout, parentId) : null;
 }
 function getLayoutItemById(tempLayout, id) {
   try {
@@ -23094,5 +23310,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getRandomInt, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isMaxOrderForItem, isMinOrderForItem, isObject, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CodeEditorInline, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, withRouter };
 //# sourceMappingURL=index.js.map
