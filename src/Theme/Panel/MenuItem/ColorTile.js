@@ -56,7 +56,8 @@ const ColorTile = ({
                 onMouseOver !== null ? onMouseOver({ ...c, ...rest }) : null
             }
         >
-            {c.hex[shade]}
+            &nbsp;
+            {/*{c.hex[shade]}*/}
         </div>
     );
 };

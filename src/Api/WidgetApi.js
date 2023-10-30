@@ -145,6 +145,8 @@ export const WidgetApi = {
     },
 
     /**
+     * readData
+     * Read data from the filesystem (electron)
      *
      * @param {object} options
      * - filename - the name of the file if you want to override the default uuid as filename

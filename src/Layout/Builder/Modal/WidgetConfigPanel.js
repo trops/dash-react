@@ -8,6 +8,7 @@ export const WidgetConfigPanel = ({
     onChange,
     item = null,
     disabled = false,
+    context, // this is the Workspace context for the item...
 }) => {
     const [itemSelected, setItemSelected] = useState(item);
 
@@ -75,8 +76,6 @@ export const WidgetConfigPanel = ({
             if (value === "false") newItem[name] = false;
             if (value === "true") newItem[name] = true;
 
-            console.log("new item ", newItem);
-
             setItemSelected(() => newItem);
             onChange(e, newItem);
         } catch (e) {
@@ -94,6 +93,13 @@ export const WidgetConfigPanel = ({
         onChange(e, newItem);
     }
 
+    /**
+     * renderCustomSettings
+     * This will use the userConfig key in the Component.dash.js file to render the inputs to the end user
+     * The Developer can specify the options in the userConfig that are then translated to inputs
+     *
+     * @returns
+     */
     function renderCustomSettings() {
         if (itemSelected) {
             if ("userConfig" in itemSelected) {
@@ -103,6 +109,8 @@ export const WidgetConfigPanel = ({
                     const configItem = userConfig[key];
                     const { instructions, displayName, required, type } =
                         configItem;
+
+                    console.log("widget config", configItem);
 
                     // get the user prefs for the key
                     const userPrefs = itemSelected.userPrefs;
@@ -176,6 +184,9 @@ export const WidgetConfigPanel = ({
                                     </option>
                                 );
                             })}
+                        {"optionsValues" in configItem && (
+                            <option>{configItem["optionsValues"]}</option>
+                        )}
                     </SelectMenu>
                 )}
             </div>
@@ -209,6 +220,9 @@ export const WidgetConfigPanel = ({
                                 selectedValue={itemSelected.width}
                                 textSize="text-base"
                             >
+                                <option key={"width-full"} value="">
+                                    -
+                                </option>
                                 <option key={"width-full"} value="w-full">
                                     Full
                                 </option>
@@ -224,7 +238,6 @@ export const WidgetConfigPanel = ({
                             <div className="text-xs text-gray-400 pb-2">
                                 The height of your Widget in the Layout.
                             </div>
-                            {/* {generateHeightFractions()} */}
                             <SelectMenu
                                 name={"height"}
                                 onChange={handleUpdate}

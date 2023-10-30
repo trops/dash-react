@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import ThemePane from "./ThemePane";
 import ColorTile from "../MenuItem/ColorTile";
 import { ThemeContext } from "@dash/Context";
-import { deepCopy } from "@dash/Utils";
+import { deepCopy, isObject } from "@dash/Utils";
 import { Tag3 } from "@dash/Common";
+import { ColorModel } from "../../../Models";
 
 const PreviewColorsPane = ({
     styles = null,
@@ -71,6 +72,12 @@ const PreviewColorsPane = ({
                     const colorName = parts[1];
                     const shade = parts[2];
 
+                    const c = ColorModel({
+                        colorFromTheme: `${parts[0]}-${parts[1]}-${parts[2]}`,
+                        colorName,
+                        shade,
+                    });
+
                     return (
                         key !== "string" && (
                             <div
@@ -81,6 +88,13 @@ const PreviewColorsPane = ({
                                     <span className="text-sm font-bold text-gray-300">
                                         {key}
                                     </span>
+                                    {c && "hex" in c && (
+                                        <span className="text-xs font-light text-gray-500">
+                                            {isObject(c.hex)
+                                                ? c.hex[shade]
+                                                : c.hex}
+                                        </span>
+                                    )}
                                 </div>
                                 <ColorTile
                                     width={"w-1/2"}

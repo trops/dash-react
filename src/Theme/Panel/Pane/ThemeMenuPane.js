@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { colorTypes, themeVariants } from "@dash/Utils/colors";
 import ColorTile from "../MenuItem/ColorTile";
 import AvailableColorsGridPane from "./AvailableColorsGridPane";
-import ThemePane from "./ThemePane";
+import { capitalizeFirstLetter } from "../../../Utils";
 import { ThemeContext } from "@dash/Context";
 import { ColorModel } from "@dash/Models";
 import { LayoutContainer } from "../../../Layout";
@@ -62,12 +62,15 @@ const ThemeMenuPane = ({
     }
 
     return (
-        <LayoutContainer direction="col" scrollable={true}>
+        <LayoutContainer direction="col" scrollable={true} height={"h-full"}>
             {(selectedColor === null ||
                 selectedColor["color"]["panelType"] === "main") && (
-                <DashPanel scrollable={false} height={"h-fit"}>
+                <DashPanel
+                    scrollable={false}
+                    height={selectedColor !== null ? "h-fit" : "h-full"}
+                >
                     <DashPanel.Header title={"Main"} />
-                    <DashPanel.Body scrollable={false} height="h-full">
+                    <DashPanel.Body scrollable={false}>
                         {colorTypes
                             .filter((ct) =>
                                 selectedColor !== null
@@ -77,23 +80,40 @@ const ThemeMenuPane = ({
                                     : true
                             )
                             .map((colorType) => {
+                                console.log("color type ", colorType);
                                 const bgColor = theme[themeVariant][colorType];
-                                // const selected = selectedColor !== null
-                                //     ? colorType === selectedColor['color']['colorType'] && bgColor === selectedColor['color']['colorName'] && selectedColor['color']['panelType'] === 'main'
-                                //     : false;
                                 return (
-                                    <ColorTile
-                                        colorName={bgColor}
-                                        colorType={colorType}
-                                        colorLevelName={null}
-                                        selected={false}
-                                        panelType="main"
-                                        shade={500}
-                                        onClick={(c) =>
-                                            handleSelectColor(c, colorType)
-                                        }
-                                        width={"w-full"}
-                                    />
+                                    <div className="flex flex-row justify-between items-center py-2 border-b border-gray-700">
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-bold text-gray-300">
+                                                {capitalizeFirstLetter(
+                                                    colorType
+                                                )}
+                                            </span>
+                                            {/* {cModel && (
+                                                <span className="text-xs font-light text-gray-500">
+                                                    {cModel.hex[shade]}
+                                                </span>
+                                            )}
+                                            {!cModel && (
+                                                <span className="text-xs font-light text-gray-500">
+                                                    NA
+                                                </span>
+                                            )} */}
+                                        </div>
+                                        <ColorTile
+                                            width={"w-2/3"}
+                                            colorName={bgColor}
+                                            colorType={colorType}
+                                            colorLevelName={null}
+                                            selected={false}
+                                            panelType="main"
+                                            shade={500}
+                                            onClick={(c) =>
+                                                handleSelectColor(c, colorType)
+                                            }
+                                        />
+                                    </div>
                                 );
                             })}
                     </DashPanel.Body>

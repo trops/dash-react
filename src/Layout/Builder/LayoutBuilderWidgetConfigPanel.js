@@ -109,6 +109,7 @@ function LayoutBuilderWidgetConfigPanel({
                                     onChange={handleUpdate}
                                     selectedValue={item ? item.width : "w-full"}
                                 >
+                                    <option value="">-</option>
                                     <option value="w-full">Full</option>
                                     {generateFractions()}
                                 </SelectMenu>

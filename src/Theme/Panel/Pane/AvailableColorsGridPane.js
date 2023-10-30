@@ -1,9 +1,10 @@
 import React from "react";
 import { colorNames, shades } from "@dash/Utils/colors";
-import ThemePane from "./ThemePane";
+
 import ColorTile from "../MenuItem/ColorTile";
+import { ColorModel } from "../../../Models";
 import { Button, DashPanel } from "../../../Common";
-import { LayoutContainer } from "../../../Layout";
+import { capitalizeFirstLetter } from "../../../Utils";
 
 const AvailableColorsGridPane = ({
     currentColor = null,
@@ -32,11 +33,32 @@ const AvailableColorsGridPane = ({
             return shades
                 .filter((c) => (shade === null ? true : c === shade))
                 .map((shadeLevel) => {
+                    const cModel = ColorModel({
+                        colorName,
+                        colorType,
+                        shade: shadeLevel,
+                        level: shadeLevel,
+                    });
+
+                    console.log("cModel", cModel);
+
                     return (
-                        <div className="flex flex-row justify-between items-center">
-                            <span className="font-bold text-xs">
-                                {colorName}
-                            </span>
+                        <div className="flex flex-row justify-between items-center py-2 border-b border-gray-700">
+                            <div className="flex flex-col">
+                                <span className="text-sm font-bold text-gray-300">
+                                    {capitalizeFirstLetter(colorName)}
+                                </span>
+                                {cModel && (
+                                    <span className="text-xs font-light text-gray-500">
+                                        {cModel.hex[shade]}
+                                    </span>
+                                )}
+                                {!cModel && (
+                                    <span className="text-xs font-light text-gray-500">
+                                        NA
+                                    </span>
+                                )}
+                            </div>
                             <ColorTile
                                 width={"w-2/3"}
                                 colorType={colorType}
@@ -61,8 +83,10 @@ const AvailableColorsGridPane = ({
         // >
         <DashPanel height="h-full" scrollable={true}>
             <DashPanel.Header title="AvailableColors" />
-            <DashPanel.Body scrollable={true} height={"h-full"}>
-                {renderAvailableColors()}
+            <DashPanel.Body scrollable={true} space={true}>
+                <div className="flex flex-col space-y-1">
+                    {renderAvailableColors()}
+                </div>
             </DashPanel.Body>
             {onCancel && (
                 <DashPanel.Footer>

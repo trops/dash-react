@@ -5,12 +5,12 @@ import { AppContext } from "@dash/Context/App/AppContext";
 import { ThemeModel } from "@dash/Models/ThemeModel";
 import { deepCopy } from "@dash/Utils/objects";
 
-// import PanelSelectTheme from "./Panel/PanelSelectTheme";
-import { PanelTheme } from "./Panel/PanelTheme";
+import PanelSelectTheme from "./Panel/PanelSelectTheme";
 
 import PanelThemePicker from "./Panel/PanelThemePicker";
+import MainColorsPane from "./Panel/Pane/MainColorsPane";
 
-export const ThemeManagerModal = ({ open, setIsOpen }) => {
+export const ThemeManagerModalUpdated = ({ open, setIsOpen }) => {
     const {
         changeThemesForApplication,
         rawThemes,
@@ -196,7 +196,7 @@ export const ThemeManagerModal = ({ open, setIsOpen }) => {
                                 />
                             )}
                             {themeSelected && isEditing === true && (
-                                <PanelTheme
+                                <PanelSelectTheme
                                     theme={themeSelected}
                                     themeKey={themeKeySelected}
                                     onUpdate={handleThemeSelected}

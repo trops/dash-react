@@ -12,12 +12,7 @@ import { ColorModel } from "@dash/Models";
 import { LayoutContainer } from "../../Layout";
 import { themeObjects, colorTypes } from "../../Utils";
 
-export const PanelSelectTheme = ({
-    onUpdate,
-    theme = null,
-    themeKey,
-    rawTheme,
-}) => {
+export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
     const { themeVariant, rawThemes } = useContext(ThemeContext);
 
     const [themeSelected, setThemeSelected] = useState(theme);
@@ -256,8 +251,20 @@ export const PanelSelectTheme = ({
                                 />
                             </div>
                             <div className="flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1">
-                                <div className="flex flex-col min-w-1/4 w-1/4 h-full overflow-hidden">
-                                    <ThemeMenuPane
+                                <div className="flex flex-col h-full overflow-hidden">
+                                    <div className="flex flex-col h-full space-y-2 border-r border-gray-700 p-2">
+                                        <ButtonIcon
+                                            icon="pallette"
+                                            iconSize="h-3 w-3"
+                                            text="Colors"
+                                        />
+                                        <ButtonIcon
+                                            icon="eye"
+                                            iconSize="h-3 w-3"
+                                            text="Components"
+                                        />
+                                    </div>
+                                    {/* <ThemeMenuPane
                                         currentColor={themeNameToEdit}
                                         theme={themeSelected}
                                         onChooseColor={handleSelectColor}
@@ -265,7 +272,7 @@ export const PanelSelectTheme = ({
                                             handleSelectReplacementColor
                                         }
                                         onCancel={handleSelectColorCancel}
-                                    />
+                                    /> */}
                                 </div>
                                 {themeSelected && (
                                     <div
@@ -364,5 +371,3 @@ export const PanelSelectTheme = ({
         </Panel>
     );
 };
-
-export default PanelSelectTheme;

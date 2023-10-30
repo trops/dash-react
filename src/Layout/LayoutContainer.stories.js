@@ -132,6 +132,7 @@ const TemplateLayoutThreeRow = (args) => {
                     grow={false}
                     id="top-row"
                 >
+                    <span className="text-green-300">TESTING</span>
                     {/* <InstantSearch
                         indexName="dev_find_accelerator"
                         searchClient={searchClient}
@@ -141,8 +142,8 @@ const TemplateLayoutThreeRow = (args) => {
                     <AlgoliaSearchBox /> */}
                 </LayoutContainer>
                 <LayoutContainer
-                    direction="col"
-                    grow={true}
+                    direction="row"
+                    grow={false}
                     scrollable={true}
                     height="h-full"
                     className="bg-orange-700"
@@ -216,11 +217,13 @@ ThreeColumn.args = {
     title: "LayoutContainer",
     scrollable: true,
     height: "h-60",
+    width: "",
     variant: "light",
     layoutArgs: {
         scrollable: false,
         grow: false,
         height: "h-full",
+        space: false,
     },
     widgetArgs: {
         height: "h-full",

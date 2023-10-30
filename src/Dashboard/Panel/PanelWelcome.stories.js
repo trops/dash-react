@@ -17,7 +17,7 @@ const Template = (args) => {
             args={args}
             backgroundColor={"bg-gray-900"}
         >
-            <PanelWelcome />
+            <PanelWelcome {...args} />
         </MockWrapper>
     );
 };
