@@ -11615,9 +11615,9 @@ var Modal = function Modal(_ref2) {
 Modal.Footer = ModalFooter;
 
 function _typeof$x(obj) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$x(obj); }
-var _excluded$t = ["text", "padding", "onClick", "scrollable", "className"],
-  _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className"],
-  _excluded3$5 = ["text", "padding", "onClick", "scrollable", "className"];
+var _excluded$t = ["text", "padding", "onClick", "scrollable", "className", "grow", "space"],
+  _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className", "grow", "space"],
+  _excluded3$5 = ["text", "padding", "onClick", "scrollable", "grow", "space", "className"];
 function ownKeys$s(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$s(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$s(Object(source), !0).forEach(function (key) { _defineProperty$t(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$s(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$t(obj, key, value) { key = _toPropertyKey$x(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11633,15 +11633,21 @@ function Paragraph(_ref) {
     _ref$scrollable = _ref.scrollable,
     scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
     _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
+    className = _ref$className === void 0 ? "text-base xl:text-lg font-normal p-4" : _ref$className,
+    _ref$grow = _ref.grow,
+    grow = _ref$grow === void 0 ? false : _ref$grow,
+    _ref$space = _ref.space,
+    space = _ref$space === void 0 ? false : _ref$space,
     props = _objectWithoutProperties$t(_ref, _excluded$t);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props);
+  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props, space, grow);
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "".concat(className, " ").concat(styles.string, " text-base xl:text-lg font-normal h-full w-full"),
+    className: "".concat(className, " ").concat(styles.string, " h-full w-full"),
     onClick: onClick,
     scrollable: scrollable,
+    grow: grow,
+    space: space,
     children: text
   });
 }
@@ -11653,21 +11659,25 @@ function Paragraph2(_ref2) {
     _ref2$scrollable = _ref2.scrollable,
     scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
     _ref2$className = _ref2.className,
-    className = _ref2$className === void 0 ? "" : _ref2$className,
+    className = _ref2$className === void 0 ? "text-sm xl:text-base font-normal p-2" : _ref2$className,
+    _ref2$grow = _ref2.grow,
+    grow = _ref2$grow === void 0 ? false : _ref2$grow,
+    _ref2$space = _ref2.space,
+    space = _ref2$space === void 0 ? false : _ref2$space,
     props = _objectWithoutProperties$t(_ref2, _excluded2$5);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  // const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
   var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
-    scrollable: scrollable
+    scrollable: scrollable,
+    space: space,
+    grow: grow
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "text-sm xl:text-base font-normal h-full w-full ".concat(className, " ").concat(styles.string),
+    className: "h-full w-full ".concat(className, " ").concat(styles.string),
     onClick: onClick,
-    scrollable: scrollable
-    // {...styles}
-    // {...props}
-    ,
+    scrollable: scrollable,
+    grow: grow,
+    space: space,
     children: text
   });
 }
@@ -11678,18 +11688,26 @@ function Paragraph3(_ref3) {
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$scrollable = _ref3.scrollable,
     scrollable = _ref3$scrollable === void 0 ? false : _ref3$scrollable,
+    _ref3$grow = _ref3.grow,
+    grow = _ref3$grow === void 0 ? false : _ref3$grow,
+    _ref3$space = _ref3.space,
+    space = _ref3$space === void 0 ? false : _ref3$space,
     _ref3$className = _ref3.className,
-    className = _ref3$className === void 0 ? "text-xs xl:text-sm font-normal" : _ref3$className,
+    className = _ref3$className === void 0 ? "text-xs xl:text-sm font-normal p-2" : _ref3$className,
     props = _objectWithoutProperties$t(_ref3, _excluded3$5);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
-    scrollable: scrollable
+    scrollable: scrollable,
+    grow: grow,
+    space: space
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "h-full w-full ".concat(className, " ").concat(styles.string),
+    className: "h-full w-full ".concat(styles.string, " ").concat(className),
     onClick: onClick,
     scrollable: scrollable,
+    grow: grow,
+    space: space,
     children: text
   });
 }
@@ -22993,8 +23011,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var MockWrapper = function MockWrapper(_ref) {
   var api = _ref.api;
     _ref.apiMock;
-    var children = _ref.children;
-    _ref.backgroundColor;
+    var children = _ref.children,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? "bg-transparent" : _ref$backgroundColor;
   function getAppContext() {
     return _objectSpread(_objectSpread({}, mock), {}, {
       creds: {
@@ -23015,7 +23034,7 @@ var MockWrapper = function MockWrapper(_ref) {
         credentials: getAppContext().creds,
         dashApi: new MockDashboardApi(api),
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200",
+          className: "flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200 ".concat(backgroundColor),
           children: [/*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Workspace - WIDGET - Item is a child of the Widget component`"
