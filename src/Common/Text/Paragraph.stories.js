@@ -20,7 +20,7 @@ const Template = (args) => {
             api={mock.api}
             theme={mock.themes}
             args={args}
-            backgroundColor={"bg-gray-900"}
+            backgroundColor={"bg-gray-600"}
         >
             <Paragraph {...args} className={args.className} />
         </MockWrapper>
@@ -37,7 +37,13 @@ const Template2 = (args) => {
 
 const Template3 = (args) => {
     return (
-        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+        <MockWrapper
+            api={mock.api}
+            theme={mock.themes}
+            args={args}
+            backgroundColor={"bg-gray-600"}
+        >
+            <Paragraph3 {...args} className={args.className} />
             <Paragraph3 {...args} className={args.className} />
         </MockWrapper>
     );
@@ -49,23 +55,24 @@ export const Tertiary = Template3.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     text: mockText.paragraph,
-    height: "h-30",
+    height: "h-full",
     scrollable: true,
-    className: "bg-green-900 text-gray-200 p-6",
+    // className: "bg-green-900 text-gray-200 p-6",
 };
 
 Secondary.args = {
     //👇 The args you need here will depend on your component
     text: mockText.paragraph,
-    height: "h-30",
-    scrollable: true,
-    className: "bg-gray-800 text-gray-200 p-4",
+    height: "h-full",
+    scrollable: false,
+    // className: "bg-gray-800 text-gray-200 p-4",
 };
 
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     text: mockText.paragraph,
-    height: "h-30",
-    scrollable: true,
-    className: "bg-gray-800 text-gray-200 p-2",
+    grow: false,
+    space: true,
+    height: "h-full",
+    className: "bg-gray-800 text-gray-300",
 };

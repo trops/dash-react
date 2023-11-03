@@ -8,21 +8,27 @@ function Paragraph({
     padding = true,
     onClick = null,
     scrollable = false,
-    className = "",
+    className = "text-base xl:text-lg font-normal p-4",
+    grow = false,
+    space = false,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.PARAGRAPH,
         currentTheme,
-        props
+        props,
+        space,
+        grow
     );
 
     return (
         <LayoutContainer
-            className={`${className} ${styles.string} text-base xl:text-lg font-normal h-full w-full`}
+            className={`${className} ${styles.string} h-full w-full`}
             onClick={onClick}
             scrollable={scrollable}
+            grow={grow}
+            space={space}
         >
             {text}
         </LayoutContainer>
@@ -34,23 +40,26 @@ function Paragraph2({
     padding = true,
     onClick = null,
     scrollable = false,
-    className = "",
+    className = "text-sm xl:text-base font-normal p-2",
+    grow = false,
+    space = false,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    // const paddingStyles = padding === true ? "p-2 2xl:px-2 2xl:py-1" : "p-0";
     const styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, {
         ...props,
         scrollable,
+        space,
+        grow,
     });
 
     return (
         <LayoutContainer
-            className={`text-sm xl:text-base font-normal h-full w-full ${className} ${styles.string}`}
+            className={`h-full w-full ${className} ${styles.string}`}
             onClick={onClick}
             scrollable={scrollable}
-            // {...styles}
-            // {...props}
+            grow={grow}
+            space={space}
         >
             {text}
         </LayoutContainer>
@@ -62,20 +71,27 @@ function Paragraph3({
     padding = true,
     onClick = null,
     scrollable = false,
-    className = "text-xs xl:text-sm font-normal",
+    grow = false,
+    space = false,
+    className = "text-xs xl:text-sm font-normal p-2",
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, {
         ...props,
         scrollable,
+        grow,
+        space,
     });
 
+    console.log(styles.string);
     return (
         <LayoutContainer
-            className={`h-full w-full ${className} ${styles.string}`}
+            className={`h-full w-full ${styles.string} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
+            grow={grow}
+            space={space}
         >
             {text}
         </LayoutContainer>

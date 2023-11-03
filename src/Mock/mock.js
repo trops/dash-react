@@ -44,7 +44,7 @@ const MockWrapper = ({
                     dashApi={new MockDashboardApi(api)}
                 >
                     <div
-                        className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200`}
+                        className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto flex-shrink rounded border-1 border-gray-300 bg-gray-200 ${backgroundColor}`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
                             Workspace - WIDGET - Item is a child of the Widget
