@@ -11,7 +11,6 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
-import 'fs';
 import deepEqual from 'deep-equal';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { HTML5Backend } from 'react-dnd-html5-backend';

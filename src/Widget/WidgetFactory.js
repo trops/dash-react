@@ -5,9 +5,7 @@
 import React, { useContext } from "react";
 import { LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
-import { appendFile } from "fs";
 import { DashboardContext } from "../Context";
-import { deepCopy } from "../Utils";
 import { WidgetHelpers } from "../Api/WidgetHelpers";
 
 // const helpers = {
