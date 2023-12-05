@@ -110,10 +110,10 @@ export const Dashboard = ({
     }
 
     function handleLoadWorkspacesComplete(e, message) {
-        console.log(
-            "2. Handle Load Workspaces Complete ======================",
-            message
-        );
+        // console.log(
+        //     "2. Handle Load Workspaces Complete ======================",
+        //     message
+        // );
         try {
             // let's make sure we have the entire component configuration for each item?
             const workspaces = deepCopy(message["workspaces"]);
@@ -121,7 +121,7 @@ export const Dashboard = ({
                 // const layout = ws['layout'];
                 // push the LayoutModel back into the Widget here... (inflate)
                 const tempLayout = ws["layout"].map((layoutOG) => {
-                    // console.log("layout OG ", layoutOG);
+                    //console.log("layout OG ", layoutOG);
                     return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
                 });
                 ws["layout"] = tempLayout;

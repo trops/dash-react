@@ -62,6 +62,7 @@ export const renderLayout = ({
                 .map((child) => {
                     const childLayout = LayoutModel(child, layout, dashboardId);
 
+                    console.log("child layout model ", childLayout);
                     const {
                         id,
                         hasChildren,

@@ -2,9 +2,26 @@
  * WidgetFactory
  * Get the "component" and params and dynamically generate the Component
  */
-import React from "react";
+import React, { useContext } from "react";
 import { LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
+import { appendFile } from "fs";
+import { DashboardContext } from "../Context";
+import { deepCopy } from "../Utils";
+import { WidgetHelpers } from "../Api/WidgetHelpers";
+
+// const helpers = {
+//     params: null,
+//     init: function (params) {
+//         this.params = params;
+//     },
+//     listen: function () {
+//         console.log("hello", this.params);
+//     },
+//     publishEvent: function (eventName) {
+//         console.log("publish helpers event ", eventName, this.params.id);
+//     },
+// };
 
 const WidgetFactory = {
     getComponent: (component) => {
@@ -17,6 +34,11 @@ const WidgetFactory = {
     render: (component, key, params = {}, children = null) => {
         try {
             const m = ComponentManager.componentMap();
+
+            // pull in the widgetAPI in order to initialize it
+            // with the widget parameters specific to the widget being rendered
+            const { widgetApi } = useContext(DashboardContext);
+
             if (component && m) {
                 const isLayout = ComponentManager.isLayoutContainer(component);
                 // grab the component from the map
@@ -25,7 +47,10 @@ const WidgetFactory = {
                         ? m[component]["component"]
                         : LayoutContainer;
 
+                // get the config details from the .dash file
                 const config = ComponentManager.config(component, params);
+
+                // and set the styles from the config if they exist
                 const styles = "styles" in config ? config["styles"] : null;
 
                 // user input for the customization of the widget
@@ -42,7 +67,10 @@ const WidgetFactory = {
                     params["width"] = "w-full";
                 }
 
-                // params['height'] = 'h-full'
+                params["componentName"] = component;
+
+                // init will inject the params from the widget into the widgetAPI
+                // widgetApi.init(params);
 
                 let bgColor = "";
                 if (styles !== null) {
@@ -52,16 +80,33 @@ const WidgetFactory = {
                             : "";
                 }
 
+                // init the helpers
+                const helpers = new WidgetHelpers(params, widgetApi);
+
                 return children === null ? (
                     <WidgetComponent
                         id={`widget-nokids-${key}`}
                         key={`widget-nokids-${key}`}
+                        listen={(listeners, handlers) =>
+                            helpers.listen(listeners, handlers)
+                        }
+                        publishEvent={(eventName, payload) =>
+                            helpers.publishEvent(eventName, payload)
+                        }
+                        api={widgetApi}
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}
                     />
                 ) : (
                     <WidgetComponent
+                        listen={(listeners, handlers) =>
+                            helpers.listen(listeners, handlers)
+                        }
+                        publishEvent={(eventName, payload) =>
+                            helpers.publishEvent(eventName, payload)
+                        }
+                        api={widgetApi}
                         id={`widget-kids-${key}`}
                         key={`widget-kids-${key}`}
                         {...params}
@@ -74,6 +119,7 @@ const WidgetFactory = {
                 );
             }
         } catch (e) {
+            console.log(e.message);
             return null;
         }
     },

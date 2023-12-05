@@ -11,6 +11,10 @@ const electronApiMock = {
         saveData: (data, filename, append) => {
             return { data, filename, append };
         },
+        removeAllListeners: () => {
+            console.log("remove all listeners");
+            return;
+        },
     },
 };
 
@@ -19,14 +23,17 @@ describe("WidgetApi tests ", () => {
     const uuid = "12345";
     const uuid2 = "6789";
     let api, api2;
+
+    const eventName = "CustomSearchbar-10-searchQueryChanged";
     const listeners = {
-        handleSearchChange: ["CustomSearchbar[10].searchQueryChanged"],
+        handleSearchChange: [eventName], //["CustomSearchbar[10].searchQueryChanged"],
     };
 
     const pub = DashboardPublisher;
 
     test("initialize the api", () => {
         api = WidgetApi;
+        console.log("api", api);
         expect(api).not.toBe(null);
     });
 
@@ -67,8 +74,8 @@ describe("WidgetApi tests ", () => {
 
     test("emit event from pub ", () => {
         // holds them as an array
-        const eventType = "CustomSearchbar[10].searchQueryChanged";
-        api.publishEvent(eventType, { test: "hello" });
+        // const eventType = "CustomSearchbar[10].searchQueryChanged";
+        api.publishEvent(eventName, { test: "hello" }, uuid);
         expect();
     });
 

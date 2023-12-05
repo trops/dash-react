@@ -14,6 +14,8 @@ export const Widget = ({
     height = "",
     space = true,
     grow = true,
+    componentName = "",
+    api = {},
     ...props
 }) => {
     const uuidString = getUUID(uuid);

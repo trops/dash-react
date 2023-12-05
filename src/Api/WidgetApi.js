@@ -9,6 +9,13 @@
  */
 
 export const WidgetApi = {
+    params: null,
+
+    init: function (params) {
+        console.log("init params", params.id);
+        this.params = params;
+    },
+
     setPublisher: function (publisher) {
         this._pub = publisher;
     },
@@ -54,16 +61,17 @@ export const WidgetApi = {
      * @param {string} name the name of the widget (TODO - uuid + handler)
      * @param {object} events the payload for the event published
      */
-    publishEvent: function (name, events) {
+    publishEvent: function (name = null, events, uuid = null) {
         try {
-            console.log("trying to publish event ", name, events, this.pub());
+            // console.log("publish event from api ", this.params);
+            console.log("trying to publish event ", name, uuid);
             if (this.pub() !== null && name !== null && events !== null) {
                 if ("pub" in this.pub()) {
                     this.pub().pub(name, events);
                 }
             }
         } catch (e) {
-            console.log(e.message);
+            console.log("error ", e.message);
         }
     },
 
@@ -79,7 +87,7 @@ export const WidgetApi = {
      */
     registerListeners: function (listeners, handlers, uuid) {
         try {
-            console.log("registering listeners ", listeners, handlers, uuid);
+            // console.log("registering listeners ", listeners, handlers, uuid);
             if (this.pub() !== null && uuid !== null) {
                 if ("registerListeners" in this.pub()) {
                     if (this.pub()["registerListeners"] !== null) {

@@ -67,6 +67,7 @@ export const ComponentManager = {
      */
     getComponent: function (component, data = {}) {
         try {
+            // console.log("get component");
             if (component && this.componentMap()) {
                 if (ComponentManager.isLayoutContainer(component) === false) {
                     const m = this.componentMap();
@@ -76,6 +77,7 @@ export const ComponentManager = {
                         return cmp;
                     }
                 } else {
+                    // console.log("getting component ", component);
                     return {
                         name: "Container",
                         component: LayoutContainer,
@@ -93,6 +95,7 @@ export const ComponentManager = {
     },
     config: function (component, data = {}) {
         if (component) {
+            // console.log("config");
             const requiredFields = {
                 type: { value: "text" },
                 required: { value: false },
