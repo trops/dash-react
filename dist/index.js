@@ -118,7 +118,10 @@ var WidgetApi = {
       if (eApi) {
         // remove the listeners (reset)
         if ("removeAllListeners" in eApi) {
-          eApi.removeAllListeners();
+          // eApi.removeAllListeners();
+          // eApi.on(eApi.events.CHOOSE_FILE_COMPLETE, (data) => {
+          //     console.log("chose a file");
+          // });
           eApi.dialog.chooseFile();
 
           // if (callbackComplete !== null) {
@@ -137,7 +140,8 @@ var WidgetApi = {
           // eApi.data.saveData(data, toFilename, append, returnEmpty);
         }
       }
-    } catch (e) {}
+    } catch (e) {
+    }
   },
   /**
    * storeData
@@ -591,6 +595,7 @@ var ElectronDashboardApi = /** @class */ (function () {
         else {
             this.events = apiEvents;
         }
+        console.log(this.events);
     }
     ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
         if (this.api !== null) {
