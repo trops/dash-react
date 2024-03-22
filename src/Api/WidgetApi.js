@@ -106,12 +106,17 @@ export const WidgetApi = {
      */
     chooseFile: function () {
         try {
+            console.log("e api trying to choose file");
             // grab the electron api
             const eApi = this.electronApi();
             if (eApi) {
                 // remove the listeners (reset)
                 if ("removeAllListeners" in eApi) {
-                    eApi.removeAllListeners();
+                    console.log(eApi);
+                    // eApi.removeAllListeners();
+                    // eApi.on(eApi.events.CHOOSE_FILE_COMPLETE, (data) => {
+                    //     console.log("chose a file");
+                    // });
                     eApi.dialog.chooseFile();
 
                     // if (callbackComplete !== null) {
@@ -130,7 +135,9 @@ export const WidgetApi = {
                     // eApi.data.saveData(data, toFilename, append, returnEmpty);
                 }
             }
-        } catch (e) {}
+        } catch (e) {
+            console.log("choose file error ", e);
+        }
     },
     /**
      * storeData

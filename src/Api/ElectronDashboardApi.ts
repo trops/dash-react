@@ -18,6 +18,8 @@ class ElectronDashboardApi implements IDashboardApi {
         } else {
             this.events = apiEvents;
         }
+
+        console.log(this.events);
     }
 
     listWorkspaces(appId, onSuccess, onError): Boolean {
