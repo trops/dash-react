@@ -597,6 +597,27 @@ var ElectronDashboardApi = /** @class */ (function () {
         }
         console.log(this.events);
     }
+    ElectronDashboardApi.prototype.chooseFile = function () {
+        // if (this.api !== null) {
+        //     try {
+        //         this.api.removeAllListeners();
+        //         this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
+        //         this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
+        //         this.api.workspace.listWorkspacesForApplication(appId);
+        //         return true;
+        //     } catch (e) {
+        //         onError(this.events.WORKSPACE_LIST_ERROR, e);
+        //         return false;
+        //     }
+        // } else {
+        //     onError(
+        //         this.events.WORKSPACE_LIST_ERROR,
+        //         new Error("No Api found")
+        //     );
+        //     return false;
+        // }
+        return true;
+    };
     ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
         if (this.api !== null) {
             try {
