@@ -103,7 +103,12 @@ export const PanelWelcome = ({
                 <div
                     className={`flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center`}
                 >
-                    <Panel2 horizontal={true} padding={false}>
+                    <Panel2
+                        horizontal={true}
+                        padding={false}
+                        direction="row"
+                        width="w-full"
+                    >
                         <div
                             className={`flex flex-col space-y-1 p-2 h-full justify-between`}
                         >
@@ -193,14 +198,15 @@ export const PanelWelcome = ({
                                 <Panel3
                                     scrollable={false}
                                     space={true}
-                                    direction={"col"}
+                                    horizontal={true}
+                                    width="w-full"
                                 >
                                     <Panel3.Body>
                                         <LayoutContainer
-                                            direction="col"
+                                            direction="row"
                                             space={false}
-                                            className="space-y-1"
                                             scrollable={true}
+                                            width="w-full"
                                         >
                                             <MainMenu
                                                 menuItems={menuItems}

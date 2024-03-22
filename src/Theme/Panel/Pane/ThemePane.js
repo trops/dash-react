@@ -11,12 +11,7 @@ const ThemePane = ({
     scroll = true,
 }) => {
     return (
-        // <div
-        //     className={`flex flex-col text-xs h-full p-1 space-y-2 scrollbar ${
-        //         scroll === true ? "overflow-y-scroll" : "overflow-hidden"
-        //     } rounded w-full`}
-        // >
-        <LayoutContainer direction="col" scrollable={false} className="rounded">
+        <LayoutContainer direction="col" scrollable={false} width="w-full">
             {inputValue !== null && onInputChange !== null && (
                 <div className="flex flex-row">
                     <InputText

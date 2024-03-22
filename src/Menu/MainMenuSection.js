@@ -47,15 +47,16 @@ export const MainMenuSection = ({
             id={menuItem.id}
             scrollable={false}
             grow={false}
-            horizontal={true}
-            className={`flex flex-col p-1 rounded ${
-                isOverCurrent &&
-                canDrop &&
-                `${currentTheme["bg-primary-very-dark"]}`
-            } px-1`}
+            horizontal={false}
+            padding={"space-y-2 px-1"}
+            // className={`flex flex-col p-1 rounded ${
+            //     isOverCurrent &&
+            //     canDrop &&
+            //     `${currentTheme["bg-primary-very-dark"]}`
+            // } px-1`}
         >
-            <div className={`flex flex-row justify-between p-2 pl-2`}>
-                <div className="flex flex-row text-xs items-center space-x-2">
+            <div className={`flex flex-row justify-between p-2 pl-2 w-full`}>
+                <div className="flex flex-row text-xs items-center space-x-2 w-full">
                     <FontAwesomeIcon icon={menuItem.icon} />
                     <Paragraph3
                         text={menuItem.name}
@@ -73,7 +74,8 @@ export const MainMenuSection = ({
             <LayoutContainer
                 direction="col"
                 space={false}
-                className="space-y-1"
+                width="w-full"
+                padding={"space-y-2"}
             >
                 {children}
             </LayoutContainer>

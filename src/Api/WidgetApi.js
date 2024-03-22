@@ -33,6 +33,7 @@ export const WidgetApi = {
                     data: api.data,
                     algolia: api.algolia,
                     events: api.events,
+                    dialog: api.dialog,
                 };
             }
         } catch (e) {
@@ -100,6 +101,37 @@ export const WidgetApi = {
         }
     },
 
+    /**
+     * chooseFile
+     */
+    chooseFile: function () {
+        try {
+            // grab the electron api
+            const eApi = this.electronApi();
+            if (eApi) {
+                // remove the listeners (reset)
+                if ("removeAllListeners" in eApi) {
+                    eApi.removeAllListeners();
+                    eApi.dialog.chooseFile();
+
+                    // if (callbackComplete !== null) {
+                    //     eApi.on(
+                    //         eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
+                    //         callbackComplete
+                    //     );
+                    // }
+                    // if (callbackError !== null) {
+                    //     eApi.on(
+                    //         eApi.events.DATA_SAVE_TO_FILE_ERROR,
+                    //         callbackError
+                    //     );
+                    // }
+                    // // request.
+                    // eApi.data.saveData(data, toFilename, append, returnEmpty);
+                }
+            }
+        } catch (e) {}
+    },
     /**
      * storeData
      *

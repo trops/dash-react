@@ -34,8 +34,6 @@ const MockWrapper = ({
         };
     }
 
-    console.log("Mock theme context", mock.theme.context, api);
-
     return (
         <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
             <AppContext.Provider value={getAppContext()}>

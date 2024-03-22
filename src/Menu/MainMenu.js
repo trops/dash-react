@@ -280,7 +280,7 @@ const MainMenuConst = ({
     return (
         <div className="flex flex-col min-w-64 w-full h-full">
             <div className="flex flex-col space-y-2 w-full h-full">
-                <div className="flex flex-row justify-between items-center space-x-2">
+                <div className="flex flex-row justify-between items-center space-x-2 w-full">
                     <InputText
                         name="search-workspaces"
                         value={searchTerm}
@@ -303,7 +303,8 @@ const MainMenuConst = ({
                         direction="col"
                         scrollable={true}
                         space={true}
-                        className="py-2"
+                        width="w-full"
+                        padding={"py-2"}
                     >
                         {renderWorkspaces(workspaces)}
                         {renderOrphanedWorkspaces(workspaces)}

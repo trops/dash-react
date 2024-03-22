@@ -436,6 +436,10 @@ const getStylesForItem = (
             const directionValue =
                 "direction" in overrides ? overrides["direction"] : null;
 
+            const widthValue = "width" in overrides && overrides["width"];
+            const heightValue = "height" in overrides && overrides["height"];
+            const paddingValue = "padding" in overrides && overrides["padding"];
+
             const directionStyles =
                 directionValue !== null
                     ? directionValue === "col"
@@ -462,7 +466,13 @@ const getStylesForItem = (
                 .concat(" ")
                 .concat(directionStyles)
                 .concat(" ")
-                .concat(paddingStyles);
+                .concat(paddingStyles)
+                .concat(" ")
+                .concat(widthValue)
+                .concat(" ")
+                .concat(heightValue)
+                .concat(" ")
+                .concat(paddingValue);
 
             //console.log("additional srtyles ", itemName, id, additionalStyles);
 

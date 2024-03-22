@@ -166,7 +166,7 @@ Primary.args = {
     text: "Panel",
     scrollable: false,
     height: "h-full",
-    width: "w-full",
+    width: "w-1/2",
     horizontal: false,
     grow: false,
 };

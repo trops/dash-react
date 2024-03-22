@@ -44,6 +44,7 @@ DashboardTest.args = {
     preview: true,
     backgroundColor: "bg-gray-800",
     height: "h-full",
+    direction: "row",
 };
 
 DashboardTest.parameters = {

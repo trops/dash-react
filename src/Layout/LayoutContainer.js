@@ -14,7 +14,7 @@ export const LayoutContainer = ({
     grow = false,
     debug = false,
     onClick = undefined,
-    ...props
+    padding = "",
 }) => {
     const containerId = getUUID(id);
     // get the styles
@@ -31,6 +31,7 @@ export const LayoutContainer = ({
             childCount: React.Children.count(children),
             direction,
             space,
+            padding,
         },
         containerId
     );
@@ -50,10 +51,13 @@ export const LayoutContainer = ({
         );
     }
 
+    const classString = className !== "" ? className : styles.string;
+    // console.log("Layout Container styles ", id, styles.string, classString);
+
     return (
         <div
-            id={`LayoutContainer-${containerId}`}
-            className={`flex ${styles.string} ${width} ${height} ${className}`}
+            id={`LayoutContainer-${containerId}-${id}`}
+            className={`flex ${classString}`}
             onClick={onClick}
         >
             {debug === false && children}

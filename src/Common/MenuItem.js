@@ -16,6 +16,7 @@ const MenuItem = ({
     hoverBackgroundColor = null,
     children,
     selected = false,
+    grow = false,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.MENU_ITEM, currentTheme, {
@@ -27,6 +28,7 @@ const MenuItem = ({
         selectedBackgroundColor,
         selectedTextColor,
         selected,
+        grow,
     });
 
     return theme === true ? (
@@ -63,6 +65,7 @@ const MenuItem2 = ({
     children,
     selected = false,
     className = "",
+    grow = false,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
@@ -74,6 +77,7 @@ const MenuItem2 = ({
         selectedBackgroundColor,
         selectedTextColor,
         selected,
+        grow,
     });
 
     const baseStyles = `${
@@ -111,6 +115,7 @@ const MenuItem3 = ({
     children,
     selected = false,
     className = "",
+    grow = false,
     id,
     type,
 }) => {
@@ -124,6 +129,7 @@ const MenuItem3 = ({
         selectedBackgroundColor,
         selectedTextColor,
         selected,
+        grow,
     });
 
     const baseStyles = `${
