@@ -9783,7 +9783,7 @@ var WidgetFactory = {
         w.setPublisher(DashboardPublisher);
 
         // init the helpers
-        var helpers = new WidgetHelpers(params, w);
+        var helpers = new WidgetHelpers(params, dashApi);
         return children === null ? /*#__PURE__*/jsx(WidgetComponent, _objectSpread$v(_objectSpread$v(_objectSpread$v({
           id: "widget-nokids-".concat(key),
           listen: function listen(listeners, handlers) {
@@ -9802,7 +9802,7 @@ var WidgetFactory = {
           publishEvent: function publishEvent(eventName, payload) {
             return helpers.publishEvent(eventName, payload);
           },
-          api: widgetApi,
+          api: w,
           id: "widget-kids-".concat(key)
         }, params), userPrefs), {}, {
           backgroundColor: bgColor,
