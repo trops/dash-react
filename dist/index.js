@@ -11,10 +11,10 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
-import deepEqual from 'deep-equal';
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import deepEqual from 'deep-equal';
 import parseArgs from 'minimist';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import algoliasearch from 'algoliasearch';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -477,6 +477,15 @@ var SETTINGS_SAVE = "settings-save";
 var SETTINGS_SAVE_COMPLETE = "settings-save-complete";
 var SETTINGS_SAVE_ERROR = "settings-save-error";
 
+var CHOOSE_FILE = "choose-file";
+var CHOOSE_FILE_COMPLETE = "choose-file-complete";
+var CHOOSE_FILE_ERROR = "choose-file-error";
+module.exports = {
+  CHOOSE_FILE: CHOOSE_FILE,
+  CHOOSE_FILE_COMPLETE: CHOOSE_FILE_COMPLETE,
+  CHOOSE_FILE_ERROR: CHOOSE_FILE_ERROR
+};
+
 /**
  * Events
  *
@@ -587,7 +596,6 @@ var apiEvents = /*#__PURE__*/Object.freeze({
 
 var ElectronDashboardApi = /** @class */ (function () {
     function ElectronDashboardApi(api, events) {
-        console.log("constructor events ", events, apiEvents);
         this.api = api;
         if (events) {
             this.events = events;
@@ -595,28 +603,18 @@ var ElectronDashboardApi = /** @class */ (function () {
         else {
             this.events = apiEvents;
         }
-        console.log(this.events);
     }
-    ElectronDashboardApi.prototype.chooseFile = function () {
-        // if (this.api !== null) {
-        //     try {
-        //         this.api.removeAllListeners();
-        //         this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
-        //         this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
-        //         this.api.workspace.listWorkspacesForApplication(appId);
-        //         return true;
-        //     } catch (e) {
-        //         onError(this.events.WORKSPACE_LIST_ERROR, e);
-        //         return false;
-        //     }
-        // } else {
-        //     onError(
-        //         this.events.WORKSPACE_LIST_ERROR,
-        //         new Error("No Api found")
-        //     );
-        //     return false;
-        // }
-        return true;
+    ElectronDashboardApi.prototype.chooseFile = function (onSuccess) {
+        console.log("choose file electron api");
+        try {
+            this.api.removeAllListeners();
+            this.api.on(this.events.CHOOSE_FILE_COMPLETE, onSuccess);
+            // this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
+            this.api.dialog.showDialog();
+        }
+        catch (e) {
+            return false;
+        }
     };
     ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
         if (this.api !== null) {
@@ -908,6 +906,9 @@ var MockDashboardApi = /** @class */ (function () {
             return false;
         }
     };
+    MockDashboardApi.prototype.chooseFile = function (onSuccess) {
+        return false;
+    };
     return MockDashboardApi;
 }());
 
@@ -934,6 +935,9 @@ var WebDashboardApi = /** @class */ (function () {
         return true;
     };
     WebDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
+        return false;
+    };
+    WebDashboardApi.prototype.chooseFile = function (onSuccess) {
         return false;
     };
     return WebDashboardApi;
@@ -6190,6 +6194,12 @@ var DashboardWrapper = function DashboardWrapper(_ref) {
     return w;
   }
   function getValue() {
+    // console.log("dashboard wrapper ", {
+    //     widgetApi: buildWidgetApi(),
+    //     pub: DashboardPublisher,
+    //     dashApi,
+    //     credentials,
+    // });
     return {
       widgetApi: buildWidgetApi(),
       pub: DashboardPublisher,
@@ -9736,7 +9746,7 @@ var WidgetFactory = {
       // pull in the widgetAPI in order to initialize it
       // with the widget parameters specific to the widget being rendered
       var _useContext = useContext$1(DashboardContext),
-        widgetApi = _useContext.widgetApi;
+        dashApi = _useContext.dashApi;
       if (component && m) {
         var isLayout = ComponentManager.isLayoutContainer(component);
         // grab the component from the map
@@ -9769,8 +9779,13 @@ var WidgetFactory = {
           bgColor = "backgroundColor" in styles ? styles["backgroundColor"] : "";
         }
 
+        // need to set the electron api here.
+        var w = WidgetApi;
+        w.setElectronApi(dashApi);
+        w.setPublisher(DashboardPublisher);
+
         // init the helpers
-        var helpers = new WidgetHelpers(params, widgetApi);
+        var helpers = new WidgetHelpers(params, w);
         return children === null ? /*#__PURE__*/jsx(WidgetComponent, _objectSpread$v(_objectSpread$v(_objectSpread$v({
           id: "widget-nokids-".concat(key),
           listen: function listen(listeners, handlers) {
@@ -9779,7 +9794,7 @@ var WidgetFactory = {
           publishEvent: function publishEvent(eventName, payload) {
             return helpers.publishEvent(eventName, payload);
           },
-          api: widgetApi
+          api: w
         }, params), userPrefs), {}, {
           backgroundColor: bgColor
         }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$v(_objectSpread$v(_objectSpread$v({

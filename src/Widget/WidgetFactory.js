@@ -5,6 +5,7 @@
 import React, { useContext } from "react";
 import { LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
+import { DashboardPublisher } from "@dash/Dashboard";
 import { DashboardContext } from "../Context";
 import { WidgetHelpers } from "../Api/WidgetHelpers";
 import { WidgetApi } from "../Api/WidgetApi";
@@ -82,6 +83,7 @@ const WidgetFactory = {
                 // need to set the electron api here.
                 const w = WidgetApi;
                 w.setElectronApi(dashApi);
+                w.setPublisher(DashboardPublisher);
 
                 // init the helpers
                 const helpers = new WidgetHelpers(params, w);
