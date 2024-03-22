@@ -11,6 +11,7 @@ export * from "./menuItemEvents";
 export * from "./themeEvents";
 export * from "./dataEvents";
 export * from "./settingsEvents";
+export * from "./dialogEvents";
 
 // console.log("workspace evenbts ", ...workspaceEvents);
 

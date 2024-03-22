@@ -12,6 +12,8 @@ export const DashboardWrapper = ({ dashApi, credentials, children }) => {
     const { currentTheme } = useContext(ThemeContext);
 
     function buildWidgetApi() {
+        console.log("building widget api ", dashApi);
+
         const w = WidgetApi;
         w.setPublisher(DashboardPublisher);
         w.setElectronApi(dashApi);
@@ -19,12 +21,12 @@ export const DashboardWrapper = ({ dashApi, credentials, children }) => {
     }
 
     function getValue() {
-        console.log("dashboard wrapper ", {
-            widgetApi: buildWidgetApi(),
-            pub: DashboardPublisher,
-            dashApi,
-            credentials,
-        });
+        // console.log("dashboard wrapper ", {
+        //     widgetApi: buildWidgetApi(),
+        //     pub: DashboardPublisher,
+        //     dashApi,
+        //     credentials,
+        // });
         return {
             widgetApi: buildWidgetApi(),
             pub: DashboardPublisher,

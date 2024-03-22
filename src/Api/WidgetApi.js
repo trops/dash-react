@@ -22,6 +22,7 @@ export const WidgetApi = {
 
     setElectronApi: function (api) {
         try {
+            console.log("setting electron api", api);
             /**
              * include the main electron apis that we want to expose ONLY
              */
@@ -105,6 +106,7 @@ export const WidgetApi = {
      * chooseFile
      */
     chooseFile: function () {
+        console.log("e api trying to choose file");
         try {
             console.log("e api trying to choose file");
             // grab the electron api

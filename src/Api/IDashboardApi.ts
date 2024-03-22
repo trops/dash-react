@@ -116,6 +116,8 @@ interface IDashboardApi {
         onSuccess: any,
         onError: { event: string; e: Error }
     ): Boolean;
+
+    chooseFile( onSuccess: any ): Boolean;
 }
 
 export default IDashboardApi;

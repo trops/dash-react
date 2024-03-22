@@ -7,6 +7,7 @@ import { LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
 import { DashboardContext } from "../Context";
 import { WidgetHelpers } from "../Api/WidgetHelpers";
+import { WidgetApi } from "../Api/WidgetApi";
 
 // const helpers = {
 //     params: null,
@@ -35,7 +36,7 @@ const WidgetFactory = {
 
             // pull in the widgetAPI in order to initialize it
             // with the widget parameters specific to the widget being rendered
-            const { widgetApi } = useContext(DashboardContext);
+            const { dashApi } = useContext(DashboardContext);
 
             if (component && m) {
                 const isLayout = ComponentManager.isLayoutContainer(component);
@@ -78,8 +79,12 @@ const WidgetFactory = {
                             : "";
                 }
 
+                // need to set the electron api here.
+                const w = WidgetApi;
+                w.setElectronApi(dashApi);
+
                 // init the helpers
-                const helpers = new WidgetHelpers(params, widgetApi);
+                const helpers = new WidgetHelpers(params, w);
 
                 return children === null ? (
                     <WidgetComponent
@@ -91,7 +96,7 @@ const WidgetFactory = {
                         publishEvent={(eventName, payload) =>
                             helpers.publishEvent(eventName, payload)
                         }
-                        api={widgetApi}
+                        api={w}
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}
