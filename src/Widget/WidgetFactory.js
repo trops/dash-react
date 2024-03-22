@@ -86,7 +86,7 @@ const WidgetFactory = {
                 w.setPublisher(DashboardPublisher);
 
                 // init the helpers
-                const helpers = new WidgetHelpers(params, w);
+                const helpers = new WidgetHelpers(params, dashApi);
 
                 return children === null ? (
                     <WidgetComponent
@@ -111,7 +111,7 @@ const WidgetFactory = {
                         publishEvent={(eventName, payload) =>
                             helpers.publishEvent(eventName, payload)
                         }
-                        api={widgetApi}
+                        api={w}
                         id={`widget-kids-${key}`}
                         key={`widget-kids-${key}`}
                         {...params}
