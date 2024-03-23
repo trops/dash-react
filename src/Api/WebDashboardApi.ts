@@ -59,7 +59,11 @@ class WebDashboardApi implements IDashboardApi {
         return false;
     }
 
-    chooseFile(onSuccess: any): Boolean {
+    chooseFile(
+        allowFile: Boolean,
+        extensions: Array<String>,
+        onSuccess: any
+    ): Boolean {
         return false;
     }
 }
