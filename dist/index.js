@@ -608,7 +608,7 @@ var ElectronDashboardApi = /** @class */ (function () {
             this.api.removeAllListeners();
             this.api.on(this.events.CHOOSE_FILE_COMPLETE, onSuccess);
             // this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
-            this.api.dialog.showDialog();
+            this.api.dialog.chooseFile();
         }
         catch (e) {
             return false;
