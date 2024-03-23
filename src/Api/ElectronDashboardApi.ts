@@ -22,9 +22,8 @@ class ElectronDashboardApi implements IDashboardApi {
     chooseFile(allowFile = true, extensions = ["*"], onSuccess): Boolean {
         console.log("choose file electron api");
         try {
-            this.api.removeAllListeners();
+            this.api.removeAllListeners(this.events.CHOOSE_FILE_COMPLETE);
             this.api.on(this.events.CHOOSE_FILE_COMPLETE, onSuccess);
-            // this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
             this.api.dialog.chooseFile(allowFile, extensions);
         } catch (e) {
             return false;
@@ -34,7 +33,10 @@ class ElectronDashboardApi implements IDashboardApi {
     listWorkspaces(appId, onSuccess, onError): Boolean {
         if (this.api !== null) {
             try {
-                this.api.removeAllListeners();
+                this.api.removeAllListeners(
+                    this.events.WORKSPACE_LIST_COMPLETE
+                );
+                this.api.removeAllListeners(this.events.WORKSPACE_LIST_ERROR);
                 this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
                 this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
                 this.api.workspace.listWorkspacesForApplication(appId);
