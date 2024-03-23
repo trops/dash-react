@@ -82,7 +82,7 @@ const WidgetFactory = {
 
                 // need to set the electron api here.
                 const w = WidgetApi;
-                w.init({ id: key });
+                w.init({ id: key, name: component });
                 w.setElectronApi(dashApi);
                 w.setPublisher(DashboardPublisher);
 

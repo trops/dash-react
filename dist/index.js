@@ -44,12 +44,12 @@ var WidgetApi = {
       if (api !== undefined && api !== null) {
         // set the mainApi to electron inside the widget.
         this._electronApi = {
-          on: api.on,
-          removeAllListeners: api.removeAllListeners,
-          data: api.data,
-          algolia: api.algolia,
-          events: api.events,
-          dialog: api.dialog
+          on: api.on || {},
+          removeAllListeners: api.removeAllListeners || {},
+          data: api.data || {},
+          algolia: api.algolia || {},
+          events: api.events || {},
+          dialog: api.dialog || {}
         };
       }
     } catch (e) {
@@ -9710,12 +9710,16 @@ var WidgetHelpers = /*#__PURE__*/function () {
   _createClass$5(WidgetHelpers, [{
     key: "listen",
     value: function listen(listeners, handlers) {
-      this.api.registerListeners(listeners, handlers, this.params.uuid);
+      if ("registerListeners" in this.api && typeof this.api["registerListeners"] === "function") {
+        this.api.registerListeners(listeners, handlers, this.params.uuid);
+      }
     }
   }, {
     key: "publishEvent",
     value: function publishEvent(eventName, payload) {
-      this.api.publishEvent("".concat(this.params.component, "[").concat(this.params.id, "].").concat(eventName), payload);
+      if ("publishEvent" in this.api && typeof this.api["publishEvent"] === "function") {
+        this.api.publishEvent("".concat(this.params.component, "[").concat(this.params.id, "].").concat(eventName), payload);
+      }
     }
   }]);
   return WidgetHelpers;
@@ -9779,6 +9783,9 @@ var WidgetFactory = {
 
         // need to set the electron api here.
         var w = WidgetApi;
+        w.init({
+          id: key
+        });
         w.setElectronApi(dashApi);
         w.setPublisher(DashboardPublisher);
 
@@ -23231,6 +23238,7 @@ var MockWrapper = function MockWrapper(_ref) {
         theme: "theme-1",
         debug: false
       },
+      dialog: {},
       debugMode: true
     });
   }
