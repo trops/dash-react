@@ -82,8 +82,11 @@ const WidgetFactory = {
 
                 // need to set the electron api here.
                 const w = WidgetApi;
+                w.init({ id: key });
                 w.setElectronApi(dashApi);
                 w.setPublisher(DashboardPublisher);
+
+                console.log("widget api in factory ", w, dashApi);
 
                 // init the helpers
                 const helpers = new WidgetHelpers(params, dashApi);

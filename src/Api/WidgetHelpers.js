@@ -21,13 +21,23 @@ export class WidgetHelpers {
     }
 
     listen(listeners, handlers) {
-        this.api.registerListeners(listeners, handlers, this.params.uuid);
+        if (
+            "registerListeners" in this.api &&
+            typeof this.api["registerListeners"] === "function"
+        ) {
+            this.api.registerListeners(listeners, handlers, this.params.uuid);
+        }
     }
 
     publishEvent(eventName, payload) {
-        this.api.publishEvent(
-            `${this.params.component}[${this.params.id}].${eventName}`,
-            payload
-        );
+        if (
+            "publishEvent" in this.api &&
+            typeof this.api["publishEvent"] === "function"
+        ) {
+            this.api.publishEvent(
+                `${this.params.component}[${this.params.id}].${eventName}`,
+                payload
+            );
+        }
     }
 }

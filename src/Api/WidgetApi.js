@@ -29,12 +29,12 @@ export const WidgetApi = {
             if (api !== undefined && api !== null) {
                 // set the mainApi to electron inside the widget.
                 this._electronApi = {
-                    on: api.on,
-                    removeAllListeners: api.removeAllListeners,
-                    data: api.data,
-                    algolia: api.algolia,
-                    events: api.events,
-                    dialog: api.dialog,
+                    on: api.on || {},
+                    removeAllListeners: api.removeAllListeners || {},
+                    data: api.data || {},
+                    algolia: api.algolia || {},
+                    events: api.events || {},
+                    dialog: api.dialog || {},
                 };
             }
         } catch (e) {

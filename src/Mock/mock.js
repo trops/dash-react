@@ -30,6 +30,7 @@ const MockWrapper = ({
                 theme: "theme-1",
                 debug: false,
             },
+            dialog: {},
             debugMode: true,
         };
     }
