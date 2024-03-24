@@ -3,6 +3,7 @@ import { getStylesForItem, themeObjects } from "@dash/Utils";
 import { useContext } from "react";
 
 export const InputText = ({
+    key = "inputText",
     onChange,
     onKeyDown,
     onClick = null,
@@ -20,21 +21,27 @@ export const InputText = ({
     const styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
         ...props,
     });
-    return (
-        <input
-            type={type}
-            name={name}
-            value={value !== null ? value : ""}
-            onChange={onChange}
-            onKeyDown={onKeyDown}
-            onClick={onClick}
-            placeholder={placeholder}
-            className={`${padding} rounded focus:outline-0 outline-0 border-0 focus:border-0 ${
-                styles.string
-            } font-bold ${textSize} w-full ${
-                hasBorder === false && "border-0"
-            }`}
-            disabled={disabled}
-        />
-    );
+
+    function renderComponent(styles) {
+        return (
+            <input
+                key={key}
+                type={type}
+                name={name}
+                value={value !== null ? value : ""}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
+                onClick={onClick}
+                placeholder={placeholder}
+                className={`${padding} rounded focus:outline-0 outline-0 border-0 focus:border-0 ${
+                    styles.string
+                } font-bold ${textSize} w-full ${
+                    hasBorder === false && "border-0"
+                }`}
+                disabled={disabled}
+            />
+        );
+    }
+
+    return renderComponent(styles);
 };
