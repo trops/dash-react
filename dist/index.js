@@ -6317,12 +6317,14 @@ var LayoutContainer = function LayoutContainer(_ref) {
       }), children]
     });
   }
-  var classString = className !== "" ? className : styles.string;
+
+  // const classString = className !== "" ? className : styles.string;
+  var classString = styles.string;
   // console.log("Layout Container styles ", id, styles.string, classString);
 
   return /*#__PURE__*/jsxs("div", {
     id: "LayoutContainer-".concat(containerId, "-").concat(id),
-    className: "flex ".concat(classString),
+    className: "flex ".concat(classString, " ").concat(className),
     onClick: onClick,
     children: [debug === false && children, debug === true && renderDebugger(children, styles.string)]
   });
@@ -11810,7 +11812,7 @@ var Modal = function Modal(_ref2) {
 Modal.Footer = ModalFooter;
 
 function _typeof$x(obj) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$x(obj); }
-var _excluded$t = ["text", "padding", "onClick", "scrollable", "className", "grow", "space"],
+var _excluded$t = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width", "children"],
   _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className", "grow", "space"],
   _excluded3$5 = ["text", "padding", "onClick", "scrollable", "grow", "space", "className"];
 function ownKeys$s(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -11821,29 +11823,38 @@ function _toPrimitive$x(input, hint) { if (_typeof$x(input) !== "object" || inpu
 function _objectWithoutProperties$t(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$t(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose$t(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 function Paragraph(_ref) {
-  var text = _ref.text;
-    _ref.padding;
-    var _ref$onClick = _ref.onClick,
+  var _ref$text = _ref.text,
+    text = _ref$text === void 0 ? null : _ref$text,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "p-6" : _ref$padding,
+    _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "text-base xl:text-lg font-normal p-4" : _ref$className,
-    _ref$grow = _ref.grow,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable;
+    _ref.className;
+    var _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$space = _ref.space,
     space = _ref$space === void 0 ? false : _ref$space,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-full" : _ref$height,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    children = _ref.children,
     props = _objectWithoutProperties$t(_ref, _excluded$t);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props, space, grow);
+  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props, space, grow, padding, scrollable, height, width);
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "".concat(className, " ").concat(styles.string, " h-full w-full"),
+    className: "".concat(styles.string),
     onClick: onClick,
     scrollable: scrollable,
     grow: grow,
     space: space,
-    children: text
+    height: height,
+    width: width,
+    padding: padding,
+    children: text !== null ? text : children
   });
 }
 function Paragraph2(_ref2) {
@@ -11877,9 +11888,10 @@ function Paragraph2(_ref2) {
   });
 }
 function Paragraph3(_ref3) {
-  var text = _ref3.text;
-    _ref3.padding;
-    var _ref3$onClick = _ref3.onClick,
+  var text = _ref3.text,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? true : _ref3$padding,
+    _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$scrollable = _ref3.scrollable,
     scrollable = _ref3$scrollable === void 0 ? false : _ref3$scrollable,
@@ -11895,7 +11907,8 @@ function Paragraph3(_ref3) {
   var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
     scrollable: scrollable,
     grow: grow,
-    space: space
+    space: space,
+    padding: padding
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
     className: "h-full w-full ".concat(styles.string, " ").concat(className),
