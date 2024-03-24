@@ -1655,7 +1655,7 @@ var FormLabel = function FormLabel(_ref) {
 };
 
 function _typeof$J(obj) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$J(obj); }
-var _excluded$A = ["onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
+var _excluded$A = ["key", "onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
 function ownKeys$C(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$C(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$C(Object(source), !0).forEach(function (key) { _defineProperty$F(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$C(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$F(obj, key, value) { key = _toPropertyKey$J(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1664,7 +1664,9 @@ function _toPrimitive$J(input, hint) { if (_typeof$J(input) !== "object" || inpu
 function _objectWithoutProperties$A(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$A(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose$A(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 var InputText = function InputText(_ref) {
-  var onChange = _ref.onChange,
+  var _ref$key = _ref.key,
+    key = _ref$key === void 0 ? "inputText" : _ref$key,
+    onChange = _ref.onChange,
     onKeyDown = _ref.onKeyDown,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
@@ -1686,17 +1688,20 @@ var InputText = function InputText(_ref) {
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$C({}, props));
-  return /*#__PURE__*/jsx("input", {
-    type: type,
-    name: name,
-    value: value !== null ? value : "",
-    onChange: onChange,
-    onKeyDown: onKeyDown,
-    onClick: onClick,
-    placeholder: placeholder,
-    className: "".concat(padding, " rounded focus:outline-0 outline-0 border-0 focus:border-0 ").concat(styles.string, " font-bold ").concat(textSize, " w-full ").concat(hasBorder === false && "border-0"),
-    disabled: disabled
-  });
+  function renderComponent(styles) {
+    return /*#__PURE__*/jsx("input", {
+      type: type,
+      name: name,
+      value: value !== null ? value : "",
+      onChange: onChange,
+      onKeyDown: onKeyDown,
+      onClick: onClick,
+      placeholder: placeholder,
+      className: "".concat(padding, " rounded focus:outline-0 outline-0 border-0 focus:border-0 ").concat(styles.string, " font-bold ").concat(textSize, " w-full ").concat(hasBorder === false && "border-0"),
+      disabled: disabled
+    }, key);
+  }
+  return renderComponent(styles);
 };
 
 function _typeof$I(obj) { "@babel/helpers - typeof"; return _typeof$I = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$I(obj); }
