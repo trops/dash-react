@@ -75,6 +75,8 @@ JS.args = {
     code: JSON.stringify(sampleJSObject, null, 4),
     uniqueKey: 12345,
     language: "js",
+    scrollable: true,
+    // className: "text-2xl",
 };
 
 HTML.args = {
