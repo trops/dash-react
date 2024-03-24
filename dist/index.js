@@ -12628,7 +12628,7 @@ CodeEditorSimple.defaultProps = {
 };
 
 function _typeof$s(obj) { "@babel/helpers - typeof"; return _typeof$s = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$s(obj); }
-var _excluded$p = ["code", "setCode", "uniqueKey", "language", "placeholder"];
+var _excluded$p = ["code", "setCode", "uniqueKey", "language", "placeholder", "scrollable", "padding"];
 function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$o(Object(source), !0).forEach(function (key) { _defineProperty$p(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$p(obj, key, value) { key = _toPropertyKey$s(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -12645,15 +12645,20 @@ function CodeEditorInline(_ref) {
     language = _ref$language === void 0 ? "js" : _ref$language,
     _ref$placeholder = _ref.placeholder,
     placeholder = _ref$placeholder === void 0 ? null : _ref$placeholder,
-    props = _objectWithoutProperties$p(_ref, _excluded$p);
+    _ref$scrollable = _ref.scrollable,
+    scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable;
+    _ref.padding;
+    var props = _objectWithoutProperties$p(_ref, _excluded$p);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$o({}, props));
+  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$o(_objectSpread$o({}, props), {}, {
+    scrollable: scrollable
+  }));
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-hidden"),
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded w-full h-full ".concat(styles.string, " overflow-y-scroll scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900"),
+      className: "flex flex-col rounded w-full h-full ".concat(styles.string),
       children: /*#__PURE__*/jsx("div", {
         className: "bg-inherit h-full ".concat(styles.textColor),
         children: /*#__PURE__*/jsx(CodeEditor, {
@@ -12662,11 +12667,12 @@ function CodeEditorInline(_ref) {
           placeholder: placeholderValue,
           onChange: function onChange(evn) {
             return setCode(evn.target.value);
-          },
-          padding: 15,
+          }
+          //padding={15}
+          ,
           style: {
             caretColor: "#eeeeee",
-            fontSize: "16px",
+            fontSize: "12px",
             fontFamily: "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
             minHeight: "100%"
           },
