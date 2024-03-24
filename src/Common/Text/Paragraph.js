@@ -4,13 +4,16 @@ import { getStylesForItem, themeObjects } from "@dash/Utils";
 import { LayoutContainer } from "@dash/Layout";
 
 function Paragraph({
-    text,
-    padding = true,
+    text = null,
+    padding = "p-6",
     onClick = null,
     scrollable = false,
     className = "text-base xl:text-lg font-normal p-4",
     grow = false,
     space = false,
+    height = "h-full",
+    width = "w-full",
+    children,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -19,18 +22,26 @@ function Paragraph({
         currentTheme,
         props,
         space,
-        grow
+        grow,
+        padding,
+        scrollable,
+        height,
+        width
     );
 
+    console.log("Paragraph styles ", styles.string);
     return (
         <LayoutContainer
-            className={`${className} ${styles.string} h-full w-full`}
+            className={`${styles.string}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
             space={space}
+            height={height}
+            width={width}
+            padding={padding}
         >
-            {text}
+            {text !== null ? text : children}
         </LayoutContainer>
     );
 }
@@ -82,6 +93,7 @@ function Paragraph3({
         scrollable,
         grow,
         space,
+        padding,
     });
 
     console.log(styles.string);

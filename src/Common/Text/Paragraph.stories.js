@@ -15,14 +15,18 @@ export default {
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
+    console.log(mockText.paragraph);
     return (
         <MockWrapper
             api={mock.api}
             theme={mock.themes}
             args={args}
-            backgroundColor={"bg-gray-600"}
+            backgroundColor={"bg-gray-900"}
+            scrollable={false}
         >
-            <Paragraph {...args} className={args.className} />
+            <Paragraph {...args} padding="p-4">
+                {mockText.paragraph}
+            </Paragraph>
         </MockWrapper>
     );
 };
@@ -54,10 +58,9 @@ export const Tertiary = Template3.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
-    text: mockText.paragraph,
     height: "h-full",
     scrollable: true,
-    // className: "bg-green-900 text-gray-200 p-6",
+    padding: "p-6",
 };
 
 Secondary.args = {

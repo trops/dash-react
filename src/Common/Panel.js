@@ -100,7 +100,7 @@ const Panel = ({
         grow,
     });
 
-    console.log("panel styls ", styles.string, width, height);
+    console.log("panel styles ", styles.string, width, height);
 
     return (
         <LayoutContainer

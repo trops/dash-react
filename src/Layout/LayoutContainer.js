@@ -51,13 +51,14 @@ export const LayoutContainer = ({
         );
     }
 
-    const classString = className !== "" ? className : styles.string;
+    // const classString = className !== "" ? className : styles.string;
+    const classString = styles.string;
     // console.log("Layout Container styles ", id, styles.string, classString);
 
     return (
         <div
             id={`LayoutContainer-${containerId}-${id}`}
-            className={`flex ${classString}`}
+            className={`flex ${classString} ${className}`}
             onClick={onClick}
         >
             {debug === false && children}
