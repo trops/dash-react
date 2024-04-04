@@ -8,6 +8,7 @@ export * from "./ButtonIcon";
 export * from "./Toggle";
 export { CodeEditorInline } from "./CodeEditor";
 export { CodeRenderer } from "./CodeRenderer";
+export { CodeEditorVS } from "./CodeEditor";
 export * from "./Tag";
 
 export * from "./Container";
