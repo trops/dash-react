@@ -8,13 +8,12 @@ export const SelectMenu = ({
     selectedValue,
     children,
     textSize = "text-base 2xl:text-lg",
-    // bgColor = "bg-gray-300",
-    // textColor = "text-gray-600",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, {
         ...props,
+        height: "h-fit",
     });
     return (
         <select
