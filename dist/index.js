@@ -1723,7 +1723,9 @@ var SelectMenu = function SelectMenu(_ref) {
     props = _objectWithoutProperties$z(_ref, _excluded$z);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$B({}, props));
+  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$B(_objectSpread$B({}, props), {}, {
+    height: "h-fit"
+  }));
   return /*#__PURE__*/jsx("select", {
     className: "p-2 rounded ".concat(textSize, " font-bold ").concat(styles.string, " focus:outline-none cursor-pointer min-w-lg w-full"),
     name: name,
