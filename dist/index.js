@@ -12696,6 +12696,29 @@ function _toPrimitive$s(input, hint) { if (_typeof$s(input) !== "object" || inpu
 function _objectWithoutProperties$p(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose$p(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 function _objectWithoutPropertiesLoose$p(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 require("monaco-themes").parseTmTheme;
+
+// Save a reference to the original ResizeObserver
+var OriginalResizeObserver = window.ResizeObserver;
+
+// Create a new ResizeObserver constructor
+window.ResizeObserver = function (callback) {
+  var wrappedCallback = function wrappedCallback(entries, observer) {
+    window.requestAnimationFrame(function () {
+      callback(entries, observer);
+    });
+  };
+
+  // Create an instance of the original ResizeObserver
+  // with the wrapped callback
+  return new OriginalResizeObserver(wrappedCallback);
+};
+
+// Copy over static methods, if any
+for (var staticMethod in OriginalResizeObserver) {
+  if (OriginalResizeObserver.hasOwnProperty(staticMethod)) {
+    window.ResizeObserver[staticMethod] = OriginalResizeObserver[staticMethod];
+  }
+}
 function CodeEditorVS(_ref) {
   var code = _ref.code,
     onChange = _ref.onChange,
@@ -12711,35 +12734,6 @@ function CodeEditorVS(_ref) {
     var _ref$themeName = _ref.themeName,
     themeName = _ref$themeName === void 0 ? "GitHub Dark" : _ref$themeName,
     props = _objectWithoutProperties$p(_ref, _excluded$p);
-  //const monaco = useMonaco();
-
-  // useEffect(() => {
-  //     if (monaco) {
-  //         try {
-  //             import("monaco-themes/themes/Monokai Bright.json")
-  //                 .then((data) => {
-  //                     console.log("theme", JSON.stringify(data));
-  //                     const myTheme = parseTmTheme(data);
-  //                     console.log("theme parsed ", myTheme);
-  //                     //console.log("parsed theme", myTheme);
-  //                     monaco.editor.defineTheme("code-theme", myTheme);
-  //                     // monaco.editor.setTheme("code-theme");
-  //                 })
-  //                 .then((_) => monaco.editor.setTheme("code-theme"))
-  //                 .catch((e) =>
-  //                     console.log("error setting theme", e.message)
-  //                 );
-
-  //             // console.log("my theme", myTheme);
-  //             // monaco.editor.defineTheme("myTheme", myTheme);
-  //             // monaco.editor.setTheme("myTheme");
-  //         } catch (e) {
-  //             console.log("error making my theme", e.message);
-  //         }
-  //         // console.log("here is the monaco isntance:", monaco);
-  //     }
-  // }, [monaco]);
-
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$o(_objectSpread$o({}, props), {}, {
@@ -12751,7 +12745,6 @@ function CodeEditorVS(_ref) {
       try {
         import("monaco-themes/themes/".concat(themeName, ".json")).then(function (data) {
           monaco.editor.defineTheme("code-theme", data);
-          // monaco.editor.setTheme("code-theme");
         }).then(function (_) {
           return monaco.editor.setTheme("code-theme");
         })["catch"](function (e) {
