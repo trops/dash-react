@@ -8,6 +8,7 @@ import colors from 'tailwindcss/colors';
 import { useDrop, DndProvider, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
+import '@monaco-editor/react';
 import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
 import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
@@ -12684,6 +12685,8 @@ function CodeEditorInline(_ref) {
     })
   }, "code-editor-".concat(uniqueKey));
 }
+
+require("monaco-themes").parseTmTheme;
 
 var CodeRenderer = function CodeRenderer(_ref) {
   var template = _ref.template,
