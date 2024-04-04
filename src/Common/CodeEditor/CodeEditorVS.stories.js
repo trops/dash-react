@@ -8,6 +8,8 @@ export default {
     component: CodeEditorVS,
 };
 
+import "monaco-themes/themes/Monokai Bright.json";
+
 //👇 We create a “template” of how args map to rendering
 const Template = (args) => {
     return (
