@@ -38,6 +38,8 @@ export function CodeEditorVS({
     scrollable = true,
     padding = "p-2",
     themeName = "GitHub Dark",
+    readOnly = false,
+    minimapEnabled = false,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -91,6 +93,10 @@ export function CodeEditorVS({
                         width={"100%"}
                         onChange={onChange}
                         onMount={handleEditorDidMount}
+                        options={{
+                            minimap: { enabled: minimapEnabled },
+                            readOnly: readOnly,
+                        }}
                     />
                 </div>
             </div>

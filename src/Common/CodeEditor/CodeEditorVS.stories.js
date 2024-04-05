@@ -27,6 +27,8 @@ const Template = (args) => {
                 height="h-full"
                 width="w-full"
                 theme="vs-dark"
+                readOnly={true}
+                minimapEnabled={true}
             />
         </MockWrapper>
     );
@@ -96,7 +98,7 @@ JS.args = {
 
 HTML.args = {
     //👇 The args you need here will depend on your component
-    code: `<html>\n\t<head>Title</head>\n\t<body>Hello, I am HTML</body>\n</html>`,
+    code: `<html>\n\t<head>Title</head>\n\t<body>Hello, I am HTML</body>\n</html>jdksjkdjklsajkldjsakljdklsajkldjsalk\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`,
     uniqueKey: "html-editor-123",
     language: "html",
 };
