@@ -12687,7 +12687,7 @@ function CodeEditorInline(_ref) {
 }
 
 function _typeof$s(obj) { "@babel/helpers - typeof"; return _typeof$s = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$s(obj); }
-var _excluded$p = ["code", "onChange", "uniqueKey", "language", "placeholder", "scrollable", "padding", "themeName"];
+var _excluded$p = ["code", "onChange", "uniqueKey", "language", "placeholder", "scrollable", "padding", "themeName", "readOnly", "minimapEnabled"];
 function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$o(Object(source), !0).forEach(function (key) { _defineProperty$p(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$p(obj, key, value) { key = _toPropertyKey$s(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -12733,6 +12733,10 @@ function CodeEditorVS(_ref) {
     _ref.padding;
     var _ref$themeName = _ref.themeName,
     themeName = _ref$themeName === void 0 ? "GitHub Dark" : _ref$themeName,
+    _ref$readOnly = _ref.readOnly,
+    readOnly = _ref$readOnly === void 0 ? false : _ref$readOnly,
+    _ref$minimapEnabled = _ref.minimapEnabled,
+    minimapEnabled = _ref$minimapEnabled === void 0 ? false : _ref$minimapEnabled,
     props = _objectWithoutProperties$p(_ref, _excluded$p);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -12768,7 +12772,13 @@ function CodeEditorVS(_ref) {
           height: "90vh",
           width: "100%",
           onChange: onChange,
-          onMount: handleEditorDidMount
+          onMount: handleEditorDidMount,
+          options: {
+            minimap: {
+              enabled: minimapEnabled
+            },
+            readOnly: readOnly
+          }
         })
       })
     })
