@@ -124,21 +124,6 @@ var WidgetApi = {
           //     console.log("chose a file");
           // });
           eApi.dialog.chooseFile();
-
-          // if (callbackComplete !== null) {
-          //     eApi.on(
-          //         eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
-          //         callbackComplete
-          //     );
-          // }
-          // if (callbackError !== null) {
-          //     eApi.on(
-          //         eApi.events.DATA_SAVE_TO_FILE_ERROR,
-          //         callbackError
-          //     );
-          // }
-          // // request.
-          // eApi.data.saveData(data, toFilename, append, returnEmpty);
         }
       }
     } catch (e) {
@@ -176,7 +161,7 @@ var WidgetApi = {
       if (eApi) {
         // remove the listeners (reset)
         if ("removeAllListeners" in eApi) {
-          eApi.removeAllListeners();
+          eApi.removeAllListeners(eApi.events.DATA_SAVE_TO_FILE_COMPLETE);
           if (callbackComplete !== null) {
             eApi.on(eApi.events.DATA_SAVE_TO_FILE_COMPLETE, callbackComplete);
           }
@@ -594,8 +579,10 @@ var apiEvents = /*#__PURE__*/Object.freeze({
 });
 
 var ElectronDashboardApi = /** @class */ (function () {
-    function ElectronDashboardApi(api, events) {
+    function ElectronDashboardApi(api, appId, events) {
+        if (appId === void 0) { appId = null; }
         this.api = api;
+        this.appId = appId;
         if (events) {
             this.events = events;
         }

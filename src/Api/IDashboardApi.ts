@@ -12,7 +12,7 @@ interface IDashboardApi {
     api: any;
 
     appId: String;
-    
+
     /**
      * events
      * The events that will be used throughout the API
