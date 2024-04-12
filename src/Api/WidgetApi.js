@@ -120,21 +120,6 @@ export const WidgetApi = {
                     //     console.log("chose a file");
                     // });
                     eApi.dialog.chooseFile();
-
-                    // if (callbackComplete !== null) {
-                    //     eApi.on(
-                    //         eApi.events.DATA_SAVE_TO_FILE_COMPLETE,
-                    //         callbackComplete
-                    //     );
-                    // }
-                    // if (callbackError !== null) {
-                    //     eApi.on(
-                    //         eApi.events.DATA_SAVE_TO_FILE_ERROR,
-                    //         callbackError
-                    //     );
-                    // }
-                    // // request.
-                    // eApi.data.saveData(data, toFilename, append, returnEmpty);
                 }
             }
         } catch (e) {
@@ -169,7 +154,9 @@ export const WidgetApi = {
             if (eApi) {
                 // remove the listeners (reset)
                 if ("removeAllListeners" in eApi) {
-                    eApi.removeAllListeners();
+                    eApi.removeAllListeners(
+                        eApi.events.DATA_SAVE_TO_FILE_COMPLETE
+                    );
                     if (callbackComplete !== null) {
                         eApi.on(
                             eApi.events.DATA_SAVE_TO_FILE_COMPLETE,

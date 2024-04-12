@@ -9,6 +9,12 @@ class WebDashboardApi implements IDashboardApi {
     api: any;
 
     /**
+     * appId
+     * The application identifier
+     */
+    appId: String;
+
+    /**
      * events
      * Events to be used for the api calls (call, success, error)
      */

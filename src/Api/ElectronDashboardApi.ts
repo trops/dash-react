@@ -5,13 +5,21 @@ class ElectronDashboardApi implements IDashboardApi {
     api: any;
 
     /**
+     * @param {String} appId the application identifier 
+     * Also this will be appended to the path where we store the configuration files
+     */
+    appId: String;
+
+    /**
      * events
      * Events to be used for the api calls (call, success, error)
      */
     events: any;
 
-    constructor(api: any, events?: any) {
+    constructor(api: any, appId = null, events?: any) {
         this.api = api;
+        this.appId = appId;
+        
         if (events) {
             this.events = events;
         } else {
