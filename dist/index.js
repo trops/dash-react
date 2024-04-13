@@ -1522,12 +1522,12 @@ var MenuItemModel = function MenuItemModel() {
   return m;
 };
 
-function _slicedToArray$A(arr, i) { return _arrayWithHoles$A(arr) || _iterableToArrayLimit$A(arr, i) || _unsupportedIterableToArray$B(arr, i) || _nonIterableRest$A(); }
-function _nonIterableRest$A() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$B(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$B(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$B(o, minLen); }
-function _arrayLikeToArray$B(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$A(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$A(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
+function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
+function _arrayLikeToArray$A(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$z(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$z(arr) { if (Array.isArray(arr)) return arr; }
 function DashboardMenuItem(_ref) {
   _ref.theme;
     var item = _ref.item,
@@ -1538,11 +1538,11 @@ function DashboardMenuItem(_ref) {
     onClick = _ref.onClick;
     _ref.selected;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$A(_useState, 2);
+    _useState2 = _slicedToArray$z(_useState, 2);
     _useState2[0];
     var setHasDropped = _useState2[1];
   var _useState3 = useState(false),
-    _useState4 = _slicedToArray$A(_useState3, 2);
+    _useState4 = _slicedToArray$z(_useState3, 2);
     _useState4[0];
     var setHasDroppedOnChild = _useState4[1];
   var _useDrop = useDrop({
@@ -1576,7 +1576,7 @@ function DashboardMenuItem(_ref) {
         };
       }
     }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray$A(_useDrop, 2),
+    _useDrop2 = _slicedToArray$z(_useDrop, 2),
     _useDrop2$ = _useDrop2[0];
     _useDrop2$.isOver;
     var isOverCurrent = _useDrop2$.isOverCurrent;
@@ -1723,12 +1723,12 @@ var SelectMenu = function SelectMenu(_ref) {
   });
 };
 
-function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
-function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
-function _arrayLikeToArray$A(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$z(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$z(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$y(arr, i) { return _arrayWithHoles$y(arr) || _iterableToArrayLimit$y(arr, i) || _unsupportedIterableToArray$z(arr, i) || _nonIterableRest$y(); }
+function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$z(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$z(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$z(o, minLen); }
+function _arrayLikeToArray$z(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$y(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$y(arr) { if (Array.isArray(arr)) return arr; }
 var MainMenuConst = function MainMenuConst(_ref) {
   var _ref$onClickNewWorksp = _ref.onClickNewWorkspace,
     onClickNewWorkspace = _ref$onClickNewWorksp === void 0 ? null : _ref$onClickNewWorksp;
@@ -1746,13 +1746,13 @@ var MainMenuConst = function MainMenuConst(_ref) {
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var _useState = useState(""),
-    _useState2 = _slicedToArray$z(_useState, 2),
+    _useState2 = _slicedToArray$y(_useState, 2),
     searchTerm = _useState2[0],
     setSearchTerm = _useState2[1];
 
   // Force Update
   var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$z(_React$useState, 2),
+    _React$useState2 = _slicedToArray$y(_React$useState, 2),
     updateState = _React$useState2[1];
   var forceUpdate = React.useCallback(function () {
     return updateState({});
@@ -1958,12 +1958,12 @@ var MainMenuConst = function MainMenuConst(_ref) {
 };
 var MainMenu = withRouter(MainMenuConst);
 
-function _slicedToArray$y(arr, i) { return _arrayWithHoles$y(arr) || _iterableToArrayLimit$y(arr, i) || _unsupportedIterableToArray$z(arr, i) || _nonIterableRest$y(); }
-function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$z(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$z(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$z(o, minLen); }
-function _arrayLikeToArray$z(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$y(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$y(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$x(arr, i) { return _arrayWithHoles$x(arr) || _iterableToArrayLimit$x(arr, i) || _unsupportedIterableToArray$y(arr, i) || _nonIterableRest$x(); }
+function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$y(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$y(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$y(o, minLen); }
+function _arrayLikeToArray$y(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$x(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$x(arr) { if (Array.isArray(arr)) return arr; }
 var DragDropWidget$1 = function DragDropWidget(_ref) {
   var id = _ref.id,
     type = _ref.type,
@@ -1999,7 +1999,7 @@ var DragDropWidget$1 = function DragDropWidget(_ref) {
         }
       };
     }),
-    _useDrag2 = _slicedToArray$y(_useDrag, 3),
+    _useDrag2 = _slicedToArray$x(_useDrag, 3),
     collected = _useDrag2[0],
     drag = _useDrag2[1],
     dragPreview = _useDrag2[2];
@@ -2043,60 +2043,43 @@ var MainMenuItem = function MainMenuItem(_ref) {
   });
 };
 
-function _slicedToArray$x(arr, i) { return _arrayWithHoles$x(arr) || _iterableToArrayLimit$x(arr, i) || _unsupportedIterableToArray$y(arr, i) || _nonIterableRest$x(); }
-function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$y(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$y(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$y(o, minLen); }
-function _arrayLikeToArray$y(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$x(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$x(arr) { if (Array.isArray(arr)) return arr; }
 var MainMenuSection = function MainMenuSection(_ref) {
-  var id = _ref.id,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "menu-item" : _ref$type,
-    menuItem = _ref.menuItem,
+  _ref.id;
+    _ref.type;
+    var menuItem = _ref.menuItem,
     children = _ref.children,
     onCreateNew = _ref.onCreateNew;
   var _useContext = useContext$1(ThemeContext);
     _useContext.currentTheme;
 
   // Drop Functionality
-  var _useDrop = useDrop({
-      accept: type,
-      drop: function drop(_item, monitor) {
-        var didDrop = monitor.didDrop();
-        if (didDrop) {
-          return;
-        }
-        return {
-          id: id,
-          type: type,
-          dropIndex: id
-        };
-      },
-      canDrop: function canDrop(obj) {
-        return obj.id !== menuItem.id;
-      },
-      collect: function collect(monitor) {
-        return {
-          isDragging: monitor.isDragging,
-          isOverCurrent: monitor.isOver({
-            shallow: true
-          }),
-          canDrop: monitor.canDrop()
-        };
-      }
-    }),
-    _useDrop2 = _slicedToArray$x(_useDrop, 2),
-    _useDrop2$ = _useDrop2[0];
-    _useDrop2$.isOver;
-    _useDrop2$.isOverCurrent;
-    _useDrop2$.canDrop;
-    var drop = _useDrop2[1];
+  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
+  //     accept: type,
+  //     drop: (_item, monitor) => {
+  //         const didDrop = monitor.didDrop();
+  //         if (didDrop) {
+  //             return;
+  //         }
+  //         return { id, type, dropIndex: id };
+  //     },
+  //     canDrop: (obj) => {
+  //         return obj.id !== menuItem.id;
+  //     },
+  //     collect: (monitor) => {
+  //         return {
+  //             isDragging: monitor.isDragging,
+  //             isOverCurrent: monitor.isOver({ shallow: true }),
+  //             canDrop: monitor.canDrop(),
+  //         };
+  //     },
+  // });
+
   function handleCreateNew(menuItem) {
     onCreateNew && onCreateNew(menuItem);
   }
-  return /*#__PURE__*/jsxs(Panel3, {
-    ref: drop,
+  return /*#__PURE__*/jsxs(Panel3
+  // ref={drop}
+  , {
     id: menuItem.id,
     scrollable: false,
     grow: false,
@@ -4591,8 +4574,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
         padding: false,
         direction: "row",
         width: "w-full",
+        height: "h-2/3",
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-1 p-2 h-full justify-between",
+          className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme["bg-secondary-dark"]),
           children: [/*#__PURE__*/jsx("div", {
             className: "w-10 h-10 items-center justify-center",
             children: /*#__PURE__*/jsx(ButtonIcon, {
@@ -4601,7 +4585,7 @@ var PanelWelcome = function PanelWelcome(_ref) {
                 return handleClickNewWorkspace();
               },
               hoverBackgroundColor: "hover:bg-green-700",
-              backgroundColor: "bg-blue-600"
+              backgroundColor: currentTheme["bg-primary-dark"]
             })
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-col space-y-1",
@@ -5076,7 +5060,9 @@ var Dashboard = function Dashboard(_ref) {
     _ref$workspace = _ref.workspace,
     workspace = _ref$workspace === void 0 ? null : _ref$workspace,
     _ref$preview = _ref.preview,
-    preview = _ref$preview === void 0 ? true : _ref$preview;
+    preview = _ref$preview === void 0 ? true : _ref$preview,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor;
   // const { api, settings, creds } = useContext(AppContext);
   var _useContext = useContext$1(DashboardContext),
     pub = _useContext.pub;
@@ -5371,6 +5357,7 @@ var Dashboard = function Dashboard(_ref) {
   return /*#__PURE__*/jsx(DashboardWrapper, {
     dashApi: dashApi,
     credentials: credentials,
+    backgroundColor: backgroundColor,
     children: menuItems && /*#__PURE__*/jsx(LayoutContainer, {
       padding: false,
       space: true,
@@ -6178,6 +6165,8 @@ var WidgetContext = /*#__PURE__*/createContext({
 var DashboardWrapper = function DashboardWrapper(_ref) {
   var dashApi = _ref.dashApi,
     credentials = _ref.credentials,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
     children = _ref.children;
   // use the contexts to pass through any information
   var _useContext = useContext$1(ThemeContext),
@@ -6189,12 +6178,6 @@ var DashboardWrapper = function DashboardWrapper(_ref) {
     return w;
   }
   function getValue() {
-    // console.log("dashboard wrapper ", {
-    //     widgetApi: buildWidgetApi(),
-    //     pub: DashboardPublisher,
-    //     dashApi,
-    //     credentials,
-    // });
     return {
       widgetApi: buildWidgetApi(),
       pub: DashboardPublisher,
@@ -6211,6 +6194,7 @@ var DashboardWrapper = function DashboardWrapper(_ref) {
       children: /*#__PURE__*/jsx("div", {
         className: "flex flex-col w-screen h-screen overflow-hidden justify-between p-0",
         children: /*#__PURE__*/jsx(MainSection, {
+          backgroundColor: backgroundColor,
           children: /*#__PURE__*/jsxs(DashboardContext.Provider, {
             value: getValue(),
             children: [children, currentTheme && JSON.stringify(currentTheme)]
@@ -11422,11 +11406,11 @@ var _excluded$v = ["children", "border", "className"],
   _excluded5$1 = ["children", "border", "className"],
   _excluded6$1 = ["children", "scrollable", "className", "onClick"],
   _excluded7$1 = ["children", "className"],
-  _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction"],
+  _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow"],
   _excluded9$1 = ["children", "border", "className"],
   _excluded10$1 = ["children", "scrollable", "className", "space", "onClick"],
   _excluded11$1 = ["children", "className"],
-  _excluded12$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className"];
+  _excluded12$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "grow"];
 function ownKeys$u(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$u(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$u(Object(source), !0).forEach(function (key) { _defineProperty$v(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$u(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty$v(obj, key, value) { key = _toPropertyKey$z(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11613,32 +11597,36 @@ var Panel2 = function Panel2(_ref8) {
     _ref8$width = _ref8.width,
     width = _ref8$width === void 0 ? "w-full" : _ref8$width,
     _ref8$height = _ref8.height,
-    height = _ref8$height === void 0 ? "" : _ref8$height;
-    _ref8.padding;
-    var _ref8$scrollable = _ref8.scrollable,
-    scrollable = _ref8$scrollable === void 0 ? true : _ref8$scrollable;
-    _ref8.className;
+    height = _ref8$height === void 0 ? "" : _ref8$height,
+    _ref8$padding = _ref8.padding,
+    padding = _ref8$padding === void 0 ? true : _ref8$padding,
+    _ref8$scrollable = _ref8.scrollable,
+    scrollable = _ref8$scrollable === void 0 ? true : _ref8$scrollable,
+    _ref8$className = _ref8.className,
+    className = _ref8$className === void 0 ? "" : _ref8$className;
     _ref8.direction;
-    var props = _objectWithoutProperties$v(_ref8, _excluded8$1);
+    var _ref8$grow = _ref8.grow,
+    grow = _ref8$grow === void 0 ? true : _ref8$grow,
+    props = _objectWithoutProperties$v(_ref8, _excluded8$1);
   var _useContext8 = useContext$1(ThemeContext),
     currentTheme = _useContext8.currentTheme;
-  getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
     width: width,
-    height: height
+    height: height,
+    grow: grow
   }));
   return /*#__PURE__*/jsx(LayoutContainer
   // {...props}
   , {
-    direction: horizontal === true ? "row" : "col"
-    // className={`${className} ${styles.string} ${
-    //     padding === true ? "p-4" : "p-0"
-    // } ${height} ${width} rounded-md`}
-    ,
+    direction: horizontal === true ? "row" : "col",
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md overflow-hidden border ").concat(padding === true ? "p-4" : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false,
+    height: height,
+    width: width,
     children: children
   });
 };
@@ -11728,26 +11716,28 @@ var Panel3 = function Panel3(_ref12) {
     _ref12$height = _ref12.height,
     height = _ref12$height === void 0 ? "" : _ref12$height,
     _ref12$padding = _ref12.padding,
-    padding = _ref12$padding === void 0 ? "" : _ref12$padding,
+    padding = _ref12$padding === void 0 ? true : _ref12$padding,
     _ref12$scrollable = _ref12.scrollable,
-    scrollable = _ref12$scrollable === void 0 ? true : _ref12$scrollable;
-    _ref12.className;
-    var props = _objectWithoutProperties$v(_ref12, _excluded12$1);
+    scrollable = _ref12$scrollable === void 0 ? true : _ref12$scrollable,
+    _ref12$className = _ref12.className,
+    className = _ref12$className === void 0 ? "" : _ref12$className,
+    _ref12$grow = _ref12.grow,
+    grow = _ref12$grow === void 0 ? true : _ref12$grow,
+    props = _objectWithoutProperties$v(_ref12, _excluded12$1);
   var _useContext12 = useContext$1(ThemeContext),
     currentTheme = _useContext12.currentTheme;
-  getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
     padding: padding,
     width: width,
-    height: height
+    height: height,
+    grow: grow
   }));
   return /*#__PURE__*/jsx(LayoutContainer
   // {...props}
-  // className={`${className} ${styles.string} ${
-  //     padding === true ? "p-2" : "p-0"
-  // } ${height} ${width} rounded`}
   , {
+    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? "p-4" : "p-0", " ").concat(height, " ").concat(width, " rounded"),
     id: "Panel3",
     direction: horizontal === true ? "row" : "col",
     onClick: onClick,
