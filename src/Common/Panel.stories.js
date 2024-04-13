@@ -66,7 +66,7 @@ const TemplateHorizontal = (args) => {
 
 const Template2 = (args) => {
     return (
-        <MockWrapper api={mock.api} args={args}>
+        <MockWrapper api={mock.api} args={args} height="h-full">
             <Panel2 {...args}>
                 <Panel2.Header>
                     <Heading2 title={args.text} padding={false} />
@@ -185,7 +185,7 @@ Secondary.args = {
     //👇 The args you need here will depend on your component
     text: "Panel 2",
     scrollable: false,
-    height: "h-full",
+    height: "h-2/3",
     width: "w-full",
     horizontal: false,
 };
@@ -197,6 +197,7 @@ Tertiary.args = {
     height: "h-full",
     width: "w-full",
     horizontal: false,
+    padding: true,
 };
 
 PrimaryHorizontal.args = {

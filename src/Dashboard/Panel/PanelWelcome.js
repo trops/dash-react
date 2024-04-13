@@ -108,16 +108,19 @@ export const PanelWelcome = ({
                         padding={false}
                         direction="row"
                         width="w-full"
+                        height="h-2/3"
                     >
                         <div
-                            className={`flex flex-col space-y-1 p-2 h-full justify-between`}
+                            className={`flex flex-col space-y-1 p-2 h-full justify-between ${currentTheme["bg-secondary-dark"]}`}
                         >
                             <div className="w-10 h-10 items-center justify-center">
                                 <ButtonIcon
                                     icon="plus"
                                     onClick={() => handleClickNewWorkspace()}
                                     hoverBackgroundColor={"hover:bg-green-700"}
-                                    backgroundColor={"bg-blue-600"}
+                                    backgroundColor={
+                                        currentTheme["bg-primary-dark"]
+                                    }
                                 />
                             </div>
                             <div className="flex flex-col space-y-1">

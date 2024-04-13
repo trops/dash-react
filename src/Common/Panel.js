@@ -207,6 +207,7 @@ const Panel2 = ({
     scrollable = true,
     className = "",
     direction = "col",
+    grow = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -216,18 +217,23 @@ const Panel2 = ({
         scrollable,
         width,
         height,
+        grow,
     });
 
     return (
         <LayoutContainer
             // {...props}
             direction={horizontal === true ? "row" : "col"}
-            // className={`${className} ${styles.string} ${
-            //     padding === true ? "p-4" : "p-0"
-            // } ${height} ${width} rounded-md`}
+            className={`${className} ${
+                styles.string
+            } ${height} ${width} rounded-md overflow-hidden border ${
+                padding === true ? "p-4" : "p-0"
+            }`}
             onClick={onClick}
             scrollable={scrollable}
             space={false}
+            height={height}
+            width={width}
         >
             {children}
         </LayoutContainer>
@@ -327,9 +333,10 @@ const Panel3 = ({
     onClick = undefined,
     width = "w-full",
     height = "",
-    padding = "",
+    padding = true,
     scrollable = true,
     className = "",
+    grow = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -340,6 +347,7 @@ const Panel3 = ({
         padding,
         width,
         height,
+        grow,
     });
 
     console.log("Panel 3 styles", styles.string);
@@ -347,9 +355,9 @@ const Panel3 = ({
     return (
         <LayoutContainer
             // {...props}
-            // className={`${className} ${styles.string} ${
-            //     padding === true ? "p-2" : "p-0"
-            // } ${height} ${width} rounded`}
+            className={`${className} ${styles.string} ${
+                padding === true ? "p-4" : "p-0"
+            } ${height} ${width} rounded`}
             id={`Panel3`}
             direction={horizontal === true ? "row" : "col"}
             onClick={onClick}

@@ -27,6 +27,7 @@ export const Dashboard = ({
     credentials,
     workspace = null,
     preview = true,
+    backgroundColor = null,
 }) => {
     // const { api, settings, creds } = useContext(AppContext);
     const { pub } = useContext(DashboardContext);
@@ -334,7 +335,11 @@ export const Dashboard = ({
     }
 
     return (
-        <DashboardWrapper dashApi={dashApi} credentials={credentials}>
+        <DashboardWrapper
+            dashApi={dashApi}
+            credentials={credentials}
+            backgroundColor={backgroundColor}
+        >
             {menuItems && (
                 <LayoutContainer
                     padding={false}

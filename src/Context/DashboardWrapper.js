@@ -7,7 +7,12 @@ import { MainSection } from "../Common";
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 
-export const DashboardWrapper = ({ dashApi, credentials, children }) => {
+export const DashboardWrapper = ({
+    dashApi,
+    credentials,
+    backgroundColor = null,
+    children,
+}) => {
     // use the contexts to pass through any information
     const { currentTheme } = useContext(ThemeContext);
 
@@ -21,12 +26,6 @@ export const DashboardWrapper = ({ dashApi, credentials, children }) => {
     }
 
     function getValue() {
-        // console.log("dashboard wrapper ", {
-        //     widgetApi: buildWidgetApi(),
-        //     pub: DashboardPublisher,
-        //     dashApi,
-        //     credentials,
-        // });
         return {
             widgetApi: buildWidgetApi(),
             pub: DashboardPublisher,
@@ -39,7 +38,7 @@ export const DashboardWrapper = ({ dashApi, credentials, children }) => {
         <AppWrapper dashApi={dashApi} credentials={credentials}>
             <ThemeWrapper dashApi={dashApi} credentials={credentials}>
                 <div className="flex flex-col w-screen h-screen overflow-hidden justify-between p-0">
-                    <MainSection>
+                    <MainSection backgroundColor={backgroundColor}>
                         <DashboardContext.Provider value={getValue()}>
                             {children}
                             {currentTheme && JSON.stringify(currentTheme)}

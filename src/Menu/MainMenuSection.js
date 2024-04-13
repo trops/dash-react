@@ -16,26 +16,26 @@ export const MainMenuSection = ({
     const { currentTheme } = useContext(ThemeContext);
 
     // Drop Functionality
-    const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
-        accept: type,
-        drop: (_item, monitor) => {
-            const didDrop = monitor.didDrop();
-            if (didDrop) {
-                return;
-            }
-            return { id, type, dropIndex: id };
-        },
-        canDrop: (obj) => {
-            return obj.id !== menuItem.id;
-        },
-        collect: (monitor) => {
-            return {
-                isDragging: monitor.isDragging,
-                isOverCurrent: monitor.isOver({ shallow: true }),
-                canDrop: monitor.canDrop(),
-            };
-        },
-    });
+    // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
+    //     accept: type,
+    //     drop: (_item, monitor) => {
+    //         const didDrop = monitor.didDrop();
+    //         if (didDrop) {
+    //             return;
+    //         }
+    //         return { id, type, dropIndex: id };
+    //     },
+    //     canDrop: (obj) => {
+    //         return obj.id !== menuItem.id;
+    //     },
+    //     collect: (monitor) => {
+    //         return {
+    //             isDragging: monitor.isDragging,
+    //             isOverCurrent: monitor.isOver({ shallow: true }),
+    //             canDrop: monitor.canDrop(),
+    //         };
+    //     },
+    // });
 
     function handleCreateNew(menuItem) {
         onCreateNew && onCreateNew(menuItem);
@@ -43,7 +43,7 @@ export const MainMenuSection = ({
 
     return (
         <Panel3
-            ref={drop}
+            // ref={drop}
             id={menuItem.id}
             scrollable={false}
             grow={false}
