@@ -36,6 +36,8 @@ const PanelBody = ({
     scrollable = false,
     className = "",
     onClick = undefined,
+    defaultPadding = "p-6",
+    padding = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -47,7 +49,9 @@ const PanelBody = ({
     return (
         <LayoutContainer
             {...props}
-            className={`${className} ${styles.string} p-6`}
+            className={`${className} ${styles.string} ${
+                padding === true ? defaultPadding : "p-0"
+            }`}
             scrollable={scrollable}
             width={"w-full"}
             height={"h-full"}
@@ -60,7 +64,13 @@ const PanelBody = ({
     );
 };
 
-const PanelFooter = ({ children, className = "", ...props }) => {
+const PanelFooter = ({
+    children,
+    className = "",
+    defaultPadding = "p-6",
+    padding = true,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, {
         ...props,
@@ -69,7 +79,9 @@ const PanelFooter = ({ children, className = "", ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-6 border-t justify-between items-center ${className} ${styles.string}`}
+            className={`flex flex-row rounded-b border-t justify-between items-center ${className} ${
+                styles.string
+            } ${padding === true ? defaultPadding : "p-0"}`}
         >
             {children}
         </div>
@@ -87,6 +99,7 @@ const Panel = ({
     grow = true,
     className = "",
     direction = "col",
+    defaultPadding = "p-6",
     ...props
 }) => {
     // Fetch the Styles from the utility
@@ -100,15 +113,13 @@ const Panel = ({
         grow,
     });
 
-    console.log("panel styles ", styles.string, width, height);
-
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
             } ${height} ${width} rounded-lg overflow-hidden border ${
-                padding === true ? "p-6" : "p-0"
+                padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}
             scrollable={scrollable} // must include this here as we separated props
@@ -157,6 +168,8 @@ const PanelBody2 = ({
     scrollable = false,
     className = "",
     onClick = undefined,
+    defaultPadding = "p-4",
+    padding = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -168,7 +181,9 @@ const PanelBody2 = ({
     return (
         <LayoutContainer
             {...props}
-            className={`${className} ${styles.string} p-4`}
+            className={`${className} ${styles.string} ${
+                padding === true ? defaultPadding : "p-0"
+            }`}
             scrollable={scrollable}
             width={"w-full"}
             height={"h-full"}
@@ -181,7 +196,13 @@ const PanelBody2 = ({
     );
 };
 
-const PanelFooter2 = ({ children, className = "", ...props }) => {
+const PanelFooter2 = ({
+    children,
+    className = "",
+    defaultPadding = "p-4",
+    padding = true,
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, {
         ...props,
@@ -190,7 +211,9 @@ const PanelFooter2 = ({ children, className = "", ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-4 justify-between items-center ${className} ${styles.string}`}
+            className={`flex flex-row rounded-b justify-between items-center ${className} ${
+                styles.string
+            } ${padding === true ? defaultPadding : "p-0"}`}
         >
             {children}
         </div>
@@ -208,6 +231,7 @@ const Panel2 = ({
     className = "",
     direction = "col",
     grow = true,
+    defaultPadding = "p-4",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -222,18 +246,16 @@ const Panel2 = ({
 
     return (
         <LayoutContainer
-            // {...props}
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
             } ${height} ${width} rounded-md overflow-hidden border ${
-                padding === true ? "p-4" : "p-0"
+                padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}
             scrollable={scrollable}
             space={false}
-            height={height}
-            width={width}
+            {...props}
         >
             {children}
         </LayoutContainer>
@@ -280,6 +302,8 @@ const PanelBody3 = ({
     className = "",
     space = true,
     onClick = undefined,
+    defaultPadding = "p-2",
+    padding = true,
     ...props
 }) => {
     try {
@@ -290,11 +314,13 @@ const PanelBody3 = ({
             height: "h-full",
             width: "w-full",
         });
-        console.log("styles for panel body 3 ", styles.string);
+
         return (
             <LayoutContainer
                 {...props}
-                className={`${className} ${styles.string} p-2`}
+                className={`${className} ${styles.string} ${
+                    padding === true ? defaultPadding : "p-0"
+                }`}
                 scrollable={scrollable}
                 width={"w-full"}
                 height={"h-full"}
@@ -337,6 +363,7 @@ const Panel3 = ({
     scrollable = true,
     className = "",
     grow = true,
+    defaultPadding = "p-2",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -350,22 +377,18 @@ const Panel3 = ({
         grow,
     });
 
-    console.log("Panel 3 styles", styles.string);
-
     return (
         <LayoutContainer
-            // {...props}
-            className={`${className} ${styles.string} ${
-                padding === true ? "p-4" : "p-0"
-            } ${height} ${width} rounded`}
-            id={`Panel3`}
             direction={horizontal === true ? "row" : "col"}
+            className={`${className} ${
+                styles.string
+            } ${height} ${width} rounded overflow-hidden border ${
+                padding === true ? defaultPadding : "p-0"
+            }`}
             onClick={onClick}
             scrollable={scrollable}
             space={false}
-            height={height}
-            width={width}
-            padding={padding}
+            {...props}
         >
             {children}
         </LayoutContainer>

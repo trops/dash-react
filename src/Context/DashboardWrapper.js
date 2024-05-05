@@ -41,7 +41,7 @@ export const DashboardWrapper = ({
                     <MainSection backgroundColor={backgroundColor}>
                         <DashboardContext.Provider value={getValue()}>
                             {children}
-                            {currentTheme && JSON.stringify(currentTheme)}
+                            {/* {currentTheme && JSON.stringify(currentTheme)} */}
                         </DashboardContext.Provider>
                     </MainSection>
                 </div>

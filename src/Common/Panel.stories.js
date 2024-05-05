@@ -126,7 +126,7 @@ const TemplateMultiple = (args) => {
             <LayoutContainer
                 direction="col"
                 scrollable={false}
-                height="h-1/4"
+                height="h-full"
                 grow={false}
             >
                 <Panel>
@@ -231,7 +231,7 @@ Multiple.args = {
     //👇 The args you need here will depend on your component
     text: "Panel",
     scrollable: false,
-    height: "h-auto",
+    height: "h-full",
     width: "w-full",
     horizontal: false,
     grow: false,
