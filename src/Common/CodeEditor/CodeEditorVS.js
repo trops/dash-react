@@ -40,6 +40,7 @@ export function CodeEditorVS({
     themeName = "GitHub Dark",
     readOnly = false,
     minimapEnabled = false,
+    wordWrap = "on",
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -96,6 +97,7 @@ export function CodeEditorVS({
                         options={{
                             minimap: { enabled: minimapEnabled },
                             readOnly: readOnly,
+                            wordWrap: wordWrap,
                         }}
                     />
                 </div>

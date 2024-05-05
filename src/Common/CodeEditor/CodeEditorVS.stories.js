@@ -38,7 +38,7 @@ export const JS = Template.bind({});
 export const HTML = Template.bind({});
 
 const sampleJSObject = {
-    test: 123,
+    test: "this is a really long line of text that we are expecting the editor to wrap if we want the fjklj fdsjfklds fldsj fdlsjfl dsl fdsllfldslflds fd s fds lf ds lflsdl  ldlsfl sdlfl dsl fl dslfl dsfdl fl dslfl ds l fl dsl f ldsl f dsl fldsl flds lfl dldsl fsl fl l fl dsl lf ldsl flfl ds",
     again: 456,
     again: 456,
     again: 456,
