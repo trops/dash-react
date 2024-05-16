@@ -2617,6 +2617,7 @@ var ThemePane = function ThemePane(_ref) {
     inputPlaceholder = _ref$inputPlaceholder === void 0 ? "" : _ref$inputPlaceholder;
     _ref.scroll;
   return /*#__PURE__*/jsxs(LayoutContainer, {
+    id: "theme-pane-layout-container",
     direction: "col",
     scrollable: false,
     width: "w-full",
@@ -6294,8 +6295,6 @@ var LayoutContainer = function LayoutContainer(_ref) {
 
   // const classString = className !== "" ? className : styles.string;
   var classString = styles.string;
-  // console.log("Layout Container styles ", id, styles.string, classString);
-
   return /*#__PURE__*/jsxs("div", {
     id: "LayoutContainer-".concat(containerId, "-").concat(id),
     className: "flex ".concat(classString, " ").concat(className),
@@ -11312,21 +11311,31 @@ var getStylesForItem = function getStylesForItem() {
       // scrollbars?
 
       var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden  ".concat(grow, " mr-0");
-      var hasChildren = "hasChildren" in overrides && overrides["hasChildren"] === true;
-      var childCount = "childCount" in overrides && overrides["childCount"];
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden ".concat(grow, " mr-0");
+      var hasChildren = "hasChildren" in overrides ? overrides["hasChildren"] : false;
+      var childCount = "childCount" in overrides ? overrides["childCount"] : null;
       var directionValue = "direction" in overrides ? overrides["direction"] : null;
-      var widthValue = "width" in overrides && overrides["width"];
-      var heightValue = "height" in overrides && overrides["height"];
-      var paddingValue = "padding" in overrides && overrides["padding"];
+      var widthValue = "width" in overrides ? overrides["width"] : null;
+      var heightValue = "height" in overrides ? overrides["height"] : null;
+      var paddingValue = "padding" in overrides ? overrides["padding"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
       var paddingStyles = (itemName === themeObjects.LAYOUT_CONTAINER || itemName === themeObjects.WORKSPACE) && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
 
       //console.log("padding styles ", paddingStyles);
 
-      var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles).concat(" ").concat(paddingStyles).concat(" ").concat(widthValue).concat(" ").concat(heightValue).concat(" ").concat(paddingValue);
-
-      //console.log("additional srtyles ", itemName, id, additionalStyles);
+      var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles);
+      if (paddingStyles !== null) {
+        additionalStyles = additionalStyles.concat(" ", paddingStyles);
+      }
+      if (widthValue !== null) {
+        additionalStyles = additionalStyles.concat(" ", widthValue);
+      }
+      if (heightValue !== null) {
+        additionalStyles = additionalStyles.concat(" ", heightValue);
+      }
+      if (paddingValue !== null) {
+        additionalStyles = additionalStyles.concat(" ", paddingValue);
+      }
 
       // we have to begin with the defaults for the theme so we have access
       // and knowledge of what keys in the theme to return.
@@ -11353,7 +11362,7 @@ var getStylesForItem = function getStylesForItem() {
       var stylesObject = _objectSpread$v({
         string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
           return styles[key];
-        }).join(" ").concat(" ").concat(additionalStyles) : additionalStyles
+        }).join(" ").concat(" ", additionalStyles) : additionalStyles
       }, styles);
 
       // console.log(stylesObject);
@@ -11362,6 +11371,7 @@ var getStylesForItem = function getStylesForItem() {
       return stylesObject;
     }
   } catch (e) {
+    // console.log("getStylesforItem", e.message);
     return {
       string: ""
     };
@@ -11519,20 +11529,23 @@ var Panel = function Panel(_ref4) {
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
+    grow: grow,
     width: width,
-    height: height,
-    grow: grow
+    height: height
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({
+  return /*#__PURE__*/jsx(LayoutContainer, {
     direction: horizontal === true ? "row" : "col",
     className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg overflow-hidden border ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
-    space: false
-  }, props), {}, {
+    space: false,
+    width: width,
+    height: height
+    // {...props}
+    ,
     children: children
-  }));
+  });
 };
 Panel.Header = PanelHeader;
 Panel.Body = PanelBody;
