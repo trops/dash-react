@@ -11,6 +11,8 @@ const PanelHeader = ({
     children,
     border = false,
     className = "",
+    padding = true,
+    defaultPadding = "p-6",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -20,9 +22,11 @@ const PanelHeader = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-t p-6 ${
+            className={`flex flex-row rounded-t ${
                 border === true ? "border-b" : ""
-            } justify-between items-center ${className} ${styles.string}`}
+            } justify-between items-center ${
+                padding === true ? defaultPadding : "p-0"
+            } ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -144,6 +148,8 @@ const PanelHeader2 = ({
     children,
     border = false,
     className = "",
+    padding = true,
+    defaultPadding = "p-4",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -154,9 +160,11 @@ const PanelHeader2 = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-t p-4 ${
+            className={`flex flex-row rounded-t ${
                 border === true ? "border-b" : ""
-            } justify-between items-center ${className} ${styles.string}`}
+            } justify-between items-center ${
+                padding === true ? defaultPadding : "p-0"
+            } ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -276,6 +284,8 @@ const PanelHeader3 = ({
     children,
     border = false,
     className = "",
+    padding = true,
+    defaultPadding = "p-2",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -287,9 +297,11 @@ const PanelHeader3 = ({
 
     return (
         <div
-            className={`flex flex-row rounded-t p-2 ${
+            className={`flex flex-row rounded-t ${
                 border === true ? "border-b" : ""
-            } justify-between items-center ${className} ${styles.string}`}
+            } justify-between items-center ${
+                padding === true ? defaultPadding : "p-0"
+            } ${className} ${styles.string}`}
         >
             {children}
         </div>
@@ -337,7 +349,13 @@ const PanelBody3 = ({
     }
 };
 
-const PanelFooter3 = ({ children, className = "", ...props }) => {
+const PanelFooter3 = ({
+    children,
+    className = "",
+    padding = true,
+    defaultPadding = "p-2",
+    ...props
+}) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, {
         ...props,
@@ -346,7 +364,9 @@ const PanelFooter3 = ({ children, className = "", ...props }) => {
     });
     return (
         <div
-            className={`flex flex-row rounded-b p-2 justify-between items-center ${className} ${styles.string}`}
+            className={`flex flex-row rounded-b justify-between items-center ${
+                padding === true ? defaultPadding : "p-0"
+            } ${className} ${styles.string}`}
         >
             {children}
         </div>
