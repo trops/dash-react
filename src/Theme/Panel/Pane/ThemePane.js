@@ -11,7 +11,12 @@ const ThemePane = ({
     scroll = true,
 }) => {
     return (
-        <LayoutContainer direction="col" scrollable={false} width="w-full">
+        <LayoutContainer
+            id="theme-pane-layout-container"
+            direction="col"
+            scrollable={false}
+            width="w-full"
+        >
             {inputValue !== null && onInputChange !== null && (
                 <div className="flex flex-row">
                     <InputText

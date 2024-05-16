@@ -112,11 +112,11 @@ const Panel = ({
         ...props,
         direction: horizontal === true ? "row" : "col",
         scrollable,
+        grow,
         width,
         height,
-        grow,
     });
-
+    console.log("Panel styles ", styles.string, width, height);
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
@@ -128,7 +128,9 @@ const Panel = ({
             onClick={onClick}
             scrollable={scrollable} // must include this here as we separated props
             space={false}
-            {...props}
+            width={width}
+            height={height}
+            // {...props}
         >
             {children}
         </LayoutContainer>

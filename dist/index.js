@@ -11399,17 +11399,17 @@ function getStyleName(objectType) {
 }
 
 function _typeof$z(obj) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof$z(obj); }
-var _excluded$v = ["children", "border", "className"],
+var _excluded$v = ["children", "border", "className", "padding", "defaultPadding"],
   _excluded2$6 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
   _excluded3$6 = ["children", "className", "defaultPadding", "padding"],
   _excluded4$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding"],
-  _excluded5$1 = ["children", "border", "className"],
+  _excluded5$1 = ["children", "border", "className", "padding", "defaultPadding"],
   _excluded6$1 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
   _excluded7$1 = ["children", "className", "defaultPadding", "padding"],
   _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding"],
-  _excluded9$1 = ["children", "border", "className"],
+  _excluded9$1 = ["children", "border", "className", "padding", "defaultPadding"],
   _excluded10$1 = ["children", "scrollable", "className", "space", "onClick", "defaultPadding", "padding"],
-  _excluded11$1 = ["children", "className"],
+  _excluded11$1 = ["children", "className", "padding", "defaultPadding"],
   _excluded12$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "grow", "defaultPadding"];
 function ownKeys$u(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$u(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$u(Object(source), !0).forEach(function (key) { _defineProperty$v(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$u(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -11424,6 +11424,10 @@ var PanelHeader = function PanelHeader(_ref) {
     border = _ref$border === void 0 ? false : _ref$border,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? true : _ref$padding,
+    _ref$defaultPadding = _ref.defaultPadding,
+    defaultPadding = _ref$defaultPadding === void 0 ? "p-6" : _ref$defaultPadding,
     props = _objectWithoutProperties$v(_ref, _excluded$v);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -11431,7 +11435,7 @@ var PanelHeader = function PanelHeader(_ref) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t p-6 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(className, " ").concat(styles.string),
+    className: "flex flex-row rounded-t ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -11545,6 +11549,10 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     border = _ref5$border === void 0 ? false : _ref5$border,
     _ref5$className = _ref5.className,
     className = _ref5$className === void 0 ? "" : _ref5$className,
+    _ref5$padding = _ref5.padding,
+    padding = _ref5$padding === void 0 ? true : _ref5$padding,
+    _ref5$defaultPadding = _ref5.defaultPadding,
+    defaultPadding = _ref5$defaultPadding === void 0 ? "p-4" : _ref5$defaultPadding,
     props = _objectWithoutProperties$v(_ref5, _excluded5$1);
   var _useContext5 = useContext$1(ThemeContext),
     currentTheme = _useContext5.currentTheme;
@@ -11553,7 +11561,7 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t p-4 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(className, " ").concat(styles.string),
+    className: "flex flex-row rounded-t ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -11663,6 +11671,10 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     border = _ref9$border === void 0 ? false : _ref9$border,
     _ref9$className = _ref9.className,
     className = _ref9$className === void 0 ? "" : _ref9$className,
+    _ref9$padding = _ref9.padding,
+    padding = _ref9$padding === void 0 ? true : _ref9$padding,
+    _ref9$defaultPadding = _ref9.defaultPadding,
+    defaultPadding = _ref9$defaultPadding === void 0 ? "p-2" : _ref9$defaultPadding,
     props = _objectWithoutProperties$v(_ref9, _excluded9$1);
   var _useContext9 = useContext$1(ThemeContext),
     currentTheme = _useContext9.currentTheme;
@@ -11671,7 +11683,7 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t p-2 ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(className, " ").concat(styles.string),
+    className: "flex flex-row rounded-t ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -11715,6 +11727,10 @@ var PanelFooter3 = function PanelFooter3(_ref11) {
   var children = _ref11.children,
     _ref11$className = _ref11.className,
     className = _ref11$className === void 0 ? "" : _ref11$className,
+    _ref11$padding = _ref11.padding,
+    padding = _ref11$padding === void 0 ? true : _ref11$padding,
+    _ref11$defaultPadding = _ref11.defaultPadding,
+    defaultPadding = _ref11$defaultPadding === void 0 ? "p-2" : _ref11$defaultPadding,
     props = _objectWithoutProperties$v(_ref11, _excluded11$1);
   var _useContext11 = useContext$1(ThemeContext),
     currentTheme = _useContext11.currentTheme;
@@ -11723,7 +11739,7 @@ var PanelFooter3 = function PanelFooter3(_ref11) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b p-2 justify-between items-center ".concat(className, " ").concat(styles.string),
+    className: "flex flex-row rounded-b justify-between items-center ".concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };

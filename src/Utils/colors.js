@@ -391,6 +391,7 @@ const getStylesForItem = (
     id = null
 ) => {
     try {
+        console.log(itemName, overrides, id);
         if (itemName !== null) {
             // get the colors from the theme by default
             // this is a MAP like "bg-primary-dark" which needs to
@@ -425,20 +426,26 @@ const getStylesForItem = (
             const scrollbarStyles =
                 "scrollable" in overrides && overrides["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
-                    : `overlflow-hidden  ${grow} mr-0`;
+                    : `overlflow-hidden ${grow} mr-0`;
 
             const hasChildren =
-                "hasChildren" in overrides && overrides["hasChildren"] === true;
+                "hasChildren" in overrides ? overrides["hasChildren"] : false;
 
             const childCount =
-                "childCount" in overrides && overrides["childCount"];
+                "childCount" in overrides ? overrides["childCount"] : null;
 
             const directionValue =
                 "direction" in overrides ? overrides["direction"] : null;
 
-            const widthValue = "width" in overrides && overrides["width"];
-            const heightValue = "height" in overrides && overrides["height"];
-            const paddingValue = "padding" in overrides && overrides["padding"];
+            const widthValue = "width" in overrides ? overrides["width"] : null;
+
+            const heightValue =
+                "height" in overrides ? overrides["height"] : null;
+
+            const paddingValue =
+                "padding" in overrides ? overrides["padding"] : null;
+
+            console.log("overrides width value ", widthValue);
 
             const directionStyles =
                 directionValue !== null
@@ -462,19 +469,33 @@ const getStylesForItem = (
 
             //console.log("padding styles ", paddingStyles);
 
-            const additionalStyles = scrollbarStyles
+            let additionalStyles = scrollbarStyles
                 .concat(" ")
-                .concat(directionStyles)
-                .concat(" ")
-                .concat(paddingStyles)
-                .concat(" ")
-                .concat(widthValue)
-                .concat(" ")
-                .concat(heightValue)
-                .concat(" ")
-                .concat(paddingValue);
+                .concat(directionStyles);
 
-            //console.log("additional srtyles ", itemName, id, additionalStyles);
+            if (paddingStyles !== null) {
+                additionalStyles = additionalStyles.concat(" ", paddingStyles);
+            }
+
+            if (widthValue !== null) {
+                additionalStyles = additionalStyles.concat(" ", widthValue);
+                console.log("HAS WIDTH + STYLES ", additionalStyles);
+            }
+            if (heightValue !== null) {
+                additionalStyles = additionalStyles.concat(" ", heightValue);
+            }
+
+            if (paddingValue !== null) {
+                additionalStyles = additionalStyles.concat(" ", paddingValue);
+            }
+
+            console.log(
+                "additional styles ",
+                itemName,
+                id,
+                additionalStyles,
+                widthValue
+            );
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.
@@ -508,8 +529,7 @@ const getStylesForItem = (
                         ? Object.keys(styles)
                               .map((key) => styles[key])
                               .join(" ")
-                              .concat(" ")
-                              .concat(additionalStyles)
+                              .concat(" ", additionalStyles)
                         : additionalStyles,
                 ...styles,
             };
@@ -520,7 +540,7 @@ const getStylesForItem = (
             return stylesObject;
         }
     } catch (e) {
-        console.log("getStylesforItem", e.message);
+        // console.log("getStylesforItem", e.message);
         return {
             string: "",
         };

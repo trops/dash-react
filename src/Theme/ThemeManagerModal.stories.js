@@ -20,4 +20,5 @@ export const Primary = Template.bind({});
 Primary.args = {
     //👇 The args you need here will depend on your component
     open: true,
+    width: "w-full",
 };

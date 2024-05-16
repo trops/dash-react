@@ -53,7 +53,7 @@ export const LayoutContainer = ({
 
     // const classString = className !== "" ? className : styles.string;
     const classString = styles.string;
-    // console.log("Layout Container styles ", id, styles.string, classString);
+    console.log("Layout Container styles ", id, styles.string, classString);
 
     return (
         <div
