@@ -21,6 +21,7 @@ import { WorkspaceModel, MenuItemModel } from "../Models";
 
 // import Notification from "../../Dashboard/common/Notification";
 import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
+import { DashboardLoaderModal } from "./Modal/DashboardLoaderModal";
 
 export const Dashboard = ({
     dashApi, // use this API for the Dashboard (JS|Electron)
@@ -57,6 +58,7 @@ export const Dashboard = ({
     const [isAddItemModalOpen, setIsAddWidgetModalOpen] = useState(false);
     const [isThemeManagerOpen, setIsThemeManagerOpen] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    const [isDashboardLoaderOpen, setIsDashboardLoaderOpen] = useState(false);
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -325,6 +327,48 @@ export const Dashboard = ({
     function handleOpenThemeManager() {
         setIsThemeManagerOpen(true);
     }
+
+    // function handleSelectLoadDashboard(dashboardSelected) {
+    //     console.log(dashboardSelected);
+    // }
+
+    function handleSelectLoadDashboard(dashboardSelected) {
+        try {
+            // if (dashboardSelected === undefined) {
+            //     selectedMainItem = 1;
+            // } else {
+            //     selectedMainItem = data.id;
+            // }
+
+            // if we have no data, we have to create a layout
+            // const newLayout = {
+            //     id: 1,
+            //     order: 1,
+            //     direction: "col",
+            //     width: "w-full",
+            //     component: "Container",
+            //     hasChildren: 1,
+            //     scrollable: false,
+            //     parent: 0,
+            //     menuId: selectedMainItem, // default menu item id is 1
+            // };
+
+            const newLayout = dashboardSelected.layout;
+            const workspaceItem = new WorkspaceModel({ layout: [newLayout] });
+
+            console.log("clicked load workspace item", workspaceItem);
+            setIsDashboardLoaderOpen(false);
+            setPreviewMode(() => false);
+            setWorkspaceSelected(() => workspaceItem);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    function handleCloseDashboardLoader() {
+        setIsDashboardLoaderOpen(false);
+    }
+
     {
         /* <LayoutManagerModal
                             open={isThemeManagerOpen}
@@ -419,6 +463,9 @@ export const Dashboard = ({
                                 //onClickNew={handleClickNew}
                                 onClickNewWorkspace={handleClickNew}
                                 selectedMainItem={selectedMainItem}
+                                onOpenDashboardLoader={() =>
+                                    setIsDashboardLoaderOpen(true)
+                                }
                             />
                         )}
 
@@ -447,6 +494,14 @@ export const Dashboard = ({
                             open={isSettingsModalOpen}
                             setIsOpen={setIsSettingsModalOpen}
                             workspaces={workspaceConfig}
+                        />
+
+                        <DashboardLoaderModal
+                            open={isDashboardLoaderOpen}
+                            setIsOpen={setIsDashboardLoaderOpen}
+                            workspaces={workspaceConfig}
+                            onSelecDashboard={handleSelectLoadDashboard}
+                            onClose={() => handleCloseDashboardLoader()}
                         />
                     </DndProvider>
                 </LayoutContainer>

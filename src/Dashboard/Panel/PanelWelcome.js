@@ -24,12 +24,10 @@ export const PanelWelcome = ({
     selectedMainItem = null,
     onClickWorkspace = null,
     onClickNewWorkspace,
-    //onClickCreateMenuItem = null,
     onNewMenuItem = null,
-    //onHome = null,
     onOpenThemeManager = null,
     onOpenSettings = null,
-    //onClickNew = null,
+    onOpenDashboardLoader = null,
 }) => {
     const { theme, currentTheme, changeThemeVariant, themeVariant } =
         useContext(ThemeContext);
@@ -53,15 +51,6 @@ export const PanelWelcome = ({
     const handleOpenSettings = () => {
         onOpenSettings && onOpenSettings();
     };
-
-    // const handleHome = () => {
-    //     onHome && onHome();
-    // };
-
-    // const handleClickNewDashboard = () => {
-    //     console.log("new dashboard");
-    //     onClickNew && onClickNew();
-    // };
 
     const handleClickNewWorkspace = (data) => {
         try {
@@ -91,6 +80,10 @@ export const PanelWelcome = ({
         }
     };
 
+    function handleClickLoadDashboard() {
+        onOpenDashboardLoader();
+    }
+
     // const handleClickWorkspace = (data) => {
     //     onClickWorkspace && onClickWorkspace(data);
     // };
@@ -117,6 +110,14 @@ export const PanelWelcome = ({
                                 <ButtonIcon
                                     icon="plus"
                                     onClick={() => handleClickNewWorkspace()}
+                                    hoverBackgroundColor={"hover:bg-green-700"}
+                                    backgroundColor={
+                                        currentTheme["bg-primary-dark"]
+                                    }
+                                />
+                                <ButtonIcon
+                                    icon="database"
+                                    onClick={() => handleClickLoadDashboard()}
                                     hoverBackgroundColor={"hover:bg-green-700"}
                                     backgroundColor={
                                         currentTheme["bg-primary-dark"]

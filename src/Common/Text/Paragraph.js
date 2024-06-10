@@ -29,7 +29,6 @@ function Paragraph({
         width
     );
 
-    console.log("Paragraph styles ", styles.string);
     return (
         <LayoutContainer
             className={`${styles.string}`}
