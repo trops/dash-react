@@ -11,12 +11,12 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import Editor from '@monaco-editor/react';
 import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
-import { useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure, InstantSearch } from 'react-instantsearch-hooks-web';
+import { InstantSearch, Hits, useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure } from 'react-instantsearch-hooks-web';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import deepEqual from 'deep-equal';
 import parseArgs from 'minimist';
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import algoliasearch from 'algoliasearch';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import MDEditor from '@uiw/react-md-editor';
 
 /**
@@ -1522,12 +1522,12 @@ var MenuItemModel = function MenuItemModel() {
   return m;
 };
 
-function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
-function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
-function _arrayLikeToArray$A(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$z(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$z(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$A(arr, i) { return _arrayWithHoles$A(arr) || _iterableToArrayLimit$A(arr, i) || _unsupportedIterableToArray$B(arr, i) || _nonIterableRest$A(); }
+function _nonIterableRest$A() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$B(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$B(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$B(o, minLen); }
+function _arrayLikeToArray$B(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$A(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$A(arr) { if (Array.isArray(arr)) return arr; }
 function DashboardMenuItem(_ref) {
   _ref.theme;
     var item = _ref.item,
@@ -1538,11 +1538,11 @@ function DashboardMenuItem(_ref) {
     onClick = _ref.onClick;
     _ref.selected;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$z(_useState, 2);
+    _useState2 = _slicedToArray$A(_useState, 2);
     _useState2[0];
     var setHasDropped = _useState2[1];
   var _useState3 = useState(false),
-    _useState4 = _slicedToArray$z(_useState3, 2);
+    _useState4 = _slicedToArray$A(_useState3, 2);
     _useState4[0];
     var setHasDroppedOnChild = _useState4[1];
   var _useDrop = useDrop({
@@ -1576,7 +1576,7 @@ function DashboardMenuItem(_ref) {
         };
       }
     }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray$z(_useDrop, 2),
+    _useDrop2 = _slicedToArray$A(_useDrop, 2),
     _useDrop2$ = _useDrop2[0];
     _useDrop2$.isOver;
     var isOverCurrent = _useDrop2$.isOverCurrent;
@@ -1723,12 +1723,12 @@ var SelectMenu = function SelectMenu(_ref) {
   });
 };
 
-function _slicedToArray$y(arr, i) { return _arrayWithHoles$y(arr) || _iterableToArrayLimit$y(arr, i) || _unsupportedIterableToArray$z(arr, i) || _nonIterableRest$y(); }
-function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$z(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$z(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$z(o, minLen); }
-function _arrayLikeToArray$z(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$y(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$y(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$z(arr, i) { return _arrayWithHoles$z(arr) || _iterableToArrayLimit$z(arr, i) || _unsupportedIterableToArray$A(arr, i) || _nonIterableRest$z(); }
+function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$A(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$A(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$A(o, minLen); }
+function _arrayLikeToArray$A(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$z(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$z(arr) { if (Array.isArray(arr)) return arr; }
 var MainMenuConst = function MainMenuConst(_ref) {
   var _ref$onClickNewWorksp = _ref.onClickNewWorkspace,
     onClickNewWorkspace = _ref$onClickNewWorksp === void 0 ? null : _ref$onClickNewWorksp;
@@ -1746,13 +1746,13 @@ var MainMenuConst = function MainMenuConst(_ref) {
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var _useState = useState(""),
-    _useState2 = _slicedToArray$y(_useState, 2),
+    _useState2 = _slicedToArray$z(_useState, 2),
     searchTerm = _useState2[0],
     setSearchTerm = _useState2[1];
 
   // Force Update
   var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$y(_React$useState, 2),
+    _React$useState2 = _slicedToArray$z(_React$useState, 2),
     updateState = _React$useState2[1];
   var forceUpdate = React.useCallback(function () {
     return updateState({});
@@ -1958,12 +1958,12 @@ var MainMenuConst = function MainMenuConst(_ref) {
 };
 var MainMenu = withRouter(MainMenuConst);
 
-function _slicedToArray$x(arr, i) { return _arrayWithHoles$x(arr) || _iterableToArrayLimit$x(arr, i) || _unsupportedIterableToArray$y(arr, i) || _nonIterableRest$x(); }
-function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$y(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$y(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$y(o, minLen); }
-function _arrayLikeToArray$y(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$x(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$x(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$y(arr, i) { return _arrayWithHoles$y(arr) || _iterableToArrayLimit$y(arr, i) || _unsupportedIterableToArray$z(arr, i) || _nonIterableRest$y(); }
+function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$z(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$z(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$z(o, minLen); }
+function _arrayLikeToArray$z(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$y(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$y(arr) { if (Array.isArray(arr)) return arr; }
 var DragDropWidget$1 = function DragDropWidget(_ref) {
   var id = _ref.id,
     type = _ref.type,
@@ -1999,7 +1999,7 @@ var DragDropWidget$1 = function DragDropWidget(_ref) {
         }
       };
     }),
-    _useDrag2 = _slicedToArray$x(_useDrag, 3),
+    _useDrag2 = _slicedToArray$y(_useDrag, 3),
     collected = _useDrag2[0],
     drag = _useDrag2[1],
     dragPreview = _useDrag2[2];
@@ -2422,12 +2422,12 @@ SideMenu.defaultProps = {
   showMenu: true
 };
 
-function _slicedToArray$w(arr, i) { return _arrayWithHoles$w(arr) || _iterableToArrayLimit$w(arr, i) || _unsupportedIterableToArray$x(arr, i) || _nonIterableRest$w(); }
-function _nonIterableRest$w() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$x(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$x(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$x(o, minLen); }
-function _arrayLikeToArray$x(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$w(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$w(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$x(arr, i) { return _arrayWithHoles$x(arr) || _iterableToArrayLimit$x(arr, i) || _unsupportedIterableToArray$y(arr, i) || _nonIterableRest$x(); }
+function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$y(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$y(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$y(o, minLen); }
+function _arrayLikeToArray$y(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$x(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$x(arr) { if (Array.isArray(arr)) return arr; }
 var AddMenuItemModal = function AddMenuItemModal(_ref) {
   var menuItems = _ref.menuItems,
     open = _ref.open,
@@ -2436,15 +2436,15 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var _useState = useState(menuItems),
-    _useState2 = _slicedToArray$w(_useState, 2),
+    _useState2 = _slicedToArray$x(_useState, 2),
     menuItemsSelected = _useState2[0],
     setMenuItemsSelected = _useState2[1];
   var _useState3 = useState(""),
-    _useState4 = _slicedToArray$w(_useState3, 2),
+    _useState4 = _slicedToArray$x(_useState3, 2),
     menuItemNameSelected = _useState4[0],
     setMenuItemNameSelected = _useState4[1];
   var _useState5 = useState(null),
-    _useState6 = _slicedToArray$w(_useState5, 2),
+    _useState6 = _slicedToArray$x(_useState5, 2),
     menuIconSelected = _useState6[0],
     setMenuIconSelected = _useState6[1];
   // const [, updateState] = React.useState();
@@ -3808,12 +3808,12 @@ var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
   );
 };
 
-function _slicedToArray$v(arr, i) { return _arrayWithHoles$v(arr) || _iterableToArrayLimit$v(arr, i) || _unsupportedIterableToArray$w(arr, i) || _nonIterableRest$v(); }
-function _nonIterableRest$v() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$w(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$w(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$w(o, minLen); }
-function _arrayLikeToArray$w(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$v(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$v(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$w(arr, i) { return _arrayWithHoles$w(arr) || _iterableToArrayLimit$w(arr, i) || _unsupportedIterableToArray$x(arr, i) || _nonIterableRest$w(); }
+function _nonIterableRest$w() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$x(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$x(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$x(o, minLen); }
+function _arrayLikeToArray$x(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$w(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$w(arr) { if (Array.isArray(arr)) return arr; }
 var PanelTheme = function PanelTheme(_ref) {
   var onUpdate = _ref.onUpdate,
     _ref$theme = _ref.theme,
@@ -3824,24 +3824,24 @@ var PanelTheme = function PanelTheme(_ref) {
     themeVariant = _useContext.themeVariant,
     rawThemes = _useContext.rawThemes;
   var _useState = useState(theme),
-    _useState2 = _slicedToArray$v(_useState, 2),
+    _useState2 = _slicedToArray$w(_useState, 2),
     themeSelected = _useState2[0],
     setThemeSelected = _useState2[1];
   // const [themeMainColor, setThemeMainColor] = useState(null);
   var _useState3 = useState(null),
-    _useState4 = _slicedToArray$v(_useState3, 2);
+    _useState4 = _slicedToArray$w(_useState3, 2);
     _useState4[0];
     _useState4[1];
   var _useState5 = useState(null),
-    _useState6 = _slicedToArray$v(_useState5, 2),
+    _useState6 = _slicedToArray$w(_useState5, 2),
     itemSelected = _useState6[0],
     setItemSelected = _useState6[1];
   var _useState7 = useState(null),
-    _useState8 = _slicedToArray$v(_useState7, 2),
+    _useState8 = _slicedToArray$w(_useState7, 2),
     itemColorSelected = _useState8[0],
     setItemColorSelected = _useState8[1];
   var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$v(_React$useState, 2),
+    _React$useState2 = _slicedToArray$w(_React$useState, 2),
     updateState = _React$useState2[1];
   var forceUpdate = React.useCallback(function () {
     return updateState({});
@@ -4211,12 +4211,12 @@ var PanelThemePicker = function PanelThemePicker(_ref) {
   });
 };
 
-function _slicedToArray$u(arr, i) { return _arrayWithHoles$u(arr) || _iterableToArrayLimit$u(arr, i) || _unsupportedIterableToArray$v(arr, i) || _nonIterableRest$u(); }
-function _nonIterableRest$u() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$v(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$v(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$v(o, minLen); }
-function _arrayLikeToArray$v(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$u(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$u(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$v(arr, i) { return _arrayWithHoles$v(arr) || _iterableToArrayLimit$v(arr, i) || _unsupportedIterableToArray$w(arr, i) || _nonIterableRest$v(); }
+function _nonIterableRest$v() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$w(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$w(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$w(o, minLen); }
+function _arrayLikeToArray$w(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$v(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$v(arr) { if (Array.isArray(arr)) return arr; }
 var ThemeManagerModal = function ThemeManagerModal(_ref) {
   var open = _ref.open,
     setIsOpen = _ref.setIsOpen;
@@ -4231,23 +4231,23 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
     credentials = _useContext2.credentials,
     settings = _useContext2.settings;
   var _useState = useState(null),
-    _useState2 = _slicedToArray$u(_useState, 2),
+    _useState2 = _slicedToArray$v(_useState, 2),
     themeSelected = _useState2[0],
     setThemeSelected = _useState2[1];
   var _useState3 = useState(null),
-    _useState4 = _slicedToArray$u(_useState3, 2),
+    _useState4 = _slicedToArray$v(_useState3, 2),
     rawThemeSelected = _useState4[0],
     setRawThemeSelected = _useState4[1];
   var _useState5 = useState(null),
-    _useState6 = _slicedToArray$u(_useState5, 2),
+    _useState6 = _slicedToArray$v(_useState5, 2),
     themeKeySelected = _useState6[0],
     setThemeKeySelected = _useState6[1];
   var _useState7 = useState(false),
-    _useState8 = _slicedToArray$u(_useState7, 2),
+    _useState8 = _slicedToArray$v(_useState7, 2),
     isEditing = _useState8[0],
     setIsEditing = _useState8[1];
   var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$u(_React$useState, 2),
+    _React$useState2 = _slicedToArray$v(_React$useState, 2),
     updateState = _React$useState2[1];
   var forceUpdate = React.useCallback(function () {
     return updateState({});
@@ -4478,12 +4478,12 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
   });
 };
 
-function _slicedToArray$t(arr, i) { return _arrayWithHoles$t(arr) || _iterableToArrayLimit$t(arr, i) || _unsupportedIterableToArray$u(arr, i) || _nonIterableRest$t(); }
-function _nonIterableRest$t() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$u(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$u(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$u(o, minLen); }
-function _arrayLikeToArray$u(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$t(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$t(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$u(arr, i) { return _arrayWithHoles$u(arr) || _iterableToArrayLimit$u(arr, i) || _unsupportedIterableToArray$v(arr, i) || _nonIterableRest$u(); }
+function _nonIterableRest$u() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$v(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$v(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$v(o, minLen); }
+function _arrayLikeToArray$v(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$u(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$u(arr) { if (Array.isArray(arr)) return arr; }
 var PanelWelcome = function PanelWelcome(_ref) {
   var _ref$menuItems = _ref.menuItems,
     menuItems = _ref$menuItems === void 0 ? [] : _ref$menuItems,
@@ -4499,14 +4499,16 @@ var PanelWelcome = function PanelWelcome(_ref) {
     _ref$onOpenThemeManag = _ref.onOpenThemeManager,
     onOpenThemeManager = _ref$onOpenThemeManag === void 0 ? null : _ref$onOpenThemeManag,
     _ref$onOpenSettings = _ref.onOpenSettings,
-    onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings;
+    onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings,
+    _ref$onOpenDashboardL = _ref.onOpenDashboardLoader,
+    onOpenDashboardLoader = _ref$onOpenDashboardL === void 0 ? null : _ref$onOpenDashboardL;
   var _useContext = useContext$1(ThemeContext),
     theme = _useContext.theme,
     currentTheme = _useContext.currentTheme,
     changeThemeVariant = _useContext.changeThemeVariant,
     themeVariant = _useContext.themeVariant;
   var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$t(_React$useState, 2),
+    _React$useState2 = _slicedToArray$u(_React$useState, 2),
     updateState = _React$useState2[1];
   var forceUpdate = React.useCallback(function () {
     return updateState({});
@@ -4523,16 +4525,6 @@ var PanelWelcome = function PanelWelcome(_ref) {
   var handleOpenSettings = function handleOpenSettings() {
     onOpenSettings && onOpenSettings();
   };
-
-  // const handleHome = () => {
-  //     onHome && onHome();
-  // };
-
-  // const handleClickNewDashboard = () => {
-  //     console.log("new dashboard");
-  //     onClickNew && onClickNew();
-  // };
-
   var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
     try {
       if (data === undefined) {
@@ -4561,6 +4553,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
     } catch (e) {
     }
   };
+  function handleClickLoadDashboard() {
+    onOpenDashboardLoader();
+  }
 
   // const handleClickWorkspace = (data) => {
   //     onClickWorkspace && onClickWorkspace(data);
@@ -4578,16 +4573,23 @@ var PanelWelcome = function PanelWelcome(_ref) {
         height: "h-2/3",
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme["bg-secondary-dark"]),
-          children: [/*#__PURE__*/jsx("div", {
+          children: [/*#__PURE__*/jsxs("div", {
             className: "w-10 h-10 items-center justify-center",
-            children: /*#__PURE__*/jsx(ButtonIcon, {
+            children: [/*#__PURE__*/jsx(ButtonIcon, {
               icon: "plus",
               onClick: function onClick() {
                 return handleClickNewWorkspace();
               },
               hoverBackgroundColor: "hover:bg-green-700",
               backgroundColor: currentTheme["bg-primary-dark"]
-            })
+            }), /*#__PURE__*/jsx(ButtonIcon, {
+              icon: "database",
+              onClick: function onClick() {
+                return handleClickLoadDashboard();
+              },
+              hoverBackgroundColor: "hover:bg-green-700",
+              backgroundColor: currentTheme["bg-primary-dark"]
+            })]
           }), /*#__PURE__*/jsxs("div", {
             className: "flex flex-col space-y-1",
             children: [/*#__PURE__*/jsx("div", {
@@ -4675,12 +4677,12 @@ var PanelWelcome = function PanelWelcome(_ref) {
   });
 };
 
-function _slicedToArray$s(arr, i) { return _arrayWithHoles$s(arr) || _iterableToArrayLimit$s(arr, i) || _unsupportedIterableToArray$t(arr, i) || _nonIterableRest$s(); }
-function _nonIterableRest$s() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$t(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$t(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$t(o, minLen); }
-function _arrayLikeToArray$t(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit$s(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles$s(arr) { if (Array.isArray(arr)) return arr; }
+function _slicedToArray$t(arr, i) { return _arrayWithHoles$t(arr) || _iterableToArrayLimit$t(arr, i) || _unsupportedIterableToArray$u(arr, i) || _nonIterableRest$t(); }
+function _nonIterableRest$t() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$u(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$u(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$u(o, minLen); }
+function _arrayLikeToArray$u(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$t(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$t(arr) { if (Array.isArray(arr)) return arr; }
 var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
   var settings = _ref.settings,
     workspaces = _ref.workspaces,
@@ -4696,21 +4698,21 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
     _useContext2.debugMode;
     var changeDebugMode = _useContext2.changeDebugMode;
   var _useState = useState(""),
-    _useState2 = _slicedToArray$s(_useState, 2),
+    _useState2 = _slicedToArray$t(_useState, 2),
     userInput = _useState2[0],
     setUserInput = _useState2[1];
   var _useState3 = useState(0),
-    _useState4 = _slicedToArray$s(_useState3, 2),
+    _useState4 = _slicedToArray$t(_useState3, 2),
     userInputIndex = _useState4[0],
     setUserInputIndex = _useState4[1];
 
   // store the "chat"
   var _useState5 = useState([]),
-    _useState6 = _slicedToArray$s(_useState5, 2),
+    _useState6 = _slicedToArray$t(_useState5, 2),
     applicationInput = _useState6[0],
     setApplicationInput = _useState6[1];
   var _useState7 = useState([]),
-    _useState8 = _slicedToArray$s(_useState7, 2),
+    _useState8 = _slicedToArray$t(_useState7, 2),
     userInputs = _useState8[0],
     setUserInputs = _useState8[1];
   useEffect(function () {
@@ -5049,6 +5051,132 @@ var ApplicationSettingsModal = function ApplicationSettingsModal(_ref) {
   });
 };
 
+function _slicedToArray$s(arr, i) { return _arrayWithHoles$s(arr) || _iterableToArrayLimit$s(arr, i) || _unsupportedIterableToArray$t(arr, i) || _nonIterableRest$s(); }
+function _nonIterableRest$s() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$t(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$t(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$t(o, minLen); }
+function _arrayLikeToArray$t(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit$s(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles$s(arr) { if (Array.isArray(arr)) return arr; }
+var apiKey = process.env.REACT_APP_DASH_API_KEY;
+var indexName = process.env.REACT_APP_DASH_INDEX_NAME;
+var appId = process.env.REACT_APP_DASH_APP_ID;
+var PanelDashboardLoader = function PanelDashboardLoader(_ref) {
+  var onSelecDashboard = _ref.onSelecDashboard,
+    onClose = _ref.onClose;
+  var _useContext = useContext$1(ThemeContext);
+    _useContext.theme;
+    var currentTheme = _useContext.currentTheme;
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$s(_React$useState, 2),
+    updateState = _React$useState2[1];
+  React.useCallback(function () {
+    return updateState({});
+  }, []);
+  var _useState = useState(null),
+    _useState2 = _slicedToArray$s(_useState, 2),
+    searchClient = _useState2[0],
+    setSearchClient = _useState2[1];
+  useEffect(function () {
+    initSearchClient();
+  });
+  function initSearchClient() {
+    if (searchClient === null) {
+      if (indexName && apiKey && appId) {
+        var searchClientTemp = algoliasearch(appId, apiKey);
+        setSearchClient(searchClientTemp);
+      }
+    }
+  }
+  function Hit(_ref2) {
+    var hit = _ref2.hit;
+    return /*#__PURE__*/jsx("div", {
+      className: "flex flex-col hover:bg-indigo-800 cursor-pointer",
+      onClick: function onClick() {
+        return onSelecDashboard(hit);
+      },
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-row rounded bg-gray-900 p-2 px-4",
+        children: hit.name
+      })
+    });
+  }
+  function handleClose() {
+    onClose();
+  }
+  return currentTheme && /*#__PURE__*/jsxs(Panel2, {
+    padding: false,
+    width: "w-full",
+    height: "h-full",
+    children: [/*#__PURE__*/jsx(Panel2.Body, {
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-col rounded p-6 space-y-4 w-1/3",
+          children: [/*#__PURE__*/jsx(Heading, {
+            title: "Load.",
+            padding: false
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex-col hidden 2xl:flex w-full space-y-4",
+            children: [/*#__PURE__*/jsx(SubHeading3, {
+              title: "Pick a dashboard. Any dashboard.",
+              padding: false
+            }), /*#__PURE__*/jsx(Paragraph, {
+              padding: false,
+              textColor: "text-gray-400",
+              children: "Dashboards have been generated by exporting, and storing the layouts in an Algolia index. Search the index for Dashboards to load."
+            })]
+          })]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-col w-2/3 space-y-2",
+          children: searchClient !== null && /*#__PURE__*/jsxs(InstantSearch, {
+            searchClient: searchClient,
+            indexName: indexName,
+            children: [/*#__PURE__*/jsx(AlgoliaSearchBox, {
+              placeholder: "Search for Dashboards"
+            }), /*#__PURE__*/jsx(Hits, {
+              hitComponent: Hit
+            })]
+          })
+        })]
+      })
+    }), /*#__PURE__*/jsx(Panel2.Footer, {
+      children: /*#__PURE__*/jsx(ButtonIcon, {
+        icon: "arrow-left",
+        onClick: handleClose
+      })
+    })]
+  });
+};
+
+var DashboardLoaderModal = function DashboardLoaderModal(_ref) {
+  var open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    onSelecDashboard = _ref.onSelecDashboard,
+    onClose = _ref.onClose;
+  return /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-5/6",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-row w-full h-full overflow-hidden",
+          children: /*#__PURE__*/jsx("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            children: /*#__PURE__*/jsx(PanelDashboardLoader, {
+              onSelecDashboard: onSelecDashboard,
+              onClose: onClose
+            })
+          })
+        })
+      })
+    })
+  });
+};
+
 function _slicedToArray$r(arr, i) { return _arrayWithHoles$r(arr) || _iterableToArrayLimit$r(arr, i) || _unsupportedIterableToArray$s(arr, i) || _nonIterableRest$r(); }
 function _nonIterableRest$r() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$s(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$s(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$s(o, minLen); }
@@ -5126,6 +5254,10 @@ var Dashboard = function Dashboard(_ref) {
     _useState22 = _slicedToArray$r(_useState21, 2),
     isSettingsModalOpen = _useState22[0],
     setIsSettingsModalOpen = _useState22[1];
+  var _useState23 = useState(false),
+    _useState24 = _slicedToArray$r(_useState23, 2),
+    isDashboardLoaderOpen = _useState24[0],
+    setIsDashboardLoaderOpen = _useState24[1];
   var _React$useState = React.useState(),
     _React$useState2 = _slicedToArray$r(_React$useState, 2),
     updateState = _React$useState2[1];
@@ -5355,6 +5487,49 @@ var Dashboard = function Dashboard(_ref) {
   function handleOpenThemeManager() {
     setIsThemeManagerOpen(true);
   }
+
+  // function handleSelectLoadDashboard(dashboardSelected) {
+  //     console.log(dashboardSelected);
+  // }
+
+  function handleSelectLoadDashboard(dashboardSelected) {
+    try {
+      // if (dashboardSelected === undefined) {
+      //     selectedMainItem = 1;
+      // } else {
+      //     selectedMainItem = data.id;
+      // }
+
+      // if we have no data, we have to create a layout
+      // const newLayout = {
+      //     id: 1,
+      //     order: 1,
+      //     direction: "col",
+      //     width: "w-full",
+      //     component: "Container",
+      //     hasChildren: 1,
+      //     scrollable: false,
+      //     parent: 0,
+      //     menuId: selectedMainItem, // default menu item id is 1
+      // };
+
+      var newLayout = dashboardSelected.layout;
+      var workspaceItem = new WorkspaceModel({
+        layout: [newLayout]
+      });
+      setIsDashboardLoaderOpen(false);
+      setPreviewMode(function () {
+        return false;
+      });
+      setWorkspaceSelected(function () {
+        return workspaceItem;
+      });
+    } catch (e) {
+    }
+  }
+  function handleCloseDashboardLoader() {
+    setIsDashboardLoaderOpen(false);
+  }
   return /*#__PURE__*/jsx(DashboardWrapper, {
     dashApi: dashApi,
     credentials: credentials,
@@ -5418,7 +5593,10 @@ var Dashboard = function Dashboard(_ref) {
           //onClickNew={handleClickNew}
           ,
           onClickNewWorkspace: handleClickNew,
-          selectedMainItem: selectedMainItem
+          selectedMainItem: selectedMainItem,
+          onOpenDashboardLoader: function onOpenDashboardLoader() {
+            return setIsDashboardLoaderOpen(true);
+          }
         }), /*#__PURE__*/jsx(AddMenuItemModal, {
           open: isAddItemModalOpen,
           setIsOpen: function setIsOpen() {
@@ -5441,6 +5619,14 @@ var Dashboard = function Dashboard(_ref) {
           open: isSettingsModalOpen,
           setIsOpen: setIsSettingsModalOpen,
           workspaces: workspaceConfig
+        }), /*#__PURE__*/jsx(DashboardLoaderModal, {
+          open: isDashboardLoaderOpen,
+          setIsOpen: setIsDashboardLoaderOpen,
+          workspaces: workspaceConfig,
+          onSelecDashboard: handleSelectLoadDashboard,
+          onClose: function onClose() {
+            return handleCloseDashboardLoader();
+          }
         })]
       })
     })
