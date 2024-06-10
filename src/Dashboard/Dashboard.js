@@ -354,12 +354,12 @@ export const Dashboard = ({
             // };
 
             const newLayout = dashboardSelected.layout;
-            const workspaceItem = new WorkspaceModel({ layout: [newLayout] });
+            const workspaceItem = new WorkspaceModel({ layout: newLayout });
 
             console.log("clicked load workspace item", workspaceItem);
-            setIsDashboardLoaderOpen(false);
             setPreviewMode(() => false);
             setWorkspaceSelected(() => workspaceItem);
+            setIsDashboardLoaderOpen(false);
         } catch (e) {
             console.log(e);
         }

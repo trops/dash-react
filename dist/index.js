@@ -5515,15 +5515,15 @@ var Dashboard = function Dashboard(_ref) {
 
       var newLayout = dashboardSelected.layout;
       var workspaceItem = new WorkspaceModel({
-        layout: [newLayout]
+        layout: newLayout
       });
-      setIsDashboardLoaderOpen(false);
       setPreviewMode(function () {
         return false;
       });
       setWorkspaceSelected(function () {
         return workspaceItem;
       });
+      setIsDashboardLoaderOpen(false);
     } catch (e) {
     }
   }
