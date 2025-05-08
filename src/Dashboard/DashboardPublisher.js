@@ -1,3 +1,7 @@
+/**
+ * DashboardPublisher
+ * - Pub/Sub for the Dashboard
+ */
 import { isObject } from "@dash/Utils/objects";
 
 const event = {

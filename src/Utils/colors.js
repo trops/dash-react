@@ -391,7 +391,6 @@ const getStylesForItem = (
     id = null
 ) => {
     try {
-        console.log(itemName, overrides, id);
         if (itemName !== null) {
             // get the colors from the theme by default
             // this is a MAP like "bg-primary-dark" which needs to
@@ -445,8 +444,6 @@ const getStylesForItem = (
             const paddingValue =
                 "padding" in overrides ? overrides["padding"] : null;
 
-            console.log("overrides width value ", widthValue);
-
             const directionStyles =
                 directionValue !== null
                     ? directionValue === "col"
@@ -467,8 +464,6 @@ const getStylesForItem = (
                         : ""
                     : ""; // not layout container
 
-            //console.log("padding styles ", paddingStyles);
-
             let additionalStyles = scrollbarStyles
                 .concat(" ")
                 .concat(directionStyles);
@@ -479,7 +474,6 @@ const getStylesForItem = (
 
             if (widthValue !== null) {
                 additionalStyles = additionalStyles.concat(" ", widthValue);
-                console.log("HAS WIDTH + STYLES ", additionalStyles);
             }
             if (heightValue !== null) {
                 additionalStyles = additionalStyles.concat(" ", heightValue);
@@ -488,14 +482,6 @@ const getStylesForItem = (
             if (paddingValue !== null) {
                 additionalStyles = additionalStyles.concat(" ", paddingValue);
             }
-
-            console.log(
-                "additional styles ",
-                itemName,
-                id,
-                additionalStyles,
-                widthValue
-            );
 
             // we have to begin with the defaults for the theme so we have access
             // and knowledge of what keys in the theme to return.

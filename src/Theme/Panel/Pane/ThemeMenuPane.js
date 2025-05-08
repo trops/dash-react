@@ -62,12 +62,15 @@ const ThemeMenuPane = ({
     }
 
     return (
-        <LayoutContainer direction="col" scrollable={true} height={"h-full"}>
+        <LayoutContainer direction="col" scrollable={true}>
+        <LayoutContainer direction="col" scrollable={true} height="h-fit">
             {(selectedColor === null ||
                 selectedColor["color"]["panelType"] === "main") && (
                 <DashPanel
                     scrollable={false}
-                    height={selectedColor !== null ? "h-fit" : "h-full"}
+                    // padding={true}
+                    // height={selectedColor !== null ? "" : "h-fit"}
+                    height="h-0"
                 >
                     <DashPanel.Header title={"Main"} />
                     <DashPanel.Body scrollable={false}>
@@ -84,7 +87,7 @@ const ThemeMenuPane = ({
                                 const bgColor = theme[themeVariant][colorType];
                                 return (
                                     <div className="flex flex-row justify-between items-center py-2 border-b border-gray-700">
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col h-fit">
                                             <span className="text-sm font-bold text-gray-300">
                                                 {capitalizeFirstLetter(
                                                     colorType
@@ -127,7 +130,8 @@ const ThemeMenuPane = ({
                 //         selectedColor !== null ? "h-1/4" : "h-full"
                 //     }`}
                 // >
-                <LayoutContainer scrollable={true} direction="col">
+                // <LayoutContainer scrollable={true} direction="col">
+                <>
                     {colorTypes
                         .filter((ct) =>
                             selectedColor !== null
@@ -138,7 +142,7 @@ const ThemeMenuPane = ({
                         )
                         .map((colorType) => {
                             return (
-                                <div className="flex flex-col w-full h-full rounded bg-gray-800">
+                                <div className="flex flex-col w-full rounded bg-gray-800">
                                     <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
                                         {colorType}
                                     </div>
@@ -152,7 +156,6 @@ const ThemeMenuPane = ({
                                                     : true
                                             )
                                             .map((colorLevelName) => {
-                                                // console.log('color level name ', colorLevelName, selectedColor['color']['level']);
                                                 const stringToCheck = `bg-${colorType}-${colorLevelName}`;
                                                 // const bgColor = theme[themeVariant][colorType];
                                                 const themeColor =
@@ -182,7 +185,7 @@ const ThemeMenuPane = ({
                                                               "sub"
                                                         : false;
                                                 return (
-                                                    <div className="flex flex-row justify-between py-1 items-center border-b border-gray-700 px-2">
+                                                    <div className={`flex flex-row justify-between py-1 items-center ${selectedColor === null ? "border-b border-gray-700" : ""} px-2`}>
                                                         <span className="text-sm font-bold text-gray-300">
                                                             {colorLevelName}
                                                         </span>
@@ -219,7 +222,8 @@ const ThemeMenuPane = ({
                                 </div>
                             );
                         })}
-                </LayoutContainer>
+                        </>
+                // </LayoutContainer>
             )}
             {selectedColor !== null && (
                 <AvailableColorsGridPane
@@ -235,6 +239,7 @@ const ThemeMenuPane = ({
                     }
                 />
             )}
+        </LayoutContainer>
         </LayoutContainer>
     );
 };

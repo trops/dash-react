@@ -23,6 +23,7 @@ const Template = (args) => {
     try {
         return (
             // <div className="flex flex-col h-screen w-full">
+            // </div>
             <MockDashboard args={args} backgroundColor={"bg-gray-900"}>
                 <Dashboard
                     dashApi={new MockDashboardApi(mock.api)}
@@ -30,7 +31,6 @@ const Template = (args) => {
                     {...args}
                 />
             </MockDashboard>
-            // </div>
         );
     } catch (e) {
         console.log(e);

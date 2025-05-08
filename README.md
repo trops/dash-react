@@ -313,6 +313,12 @@ I can instantiate the google maps client in my workspace component, and then set
 
 All of my Widgets will then use the context, grab the client for google maps and use that to perform it's function.
 
+# Storybook
+
+To run the Storybook file:
+
+`npm run storybook`
+
 # Contact
 
 Please contact john.giatropoulos@gmail.com for more information.

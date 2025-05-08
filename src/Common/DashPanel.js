@@ -34,20 +34,23 @@ const DashPanelHeader = ({ title, ping = false, ...props }) => {
 
 const DashPanelBody = ({
     children,
-    height = "h-full",
+    height = "h-fit",
     width = "w-full",
     scrollable = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.DASH_PANEL, currentTheme, {
+    const styles = getStylesForItem(themeObjects.DASH_PANEL_, currentTheme, {
         ...props,
         width,
-        height: "h-full",
+        height,
         scrollable,
         direction: "col",
         space: false,
     });
+
+    console.log("panel body styles ", styles.string);
+    console.log("panel body props ", props);
     return (
         <LayoutContainer
             {...props}
@@ -86,7 +89,7 @@ const DashPanelFooter = ({ children, ...props }) => {
 
 const DashPanel = ({
     children,
-    height = "",
+    height = "h-fit",
     width = "w-full",
     scrollable = false,
     ...props
@@ -99,7 +102,7 @@ const DashPanel = ({
         scrollable,
     });
 
-    console.log("DASH PANEL styles ", styles.string);
+    console.log("DASH PANEL styles ", styles.string, height);
 
     return (
         <Panel

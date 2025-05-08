@@ -251,9 +251,9 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                 />
                             </div>
                             <div className="flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1">
-                                <div className="flex flex-col h-full overflow-hidden">
-                                    <div className="flex flex-col h-full space-y-2 border-r border-gray-700 p-2">
-                                        <ButtonIcon
+                                <div className="flex flex-col h-full w-1/3 overflow-hidden">
+                                    <div className="flex flex-col h-full space-y-2 border-r border-gray-700 p-2 w-full">
+                                        {/* <ButtonIcon
                                             icon="pallette"
                                             iconSize="h-3 w-3"
                                             text="Colors"
@@ -263,8 +263,8 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                             iconSize="h-3 w-3"
                                             text="Components"
                                         />
-                                    </div>
-                                    {/* <ThemeMenuPane
+                                     */}
+                                    <ThemeMenuPane
                                         currentColor={themeNameToEdit}
                                         theme={themeSelected}
                                         onChooseColor={handleSelectColor}
@@ -272,7 +272,8 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                             handleSelectReplacementColor
                                         }
                                         onCancel={handleSelectColorCancel}
-                                    /> */}
+                                    />
+                                    </div>
                                 </div>
                                 {themeSelected && (
                                     <div

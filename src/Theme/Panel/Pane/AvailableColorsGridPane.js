@@ -15,12 +15,10 @@ const AvailableColorsGridPane = ({
     shade = null,
 }) => {
     function handleChooseColor(data) {
-        console.log("chose color ", data);
         onClick !== null && onClick(data);
     }
 
     function handleChooseColorTemp(data) {
-        console.log("chose color temp ", data);
         onMouseOver !== null && onMouseOver(data);
     }
 
@@ -39,8 +37,6 @@ const AvailableColorsGridPane = ({
                         shade: shadeLevel,
                         level: shadeLevel,
                     });
-
-                    console.log("cModel", cModel);
 
                     return (
                         <div className="flex flex-row justify-between items-center py-2 border-b border-gray-700">
