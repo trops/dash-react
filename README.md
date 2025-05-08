@@ -6,11 +6,11 @@ Dash is a framework of Workspaces and Widgets that use dependency injection to p
 
 Examples:
 
--   Algolia Search
--   Google Drive
--   Contentful
--   Slack
--   ChatGPT
+- Algolia Search
+- Google Drive
+- Contentful
+- Slack
+- ChatGPT
 
 # Installation and Dev Notes
 
@@ -29,11 +29,11 @@ This key may change or be provided upon request.
 
 ## Running Production
 
--   Add all changes to git
--   run `npm run prod` to generate the build
--   commit the changes
--   run `npm version patch` to update the package version
--   push `git push origin main`
+- Add all changes to git
+- run `npm run prod` to generate the build
+- commit the changes
+- run `npm version patch` to update the package version
+- push `git push origin main`
 
 # React Web Project
 

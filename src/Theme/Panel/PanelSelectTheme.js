@@ -130,9 +130,8 @@ export const PanelSelectTheme = ({
                 if (itemType in newTheme[themeVariant] === false) {
                     newTheme[themeVariant][itemType] = {};
                 }
-                newTheme[themeVariant][itemType][
-                    styleName
-                ] = `${objectType}-${colorName}-${shade}`;
+                newTheme[themeVariant][itemType][styleName] =
+                    `${objectType}-${colorName}-${shade}`;
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
                 setItemColorSelected(null);
@@ -156,9 +155,8 @@ export const PanelSelectTheme = ({
                 if (itemType && itemType in newTheme[themeVariant] === false) {
                     newTheme[themeVariant][itemType] = {};
                 }
-                newTheme[themeVariant][itemType][
-                    styleName
-                ] = `${objectType}-${colorName}-${shade}`;
+                newTheme[themeVariant][itemType][styleName] =
+                    `${objectType}-${colorName}-${shade}`;
                 console.log("new theme ", newTheme);
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);

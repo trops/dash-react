@@ -125,9 +125,8 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                 if (itemType in newTheme[themeVariant] === false) {
                     newTheme[themeVariant][itemType] = {};
                 }
-                newTheme[themeVariant][itemType][
-                    styleName
-                ] = `${objectType}-${colorName}-${shade}`;
+                newTheme[themeVariant][itemType][styleName] =
+                    `${objectType}-${colorName}-${shade}`;
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
                 setItemColorSelected(null);
@@ -151,9 +150,8 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                 if (itemType && itemType in newTheme[themeVariant] === false) {
                     newTheme[themeVariant][itemType] = {};
                 }
-                newTheme[themeVariant][itemType][
-                    styleName
-                ] = `${objectType}-${colorName}-${shade}`;
+                newTheme[themeVariant][itemType][styleName] =
+                    `${objectType}-${colorName}-${shade}`;
                 console.log("new theme ", newTheme);
                 // push the new color change to the theme manager modal
                 onUpdate(newTheme, themeKey);
@@ -264,15 +262,15 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                             text="Components"
                                         />
                                      */}
-                                    <ThemeMenuPane
-                                        currentColor={themeNameToEdit}
-                                        theme={themeSelected}
-                                        onChooseColor={handleSelectColor}
-                                        onChooseReplacementColor={
-                                            handleSelectReplacementColor
-                                        }
-                                        onCancel={handleSelectColorCancel}
-                                    />
+                                        <ThemeMenuPane
+                                            currentColor={themeNameToEdit}
+                                            theme={themeSelected}
+                                            onChooseColor={handleSelectColor}
+                                            onChooseReplacementColor={
+                                                handleSelectReplacementColor
+                                            }
+                                            onCancel={handleSelectColorCancel}
+                                        />
                                     </div>
                                 </div>
                                 {themeSelected && (

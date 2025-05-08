@@ -9,8 +9,8 @@ export const MainSection = ({ children, backgroundColor = null }) => {
         return backgroundColor !== null
             ? backgroundColor
             : currentTheme
-            ? currentTheme["bg-primary-very-dark"]
-            : "bg-black";
+              ? currentTheme["bg-primary-very-dark"]
+              : "bg-black";
     }
 
     return (

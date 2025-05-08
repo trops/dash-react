@@ -38,8 +38,8 @@ const ButtonIcon = ({
         icon !== "" && text !== ""
             ? "space-x-1 px-4"
             : text === ""
-            ? "space-x-0 px-0"
-            : "space-x-0 px-4";
+              ? "space-x-0 px-0"
+              : "space-x-0 px-4";
 
     return (
         <div

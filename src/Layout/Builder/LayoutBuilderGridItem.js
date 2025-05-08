@@ -384,6 +384,6 @@ export const LayoutBuilderGridItem = ({
     return children
         ? children
         : preview === false
-        ? renderEditView()
-        : renderComponentData();
+          ? renderEditView()
+          : renderComponentData();
 };
