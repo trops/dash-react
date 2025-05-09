@@ -82,7 +82,7 @@ const PreviewColorsPane = ({
                         key !== "string" && (
                             <div
                                 key={`preview-color-${key}`}
-                                className="flex flex-row justify-between py-2 items-center border-b border-gray-700 px-2"
+                                className="flex flex-row justify-between py-2 items-center border-b border-gray-700 px-4"
                             >
                                 <div className="flex flex-col space-y-1">
                                     <span className="text-sm font-bold text-gray-300">
@@ -126,7 +126,7 @@ const PreviewColorsPane = ({
         <ThemePane>
             <div className="flex flex-col">{renderAvailableColors()}</div>
             {hasCustomStyles() === true && (
-                <div className="flex flex-row justify-end">
+                <div className="flex flex-row justify-end p-2">
                     <Tag3
                         theme={false}
                         text={"Reset to Default"}

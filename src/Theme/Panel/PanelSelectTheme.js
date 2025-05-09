@@ -286,7 +286,7 @@ export const PanelSelectTheme = ({
                                         <div
                                             className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${
                                                 itemColorSelected !== null
-                                                    ? "h-1/2"
+                                                    ? ""
                                                     : "h-full"
                                             }`}
                                         >
@@ -296,6 +296,7 @@ export const PanelSelectTheme = ({
                                             <LayoutContainer
                                                 scrollable={true}
                                                 direction="col"
+                                                grow={true}
                                             >
                                                 <PreviewColorsPane
                                                     styles={
@@ -320,7 +321,7 @@ export const PanelSelectTheme = ({
                                         <div
                                             className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${
                                                 itemColorSelected !== null
-                                                    ? "h-1/2"
+                                                    ? "h-fit"
                                                     : "h-full"
                                             }`}
                                         >
@@ -331,14 +332,15 @@ export const PanelSelectTheme = ({
                                         </div>
                                     )}
                                     {itemColorSelected !== null && (
-                                        <div className="flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-1/2">
-                                            <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
+                                        <div className="flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-full">
+                                            {/* <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
                                                 Available Colors
-                                            </div>
-                                            <LayoutContainer
+                                            </div> */}
+                                            {/* <LayoutContainer
                                                 scrollable={true}
                                                 direction="col"
-                                            >
+                                                grow={true}
+                                            > */}
                                                 {/* <div className="flex flex-col overflow-y-scroll"> */}
                                                 <AvailableColorsGridPane
                                                     colorType={"primary"}
@@ -350,7 +352,7 @@ export const PanelSelectTheme = ({
                                                         handleSelectColorForItem
                                                     }
                                                 />
-                                            </LayoutContainer>
+                                            {/* </LayoutContainer> */}
                                         </div>
                                     )}
                                 </div>

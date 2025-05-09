@@ -331,16 +331,18 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                         {...styles3}
                         scrollable={false}
                     >
-                        <Panel2.Header
+                        <Panel3.Header
                             className={"text-xs uppercase font-bold"}
                         >
                             Panel 3
-                        </Panel2.Header>
+                        </Panel3.Header>
                         <Panel3.Body
+                            {...styles3}
                             onClick={() => {
                                 handleClickItem(themeObjects.PANEL_3, styles3);
                             }}
-                        ></Panel3.Body>
+                        >
+                        </Panel3.Body>
                     </Panel3>
                 </div>
 

@@ -36,14 +36,14 @@ const MockWrapper = ({
     }
 
     return (
-        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+        <div className="flex flex-col h-screen w-full m-0 overflow-hidden bg-blue-500 p-4">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeWrapper
                     credentials={getAppContext().creds}
                     dashApi={new MockDashboardApi(api)}
                 >
                     <div
-                        className={`flex flex-col space-y-2 w-full h-7/8 p-2 border rounded-lg overflow-y-auto rounded border-1 border-gray-300 bg-gray-200 ${backgroundColor}`}
+                        className={`flex flex-col space-y-2 w-full h-full p-2 border rounded-lg overflow-y-auto rounded border-1 border-gray-300 bg-gray-200 ${backgroundColor}`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
                             Workspace - WIDGET - Item is a child of the Widget

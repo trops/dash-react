@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonIcon } from "@dash/Common";
 import { LayoutContainer } from "../Layout";
 import { Panel3, Paragraph3 } from "../Common";
+import { Menu } from "@dash/Common/Menu";
 
 export const MainMenuSection = ({
     id,
@@ -43,17 +44,12 @@ export const MainMenuSection = ({
 
     return (
         <Panel3
-            // ref={drop}
             id={menuItem.id}
             scrollable={false}
             grow={false}
             horizontal={false}
-            padding={"space-y-2 px-1"}
-            // className={`flex flex-col p-1 rounded ${
-            //     isOverCurrent &&
-            //     canDrop &&
-            //     `${currentTheme["bg-primary-very-dark"]}`
-            // } px-1`}
+            padding={"px-1"}
+            border={false}
         >
             <div className={`flex flex-row justify-between p-2 pl-2 w-full`}>
                 <div className="flex flex-row text-xs items-center space-x-2 w-full">
@@ -71,14 +67,9 @@ export const MainMenuSection = ({
                     className="hover:bg-green-500 bg-transparent"
                 />
             </div>
-            <LayoutContainer
-                direction="col"
-                space={false}
-                width="w-full"
-                padding={"space-y-2"}
-            >
+            <Menu>
                 {children}
-            </LayoutContainer>
+            </Menu>
         </Panel3>
     );
 };

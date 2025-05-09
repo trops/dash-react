@@ -4,7 +4,7 @@ import { colorNames, shades } from "@dash/Utils/colors";
 import ColorTile from "../MenuItem/ColorTile";
 import { ColorModel } from "../../../Models";
 import { Button, DashPanel } from "../../../Common";
-import { capitalizeFirstLetter } from "../../../Utils";
+import { capitalizeFirstLetter, isObject } from "../../../Utils";
 
 const AvailableColorsGridPane = ({
     currentColor = null,
@@ -42,11 +42,11 @@ const AvailableColorsGridPane = ({
                         <div className="flex flex-row justify-between items-center py-2 border-b border-gray-700">
                             <div className="flex flex-col">
                                 <span className="text-sm font-bold text-gray-300">
-                                    {capitalizeFirstLetter(colorName)}
+                                    {capitalizeFirstLetter(colorName)} {shadeLevel}
                                 </span>
                                 {cModel && (
                                     <span className="text-xs font-light text-gray-500">
-                                        {cModel.hex[shade]}
+                                        {cModel.hex[shadeLevel]}
                                     </span>
                                 )}
                                 {!cModel && (
