@@ -341,8 +341,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                             onClick={() => {
                                 handleClickItem(themeObjects.PANEL_3, styles3);
                             }}
-                        >
-                        </Panel3.Body>
+                        ></Panel3.Body>
                     </Panel3>
                 </div>
 

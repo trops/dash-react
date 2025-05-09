@@ -42,7 +42,8 @@ const AvailableColorsGridPane = ({
                         <div className="flex flex-row justify-between items-center py-2 border-b border-gray-700">
                             <div className="flex flex-col">
                                 <span className="text-sm font-bold text-gray-300">
-                                    {capitalizeFirstLetter(colorName)} {shadeLevel}
+                                    {capitalizeFirstLetter(colorName)}{" "}
+                                    {shadeLevel}
                                 </span>
                                 {cModel && (
                                     <span className="text-xs font-light text-gray-500">

@@ -342,7 +342,12 @@ const PanelBody3 = ({
             height,
             // grow,
         });
-console.log("panel 3 style string ", styles.string, props, themeObjects.PANEL_3);
+        console.log(
+            "panel 3 style string ",
+            styles.string,
+            props,
+            themeObjects.PANEL_3
+        );
 
         return (
             <LayoutContainer

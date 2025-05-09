@@ -10,9 +10,9 @@ const MainMenuItem = ({ workspaceMenuId, onDropItem, onClick, title }) => {
         //     type={"menu-item"}
         //     onDropItem={onDropItem}
         // >
-            <MenuItem3 onClick={onClick} className={"p-4 font-bold rounded"}>
-                {title}
-            </MenuItem3>
+        <MenuItem3 onClick={onClick} className={"p-4 font-bold rounded"}>
+            {title}
+        </MenuItem3>
         // </DragDropWidget>
     );
 };

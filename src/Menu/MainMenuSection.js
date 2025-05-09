@@ -67,9 +67,7 @@ export const MainMenuSection = ({
                     className="hover:bg-green-500 bg-transparent"
                 />
             </div>
-            <Menu>
-                {children}
-            </Menu>
+            <Menu>{children}</Menu>
         </Panel3>
     );
 };

@@ -341,17 +341,17 @@ export const PanelSelectTheme = ({
                                                 direction="col"
                                                 grow={true}
                                             > */}
-                                                {/* <div className="flex flex-col overflow-y-scroll"> */}
-                                                <AvailableColorsGridPane
-                                                    colorType={"primary"}
-                                                    itemType={itemSelected}
-                                                    onMouseOver={
-                                                        handleSelectColorForItemTemp
-                                                    }
-                                                    onClick={
-                                                        handleSelectColorForItem
-                                                    }
-                                                />
+                                            {/* <div className="flex flex-col overflow-y-scroll"> */}
+                                            <AvailableColorsGridPane
+                                                colorType={"primary"}
+                                                itemType={itemSelected}
+                                                onMouseOver={
+                                                    handleSelectColorForItemTemp
+                                                }
+                                                onClick={
+                                                    handleSelectColorForItem
+                                                }
+                                            />
                                             {/* </LayoutContainer> */}
                                         </div>
                                     )}
