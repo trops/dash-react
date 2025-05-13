@@ -188,7 +188,7 @@ Secondary.args = {
     height: "h-2/3",
     width: "w-full",
     horizontal: false,
-    backgroundColor: "bg-green-200"
+    backgroundColor: "bg-green-200",
 };
 
 Tertiary.args = {
@@ -199,7 +199,7 @@ Tertiary.args = {
     width: "w-full",
     horizontal: false,
     padding: true,
-    backgroundColor: "bg-red-500"
+    backgroundColor: "bg-red-500",
 };
 
 PrimaryHorizontal.args = {

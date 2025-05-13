@@ -380,10 +380,9 @@ const colorMap = {
     [themeObjects.LAYOUT_CONTAINER]: {},
 };
 
-
 const getCSSStyleForClassname = (className, itemName) => {
     return colorMap[itemName][className];
-}
+};
 /**
  * getStylesForItem
  * @param {string} itemName the name of the component (button, panel, etc)
@@ -408,7 +407,8 @@ const getStylesForItem = (
             const themeOverrides =
                 theme !== null && itemName in theme ? theme[itemName] : {};
 
-            Object.keys(themeOverrides).length > 0 && console.log("theme overrides ", themeOverrides);
+            Object.keys(themeOverrides).length > 0 &&
+                console.log("theme overrides ", themeOverrides);
 
             // then we have to determine if the component has any MANUAL overrides
             const manualOverrides =
@@ -495,9 +495,12 @@ const getStylesForItem = (
             // the trick is applying the overrides to those theme keys
             // if they exist.
 
-            if (itemName === 'panel-2') {
-                console.log("manual overrides ", manualOverrides, themeOverrides);
-
+            if (itemName === "panel-2") {
+                console.log(
+                    "manual overrides ",
+                    manualOverrides,
+                    themeOverrides
+                );
             }
 
             if (defaultStyles !== null) {
@@ -509,7 +512,10 @@ const getStylesForItem = (
                     // Theme
                     // Manual (in component itself)
                     if (className in themeOverrides) {
-                        const themeClass = getStyleValueVariant(className, themeOverrides);
+                        const themeClass = getStyleValueVariant(
+                            className,
+                            themeOverrides
+                        );
                         styles[className] = themeClass;
                     }
 
@@ -519,12 +525,15 @@ const getStylesForItem = (
                         className in manualOverrides &&
                         manualOverrides[className] !== null
                     ) {
-                        styles[className] = getStyleValueVariant(className, manualOverrides);
+                        styles[className] = getStyleValueVariant(
+                            className,
+                            manualOverrides
+                        );
                     }
                 });
             }
 
-            if (itemName === 'panel-3') {
+            if (itemName === "panel-3") {
                 console.log("manual overrides styles final panel 3 ", styles);
             }
 
@@ -559,20 +568,17 @@ const getStylesForItem = (
 
 const getStyleValueVariant = (className, obj) => {
     try {
-
-        
-        switch(className) {
+        switch (className) {
             case "hoverBorderColor":
             case "hoverBackgroundColor":
-                const val = obj[className].replaceAll("hover:","");
+                const val = obj[className].replaceAll("hover:", "");
                 return "hover:" + val;
             default:
                 return obj[className];
         }
-    } catch(e) {
+    } catch (e) {
         return "";
     }
-    
 };
 
 const getClassForObjectType = (objectType) => {
@@ -613,5 +619,5 @@ export {
     getStylesForItem,
     getClassForObjectType,
     getStyleName,
-    getCSSStyleForClassname
+    getCSSStyleForClassname,
 };

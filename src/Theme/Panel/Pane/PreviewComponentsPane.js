@@ -311,7 +311,14 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                                 handleClickItem(themeObjects.PANEL, styles);
                             }}
                         ></Panel.Body>
-                        <Panel.Footer className={"text-xs uppercase font-light"}>{getCSSStyleForClassname("backgroundColor", themeObjects.PANEL)}</Panel.Footer>
+                        <Panel.Footer
+                            className={"text-xs uppercase font-light"}
+                        >
+                            {getCSSStyleForClassname(
+                                "backgroundColor",
+                                themeObjects.PANEL
+                            )}
+                        </Panel.Footer>
                     </Panel>
                     <Panel2
                         className={"rounded"}
@@ -324,13 +331,19 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                             Panel 2
                         </Panel2.Header>
                         <Panel2.Body
-                        {...styles2}
+                            {...styles2}
                             onClick={() => {
                                 handleClickItem(themeObjects.PANEL_2, styles2);
                             }}
+                        ></Panel2.Body>
+                        <Panel2.Footer
+                            className={"text-xs uppercase font-light"}
                         >
-                        </Panel2.Body>
-                        <Panel2.Footer className={"text-xs uppercase font-light"}>{getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_2)}</Panel2.Footer>
+                            {getCSSStyleForClassname(
+                                "backgroundColor",
+                                themeObjects.PANEL_2
+                            )}
+                        </Panel2.Footer>
                     </Panel2>
                     <Panel3
                         className={"rounded"}
@@ -348,7 +361,14 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                                 handleClickItem(themeObjects.PANEL_3, styles3);
                             }}
                         ></Panel3.Body>
-                        <Panel3.Footer className={"text-xs uppercase font-light"}>{getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_3)}</Panel3.Footer>
+                        <Panel3.Footer
+                            className={"text-xs uppercase font-light"}
+                        >
+                            {getCSSStyleForClassname(
+                                "backgroundColor",
+                                themeObjects.PANEL_3
+                            )}
+                        </Panel3.Footer>
                     </Panel3>
                 </div>
 

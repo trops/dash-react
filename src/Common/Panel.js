@@ -196,7 +196,6 @@ const PanelBody2 = ({
     console.log("panel 2 ' ", styles.string, props, currentTheme);
 
     return (
-        
         <LayoutContainer
             {...props}
             className={`${className} ${styles.string} ${
@@ -226,7 +225,6 @@ const PanelFooter2 = ({
         ...props,
         height: "h-auto",
         grow: false,
-        
     });
     return (
         <div
@@ -333,7 +331,6 @@ const PanelBody3 = ({
     ...props
 }) => {
     try {
-
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
             ...props,
@@ -415,7 +412,7 @@ const Panel3 = ({
         grow,
     });
 
-    console.log("panel styles, ", styles.string, {...props});
+    console.log("panel styles, ", styles.string, { ...props });
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}

@@ -2769,10 +2769,13 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           children: [/*#__PURE__*/jsx(Panel.Header, {
             className: "text-xs uppercase font-bold",
             children: "Panel"
-          }), /*#__PURE__*/jsx(Panel.Body, {
+          }), /*#__PURE__*/jsx(Panel.Body, _objectSpread$B(_objectSpread$B({}, styles), {}, {
             onClick: function onClick() {
               handleClickItem(themeObjects.PANEL, styles);
             }
+          })), /*#__PURE__*/jsx(Panel.Footer, {
+            className: "text-xs uppercase font-light",
+            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL)
           })]
         })), /*#__PURE__*/jsxs(Panel2, _objectSpread$B(_objectSpread$B({
           className: "rounded"
@@ -2781,10 +2784,13 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
           children: [/*#__PURE__*/jsx(Panel2.Header, {
             className: "text-xs uppercase font-bold",
             children: "Panel 2"
-          }), /*#__PURE__*/jsx(Panel2.Body, {
+          }), /*#__PURE__*/jsx(Panel2.Body, _objectSpread$B(_objectSpread$B({}, styles2), {}, {
             onClick: function onClick() {
               handleClickItem(themeObjects.PANEL_2, styles2);
             }
+          })), /*#__PURE__*/jsx(Panel2.Footer, {
+            className: "text-xs uppercase font-light",
+            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_2)
           })]
         })), /*#__PURE__*/jsxs(Panel3, _objectSpread$B(_objectSpread$B({
           className: "rounded"
@@ -2797,7 +2803,10 @@ var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
             onClick: function onClick() {
               handleClickItem(themeObjects.PANEL_3, styles3);
             }
-          }))]
+          })), /*#__PURE__*/jsx(Panel3.Footer, {
+            className: "text-xs uppercase font-light",
+            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_3)
+          })]
         }))]
       }), /*#__PURE__*/jsxs(Panel, _objectSpread$B(_objectSpread$B({
         className: "p-6 rounded border-4 space-y-4",
@@ -11575,7 +11584,7 @@ function _objectSpread$v(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$w(e, r, t) { return (r = _toPropertyKey$A(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$A(t) { var i = _toPrimitive$A(t, "string"); return "symbol" == _typeof$A(i) ? i : i + ""; }
 function _toPrimitive$A(t, r) { if ("object" != _typeof$A(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$A(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border"
+var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border"
 // "p",
 // "m",
 // "textSize",
@@ -11614,7 +11623,9 @@ var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
 var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
 var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
 var colorMap = (_colorMap = {}, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.BUTTON, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), styleClassNames.PADDING, "padding-primary")), themeObjects.BUTTON_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.PANEL, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_HEADER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_FOOTER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_HEADER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_FOOTER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.PANEL_HEADER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_FOOTER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.BUTTON_ICON, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark")), themeObjects.BUTTON_ICON_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_ICON_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.HEADING, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.SUBHEADING_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.TOGGLE, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium")), themeObjects.DASHBOARD_FOOTER, _defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark")), themeObjects.DASHBOARD_FOOTER_2, _defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark")), themeObjects.DASHBOARD_FOOTER_3, _defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark")), themeObjects.CODE_EDITOR, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.INPUT_TEXT, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SELECT_MENU, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.FORM_LABEL, _defineProperty$w({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.DASH_PANEL, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.DASH_PANEL_HEADER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.DASH_PANEL_FOOTER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-very-dark")), themeObjects.DASH_PANEL_HEADER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_FOOTER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.DASH_PANEL_HEADER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.DASH_PANEL_FOOTER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.WIDGET, {}), themeObjects.WORKSPACE, {}), themeObjects.LAYOUT_CONTAINER, {}));
-
+var getCSSStyleForClassname = function getCSSStyleForClassname(className, itemName) {
+  return colorMap[itemName][className];
+};
 /**
  * getStylesForItem
  * @param {string} itemName the name of the component (button, panel, etc)
@@ -11634,6 +11645,7 @@ var getStylesForItem = function getStylesForItem() {
       // then we have to determine if this item has any theme overrides
 
       var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
+      Object.keys(themeOverrides).length > 0 && (void 0);
 
       // then we have to determine if the component has any MANUAL overrides
       var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
@@ -11678,19 +11690,29 @@ var getStylesForItem = function getStylesForItem() {
       // the trick is applying the overrides to those theme keys
       // if they exist.
 
+      if (itemName === "panel-2") {
+      }
       if (defaultStyles !== null) {
         // now we have to handle the overrides
         // if the user has passed in any
         Object.keys(defaultStyles).forEach(function (className) {
-          // check manual override
-          if (className in manualOverrides && manualOverrides[className] !== null) {
-            styles[className] = manualOverrides[className];
-          }
+          // Order of operations...
+          // Default
+          // Theme
+          // Manual (in component itself)
           if (className in themeOverrides) {
-            var themeClass = themeOverrides[className];
+            var themeClass = getStyleValueVariant(className, themeOverrides);
             styles[className] = themeClass;
           }
+
+          // Manual Overrides
+          // in props of component itself (custom deepest level)
+          if (className in manualOverrides && manualOverrides[className] !== null) {
+            styles[className] = getStyleValueVariant(className, manualOverrides);
+          }
         });
+      }
+      if (itemName === "panel-3") {
       }
 
       // generate the final styles object including the string
@@ -11715,6 +11737,20 @@ var getStylesForItem = function getStylesForItem() {
   return {
     string: null
   };
+};
+var getStyleValueVariant = function getStyleValueVariant(className, obj) {
+  try {
+    switch (className) {
+      case "hoverBorderColor":
+      case "hoverBackgroundColor":
+        var val = obj[className].replaceAll("hover:", "");
+        return "hover:" + val;
+      default:
+        return obj[className];
+    }
+  } catch (e) {
+    return "";
+  }
 };
 var getClassForObjectType = function getClassForObjectType(objectType) {
   return objectTypeClasses[objectType]["class"];
@@ -11750,7 +11786,7 @@ var _excluded$v = ["children", "border", "className", "padding", "defaultPadding
   _excluded3$6 = ["children", "className", "defaultPadding", "padding"],
   _excluded4$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border"],
   _excluded5$1 = ["children", "border", "className", "padding", "defaultPadding"],
-  _excluded6$1 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
+  _excluded6$1 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding", "height", "width"],
   _excluded7$1 = ["children", "className", "defaultPadding", "padding"],
   _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding", "border"],
   _excluded9$1 = ["children", "border", "className", "padding", "defaultPadding"],
@@ -11833,7 +11869,7 @@ var PanelFooter = function PanelFooter(_ref3) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b border-t justify-between items-center ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "flex flex-row rounded-b justify-between items-center ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     children: children
   });
 };
@@ -11926,13 +11962,15 @@ var PanelBody2 = function PanelBody2(_ref6) {
     defaultPadding = _ref6$defaultPadding === void 0 ? "p-4" : _ref6$defaultPadding,
     _ref6$padding = _ref6.padding,
     padding = _ref6$padding === void 0 ? true : _ref6$padding,
-    props = _objectWithoutProperties$v(_ref6, _excluded6$1);
+    _ref6$height = _ref6.height,
+    height = _ref6$height === void 0 ? "h-full" : _ref6$height;
+    _ref6.width;
+    var props = _objectWithoutProperties$v(_ref6, _excluded6$1);
   var _useContext6 = useContext$1(ThemeContext),
     currentTheme = _useContext6.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
-    scrollable: false,
-    height: "h-full"
-  }));
+  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({
+    scrollable: false
+  }, "scrollable", scrollable), "padding", padding), "width", "w-full"), "height", height)));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({}, props), {}, {
     className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     scrollable: scrollable,
@@ -12056,14 +12094,6 @@ var PanelBody3 = function PanelBody3(_ref0) {
     _ref0.width;
     var props = _objectWithoutProperties$v(_ref0, _excluded0$1);
   try {
-    // const { currentTheme } = useContext(ThemeContext);
-    // const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
-    //     ...props,
-    //     scrollable: false,
-    //     height,
-    //     width: "w-full",
-    // });
-
     var _useContext0 = useContext$1(ThemeContext),
       currentTheme = _useContext0.currentTheme;
     var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
@@ -12072,7 +12102,6 @@ var PanelBody3 = function PanelBody3(_ref0) {
       padding: padding,
       width: "w-full",
       height: height
-      // grow,
     }));
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({}, props), {}, {
       className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
@@ -23956,5 +23985,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CHOOSE_FILE, CHOOSE_FILE_COMPLETE, CHOOSE_FILE_ERROR, CodeEditorInline, CodeEditorVS, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockDashboardWrapper, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, _renderLayout as renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CHOOSE_FILE, CHOOSE_FILE_COMPLETE, CHOOSE_FILE_ERROR, CodeEditorInline, CodeEditorVS, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockDashboardWrapper, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getCSSStyleForClassname, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, _renderLayout as renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, withRouter };
 //# sourceMappingURL=index.js.map
