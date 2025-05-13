@@ -30,9 +30,10 @@ This key may change or be provided upon request.
 ## Running Production
 
 - Add all changes to git
+- Commit those changes
+- run `npm version patch` to update the package version
 - run `npm run prod` to generate the build
 - commit the changes
-- run `npm version patch` to update the package version
 - push `git push origin main`
 
 # React Web Project
@@ -154,6 +155,26 @@ There are many Components provided with the @trops/dash-react library that may b
 | Button     | A User Interface Component that may be used indside your render method of your component                                                                                                   |
 | ButtonIcon | A User Interface Component that may be used indside your render method of your component                                                                                                   |
 | MenuItem   | A User Interface Component that may be used indside your render method of your component                                                                                                   |
+
+# Theme Overrides
+
+The following classes may be utilized to override. 
+```
+backgroundColor
+borderColor
+textColor
+hoverBackgroundColor
+hoverTextColor
+hoverBorderColor
+padding
+```
+
+For example, if you want to override the color of the border, you may pass in the borderColor as a prop of the Component.
+
+```
+<Panel borderColor="border-green-200"></Panel>
+```
+
 
 # Communication
 
