@@ -83,7 +83,7 @@ const PanelFooter = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-b border-t justify-between items-center ${className} ${
+            className={`flex flex-row rounded-b justify-between items-center ${className} ${
                 styles.string
             } ${padding === true ? defaultPadding : "p-0"}`}
         >
@@ -117,7 +117,6 @@ const Panel = ({
         width,
         height,
     });
-    console.log("Panel styles ", styles.string, width, height);
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
@@ -180,15 +179,24 @@ const PanelBody2 = ({
     onClick = undefined,
     defaultPadding = "p-4",
     padding = true,
+    height = "h-full",
+    width = "w-full",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, {
         ...props,
         scrollable: false,
-        height: "h-full",
+        scrollable,
+        padding,
+        width: "w-full",
+        height,
     });
+
+    console.log("panel 2 ' ", styles.string, props, currentTheme);
+
     return (
+        
         <LayoutContainer
             {...props}
             className={`${className} ${styles.string} ${
@@ -218,6 +226,7 @@ const PanelFooter2 = ({
         ...props,
         height: "h-auto",
         grow: false,
+        
     });
     return (
         <div
@@ -324,13 +333,6 @@ const PanelBody3 = ({
     ...props
 }) => {
     try {
-        // const { currentTheme } = useContext(ThemeContext);
-        // const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
-        //     ...props,
-        //     scrollable: false,
-        //     height,
-        //     width: "w-full",
-        // });
 
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, {
@@ -340,14 +342,7 @@ const PanelBody3 = ({
             padding,
             width: "w-full",
             height,
-            // grow,
         });
-        console.log(
-            "panel 3 style string ",
-            styles.string,
-            props,
-            themeObjects.PANEL_3
-        );
 
         return (
             <LayoutContainer
@@ -419,7 +414,8 @@ const Panel3 = ({
         height,
         grow,
     });
-    console.log("PANEL MAIN ", styles.string);
+
+    console.log("panel styles, ", styles.string, {...props});
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}

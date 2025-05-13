@@ -30,7 +30,7 @@ import {
 } from "@dash/Common";
 import { LayoutContainer } from "../../../Layout";
 
-import { getStylesForItem } from "@dash/Utils/colors";
+import { getCSSStyleForClassname, getStylesForItem } from "@dash/Utils/colors";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
 const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
@@ -196,6 +196,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
     }
 
     function renderPanels() {
+        console.log("render panels theme ", theme);
         const styles = getStylesForItem(
             themeObjects.PANEL,
             theme[themeVariant]
@@ -305,10 +306,12 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                             Panel
                         </Panel.Header>
                         <Panel.Body
+                            {...styles}
                             onClick={() => {
                                 handleClickItem(themeObjects.PANEL, styles);
                             }}
                         ></Panel.Body>
+                        <Panel.Footer className={"text-xs uppercase font-light"}>{getCSSStyleForClassname("backgroundColor", themeObjects.PANEL)}</Panel.Footer>
                     </Panel>
                     <Panel2
                         className={"rounded"}
@@ -321,10 +324,13 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                             Panel 2
                         </Panel2.Header>
                         <Panel2.Body
+                        {...styles2}
                             onClick={() => {
                                 handleClickItem(themeObjects.PANEL_2, styles2);
                             }}
-                        ></Panel2.Body>
+                        >
+                        </Panel2.Body>
+                        <Panel2.Footer className={"text-xs uppercase font-light"}>{getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_2)}</Panel2.Footer>
                     </Panel2>
                     <Panel3
                         className={"rounded"}
@@ -342,6 +348,7 @@ const PreviewComponentsPane = ({ theme, themeVariant, onClick }) => {
                                 handleClickItem(themeObjects.PANEL_3, styles3);
                             }}
                         ></Panel3.Body>
+                        <Panel3.Footer className={"text-xs uppercase font-light"}>{getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_3)}</Panel3.Footer>
                     </Panel3>
                 </div>
 
