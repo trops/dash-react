@@ -158,7 +158,8 @@ There are many Components provided with the @trops/dash-react library that may b
 
 # Theme Overrides
 
-The following classes may be utilized to override. 
+The following classes may be utilized to override.
+
 ```
 backgroundColor
 borderColor
@@ -174,7 +175,6 @@ For example, if you want to override the color of the border, you may pass in th
 ```
 <Panel borderColor="border-green-200"></Panel>
 ```
-
 
 # Communication
 
