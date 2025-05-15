@@ -1,5 +1,5 @@
 import { Button, Button2, Button3 } from "./Button";
-import { mock, MockWrapper } from "@dash";
+import { mock, MockWrapper } from "../Mock";
 
 import "../tailwind.css";
 

@@ -1,5 +1,5 @@
-import { Heading, Heading2, Heading3 } from "@dash";
-import { mock, MockWrapper } from "@dash";
+import { Heading, Heading2, Heading3, SubHeading, Paragraph } from "@dash";
+import { mock, mockText, MockWrapper } from "@dash";
 
 import "@dash/tailwind.css";
 
@@ -37,9 +37,21 @@ const Template3 = (args) => {
         </MockWrapper>
     );
 };
+
+const TemplateJoin = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} args={args}>
+            <Heading {...args} />
+            <SubHeading title={args.subtitle} backgroundColor={args.backgroundColor} />
+            <Paragraph backgroundColor={args.backgroundColor}>{mockText.paragraph}</Paragraph>
+        </MockWrapper>
+    );
+};
+
 export const Primary = Template.bind({});
 export const Secondary = Template2.bind({});
 export const Tertiary = Template3.bind({});
+export const Joined = TemplateJoin.bind({});
 
 Primary.args = {
     //👇 The args you need here will depend on your component
@@ -56,5 +68,12 @@ Secondary.args = {
 Tertiary.args = {
     //👇 The args you need here will depend on your component
     title: "Heading 3",
+    backgroundColor: "bg-red-500",
+};
+
+Joined.args = {
+    //👇 The args you need here will depend on your component
+    title: "Heading",
+    subtitle: "Subheading",
     backgroundColor: "bg-red-500",
 };

@@ -43,8 +43,6 @@
  * @returns <ComponentConfigModel>Object
  */
 export const ComponentConfigModel = (obj = {}) => {
-    // console.log("config model in ", obj);
-    // const obj = deepCopy(o);
 
     /**
      * id
@@ -105,8 +103,6 @@ export const ComponentConfigModel = (obj = {}) => {
                   backgroundColor: "bg-blue-800",
                   borderColor: "border-blue-900",
               };
-
-    console.log("config: ", obj);
 
     return obj;
 };

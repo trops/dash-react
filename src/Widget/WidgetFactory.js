@@ -1,7 +1,3 @@
-/**
- * WidgetFactory
- * Get the "component" and params and dynamically generate the Component
- */
 import React, { useContext } from "react";
 import { LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
@@ -10,19 +6,10 @@ import { DashboardContext } from "../Context";
 import { WidgetHelpers } from "../Api/WidgetHelpers";
 import { WidgetApi } from "../Api/WidgetApi";
 
-// const helpers = {
-//     params: null,
-//     init: function (params) {
-//         this.params = params;
-//     },
-//     listen: function () {
-//         console.log("hello", this.params);
-//     },
-//     publishEvent: function (eventName) {
-//         console.log("publish helpers event ", eventName, this.params.id);
-//     },
-// };
-
+/**
+ * WidgetFactory
+ * Get the "component" and params and dynamically generate the Component
+ */
 const WidgetFactory = {
     getComponent: (component) => {
         try {
@@ -80,6 +67,7 @@ const WidgetFactory = {
                             : "";
                 }
 
+                console.log("widget factory ", key);
                 // need to set the electron api here.
                 const w = WidgetApi;
                 w.init({ id: key, name: component });

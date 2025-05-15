@@ -3,7 +3,7 @@
  * This file contains utility functions and values to be used for Themeing
  */
 
-import { themeObjects, styleClassNames } from "@dash/Utils";
+import { themeObjects, styleClassNames } from "../Utils";
 
 const objectTypes = [
     "bg",

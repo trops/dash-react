@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "@dash/Context/ThemeContext";
-import { getStylesForItem } from "@dash/Utils/colors";
+import { ThemeContext, WidgetContext } from "@dash/Context";
+import { getStylesForItem, getUUID} from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { LayoutContainer } from "@dash/Layout";
 /**
@@ -13,16 +13,21 @@ const PanelHeader = ({
     className = "",
     padding = true,
     defaultPadding = "p-6",
+    direction = "horizontal",
     ...props
 }) => {
+    const { widgetData } = useContext(WidgetContext);
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
         ...props,
         grow: false,
     });
+    // since we do not have a layout container we can create an id like so
+    const id = getUUID("", "panel-header");
     return (
         <div
-            className={`flex flex-row rounded-t ${
+            id={id}
+            className={`flex ${direction === "horizontal" ? "flex-row":"flex-col"} rounded-t ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -53,6 +58,7 @@ const PanelBody = ({
     return (
         <LayoutContainer
             {...props}
+            prefix="panel-body"
             className={`${className} ${styles.string} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
@@ -117,8 +123,10 @@ const Panel = ({
         width,
         height,
     });
+
     return (
         <LayoutContainer
+            prefix="panel"
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
@@ -151,6 +159,7 @@ const PanelHeader2 = ({
     className = "",
     padding = true,
     defaultPadding = "p-4",
+    direction = "horizontal",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -161,7 +170,7 @@ const PanelHeader2 = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row":"flex-col"} rounded-t ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -296,6 +305,7 @@ const PanelHeader3 = ({
     className = "",
     padding = true,
     defaultPadding = "p-2",
+    direction = "horizontal",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -307,7 +317,7 @@ const PanelHeader3 = ({
 
     return (
         <div
-            className={`flex flex-row rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row":"flex-col"} rounded-t ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"

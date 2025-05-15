@@ -18,9 +18,11 @@ export const Container = ({
     const widthStyle = width;
     const heightStyle = scrollable === true ? height : height;
 
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID(id, "container");
     return (
         <div
-            id={`container-${id}`}
+            id={uuid}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}
             className={`flex ${directionStyle} ${scrollStyle} ${widthStyle} ${heightStyle} ${className}`}

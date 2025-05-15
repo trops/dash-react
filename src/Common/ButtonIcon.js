@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeContext } from "@dash/Context/ThemeContext";
-import { getStylesForItem } from "@dash/Utils/colors";
+import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
 const ButtonIcon = ({
@@ -41,8 +41,12 @@ const ButtonIcon = ({
               ? "space-x-0 px-0"
               : "space-x-0 px-4";
 
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "button-icon");
+
     return (
         <div
+            id={uuid}
             onClick={handleOnClick}
             className={`flex flex-row ${className} ${styles.string} rounded font-medium items-center justify-center ${spaceBetweenStyles} ${textSize} ${disabledStyles} whitespace-nowrap`}
         >
@@ -93,8 +97,12 @@ const ButtonIcon2 = ({
     const spaceBetweenStyles =
         icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
 
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "button-icon-2");
+
     return (
         <div
+            id={uuid}
             onClick={handleOnClick}
             className={`flex flex-row  ${
                 styles.string
@@ -151,8 +159,11 @@ const ButtonIcon3 = ({
     // center styles
     const center = "justify-center items-center cursor-pointer";
 
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "button-icon-3");
     return (
         <div
+            id={uuid}
             onClick={handleOnClick}
             className={`flex flex-row ${className} ${
                 styles.string

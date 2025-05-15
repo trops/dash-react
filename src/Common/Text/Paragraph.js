@@ -11,22 +11,25 @@ function Paragraph({
     className = "text-base xl:text-lg font-normal p-4",
     grow = false,
     space = false,
-    height = "h-full",
+    height = "",
     width = "w-full",
     children,
+    debug = false,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.PARAGRAPH,
         currentTheme,
-        props,
-        space,
-        grow,
-        padding,
-        scrollable,
-        height,
-        width
+        {
+            ...props,
+            space,
+            grow,
+            padding,
+            scrollable,
+            height,
+            width
+        }
     );
 
     return (
@@ -39,6 +42,7 @@ function Paragraph({
             height={height}
             width={width}
             padding={padding}
+            debug={debug}
         >
             {text !== null ? text : children}
         </LayoutContainer>
@@ -53,6 +57,8 @@ function Paragraph2({
     className = "text-sm xl:text-base font-normal p-2",
     grow = false,
     space = false,
+    height = "",
+    width = "w-full",
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -61,15 +67,19 @@ function Paragraph2({
         scrollable,
         space,
         grow,
+        height,
+        width
     });
 
     return (
         <LayoutContainer
-            className={`h-full w-full ${className} ${styles.string}`}
+            className={`${className} ${styles.string}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
             space={space}
+            height={height}
+            width={width}
         >
             {text}
         </LayoutContainer>
@@ -84,6 +94,8 @@ function Paragraph3({
     grow = false,
     space = false,
     className = "text-xs xl:text-sm font-normal p-2",
+    height = "",
+    width = "w-full",
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -93,16 +105,19 @@ function Paragraph3({
         grow,
         space,
         padding,
+        height,
+        width
     });
 
-    console.log(styles.string);
     return (
         <LayoutContainer
-            className={`h-full w-full ${styles.string} ${className}`}
+            className={`${styles.string} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
             space={space}
+            height={height}
+            width={width}
         >
             {text}
         </LayoutContainer>

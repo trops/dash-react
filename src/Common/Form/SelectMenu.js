@@ -1,5 +1,5 @@
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "@dash/Utils";
+import { getStylesForItem, themeObjects } from "../../Utils";
 import React, { Fragment, useContext } from "react";
 
 export const SelectMenu = ({

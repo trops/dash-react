@@ -28,6 +28,13 @@ export const ComponentManager = {
         return _componentMap;
     },
 
+    /**
+     * The method for registering the widget into the Dashboard application
+     * This is a requirement for the widget to be included into the Dash
+     * 
+     * @param {Object} widgetConfig the widget configuration script created by the developer
+     * @param {*} widgetKey the unique id for the widget
+     */
     registerWidget: function (widgetConfig, widgetKey) {
         const tempComponentMap = this.componentMap();
         tempComponentMap[widgetKey] = ComponentConfigModel(
@@ -60,10 +67,9 @@ export const ComponentManager = {
         return {};
     },
     /**
-     * getComponent
      * Fetch the React Component from the map of registered components
-     * @param {string} component
-     * @returns
+     * @param {string} component the component/widget in the componentMap
+     * @returns {Widget} the Widget in the component map
      */
     getComponent: function (component, data = {}) {
         try {
@@ -77,7 +83,6 @@ export const ComponentManager = {
                         return cmp;
                     }
                 } else {
-                    // console.log("getting component ", component);
                     return {
                         name: "Container",
                         component: LayoutContainer,
@@ -154,10 +159,6 @@ export const ComponentManager = {
                     eventHandlers:
                         "eventHandlers" in c ? c["eventHandlers"] : [],
                 };
-
-                // } else {
-                //     return c;
-                // }
             }
             return null;
         }

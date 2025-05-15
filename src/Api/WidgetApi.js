@@ -9,6 +9,7 @@
  */
 
 export const WidgetApi = {
+
     params: null,
 
     init: function (params) {
@@ -22,7 +23,6 @@ export const WidgetApi = {
 
     setElectronApi: function (api) {
         try {
-            console.log("setting electron api", api);
             /**
              * include the main electron apis that we want to expose ONLY
              */
@@ -46,6 +46,14 @@ export const WidgetApi = {
         this._settings = settings;
     },
 
+    id: function () {
+        return this.params.id;
+    },
+
+    name: function () {
+        return this.params.name;
+    },
+
     settings: function () {
         return this._settings;
     },
@@ -65,7 +73,6 @@ export const WidgetApi = {
      */
     publishEvent: function (name = null, events, uuid = null) {
         try {
-            // console.log("publish event from api ", this.params);
             console.log("trying to publish event ", name, uuid);
             if (this.pub() !== null && name !== null && events !== null) {
                 if ("pub" in this.pub()) {
@@ -84,8 +91,8 @@ export const WidgetApi = {
      * Each handler has a key and Component named the same so we can use the handler
      * methods in code.
      *
-     * @param {array} listeners
-     * @param {object} handlers
+     * @param {array} listeners the listeners (event names) that the widget is listening FOR
+     * @param {object} handlers the methods/function names that will be triggered when an event is "heard"
      */
     registerListeners: function (listeners, handlers, uuid) {
         try {
@@ -106,7 +113,6 @@ export const WidgetApi = {
      * chooseFile
      */
     chooseFile: function () {
-        console.log("e api trying to choose file");
         try {
             console.log("e api trying to choose file");
             // grab the electron api

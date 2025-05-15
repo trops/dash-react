@@ -1,17 +1,11 @@
-/**
- * ColorModel
- *
- * Handle all of the data for a color (theme)
- */
 import colors from "tailwindcss/colors";
 import { deepCopy } from "../Utils/objects";
 import { capitalizeFirstLetter } from "../Utils/strings";
 import { getStyleName } from "../Utils/colors";
 
 /**
- *
- * @param {Object} obj
- * @returns
+ * Handle all of the data for a color (theme)
+ * @param {Object} obj the color object we would like to use to populate the model (optional)
  */
 const ColorModel = (obj = {}) => {
     try {

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "../Utils";
+import { getStylesForItem, themeObjects, getUUID } from "../Utils";
 import { Panel, Panel2, Panel3 } from "./Panel";
 import { LayoutContainer } from "@dash/Layout";
 
@@ -15,8 +15,11 @@ const DashPanelHeader = ({ title, ping = false, ...props }) => {
             grow: false,
         }
     );
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "dash-panel-header");
     return (
         <div
+            id={uuid}
             className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
         >
             <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
@@ -49,11 +52,10 @@ const DashPanelBody = ({
         space: false,
     });
 
-    console.log("panel body styles ", styles.string);
-    console.log("panel body props ", props);
     return (
         <LayoutContainer
             {...props}
+            prefix="dash-panel-body"
             className={`${styles.string} p-4`}
             scrollable={scrollable}
             width={width}
@@ -78,8 +80,11 @@ const DashPanelFooter = ({ children, ...props }) => {
             grow: false,
         }
     );
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "dash-panel-footer");
     return (
         <div
+            id={uuid}
             className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ${styles.string}`}
         >
             {children}
@@ -101,8 +106,6 @@ const DashPanel = ({
         height,
         scrollable,
     });
-
-    console.log("DASH PANEL styles ", styles.string, height);
 
     return (
         <Panel

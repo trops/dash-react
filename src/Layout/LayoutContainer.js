@@ -15,8 +15,15 @@ export const LayoutContainer = ({
     debug = false,
     onClick = undefined,
     padding = "",
+    prefix = "layout-container",
+    ...props
 }) => {
-    const containerId = getUUID(id);
+
+    console.log("layout container props ", props["uuid"]);
+
+
+    const containerId = "uuid" in props ? props["uuid"] : getUUID(id, prefix);
+
     // get the styles
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
@@ -53,11 +60,11 @@ export const LayoutContainer = ({
 
     // const classString = className !== "" ? className : styles.string;
     const classString = styles.string;
-    console.log("Layout Container styles ", id, styles.string, classString);
 
     return (
         <div
-            id={`LayoutContainer-${containerId}-${id}`}
+            // id={`LayoutContainer-${containerId}-${id}`}
+            id={containerId}
             className={`flex ${classString} ${className}`}
             onClick={onClick}
         >

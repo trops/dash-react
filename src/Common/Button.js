@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "@dash/Context/ThemeContext";
-import { getStylesForItem } from "@dash/Utils/colors";
-import { themeObjects } from "@dash/Utils/themeObjects";
+import { ThemeContext } from "../Context/ThemeContext";
+import { getStylesForItem, getUUID } from "../Utils";
+import { themeObjects } from "../Utils";
 
 const Button = ({
     title = "Cancel",
@@ -36,8 +36,12 @@ const Button = ({
             ? padding
             : "p-2 py-1 px-2 lg:px-4 lg:py-2 xl:px-6 xl:py-4";
 
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "button");
+
     return (
         <div
+            id={uuid}
             onClick={handleOnClick}
             className={`flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-bold`}
         >
@@ -70,9 +74,11 @@ const Button2 = ({
     const textSizeComputed =
         textSize !== null ? textSize : "text-base lg:text-lg 2xl:text-xl";
     const paddingComputed = padding !== null ? padding : "p-1 lg:p-2 xl:p-4";
-
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "button-2");
     return (
         <div
+            id={uuid}
             onClick={handleOnClick}
             className={`flex flex-row flex-shrink justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-medium`}
         >
@@ -106,8 +112,13 @@ const Button3 = ({
     const textSizeComputed =
         textSize !== null ? textSize : "text-sm xl:text-base 2xl:text-base";
     const paddingComputed = padding !== null ? padding : "p-1 lg:p-1 xl:p-2";
+
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID("", "button-3");
+
     return (
         <div
+            id={uuid}
             onClick={handleOnClick}
             className={`flex flex-row justify-center items-center ${paddingComputed} ${styles.string} rounded ${width} cursor-pointer ${textSizeComputed} font-normal`}
         >

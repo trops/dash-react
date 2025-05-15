@@ -50,6 +50,7 @@ const MockWrapper = ({
                             component`
                         </span>
                         <Workspace
+                            uuid="MockWorkspace1"
                             id="MockWrapperWorkspace"
                             direction="col"
                             scrollable={false}
