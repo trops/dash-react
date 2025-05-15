@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "@dash/Utils";
+import { getStylesForItem, themeObjects, getUUID } from "@dash/Utils";
 
 const Tag = ({
     text,
@@ -24,8 +24,10 @@ const Tag = ({
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
 
+    const uuid = getUUID("", "tag");
     return (
         <span
+            id={uuid}
             onClick={onClick}
             className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
         >
@@ -57,9 +59,11 @@ const Tag2 = ({
             : `${styles.string} font-bold rounded ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
-
+    
+    const uuid = getUUID("", "tag-2");
     return (
         <span
+            id={uuid}
             onClick={onClick}
             className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
         >
@@ -89,9 +93,10 @@ const Tag3 = ({
             : `${styles.string} font-bold rounded ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
-
+    const uuid = getUUID("", "tag-3");
     return (
         <span
+            id={uuid}
             onClick={onClick}
             className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
         >

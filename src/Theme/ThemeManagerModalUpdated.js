@@ -177,8 +177,9 @@ export const ThemeManagerModalUpdated = ({ open, setIsOpen }) => {
         <Modal
             isOpen={open}
             setIsOpen={setIsOpen}
-            width={"w-11/12 xl:w-full"}
+            width={"w-11/12 xl:w-11/12"}
             height="h-5/6"
+            className="m-4"
         >
             <Panel backgroundColor={"bg-slate-800"} padding={false}>
                 <div className={`flex flex-col w-full h-full overflow-hidden`}>
