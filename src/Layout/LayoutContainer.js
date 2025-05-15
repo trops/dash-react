@@ -18,9 +18,7 @@ export const LayoutContainer = ({
     prefix = "layout-container",
     ...props
 }) => {
-
     console.log("layout container props ", props["uuid"]);
-
 
     const containerId = "uuid" in props ? props["uuid"] : getUUID(id, prefix);
 

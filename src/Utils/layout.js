@@ -22,7 +22,7 @@ function compareChildren(a, b) {
 /**
  * Render the layout of the Widgets recursively
  * If there are children in the layout we will call renderLayout again and so forth.
- * 
+ *
  * @param {Object} tempLayout the layout we are rendering
  * @param {String} parentKey the key of the parent element we are rendering children into
  * @param {Boolean} debugMode if we are in debug mode

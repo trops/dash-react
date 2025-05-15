@@ -43,7 +43,6 @@
  * @returns <ComponentConfigModel>Object
  */
 export const ComponentConfigModel = (obj = {}) => {
-
     /**
      * id
      * The unique identifer for the component

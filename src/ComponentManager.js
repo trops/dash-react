@@ -31,7 +31,7 @@ export const ComponentManager = {
     /**
      * The method for registering the widget into the Dashboard application
      * This is a requirement for the widget to be included into the Dash
-     * 
+     *
      * @param {Object} widgetConfig the widget configuration script created by the developer
      * @param {*} widgetKey the unique id for the widget
      */

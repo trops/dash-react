@@ -75,12 +75,8 @@ const TemplateMultiple = (args) => {
             backgroundColor={"bg-gray-700"}
             scrollable={false}
         >
-            <Paragraph {...args}>
-                {mockText.paragraph}
-            </Paragraph>
-            <Paragraph {...args}>
-                {mockText.paragraph}
-            </Paragraph>
+            <Paragraph {...args}>{mockText.paragraph}</Paragraph>
+            <Paragraph {...args}>{mockText.paragraph}</Paragraph>
         </MockWrapper>
     );
 };
@@ -95,12 +91,8 @@ const TemplateMultipleScrollable = (args) => {
             scrollable={false}
             height="h-1/2"
         >
-            <Paragraph {...args}>
-                {mockText.paragraph}
-            </Paragraph>
-            <Paragraph {...args}>
-                {mockText.paragraph}
-            </Paragraph>
+            <Paragraph {...args}>{mockText.paragraph}</Paragraph>
+            <Paragraph {...args}>{mockText.paragraph}</Paragraph>
         </MockWrapper>
     );
 };
@@ -154,19 +146,17 @@ PrimaryFullHeight.args = {
     debug: true,
     scrollable: true,
     padding: "p-6",
-    height: "h-full"
+    height: "h-full",
 };
 
-
-
 PrimaryMultiple.args = {
-    debug: true
+    debug: true,
 };
 
 PrimaryMultipleScrollable.args = {
     debug: true,
     scrollable: true,
-    height: ""
+    height: "",
 };
 
 Secondary.args = {

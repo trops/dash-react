@@ -42,8 +42,13 @@ const TemplateJoin = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
             <Heading {...args} />
-            <SubHeading title={args.subtitle} backgroundColor={args.backgroundColor} />
-            <Paragraph backgroundColor={args.backgroundColor}>{mockText.paragraph}</Paragraph>
+            <SubHeading
+                title={args.subtitle}
+                backgroundColor={args.backgroundColor}
+            />
+            <Paragraph backgroundColor={args.backgroundColor}>
+                {mockText.paragraph}
+            </Paragraph>
         </MockWrapper>
     );
 };

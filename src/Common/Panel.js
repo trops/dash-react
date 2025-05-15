@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext, WidgetContext } from "@dash/Context";
-import { getStylesForItem, getUUID} from "@dash/Utils";
+import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { LayoutContainer } from "@dash/Layout";
 /**
@@ -27,7 +27,7 @@ const PanelHeader = ({
     return (
         <div
             id={id}
-            className={`flex ${direction === "horizontal" ? "flex-row":"flex-col"} rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} rounded-t ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -170,7 +170,7 @@ const PanelHeader2 = ({
     });
     return (
         <div
-            className={`flex ${direction === "horizontal" ? "flex-row":"flex-col"} rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} rounded-t ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -317,7 +317,7 @@ const PanelHeader3 = ({
 
     return (
         <div
-            className={`flex ${direction === "horizontal" ? "flex-row":"flex-col"} rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} rounded-t ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"

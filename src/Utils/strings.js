@@ -17,7 +17,7 @@ function getUUID(uuid, prefix = "d") {
         console.log("get UUID ", uuid, prefix);
         const r = Math.floor(Math.random() * 10000);
         return uuid === undefined || uuid === "" ? `${prefix}-${r}` : uuid;
-    } catch(e) {
+    } catch (e) {
         return uuid;
     }
 }

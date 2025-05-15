@@ -18,19 +18,15 @@ function Paragraph({
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(
-        themeObjects.PARAGRAPH,
-        currentTheme,
-        {
-            ...props,
-            space,
-            grow,
-            padding,
-            scrollable,
-            height,
-            width
-        }
-    );
+    const styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, {
+        ...props,
+        space,
+        grow,
+        padding,
+        scrollable,
+        height,
+        width,
+    });
 
     return (
         <LayoutContainer
@@ -68,7 +64,7 @@ function Paragraph2({
         space,
         grow,
         height,
-        width
+        width,
     });
 
     return (
@@ -106,7 +102,7 @@ function Paragraph3({
         space,
         padding,
         height,
-        width
+        width,
     });
 
     return (

@@ -1,11 +1,11 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning } from '@fortawesome/free-solid-svg-icons';
 export { faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faArrowsLeftRight, faArrowsUpDown, faBaby, faBabyCarriage, faBullhorn, faClone, faCode, faCog, faComputer, faDatabase, faEarListen, faEye, faFolder, faHammer, faHome, faLeaf, faMagnifyingGlass, faMinus, faPalette, faPencil, faPhone, faPlug, faPlus, faPuzzlePiece, faRobot, faSeedling, faSignal, faSquare, faSquareCheck, faTrash, faTrophy, faXmark } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useState, useContext as useContext$1, useEffect, Fragment, useRef, createElement } from 'react';
-import { Transition, Dialog, Disclosure, Menu as Menu$1 } from '@headlessui/react';
+import React, { createContext, useContext as useContext$1, useEffect, useState, Fragment, useRef, createElement } from 'react';
+import { Menu as Menu$1, Transition, Dialog, Disclosure } from '@headlessui/react';
 import { jsx, jsxs, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import colors from 'tailwindcss/colors';
-import { useDrop, DndProvider, useDrag } from 'react-dnd';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import Editor from '@monaco-editor/react';
@@ -59,6 +59,12 @@ var WidgetApi = {
   setSettings: function setSettings(settings) {
     this._settings = settings;
   },
+  id: function id() {
+    return this.params.id;
+  },
+  name: function name() {
+    return this.params.name;
+  },
   settings: function settings() {
     return this._settings;
   },
@@ -77,7 +83,6 @@ var WidgetApi = {
     var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var events = arguments.length > 1 ? arguments[1] : undefined;
     try {
-      // console.log("publish event from api ", this.params);
       if (this.pub() !== null && name !== null && events !== null) {
         if ("pub" in this.pub()) {
           this.pub().pub(name, events);
@@ -93,8 +98,8 @@ var WidgetApi = {
    * Each handler has a key and Component named the same so we can use the handler
    * methods in code.
    *
-   * @param {array} listeners
-   * @param {object} handlers
+   * @param {array} listeners the listeners (event names) that the widget is listening FOR
+   * @param {object} handlers the methods/function names that will be triggered when an event is "heard"
    */
   registerListeners: function registerListeners(listeners, handlers, uuid) {
     try {
@@ -931,6 +936,10 @@ var WebDashboardApi = /** @class */ (function () {
     return WebDashboardApi;
 }());
 
+var WorkspaceContext = /*#__PURE__*/createContext({
+  workspaceData: null
+});
+
 var ThemeContext = /*#__PURE__*/createContext({
   // key: Date.now(),
   currentTheme: null
@@ -946,7 +955,391 @@ var ThemeContext = /*#__PURE__*/createContext({
   // rawThemes: null,
 });
 
+/**
+ * AppContext
+ *
+ * {
+ *      seearchClient,
+ *      api
+ * }
+ */
+var AppContext = /*#__PURE__*/createContext({
+  settings: null,
+  debugMode: false
+});
+
+/**
+ * Layout
+ *
+ * Manage the Layout of Workspaces
+ */
+var Layout = function Layout(_ref) {
+  var children = _ref.children,
+    preview = _ref.preview,
+    _ref$scrollable = _ref.scrollable,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable;
+  var _useContext = useContext$1(AppContext),
+    debugMode = _useContext.debugMode;
+    _useContext.debugStyles;
+  var workspaceDataFromContext = useContext$1(WorkspaceContext);
+  useEffect(function () {
+  });
+  function debugClasses() {
+    // const styles = debugStyles !== null && debugStyles !== undefined
+    //     ? ('layout' in debugStyles ? debugStyles['layout']['classes'] : null) : null;
+    return debugMode === true && "space-y-4"; // ${styles}`
+  }
+  return !children && workspaceDataFromContext ? /*#__PURE__*/jsx(LayoutBuilder, {
+    workspace: workspaceDataFromContext,
+    preview: preview,
+    type: workspaceDataFromContext["type"],
+    controls: false
+  }) : /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col w-full space-y-4 ".concat(scrollable === true ? "overflow-y-auto h-full" : "overflow-hidden h-full", " ").concat(debugClasses(), " p-4"),
+    children: [debugMode && /*#__PURE__*/jsxs("span", {
+      className: "text-white uppercase text-xs",
+      children: ["LAYOUT has children and", " ", scrollable === true ? "is scrollable" : "is not scrollable"]
+    }), /*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-full space-y-4 p-0 h-full ".concat(scrollable === false ? "overflow-hidden" : ""),
+      children: children
+    })]
+  });
+};
+
+/**
+ * themeObjects.js
+ *
+ * This file contains all of the components that we have available in the Dashboard
+ * All of the components will be available in the theme and can be altered/customized by the user
+ *
+ */
+var BUTTON = "button";
+var BUTTON_2 = "button-2";
+var BUTTON_3 = "button-3";
+var PANEL = "panel";
+var PANEL_2 = "panel-2";
+var PANEL_3 = "panel-3";
+var PANEL_HEADER = "panel-header";
+var PANEL_HEADER_2 = "panel-header-2";
+var PANEL_HEADER_3 = "panel-header-3";
+var PANEL_FOOTER = "panel-footer";
+var PANEL_FOOTER_2 = "panel-footer-2";
+var PANEL_FOOTER_3 = "panel-footer-3";
+var BUTTON_ICON = "button-icon";
+var BUTTON_ICON_2 = "button-icon-2";
+var BUTTON_ICON_3 = "button-icon-3";
+var MENU_ITEM = "menu-item";
+var MENU_ITEM_2 = "menu-item-2";
+var MENU_ITEM_3 = "menu-item-3";
+var HEADING = "heading";
+var HEADING_2 = "heading-2";
+var HEADING_3 = "heading-3";
+var SUBHEADING = "subheading";
+var SUBHEADING_2 = "subheading-2";
+var SUBHEADING_3 = "subheading-3";
+var PARAGRAPH = "paragraph";
+var PARAGRAPH_2 = "paragraph-2";
+var PARAGRAPH_3 = "paragraph-3";
+var TAG = "tag";
+var TAG_2 = "tag-2";
+var TAG_3 = "tag-3";
+var TOGGLE = "toggle";
+var TOGGLE_2 = "toggle-2";
+var TOGGLE_3 = "toggle-3";
+var DASHBOARD_FOOTER = "dashboard-footer";
+var DASHBOARD_FOOTER_2 = "dashboard-footer-2";
+var DASHBOARD_FOOTER_3 = "dashboard-footer-3";
+var CODE_EDITOR = "code-editor";
+var INPUT_TEXT = "input-text";
+var SELECT_MENU = "select-menu";
+var FORM_LABEL = "form-label";
+var DASH_PANEL = "dash-panel";
+var DASH_PANEL_2 = "dash-panel-2";
+var DASH_PANEL_3 = "dash-panel-3";
+var DASH_PANEL_HEADER = "dash-panel-header";
+var DASH_PANEL_HEADER_2 = "dash-panel-header-2";
+var DASH_PANEL_HEADER_3 = "dash-panel-header-3";
+var DASH_PANEL_FOOTER = "dash-panel-footer";
+var DASH_PANEL_FOOTER_2 = "dash-panel-footer-2";
+var DASH_PANEL_FOOTER_3 = "dash-panel-footer-3";
+var WIDGET = "widget";
+var WORKSPACE = "workspace";
+var LAYOUT_CONTAINER = "layout-container";
+var themeObjects = {
+  BUTTON: BUTTON,
+  BUTTON_2: BUTTON_2,
+  BUTTON_3: BUTTON_3,
+  BUTTON_ICON: BUTTON_ICON,
+  BUTTON_ICON_2: BUTTON_ICON_2,
+  BUTTON_ICON_3: BUTTON_ICON_3,
+  CODE_EDITOR: CODE_EDITOR,
+  INPUT_TEXT: INPUT_TEXT,
+  PANEL: PANEL,
+  PANEL_2: PANEL_2,
+  PANEL_3: PANEL_3,
+  PANEL_HEADER: PANEL_HEADER,
+  PANEL_HEADER_2: PANEL_HEADER_2,
+  PANEL_HEADER_3: PANEL_HEADER_3,
+  PANEL_FOOTER: PANEL_FOOTER,
+  PANEL_FOOTER_2: PANEL_FOOTER_2,
+  PANEL_FOOTER_3: PANEL_FOOTER_3,
+  HEADING: HEADING,
+  HEADING_2: HEADING_2,
+  HEADING_3: HEADING_3,
+  SUBHEADING: SUBHEADING,
+  SUBHEADING_2: SUBHEADING_2,
+  SUBHEADING_3: SUBHEADING_3,
+  MENU_ITEM: MENU_ITEM,
+  MENU_ITEM_2: MENU_ITEM_2,
+  MENU_ITEM_3: MENU_ITEM_3,
+  PARAGRAPH: PARAGRAPH,
+  PARAGRAPH_2: PARAGRAPH_2,
+  PARAGRAPH_3: PARAGRAPH_3,
+  TAG: TAG,
+  TAG_2: TAG_2,
+  TAG_3: TAG_3,
+  TOGGLE: TOGGLE,
+  TOGGLE_2: TOGGLE_2,
+  TOGGLE_3: TOGGLE_3,
+  DASHBOARD_FOOTER: DASHBOARD_FOOTER,
+  DASHBOARD_FOOTER_2: DASHBOARD_FOOTER_2,
+  DASHBOARD_FOOTER_3: DASHBOARD_FOOTER_3,
+  SELECT_MENU: SELECT_MENU,
+  FORM_LABEL: FORM_LABEL,
+  DASH_PANEL: DASH_PANEL,
+  DASH_PANEL_2: DASH_PANEL_2,
+  DASH_PANEL_3: DASH_PANEL_3,
+  DASH_PANEL_HEADER: DASH_PANEL_HEADER,
+  DASH_PANEL_HEADER_2: DASH_PANEL_HEADER_2,
+  DASH_PANEL_HEADER_3: DASH_PANEL_HEADER_3,
+  DASH_PANEL_FOOTER: DASH_PANEL_FOOTER,
+  DASH_PANEL_FOOTER_2: DASH_PANEL_FOOTER_2,
+  DASH_PANEL_FOOTER_3: DASH_PANEL_FOOTER_3,
+  WIDGET: WIDGET,
+  WORKSPACE: WORKSPACE,
+  LAYOUT_CONTAINER: LAYOUT_CONTAINER
+};
+var BACKGROUND_COLOR = "backgroundColor";
+var BORDER_COLOR = "borderColor";
+var TEXT_COLOR = "textColor";
+var HOVER_BACKGROUND_COLOR = "hoverBackgroundColor";
+var HOVER_TEXT_COLOR = "hoverTextColor";
+var HOVER_BORDER_COLOR = "hoverBorderColor";
+var PADDING = "padding";
+var styleClassNames = {
+  BACKGROUND_COLOR: BACKGROUND_COLOR,
+  TEXT_COLOR: TEXT_COLOR,
+  BORDER_COLOR: BORDER_COLOR,
+  HOVER_BACKGROUND_COLOR: HOVER_BACKGROUND_COLOR,
+  HOVER_BORDER_COLOR: HOVER_BORDER_COLOR,
+  HOVER_TEXT_COLOR: HOVER_TEXT_COLOR,
+  PADDING: PADDING
+};
+
+var _colorMap;
 function _typeof$O(o) { "@babel/helpers - typeof"; return _typeof$O = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$O(o); }
+function ownKeys$G(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$G(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$G(Object(t), !0).forEach(function (r) { _defineProperty$J(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$G(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$J(e, r, t) { return (r = _toPropertyKey$N(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$N(t) { var i = _toPrimitive$N(t, "string"); return "symbol" == _typeof$O(i) ? i : i + ""; }
+function _toPrimitive$N(t, r) { if ("object" != _typeof$O(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$O(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border"
+// "p",
+// "m",
+// "textSize",
+];
+var objectTypeClasses = {
+  bg: {
+    "class": "backgroundColor"
+  },
+  border: {
+    "class": "borderColor"
+  },
+  text: {
+    "class": "textColor"
+  },
+  "hover-text": {
+    "class": "hoverTextColor"
+  },
+  "hover-bg": {
+    "class": "hoverBackgroundColor"
+  },
+  "hover-border": {
+    "class": "hoverBorderColor"
+  }
+  // p: {
+  //     class: "padding",
+  // },
+  // m: {
+  //     class: "margin",
+  // },
+  // "text-size": {
+  //     class: "textSize",
+  // },
+};
+var themeVariants = ["very-light", "light", "medium", "dark", "very-dark"];
+var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
+var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
+var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+var colorMap = (_colorMap = {}, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_colorMap, themeObjects.BUTTON, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), styleClassNames.PADDING, "padding-primary")), themeObjects.BUTTON_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.PANEL, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_HEADER, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_FOOTER, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_HEADER_2, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_FOOTER_2, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_colorMap, themeObjects.PANEL_HEADER_3, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_FOOTER_3, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.BUTTON_ICON, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark")), themeObjects.BUTTON_ICON_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_ICON_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.HEADING, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_colorMap, themeObjects.SUBHEADING_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_colorMap, themeObjects.TOGGLE, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium")), themeObjects.DASHBOARD_FOOTER, _defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark")), themeObjects.DASHBOARD_FOOTER_2, _defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark")), themeObjects.DASHBOARD_FOOTER_3, _defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark")), themeObjects.CODE_EDITOR, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.INPUT_TEXT, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SELECT_MENU, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.FORM_LABEL, _defineProperty$J({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.DASH_PANEL, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.DASH_PANEL_HEADER, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J(_colorMap, themeObjects.DASH_PANEL_FOOTER, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_2, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-very-dark")), themeObjects.DASH_PANEL_HEADER_2, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_FOOTER_2, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_3, _defineProperty$J(_defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.DASH_PANEL_HEADER_3, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.DASH_PANEL_FOOTER_3, _defineProperty$J(_defineProperty$J(_defineProperty$J({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.WIDGET, {}), themeObjects.WORKSPACE, {}), themeObjects.LAYOUT_CONTAINER, {}));
+var getCSSStyleForClassname = function getCSSStyleForClassname(className, itemName) {
+  return colorMap[itemName][className];
+};
+/**
+ * getStylesForItem
+ * @param {string} itemName the name of the component (button, panel, etc)
+ *
+ */
+var getStylesForItem = function getStylesForItem() {
+  var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  try {
+    if (itemName !== null) {
+      // get the colors from the theme by default
+      // this is a MAP like "bg-primary-dark" which needs to
+      // fetch its value from the actual theme based on this key mapping
+      var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
+
+      // then we have to determine if this item has any theme overrides
+
+      var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
+      Object.keys(themeOverrides).length > 0 && (void 0);
+
+      // then we have to determine if the component has any MANUAL overrides
+      var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
+
+      // and this is the styles we shall return
+      var styles = {};
+
+      // First set all of the defaults
+      Object.keys(defaultStyles).forEach(function (key) {
+        styles[key] = theme[defaultStyles[key]];
+      });
+
+      // scrollbars?
+
+      var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
+      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden ".concat(grow, " mr-0");
+      var hasChildren = "hasChildren" in overrides ? overrides["hasChildren"] : false;
+      var childCount = "childCount" in overrides ? overrides["childCount"] : null;
+      var directionValue = "direction" in overrides ? overrides["direction"] : null;
+      var widthValue = "width" in overrides ? overrides["width"] : null;
+      var heightValue = "height" in overrides ? overrides["height"] : null;
+      var paddingValue = "padding" in overrides ? overrides["padding"] : null;
+      var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
+      var paddingStyles = (itemName === themeObjects.LAYOUT_CONTAINER || itemName === themeObjects.WORKSPACE) && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
+
+      var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles);
+      if (paddingStyles !== null) {
+        additionalStyles = additionalStyles.concat(" ", paddingStyles);
+      }
+      if (widthValue !== null) {
+        additionalStyles = additionalStyles.concat(" ", widthValue);
+      }
+      if (heightValue !== null) {
+        additionalStyles = additionalStyles.concat(" ", heightValue);
+      }
+      if (paddingValue !== null) {
+        additionalStyles = additionalStyles.concat(" ", paddingValue);
+      }
+
+      // we have to begin with the defaults for the theme so we have access
+      // and knowledge of what keys in the theme to return.
+      // the trick is applying the overrides to those theme keys
+      // if they exist.
+
+      if (itemName === "panel-2") {
+      }
+      if (defaultStyles !== null) {
+        // now we have to handle the overrides
+        // if the user has passed in any
+        Object.keys(defaultStyles).forEach(function (className) {
+          // Order of operations...
+          // Default
+          // Theme
+          // Manual (in component itself)
+          if (className in themeOverrides) {
+            var themeClass = getStyleValueVariant(className, themeOverrides);
+            styles[className] = themeClass;
+          }
+
+          // Manual Overrides
+          // in props of component itself (custom deepest level)
+          if (className in manualOverrides && manualOverrides[className] !== null) {
+            styles[className] = getStyleValueVariant(className, manualOverrides);
+          }
+        });
+      }
+      if (itemName === "panel-3") {
+      }
+
+      // generate the final styles object including the string
+      // that can be used in the className variable of the component
+      var stylesObject = _objectSpread$G({
+        string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
+          return styles[key];
+        }).join(" ").concat(" ", additionalStyles) : additionalStyles
+      }, styles);
+
+      // console.log(stylesObject);
+      // console.log(stylesObject.string);
+
+      return stylesObject;
+    }
+  } catch (e) {
+    // console.log("getStylesforItem", e.message);
+    return {
+      string: ""
+    };
+  }
+  return {
+    string: null
+  };
+};
+var getStyleValueVariant = function getStyleValueVariant(className, obj) {
+  try {
+    switch (className) {
+      case "hoverBorderColor":
+      case "hoverBackgroundColor":
+        var val = obj[className].replaceAll("hover:", "");
+        return "hover:" + val;
+      default:
+        return obj[className];
+    }
+  } catch (e) {
+    return "";
+  }
+};
+var getClassForObjectType = function getClassForObjectType(objectType) {
+  return objectTypeClasses[objectType]["class"];
+};
+function getStyleName(objectType) {
+  var s = null;
+  switch (objectType) {
+    case "bg":
+      s = "background";
+      break;
+    case "text":
+      s = "text";
+      break;
+    case "hover:text":
+      s = "hover-text";
+      break;
+    case "hover:bg":
+      s = "hover-background";
+      break;
+    case "p":
+      s = "padding";
+      break;
+    default:
+      s = objectType;
+      break;
+  }
+  return s;
+}
+
+function _typeof$N(o) { "@babel/helpers - typeof"; return _typeof$N = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$N(o); }
 /**
  * deepCopy
  * @param {object} obj the object to deep copy
@@ -960,37 +1353,338 @@ var deepCopy = function deepCopy(obj) {
   }
 };
 var isObject = function isObject(objValue) {
-  return objValue && _typeof$O(objValue) === "object" && objValue.constructor === Object;
+  return objValue && _typeof$N(objValue) === "object" && objValue.constructor === Object;
 };
 
+/**
+ * Capitalize the first letter of a string
+ * @param {String} string the string to process
+ * @returns {String} the resulting string
+ */
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-function getUUID(uuid) {
-  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-  var r = Math.floor(Math.random() * 10000);
-  return uuid === undefined ? "".concat(prefix, "-").concat(r) : uuid;
+/**
+ * Generate a Unique identifier for the element component
+ * @param {String} uuid the unique identifier for the component (hopefully)
+ * @param {*} prefix a prefix to be added as part of the UUID
+ * @returns {String} the resulting UUID for the element
+ */
+function getUUID$1(uuid) {
+  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "d";
+  try {
+    var r = Math.floor(Math.random() * 10000);
+    return uuid === undefined || uuid === "" ? "".concat(prefix, "-").concat(r) : uuid;
+  } catch (e) {
+    return uuid;
+  }
 }
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-var WorkspaceContext = /*#__PURE__*/createContext({
-  workspaceData: null
-});
+function _typeof$M(o) { "@babel/helpers - typeof"; return _typeof$M = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$M(o); }
+var _excluded$E = ["uuid", "children", "version", "direction", "scrollable", "className", "width", "height", "space", "grow", "componentName", "api"];
+function ownKeys$F(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$F(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$F(Object(t), !0).forEach(function (r) { _defineProperty$I(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$F(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$I(e, r, t) { return (r = _toPropertyKey$M(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$M(t) { var i = _toPrimitive$M(t, "string"); return "symbol" == _typeof$M(i) ? i : i + ""; }
+function _toPrimitive$M(t, r) { if ("object" != _typeof$M(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$M(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$E(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$E(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$E(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var Widget = function Widget(_ref) {
+  var uuid = _ref.uuid,
+    children = _ref.children,
+    _ref$version = _ref.version,
+    version = _ref$version === void 0 ? 1 : _ref$version,
+    _ref$direction = _ref.direction,
+    direction = _ref$direction === void 0 ? "col" : _ref$direction,
+    _ref$scrollable = _ref.scrollable,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "" : _ref$height,
+    _ref$space = _ref.space,
+    space = _ref$space === void 0 ? true : _ref$space,
+    _ref$grow = _ref.grow,
+    grow = _ref$grow === void 0 ? true : _ref$grow;
+    _ref.componentName;
+    _ref.api;
+    var props = _objectWithoutProperties$E(_ref, _excluded$E);
+  var uuidString = getUUID$1(uuid);
+  return /*#__PURE__*/jsx(WidgetContext.Provider, {
+    value: {
+      widgetData: _objectSpread$F({
+        uuid: uuid
+      }, props)
+    },
+    children: /*#__PURE__*/jsx(LayoutContainer, {
+      uuid: uuid,
+      id: "WIDGET-".concat(uuidString),
+      version: version,
+      direction: direction,
+      height: height,
+      width: width,
+      className: "".concat(className),
+      grow: grow,
+      space: space,
+      scrollable: scrollable,
+      children: children
+    }, "WIDGET'-".concat(uuidString))
+  });
+};
 
+function _typeof$L(o) { "@babel/helpers - typeof"; return _typeof$L = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$L(o); }
+function _classCallCheck$6(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties$6(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$L(o.key), o); } }
+function _createClass$6(e, r, t) { return r && _defineProperties$6(e.prototype, r), t && _defineProperties$6(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _defineProperty$H(e, r, t) { return (r = _toPropertyKey$L(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$L(t) { var i = _toPrimitive$L(t, "string"); return "symbol" == _typeof$L(i) ? i : i + ""; }
+function _toPrimitive$L(t, r) { if ("object" != _typeof$L(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$L(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /**
- * AppContext
+ * WidgetHelpers
  *
- * {
- *      seearchClient,
- *      api
- * }
+ * Class created to act as a proxy for the widgetApi
+ * to pass in the widget params do the developer
+ * doesnt have to.
  */
-var AppContext = /*#__PURE__*/createContext({
-  settings: null,
-  debugMode: false
-});
+var WidgetHelpers = /*#__PURE__*/function () {
+  function WidgetHelpers(params, api) {
+    _classCallCheck$6(this, WidgetHelpers);
+    _defineProperty$H(this, "params", null);
+    // the widget api that will be called by the helper function
+    // default to empty functions
+    _defineProperty$H(this, "api", {
+      publishEvent: function publishEvent() {},
+      registerListeners: function registerListeners() {}
+    });
+    this.params = params;
+    this.api = api;
+  }
+  return _createClass$6(WidgetHelpers, [{
+    key: "listen",
+    value: function listen(listeners, handlers) {
+      if ("registerListeners" in this.api && typeof this.api["registerListeners"] === "function") {
+        this.api.registerListeners(listeners, handlers, this.params.uuid);
+      }
+    }
+  }, {
+    key: "publishEvent",
+    value: function publishEvent(eventName, payload) {
+      if ("publishEvent" in this.api && typeof this.api["publishEvent"] === "function") {
+        this.api.publishEvent("".concat(this.params.component, "[").concat(this.params.id, "].").concat(eventName), payload);
+      }
+    }
+  }]);
+}();
+
+function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
+function ownKeys$E(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$E(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$E(Object(t), !0).forEach(function (r) { _defineProperty$G(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$E(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$G(e, r, t) { return (r = _toPropertyKey$K(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$K(t) { var i = _toPrimitive$K(t, "string"); return "symbol" == _typeof$K(i) ? i : i + ""; }
+function _toPrimitive$K(t, r) { if ("object" != _typeof$K(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$K(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var WidgetFactory = {
+  getComponent: function getComponent(component) {
+    try {
+      return ComponentManager.getComponent(component);
+    } catch (e) {
+      return null;
+    }
+  },
+  render: function render(component, key) {
+    var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var children = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+    try {
+      var m = ComponentManager.componentMap();
+
+      // pull in the widgetAPI in order to initialize it
+      // with the widget parameters specific to the widget being rendered
+      var _useContext = useContext$1(DashboardContext),
+        dashApi = _useContext.dashApi;
+      if (component && m) {
+        var isLayout = ComponentManager.isLayoutContainer(component);
+        // grab the component from the map
+        var WidgetComponent = isLayout === false ? m[component]["component"] : LayoutContainer;
+
+        // get the config details from the .dash file
+        var config = ComponentManager.config(component, params);
+
+        // and set the styles from the config if they exist
+        var styles = "styles" in config ? config["styles"] : null;
+
+        // user input for the customization of the widget
+        var userPrefs = params["userPrefs"];
+
+        // Check to make sure this is a Component
+        if (typeof WidgetComponent !== "function") return null;
+        if (isLayout === false) {
+          params["width"] = "w-full";
+        }
+        if ("width" in params === false) {
+          params["width"] = "w-full";
+        }
+        params["componentName"] = component;
+
+        // init will inject the params from the widget into the widgetAPI
+        // widgetApi.init(params);
+
+        var bgColor = "";
+        if (styles !== null) {
+          bgColor = "backgroundColor" in styles ? styles["backgroundColor"] : "";
+        }
+        // need to set the electron api here.
+        var w = WidgetApi;
+        w.init({
+          id: key,
+          name: component
+        });
+        w.setElectronApi(dashApi);
+        w.setPublisher(DashboardPublisher);
+
+        // init the helpers
+        var helpers = new WidgetHelpers(params, dashApi);
+        return children === null ? /*#__PURE__*/jsx(WidgetComponent, _objectSpread$E(_objectSpread$E(_objectSpread$E({
+          id: "widget-nokids-".concat(key),
+          listen: function listen(listeners, handlers) {
+            return helpers.listen(listeners, handlers);
+          },
+          publishEvent: function publishEvent(eventName, payload) {
+            return helpers.publishEvent(eventName, payload);
+          },
+          api: w
+        }, params), userPrefs), {}, {
+          backgroundColor: bgColor
+        }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$E(_objectSpread$E(_objectSpread$E({
+          listen: function listen(listeners, handlers) {
+            return helpers.listen(listeners, handlers);
+          },
+          publishEvent: function publishEvent(eventName, payload) {
+            return helpers.publishEvent(eventName, payload);
+          },
+          api: w,
+          id: "widget-kids-".concat(key)
+        }, params), userPrefs), {}, {
+          backgroundColor: bgColor,
+          children: children
+        }), "widget-kids-".concat(key));
+      }
+    } catch (e) {
+      return null;
+    }
+  },
+  renderChildren: function renderChildren(children) {
+    return React.Children.map(children, function (el) {
+      return el;
+      // const clonedComponent = React.cloneElement(el);
+      // return clonedComponent;
+    });
+  },
+  /**
+   * config
+   * Get the developer's component configuration and enhance that configuration with
+   * required fields if they are not present
+   *
+   * @param {object} component
+   * @returns
+   */
+  config: function config(component) {
+    if (component) {
+      ComponentManager.isLayoutContainer(component);
+      var requiredFields = {
+        type: {
+          value: "text"
+        },
+        required: {
+          value: false
+        },
+        options: {
+          value: []
+        },
+        defaultValue: {
+          value: ""
+        },
+        events: [] // events that will be published
+      };
+
+      // get the component configuration from the map
+      var components = ComponentManager.map();
+
+      // let c = deepCopy(components['component']);
+      var c = JSON.parse(JSON.stringify(components[component]));
+      c["component"] = component;
+      if ("userConfig" in c === false) {
+        c["userConfig"] = {};
+        return c;
+      }
+      var userPrefs = {};
+      // now we can make sure the configuration is "complete"
+      Object.keys(c["userConfig"]).forEach(function (key) {
+        // check the required fields!
+        Object.keys(requiredFields).forEach(function (k) {
+          if (k in c["userConfig"][key] === false) {
+            c["userConfig"][key][k] = requiredFields[k]["value"];
+          }
+        });
+        // tack on the user preferences
+        userPrefs[key] = WidgetFactory.userPrefsForItem(c, key, c["userConfig"][key]);
+      });
+      c["userPrefs"] = userPrefs;
+      return c;
+    }
+    return null;
+  },
+  workspace: function workspace(component) {
+    var components = WidgetFactory.map();
+    if (component !== undefined && components) {
+      if (component in components) {
+        var c = components[component];
+        if ("workspace" in c) {
+          return c["workspace"];
+        }
+      }
+    }
+    return null;
+  },
+  map: function map() {
+    return ComponentManager.map();
+  },
+  /**
+   * userConfig
+   * We want to make sure all of the keys are available, and if not, set defaults...
+   * @param {object} config the current configuration object
+   * @returns
+   */
+  userPrefsForItem: function userPrefsForItem(item, key, config) {
+    try {
+      // console.log('value: ', item['userPrefs'][key]);
+      // console.log('user prefs config item ', item, key, config);
+
+      var prefsForItem = {};
+      if ("userPrefs" in item) {
+        if (key in item["userPrefs"]) {
+          prefsForItem = _defineProperty$G({}, key, item["userPrefs"][key]);
+        } else {
+          if ("defaultValue" in config) {
+            prefsForItem = _defineProperty$G({}, key, config["defaultValue"]);
+          }
+        }
+      } else {
+        // no user preferences in the item yet so we can try and set the defaults.
+        // console.log('config item ', config);
+        prefsForItem[key] = "defaultValue" in config ? config["defaultValue"] : "";
+      }
+
+      // console.log('config item prefs ', prefsForItem);
+      return prefsForItem;
+    } catch (e) {
+      return {};
+    }
+  }
+};
 
 /**
  * LayoutModel
@@ -1101,15 +1795,8 @@ var LayoutModel = function LayoutModel(layoutItem, workspaceLayout, dashboardId)
 };
 
 /**
- * ColorModel
- *
  * Handle all of the data for a color (theme)
- */
-
-/**
- *
- * @param {Object} obj
- * @returns
+ * @param {Object} obj the color object we would like to use to populate the model (optional)
  */
 var ColorModel = function ColorModel() {
   var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1451,9 +2138,6 @@ var ThemeModel = function ThemeModel() {
  */
 var ComponentConfigModel = function ComponentConfigModel() {
   var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  // console.log("config model in ", obj);
-  // const obj = deepCopy(o);
-
   /**
    * id
    * The unique identifer for the component
@@ -1522,9004 +2206,6 @@ var MenuItemModel = function MenuItemModel() {
   return m;
 };
 
-function _slicedToArray$A(r, e) { return _arrayWithHoles$A(r) || _iterableToArrayLimit$A(r, e) || _unsupportedIterableToArray$B(r, e) || _nonIterableRest$A(); }
-function _nonIterableRest$A() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$B(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$B(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$B(r, a) : void 0; } }
-function _arrayLikeToArray$B(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$A(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$A(r) { if (Array.isArray(r)) return r; }
-function DashboardMenuItem(_ref) {
-  _ref.theme;
-    var item = _ref.item,
-    id = _ref.id,
-    icon = _ref.icon,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "menu-item" : _ref$type,
-    onClick = _ref.onClick;
-    _ref.selected;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray$A(_useState, 2);
-    _useState2[0];
-    var setHasDropped = _useState2[1];
-  var _useState3 = useState(false),
-    _useState4 = _slicedToArray$A(_useState3, 2);
-    _useState4[0];
-    var setHasDroppedOnChild = _useState4[1];
-  var _useDrop = useDrop({
-      accept: type,
-      drop: function drop(_item, monitor) {
-        var didDrop = monitor.didDrop();
-        if (didDrop) {
-          return;
-        }
-        setHasDropped(true);
-        setHasDroppedOnChild(didDrop);
-        return {
-          id: id,
-          type: type,
-          dropIndex: id,
-          obj: item
-        };
-      },
-      // the id and the type AGAIN of the item for dropping
-      // canDrop: (obj) => {
-      //     return id !== 1 && (item.canHaveChildren === true);// && obj.parent !== id; // cant drop in these places
-      // }, // this will cause the elements that are droppable to be styles (if we choose!)
-      collect: function collect(monitor) {
-        return {
-          isOver: monitor.isOver(),
-          canDrop: monitor.canDrop(),
-          isDragging: monitor.isDragging,
-          isOverCurrent: monitor.isOver({
-            shallow: true
-          })
-        };
-      }
-    }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray$A(_useDrop, 2),
-    _useDrop2$ = _useDrop2[0];
-    _useDrop2$.isOver;
-    var isOverCurrent = _useDrop2$.isOverCurrent;
-    _useDrop2$.canDrop;
-    var drop = _useDrop2[1];
-  return /*#__PURE__*/jsx("div", {
-    ref: drop,
-    id: id,
-    className: "drop-component relative cursor-pointer rounded min-w-lg ".concat(isOverCurrent ? "w-10 h-10 opacity-100 animate-pulse" : "w-10 h-10 opacity-100", " "),
-    children: /*#__PURE__*/jsx("div", {
-      className: "w-full- h-full items-center justify-center",
-      children: /*#__PURE__*/jsx(ButtonIcon, {
-        icon: icon,
-        onClick: onClick
-      })
-    })
-  });
-}
-
-function _typeof$N(o) { "@babel/helpers - typeof"; return _typeof$N = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$N(o); }
-function ownKeys$G(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$G(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$G(Object(t), !0).forEach(function (r) { _defineProperty$J(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$G(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$J(e, r, t) { return (r = _toPropertyKey$N(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$N(t) { var i = _toPrimitive$N(t, "string"); return "symbol" == _typeof$N(i) ? i : i + ""; }
-function _toPrimitive$N(t, r) { if ("object" != _typeof$N(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$N(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var withRouter = function withRouter(Component) {
-  var Wrapper = function Wrapper(props) {
-    var navigate = useNavigate();
-    var location = useLocation();
-    var params = useParams();
-    return /*#__PURE__*/jsx(Component, _objectSpread$G({
-      navigate: navigate,
-      location: location,
-      params: params
-    }, props));
-  };
-  return Wrapper;
-};
-
-function _typeof$M(o) { "@babel/helpers - typeof"; return _typeof$M = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$M(o); }
-var _excluded$D = ["title", "textSize", "fontWeight"];
-function ownKeys$F(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$F(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$F(Object(t), !0).forEach(function (r) { _defineProperty$I(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$F(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$I(e, r, t) { return (r = _toPropertyKey$M(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$M(t) { var i = _toPrimitive$M(t, "string"); return "symbol" == _typeof$M(i) ? i : i + ""; }
-function _toPrimitive$M(t, r) { if ("object" != _typeof$M(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$M(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$D(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$D(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$D(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var FormLabel = function FormLabel(_ref) {
-  var title = _ref.title,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
-    _ref$fontWeight = _ref.fontWeight,
-    fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
-    props = _objectWithoutProperties$D(_ref, _excluded$D);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$F({}, props));
-  var textSizeCalc = textSize !== null ? textSize : "text-base 2xl:text-lg";
-  return /*#__PURE__*/jsx("label", {
-    className: "".concat(fontWeight, " ").concat(textSizeCalc, " ").concat(styles.string),
-    children: title
-  });
-};
-
-function _typeof$L(o) { "@babel/helpers - typeof"; return _typeof$L = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$L(o); }
-var _excluded$C = ["key", "onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
-function ownKeys$E(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$E(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$E(Object(t), !0).forEach(function (r) { _defineProperty$H(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$E(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$H(e, r, t) { return (r = _toPropertyKey$L(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$L(t) { var i = _toPrimitive$L(t, "string"); return "symbol" == _typeof$L(i) ? i : i + ""; }
-function _toPrimitive$L(t, r) { if ("object" != _typeof$L(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$L(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$C(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$C(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$C(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var InputText = function InputText(_ref) {
-  var _ref$key = _ref.key,
-    key = _ref$key === void 0 ? "inputText" : _ref$key,
-    onChange = _ref.onChange,
-    onKeyDown = _ref.onKeyDown,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    name = _ref.name,
-    value = _ref.value,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "text" : _ref$type,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? "p-2" : _ref$padding,
-    _ref$placeholder = _ref.placeholder,
-    placeholder = _ref$placeholder === void 0 ? "" : _ref$placeholder,
-    _ref$hasBorder = _ref.hasBorder,
-    hasBorder = _ref$hasBorder === void 0 ? true : _ref$hasBorder,
-    _ref$disabled = _ref.disabled,
-    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-sm lg:text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$C(_ref, _excluded$C);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$E({}, props));
-  function renderComponent(styles) {
-    return /*#__PURE__*/jsx("input", {
-      type: type,
-      name: name,
-      value: value !== null ? value : "",
-      onChange: onChange,
-      onKeyDown: onKeyDown,
-      onClick: onClick,
-      placeholder: placeholder,
-      className: "".concat(padding, " rounded focus:outline-0 outline-0 border-0 focus:border-0 ").concat(styles.string, " font-bold ").concat(textSize, " w-full ").concat(hasBorder === false && "border-0"),
-      disabled: disabled
-    }, key);
-  }
-  return renderComponent(styles);
-};
-
-function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
-var _excluded$B = ["name", "onChange", "selectedValue", "children", "textSize"];
-function ownKeys$D(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$D(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$D(Object(t), !0).forEach(function (r) { _defineProperty$G(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$D(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$G(e, r, t) { return (r = _toPropertyKey$K(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$K(t) { var i = _toPrimitive$K(t, "string"); return "symbol" == _typeof$K(i) ? i : i + ""; }
-function _toPrimitive$K(t, r) { if ("object" != _typeof$K(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$K(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$B(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$B(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$B(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var SelectMenu = function SelectMenu(_ref) {
-  var name = _ref.name,
-    onChange = _ref.onChange,
-    selectedValue = _ref.selectedValue,
-    children = _ref.children,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-base 2xl:text-lg" : _ref$textSize,
-    props = _objectWithoutProperties$B(_ref, _excluded$B);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$D(_objectSpread$D({}, props), {}, {
-    height: "h-fit"
-  }));
-  return /*#__PURE__*/jsx("select", {
-    className: "p-2 rounded ".concat(textSize, " font-bold ").concat(styles.string, " focus:outline-none cursor-pointer min-w-lg w-full"),
-    name: name,
-    onChange: onChange,
-    value: selectedValue,
-    children: children
-  });
-};
-
-function _slicedToArray$z(r, e) { return _arrayWithHoles$z(r) || _iterableToArrayLimit$z(r, e) || _unsupportedIterableToArray$A(r, e) || _nonIterableRest$z(); }
-function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$A(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$A(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$A(r, a) : void 0; } }
-function _arrayLikeToArray$A(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$z(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$z(r) { if (Array.isArray(r)) return r; }
-var MainMenuConst = function MainMenuConst(_ref) {
-  var _ref$onClickNewWorksp = _ref.onClickNewWorkspace,
-    onClickNewWorkspace = _ref$onClickNewWorksp === void 0 ? null : _ref$onClickNewWorksp;
-    _ref.onCreateNewFolder;
-    var active = _ref.active,
-    menuItems = _ref.menuItems,
-    workspaces = _ref.workspaces,
-    _ref$selectedMainItem = _ref.selectedMainItem,
-    selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
-    onWorkspaceMenuChange = _ref.onWorkspaceMenuChange;
-    _ref.onClick;
-  var _useContext = useContext$1(AppContext),
-    dashApi = _useContext.dashApi,
-    credentials = _useContext.credentials;
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
-  var _useState = useState(""),
-    _useState2 = _slicedToArray$z(_useState, 2),
-    searchTerm = _useState2[0],
-    setSearchTerm = _useState2[1];
-
-  // Force Update
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$z(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  /**
-   * useEffect
-   * We can use the useEffect lifecycle to load the init for the plugins
-   * and any other methods
-   */
-  useEffect(function () {
-    setSearchTerm("");
-  }, [active, selectedMainItem]);
-  useEffect(function () {
-    forceUpdate();
-  }, [workspaces]);
-  function handleClickMenuItem(ws) {
-    onWorkspaceMenuChange && onWorkspaceMenuChange(ws);
-  }
-  function renderWorkspaces(workspaces) {
-    // We need to do this TWICE...
-    // Once for the items that have a organized folder,
-    // and once for the ones that do NOT....
-    var m = workspaces && menuItems.sort(function (a, b) {
-      return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
-    }).map(function (menuItem) {
-      // let's check to see if the user has applied any filters...
-      // const folderSelected =
-      //     selectedMainItem !== null
-      //         ? menuItem.id === selectedMainItem.id
-      //         : false;
-      return /*#__PURE__*/jsx(MainMenuSection, {
-        id: menuItem.id,
-        name: menuItem.name,
-        menuItem: menuItem,
-        onCreateNew: handleCreateNew,
-        children: workspaces.sort(function (a, b) {
-          return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
-        }).filter(function (w) {
-          return "menuId" in w && w.menuId === menuItem.id;
-        }).filter(function (ws) {
-          return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
-        }).map(function (ws) {
-          return /*#__PURE__*/jsx(MainMenuItem, {
-            menuItem: menuItem,
-            highlight: searchTerm !== "",
-            id: ws.id,
-            workspaceId: ws.id,
-            workspaceMenuId: ws.menuId,
-            name: ws.name,
-            onClick: function onClick(e) {
-              return handleClickMenuItem(ws);
-            },
-            title: ws.name,
-            onDropItem: function onDropItem(e) {
-              return handleDropMenuItem({
-                workspaceId: ws.id,
-                menuItemId: e.dropIndex
-              });
-            }
-          }, "main-menu-item-ws-".concat(ws.id));
-        })
-      }, "menu-item-".concat(menuItem.id));
-    });
-    return m;
-  }
-  function renderOrphanedWorkspaces(workspaces) {
-    // We need to do this TWICE...
-    // Once for the items that have a organized folder,
-    // and once for the ones that do NOT....
-
-    var menuItem = {
-      id: 1,
-      name: "Uncategorized",
-      icon: "folder"
-    };
-    return currentTheme && workspaces && /*#__PURE__*/jsx("div", {
-      children: /*#__PURE__*/jsx(MainMenuSection, {
-        id: menuItem.id,
-        name: menuItem.name,
-        menuItem: menuItem,
-        onCreateNew: handleCreateNew,
-        children: workspaces.sort(function (a, b) {
-          return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
-        }).filter(function (w) {
-          return workspaceIsOrphan(w) === true;
-        }).filter(function (ws) {
-          return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
-        }).sort(function (a, b) {
-          return a["name"] - b["name"];
-        }).map(function (ws) {
-          return /*#__PURE__*/jsx(MainMenuItem, {
-            highlight: searchTerm !== "",
-            menuItem: menuItem,
-            workspaceId: ws.id,
-            workspaceMenuId: ws.menuId,
-            id: ws.id,
-            name: ws.name,
-            onClick: function onClick(e) {
-              return handleClickMenuItem(ws);
-            },
-            title: ws.name,
-            onDropItem: function onDropItem(e) {
-              handleDropMenuItem({
-                workspaceId: ws.id,
-                menuItemId: e.dropIndex
-              });
-            }
-          }, "main-menu-item-ws-".concat(ws.id));
-        })
-      }, "menu-item-".concat(menuItem.id))
-    }, "menu-item-orphan");
-  }
-
-  /**
-   * workspaceIsOrphan
-   * Check to see if the menuItem that is associated with the workspace no longer exists.
-   * @param {Object} workspaceToCheck
-   */
-  function workspaceIsOrphan(workspaceToCheck) {
-    return menuItems.filter(function (menuItem) {
-      return menuItem.id === workspaceToCheck.menuId;
-    }).length === 0;
-  }
-  function handleDropMenuItem(dropData) {
-    try {
-      var workspaceId = dropData.workspaceId,
-        menuItemId = dropData.menuItemId;
-      var workspaceSelected = null;
-      var workspaceArray = workspaces.filter(function (ws) {
-        return ws.id === workspaceId;
-      });
-      if (workspaceArray.length > 0) {
-        workspaceSelected = workspaceArray[0];
-      }
-      if (workspaceSelected) {
-        var newWorkspace = deepCopy(workspaceSelected);
-        // we have to update the workspace menu id
-        newWorkspace["menuId"] = menuItemId;
-        if (dashApi && credentials) {
-          dashApi.saveWorkspace(credentials.appId, newWorkspace, handleSaveWorkspaceMenuIdComplete, handleSaveWorkspaceError);
-        }
-      }
-    } catch (e) {
-    }
-  }
-  function handleSaveWorkspaceMenuIdComplete(e, message) {
-  }
-  function handleSaveWorkspaceError(e, message) {
-  }
-  function handleCreateNew(menuItem) {
-    [{
-      id: 1,
-      order: 1,
-      direction: "col",
-      width: "w-full",
-      component: "Container",
-      hasChildren: 1,
-      scrollable: true,
-      parent: 0,
-      menuId: selectedMainItem["id"]
-    }];
-    onClickNewWorkspace && onClickNewWorkspace(menuItem
-    // id: Date.now(),
-    // name: "New Workspace",
-    // label: "New",
-    // type: selectedMainItem,
-    // layout: newLayout,
-    // menuId: menuItem["id"],
-    );
-  }
-  function handleChangeSearch(e) {
-    setSearchTerm(e.target.value);
-  }
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col min-w-64 w-full h-full",
-    children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col space-y-2 w-full h-full",
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex flex-row justify-between items-center space-x-2 w-full",
-        children: /*#__PURE__*/jsx(InputText, {
-          name: "search-workspaces",
-          value: searchTerm,
-          placeholder: "Search Dashboards",
-          onChange: handleChangeSearch,
-          textSize: "text-lg",
-          className: "border-transparent focus:border-transparent focus:ring-0",
-          hasBorder: false
-        })
-      }), /*#__PURE__*/jsx(DndProvider, {
-        backend: HTML5Backend,
-        children: /*#__PURE__*/jsxs(LayoutContainer, {
-          direction: "col",
-          scrollable: true,
-          space: true,
-          width: "w-full",
-          padding: "py-2",
-          children: [renderWorkspaces(workspaces), renderOrphanedWorkspaces(workspaces)]
-        })
-      })]
-    })
-  });
-};
-var MainMenu = withRouter(MainMenuConst);
-
-var MainMenuItem = function MainMenuItem(_ref) {
-  _ref.workspaceMenuId;
-    _ref.onDropItem;
-    var onClick = _ref.onClick,
-    title = _ref.title;
-  return (
-    /*#__PURE__*/
-    // <DragDropWidget
-    //     id={workspaceMenuId}
-    //     width={"w-full"}
-    //     type={"menu-item"}
-    //     onDropItem={onDropItem}
-    // >
-    jsx(MenuItem3, {
-      onClick: onClick,
-      className: "p-4 font-bold rounded",
-      children: title
-    })
-    // </DragDropWidget>
-  );
-};
-
-function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
-var _excluded$A = ["children", "border", "className"];
-function ownKeys$C(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$C(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$C(Object(t), !0).forEach(function (r) { _defineProperty$F(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$C(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$F(e, r, t) { return (r = _toPropertyKey$J(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$J(t) { var i = _toPrimitive$J(t, "string"); return "symbol" == _typeof$J(i) ? i : i + ""; }
-function _toPrimitive$J(t, r) { if ("object" != _typeof$J(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$J(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$A(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$A(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$A(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var Menu = function Menu(_ref) {
-  var children = _ref.children;
-    _ref.border;
-    var _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "space-y-2" : _ref$className,
-    props = _objectWithoutProperties$A(_ref, _excluded$A);
-  return /*#__PURE__*/jsx(Panel, _objectSpread$C(_objectSpread$C({}, props), {}, {
-    className: className,
-    children: children
-  }));
-};
-
-var MainMenuSection = function MainMenuSection(_ref) {
-  _ref.id;
-    _ref.type;
-    var menuItem = _ref.menuItem,
-    children = _ref.children,
-    onCreateNew = _ref.onCreateNew;
-  var _useContext = useContext$1(ThemeContext);
-    _useContext.currentTheme;
-
-  // Drop Functionality
-  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
-  //     accept: type,
-  //     drop: (_item, monitor) => {
-  //         const didDrop = monitor.didDrop();
-  //         if (didDrop) {
-  //             return;
-  //         }
-  //         return { id, type, dropIndex: id };
-  //     },
-  //     canDrop: (obj) => {
-  //         return obj.id !== menuItem.id;
-  //     },
-  //     collect: (monitor) => {
-  //         return {
-  //             isDragging: monitor.isDragging,
-  //             isOverCurrent: monitor.isOver({ shallow: true }),
-  //             canDrop: monitor.canDrop(),
-  //         };
-  //     },
-  // });
-
-  function handleCreateNew(menuItem) {
-    onCreateNew && onCreateNew(menuItem);
-  }
-  return /*#__PURE__*/jsxs(Panel3, {
-    id: menuItem.id,
-    scrollable: false,
-    grow: false,
-    horizontal: false,
-    padding: "px-1",
-    border: false,
-    children: [/*#__PURE__*/jsxs("div", {
-      className: "flex flex-row justify-between p-2 pl-2 w-full",
-      children: [/*#__PURE__*/jsxs("div", {
-        className: "flex flex-row text-xs items-center space-x-2 w-full",
-        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-          icon: menuItem.icon
-        }), /*#__PURE__*/jsx(Paragraph3, {
-          text: menuItem.name,
-          className: "font-bold uppercase text-xs items-center"
-        })]
-      }), /*#__PURE__*/jsx(ButtonIcon, {
-        icon: "plus",
-        textSize: "text-xs",
-        padding: false,
-        onClick: function onClick() {
-          return handleCreateNew(menuItem);
-        },
-        className: "hover:bg-green-500 bg-transparent"
-      })]
-    }), /*#__PURE__*/jsx(Menu, {
-      children: children
-    })]
-  });
-};
-
-var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
-  var open = _ref.open,
-    setOpen = _ref.setOpen,
-    children = _ref.children;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  return currentTheme && /*#__PURE__*/jsx(Transition.Root, {
-    show: open,
-    as: Fragment,
-    children: /*#__PURE__*/jsx(Dialog, {
-      as: "div",
-      className: "fixed inset-0 overflow-hidden",
-      onClose: setOpen,
-      children: /*#__PURE__*/jsxs("div", {
-        className: "absolute inset-0 overflow-hidden z-30",
-        children: [/*#__PURE__*/jsx(Transition.Child, {
-          as: Fragment,
-          enter: "ease-in-out duration-400",
-          enterFrom: "opacity-0",
-          enterTo: "opacity-100",
-          leave: "ease-in-out duration-300",
-          leaveFrom: "opacity-100",
-          leaveTo: "opacity-0",
-          children: /*#__PURE__*/jsx(Dialog.Overlay, {
-            className: "absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
-          })
-        }), /*#__PURE__*/jsx("div", {
-          className: "pointer-events-none fixed inset-y-0 left-0 flex max-w-full pl-0",
-          children: /*#__PURE__*/jsx(Transition.Child, {
-            as: Fragment,
-            enter: "transform transition ease-in-out duration-400 sm:duration-700",
-            enterFrom: "-translate-x-full",
-            enterTo: "translate-x-0",
-            leave: "transform transition ease-in-out duration-300 sm:duration-700",
-            leaveFrom: "translate-x-0",
-            leaveTo: "-translate-x-full",
-            children: /*#__PURE__*/jsx("div", {
-              className: "pointer-events-auto max-w-2xl xl:max-w-3xl overflow-hidden",
-              children: /*#__PURE__*/jsx("div", {
-                className: "flex h-full flex-col shadow-xl ".concat(currentTheme["bg-secondary-very-dark"], " ").concat(currentTheme["text-secondary-light"], " scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-hidden"),
-                children: /*#__PURE__*/jsx("div", {
-                  className: "relative mt-6 flex-1 px-6 sm:px-6 overflow-hidden h-full",
-                  children: children
-                })
-              })
-            })
-          })
-        })]
-      })
-    })
-  });
-};
-
-function _typeof$I(o) { "@babel/helpers - typeof"; return _typeof$I = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$I(o); }
-function _classCallCheck$6(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties$6(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$I(o.key), o); } }
-function _createClass$6(e, r, t) { return r && _defineProperties$6(e.prototype, r), t && _defineProperties$6(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _callSuper$5(t, o, e) { return o = _getPrototypeOf$5(o), _possibleConstructorReturn$5(t, _isNativeReflectConstruct$5() ? Reflect.construct(o, e || [], _getPrototypeOf$5(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn$5(t, e) { if (e && ("object" == _typeof$I(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$5(t); }
-function _assertThisInitialized$5(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
-function _isNativeReflectConstruct$5() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$5 = function _isNativeReflectConstruct() { return !!t; })(); }
-function _getPrototypeOf$5(t) { return _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf$5(t); }
-function _inherits$5(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf$5(t, e); }
-function _setPrototypeOf$5(t, e) { return _setPrototypeOf$5 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf$5(t, e); }
-function _defineProperty$E(e, r, t) { return (r = _toPropertyKey$I(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$I(t) { var i = _toPrimitive$I(t, "string"); return "symbol" == _typeof$I(i) ? i : i + ""; }
-function _toPrimitive$I(t, r) { if ("object" != _typeof$I(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$I(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var mainApi$1 = window.mainApi;
-function classNames$1() {
-  for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
-    classes[_key] = arguments[_key];
-  }
-  return classes.filter(Boolean).join(" ");
-}
-var SideMenu = /*#__PURE__*/function (_React$Component) {
-  function SideMenu() {
-    var _this;
-    _classCallCheck$6(this, SideMenu);
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-    _this = _callSuper$5(this, SideMenu, [].concat(args));
-    _defineProperty$E(_this, "handlePath", function (path) {
-      _this.props.navigate(path);
-    });
-    _defineProperty$E(_this, "generatePageChildren", function (pages, indexName) {
-      var pathname = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-      return pages !== null ? pages.length > 0 ? pages.filter(function (p) {
-        return p.indexName === indexName;
-      }).map(function (page) {
-        return {
-          icon: "file",
-          name: page.displayName,
-          href: "/rules-manager/pages/" + page.id,
-          current: pathname === "/rules-manager/pages/" + page.id
-        };
-      }) : null : null;
-    });
-    _defineProperty$E(_this, "generateTemplateChildren", function (templates, indexName) {
-      var pathname = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-      return templates !== null ? templates.length > 0 ? templates.filter(function (p) {
-        return p.index === indexName;
-      }).map(function (t) {
-        return {
-          icon: "file",
-          name: t.name,
-          href: "/rules-manager/templates/" + t.name,
-          current: pathname === "/rules-manager/templates/" + t.name
-        };
-      }) : null : null;
-    });
-    _defineProperty$E(_this, "generateApplicationChildren", function (pages, templates, queries, indexName) {
-      var children = [];
-      children.push({
-        name: indexName
-        // href: '/rules-manager/pages',
-        // current: pages !== null,
-        // icon: 'code'
-      });
-      children.push({
-        name: "Pages",
-        href: "/rules-manager/pages",
-        current: pages !== null,
-        icon: "file"
-      });
-      children.push({
-        name: "Display Templates",
-        href: "/rules-manager/templates",
-        current: templates !== null,
-        icon: "palette"
-      });
-      children.push({
-        name: "Queries",
-        href: "/rules-manager/query-test",
-        current: queries !== null,
-        icon: "vial-circle-check"
-      });
-      return children;
-    });
-    _defineProperty$E(_this, "generateNavigation", function () {
-      var _this$props = _this.props,
-        pages = _this$props.pages,
-        templates = _this$props.templates,
-        location = _this$props.location,
-        queries = _this$props.queries;
-      var application = mainApi$1.getApplication();
-      var indexName = mainApi$1.getIndexName();
-      var currentPath = "pathname" in location ? location["pathname"] : "";
-      var navigation = [{
-        name: "Home",
-        href: "/applications",
-        icon: "home"
-      }];
-      application !== undefined && navigation.push({
-        name: application["appId"],
-        href: "/applications/" + application["appId"],
-        current: currentPath === "/applications/" + application["appId"],
-        icon: "server",
-        children: indexName && _this.generateApplicationChildren(pages, templates, queries, indexName)
-      });
-
-      // indexName && navigation.push({
-      //   name: indexName,
-      //   href: '/applications/' + application['appId'],
-      //   // current: currentPath === '/applications/' + application['appId'],
-      //   icon: 'server',
-      //   // children: indexName && this.generateApplicationChildren(pages, templates, queries, indexName)
-      // });
-
-      // application !== undefined && indexName && navigation.push({
-      //   name: 'Pages',
-      //   href: '/rules-manager/pages',
-      //   current: pages !== null,
-      //   icon: 'file'
-      //   // children: this.generatePageChildren(pages, indexName, currentPath),
-
-      // });
-
-      // application !== undefined && indexName && navigation.push({
-      //   name: 'Display Templates',
-      //   href: '/rules-manager/templates',
-      //   current: templates !== null,
-      //   icon: 'palette'
-      //   // children: this.generateTemplateChildren(templates, indexName, currentPath),
-
-      // });
-
-      // application !== undefined && indexName && navigation.push({
-      //   name: 'Queries',
-      //   href: '/rules-manager/query-test',
-      //   current: queries !== null,
-      //   icon: 'vial-circle-check'
-      // });
-      return navigation;
-    });
-    return _this;
-  }
-  _inherits$5(SideMenu, _React$Component);
-  return _createClass$6(SideMenu, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-      var _this$props2 = this.props,
-        location = _this$props2.location;
-        _this$props2.showMenu;
-      var navigation = this.generateNavigation();
-      var isSettingsSelected = "pathname" in location && (location["pathname"] === "/settings" ? true : false);
-      return /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col border-r border-gray-800 pb-4 overflow-y-scroll h-full scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "flex-grow flex flex-col bg-gray-900 p-2",
-          children: /*#__PURE__*/jsx("nav", {
-            className: "flex flex-col px-0 2xl:px-2 space-y-2",
-            "aria-label": "Sidebar",
-            children: navigation.map(function (item) {
-              return !item.children ? /*#__PURE__*/jsxs(Link, {
-                to: item.href,
-                className: classNames$1(item.current ? "bg-gray-800 text-indigo-400 font-bold" : "bg-gray-900 text-gray-500 hover:bg-gray-700 hover:text-gray-200", "group w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
-                children: [item.icon !== undefined && /*#__PURE__*/jsx(FontAwesomeIcon, {
-                  icon: item.icon,
-                  className: "text-gray-400"
-                }), /*#__PURE__*/jsx("span", {
-                  className: "hidden 2xl:inline-flex ml-2",
-                  children: item.name
-                })]
-              }, item.href) : /*#__PURE__*/jsx(Disclosure, {
-                as: "div",
-                className: "space-y-2",
-                children: function children(_ref) {
-                  _ref.open;
-                  return /*#__PURE__*/jsxs(Fragment, {
-                    children: [/*#__PURE__*/jsx(Disclosure.Button, {
-                      className: classNames$1(item.current ? "text-indigo-300" : "text-gray-300 hover:bg-gray-700 hover:text-gray-200", "w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
-                      children: /*#__PURE__*/jsxs(Link, {
-                        to: item.href,
-                        className: "flex flex-row space-x-2 items-center justify-center",
-                        children: [item.icon !== undefined && /*#__PURE__*/jsx(FontAwesomeIcon, {
-                          icon: item.icon,
-                          className: "text-gray-400"
-                        }), /*#__PURE__*/jsx("span", {
-                          className: "hidden 2xl:inline-flex",
-                          children: item.name
-                        })]
-                      })
-                    }), /*#__PURE__*/jsx(Disclosure.Panel, {
-                      className: "space-y-2 bg-slate-900 rounded-lg p-2 2xl:p-2 border border-gray-800",
-                      "static": true,
-                      children: item.children.map(function (subItem) {
-                        return /*#__PURE__*/jsxs(Disclosure.Button, {
-                          as: "a",
-                          onClick: function onClick() {
-                            return _this2.handlePath(subItem.href);
-                          },
-                          className: classNames$1(subItem.current ? "bg-gray-800 text-indigo-300" : "text-gray-500 hover:bg-indigo-800 hover:text-gray-200", "group w-full flex items-center justify-start pl-3 pr-2 py-2 text-sm lg:text-base 2xl:text-base font-medium rounded-md hover:text-gray-200 hover:bg-gray-700 cursor-pointer space-x-2"),
-                          children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                            icon: subItem.icon
-                          }), /*#__PURE__*/jsx("span", {
-                            className: "hidden 2xl:inline-flex ml-2",
-                            children: subItem.name
-                          })]
-                        }, subItem.name);
-                      })
-                    })]
-                  });
-                }
-              }, item.name);
-            })
-          })
-        }), /*#__PURE__*/jsx("div", {
-          children: /*#__PURE__*/jsx(Disclosure, {
-            as: "div",
-            className: "px-4 2xl:px-4",
-            children: /*#__PURE__*/jsxs(Disclosure.Button, {
-              as: "a",
-              onClick: function onClick() {
-                return _this2.handlePath("/settings");
-              },
-              className: classNames$1(isSettingsSelected ? "text-indigo-300" : "text-gray-500 hover:bg-gray-800 hover:text-gray-200", "group w-full flex items-center p-0 pl-0 2xl:p-2 2xl:pl-3 text-left text-lg 2xl:text-xl font-bold rounded-md focus:outline-none space-x-2 cursor-pointer"),
-              children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                icon: "gear",
-                className: "text-gray-500"
-              }), /*#__PURE__*/jsx("span", {
-                className: "hidden 2xl:inline-flex",
-                children: "Settings"
-              })]
-            }, "menu-settings")
-          }, "menu-settings")
-        })]
-      });
-    }
-  }]);
-}(React.Component);
-SideMenu.defaultProps = {
-  pages: [],
-  templates: null,
-  queries: null,
-  showMenu: true
-};
-
-function _slicedToArray$y(r, e) { return _arrayWithHoles$y(r) || _iterableToArrayLimit$y(r, e) || _unsupportedIterableToArray$z(r, e) || _nonIterableRest$y(); }
-function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$z(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$z(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$z(r, a) : void 0; } }
-function _arrayLikeToArray$z(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$y(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$y(r) { if (Array.isArray(r)) return r; }
-var AddMenuItemModal = function AddMenuItemModal(_ref) {
-  var menuItems = _ref.menuItems,
-    open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    onSave = _ref.onSave;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var _useState = useState(menuItems),
-    _useState2 = _slicedToArray$y(_useState, 2),
-    menuItemsSelected = _useState2[0],
-    setMenuItemsSelected = _useState2[1];
-  var _useState3 = useState(""),
-    _useState4 = _slicedToArray$y(_useState3, 2),
-    menuItemNameSelected = _useState4[0],
-    setMenuItemNameSelected = _useState4[1];
-  var _useState5 = useState(null),
-    _useState6 = _slicedToArray$y(_useState5, 2),
-    menuIconSelected = _useState6[0],
-    setMenuIconSelected = _useState6[1];
-  // const [, updateState] = React.useState();
-  // const forceUpdate = React.useCallback(() => updateState({}), []);
-
-  useEffect(function () {
-    if (open === true && menuItemsSelected === null && menuItemsSelected !== menuItems) {
-      setMenuItemsSelected(function () {
-        return menuItems;
-      });
-    }
-    if (menuItems !== menuItemsSelected) {
-      setMenuItemsSelected(function () {
-        return menuItems;
-      });
-    }
-    if (open === false) {
-      setMenuItemsSelected(function () {
-        return null;
-      });
-      setMenuIconSelected(null);
-      setMenuItemNameSelected(null);
-    }
-  }, [open, menuItems]);
-  function handleMenuNameChange(e) {
-    setMenuItemNameSelected(function () {
-      return e.target.value;
-    });
-  }
-  function handleSaveChanges(itemData) {
-    try {
-      if (menuIconSelected && menuItemNameSelected) {
-        var menuItem = {
-          id: Date.now(),
-          name: menuItemNameSelected,
-          icon: menuIconSelected
-        };
-        onSave(menuItem);
-      }
-      // if (workspaceSelected !== null) {
-
-      //     const tempWorkspace = deepCopy(workspaceSelected);
-
-      //     // craft the event handler + listeners
-      //     // and add to the layout item
-      //     const layoutItem = getLayoutItemById(itemSelected['id']);
-
-      //     // now lets add to it...
-      //     layoutItem['listeners'] = eventsSelected;
-      //     tempWorkspace['layout'] = replaceItemInLayout(tempWorkspace.layout, layoutItem['id'], layoutItem);
-
-      //     // save the new workspace
-      //     onSave(tempWorkspace);
-
-      //     // reset the component
-      //     setItemSelected(() => null);
-      //     setWorkspaceSelected(() => null);
-      //     setEventsSelected(() => {});
-      //     setEventHandlerSelected(() => null);
-      //     setIsOpen(false);
-      // }
-    } catch (e) {
-    }
-  }
-  function renderAvailableIcons() {
-    var icons = ["phone", "clone", "home", "plug", "magnifying-glass", "arrow-down", "arrow-left", "arrow-right", "arrow-up", "minus", "arrows-up-down", "arrows-left-right", "square", "eye", "pencil", "folder", "signal", "hammer", "seedling", "trophy", "robot", "leaf", "baby", "baby-carriage", "database"];
-    return icons.map(function (icon) {
-      var selected = icon === menuIconSelected;
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-col text-5xl p-4 ".concat(selected === true ? "".concat(currentTheme["bg-secondary-very-dark"], " ").concat(currentTheme["border-secondary-very-dark"]) : currentTheme["bg-secondary-medium"], " h-fit w-full rounded border-4 ").concat(currentTheme["border-secondary-medium"], " ").concat(selected === false && "".concat(currentTheme["hover-bg-secondary-medium"], " ").concat(currentTheme["hover-border-secondary-dark"]), " cursor-pointer text-gray-200"),
-        onClick: function onClick() {
-          return setMenuIconSelected(icon);
-        },
-        children: /*#__PURE__*/jsx(FontAwesomeIcon, {
-          icon: icon
-        })
-      }, "icon-".concat(icon));
-    });
-  }
-  return menuItemsSelected !== null && currentTheme && /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-5/6",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      direction: "col",
-      padding: false,
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col w-full h-full overflow-hidden",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-6",
-            children: [/*#__PURE__*/jsx("div", {
-              className: "flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3",
-              children: menuItemsSelected !== null && /*#__PURE__*/jsxs("div", {
-                className: "flex flex-col rounded p-6 py-10 space-y-4",
-                children: [/*#__PURE__*/jsx(Heading, {
-                  title: "Get Organized",
-                  padding: false
-                }), /*#__PURE__*/jsx(SubHeading3, {
-                  title: "Add new \"folders\" to organize all of your dashboards.",
-                  padding: false
-                })]
-              })
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col w-2/3 space-y-4 py-10",
-              children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-col rounded w-full",
-                children: /*#__PURE__*/jsx(InputText, {
-                  value: menuItemNameSelected,
-                  onChange: handleMenuNameChange,
-                  placeholder: "My Folder"
-                })
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
-                children: /*#__PURE__*/jsx(LayoutContainer, {
-                  direction: "row",
-                  scrollable: true,
-                  space: false,
-                  height: "h-full",
-                  width: "w-full",
-                  className: "grid grid-cols-5 gap-4",
-                  children: renderAvailableIcons()
-                })
-              })]
-            })]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row justify-between bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800",
-            children: [/*#__PURE__*/jsxs("div", {
-              className: "flex flex-row text-lg text-gray-600 items-center font-bold px-4",
-              children: ["Click the", " ", /*#__PURE__*/jsx(FontAwesomeIcon, {
-                icon: "plus",
-                className: "px-2"
-              }), " ", "button to open this window."]
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-row space-x-2",
-              children: [/*#__PURE__*/jsx(Button, {
-                title: "Cancel",
-                bgColor: "bg-gray-800",
-                textSize: "text-lg",
-                padding: "py-2 px-4",
-                onClick: function onClick() {
-                  return setIsOpen(false);
-                }
-              }), /*#__PURE__*/jsx(Button, {
-                title: "Save Changes",
-                bgColor: "bg-gray-800",
-                hoverBackgroundColor: "hover:bg-green-700",
-                textSize: "text-lg",
-                padding: "py-2 px-4",
-                onClick: handleSaveChanges
-              })]
-            })]
-          })]
-        })
-      })
-    })
-  });
-};
-
-var ThemePane = function ThemePane(_ref) {
-  var children = _ref.children,
-    searchTerm = _ref.searchTerm,
-    _ref$inputValue = _ref.inputValue,
-    inputValue = _ref$inputValue === void 0 ? null : _ref$inputValue,
-    _ref$onInputChange = _ref.onInputChange,
-    onInputChange = _ref$onInputChange === void 0 ? null : _ref$onInputChange,
-    _ref$inputPlaceholder = _ref.inputPlaceholder,
-    inputPlaceholder = _ref$inputPlaceholder === void 0 ? "" : _ref$inputPlaceholder;
-    _ref.scroll;
-  return /*#__PURE__*/jsxs(LayoutContainer, {
-    id: "theme-pane-layout-container",
-    direction: "col",
-    scrollable: false,
-    width: "w-full",
-    children: [inputValue !== null && onInputChange !== null && /*#__PURE__*/jsx("div", {
-      className: "flex flex-row",
-      children: /*#__PURE__*/jsx(InputText, {
-        value: searchTerm,
-        textSize: "text-sm",
-        onChange: onInputChange,
-        placeholder: inputPlaceholder
-      })
-    }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-col text-xs break-all h-full space-y-2 w-full",
-      children: children
-    })]
-  });
-};
-
-/**
- * themeObjects.js
- *
- * This file contains all of the components that we have available in the Dashboard
- * All of the components will be available in the theme and can be altered/customized by the user
- *
- */
-var BUTTON = "button";
-var BUTTON_2 = "button-2";
-var BUTTON_3 = "button-3";
-var PANEL = "panel";
-var PANEL_2 = "panel-2";
-var PANEL_3 = "panel-3";
-var PANEL_HEADER = "panel-header";
-var PANEL_HEADER_2 = "panel-header-2";
-var PANEL_HEADER_3 = "panel-header-3";
-var PANEL_FOOTER = "panel-footer";
-var PANEL_FOOTER_2 = "panel-footer-2";
-var PANEL_FOOTER_3 = "panel-footer-3";
-var BUTTON_ICON = "button-icon";
-var BUTTON_ICON_2 = "button-icon-2";
-var BUTTON_ICON_3 = "button-icon-3";
-var MENU_ITEM = "menu-item";
-var MENU_ITEM_2 = "menu-item-2";
-var MENU_ITEM_3 = "menu-item-3";
-var HEADING = "heading";
-var HEADING_2 = "heading-2";
-var HEADING_3 = "heading-3";
-var SUBHEADING = "subheading";
-var SUBHEADING_2 = "subheading-2";
-var SUBHEADING_3 = "subheading-3";
-var PARAGRAPH = "paragraph";
-var PARAGRAPH_2 = "paragraph-2";
-var PARAGRAPH_3 = "paragraph-3";
-var TAG = "tag";
-var TAG_2 = "tag-2";
-var TAG_3 = "tag-3";
-var TOGGLE = "toggle";
-var TOGGLE_2 = "toggle-2";
-var TOGGLE_3 = "toggle-3";
-var DASHBOARD_FOOTER = "dashboard-footer";
-var DASHBOARD_FOOTER_2 = "dashboard-footer-2";
-var DASHBOARD_FOOTER_3 = "dashboard-footer-3";
-var CODE_EDITOR = "code-editor";
-var INPUT_TEXT = "input-text";
-var SELECT_MENU = "select-menu";
-var FORM_LABEL = "form-label";
-var DASH_PANEL = "dash-panel";
-var DASH_PANEL_2 = "dash-panel-2";
-var DASH_PANEL_3 = "dash-panel-3";
-var DASH_PANEL_HEADER = "dash-panel-header";
-var DASH_PANEL_HEADER_2 = "dash-panel-header-2";
-var DASH_PANEL_HEADER_3 = "dash-panel-header-3";
-var DASH_PANEL_FOOTER = "dash-panel-footer";
-var DASH_PANEL_FOOTER_2 = "dash-panel-footer-2";
-var DASH_PANEL_FOOTER_3 = "dash-panel-footer-3";
-var WIDGET = "widget";
-var WORKSPACE = "workspace";
-var LAYOUT_CONTAINER = "layout-container";
-var themeObjects = {
-  BUTTON: BUTTON,
-  BUTTON_2: BUTTON_2,
-  BUTTON_3: BUTTON_3,
-  BUTTON_ICON: BUTTON_ICON,
-  BUTTON_ICON_2: BUTTON_ICON_2,
-  BUTTON_ICON_3: BUTTON_ICON_3,
-  CODE_EDITOR: CODE_EDITOR,
-  INPUT_TEXT: INPUT_TEXT,
-  PANEL: PANEL,
-  PANEL_2: PANEL_2,
-  PANEL_3: PANEL_3,
-  PANEL_HEADER: PANEL_HEADER,
-  PANEL_HEADER_2: PANEL_HEADER_2,
-  PANEL_HEADER_3: PANEL_HEADER_3,
-  PANEL_FOOTER: PANEL_FOOTER,
-  PANEL_FOOTER_2: PANEL_FOOTER_2,
-  PANEL_FOOTER_3: PANEL_FOOTER_3,
-  HEADING: HEADING,
-  HEADING_2: HEADING_2,
-  HEADING_3: HEADING_3,
-  SUBHEADING: SUBHEADING,
-  SUBHEADING_2: SUBHEADING_2,
-  SUBHEADING_3: SUBHEADING_3,
-  MENU_ITEM: MENU_ITEM,
-  MENU_ITEM_2: MENU_ITEM_2,
-  MENU_ITEM_3: MENU_ITEM_3,
-  PARAGRAPH: PARAGRAPH,
-  PARAGRAPH_2: PARAGRAPH_2,
-  PARAGRAPH_3: PARAGRAPH_3,
-  TAG: TAG,
-  TAG_2: TAG_2,
-  TAG_3: TAG_3,
-  TOGGLE: TOGGLE,
-  TOGGLE_2: TOGGLE_2,
-  TOGGLE_3: TOGGLE_3,
-  DASHBOARD_FOOTER: DASHBOARD_FOOTER,
-  DASHBOARD_FOOTER_2: DASHBOARD_FOOTER_2,
-  DASHBOARD_FOOTER_3: DASHBOARD_FOOTER_3,
-  SELECT_MENU: SELECT_MENU,
-  FORM_LABEL: FORM_LABEL,
-  DASH_PANEL: DASH_PANEL,
-  DASH_PANEL_2: DASH_PANEL_2,
-  DASH_PANEL_3: DASH_PANEL_3,
-  DASH_PANEL_HEADER: DASH_PANEL_HEADER,
-  DASH_PANEL_HEADER_2: DASH_PANEL_HEADER_2,
-  DASH_PANEL_HEADER_3: DASH_PANEL_HEADER_3,
-  DASH_PANEL_FOOTER: DASH_PANEL_FOOTER,
-  DASH_PANEL_FOOTER_2: DASH_PANEL_FOOTER_2,
-  DASH_PANEL_FOOTER_3: DASH_PANEL_FOOTER_3,
-  WIDGET: WIDGET,
-  WORKSPACE: WORKSPACE,
-  LAYOUT_CONTAINER: LAYOUT_CONTAINER
-};
-var BACKGROUND_COLOR = "backgroundColor";
-var BORDER_COLOR = "borderColor";
-var TEXT_COLOR = "textColor";
-var HOVER_BACKGROUND_COLOR = "hoverBackgroundColor";
-var HOVER_TEXT_COLOR = "hoverTextColor";
-var HOVER_BORDER_COLOR = "hoverBorderColor";
-var PADDING = "padding";
-var styleClassNames = {
-  BACKGROUND_COLOR: BACKGROUND_COLOR,
-  TEXT_COLOR: TEXT_COLOR,
-  BORDER_COLOR: BORDER_COLOR,
-  HOVER_BACKGROUND_COLOR: HOVER_BACKGROUND_COLOR,
-  HOVER_BORDER_COLOR: HOVER_BORDER_COLOR,
-  HOVER_TEXT_COLOR: HOVER_TEXT_COLOR,
-  PADDING: PADDING
-};
-
-function _typeof$H(o) { "@babel/helpers - typeof"; return _typeof$H = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$H(o); }
-function ownKeys$B(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$B(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$B(Object(t), !0).forEach(function (r) { _defineProperty$D(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$B(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$D(e, r, t) { return (r = _toPropertyKey$H(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$H(t) { var i = _toPrimitive$H(t, "string"); return "symbol" == _typeof$H(i) ? i : i + ""; }
-function _toPrimitive$H(t, r) { if ("object" != _typeof$H(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$H(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
-  var theme = _ref.theme,
-    themeVariant = _ref.themeVariant,
-    onClick = _ref.onClick;
-  function handleClickItem(itemType, styles) {
-    try {
-      // get the styles for the item and display...
-      var temp = {
-        item: itemType,
-        styles: styles
-      };
-      // setItemSelected(() => temp);
-      // setItemColorSelected(null);
-      onClick(temp);
-    } catch (e) {
-    }
-  }
-  function renderPanels() {
-    var styles = getStylesForItem(themeObjects.PANEL, theme[themeVariant]);
-    var styles2 = getStylesForItem(themeObjects.PANEL_2, theme[themeVariant]);
-    var styles3 = getStylesForItem(themeObjects.PANEL_3, theme[themeVariant]);
-
-    // Panel 1
-    var headingStyles = getStylesForItem(themeObjects.HEADING, theme[themeVariant]);
-    var subHeadingStyles = getStylesForItem(themeObjects.SUBHEADING, theme[themeVariant]);
-    var paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH, theme[themeVariant]);
-    var buttonStyles = getStylesForItem(themeObjects.BUTTON, theme[themeVariant]);
-    var buttonIconStyles = getStylesForItem(themeObjects.BUTTON_ICON, theme[themeVariant]);
-    var menuItemStyles = getStylesForItem(themeObjects.MENU_ITEM, theme[themeVariant]);
-    var tagStyles = getStylesForItem(themeObjects.TAG, theme[themeVariant]);
-    var heading2Styles = getStylesForItem(themeObjects.HEADING_2, theme[themeVariant]);
-    var subHeading2Styles = getStylesForItem(themeObjects.SUBHEADING_2, theme[themeVariant]);
-    var paragraph2Styles = getStylesForItem(themeObjects.PARAGRAPH_2, theme[themeVariant]);
-    var button2Styles = getStylesForItem(themeObjects.BUTTON_2, theme[themeVariant]);
-    var buttonIcon2Styles = getStylesForItem(themeObjects.BUTTON_ICON_2, theme[themeVariant]);
-    var menuItem2Styles = getStylesForItem(themeObjects.MENU_ITEM_2, theme[themeVariant]);
-    var tag2Styles = getStylesForItem(themeObjects.TAG_2, theme[themeVariant]);
-    var heading3Styles = getStylesForItem(themeObjects.HEADING_3, theme[themeVariant]);
-    var subHeading3Styles = getStylesForItem(themeObjects.SUBHEADING_3, theme[themeVariant]);
-    var paragraph3Styles = getStylesForItem(themeObjects.PARAGRAPH_3, theme[themeVariant]);
-    var button3Styles = getStylesForItem(themeObjects.BUTTON_3, theme[themeVariant]);
-    var buttonIcon3Styles = getStylesForItem(themeObjects.BUTTON_ICON_3, theme[themeVariant]);
-    var menuItem3Styles = getStylesForItem(themeObjects.MENU_ITEM_3, theme[themeVariant]);
-    var tag3Styles = getStylesForItem(themeObjects.TAG_3, theme[themeVariant]);
-    return /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col space-y-4 p-4",
-      children: [/*#__PURE__*/jsxs("div", {
-        className: "flex flex-row bg-gray-900 p-4 space-x-4 rounded justify-between",
-        children: [/*#__PURE__*/jsxs(Panel, _objectSpread$B(_objectSpread$B({}, styles), {}, {
-          scrollable: false,
-          className: "rounded",
-          children: [/*#__PURE__*/jsx(Panel.Header, {
-            className: "text-xs uppercase font-bold",
-            children: "Panel"
-          }), /*#__PURE__*/jsx(Panel.Body, _objectSpread$B(_objectSpread$B({}, styles), {}, {
-            onClick: function onClick() {
-              handleClickItem(themeObjects.PANEL, styles);
-            }
-          })), /*#__PURE__*/jsx(Panel.Footer, {
-            className: "text-xs uppercase font-light",
-            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL)
-          })]
-        })), /*#__PURE__*/jsxs(Panel2, _objectSpread$B(_objectSpread$B({
-          className: "rounded"
-        }, styles2), {}, {
-          scrollable: false,
-          children: [/*#__PURE__*/jsx(Panel2.Header, {
-            className: "text-xs uppercase font-bold",
-            children: "Panel 2"
-          }), /*#__PURE__*/jsx(Panel2.Body, _objectSpread$B(_objectSpread$B({}, styles2), {}, {
-            onClick: function onClick() {
-              handleClickItem(themeObjects.PANEL_2, styles2);
-            }
-          })), /*#__PURE__*/jsx(Panel2.Footer, {
-            className: "text-xs uppercase font-light",
-            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_2)
-          })]
-        })), /*#__PURE__*/jsxs(Panel3, _objectSpread$B(_objectSpread$B({
-          className: "rounded"
-        }, styles3), {}, {
-          scrollable: false,
-          children: [/*#__PURE__*/jsx(Panel3.Header, {
-            className: "text-xs uppercase font-bold",
-            children: "Panel 3"
-          }), /*#__PURE__*/jsx(Panel3.Body, _objectSpread$B(_objectSpread$B({}, styles3), {}, {
-            onClick: function onClick() {
-              handleClickItem(themeObjects.PANEL_3, styles3);
-            }
-          })), /*#__PURE__*/jsx(Panel3.Footer, {
-            className: "text-xs uppercase font-light",
-            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_3)
-          })]
-        }))]
-      }), /*#__PURE__*/jsxs(Panel, _objectSpread$B(_objectSpread$B({
-        className: "p-6 rounded border-4 space-y-4",
-        scrollable: false,
-        height: "h-fit"
-      }, styles), {}, {
-        children: [/*#__PURE__*/jsx(Heading, _objectSpread$B(_objectSpread$B({
-          title: "Heading"
-        }, headingStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING, headingStyles);
-          }
-        })), /*#__PURE__*/jsx(Heading2, _objectSpread$B(_objectSpread$B({
-          title: "Heading 2"
-        }, heading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
-          }
-        })), /*#__PURE__*/jsx(Heading3, _objectSpread$B(_objectSpread$B({
-          title: "Heading 3"
-        }, heading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeadingStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$B(_objectSpread$B({
-          title: "Subheading 2"
-        }, subHeading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraphStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraph2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraph3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
-          }
-        })), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Button, _objectSpread$B(_objectSpread$B({
-            title: "Button"
-          }, buttonStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON, buttonStyles);
-            }
-          })), /*#__PURE__*/jsx(Button2, _objectSpread$B(_objectSpread$B({
-            title: "Button 2"
-          }, button2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON_2, button2Styles);
-            }
-          })), /*#__PURE__*/jsx(Button3, _objectSpread$B(_objectSpread$B({
-            title: "Button 3"
-          }, button3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON_3, button3Styles);
-            }
-          }))]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-4 w-full h-fit",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon",
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
-              }
-            }))]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon 2",
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-              }
-            }))]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon 3",
-              icon: "pencil"
-            }, buttonIcon3Styles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIcon3Styles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-              }
-            }))]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full",
-          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$B(_objectSpread$B({}, menuItemStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
-            },
-            children: "Menu Item"
-          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$B(_objectSpread$B({}, menuItem2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
-            },
-            children: "Menu Item 2"
-          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$B(_objectSpread$B({}, menuItem3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
-            },
-            children: "Menu Item 3"
-          }))]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Tag, _objectSpread$B(_objectSpread$B({
-            text: "Tag",
-            icon: "pencil"
-          }, tagStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG, tagStyles);
-            }
-          })), /*#__PURE__*/jsx(Tag2, _objectSpread$B(_objectSpread$B({
-            text: "Tag 2",
-            icon: "pencil"
-          }, tag2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG_2, tag2Styles);
-            }
-          })), /*#__PURE__*/jsx(Tag3, _objectSpread$B(_objectSpread$B({
-            text: "Tag 3",
-            icon: "pencil"
-          }, tag3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG_3, tag3Styles);
-            }
-          }))]
-        })]
-      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$B(_objectSpread$B({
-        className: "p-6 rounded border-4 space-y-4",
-        height: "h-fit"
-      }, styles2), {}, {
-        children: [/*#__PURE__*/jsx(Heading, _objectSpread$B(_objectSpread$B({
-          title: "Heading"
-        }, headingStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING, headingStyles);
-          }
-        })), /*#__PURE__*/jsx(Heading2, _objectSpread$B(_objectSpread$B({
-          title: "Heading 2"
-        }, heading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
-          }
-        })), /*#__PURE__*/jsx(Heading3, _objectSpread$B(_objectSpread$B({
-          title: "Heading 3"
-        }, heading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeadingStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$B(_objectSpread$B({
-          title: "Subheading 2"
-        }, subHeading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraphStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraph2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraph3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
-          }
-        })), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Button, _objectSpread$B(_objectSpread$B({
-            title: "Button"
-          }, buttonStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON, buttonStyles);
-            }
-          })), /*#__PURE__*/jsx(Button2, _objectSpread$B(_objectSpread$B({
-            title: "Button 2"
-          }, button2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON_2, button2Styles);
-            }
-          })), /*#__PURE__*/jsx(Button3, _objectSpread$B(_objectSpread$B({
-            title: "Button 3"
-          }, button3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON_3, button3Styles);
-            }
-          }))]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-4 w-full",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon",
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
-              }
-            }))]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon 2",
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-              }
-            }))]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon 3",
-              icon: "pencil"
-            }, buttonIcon3Styles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIcon3Styles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-              }
-            }))]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full",
-          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$B(_objectSpread$B({}, menuItemStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
-            },
-            children: "Menu Item"
-          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$B(_objectSpread$B({}, menuItem2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
-            },
-            children: "Menu Item 2"
-          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$B(_objectSpread$B({}, menuItem3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
-            },
-            children: "Menu Item 3"
-          }))]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Tag, _objectSpread$B(_objectSpread$B({
-            text: "Tag",
-            icon: "pencil"
-          }, tagStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG, tagStyles);
-            }
-          })), /*#__PURE__*/jsx(Tag2, _objectSpread$B(_objectSpread$B({
-            text: "Tag 2",
-            icon: "pencil"
-          }, tag2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG_2, tag2Styles);
-            }
-          })), /*#__PURE__*/jsx(Tag3, _objectSpread$B(_objectSpread$B({
-            text: "Tag 3",
-            icon: "pencil"
-          }, tag3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG_3, tag3Styles);
-            }
-          }))]
-        })]
-      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$B(_objectSpread$B({
-        className: "p-6 rounded border-4 space-y-4"
-      }, styles3), {}, {
-        padding: false,
-        height: "h-fit",
-        children: [/*#__PURE__*/jsx(Heading, _objectSpread$B(_objectSpread$B({
-          title: "Heading"
-        }, headingStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING, headingStyles);
-          }
-        })), /*#__PURE__*/jsx(Heading2, _objectSpread$B(_objectSpread$B({
-          title: "Heading 2"
-        }, heading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
-          }
-        })), /*#__PURE__*/jsx(Heading3, _objectSpread$B(_objectSpread$B({
-          title: "Heading 3"
-        }, heading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeadingStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$B(_objectSpread$B({
-          title: "Subheading 2"
-        }, subHeading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraphStyles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraph2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH, paragraph2Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$B(_objectSpread$B({
-          text: "The quick brown fox jumps over the lazy dog."
-        }, paragraph3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
-          }
-        })), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Button, _objectSpread$B(_objectSpread$B({
-            title: "Button"
-          }, buttonStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON, buttonStyles);
-            }
-          })), /*#__PURE__*/jsx(Button2, _objectSpread$B(_objectSpread$B({
-            title: "Button 2"
-          }, button2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON_2, button2Styles);
-            }
-          })), /*#__PURE__*/jsx(Button3, _objectSpread$B(_objectSpread$B({
-            title: "Button 3"
-          }, button3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.BUTTON_3, button3Styles);
-            }
-          }))]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-4 w-full",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon",
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
-              }
-            }))]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon 2",
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIconStyles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-              }
-            }))]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              text: "Button Icon 3",
-              icon: "pencil"
-            }, buttonIcon3Styles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-              }
-            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$B(_objectSpread$B({
-              icon: "pencil"
-            }, buttonIcon3Styles), {}, {
-              onClick: function onClick() {
-                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-              }
-            }))]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full",
-          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$B(_objectSpread$B({}, menuItemStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
-            },
-            children: "Menu Item"
-          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$B(_objectSpread$B({}, menuItem2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
-            },
-            children: "Menu Item 2"
-          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$B(_objectSpread$B({}, menuItem3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
-            },
-            children: "Menu Item 3"
-          }))]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-2 w-full",
-          children: [/*#__PURE__*/jsx(Tag, _objectSpread$B(_objectSpread$B({
-            text: "Tag",
-            icon: "pencil"
-          }, tagStyles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG, tagStyles);
-            }
-          })), /*#__PURE__*/jsx(Tag2, _objectSpread$B(_objectSpread$B({
-            text: "Tag 2",
-            icon: "pencil"
-          }, tag2Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG_2, tag2Styles);
-            }
-          })), /*#__PURE__*/jsx(Tag3, _objectSpread$B(_objectSpread$B({
-            text: "Tag 3",
-            icon: "pencil"
-          }, tag3Styles), {}, {
-            onClick: function onClick() {
-              return handleClickItem(themeObjects.TAG_3, tag3Styles);
-            }
-          }))]
-        })]
-      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$B(_objectSpread$B({
-        className: "p-6 rounded border-4 space-y-4"
-      }, styles2), {}, {
-        height: "h-fit",
-        padding: false,
-        children: [/*#__PURE__*/jsx(Heading2, _objectSpread$B(_objectSpread$B({
-          title: "Heading 2"
-        }, heading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$B(_objectSpread$B({
-          title: "Subheading 2"
-        }, subHeading2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$B(_objectSpread$B({
-          text: "Paragraph 2 - The quick brown fox jumps over the lazy dog."
-        }, paragraph2Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
-          }
-        })), /*#__PURE__*/jsx(Button2, _objectSpread$B(_objectSpread$B({
-          title: "Button"
-        }, button2Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.BUTTON_2, button2Styles);
-          }
-        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$B(_objectSpread$B({
-          text: "Button Icon",
-          icon: "pencil"
-        }, buttonIcon2Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
-          }
-        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$B(_objectSpread$B({
-          icon: "pencil"
-        }, buttonIcon2Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIconStyles);
-          }
-        })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$B(_objectSpread$B({}, menuItem2Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
-          },
-          children: "Menu Item"
-        })), /*#__PURE__*/jsx(Tag2, _objectSpread$B(_objectSpread$B({
-          text: "Tag 2",
-          icon: "pencil"
-        }, tag2Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.TAG_2, tag2Styles);
-          }
-        }))]
-      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$B(_objectSpread$B({
-        className: "p-6 rounded border-4 space-y-4"
-      }, styles3), {}, {
-        height: "h-fit",
-        padding: false,
-        children: [/*#__PURE__*/jsx(Heading3, _objectSpread$B(_objectSpread$B({
-          title: "Heading 3"
-        }, heading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
-          }
-        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$B(_objectSpread$B({
-          title: "Subheading"
-        }, subHeading3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
-          }
-        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$B(_objectSpread$B({
-          text: "Paragraph 3 - The quick brown fox jumps over the lazy dog."
-        }, paragraph3Styles), {}, {
-          padding: false,
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
-          }
-        })), /*#__PURE__*/jsx(Button3, _objectSpread$B(_objectSpread$B({
-          title: "Button"
-        }, button3Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.BUTTON_3, button3Styles);
-          }
-        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$B(_objectSpread$B({
-          text: "Button Icon 3",
-          icon: "pencil"
-        }, buttonIcon3Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-          }
-        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$B(_objectSpread$B({
-          icon: "pencil"
-        }, buttonIcon3Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
-          }
-        })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$B(_objectSpread$B({}, menuItem3Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
-          },
-          children: "Menu Item"
-        })), /*#__PURE__*/jsx(Tag3, _objectSpread$B(_objectSpread$B({
-          text: "Tag",
-          icon: "pencil"
-        }, tag3Styles), {}, {
-          onClick: function onClick() {
-            return handleClickItem(themeObjects.TAG_3, tag3Styles);
-          }
-        }))]
-      }))]
-    });
-  }
-  return /*#__PURE__*/jsx(LayoutContainer, {
-    scrollable: true,
-    direction: "col",
-    children: renderPanels()
-  });
-};
-
-function _typeof$G(o) { "@babel/helpers - typeof"; return _typeof$G = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$G(o); }
-var _excluded$z = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
-function ownKeys$A(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$A(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$A(Object(t), !0).forEach(function (r) { _defineProperty$C(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$A(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$C(e, r, t) { return (r = _toPropertyKey$G(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$G(t) { var i = _toPrimitive$G(t, "string"); return "symbol" == _typeof$G(i) ? i : i + ""; }
-function _toPrimitive$G(t, r) { if ("object" != _typeof$G(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$G(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$z(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$z(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$z(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var ColorTile = function ColorTile(_ref) {
-  var _ref$colorFromTheme = _ref.colorFromTheme,
-    colorFromTheme = _ref$colorFromTheme === void 0 ? null : _ref$colorFromTheme,
-    _ref$colorName = _ref.colorName,
-    colorName = _ref$colorName === void 0 ? null : _ref$colorName,
-    _ref$shade = _ref.shade,
-    shade = _ref$shade === void 0 ? null : _ref$shade,
-    _ref$variant = _ref.variant,
-    variant = _ref$variant === void 0 ? "dark" : _ref$variant,
-    _ref$colorType = _ref.colorType,
-    colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
-    _ref$colorLevelName = _ref.colorLevelName,
-    colorLevelName = _ref$colorLevelName === void 0 ? null : _ref$colorLevelName,
-    _ref$selected = _ref.selected,
-    selected = _ref$selected === void 0 ? false : _ref$selected,
-    _ref$onClick = _ref.onClick,
-    _onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$onMouseOver = _ref.onMouseOver,
-    _onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-full" : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-10" : _ref$height,
-    rest = _objectWithoutProperties$z(_ref, _excluded$z);
-  var c = ColorModel(_objectSpread$A({
-    colorFromTheme: colorFromTheme,
-    colorName: colorName,
-    colorType: colorType,
-    shade: shade,
-    variant: variant,
-    level: colorLevelName
-  }, rest));
-
-  // console.log("Color Model Tile ", c);
-
-  // const stringColor = colorFromTheme === null ? `bg-${colorName}${shade !== null ? `-${shade}` : ''}` : colorFromTheme;
-  // const parts = colorFromTheme !== null ? colorFromTheme.split('-') : null;
-
-  // const derivedShade = parts !== null ? parts[parts.length -1] : null;
-  // const derivedColorName = parts !== null ? parts[parts.length - 2] : null;
-
-  // const stringThemeColorName = '';
-  // const objToSend = {
-  //     colorName: colorName !== null ? colorName : colorFromTheme !== null && derivedColorName,
-  //     shade: shade !== null ? shade : colorFromTheme !== null && derivedShade,
-  //     stringColor,
-  //     ...rest
-  // };
-
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 text-xs ".concat(selected === true ? "border-yellow-500" : "border-gray-800", " hover:border-yellow-500 border-gray-800 ").concat(c["class"], " ").concat(width, " ").concat(height),
-    onClick: function onClick() {
-      return _onClick !== null ? _onClick(_objectSpread$A(_objectSpread$A({}, c), rest)) : null;
-    },
-    onMouseOver: function onMouseOver() {
-      return _onMouseOver !== null ? _onMouseOver(_objectSpread$A(_objectSpread$A({}, c), rest)) : null;
-    },
-    children: "\xA0"
-  });
-};
-
-function _typeof$F(o) { "@babel/helpers - typeof"; return _typeof$F = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$F(o); }
-function ownKeys$z(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$z(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$z(Object(t), !0).forEach(function (r) { _defineProperty$B(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$z(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$B(e, r, t) { return (r = _toPropertyKey$F(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$F(t) { var i = _toPrimitive$F(t, "string"); return "symbol" == _typeof$F(i) ? i : i + ""; }
-function _toPrimitive$F(t, r) { if ("object" != _typeof$F(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$F(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var PreviewColorsPane = function PreviewColorsPane(_ref) {
-  var _ref$styles = _ref.styles,
-    styles = _ref$styles === void 0 ? null : _ref$styles,
-    theme = _ref.theme,
-    _ref$itemType = _ref.itemType,
-    itemType = _ref$itemType === void 0 ? null : _ref$itemType,
-    _ref$onClickItem = _ref.onClickItem,
-    onClickItem = _ref$onClickItem === void 0 ? null : _ref$onClickItem,
-    _ref$onResetStyles = _ref.onResetStyles,
-    onResetStyles = _ref$onResetStyles === void 0 ? null : _ref$onResetStyles;
-  var _useContext = useContext$1(ThemeContext),
-    themeVariant = _useContext.themeVariant;
-  function handleClickItem(data, styleNameCss, itemType, objectType) {
-    // override the object type
-    data["objectType"] = objectType;
-    onClickItem(_objectSpread$z(_objectSpread$z({}, data), {}, {
-      itemType: itemType,
-      styleName: styleNameCss
-    }));
-  }
-  function handleResetStyles() {
-    onResetStyles(itemType);
-  }
-  function hasCustomStyles() {
-    var hasStyles = false;
-    // are there any styles (custom) in the theme for this item?
-    var themeStyles = theme[themeVariant][itemType];
-    // do we have any custom styles in the theme?
-    if (themeStyles !== undefined) {
-      Object.keys(styles).forEach(function (styleKey) {
-        if (styleKey in themeStyles) {
-          hasStyles = true;
-        }
-      });
-    }
-    return hasStyles;
-  }
-  function renderAvailableColors() {
-    // are there any styles (custom) in the theme for this item?
-    var themeStyles = theme[themeVariant][itemType];
-    // do we have any custom styles in the theme?
-    var newStyles = deepCopy(styles);
-    if (themeStyles !== undefined) {
-      Object.keys(styles).forEach(function (styleKey) {
-        newStyles[styleKey] = styleKey in themeStyles ? themeStyles[styleKey] : styles[styleKey];
-      });
-    }
-    return Object.keys(newStyles).filter(function (t) {
-      return t !== "string";
-    }).map(function (key) {
-      // lets get the base...
-      // we also have to compare the current theme selected and the colors that are in there?
-      // does the item have a default for the key? if not, abort!
-
-      var parts = key in newStyles ? newStyles[key] !== undefined ? newStyles[key].split("-") : null : null;
-      if (parts !== null) {
-        var objectType = parts[0];
-        var colorName = parts[1];
-        var shade = parts[2];
-        var c = ColorModel({
-          colorFromTheme: "".concat(parts[0], "-").concat(parts[1], "-").concat(parts[2]),
-          colorName: colorName,
-          shade: shade
-        });
-        return key !== "string" && /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-between py-2 items-center border-b border-gray-700 px-4",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-col space-y-1",
-            children: [/*#__PURE__*/jsx("span", {
-              className: "text-sm font-bold text-gray-300",
-              children: key
-            }), c && "hex" in c && /*#__PURE__*/jsx("span", {
-              className: "text-xs font-light text-gray-500",
-              children: isObject(c.hex) ? c.hex[shade] : c.hex
-            })]
-          }), /*#__PURE__*/jsx(ColorTile, {
-            width: "w-1/2",
-            colorFromTheme: "".concat(parts[0], "-").concat(parts[1], "-").concat(parts[2]),
-            shade: shade,
-            colorName: colorName,
-            panelType: "item",
-            itemType: itemType,
-            objectType: "bg",
-            variant: "dark",
-            onClick: function onClick(data) {
-              return handleClickItem(data, key, itemType, objectType);
-            }
-          })]
-        }, "preview-color-".concat(key));
-      }
-      return null;
-    });
-  }
-  return styles !== null && itemType !== null ? /*#__PURE__*/jsxs(ThemePane, {
-    children: [/*#__PURE__*/jsx("div", {
-      className: "flex flex-col",
-      children: renderAvailableColors()
-    }), hasCustomStyles() === true && /*#__PURE__*/jsx("div", {
-      className: "flex flex-row justify-end p-2",
-      children: /*#__PURE__*/jsx(Tag3, {
-        theme: false,
-        text: "Reset to Default",
-        backgroundColor: "bg-orange-700",
-        onClick: handleResetStyles,
-        textSize: "text-xs"
-      })
-    })]
-  }) : null;
-};
-
-var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
-  var _ref$currentColor = _ref.currentColor,
-    currentColor = _ref$currentColor === void 0 ? null : _ref$currentColor,
-    _ref$colorType = _ref.colorType,
-    colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$onCancel = _ref.onCancel,
-    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel,
-    _ref$onMouseOver = _ref.onMouseOver,
-    onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
-    _ref$shade = _ref.shade,
-    shade = _ref$shade === void 0 ? null : _ref$shade;
-  function handleChooseColor(data) {
-    onClick !== null && onClick(data);
-  }
-  function handleChooseColorTemp(data) {
-    onMouseOver !== null && onMouseOver(data);
-  }
-  function handleCancel() {
-    onCancel && onCancel(currentColor);
-  }
-  function renderAvailableColors() {
-    return colorNames.sort().map(function (colorName) {
-      return shades.filter(function (c) {
-        return shade === null ? true : c === shade;
-      }).map(function (shadeLevel) {
-        var cModel = ColorModel({
-          colorName: colorName,
-          colorType: colorType,
-          shade: shadeLevel,
-          level: shadeLevel
-        });
-        return /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-between items-center py-2 border-b border-gray-700",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-col",
-            children: [/*#__PURE__*/jsxs("span", {
-              className: "text-sm font-bold text-gray-300",
-              children: [capitalizeFirstLetter(colorName), " ", shadeLevel]
-            }), cModel && /*#__PURE__*/jsx("span", {
-              className: "text-xs font-light text-gray-500",
-              children: cModel.hex[shadeLevel]
-            }), !cModel && /*#__PURE__*/jsx("span", {
-              className: "text-xs font-light text-gray-500",
-              children: "NA"
-            })]
-          }), /*#__PURE__*/jsx(ColorTile, {
-            width: "w-2/3",
-            colorType: colorType,
-            colorName: colorName,
-            colorLevelName: shadeLevel,
-            shade: shadeLevel,
-            onClick: handleChooseColor,
-            onMouseOver: handleChooseColorTemp
-          })]
-        });
-      });
-    });
-  }
-  return (
-    /*#__PURE__*/
-    // <LayoutContainer
-    //     direction="col"
-    //     scrollable={false}
-    //     className="space-y-1"
-    //     height={"h-full"}
-    // >
-    jsxs(DashPanel, {
-      height: "h-full",
-      scrollable: true,
-      children: [/*#__PURE__*/jsx(DashPanel.Header, {
-        title: "AvailableColors"
-      }), /*#__PURE__*/jsx(DashPanel.Body, {
-        scrollable: true,
-        space: true,
-        children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-col space-y-1",
-          children: renderAvailableColors()
-        })
-      }), onCancel && /*#__PURE__*/jsx(DashPanel.Footer, {
-        children: /*#__PURE__*/jsx(Button, {
-          title: "Cancel",
-          block: true,
-          onClick: handleCancel
-        })
-      })]
-    })
-    // </LayoutContainer>
-  );
-};
-
-function _slicedToArray$x(r, e) { return _arrayWithHoles$x(r) || _iterableToArrayLimit$x(r, e) || _unsupportedIterableToArray$y(r, e) || _nonIterableRest$x(); }
-function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$y(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$y(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$y(r, a) : void 0; } }
-function _arrayLikeToArray$y(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$x(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$x(r) { if (Array.isArray(r)) return r; }
-var ThemeMenuPane = function ThemeMenuPane(_ref) {
-  var _ref$currentColor = _ref.currentColor,
-    currentColor = _ref$currentColor === void 0 ? null : _ref$currentColor,
-    theme = _ref.theme,
-    onChooseColor = _ref.onChooseColor,
-    onChooseReplacementColor = _ref.onChooseReplacementColor,
-    _ref$onCancel = _ref.onCancel,
-    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel;
-  var _useState = useState(null),
-    _useState2 = _slicedToArray$x(_useState, 2),
-    selectedColor = _useState2[0],
-    setSelectedColor = _useState2[1];
-  var _useContext = useContext$1(ThemeContext),
-    themeVariant = _useContext.themeVariant;
-  function handleSelectColor(c, colorType) {
-    setSelectedColor({
-      color: c,
-      colorType: colorType,
-      type: c["objectType"],
-      itemType: c["itemType"]
-    });
-    onChooseColor(c);
-  }
-  function handleCancelSelectColor(color) {
-    setSelectedColor(null);
-    onCancel && onCancel(color);
-  }
-  function handleReplaceColor(_ref2) {
-    var _ref2$panelType = _ref2.panelType,
-      panelType = _ref2$panelType === void 0 ? "main" : _ref2$panelType,
-      colorType = _ref2.colorType,
-      colorName = _ref2.colorName,
-      _ref2$shade = _ref2.shade,
-      shade = _ref2$shade === void 0 ? 500 : _ref2$shade;
-    if (selectedColor !== null) {
-      var colorReplacement = {
-        colorName: colorName,
-        colorType: colorType,
-        shade: shade,
-        panelType: panelType
-      };
-      var r = ColorModel(colorReplacement);
-      onChooseReplacementColor(selectedColor, r);
-      setSelectedColor(null);
-    }
-  }
-  function handleReplaceColorTemp(_ref3) {
-    var _ref3$panelType = _ref3.panelType,
-      panelType = _ref3$panelType === void 0 ? "main" : _ref3$panelType,
-      colorType = _ref3.colorType,
-      colorName = _ref3.colorName,
-      _ref3$shade = _ref3.shade,
-      shade = _ref3$shade === void 0 ? 500 : _ref3$shade;
-    if (selectedColor !== null) {
-      var colorReplacement = {
-        colorName: colorName,
-        colorType: colorType,
-        shade: shade,
-        panelType: panelType
-      };
-      var r = ColorModel(colorReplacement);
-      onChooseReplacementColor(selectedColor, r);
-    }
-  }
-  return /*#__PURE__*/jsx(LayoutContainer, {
-    direction: "col",
-    scrollable: true,
-    children: /*#__PURE__*/jsxs(LayoutContainer, {
-      direction: "col",
-      scrollable: true,
-      height: "h-fit",
-      children: [(selectedColor === null || selectedColor["color"]["panelType"] === "main") && /*#__PURE__*/jsxs(DashPanel, {
-        scrollable: false
-        // padding={true}
-        // height={selectedColor !== null ? "" : "h-fit"}
-        ,
-        height: "h-0",
-        children: [/*#__PURE__*/jsx(DashPanel.Header, {
-          title: "Main"
-        }), /*#__PURE__*/jsx(DashPanel.Body, {
-          scrollable: false,
-          children: colorTypes.filter(function (ct) {
-            return selectedColor !== null ? selectedColor["color"]["panelType"] === "main" && selectedColor["color"]["colorType"] === ct : true;
-          }).map(function (colorType) {
-            var bgColor = theme[themeVariant][colorType];
-            return /*#__PURE__*/jsxs("div", {
-              className: "flex flex-row justify-between items-center py-2 border-b border-gray-700",
-              children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-col h-fit",
-                children: /*#__PURE__*/jsx("span", {
-                  className: "text-sm font-bold text-gray-300",
-                  children: capitalizeFirstLetter(colorType)
-                })
-              }), /*#__PURE__*/jsx(ColorTile, {
-                width: "w-2/3",
-                colorName: bgColor,
-                colorType: colorType,
-                colorLevelName: null,
-                selected: false,
-                panelType: "main",
-                shade: 500,
-                onClick: function onClick(c) {
-                  return handleSelectColor(c, colorType);
-                }
-              })]
-            });
-          })
-        })]
-      }), (selectedColor === null || selectedColor["color"]["panelType"] === "sub") &&
-      /*#__PURE__*/
-      // <div
-      //     className={`flex flex-col rounded w-full space-y-2 min-h-1/4 overflow-y-scroll ${
-      //         selectedColor !== null ? "h-1/4" : "h-full"
-      //     }`}
-      // >
-      // <LayoutContainer scrollable={true} direction="col">
-      jsx(Fragment$1, {
-        children: colorTypes.filter(function (ct) {
-          return selectedColor !== null ? selectedColor["color"]["panelType"] === "sub" && selectedColor["color"]["colorType"] === ct : true;
-        }).map(function (colorType) {
-          return /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col w-full rounded bg-gray-800",
-            children: [/*#__PURE__*/jsx("div", {
-              className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
-              children: colorType
-            }), /*#__PURE__*/jsx("div", {
-              className: "flex flex-col p-2",
-              children: themeVariants.filter(function (v) {
-                return selectedColor !== null ? selectedColor["color"]["level"] === v : true;
-              }).map(function (colorLevelName) {
-                var stringToCheck = "bg-".concat(colorType, "-").concat(colorLevelName);
-                // const bgColor = theme[themeVariant][colorType];
-                var themeColor = theme[themeVariant][stringToCheck];
-                var parts = themeColor.split("-");
-                var colorName = parts[1];
-                var shade = parts[parts.length - 1];
-                var selected = selectedColor !== null ? colorType === selectedColor["color"]["colorType"] && colorLevelName === selectedColor["color"]["level"] && selectedColor["color"]["panelType"] === "sub" : false;
-                return /*#__PURE__*/jsxs("div", {
-                  className: "flex flex-row justify-between py-1 items-center ".concat(selectedColor === null ? "border-b border-gray-700" : "", " px-2"),
-                  children: [/*#__PURE__*/jsx("span", {
-                    className: "text-sm font-bold text-gray-300",
-                    children: colorLevelName
-                  }), /*#__PURE__*/jsx(ColorTile, {
-                    colorFromTheme: themeColor,
-                    colorName: colorName,
-                    colorType: colorType,
-                    colorLevelName: colorLevelName,
-                    variant: themeVariant,
-                    selected: selected,
-                    panelType: "sub",
-                    shade: shade,
-                    onClick: handleSelectColor
-                    // onHover={handleSelectColorTemp}
-                    // height={'h-5'}
-                    ,
-                    width: "w-1/2"
-                  })]
-                });
-              })
-            })]
-          });
-        })
-      })
-      // </LayoutContainer>
-      , selectedColor !== null && /*#__PURE__*/jsx(AvailableColorsGridPane, {
-        currentColor: currentColor,
-        colorType: selectedColor["color"]["colorType"],
-        onClick: handleReplaceColor,
-        onCancel: handleCancelSelectColor,
-        onMouseOver: handleReplaceColorTemp,
-        shade: selectedColor["color"]["panelType"] === "main" ? 500 : null
-      })]
-    })
-  });
-};
-
-function _slicedToArray$w(r, e) { return _arrayWithHoles$w(r) || _iterableToArrayLimit$w(r, e) || _unsupportedIterableToArray$x(r, e) || _nonIterableRest$w(); }
-function _nonIterableRest$w() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$x(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$x(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$x(r, a) : void 0; } }
-function _arrayLikeToArray$x(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$w(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$w(r) { if (Array.isArray(r)) return r; }
-var PanelTheme = function PanelTheme(_ref) {
-  var onUpdate = _ref.onUpdate,
-    _ref$theme = _ref.theme,
-    theme = _ref$theme === void 0 ? null : _ref$theme,
-    themeKey = _ref.themeKey,
-    rawTheme = _ref.rawTheme;
-  var _useContext = useContext$1(ThemeContext),
-    themeVariant = _useContext.themeVariant,
-    rawThemes = _useContext.rawThemes;
-  var _useState = useState(theme),
-    _useState2 = _slicedToArray$w(_useState, 2),
-    themeSelected = _useState2[0],
-    setThemeSelected = _useState2[1];
-  // const [themeMainColor, setThemeMainColor] = useState(null);
-  var _useState3 = useState(null),
-    _useState4 = _slicedToArray$w(_useState3, 2),
-    themeNameToEdit = _useState4[0],
-    setThemeNameToEdit = _useState4[1];
-  var _useState5 = useState(null),
-    _useState6 = _slicedToArray$w(_useState5, 2),
-    itemSelected = _useState6[0],
-    setItemSelected = _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray$w(_useState7, 2),
-    itemColorSelected = _useState8[0],
-    setItemColorSelected = _useState8[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$w(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (deepEqual(theme, themeSelected) === false) {
-      setThemeSelected(function () {
-        return theme;
-      });
-      forceUpdate();
-    }
-  }, [theme, rawThemes, themeSelected, forceUpdate]);
-
-  // function handleSelectThemeColor(colorType, variant, objectType) {
-  //     const themeToEdit = { colorType, variant, objectType };
-  //     setThemeNameToEdit(() => themeToEdit);
-  // }
-
-  function handleSelectColor(color) {
-    // const c = ColorModel(color);
-    // if (color['panelType'] === 'main') {
-    //     setThemeMainColor(c);
-    // }
-    // if (color['panelType'] === 'sub') {
-    //     console.log('color selected SUB ', color);
-    // }
-    setThemeNameToEdit(color);
-  }
-  function handleSelectColorCancel(color) {
-    var newTheme = deepCopy(rawTheme);
-
-    // // set the MAIN color
-    if (themeNameToEdit["panelType"] === "main") {
-      newTheme[color["colorType"]] = color["colorName"];
-      onUpdate(newTheme, themeKey);
-      forceUpdate();
-    }
-    if (themeNameToEdit["panelType"] === "sub") {
-      newTheme[themeVariant][themeNameToEdit["themeClass"]] = color["class"];
-      onUpdate(newTheme, themeKey);
-      forceUpdate();
-    }
-  }
-  function handleSelectReplacementColor(color, colorReplacement) {
-    var newTheme = deepCopy(rawTheme);
-    var replacementColorModel = ColorModel(colorReplacement);
-    // set the MAIN color
-    if (themeNameToEdit["panelType"] === "main") {
-      // use the type we added on in the main panel, not from the model
-      newTheme[color["colorType"]] = replacementColorModel["colorName"];
-      onUpdate(newTheme, themeKey);
-      // setThemeMainColor(() => null);
-      forceUpdate();
-    }
-
-    // set the generated value (override)
-    if (themeNameToEdit["panelType"] === "sub") {
-      // make sure we have the variant in the RAW THEME
-      if (themeVariant in newTheme === false) {
-        newTheme[themeVariant] = {};
-      }
-      newTheme[themeVariant][themeNameToEdit["themeClass"]] = replacementColorModel["class"];
-      onUpdate(newTheme, themeKey);
-      // setThemeMainColor(() => null);
-      forceUpdate();
-    }
-  }
-  function handleThemeNameChange(e) {
-    try {
-      if (rawTheme) {
-        var newTheme = deepCopy(rawTheme);
-        newTheme["name"] = e.target.value;
-        // push the new color change to the theme manager modal
-        onUpdate(newTheme, themeKey);
-      }
-    } catch (e) {
-    }
-  }
-  function handleSelectComponent(data) {
-    setItemSelected(function () {
-      return data;
-    });
-    setItemColorSelected(null);
-  }
-  function handleSelectColorForItem(data) {
-    try {
-      if (rawTheme) {
-        var newTheme = deepCopy(rawTheme);
-        var itemType = itemColorSelected.itemType,
-          styleName = itemColorSelected.styleName,
-          objectType = itemColorSelected.objectType;
-        var colorName = data.colorName,
-          shade = data.shade;
-        if (itemType in newTheme[themeVariant] === false) {
-          newTheme[themeVariant][itemType] = {};
-        }
-        newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
-        // push the new color change to the theme manager modal
-        onUpdate(newTheme, themeKey);
-        setItemColorSelected(null);
-      }
-    } catch (e) {
-    }
-  }
-  function handleSelectColorForItemTemp(data) {
-    try {
-      if (rawTheme !== null && rawTheme !== undefined) {
-        var newTheme = deepCopy(rawTheme);
-        var itemType = itemColorSelected.itemType,
-          styleName = itemColorSelected.styleName,
-          objectType = itemColorSelected.objectType;
-        var colorName = data.colorName,
-          shade = data.shade;
-        // check if light|dark exists in the raw theme
-        if (themeVariant && themeVariant in newTheme === false) {
-          newTheme[themeVariant] = {};
-        }
-        // now check within the variant type for the item (button, etc...)
-        if (itemType && itemType in newTheme[themeVariant] === false) {
-          newTheme[themeVariant][itemType] = {};
-        }
-        newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
-        // push the new color change to the theme manager modal
-        onUpdate(newTheme, themeKey);
-      }
-    } catch (e) {
-    }
-  }
-  function handleResetStylesForItem(itemType) {
-    try {
-      if (rawTheme !== null && rawTheme !== undefined) {
-        var newTheme = deepCopy(rawTheme);
-        // check if light|dark exists in the raw theme
-        if (themeVariant && themeVariant in newTheme === false) {
-          newTheme[themeVariant] = {};
-        }
-        newTheme[themeVariant][itemType] = {};
-        // push the new color change to the theme manager modal
-        onUpdate(newTheme, themeKey);
-      }
-    } catch (e) {
-    }
-  }
-  function handleResetStylesForTheme(itemType) {
-    try {
-      if (rawTheme !== null && rawTheme !== undefined) {
-        var newTheme = deepCopy(rawTheme);
-
-        // remove all of the custom colors for each variant...
-        newTheme["dark"] = {};
-        newTheme["light"] = {};
-
-        // push the new color change to the theme manager modal
-        onUpdate(newTheme, themeKey);
-      }
-    } catch (e) {
-    }
-  }
-  return /*#__PURE__*/jsx(Panel, {
-    theme: false,
-    backgroundColor: "",
-    padding: false,
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-row h-full rounded space-x-2 w-full",
-        children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full space-x-2",
-          children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col h-full rounded w-full overflow-hidden space-y-2",
-            children: [/*#__PURE__*/jsxs("div", {
-              className: "flex flex-row space-x-2",
-              children: [themeSelected !== null && /*#__PURE__*/jsx(InputText, {
-                name: "name",
-                padding: "p-4",
-                value: themeSelected.name,
-                onChange: handleThemeNameChange,
-                textSize: "text-lg",
-                placeholder: "Colorama ;-)",
-                bgColor: "bg-gray-900",
-                textColor: "text-gray-400",
-                hasBorder: false
-              }), /*#__PURE__*/jsx(ButtonIcon, {
-                onClick: handleResetStylesForTheme,
-                icon: "trash",
-                text: "Reset Theme"
-              })]
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1",
-              children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-col h-full w-1/3 overflow-hidden",
-                children: /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col h-full space-y-2 border-r border-gray-700 p-2 w-full",
-                  children: /*#__PURE__*/jsx(ThemeMenuPane, {
-                    currentColor: themeNameToEdit,
-                    theme: themeSelected,
-                    onChooseColor: handleSelectColor,
-                    onChooseReplacementColor: handleSelectReplacementColor,
-                    onCancel: handleSelectColorCancel
-                  })
-                })
-              }), themeSelected && /*#__PURE__*/jsx("div", {
-                className: "flex flex-col ".concat(itemSelected === null ? "w-3/4" : "w-1/2"),
-                children: /*#__PURE__*/jsx(PreviewComponentsPane, {
-                  theme: themeSelected,
-                  themeVariant: themeVariant,
-                  onClick: handleSelectComponent
-                })
-              }), /*#__PURE__*/jsxs("div", {
-                className: "flex flex-col w-1/4 min-w-1/4 p-1 space-y-1",
-                children: [itemSelected !== null && /*#__PURE__*/jsxs("div", {
-                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
-                  children: [/*#__PURE__*/jsx("div", {
-                    className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
-                    children: itemSelected["item"]
-                  }), /*#__PURE__*/jsx(LayoutContainer, {
-                    scrollable: true,
-                    direction: "col",
-                    children: /*#__PURE__*/jsx(PreviewColorsPane, {
-                      styles: itemSelected["styles"],
-                      theme: themeSelected,
-                      itemType: itemSelected["item"],
-                      onClickItem: function onClickItem(i) {
-                        setItemColorSelected(i);
-                        forceUpdate();
-                      },
-                      onResetStyles: handleResetStylesForItem
-                    })
-                  })]
-                }), itemSelected === null && /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
-                  children: /*#__PURE__*/jsx("div", {
-                    className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
-                    children: "Inspector"
-                  })
-                }), itemColorSelected !== null && /*#__PURE__*/jsxs("div", {
-                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-1/2",
-                  children: [/*#__PURE__*/jsx("div", {
-                    className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
-                    children: "Available Colors"
-                  }), /*#__PURE__*/jsx(LayoutContainer, {
-                    scrollable: true,
-                    direction: "col",
-                    children: /*#__PURE__*/jsx(AvailableColorsGridPane, {
-                      colorType: "primary",
-                      itemType: itemSelected,
-                      onMouseOver: handleSelectColorForItemTemp,
-                      onClick: handleSelectColorForItem
-                    })
-                  })]
-                })]
-              })]
-            })]
-          })
-        })
-      })
-    })
-  });
-};
-
-var ThemePickerGridPane = function ThemePickerGridPane(_ref) {
-  var themeKey = _ref.themeKey,
-    onChooseTheme = _ref.onChooseTheme;
-  var _useContext = useContext$1(ThemeContext),
-    themes = _useContext.themes,
-    themeVariant = _useContext.themeVariant;
-  function renderMenuItem(tk) {
-    var displayTheme = themes[tk][themeVariant];
-    var colors = [{
-      colorName: displayTheme["secondary"],
-      type: "secondary",
-      color: displayTheme["bg-secondary-medium"]
-    }, {
-      colorName: displayTheme["tertiary"],
-      type: "tertiary",
-      color: displayTheme["bg-tertiary-medium"]
-    }, {
-      colorName: displayTheme["neutral"],
-      type: "neutral",
-      color: displayTheme["bg-neutral-light"]
-    }];
-    return colors.map(function (color) {
-      return /*#__PURE__*/jsx("div", {
-        className: "rounded ".concat(color["color"], " h-20 w-full")
-      }, "theme-grid-".concat(color.type));
-    });
-  }
-  function renderCurrentThemes() {
-    return Object.keys(themes).map(function (tk) {
-      // is this selected
-      var selected = tk === themeKey;
-      var current = themes[tk][themeVariant];
-      return /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col text-xs p-4 space-y-4 h-48 w-full rounded justify-between border-2 ".concat(selected === true ? "border-yellow-600 hover:border-yellow-600" : "hover:border-yellow-600 border-gray-800", " cursor-pointer text-gray-200 ").concat(themes[tk][themeVariant]["bg-primary-dark"]),
-        onClick: function onClick() {
-          return onChooseTheme(tk);
-        },
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col w-full",
-          children: [/*#__PURE__*/jsx("span", {
-            className: "font-bold text-xl word-break-all",
-            children: current["name"]
-          }), /*#__PURE__*/jsx("span", {
-            className: "font-bold text-xs text-gray-500",
-            children: tk
-          })]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-row space-x-2",
-          children: renderMenuItem(tk)
-        })]
-      }, "icon-".concat(tk));
-    });
-  }
-  return /*#__PURE__*/jsx(ThemePane, {
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
-      children: /*#__PURE__*/jsx("div", {
-        className: "grid grid-cols-3 gap-4 w-full h-full overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800",
-        children: renderCurrentThemes()
-      })
-    })
-  });
-};
-
-var ThemeTitlePane = function ThemeTitlePane(_ref) {
-  var onChooseVariant = _ref.onChooseVariant,
-    onClickNewTheme = _ref.onClickNewTheme;
-  var _useContext = useContext$1(ThemeContext),
-    themeVariant = _useContext.themeVariant;
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col rounded font-medium hidden xl:flex w-1/3 justify-between",
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded font-medium justify-between overflow-hidden",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col rounded p-6 py-10 space-y-4 w-full hidden xl:flex",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-between",
-          children: [/*#__PURE__*/jsx(Heading, {
-            title: "Theme.",
-            padding: false,
-            textColor: "text-gray-300"
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "plus",
-            textSize: "text-2xl",
-            backgroundColor: "bg-gray-800",
-            hoverBackgroundColor: "hover:bg-green-600",
-            iconSize: "h-6 w-6",
-            textColor: "text-gray-400",
-            onClick: onClickNewTheme
-          })]
-        }), /*#__PURE__*/jsxs("p", {
-          className: "text-lg font-normal text-gray-300",
-          children: ["We all know dark is best, but if you", " ", /*#__PURE__*/jsx("span", {
-            className: "italic",
-            children: "have"
-          }), " to change colors, we'll allow it."]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col space-y-2 w-full",
-          children: /*#__PURE__*/jsx(Toggle, {
-            enabled: themeVariant === "dark" ? true : false,
-            setEnabled: function setEnabled() {
-              return onChooseVariant(themeVariant === "dark" ? "light" : "dark");
-            },
-            text: "Dark",
-            theme: false,
-            backgroundColor: "bg-gray-900",
-            hoverBackgroundColor: "hover:bg-gray-900"
-          })
-        })]
-      })
-    })
-  });
-};
-
-var PanelThemePicker = function PanelThemePicker(_ref) {
-  var onUpdate = _ref.onUpdate,
-    onCreateNew = _ref.onCreateNew,
-    onChangeVariant = _ref.onChangeVariant,
-    _ref$theme = _ref.theme,
-    theme = _ref$theme === void 0 ? null : _ref$theme,
-    themeKey = _ref.themeKey;
-  var _useContext = useContext$1(ThemeContext);
-    _useContext.themeVariant;
-    var rawThemes = _useContext.rawThemes;
-  function handleSelectTheme(themeKey) {
-    onUpdate(rawThemes[themeKey], themeKey);
-  }
-  function handleCreateNewTheme() {
-    // lets generate a new Key, and a new theme
-    onCreateNew("theme-".concat(Date.now()));
-  }
-  return /*#__PURE__*/jsx(Panel, {
-    theme: false,
-    backgroundColor: "bg-transparent",
-    width: "w-full",
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full h-full xl:space-x-4 overflow-hidden",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row h-full rounded xl:space-x-4 w-full",
-        children: [/*#__PURE__*/jsx(ThemeTitlePane, {
-          theme: theme,
-          themeKey: themeKey,
-          onClickNewTheme: handleCreateNewTheme,
-          onChooseVariant: onChangeVariant
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-full w-1/2 xl:w-3/4",
-          children: theme !== null && /*#__PURE__*/jsx("div", {
-            className: "flex flex-row h-full rounded w-full overflow-hidden bg-gray-900 xl:space-x-2 p-2",
-            children: /*#__PURE__*/jsx(ThemePickerGridPane, {
-              theme: theme,
-              themeKey: themeKey,
-              onClickNewTheme: handleCreateNewTheme,
-              onChooseTheme: handleSelectTheme,
-              onChooseVariant: onChangeVariant
-            })
-          })
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$v(r, e) { return _arrayWithHoles$v(r) || _iterableToArrayLimit$v(r, e) || _unsupportedIterableToArray$w(r, e) || _nonIterableRest$v(); }
-function _nonIterableRest$v() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$w(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$w(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$w(r, a) : void 0; } }
-function _arrayLikeToArray$w(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$v(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$v(r) { if (Array.isArray(r)) return r; }
-var ThemeManagerModal = function ThemeManagerModal(_ref) {
-  var open = _ref.open,
-    setIsOpen = _ref.setIsOpen;
-  var _useContext = useContext$1(ThemeContext),
-    changeThemesForApplication = _useContext.changeThemesForApplication,
-    rawThemes = _useContext.rawThemes,
-    themes = _useContext.themes,
-    changeCurrentTheme = _useContext.changeCurrentTheme,
-    changeThemeVariant = _useContext.changeThemeVariant;
-  var _useContext2 = useContext$1(AppContext),
-    dashApi = _useContext2.dashApi,
-    credentials = _useContext2.credentials,
-    settings = _useContext2.settings;
-  var _useState = useState(null),
-    _useState2 = _slicedToArray$v(_useState, 2),
-    themeSelected = _useState2[0],
-    setThemeSelected = _useState2[1];
-  var _useState3 = useState(null),
-    _useState4 = _slicedToArray$v(_useState3, 2),
-    rawThemeSelected = _useState4[0],
-    setRawThemeSelected = _useState4[1];
-  var _useState5 = useState(null),
-    _useState6 = _slicedToArray$v(_useState5, 2),
-    themeKeySelected = _useState6[0],
-    setThemeKeySelected = _useState6[1];
-  var _useState7 = useState(false),
-    _useState8 = _slicedToArray$v(_useState7, 2),
-    isEditing = _useState8[0],
-    setIsEditing = _useState8[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$v(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (open === false) {
-      setThemeSelected(null);
-      setRawThemeSelected(null);
-      setThemeKeySelected(null);
-    } else {
-      // if there is no key selected...
-      if (themeKeySelected === null && themes) {
-        var themeKeyTemp = themeKeySelected === null && settings && "theme" in settings ? settings["theme"] in themes ? settings["theme"] : Object.keys(themes)[0] : Object.keys(themes)[0];
-        var themeModel = ThemeModel(rawThemes[themeKeyTemp]);
-        setThemeKeySelected(function () {
-          return themeKeyTemp;
-        });
-        setThemeSelected(function () {
-          return themeModel;
-        });
-        setRawThemeSelected(function () {
-          return rawThemes[themeKeyTemp];
-        });
-      }
-    }
-  }, [open, themes, rawThemes, settings, themeKeySelected]);
-  function handleThemeSelected(themeUpdated, themeKey) {
-    // the Raw theme is the "abbreviated" version which will be stored
-    // in the file. The model will inflate this to fill in the rest
-
-    // we have to merge the dirty information into this selected item if exists...
-    var newRawThemeSelected = deepCopy(rawThemeSelected);
-    if (newRawThemeSelected !== null) {
-      Object.keys(themeUpdated).forEach(function (k) {
-        newRawThemeSelected[k] = themeUpdated[k];
-      });
-    } else {
-      newRawThemeSelected = deepCopy(themeUpdated);
-    }
-    setRawThemeSelected(function () {
-      return newRawThemeSelected;
-    });
-    var newTheme = ThemeModel(deepCopy(newRawThemeSelected));
-    setThemeKeySelected(function () {
-      return themeKey;
-    });
-    setThemeSelected(function () {
-      return newTheme;
-    });
-    forceUpdate();
-  }
-  function handleCreateNewTheme(themeKey) {
-    var newRawTheme = {
-      id: themeKey,
-      name: "New Theme",
-      primary: "gray",
-      secondary: "slate",
-      tertiary: "orange",
-      neutral: "gray",
-      shadeBackgroundFrom: 200,
-      shadeBorderFrom: 300,
-      shadeTextFrom: 700
-    };
-
-    // now we can present a new raw theme and store it...
-
-    // // we have to merge the dirty information into this selected item if exists...
-    var newRawThemes = deepCopy(rawThemes);
-    newRawThemes[themeKey] = newRawTheme;
-
-    // Here is where we have to add this theme to the themes available
-    // and save to the themes file.
-    // api.removeAllListeners();
-    // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeCompleteNew);
-    // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeErrorNew);
-
-    // api.themes.saveThemeForApplication(creds.appId, themeKey, newRawTheme);
-
-    if (dashApi) {
-      dashApi.saveTheme(credentials.appId, themeKeySelected, newRawTheme, handleSaveThemeComplete, handleSaveThemeError);
-    }
-  }
-  function handleSaveTheme() {
-    if (themeKeySelected !== null && rawThemeSelected !== null) {
-      // Here is where we have to add this theme to the themes available
-      // and save to the themes file.
-      // api.removeAllListeners();
-      // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeComplete);
-      // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeError);
-      // api.themes.saveThemeForApplication(
-      //     creds.appId,
-      //     themeKeySelected,
-      //     rawThemeSelected
-      // );
-      if (dashApi) {
-        dashApi.saveTheme(credentials.appId, themeKeySelected, rawThemeSelected, handleSaveThemeComplete, handleSaveThemeError);
-      }
-    }
-    setIsEditing(false);
-  }
-  function handleSaveThemeComplete(e, message) {
-    changeThemesForApplication(message["themes"]);
-    setIsEditing(false);
-  }
-  function handleSaveThemeError(e, message) {
-  }
-  function handleChooseTheme(themeKey) {
-    setThemeSelected(function () {
-      return themes[themeKey];
-    });
-    setThemeKeySelected(function () {
-      return themeKey;
-    });
-    setRawThemeSelected(function () {
-      return rawThemes[themeKey];
-    });
-  }
-  function handleActivateTheme() {
-    changeCurrentTheme(themeKeySelected);
-    setIsOpen(false);
-    // reset
-    setThemeSelected(null);
-    setIsEditing(false);
-  }
-  return /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-full",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      backgroundColor: "bg-slate-800",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
-          children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
-            children: [themeSelected && isEditing === false && /*#__PURE__*/jsx(PanelThemePicker, {
-              theme: themeSelected,
-              themeKey: themeKeySelected,
-              onUpdate: handleThemeSelected,
-              onCreateNew: handleCreateNewTheme,
-              onChooseTheme: handleChooseTheme,
-              onChangeVariant: changeThemeVariant,
-              rawTheme: rawThemeSelected
-            }), themeSelected && isEditing === true && /*#__PURE__*/jsx(PanelTheme, {
-              theme: themeSelected,
-              themeKey: themeKeySelected,
-              onUpdate: handleThemeSelected,
-              onCreateNew: handleCreateNewTheme,
-              rawTheme: rawThemeSelected
-            })]
-          })
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800 justify-between items-center",
-          children: [themeSelected !== null && /*#__PURE__*/jsx("div", {
-            className: "flex flex-row",
-            children: /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col font-bold text-xl px-2",
-              children: [themeSelected !== null ? themeSelected["name"] : "", /*#__PURE__*/jsx("span", {
-                className: "text-xs text-gray-600",
-                children: themeKeySelected
-              })]
-            })
-          }), isEditing === false && /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(Button, {
-              onClick: function onClick() {
-                return setIsOpen(false);
-              },
-              title: "Cancel",
-              textSize: "text-base xl:text-lg",
-              padding: "py-2 px-4",
-              backgroundColor: "bg-gray-700",
-              textColor: "text-gray-300",
-              hoverTextColor: "hover:text-gray-100",
-              hoverBackgroundColor: "hover:bg-gray-700"
-            }), themeSelected !== null && /*#__PURE__*/jsx(Button, {
-              onClick: function onClick() {
-                return setIsEditing(true);
-              },
-              title: "Edit",
-              textSize: "text-base xl:text-lg",
-              padding: "py-2 px-4",
-              backgroundColor: "bg-gray-700",
-              textColor: "text-gray-300",
-              hoverTextColor: "hover:text-gray-100",
-              hoverBackgroundColor: "hover:bg-gray-700"
-            }), themeSelected !== null && /*#__PURE__*/jsx(Button, {
-              onClick: handleActivateTheme,
-              title: "Activate",
-              textSize: "text-base xl:text-lg",
-              padding: "py-2 px-4",
-              backgroundColor: "bg-gray-700",
-              textColor: "text-gray-300",
-              hoverTextColor: "hover:text-gray-100",
-              hoverBackgroundColor: "hover:bg-gray-700"
-            })]
-          }), isEditing === true && /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(Button, {
-              onClick: function onClick() {
-                return setIsEditing(false);
-              },
-              title: "Cancel",
-              textSize: "text-base xl:text-lg",
-              padding: "py-2 px-4",
-              backgroundColor: "bg-gray-700",
-              textColor: "text-gray-300",
-              hoverTextColor: "hover:text-gray-100",
-              hoverBackgroundColor: "hover:bg-gray-700"
-            }), /*#__PURE__*/jsx(Button, {
-              onClick: function onClick() {
-                return handleSaveTheme();
-              },
-              title: "Save Changes",
-              textSize: "text-base xl:text-lg",
-              padding: "py-2 px-4",
-              backgroundColor: "bg-gray-700",
-              textColor: "text-gray-300",
-              hoverTextColor: "hover:text-gray-100",
-              hoverBackgroundColor: "hover:bg-gray-700"
-            })]
-          })]
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$u(r, e) { return _arrayWithHoles$u(r) || _iterableToArrayLimit$u(r, e) || _unsupportedIterableToArray$v(r, e) || _nonIterableRest$u(); }
-function _nonIterableRest$u() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$v(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$v(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$v(r, a) : void 0; } }
-function _arrayLikeToArray$v(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$u(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$u(r) { if (Array.isArray(r)) return r; }
-var PanelWelcome = function PanelWelcome(_ref) {
-  var _ref$menuItems = _ref.menuItems,
-    menuItems = _ref$menuItems === void 0 ? [] : _ref$menuItems,
-    _ref$workspaces = _ref.workspaces,
-    workspaces = _ref$workspaces === void 0 ? [] : _ref$workspaces,
-    _ref$selectedMainItem = _ref.selectedMainItem,
-    selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
-    _ref$onClickWorkspace = _ref.onClickWorkspace,
-    onClickWorkspace = _ref$onClickWorkspace === void 0 ? null : _ref$onClickWorkspace,
-    onClickNewWorkspace = _ref.onClickNewWorkspace,
-    _ref$onNewMenuItem = _ref.onNewMenuItem,
-    onNewMenuItem = _ref$onNewMenuItem === void 0 ? null : _ref$onNewMenuItem,
-    _ref$onOpenThemeManag = _ref.onOpenThemeManager,
-    onOpenThemeManager = _ref$onOpenThemeManag === void 0 ? null : _ref$onOpenThemeManag,
-    _ref$onOpenSettings = _ref.onOpenSettings,
-    onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings,
-    _ref$onOpenDashboardL = _ref.onOpenDashboardLoader,
-    onOpenDashboardLoader = _ref$onOpenDashboardL === void 0 ? null : _ref$onOpenDashboardL;
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme,
-    currentTheme = _useContext.currentTheme,
-    changeThemeVariant = _useContext.changeThemeVariant,
-    themeVariant = _useContext.themeVariant;
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$u(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    forceUpdate();
-  }, [theme, currentTheme, forceUpdate]);
-  var handleAddNewMenuItem = function handleAddNewMenuItem() {
-    onNewMenuItem && onNewMenuItem();
-  };
-  var handleOpenThemeManager = function handleOpenThemeManager() {
-    onOpenThemeManager && onOpenThemeManager();
-  };
-  var handleOpenSettings = function handleOpenSettings() {
-    onOpenSettings && onOpenSettings();
-  };
-  var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
-    try {
-      if (data === undefined) {
-        selectedMainItem = 1;
-      } else {
-        selectedMainItem = data.id;
-      }
-
-      // if we have no data, we have to create a layout
-      var newLayout = {
-        id: 1,
-        order: 1,
-        direction: "col",
-        width: "w-full",
-        component: "Container",
-        hasChildren: 1,
-        scrollable: false,
-        parent: 0,
-        menuId: selectedMainItem // default menu item id is 1
-      };
-      var newWorkspace = new WorkspaceModel({
-        layout: [newLayout]
-      });
-      onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
-    } catch (e) {
-    }
-  };
-  function handleClickLoadDashboard() {
-    onOpenDashboardLoader();
-  }
-
-  // const handleClickWorkspace = (data) => {
-  //     onClickWorkspace && onClickWorkspace(data);
-  // };
-
-  return currentTheme && /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center",
-      children: /*#__PURE__*/jsxs(Panel2, {
-        horizontal: true,
-        padding: false,
-        direction: "row",
-        width: "w-full",
-        height: "h-2/3",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme["bg-secondary-dark"]),
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "w-10 h-10 items-center justify-center",
-            children: [/*#__PURE__*/jsx(ButtonIcon, {
-              icon: "plus",
-              onClick: function onClick() {
-                return handleClickNewWorkspace();
-              },
-              hoverBackgroundColor: "hover:bg-green-700",
-              backgroundColor: currentTheme["bg-primary-dark"]
-            }), /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "database",
-              onClick: function onClick() {
-                return handleClickLoadDashboard();
-              },
-              hoverBackgroundColor: "hover:bg-green-700",
-              backgroundColor: currentTheme["bg-primary-dark"]
-            })]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col space-y-1",
-            children: [/*#__PURE__*/jsx("div", {
-              className: "w-10 h-10 items-center justify-center",
-              children: /*#__PURE__*/jsx(ButtonIcon, {
-                icon: "folder-plus",
-                onClick: handleAddNewMenuItem,
-                hoverBackgroundColor: "hover:bg-green-700"
-              })
-            }), /*#__PURE__*/jsx("div", {
-              className: "w-10 h-10 items-center justify-center",
-              children: /*#__PURE__*/jsx(ButtonIcon, {
-                icon: themeVariant === "dark" ? "sun" : "moon",
-                onClick: function onClick() {
-                  return changeThemeVariant(themeVariant === "dark" ? "light" : "dark");
-                }
-              })
-            }), /*#__PURE__*/jsx("div", {
-              className: "w-10 h-10 items-center justify-center",
-              children: /*#__PURE__*/jsx(ButtonIcon, {
-                icon: "palette",
-                onClick: handleOpenThemeManager,
-                hoverBackgroundColor: "hover:bg-orange-700"
-              })
-            }), /*#__PURE__*/jsx("div", {
-              className: "w-10 h-10 items-center justify-center",
-              children: /*#__PURE__*/jsx(ButtonIcon, {
-                icon: "computer",
-                onClick: handleOpenSettings,
-                hoverBackgroundColor: "hover:bg-orange-700"
-              })
-            })]
-          })]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-full h-full overflow-hidden p-4",
-          children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
-            children: [/*#__PURE__*/jsxs("div", {
-              className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-6 justify-between",
-              children: [/*#__PURE__*/jsxs("div", {
-                className: "flex flex-col rounded py-4 space-y-4",
-                children: [/*#__PURE__*/jsx(Heading, {
-                  title: "Dash.",
-                  padding: false
-                }), /*#__PURE__*/jsx("div", {
-                  className: "flex-row hidden 2xl:flex w-full ",
-                  children: /*#__PURE__*/jsx(SubHeading3, {
-                    title: "Dashboard Generator.",
-                    padding: false
-                  })
-                })]
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-row space-x-2 items-center",
-                children: theme !== null && theme !== undefined && /*#__PURE__*/jsx(Tag, {
-                  text: "Current theme: ".concat(theme["name"]),
-                  onClick: handleOpenThemeManager
-                })
-              })]
-            }), /*#__PURE__*/jsx(Panel3, {
-              scrollable: false,
-              space: true,
-              horizontal: true,
-              width: "w-full",
-              children: /*#__PURE__*/jsx(Panel3.Body, {
-                children: /*#__PURE__*/jsx(LayoutContainer, {
-                  direction: "row",
-                  space: false,
-                  scrollable: true,
-                  width: "w-full",
-                  children: /*#__PURE__*/jsx(MainMenu, {
-                    menuItems: menuItems,
-                    workspaces: workspaces,
-                    onClickNewWorkspace: handleClickNewWorkspace,
-                    selectedMainItem: selectedMainItem,
-                    onWorkspaceMenuChange: onClickWorkspace,
-                    onCreateNewFolder: handleAddNewMenuItem
-                  })
-                })
-              })
-            })]
-          })
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$t(r, e) { return _arrayWithHoles$t(r) || _iterableToArrayLimit$t(r, e) || _unsupportedIterableToArray$u(r, e) || _nonIterableRest$t(); }
-function _nonIterableRest$t() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$u(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$u(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$u(r, a) : void 0; } }
-function _arrayLikeToArray$u(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$t(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$t(r) { if (Array.isArray(r)) return r; }
-var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
-  var settings = _ref.settings,
-    workspaces = _ref.workspaces,
-    setIsOpen = _ref.setIsOpen;
-  var messagesEnd = useRef(null);
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme,
-    themes = _useContext.themes,
-    changeCurrentTheme = _useContext.changeCurrentTheme;
-  var _useContext2 = useContext$1(AppContext),
-    creds = _useContext2.creds,
-    api = _useContext2.api;
-    _useContext2.debugMode;
-    var changeDebugMode = _useContext2.changeDebugMode;
-  var _useState = useState(""),
-    _useState2 = _slicedToArray$t(_useState, 2),
-    userInput = _useState2[0],
-    setUserInput = _useState2[1];
-  var _useState3 = useState(0),
-    _useState4 = _slicedToArray$t(_useState3, 2),
-    userInputIndex = _useState4[0],
-    setUserInputIndex = _useState4[1];
-
-  // store the "chat"
-  var _useState5 = useState([]),
-    _useState6 = _slicedToArray$t(_useState5, 2),
-    applicationInput = _useState6[0],
-    setApplicationInput = _useState6[1];
-  var _useState7 = useState([]),
-    _useState8 = _slicedToArray$t(_useState7, 2),
-    userInputs = _useState8[0],
-    setUserInputs = _useState8[1];
-  useEffect(function () {
-    if (applicationInput.length === 0) {
-      addDashInput("Talk robot to me.");
-    }
-    scrollToBottom();
-  });
-  function handleUserInput(e) {
-    // only add when the user presses enter
-    setUserInput(function () {
-      return "".concat(e.target.value);
-    });
-  }
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      addUserInput(userInput);
-      evaluateUserInput(userInput);
-      setUserInput(function () {
-        return "";
-      });
-    }
-    if (e.key === "ArrowUp") {
-      var currentIndex = deepCopy(userInputIndex);
-      var newIndex = currentIndex - 1;
-      var text = userInputs[newIndex];
-      if (text !== undefined && text !== null) {
-        setUserInput(function () {
-          return text;
-        });
-        setUserInputIndex(function () {
-          return newIndex;
-        });
-      }
-    }
-    if (e.key === "ArrowDown") {
-      var _currentIndex = deepCopy(userInputIndex);
-      var _newIndex = _currentIndex + 1;
-      var _text = userInputs[_newIndex];
-      if (_text !== undefined && _text !== null) {
-        setUserInput(function () {
-          return _text;
-        });
-        setUserInputIndex(function () {
-          return _newIndex;
-        });
-      }
-    }
-  }
-  function evaluateUserInput(input) {
-    // in some cases we have to get the substring and
-    // use the rest of the string to "change" the configuration
-
-    var newInput = input;
-    if (input.indexOf("/") > -1) {
-      newInput = input.substring(1);
-    }
-
-    // break up the command line statement into parts split by spaces
-    var parts = newInput.split(" ");
-    var command = parts[0];
-    var args = {};
-    if (parts.length > 1) {
-      var tempParts = deepCopy(parts);
-      tempParts.shift();
-      args = tempParts.length > 1 ? parseArgs(tempParts) : null;
-      if (args === null && parts.length > 1) {
-        args = tempParts;
-      }
-    }
-    var stringObject = "";
-    switch (command.toLowerCase()) {
-      case "exit":
-        setIsOpen(false);
-        break;
-      case "debug":
-        // either true or false!
-        if (args[0] === "true" || args[0] === "false") {
-          changeDebugMode(args[0]);
-          stringObject = "Changing debugMode to ".concat(args[0]);
-        }
-        break;
-      case "history":
-        var inputs = userInputs.join("\n");
-        stringObject = inputs;
-        break;
-      case "settings":
-        stringObject = "".concat(JSON.stringify(settings, null, 2));
-        break;
-      case "creds":
-        stringObject = "".concat(JSON.stringify(creds, null, 2));
-        break;
-      case "api":
-        stringObject = "".concat(JSON.stringify(api, null, 2));
-        break;
-      case "widget":
-        if (Object.keys(args).length > 0) {
-          if (args[0] === "list") {
-            var m = ComponentManager.map();
-            var widgets = Object.keys(m).filter(function (key) {
-              return m[key]["type"] === "widget";
-            });
-            stringObject = "".concat(JSON.stringify(widgets, null, 2));
-          }
-        }
-        break;
-      case "workspace":
-        if (Object.keys(args).length > 0) {
-          if (args[0] === "list") {
-            stringObject = "".concat(JSON.stringify(workspaces.map(function (ws) {
-              return ws["name"];
-            }), null, 2));
-          }
-        }
-        break;
-      case "theme":
-        if (Object.keys(args).length > 0) {
-          // -c (change theme)
-          if ("c" in args) {
-            changeCurrentTheme(args["c"]);
-            stringObject = "Changing theme to ".concat(args["c"]);
-          }
-
-          // list
-          if (args[0] === "list") {
-            // theme keys list
-            var themeKeys = Object.keys(themes).map(function (themeKey) {
-              return {
-                name: themes[themeKey]["name"],
-                key: themeKey
-              }; //join('\n');
-            });
-            stringObject = "".concat(JSON.stringify(themeKeys, null, 2));
-          }
-        } else {
-          if (args[0] === "list") {
-            // theme keys list
-            var _themeKeys = Object.keys(themes).join("\n");
-            stringObject = "".concat(_themeKeys);
-          } else {
-            stringObject = "".concat(JSON.stringify(theme, null, 2));
-          }
-        }
-        break;
-      case "help":
-        var helpObject = ["settings - list application setting configuration", "creds - list application credentials (appId, apiKey)", "api - list the Electron api information", "widget list", "workspace list", "theme list  - list the theme 'keys'", "theme [-c <themeKey>] - change the theme", "exit - close the Nerd.", "debug [true|false] - set debugMode"];
-        stringObject = JSON.stringify(helpObject, null, 2);
-        break;
-    }
-    var o = [{
-      message: input,
-      author: "human",
-      textType: "string"
-    }];
-    if (stringObject !== "") {
-      o.push({
-        message: stringObject,
-        author: "dash",
-        textType: "code"
-      });
-    }
-    addInputs(o);
-  }
-  function addInputs() {
-    var inputs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var applicationInputCurrent = deepCopy(applicationInput);
-    var newArray = applicationInputCurrent.concat(inputs);
-    setApplicationInput(function () {
-      return newArray;
-    });
-  }
-  function addDashInput(input) {
-    var textType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "string";
-    var applicationInputCurrent = deepCopy(applicationInput);
-    applicationInputCurrent.push({
-      author: "dash",
-      message: input,
-      textType: textType
-    });
-    setApplicationInput(function () {
-      return applicationInputCurrent;
-    });
-  }
-  function addUserInput(input) {
-    var applicationInputCurrent = deepCopy(applicationInput);
-    applicationInputCurrent.push({
-      author: "human",
-      message: input
-    });
-    var userInputsCurrent = deepCopy(userInputs);
-    userInputsCurrent.push(input);
-    setApplicationInput(function () {
-      return applicationInputCurrent;
-    });
-    setUserInputs(function () {
-      return userInputsCurrent;
-    });
-    setUserInputIndex(function () {
-      return userInputs.length;
-    });
-  }
-  function writeInput(input, author, textType) {
-    return author === "dash" ? writeApplicationInput(input, textType) : writeUserInput(input);
-  }
-  function writeUserInput(input) {
-    return /*#__PURE__*/jsx("div", {
-      className: "flex flex-row shadow w-full",
-      children: /*#__PURE__*/jsx("span", {
-        className: "text-blue-500 bg-gray-800 px-4 py-2 rounded w-full shadow text-xs",
-        children: input
-      })
-    });
-  }
-  function writeApplicationInput(input) {
-    var textType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "string";
-    return textType === "string" ? /*#__PURE__*/jsx("div", {
-      className: "flex flex-row shadow w-full",
-      children: /*#__PURE__*/jsx("span", {
-        className: "text-green-500 bg-slate-900 px-4 py-2 rounded w-full shadow text-xs",
-        children: input
-      })
-    }) : /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full shadow",
-      children: /*#__PURE__*/jsx("span", {
-        className: "text-green-500 bg-slate-900 px-4 py-2 rounded w-full shadow text-xs",
-        children: /*#__PURE__*/jsx("pre", {
-          children: input
-        })
-      })
-    });
-  }
-  function renderApplicationInput() {
-    return applicationInput.map(function (input, index) {
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-row w-full py-1 font-mono text-green font-normal text-xs xl:text-sm",
-        children: writeInput(input["message"], input["author"], input["textType"])
-      }, "input-".concat(index));
-    });
-  }
-  function scrollToBottom() {
-    var _messagesEnd$current;
-    (_messagesEnd$current = messagesEnd.current) === null || _messagesEnd$current === void 0 || _messagesEnd$current.scrollIntoView({
-      behavior: "smooth"
-    });
-  }
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col w-full h-full overflow-hidden",
-    children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col rounded py-10 space-y-4 w-full overflow-hidden",
-          children: [/*#__PURE__*/jsx(Heading, {
-            title: "Hello",
-            padding: false
-          }), /*#__PURE__*/jsx(SubHeading3, {
-            title: "01001000 01100101 01101100 01101100 01101111",
-            padding: false
-          })]
-        })
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col bg-gradient-to-tr from-gray-900 to-gray-800 text-green-600 h-full w-full rounded-lg p-6 overflow-hidden border border-gray-900",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-col py-4 text-sm font-mono overflow-hidden h-full",
-            children: /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col py-4 text-xs font-mono h-full overflow-y-scroll",
-              children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-1 flex-col h-full"
-              }), renderApplicationInput(), /*#__PURE__*/jsx("div", {
-                ref: messagesEnd,
-                style: {
-                  "float": "left",
-                  clear: "both"
-                }
-              })]
-            })
-          }), /*#__PURE__*/jsxs("div", {
-            className: "text-xs text-gray-400 space-y-1",
-            children: [/*#__PURE__*/jsx("div", {
-              className: "flex flex-row text-xs text-gray-400",
-              children: "Type 'help' for more information, 'exit' to leave."
-            }), /*#__PURE__*/jsx(InputText, {
-              name: "name",
-              padding: "p-4",
-              value: userInput,
-              onKeyDown: handleKeyDown,
-              onChange: handleUserInput,
-              textSize: "text-lg",
-              placeholder: "",
-              bgColor: "bg-gray-400",
-              textColor: "text-gray-800",
-              hasBorder: false
-            })]
-          })]
-        })
-      })]
-    })
-  });
-};
-
-var ApplicationSettingsModal = function ApplicationSettingsModal(_ref) {
-  var workspaces = _ref.workspaces,
-    open = _ref.open,
-    setIsOpen = _ref.setIsOpen;
-    _ref.onSave;
-  var _useContext = useContext$1(AppContext),
-    settings = _useContext.settings;
-  return /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-5/6",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      padding: false,
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
-          children: /*#__PURE__*/jsx("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
-            children: /*#__PURE__*/jsx(PanelApplicationSettings, {
-              settings: settings,
-              setIsOpen: setIsOpen,
-              workspaces: workspaces
-            })
-          })
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800 justify-between items-center"
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$s(r, e) { return _arrayWithHoles$s(r) || _iterableToArrayLimit$s(r, e) || _unsupportedIterableToArray$t(r, e) || _nonIterableRest$s(); }
-function _nonIterableRest$s() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$t(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$t(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$t(r, a) : void 0; } }
-function _arrayLikeToArray$t(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$s(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$s(r) { if (Array.isArray(r)) return r; }
-var apiKey = process.env.REACT_APP_DASH_API_KEY;
-var indexName = process.env.REACT_APP_DASH_INDEX_NAME;
-var appId = process.env.REACT_APP_DASH_APP_ID;
-var PanelDashboardLoader = function PanelDashboardLoader(_ref) {
-  var onSelecDashboard = _ref.onSelecDashboard,
-    onClose = _ref.onClose;
-  var _useContext = useContext$1(ThemeContext);
-    _useContext.theme;
-    var currentTheme = _useContext.currentTheme;
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$s(_React$useState, 2),
-    updateState = _React$useState2[1];
-  React.useCallback(function () {
-    return updateState({});
-  }, []);
-  var _useState = useState(null),
-    _useState2 = _slicedToArray$s(_useState, 2),
-    searchClient = _useState2[0],
-    setSearchClient = _useState2[1];
-  useEffect(function () {
-    initSearchClient();
-  });
-  function initSearchClient() {
-    if (searchClient === null) {
-      if (indexName && apiKey && appId) {
-        var searchClientTemp = algoliasearch(appId, apiKey);
-        setSearchClient(searchClientTemp);
-      }
-    }
-  }
-  function Hit(_ref2) {
-    var hit = _ref2.hit;
-    return /*#__PURE__*/jsx("div", {
-      className: "flex flex-col hover:bg-indigo-800 cursor-pointer",
-      onClick: function onClick() {
-        return onSelecDashboard(hit);
-      },
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-row rounded bg-gray-900 p-2 px-4",
-        children: hit.name
-      })
-    });
-  }
-  function handleClose() {
-    onClose();
-  }
-  return currentTheme && /*#__PURE__*/jsxs(Panel2, {
-    padding: false,
-    width: "w-full",
-    height: "h-full",
-    children: [/*#__PURE__*/jsx(Panel2.Body, {
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col rounded p-6 space-y-4 w-1/3",
-          children: [/*#__PURE__*/jsx(Heading, {
-            title: "Load.",
-            padding: false
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex-col hidden 2xl:flex w-full space-y-4",
-            children: [/*#__PURE__*/jsx(SubHeading3, {
-              title: "Pick a dashboard. Any dashboard.",
-              padding: false
-            }), /*#__PURE__*/jsx(Paragraph, {
-              padding: false,
-              textColor: "text-gray-400",
-              children: "Dashboards have been generated by exporting, and storing the layouts in an Algolia index. Search the index for Dashboards to load."
-            })]
-          })]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-2/3 space-y-2",
-          children: searchClient !== null && /*#__PURE__*/jsxs(InstantSearch, {
-            searchClient: searchClient,
-            indexName: indexName,
-            children: [/*#__PURE__*/jsx(AlgoliaSearchBox, {
-              placeholder: "Search for Dashboards"
-            }), /*#__PURE__*/jsx(Hits, {
-              hitComponent: Hit
-            })]
-          })
-        })]
-      })
-    }), /*#__PURE__*/jsx(Panel2.Footer, {
-      children: /*#__PURE__*/jsx(ButtonIcon, {
-        icon: "arrow-left",
-        onClick: handleClose
-      })
-    })]
-  });
-};
-
-var DashboardLoaderModal = function DashboardLoaderModal(_ref) {
-  var open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    onSelecDashboard = _ref.onSelecDashboard,
-    onClose = _ref.onClose;
-  return /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-5/6",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      padding: false,
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
-          children: /*#__PURE__*/jsx("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
-            children: /*#__PURE__*/jsx(PanelDashboardLoader, {
-              onSelecDashboard: onSelecDashboard,
-              onClose: onClose
-            })
-          })
-        })
-      })
-    })
-  });
-};
-
-function _slicedToArray$r(r, e) { return _arrayWithHoles$r(r) || _iterableToArrayLimit$r(r, e) || _unsupportedIterableToArray$s(r, e) || _nonIterableRest$r(); }
-function _nonIterableRest$r() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$s(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$s(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$s(r, a) : void 0; } }
-function _arrayLikeToArray$s(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$r(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$r(r) { if (Array.isArray(r)) return r; }
-var Dashboard = function Dashboard(_ref) {
-  var dashApi = _ref.dashApi,
-    credentials = _ref.credentials,
-    _ref$workspace = _ref.workspace,
-    workspace = _ref$workspace === void 0 ? null : _ref$workspace,
-    _ref$preview = _ref.preview,
-    preview = _ref$preview === void 0 ? true : _ref$preview,
-    _ref$backgroundColor = _ref.backgroundColor,
-    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor;
-  // const { api, settings, creds } = useContext(AppContext);
-  var _useContext = useContext$1(DashboardContext),
-    pub = _useContext.pub;
-
-  /**
-   * ThemeContext
-   */
-  var _useContext2 = useContext$1(ThemeContext);
-    _useContext2.currentTheme;
-    var changeCurrentTheme = _useContext2.changeCurrentTheme;
-  var _useState = useState(null //WorkspaceModel(workspace)
-    ),
-    _useState2 = _slicedToArray$r(_useState, 2),
-    workspaceSelected = _useState2[0],
-    setWorkspaceSelected = _useState2[1];
-  var _useState3 = useState(false),
-    _useState4 = _slicedToArray$r(_useState3, 2);
-    _useState4[0];
-    var setIsShowing = _useState4[1];
-  var _useState5 = useState({
-      name: "home",
-      id: 1
-    }),
-    _useState6 = _slicedToArray$r(_useState5, 2),
-    selectedMainItem = _useState6[0];
-    _useState6[1];
-  var _useState7 = useState(preview),
-    _useState8 = _slicedToArray$r(_useState7, 2),
-    previewMode = _useState8[0],
-    setPreviewMode = _useState8[1];
-
-  // Workspace Management (loading)
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray$r(_useState9, 2),
-    isLoadingWorkspaces = _useState0[0],
-    setIsLoadingWorkspaces = _useState0[1];
-  var _useState1 = useState(false),
-    _useState10 = _slicedToArray$r(_useState1, 2),
-    isLoadingMenuItems = _useState10[0],
-    setIsLoadingMenuItems = _useState10[1];
-  var _useState11 = useState([]),
-    _useState12 = _slicedToArray$r(_useState11, 2),
-    menuItems = _useState12[0],
-    setMenuItems = _useState12[1];
-  var _useState13 = useState([]),
-    _useState14 = _slicedToArray$r(_useState13, 2),
-    workspaceConfig = _useState14[0],
-    setWorkspaceConfig = _useState14[1];
-
-  // Add Menu Item Modal
-  var _useState15 = useState(false),
-    _useState16 = _slicedToArray$r(_useState15, 2),
-    isAddItemModalOpen = _useState16[0],
-    setIsAddWidgetModalOpen = _useState16[1];
-  var _useState17 = useState(false),
-    _useState18 = _slicedToArray$r(_useState17, 2),
-    isThemeManagerOpen = _useState18[0],
-    setIsThemeManagerOpen = _useState18[1];
-  var _useState19 = useState(false),
-    _useState20 = _slicedToArray$r(_useState19, 2),
-    isSettingsModalOpen = _useState20[0],
-    setIsSettingsModalOpen = _useState20[1];
-  var _useState21 = useState(false),
-    _useState22 = _slicedToArray$r(_useState21, 2),
-    isDashboardLoaderOpen = _useState22[0],
-    setIsDashboardLoaderOpen = _useState22[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$r(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    isLoadingWorkspaces === false && loadWorkspaces();
-    isLoadingMenuItems === false && loadMenuItems();
-  }, [workspace]);
-
-  // useEffect(() => {
-  //     forceUpdate();
-  // }, [workspaceConfig]);
-
-  // useEffect(() => {
-  //     // forceUpdate();
-  // }, [themesForApplication]);
-
-  // useEffect(() => {
-  //     console.log("dashboard settings ", settings);
-  //     if (!settings) {
-  //         console.log("loading settings");
-  //         setIsSettingsModalOpen(true);
-  //     }
-  // }, [settings]);
-
-  function loadWorkspaces() {
-    try {
-      setIsLoadingWorkspaces(function () {
-        return true;
-      });
-      if (dashApi && credentials) {
-        dashApi.listWorkspaces(credentials.appId, handleLoadWorkspacesComplete, handleLoadWorkspacesError);
-      }
-    } catch (e) {
-    }
-  }
-  function handleLoadWorkspacesComplete(e, message) {
-    // console.log(
-    //     "2. Handle Load Workspaces Complete ======================",
-    //     message
-    // );
-    try {
-      // let's make sure we have the entire component configuration for each item?
-      var workspaces = deepCopy(message["workspaces"]);
-      var workspacesTemp = workspaces.map(function (ws) {
-        // const layout = ws['layout'];
-        // push the LayoutModel back into the Widget here... (inflate)
-        var tempLayout = ws["layout"].map(function (layoutOG) {
-          //console.log("layout OG ", layoutOG);
-          return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
-        });
-        ws["layout"] = tempLayout;
-        return WorkspaceModel(ws);
-      });
-
-      // test the emit
-      // pub.pub("dashboard.workspaceChange", {
-      //     workspaces: workspacesTemp,
-      // });
-
-      setWorkspaceConfig(function () {
-        return workspacesTemp;
-      });
-      setIsLoadingWorkspaces(false);
-      forceUpdate();
-    } catch (e) {
-    }
-  }
-  function handleLoadWorkspacesError(e, message) {
-    setWorkspaceConfig([]);
-  }
-  // Sub Menu
-  // The user has chosen a workspace and we need to load that workspace data
-  // into the workspace component.
-  function handleClick(workspaceItem) {
-    // pub.removeAllListeners();
-    setWorkspaceSelected(function () {
-      return workspaceItem;
-    });
-    setIsShowing(function () {
-      return false;
-    });
-  }
-  function handleClickNew(workspaceItem) {
-    try {
-      setPreviewMode(function () {
-        return false;
-      });
-      setWorkspaceSelected(function () {
-        return workspaceItem;
-      });
-    } catch (e) {
-    }
-  }
-  function handleWorkspaceChange(ws) {
-    if (ws) {
-      setPreviewMode(function () {
-        return false;
-      });
-      setWorkspaceSelected(function () {
-        return null;
-      });
-      setWorkspaceSelected(function () {
-        return WorkspaceModel(ws);
-      });
-    }
-  }
-  function renderComponent(workspaceItem) {
-    try {
-      return workspaceItem !== undefined ? /*#__PURE__*/jsx(LayoutBuilder, {
-        dashboardId: workspaceItem["id"],
-        preview: previewMode,
-        workspace: workspaceItem,
-        onWorkspaceChange: handleWorkspaceChange // for when we save a workspace change! fetch new ones!
-        ,
-        onTogglePreview: function onTogglePreview() {
-          return setPreviewMode(!previewMode);
-        }
-      }, "LayoutBuilder-".concat(workspaceItem["id"])) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-  function handleAddNewMenuItem() {
-    setIsAddWidgetModalOpen(true);
-  }
-  function loadMenuItems() {
-    try {
-      setIsLoadingMenuItems(function () {
-        return true;
-      });
-      // we have to remove the widgetConfig which contains the component
-      // sanitize the workspace layout remove widgetConfig items
-      if (dashApi && credentials) {
-        dashApi.listMenuItems(credentials.appId, handleListMenuItemComplete, handleListMenuItemError);
-      }
-    } catch (e) {
-    }
-  }
-  function handleListMenuItemComplete(e, message) {
-    try {
-      setMenuItems(function () {
-        return message.menuItems;
-      });
-      setIsLoadingMenuItems(function () {
-        return false;
-      });
-      if (message.menuItems.length === 0) setIsAddWidgetModalOpen(true);
-      forceUpdate();
-    } catch (e) {
-    }
-  }
-  function handleListMenuItemError(e, message) {
-    setMenuItems(function () {
-      return [];
-    });
-    setIsLoadingMenuItems(function () {
-      return false;
-    });
-  }
-  function handleSaveNewMenuItem(menuItem) {
-    // we have to remove the widgetConfig which contains the component
-    // sanitize the workspace layout remove widgetConfig items
-
-    if (dashApi && credentials) {
-      dashApi.saveMenuItem(credentials.appId, MenuItemModel(menuItem), handleSaveMenuItemComplete, handleSaveMenuItemError);
-    }
-  }
-  function handleSaveMenuItemComplete(e, message) {
-    setIsAddWidgetModalOpen(false);
-    loadMenuItems();
-  }
-  function handleSaveMenuItemError(e, message) {
-  }
-  function handleWorkspaceNameChange(name) {
-    var tempWorkspace = deepCopy(workspaceSelected);
-    tempWorkspace["name"] = name;
-    setWorkspaceSelected(function () {
-      return tempWorkspace;
-    });
-  }
-  function handleClickSaveWorkspace() {
-    try {
-      // we have to remove the widgetConfig which contains the component
-      // sanitize the workspace layout remove widgetConfig items
-      var workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
-      var layout = workspaceToSave["layout"].map(function (layoutItem) {
-        delete layoutItem["widgetConfig"];
-        // delete layoutItem["api"];
-        return layoutItem;
-      });
-      workspaceToSave["layout"] = layout;
-
-      // lets set a version so that we can compare...
-      workspaceToSave["version"] = Date.now();
-      if (dashApi && credentials) {
-        dashApi.saveWorkspace(credentials.appId, workspaceToSave, handleSaveWorkspaceComplete, handleSaveWorkspaceError);
-      }
-    } catch (e) {
-    }
-  }
-  function handleSaveWorkspaceComplete(e, message) {
-    // setPreviewMode(true);
-    // onTogglePreview();
-    // onWorkspaceChange();
-    // changeThemesForApplication(message['workspace'])
-
-    // Set the overall workspaces.
-    // test the emit
-    pub.pub("dashboard.workspaceChange", {
-      workspaces: message["workspaces"]
-    });
-    setWorkspaceConfig(function () {
-      return message["workspaces"];
-    });
-    setIsLoadingWorkspaces(false);
-    handleWorkspaceChange(workspaceSelected);
-    setPreviewMode(function () {
-      return true;
-    });
-  }
-  function handleSaveWorkspaceError(e, message) {
-  }
-  function handleOpenThemeManager() {
-    setIsThemeManagerOpen(true);
-  }
-
-  // function handleSelectLoadDashboard(dashboardSelected) {
-  //     console.log(dashboardSelected);
-  // }
-
-  function handleSelectLoadDashboard(dashboardSelected) {
-    try {
-      // if (dashboardSelected === undefined) {
-      //     selectedMainItem = 1;
-      // } else {
-      //     selectedMainItem = data.id;
-      // }
-
-      // if we have no data, we have to create a layout
-      // const newLayout = {
-      //     id: 1,
-      //     order: 1,
-      //     direction: "col",
-      //     width: "w-full",
-      //     component: "Container",
-      //     hasChildren: 1,
-      //     scrollable: false,
-      //     parent: 0,
-      //     menuId: selectedMainItem, // default menu item id is 1
-      // };
-
-      var newLayout = dashboardSelected.layout;
-      var workspaceItem = new WorkspaceModel({
-        layout: newLayout
-      });
-      setPreviewMode(function () {
-        return false;
-      });
-      setWorkspaceSelected(function () {
-        return workspaceItem;
-      });
-      setIsDashboardLoaderOpen(false);
-    } catch (e) {
-    }
-  }
-  function handleCloseDashboardLoader() {
-    setIsDashboardLoaderOpen(false);
-  }
-  return /*#__PURE__*/jsx(DashboardWrapper, {
-    dashApi: dashApi,
-    credentials: credentials,
-    backgroundColor: backgroundColor,
-    children: menuItems && /*#__PURE__*/jsx(LayoutContainer, {
-      padding: false,
-      space: true,
-      height: "h-full",
-      width: "w-full",
-      direction: "row",
-      scrollable: false,
-      grow: true,
-      children: /*#__PURE__*/jsxs(DndProvider, {
-        backend: HTML5Backend,
-        children: [workspaceSelected !== null && /*#__PURE__*/jsxs(LayoutContainer, {
-          padding: false,
-          space: true,
-          height: "h-full",
-          width: "w-full",
-          direction: "col",
-          scrollable: false,
-          grow: true,
-          children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
-            workspace: workspaceSelected,
-            preview: previewMode,
-            onNameChange: handleWorkspaceNameChange
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col w-full h-full ".concat(previewMode === true ? "overflow-y-auto" : "overflow-hidden"),
-            children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
-          }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
-            onClickEdit: function onClickEdit() {
-              return setPreviewMode(!previewMode);
-            },
-            workspace: workspaceSelected,
-            preview: previewMode,
-            onSaveChanges: handleClickSaveWorkspace,
-            onNewMenuItem: handleAddNewMenuItem,
-            onOpenThemeManager: handleOpenThemeManager,
-            onHome: function onHome() {
-              return setWorkspaceSelected(null);
-            },
-            onOpenSettings: function onOpenSettings() {
-              return setIsSettingsModalOpen(true);
-            }
-          })]
-        }), workspaceSelected === null && workspaceConfig && /*#__PURE__*/jsx(PanelWelcome, {
-          menuItems: menuItems,
-          workspaces: workspaceConfig,
-          onClickWorkspace: handleClick,
-          onClickCreateMenuItem: function onClickCreateMenuItem() {
-            return setIsAddWidgetModalOpen(true);
-          },
-          onNewMenuItem: handleAddNewMenuItem,
-          onOpenThemeManager: handleOpenThemeManager,
-          onHome: function onHome() {
-            return setWorkspaceSelected(null);
-          },
-          onOpenSettings: function onOpenSettings() {
-            return setIsSettingsModalOpen(true);
-          }
-          //onClickNew={handleClickNew}
-          ,
-          onClickNewWorkspace: handleClickNew,
-          selectedMainItem: selectedMainItem,
-          onOpenDashboardLoader: function onOpenDashboardLoader() {
-            return setIsDashboardLoaderOpen(true);
-          }
-        }), /*#__PURE__*/jsx(AddMenuItemModal, {
-          open: isAddItemModalOpen,
-          setIsOpen: function setIsOpen() {
-            return setIsAddWidgetModalOpen(!isAddItemModalOpen);
-          },
-          onSave: handleSaveNewMenuItem
-        }), /*#__PURE__*/jsx(ThemeManagerModal, {
-          open: isThemeManagerOpen,
-          setIsOpen: function setIsOpen() {
-            return setIsThemeManagerOpen(!isThemeManagerOpen);
-          },
-          onSave: function onSave(themeKey) {
-            changeCurrentTheme(themeKey);
-            setIsThemeManagerOpen(function () {
-              return false;
-            });
-            forceUpdate();
-          }
-        }), /*#__PURE__*/jsx(ApplicationSettingsModal, {
-          open: isSettingsModalOpen,
-          setIsOpen: setIsSettingsModalOpen,
-          workspaces: workspaceConfig
-        }), /*#__PURE__*/jsx(DashboardLoaderModal, {
-          open: isDashboardLoaderOpen,
-          setIsOpen: setIsDashboardLoaderOpen,
-          workspaces: workspaceConfig,
-          onSelecDashboard: handleSelectLoadDashboard,
-          onClose: function onClose() {
-            return handleCloseDashboardLoader();
-          }
-        })]
-      })
-    })
-  });
-};
-
-var DashboardFooter = function DashboardFooter(_ref) {
-  var workspace = _ref.workspace,
-    preview = _ref.preview,
-    _ref$backgroundColor = _ref.backgroundColor,
-    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
-    _ref$borderColor = _ref.borderColor,
-    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
-    _ref$textColor = _ref.textColor,
-    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
-    _ref$onClickEdit = _ref.onClickEdit,
-    onClickEdit = _ref$onClickEdit === void 0 ? null : _ref$onClickEdit,
-    _ref$onSaveChanges = _ref.onSaveChanges,
-    onSaveChanges = _ref$onSaveChanges === void 0 ? null : _ref$onSaveChanges;
-    _ref.onNewMenuItem;
-    _ref.onOpenThemeManager;
-    _ref.onOpenSettings;
-    var _ref$onHome = _ref.onHome,
-    onHome = _ref$onHome === void 0 ? null : _ref$onHome;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var stylesFooter = getStylesForItem(themeObjects.DASHBOARD_FOOTER, currentTheme, {
-    borderColor: borderColor,
-    grow: false
-  });
-  getStylesForItem(themeObjects.DASHBOARD_FOOTER, currentTheme, {
-    backgroundColor: backgroundColor,
-    borderColor: borderColor,
-    textColor: textColor
-  });
-  var handleHome = function handleHome() {
-    onHome && onHome();
-  };
-  return /*#__PURE__*/jsx(LayoutContainer, {
-    direction: "row",
-    grow: false,
-    space: true,
-    className: "p-2 border-t ".concat(stylesFooter.string),
-    children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row justify-between w-full",
-      children: [/*#__PURE__*/jsxs("div", {
-        className: "flex flex-row space-x-4",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "w-10 h-10 items-center justify-center",
-          children: /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "arrow-left",
-            onClick: handleHome
-          })
-        }), workspace && /*#__PURE__*/jsx("div", {
-          className: "flex flex-row justify-center items-center",
-          children: /*#__PURE__*/jsx(SubHeading3, {
-            title: "".concat(workspace.name),
-            padding: false,
-            className: "text-gray-700 font-bold text-base"
-          })
-        })]
-      }), preview === true && /*#__PURE__*/jsx("div", {
-        className: "flex flex-row space-x-1",
-        children: /*#__PURE__*/jsx(ButtonIcon, {
-          text: "Edit",
-          onClick: onClickEdit,
-          hoverBackgroundColor: "hover:bg-indigo-700"
-        })
-      }), preview === false && /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row space-x-1",
-        children: [/*#__PURE__*/jsx(ButtonIcon, {
-          text: "Cancel",
-          onClick: onClickEdit,
-          hoverBackgroundColor: "hover:bg-indigo-700"
-        }), /*#__PURE__*/jsx(ButtonIcon, {
-          text: "Save Changes",
-          onClick: onSaveChanges,
-          hoverBackgroundColor: "hover:bg-green-700"
-        })]
-      })]
-    })
-  });
-};
-
-function _slicedToArray$q(r, e) { return _arrayWithHoles$q(r) || _iterableToArrayLimit$q(r, e) || _unsupportedIterableToArray$r(r, e) || _nonIterableRest$q(); }
-function _nonIterableRest$q() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$r(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$r(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$r(r, a) : void 0; } }
-function _arrayLikeToArray$r(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$q(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$q(r) { if (Array.isArray(r)) return r; }
-var DashboardHeader = function DashboardHeader(_ref) {
-  var workspace = _ref.workspace,
-    preview = _ref.preview,
-    _ref$onClickEdit = _ref.onClickEdit,
-    onClickEdit = _ref$onClickEdit === void 0 ? null : _ref$onClickEdit,
-    onNameChange = _ref.onNameChange;
-  var _useState = useState(workspace),
-    _useState2 = _slicedToArray$q(_useState, 2),
-    workspaceSelected = _useState2[0],
-    setWorkspaceSelected = _useState2[1];
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  useEffect(function () {
-    if (deepEqual(workspace, workspaceSelected) === false) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-    }
-  }, [workspace, workspaceSelected]);
-  return preview === false && /*#__PURE__*/jsxs("div", {
-    className: "flex flex-row p-1 justify-between shrink items-center px-4 ".concat(currentTheme["bg-primary-dark"], " py-2"),
-    children: [/*#__PURE__*/jsx(InputText, {
-      name: "name",
-      value: workspaceSelected.name,
-      onChange: function onChange(e) {
-        return onNameChange(e.target.value);
-      },
-      textSize: "text-lg",
-      placeholder: "My Workspace",
-      bgColor: "bg-gray-800",
-      textColor: "text-gray-400",
-      hasBorder: false
-    }), onClickEdit !== null && /*#__PURE__*/jsx("div", {
-      className: "flex flex-row space-x-1",
-      children: /*#__PURE__*/jsx(ButtonIcon, {
-        icon: "pencil",
-        textSize: "text-xs",
-        onClick: onClickEdit
-      })
-    })]
-  });
-};
-
-var DashboardMonitor = function DashboardMonitor() {
-  var _useContext = useContext(DashboardContext);
-    _useContext.pub;
-  useEffect(function () {});
-  return /*#__PURE__*/jsx(LayoutContainer, {
-    direction: "col",
-    scrollable: true
-  });
-};
-
-function _typeof$E(o) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$E(o); }
-function ownKeys$y(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$y(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$y(Object(t), !0).forEach(function (r) { _defineProperty$A(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$y(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$A(e, r, t) { return (r = _toPropertyKey$E(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$E(t) { var i = _toPrimitive$E(t, "string"); return "symbol" == _typeof$E(i) ? i : i + ""; }
-function _toPrimitive$E(t, r) { if ("object" != _typeof$E(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$E(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var event = {
-  list: new Map(),
-  //  Map(1) { '<widget-UUID>' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
-  /**
-   * on
-   *
-   * Register a unique event to a unique widget
-   * Widgets can ONLY listen to an event ONCE, you cannot have
-   * multiple handlers in the same widget.
-   *
-   * @param {string} eventType the unique event type for a widget
-   * @param {*} eventAction the handler for the event type
-   * @param {*} uuid the UUID of the widget listening
-   * @returns
-   */
-  on: function on(eventType, eventAction) {
-    var uuid = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    this.list.has(eventType) || this.list.set(eventType, []);
-    // this.list.has(uuid) || this.list.set(uuid, {});
-    if (this.list.get(eventType)) {
-      // this is key:value pair mapping
-      // each key is a widget UUID
-      var currentActionsForEvent = this.list.get(eventType);
-
-      // lets check to see if the UUID is available for the event type...
-      var hasEvent = false;
-      currentActionsForEvent.forEach(function (e, index) {
-        if (e.uuid === uuid) {
-          hasEvent = index;
-        }
-      });
-
-      // if we have a match at the index, lets remove it
-      // and replace with the new one
-      if (hasEvent !== false) currentActionsForEvent.splice(hasEvent, 1);
-
-      // if (hasEvent === false) {
-      var eventObject = {
-        uuid: uuid,
-        action: eventAction
-      };
-      currentActionsForEvent.push(eventObject);
-      this.list.set(eventType, currentActionsForEvent);
-      // }
-    }
-    return this;
-  },
-  // publish events...
-  emit: function emit(eventType) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-    var subscriptionsToEvent = this.list.get(eventType);
-    if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
-      subscriptionsToEvent.forEach(function (subscriber) {
-        var objectToSend = {
-          message: args[0],
-          event: eventType,
-          uuid: subscriber["uuid"]
-        };
-        if ("action" in subscriber && subscriber.action !== undefined) {
-          subscriber["action"](_objectSpread$y({}, objectToSend));
-        }
-      });
-    }
-  },
-  clear: function clear() {
-    this.list = new Map();
-  }
-};
-var DashboardPublisher = {
-  sub: function sub(eventType, action, uuid) {
-    event.on(eventType, action, uuid);
-  },
-  pub: function pub(eventType, content) {
-    event.emit(eventType, content);
-    // send to ALL
-    // event.emit("DashboardPublisher.monitor", { eventType, content });
-  },
-  listeners: function listeners() {
-    return event.list;
-  },
-  registerListeners: function registerListeners(listeners, handlerMap, uuid) {
-    if (listeners !== undefined) {
-      if (isObject(listeners) === true) {
-        Object.keys(listeners).forEach(function (handlerKey) {
-          if (handlerKey in listeners) {
-            listeners[handlerKey].forEach(function (event) {
-              // subscribe our listeners
-              DashboardPublisher.sub(event, handlerMap[handlerKey], uuid);
-            });
-          }
-        });
-      }
-    }
-  },
-  removeAllListeners: function removeAllListeners() {
-    // we want to begin fresh when we switch workspaces...
-    // event = new Map();
-    //event.clear();
-  },
-  clearAllMessage: function clearAllMessage() {
-    event.emit("clearAllMessage");
-  }
-};
-
-function buildWidgetApi() {
-  var w = WidgetApi;
-  w.setPublisher(DashboardPublisher);
-  return w;
-}
-var DashboardContext = /*#__PURE__*/createContext({
-  pub: DashboardPublisher,
-  widgetApi: buildWidgetApi(),
-  dashApi: null
-});
-
-function _slicedToArray$p(r, e) { return _arrayWithHoles$p(r) || _iterableToArrayLimit$p(r, e) || _unsupportedIterableToArray$q(r, e) || _nonIterableRest$p(); }
-function _nonIterableRest$p() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$q(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$q(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$q(r, a) : void 0; } }
-function _arrayLikeToArray$q(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$p(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$p(r) { if (Array.isArray(r)) return r; }
-var themes$1 = {
-  "theme-1": {
-    name: "Default 1",
-    primary: "gray",
-    secondary: "indigo",
-    tertiary: "blue",
-    shadeBackgroundFrom: 600,
-    shadeBorderFrom: 600,
-    shadeTextFrom: 100,
-    dark: {
-      "bg-primary-very-dark": "bg-black" // override test
-    },
-    light: {
-      "bg-primary-very-light": "bg-white",
-      // override test
-      "bg-primary-very-dark": "bg-gray-600" // override test
-    }
-  },
-  "theme-2": {
-    name: "Default 2",
-    primary: "gray",
-    secondary: "slate",
-    tertiary: "orange",
-    shadeBackgroundFrom: 200,
-    shadeBorderFrom: 300,
-    shadeTextFrom: 700,
-    dark: {
-      "bg-primary-very-dark": "bg-black" // override test
-    },
-    light: {
-      "bg-primary-very-light": "bg-white",
-      // override test
-      "bg-primary-very-dark": "bg-gray-600" // override test
-    }
-  }
-};
-var ThemeWrapper = function ThemeWrapper(_ref) {
-  var _ref$theme = _ref.theme,
-    theme = _ref$theme === void 0 ? null : _ref$theme,
-    dashApi = _ref.dashApi,
-    credentials = _ref.credentials,
-    children = _ref.children;
-  // changeApplicationTheme will save this to the settings config
-  var _useContext = useContext$1(AppContext),
-    changeApplicationTheme = _useContext.changeApplicationTheme;
-  var _useState = useState(theme),
-    _useState2 = _slicedToArray$p(_useState, 2),
-    chosenTheme = _useState2[0],
-    setChosenTheme = _useState2[1];
-  var _useState3 = useState(null),
-    _useState4 = _slicedToArray$p(_useState3, 2),
-    themeName = _useState4[0],
-    setThemeName = _useState4[1];
-  var _useState5 = useState("dark"),
-    _useState6 = _slicedToArray$p(_useState5, 2),
-    themeVariant = _useState6[0],
-    setThemeVariant = _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray$p(_useState7, 2),
-    themesForApplication = _useState8[0],
-    setThemesForApplication = _useState8[1];
-  var _useState9 = useState({}),
-    _useState0 = _slicedToArray$p(_useState9, 2),
-    rawThemes = _useState0[0],
-    setRawThemes = _useState0[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$p(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-
-  // console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials);
-
-  useEffect(function () {
-    // If the user has provided a theme as a override,
-    // we can skip loading the themes...
-
-    // console.log(
-    //     "THEME WRAPPER ",
-    //     chosenTheme,
-    //     dashApi,
-    //     credentials,
-    //     themesForApplication
-    // );
-
-    if (chosenTheme === null) {
-      if (theme !== null) {
-        var defaultTheme = ThemeModel(theme);
-        setThemeVariant(function () {
-          return "dark";
-        });
-        setChosenTheme(function () {
-          return defaultTheme;
-        });
-      } else {
-        // if the themes for application is null...
-        // we have to load the themes...
-        if (themesForApplication === null) {
-          // finally
-          themesForApplication === null && loadThemes();
-        } else {
-          var themeKeyDefault = themesForApplication !== null ? Object.keys(themesForApplication)[0] : "theme-1";
-          var _defaultTheme = ThemeModel(themesForApplication !== null ? themesForApplication[themeKeyDefault] : themes$1[themeKeyDefault]);
-          setThemeVariant(function () {
-            return "dark";
-          });
-          setChosenTheme(function () {
-            return _defaultTheme;
-          });
-        }
-      }
-    } else {
-      // we have a theme chosen but need to load the application themes overall...
-      if (themesForApplication === null) loadThemes();
-    }
-  }, [chosenTheme]);
-
-  /**
-   * loadThemes
-   * Load in the themes for this application
-   */
-  function loadThemes() {
-    if (dashApi && credentials) {
-      dashApi.listThemes(credentials.appId, handleLoadThemesComplete, handleLoadThemesError);
-    }
-  }
-
-  /**
-   * handleLoadThemesComplete
-   * Load in the themes saved to the configuration, if no themes
-   * exist, then use the default themes provided.
-   * @param {*} e
-   * @param {*} message
-   */
-  function handleLoadThemesComplete(e, message) {
-    if ("themes" in message) {
-      checkThemes(message["themes"]);
-      // if (theme === null) {
-      //     changeCurrentTheme(Object.keys(message["themes"])[0]);
-      // }
-    }
-  }
-  function checkThemes(themesToCheck) {
-    try {
-      var themesChecked = {};
-      var _rawThemes = {};
-      if (themesToCheck !== null) {
-        if (Object.keys(themesToCheck).length === 0) {
-          Object.keys(themes$1).forEach(function (themeKey) {
-            var themeObject = ThemeModel(themes$1[themeKey]);
-            _rawThemes[themeKey] = themes$1[themeKey];
-            themesChecked[themeKey] = themeObject;
-          });
-          setThemesForApplication(function () {
-            return themesChecked;
-          });
-          setRawThemes(function () {
-            return _rawThemes;
-          });
-        } else {
-          // let's make sure all of the information is there!
-          Object.keys(themesToCheck).forEach(function (themeKey) {
-            var themeObject = ThemeModel(themesToCheck[themeKey]);
-            _rawThemes[themeKey] = themesToCheck[themeKey];
-            themesChecked[themeKey] = themeObject;
-          });
-
-          // console.log('themes to check AFTER had keys', themesChecked);
-
-          // now let's add our default themes as well
-          // if ('theme-1' in themesChecked === false) {
-          //     themesChecked['theme-1'] = ThemeModel(themes['theme-1']);
-          // }
-          // if ('theme-2' in themesChecked === false) {
-          //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
-          // }
-          setThemesForApplication(function () {
-            return themesChecked;
-          });
-          setRawThemes(function () {
-            return _rawThemes;
-          });
-
-          // if (!chosenTheme) {
-          //     changeCurrentTheme(Object.keys(themesChecked)[0]);
-          // }
-        }
-        // set the theme
-        if (!chosenTheme && Object.keys(themesChecked).length > 0) {
-          changeCurrentTheme(Object.keys(themesChecked)[0]);
-        }
-        forceUpdate();
-      }
-    } catch (e) {
-    }
-  }
-  function handleLoadThemesError(e, message) {
-    setThemesForApplication(null);
-  }
-  var changeCurrentTheme = function changeCurrentTheme(themeKey) {
-    if (rawThemes !== null) {
-      var themeData = ThemeModel(rawThemes[themeKey]);
-      if (themeKey !== null) {
-        setChosenTheme(function () {
-          return themeData;
-        });
-        setThemeName(function () {
-          return themeKey;
-        });
-        changeApplicationTheme(themeKey);
-        forceUpdate();
-      }
-    }
-  };
-  var changeThemesForApplication = function changeThemesForApplication(themes) {
-    checkThemes(themes);
-  };
-  var changeThemeVariant = function changeThemeVariant(variant) {
-    setThemeVariant(function () {
-      return variant;
-    });
-  };
-  var getValue = function getValue() {
-    try {
-      return {
-        key: Date.now(),
-        currentTheme: chosenTheme !== null ? themeVariant in chosenTheme ? chosenTheme[themeVariant] : null : null,
-        currentThemeKey: themeName,
-        theme: chosenTheme !== null ? themeVariant in chosenTheme ? chosenTheme[themeVariant] : null : null,
-        themeKey: themeName,
-        themeVariant: themeVariant,
-        changeCurrentTheme: changeCurrentTheme,
-        changeThemeVariant: changeThemeVariant,
-        changeThemesForApplication: changeThemesForApplication,
-        loadThemes: loadThemes,
-        themes: themesForApplication,
-        rawThemes: rawThemes
-      };
-    } catch (e) {
-      return {};
-    }
-  };
-  return /*#__PURE__*/jsx(ThemeContext.Provider, {
-    value: getValue(),
-    children: children
-  });
-};
-
-function _slicedToArray$o(r, e) { return _arrayWithHoles$o(r) || _iterableToArrayLimit$o(r, e) || _unsupportedIterableToArray$p(r, e) || _nonIterableRest$o(); }
-function _nonIterableRest$o() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$p(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$p(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$p(r, a) : void 0; } }
-function _arrayLikeToArray$p(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$o(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$o(r) { if (Array.isArray(r)) return r; }
-var debugStyles = {
-  workspace: {
-    classes: "bg-gray-800 border border-red-900 rounded p-4"
-  },
-  "workspace-menu": {
-    classes: "bg-gray-800 border border-orange-900 rounded p-4"
-  },
-  "workspace-footer": {
-    classes: "bg-gray-800 border-t border-orange-900 rounded p-4"
-  },
-  layout: {
-    classes: "border border-green-900 bg-gray-800 rounded p-4"
-  },
-  widget: {
-    classes: "border border-blue-700 bg-gray-800 rounded p-4"
-  }
-};
-var AppWrapper = function AppWrapper(_ref) {
-  var children = _ref.children,
-    _ref$credentials = _ref.credentials,
-    credentials = _ref$credentials === void 0 ? null : _ref$credentials,
-    dashApi = _ref.dashApi;
-  var _useState = useState(credentials),
-    _useState2 = _slicedToArray$o(_useState, 2),
-    creds = _useState2[0],
-    setCreds = _useState2[1];
-  var _useState3 = useState(false),
-    _useState4 = _slicedToArray$o(_useState3, 2),
-    debugMode = _useState4[0],
-    setDebugmode = _useState4[1];
-  var _useState5 = useState(null),
-    _useState6 = _slicedToArray$o(_useState5, 2),
-    searchClient = _useState6[0],
-    setSearchClient = _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray$o(_useState7, 2),
-    settings = _useState8[0],
-    setSettings = _useState8[1];
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray$o(_useState9, 2),
-    isLoadingSettings = _useState0[0],
-    setIsLoadingSettings = _useState0[1];
-  var _useState1 = useState(false),
-    _useState10 = _slicedToArray$o(_useState1, 2);
-    _useState10[0];
-    _useState10[1];
-  useEffect(function () {
-    if (settings === null && isLoadingSettings === false) {
-      loadSettings();
-    }
-  }, [credentials, settings]);
-  function changeSearchClient(searchClientTo) {
-    setSearchClient(function () {
-      return searchClientTo;
-    });
-  }
-  function changeCreds(appId, apiKey) {
-    var credentialsTemp = {
-      appId: appId,
-      apiKey: apiKey
-    };
-    var s = deepCopy(settings);
-    s["creds"] = credentialsTemp;
-    setCreds(function () {
-      return credentialsTemp;
-    });
-    changeSettings(s);
-  }
-  function changeDebugMode(to) {
-    setDebugmode(to);
-    var s = deepCopy(settings);
-    s["debugMode"] = to;
-    changeSettings(s);
-  }
-  function changeSettings(settingsObject) {
-    setSettings(function () {
-      return settingsObject;
-    });
-    saveSettings();
-  }
-  function changeApplicationTheme(themeKey) {
-    try {
-      var s = deepCopy(settings);
-      if (s) {
-        if ("theme" in s && themeKey) {
-          s["theme"] = themeKey;
-        }
-        changeSettings(s);
-      }
-    } catch (e) {
-    }
-  }
-  function loadSettings() {
-    // Here is where we have to add this theme to the themes available
-    // and save to the themes file.
-    if (dashApi && credentials) {
-      dashApi.listSettings(credentials.appId, handleGetSettingsComplete, handleGetSettingsError);
-    }
-  }
-  function handleGetSettingsComplete(e, message) {
-    if ("settings" in message) {
-      var settingsObject;
-      if (Object.keys(message["settings"]).length === 0) {
-        // nothing in settings so we should set some things....
-        // set a default theme for the user
-        settingsObject = SettingsModel({
-          theme: "theme-1"
-        });
-      } else {
-        settingsObject = SettingsModel(message["settings"]);
-      }
-      setSettings(function () {
-        return settingsObject;
-      });
-    }
-    // set the settings model to the context
-    setIsLoadingSettings(function () {
-      return false;
-    });
-    // forceUpdate();
-  }
-  function handleGetSettingsError(e, error) {
-    setIsLoadingSettings(function () {
-      return false;
-    });
-  }
-  function saveSettings() {
-    // Here is where we have to add this theme to the themes available
-    // and save to the themes file.
-    if (dashApi) {
-      dashApi.saveSettings(credentials.appId, settings, handleGetSettingsComplete, handleGetSettingsError);
-    }
-  }
-
-  // function handleSaveSettingsComplete(e, message) {
-  //     if ('settings' in message) {
-  //         let settingsObject;
-  //         if (Object.keys(message['settings']).length === 0) {
-  //             // nothing in settings so we should set some things....
-  //             // set a default theme for the user
-  //             settingsObject = SettingsModel({ theme: 'theme-1' });
-  //         } else {
-  //             settingsObject = SettingsModel(message['settings']);
-  //         }
-  //         setSettings(() => settingsObject);
-  //     }
-  //     // set the settings model to the context
-  //     setIsSavingSettings(() => false);
-  // }
-
-  // function handleSaveSettingsError(e, message) {
-  //     console.log('settings load error ', e, message);
-  //     setIsSavingSettings(() => false);
-  // }
-
-  function getValue() {
-    try {
-      return {
-        key: Date.now(),
-        debugMode: debugMode,
-        debugStyles: debugStyles,
-        creds: creds,
-        credentials: credentials,
-        searchClient: searchClient,
-        api: dashApi,
-        dashApi: dashApi,
-        settings: settings,
-        changeSearchClient: changeSearchClient,
-        changeCreds: changeCreds,
-        changeDebugMode: changeDebugMode,
-        changeSettings: changeSettings,
-        changeApplicationTheme: changeApplicationTheme
-      };
-    } catch (e) {
-      return null;
-    }
-  }
-  return /*#__PURE__*/jsx(AppContext.Provider, {
-    value: getValue(),
-    children: children
-  });
-};
-
-var WidgetContext = /*#__PURE__*/createContext({
-  widgetData: null
-});
-
-var DashboardWrapper = function DashboardWrapper(_ref) {
-  var dashApi = _ref.dashApi,
-    credentials = _ref.credentials,
-    _ref$backgroundColor = _ref.backgroundColor,
-    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
-    children = _ref.children;
-  // use the contexts to pass through any information
-  var _useContext = useContext$1(ThemeContext);
-    _useContext.currentTheme;
-  function buildWidgetApi() {
-    var w = WidgetApi;
-    w.setPublisher(DashboardPublisher);
-    w.setElectronApi(dashApi);
-    return w;
-  }
-  function getValue() {
-    return {
-      widgetApi: buildWidgetApi(),
-      pub: DashboardPublisher,
-      dashApi: dashApi,
-      credentials: credentials
-    };
-  }
-  return /*#__PURE__*/jsx(AppWrapper, {
-    dashApi: dashApi,
-    credentials: credentials,
-    children: /*#__PURE__*/jsx(ThemeWrapper, {
-      dashApi: dashApi,
-      credentials: credentials,
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-screen h-screen overflow-hidden justify-between p-0",
-        children: /*#__PURE__*/jsx(MainSection, {
-          backgroundColor: backgroundColor,
-          children: /*#__PURE__*/jsx(DashboardContext.Provider, {
-            value: getValue(),
-            children: children
-          })
-        })
-      })
-    })
-  });
-};
-
-/**
- * Layout
- *
- * Manage the Layout of Workspaces
- */
-var Layout = function Layout(_ref) {
-  var children = _ref.children,
-    preview = _ref.preview,
-    _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable;
-  var _useContext = useContext$1(AppContext),
-    debugMode = _useContext.debugMode;
-    _useContext.debugStyles;
-  var workspaceDataFromContext = useContext$1(WorkspaceContext);
-  useEffect(function () {
-  });
-  function debugClasses() {
-    // const styles = debugStyles !== null && debugStyles !== undefined
-    //     ? ('layout' in debugStyles ? debugStyles['layout']['classes'] : null) : null;
-    return debugMode === true && "space-y-4"; // ${styles}`
-  }
-  return !children && workspaceDataFromContext ? /*#__PURE__*/jsx(LayoutBuilder, {
-    workspace: workspaceDataFromContext,
-    preview: preview,
-    type: workspaceDataFromContext["type"],
-    controls: false
-  }) : /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col w-full space-y-4 ".concat(scrollable === true ? "overflow-y-auto h-full" : "overflow-hidden h-full", " ").concat(debugClasses(), " p-4"),
-    children: [debugMode && /*#__PURE__*/jsxs("span", {
-      className: "text-white uppercase text-xs",
-      children: ["LAYOUT has children and", " ", scrollable === true ? "is scrollable" : "is not scrollable"]
-    }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full space-y-4 p-0 h-full ".concat(scrollable === false ? "overflow-hidden" : ""),
-      children: children
-    })]
-  });
-};
-
-var LayoutContainer = function LayoutContainer(_ref) {
-  var id = _ref.id,
-    children = _ref.children,
-    _ref$direction = _ref.direction,
-    direction = _ref$direction === void 0 ? "row" : _ref$direction,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
-    _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-full" : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "" : _ref$height,
-    _ref$space = _ref.space,
-    space = _ref$space === void 0 ? true : _ref$space,
-    _ref$grow = _ref.grow,
-    grow = _ref$grow === void 0 ? false : _ref$grow,
-    _ref$debug = _ref.debug,
-    debug = _ref$debug === void 0 ? false : _ref$debug,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? undefined : _ref$onClick,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? "" : _ref$padding;
-  var containerId = getUUID(id);
-  // get the styles
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.LAYOUT_CONTAINER, currentTheme, {
-    scrollable: scrollable,
-    width: width,
-    height: height,
-    grow: grow,
-    hasChildren: children !== undefined,
-    childCount: React.Children.count(children),
-    direction: direction,
-    space: space,
-    padding: padding
-  }, containerId);
-  function renderDebugger(children, styleString) {
-    return debug === true && /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col bg-inherit space-y-1 flex-shrink",
-      children: [/*#__PURE__*/jsxs("span", {
-        className: "flex flex-row flex-shrink text-xs bg-gray-900 uppercase text-gray-200 rounded",
-        children: [containerId, " ", styleString]
-      }), children]
-    });
-  }
-
-  // const classString = className !== "" ? className : styles.string;
-  var classString = styles.string;
-  return /*#__PURE__*/jsxs("div", {
-    id: "LayoutContainer-".concat(containerId, "-").concat(id),
-    className: "flex ".concat(classString, " ").concat(className),
-    onClick: onClick,
-    children: [debug === false && children, debug === true && renderDebugger(children, styles.string)]
-  });
-};
-
-var LayoutTitlePane = function LayoutTitlePane(_ref) {
-  _ref.onClick;
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col rounded font-medium justify-between",
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded font-medium justify-between overflow-hidden",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col rounded p-6 py-10 space-y-4 w-full",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full",
-          children: [/*#__PURE__*/jsx(Heading, {
-            title: "Lay. Out.",
-            padding: false,
-            textColor: "text-gray-300"
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "plus",
-            textSize: "text-2xl",
-            backgroundColor: "bg-gray-800",
-            hoverBackgroundColor: "hover:bg-green-600",
-            iconSize: "h-6 w-6",
-            textColor: "text-gray-400"
-            // onClick={onClickNewTheme}
-          })]
-        }), /*#__PURE__*/jsx("p", {
-          className: "text-lg font-normal text-gray-300",
-          children: "Create Layout Templates to be used as starter kits for your Dashboards."
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$n(r, e) { return _arrayWithHoles$n(r) || _iterableToArrayLimit$n(r, e) || _unsupportedIterableToArray$o(r, e) || _nonIterableRest$n(); }
-function _nonIterableRest$n() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$o(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$o(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$o(r, a) : void 0; } }
-function _arrayLikeToArray$o(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$n(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$n(r) { if (Array.isArray(r)) return r; }
-var LayoutManagerPicker = function LayoutManagerPicker() {
-  var _useContext = useContext$1(AppContext),
-    api = _useContext.api,
-    creds = _useContext.creds;
-  var _useState = useState(null),
-    _useState2 = _slicedToArray$n(_useState, 2),
-    layoutTemplates = _useState2[0],
-    setLayoutTemplates = _useState2[1];
-  useEffect(function () {
-    if (layoutTemplates === null) {
-      listLayoutTemplates();
-    }
-  });
-  function listLayoutTemplates() {
-    var layouts = api.layout.listLayoutsForApplication(creds.appId);
-    setLayoutTemplates(layouts);
-  }
-  return /*#__PURE__*/jsxs(Panel, {
-    horizontal: true,
-    width: "w-full",
-    children: [/*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-1/3",
-      children: /*#__PURE__*/jsx(LayoutTitlePane, {})
-    }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-2/3",
-      children: JSON.stringify(layoutTemplates)
-    })]
-  });
-};
-
-var _excluded$y = ["open", "setIsOpen"];
-function _objectWithoutProperties$y(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$y(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$y(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var LayoutManagerModal = function LayoutManagerModal(_ref) {
-  var open = _ref.open,
-    setIsOpen = _ref.setIsOpen;
-    _objectWithoutProperties$y(_ref, _excluded$y);
-  function handleSelectLayout(data) {
-  }
-  return /*#__PURE__*/jsxs(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-5/6",
-    height: "h-5/6",
-    children: [/*#__PURE__*/jsx(Panel, {
-      backgroundColor: "bg-slate-800",
-      padding: false,
-      children: /*#__PURE__*/jsx(Panel.Body, {
-        children: /*#__PURE__*/jsx(LayoutManagerPicker, {
-          onClick: handleSelectLayout
-        })
-      })
-    }), /*#__PURE__*/jsx(Modal.Footer, {
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row space-x-2",
-        children: [/*#__PURE__*/jsx(Button, {
-          onClick: function onClick() {
-            return setIsEditing(false);
-          },
-          title: "Cancel",
-          textSize: "text-base xl:text-lg",
-          padding: "py-2 px-4",
-          backgroundColor: "bg-gray-700",
-          textColor: "text-gray-300",
-          hoverTextColor: "hover:text-gray-100",
-          hoverBackgroundColor: "hover:bg-gray-700"
-        }), /*#__PURE__*/jsx(Button
-        // onClick={() => handleSaveTheme(themeKeySelected)}
-        , {
-          title: "Create New",
-          textSize: "text-base xl:text-lg",
-          padding: "py-2 px-4",
-          backgroundColor: "bg-gray-700",
-          textColor: "text-gray-300",
-          hoverTextColor: "hover:text-gray-100",
-          hoverBackgroundColor: "hover:bg-gray-700"
-        })]
-      })
-    })]
-  });
-};
-
-function _slicedToArray$m(r, e) { return _arrayWithHoles$m(r) || _iterableToArrayLimit$m(r, e) || _unsupportedIterableToArray$n(r, e) || _nonIterableRest$m(); }
-function _nonIterableRest$m() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$n(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$n(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$n(r, a) : void 0; } }
-function _arrayLikeToArray$n(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$m(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$m(r) { if (Array.isArray(r)) return r; }
-var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
-  var workspace = _ref.workspace,
-    open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item,
-    _ref$onSaveItem = _ref.onSaveItem,
-    onSaveItem = _ref$onSaveItem === void 0 ? null : _ref$onSaveItem;
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
-  var _useState = useState(""),
-    _useState2 = _slicedToArray$m(_useState, 2),
-    searchTerm = _useState2[0],
-    setSearchTerm = _useState2[1];
-  var _useState3 = useState(null),
-    _useState4 = _slicedToArray$m(_useState3, 2),
-    menuItemSelected = _useState4[0],
-    setMenuItemSelected = _useState4[1];
-  var _useState5 = useState(workspace),
-    _useState6 = _slicedToArray$m(_useState5, 2),
-    workspaceSelected = _useState6[0],
-    setWorkspaceSelected = _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray$m(_useState7, 2),
-    parentWorkspace = _useState8[0];
-    _useState8[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$m(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (open === false) {
-      setMenuItemSelected(null);
-      setWorkspaceSelected(null);
-    } else {
-      if (workspaceSelected !== workspace) setWorkspaceSelected(function () {
-        return workspace;
-      });
-    }
-  }, [open]);
-  useEffect(function () {
-    if (workspace !== workspaceSelected && workspace !== null) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-    }
-  }, [item, open, workspace]);
-  useEffect(function () {
-  }, [menuItemSelected]);
-  function renderWidgets() {
-    var componentMap = ComponentManager.map();
-    var workspaceType = item ? item["workspace"] : null;
-    var canAddChildren = item ? item["canHaveChildren"] : true;
-    var parentWorkspaceType = item["parentWorkspaceName"] !== null && item["parentWorkspaceName"] !== undefined ? item["parentWorkspaceName"] : "layout";
-    if (parentWorkspaceType !== null) {
-      var options = workspaceType !== null && canAddChildren && Object.keys(componentMap).sort().filter(function (c) {
-        return componentMap[c]["type"] === "widget";
-      }).filter(function (c) {
-        return workspaceType !== null ? componentMap[c]["workspace"] === parentWorkspaceType : true;
-      }).map(function (w) {
-        return renderMenuItem("widget", w);
-      });
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-col rounded space-y-1",
-        children: options
-      });
-    } else {
-      return /*#__PURE__*/jsx("div", {
-        className: "flex flex-col rounded"
-      });
-    }
-  }
-  function renderWorkspaces() {
-    var componentMap = ComponentManager.map();
-    var canAddChildren = item ? item.canHaveChildren : true;
-
-    // We want to make sure the item (parent) can have children from the config
-    // We also want to limit the workspaces to layout only
-    // if the parent workspace is NOT layout, we only allow "layout" components
-
-    var options = canAddChildren === true && item["parentWorkspaceName"] === "layout" ? Object.keys(componentMap).sort().filter(function (i) {
-      return searchTerm !== "" ? i.toLowerCase().includes(searchTerm) : true;
-    }).filter(function (c) {
-      return componentMap[c]["type"] === "workspace" || componentMap[c]["workspace"] === "layout";
-    }).map(function (w) {
-      return renderMenuItem("workspace", w);
-    }) : Object.keys(componentMap).sort().filter(function (i) {
-      return searchTerm !== "" ? i.toLowerCase().includes(searchTerm) : true;
-    }).filter(function (c) {
-      return componentMap[c]["workspace"] === "layout";
-    }).map(function (w) {
-      return renderMenuItem("workspace", w);
-    });
-    return /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded space-y-1",
-      children: options
-    });
-  }
-  function handleClickItem(data) {
-    try {
-      var layoutModel = LayoutModel(data, workspace, workspace["id"]);
-
-      // we have to give the widget an ID
-      var nextId = getNextHighestId(workspace["layout"]);
-      var nextOrderData = getNextHighestOrder(workspace["layout"]);
-      var nextOrder = nextOrderData["highest"];
-      // data['id'] = nextId;
-
-      layoutModel.id = nextId;
-      layoutModel.order = nextOrder;
-      layoutModel["parent"] = parentWorkspace !== null && parentWorkspace !== undefined ? "id" in parentWorkspace ? parentWorkspace["id"] : 0 : 0; // unsure if this is ok
-
-      layoutModel["parentWorkspace"] = item["parentWorkspace"];
-      layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
-      layoutModel["parent"] = item["id"];
-      // nearest parent workspace (use the original widget/workspace clicked
-      // to begin looking...
-
-      // lets add the data to the original workspace...
-      var newWorkspace = JSON.parse(JSON.stringify(workspace));
-      newWorkspace["layout"] = [layoutModel["parentWorkspace"], layoutModel];
-      setMenuItemSelected(function () {
-        return layoutModel;
-      });
-      setWorkspaceSelected(function () {
-        return newWorkspace;
-      });
-      forceUpdate();
-    } catch (e) {
-    }
-  }
-  function handleAddItem(data) {
-    // The "item" is the item we selected in the layout to add TO
-    // The menuItemSelected is the item we chose from the list...
-    onSaveItem(menuItemSelected, item);
-  }
-  function renderMenuItem(type, componentName) {
-    return /*#__PURE__*/jsx(MenuItem3, {
-      onClick: function onClick() {
-        return handleClickItem({
-          type: type,
-          component: componentName
-        });
-      },
-      children: componentName
-    }, "menu-item-".concat(componentName));
-  }
-  function handleUpdate(e, layoutItem) {
-    try {
-
-      // let configItem = ComponentManager.config(data['component'], data);
-
-      // // we have to give the widget an ID
-      var nextId = getNextHighestId(workspaceSelected["layout"]);
-      // const nextOrder = getNextHighestOrder(workspaceSelected['layout']);
-
-      layoutItem["id"] = nextId;
-      // data['widgetConfig'] = configItem;
-
-      // // lets add the data to the original workspace...
-      layoutItem["parent"] = parentWorkspace !== null ? parentWorkspace["id"] : 0; // unsure if this is ok
-
-      // // lets add the data to the original workspace...
-      var newWorkspace = JSON.parse(JSON.stringify(workspace));
-      newWorkspace["layout"] = [parentWorkspace, layoutItem];
-      setMenuItemSelected(function () {
-        return layoutItem;
-      });
-      setWorkspaceSelected(function () {
-        return newWorkspace;
-      });
-      // forceUpdate();
-    } catch (e) {
-    }
-  }
-  function renderAddContainer(itemData) {
-    try {
-      var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
-      if (item.parentWorkspace !== undefined && item.parentWorkspace !== null) {
-        // let's make a custom layout with the parent workspace and the item selected
-        // need the workspace for the functionality...
-        var parentWorkspaceTemp = JSON.parse(JSON.stringify(item.parentWorkspace));
-        var layout = JSON.parse(JSON.stringify(workspaceSelectedTemp["layout"]));
-        var itemTemp = JSON.parse(JSON.stringify(itemData));
-        if (item.parentWorkspace) {
-          // set the id's to work appropriately.
-          itemTemp["parent"] = parentWorkspaceTemp["id"];
-          // set the new layout
-          layout = [parentWorkspaceTemp, itemTemp];
-
-          // let's determine the order...
-          // const layoutItems = parentWorkspaceTemp.layout.map(li => li.order);
-          // console.log('ORDER OF ITEMS ', layoutItems);
-        }
-        return item.parentWorkspace && _renderLayout({
-          workspaceSelected: workspaceSelected,
-          layout: layout,
-          parentKey: item.parentWorkspace["parent"],
-          previewMode: true,
-          isDraggable: false
-        });
-      }
-    } catch (e) {
-    }
-  }
-  return item && /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-5/6",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      padding: false,
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full space-x-4 overflow-hidden rounded",
-          children: [/*#__PURE__*/jsxs(LayoutContainer, {
-            direction: "col",
-            width: "w-1/4",
-            space: true,
-            scrollable: true,
-            className: "h-full rounded p-4 text-gray-200",
-            children: [/*#__PURE__*/jsx("div", {
-              className: "flex flex-row pb-4",
-              children: /*#__PURE__*/jsx(InputText, {
-                textSize: "text-sm",
-                onChange: function onChange(e) {
-                  return setSearchTerm(e.target.value);
-                },
-                value: searchTerm,
-                placeholder: "Widgetize"
-              })
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col space-y-2",
-              children: [/*#__PURE__*/jsx("span", {
-                className: "text-xs uppercase font-bold px-2 text-gray-400",
-                children: "Layout/Function"
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col rounded space-y-2",
-                children: renderWorkspaces()
-              })]
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col space-y-2",
-              children: [/*#__PURE__*/jsx("span", {
-                className: "text-xs uppercase font-bold px-2 text-gray-400",
-                children: "Widgets"
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col rounded space-y-2",
-                children: renderWidgets()
-              })]
-            })]
-          }), /*#__PURE__*/jsxs(LayoutContainer, {
-            direction: "row",
-            space: true,
-            grow: true,
-            scrollable: true,
-            width: "w-full",
-            className: "p-4 ".concat(currentTheme["bg-secondary-dark"]),
-            children: [menuItemSelected === null && /*#__PURE__*/jsx("div", {
-              className: "flex-col h-full rounded font-medium text-gray-400 w-full xl:w-1/2 p-10",
-              children: /*#__PURE__*/jsxs("div", {
-                className: "flex flex-col rounded p-4 py-10 space-y-4",
-                children: [/*#__PURE__*/jsx(Heading, {
-                  title: "Build.",
-                  padding: false
-                }), /*#__PURE__*/jsx(SubHeading3, {
-                  title: "Choose a Workspace or Widget from the Available Components.",
-                  padding: false
-                }), /*#__PURE__*/jsx(Paragraph, {
-                  text: "Don't worry, you can't mess this up.",
-                  padding: false
-                })]
-              })
-            }), menuItemSelected !== null && /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col rounded border-2 border-gray-800 ".concat(getBorderStyle(menuItemSelected), " overflow-hidden h-full w-3/4 bg-gray-900"),
-              children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-col p-2 space-x-1 uppercase text-xs text-gray-200 font-bold bg-gray-800",
-                children: menuItemSelected !== null && /*#__PURE__*/jsxs("div", {
-                  className: "flex flex-row",
-                  children: ["Preview:", " ", menuItemSelected["component"]]
-                })
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col overflow-hidden justify-between h-full",
-                children: /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col grow p-2",
-                  children: renderAddContainer(menuItemSelected)
-                })
-              })]
-            }), menuItemSelected && /*#__PURE__*/jsx("div", {
-              className: "flex flex-col w-1/4",
-              children: /*#__PURE__*/jsx(WidgetConfigPanel, {
-                item: menuItemSelected,
-                onChange: handleUpdate
-                // onSave={handleAddItem}
-                ,
-                disabled: false,
-                workspace: workspaceSelected,
-                parentWorkspace: parentWorkspace
-              })
-            })]
-          })]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-row justify-end ".concat(currentTheme["bg-primary-very-dark"], " p-4 rounded-br rounded-bl border-t ").concat(currentTheme["border-primary-dark"]),
-          children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(Button, {
-              title: "Cancel",
-              bgColor: "bg-gray-800",
-              textSize: "text-lg",
-              padding: "py-2 px-4",
-              onClick: function onClick() {
-                return setIsOpen(false);
-              }
-            }), /*#__PURE__*/jsx(Button, {
-              title: "Save Changes",
-              bgColor: "bg-gray-800",
-              hoverBackgroundColor: "hover:bg-green-700",
-              textSize: "text-lg",
-              padding: "py-2 px-4",
-              onClick: handleAddItem
-            })]
-          })
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$l(r, e) { return _arrayWithHoles$l(r) || _iterableToArrayLimit$l(r, e) || _unsupportedIterableToArray$m(r, e) || _nonIterableRest$l(); }
-function _nonIterableRest$l() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$m(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$m(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$m(r, a) : void 0; } }
-function _arrayLikeToArray$m(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$l(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$l(r) { if (Array.isArray(r)) return r; }
-var PanelEditItem = function PanelEditItem(_ref) {
-  var workspace = _ref.workspace,
-    onUpdate = _ref.onUpdate,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$l(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$l(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$l(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    //console.log('EFFECT PanelEditItem', workspace, workspaceSelected, item['userPrefs'], itemSelected['userPrefs']);
-    //console.log('COMPARE RESULT: ', deepEqual(item, itemSelected));
-    if (deepEqual(item, itemSelected) === false) {
-      setItemSelected(function () {
-        return item;
-      });
-      forceUpdate();
-    }
-    if (deepEqual(workspace, workspaceSelected) === false) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-      forceUpdate();
-    }
-
-    // if (open === false) {
-    //     setItemSelected(null);
-    //     setWorkspaceSelected(null);
-    // }
-  }, [workspace, item]);
-  function handleUpdate(e, data) {
-    var workspaceTemp = WorkspaceModel(workspaceSelected);
-    var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
-    workspaceTemp.layout = newLayout;
-
-    // setWorkspaceSelected(() => workspaceTemp);
-    // setItemSelected(() => data);
-    onUpdate(data, workspaceTemp);
-    forceUpdate();
-  }
-  function renderEditContainer() {
-    try {
-      if (itemSelected !== null && workspaceSelected !== null) {
-        var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
-        if (itemSelected.parentWorkspace !== undefined && itemSelected.parentWorkspace !== null) {
-          // let's make a custom layout with the parent workspace and the itemSelected
-          // need the workspace for the functionality...
-          var parentWorkspaceTemp = JSON.parse(JSON.stringify(itemSelected.parentWorkspace));
-          var layout = JSON.parse(JSON.stringify(workspaceSelectedTemp["layout"]));
-          var itemTemp = JSON.parse(JSON.stringify(itemSelected));
-
-          // VERY IMPORTANT TO CHECK THE WORKSPACES!!!!
-          // otherwise the workspace will crash as the widget doesnt belong...
-          if (itemSelected["workspace"] === parentWorkspaceTemp["workspace"]) {
-            if (item.parentWorkspace) {
-              // set the id's to work appropriately.
-              parentWorkspaceTemp["id"] = 1;
-              parentWorkspaceTemp["parent"] = 0;
-              itemTemp["parent"] = 1; //parentWorkspaceTemp['id'];
-              // set the new layout
-              layout = [parentWorkspaceTemp, itemTemp];
-            }
-            return itemSelected.parentWorkspace && _renderLayout({
-              workspace: workspaceSelected,
-              layout: layout,
-              parentKey: 0,
-              previewMode: true,
-              isDraggable: false
-            });
-          } else {
-            // workspace mismatch!
-            return null;
-          }
-        }
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-  return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
-    padding: false,
-    children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-3/4 min-w-3/4 h-full rounded",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col w-full h-full rounded space-y-2 border-2 border-dashed ".concat(theme["border-secondary-very-dark"]),
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex p-2 text-xs ".concat(theme["text-secondary-dark"], " rounded-br uppercase font-bold "),
-            children: "Preview"
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col p-4 h-full",
-            children: itemSelected !== null && workspaceSelected !== null && renderEditContainer()
-          })]
-        })
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-1/4 ".concat(theme["bg-secondary-dark"]),
-        children: itemSelected && /*#__PURE__*/jsx(WidgetConfigPanel, {
-          item: itemSelected,
-          onChange: handleUpdate,
-          onSave: null,
-          disabled: itemSelected === null,
-          workspace: workspaceSelected,
-          parentWorkspace: itemSelected.parentWorkspace
-        })
-      })]
-    })
-  });
-};
-
-function _slicedToArray$k(r, e) { return _arrayWithHoles$k(r) || _iterableToArrayLimit$k(r, e) || _unsupportedIterableToArray$l(r, e) || _nonIterableRest$k(); }
-function _nonIterableRest$k() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$l(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$l(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$l(r, a) : void 0; } }
-function _arrayLikeToArray$l(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$k(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$k(r) { if (Array.isArray(r)) return r; }
-var PanelCode = function PanelCode(_ref) {
-  var workspace = _ref.workspace,
-    onUpdate = _ref.onUpdate,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$k(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$k(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$k(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (deepEqual(item, itemSelected) === false) {
-      setItemSelected(function () {
-        return item;
-      });
-      forceUpdate();
-    }
-    if (deepEqual(workspace, workspaceSelected) === false) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-      forceUpdate();
-    }
-  }, [workspace, item]);
-  function handleCodeChange(code) {
-    var itemToSave = JSON.parse(code);
-    onUpdate(itemToSave, workspaceSelected);
-  }
-  return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row w-full min-w-3/4 h-full rounded",
-        children: [/*#__PURE__*/jsx("div", {
-          className: "flex-col h-full rounded font-medium ".concat(theme["text-secondary-dark"], " w-full hidden xl:flex lg:w-1/3"),
-          children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col rounded p-4 py-10 space-y-4",
-            children: [/*#__PURE__*/jsx("p", {
-              className: "text-5xl font-bold ".concat(theme["text-secondary-very-light"]),
-              children: "Nerdery."
-            }), /*#__PURE__*/jsx("p", {
-              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
-              children: "If this appears to be jibberish to you, please turn around."
-            }), /*#__PURE__*/jsx("p", {
-              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
-              children: "If you need to manually edit the code for the Component selected, by all means."
-            })]
-          })
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col h-full border-2 border-gray-800 rounded ".concat(theme["bg-secondary-very-dark"], " w-full xl:w-2/3"),
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex ".concat(theme["bg-secondary-very-dark"], " p-2 text-xs text-gray-300 rounded-br uppercase font-bold"),
-            children: "Code Editor"
-          }), /*#__PURE__*/jsx(LayoutContainer, {
-            direction: "col",
-            scrollable: true,
-            className: "text-green-600 ".concat(theme["bg-secondary-very-dark"]),
-            children: itemSelected !== null && workspaceSelected !== null && /*#__PURE__*/jsx("div", {
-              className: "text-xs break-all h-full ".concat(theme["bg-secondary-very-dark"]),
-              children: /*#__PURE__*/jsx(CodeEditorInline, {
-                code: JSON.stringify(itemSelected, null, 2),
-                className: "p-0 h-full ".concat(theme["bg-secondary-very-dark"]),
-                setCode: handleCodeChange
-              })
-            })
-          })]
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$j(r, e) { return _arrayWithHoles$j(r) || _iterableToArrayLimit$j(r, e) || _unsupportedIterableToArray$k(r, e) || _nonIterableRest$j(); }
-function _nonIterableRest$j() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$k(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$k(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$k(r, a) : void 0; } }
-function _arrayLikeToArray$k(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$j(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$j(r) { if (Array.isArray(r)) return r; }
-var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
-  var workspace = _ref.workspace,
-    open = _ref.open,
-    onUpdate = _ref.onUpdate,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$j(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$j(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _useState5 = useState({}),
-    _useState6 = _slicedToArray$j(_useState5, 2),
-    eventsSelected = _useState6[0];
-    _useState6[1];
-  var _useState7 = useState(null),
-    _useState8 = _slicedToArray$j(_useState7, 2),
-    eventHandlerSelected = _useState8[0],
-    setEventHandlerSelected = _useState8[1];
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray$j(_useState9, 2),
-    loadedExisting = _useState0[0],
-    setLoadedExisting = _useState0[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$j(_React$useState, 2),
-    updateState = _React$useState2[1];
-  React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    // console.log(
-    //     "event workspace ",
-    //     item,
-    //     itemSelected,
-    //     workspace,
-    //     workspaceSelected
-    // );
-
-    // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
-    //     setWorkspaceSelected(() => workspace);
-    //     loadExistingListeners(workspace);
-    // }
-
-    if (deepEqual(item, itemSelected) === false) {
-      setItemSelected(function () {
-        return item;
-      });
-      // reset the selected items
-      // setEventsSelected(() => {});
-      // setEventHandlerSelected(null);
-      setLoadedExisting(false);
-    }
-    if (deepEqual(workspace, workspaceSelected) === false) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-      // loadExistingListeners(workspace);
-    }
-    if (workspaceSelected === workspace && loadedExisting === false) {
-      setLoadedExisting(function () {
-        return true;
-      });
-      // loadExistingListeners(workspaceSelected);
-    }
-    // if (open === false) {
-    //     setItemSelected(() => null);
-    //     // setComponentsSelected(() => []);
-    //     setEventsSelected(() => {});
-    //     setEventHandlerSelected(() => null);
-    // }
-
-    // if (Object.keys(componentsSelected).length < 1) {
-    //     loadExistingListeners(workspace);
-    // }
-  }, [open, workspace, item]);
-  useEffect(function () {
-    // if (
-    //     eventHandlerSelected !== null &&
-    //     eventsSelected !== null &&
-    //     eventsSelected !== undefined &&
-    //     Object.keys(eventsSelected).length > 0
-    // ) {
-    //     handleSaveChanges();
-    // }
-  }, [eventsSelected, eventHandlerSelected]);
-  function handleSelectEvent(eventString) {
-    try {
-      if (eventString && eventHandlerSelected !== null) {
-        // check if we have the hander "key" in the events object
-        var tempEvents = [];
-        var currentListeners = deepCopy(itemSelected["listeners"]);
-
-        // check to see if we already have the handler in the listeners
-        if (eventHandlerSelected in currentListeners) {
-          tempEvents = currentListeners[eventHandlerSelected];
-        }
-        tempEvents.push(eventString);
-        var uniqueEventsSelected = tempEvents.filter(function (value, index, array) {
-          return array.indexOf(value) === index;
-        });
-
-        // and now set the handler to the unique event
-        currentListeners[eventHandlerSelected] = uniqueEventsSelected;
-        // setEventsSelected(() => currentListeners);
-        handleSaveChanges(currentListeners);
-      }
-    } catch (e) {
-    }
-  }
-  function handleRemoveEvent(eventString) {
-    try {
-      if (eventHandlerSelected) {
-        // grab the current listeners OBJECT from the itemSelected
-        var currentListeners = deepCopy(itemSelected["listeners"]);
-
-        // 1. Remove the event from the temp array of events (from current item)
-        // filter out the event listener selected (eventString)
-        var eventsSelectedTemp = eventHandlerSelected in currentListeners ? currentListeners[eventHandlerSelected].filter(function (event) {
-          return event !== eventString;
-        }) : [];
-
-        // ok we have some events, and need to set them as the value for the handler selected
-
-        // want to update the listeners OBJECT
-        // handler: [event, event]
-        if (eventsSelectedTemp.length > 0) {
-          if (eventHandlerSelected in currentListeners) {
-            currentListeners[eventHandlerSelected] = eventsSelectedTemp;
-          }
-        } else {
-          // there are NO events for this handler, so we can remove this handler from
-          // the listeners entirely.
-          delete currentListeners[eventHandlerSelected];
-        }
-
-        // setEventsSelected(() => currentListeners);
-
-        handleSaveChanges(currentListeners);
-      }
-    } catch (e) {
-    }
-  }
-  function handleSelectEventHandler(handler) {
-    setEventHandlerSelected(function () {
-      return handler;
-    });
-    // setEventsSelected(() => {});
-    // handleSaveChanges();
-  }
-
-  /**
-   * handleRemoveEventHandler
-   * We are removing the event handler, and thus removing all of the
-   * events that are associated with the handler in the listeners...
-   * @param {string} handler
-   */
-  function handleRemoveEventHandler(handler) {
-    setEventHandlerSelected(function () {
-      return null;
-    });
-    // setEventsSelected(() => {});
-
-    // hmm, removing the event handler....
-    // we should remove this key from the listeners then save the changes...
-    var currentListeners = deepCopy(itemSelected["listeners"]);
-
-    // ok we have some events, and need to set them as the value for the handler selected
-
-    // want to update the listeners OBJECT
-    // handler: [event, event]
-    if (handler in currentListeners) {
-      // there are NO events for this handler, so we can remove this handler from
-      // the listeners entirely.
-      delete currentListeners[handler];
-    }
-    handleSaveChanges(currentListeners);
-  }
-  function getLayoutItemById(id) {
-    if (workspaceSelected !== null) {
-      var layoutItems = workspaceSelected.layout.filter(function (layoutItem) {
-        return layoutItem["id"] === parseInt(id, 10);
-      });
-      if (layoutItems.length > 0) {
-        return layoutItems[0];
-      }
-    }
-    return null;
-  }
-  function handleSaveChanges() {
-    var currentListeners = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    try {
-      if (workspaceSelected !== null && eventHandlerSelected !== null && "id" in itemSelected && itemSelected["id"] !== null) {
-        // let's copy the workspace selected to replace the listeners
-        var tempWorkspace = deepCopy(workspaceSelected);
-
-        // craft the event handler + listeners
-        // and add to the layout item
-        var layoutItem = getLayoutItemById(itemSelected["id"]);
-
-        // now lets add to it...
-        layoutItem["listeners"] = currentListeners;
-        tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
-        // // save the new workspace
-        onUpdate(layoutItem, tempWorkspace);
-      }
-    } catch (e) {
-    }
-  }
-
-  /**
-   * isSelected
-   * Check to see if the event for the component is selected
-   *
-   * @param {String} eventString the string containing {component}[{id}].{event}
-   * @returns
-   */
-
-  function isSelectedEvent(event) {
-    try {
-      if (event && eventHandlerSelected) {
-        // const listenerArray = workspaceSelected.layout
-        //     .filter((a) => {
-        //         console.log(
-        //             "filter check id ",
-        //             a["id"],
-        //             itemSelected["id"]
-        //         );
-        //         return a["id"] === itemSelected["id"];
-        //     })
-        //     .filter((k) => {
-        //         return (
-        //             workspaceSelected["layout"][k]["listeners"].length >
-        //             0
-        //         );
-        //     })
-        //     .map((h) => {
-        //         return workspaceSelected["layout"][h]["listeners"];
-        //     });
-        // console.log("listeners array from workspace ", listenerArray);
-        var isSelected = false;
-        if (eventHandlerSelected in itemSelected["listeners"]) {
-          if (itemSelected["listeners"][eventHandlerSelected].includes(event) === true) {
-            isSelected = true;
-          }
-        }
-        return isSelected;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
-  function renderAvailableEvents() {
-    if (workspaceSelected !== null) {
-      return workspaceSelected.layout.filter(function (l) {
-        return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
-      }).filter(function (e) {
-        return e.events.length > 0;
-      }).filter(function (li) {
-        return li["component"] !== itemSelected["component"];
-      }).map(function (layout) {
-        return /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col text-base font-bold text-gray-400 p-2",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
-            children: /*#__PURE__*/jsxs("span", {
-              className: "text-lg",
-              children: [layout["component"], "\xA0[", layout["id"], "]"]
-            })
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col space-y-1 py-1",
-            children: layout.events.filter(function (value, index, array) {
-              return array.indexOf(value) === index;
-            }) // remove any possible duplicates
-            .map(function (event) {
-              var eventString = "".concat(layout["component"], "[").concat(layout["id"], "].").concat(event);
-              var selected = isSelectedEvent(eventString);
-              return /*#__PURE__*/jsxs("div", {
-                onClick: function onClick() {
-                  return selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString);
-                },
-                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true ? "bg-blue-800" : "", " "),
-                children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                  icon: "square-check",
-                  className: "".concat(selected === true ? "text-blue-500" : "text-gray-700", " text-xl")
-                }), /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col",
-                  children: /*#__PURE__*/jsx("span", {
-                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
-                    children: event
-                  })
-                })]
-              });
-            })
-          })]
-        });
-      });
-    }
-  }
-  function renderAvailableHandlers() {
-    if (workspaceSelected !== null) {
-      return workspaceSelected.layout.filter(function (li) {
-        return li["id"] === itemSelected["id"];
-      }).map(function (layout) {
-        return layout.eventHandlers.length > 0 && /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col text-base font-bold text-gray-400 p-2",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
-            children: /*#__PURE__*/jsxs("span", {
-              className: "text-lg",
-              children: [layout["component"], "\xA0[", layout["id"], "]"]
-            })
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col space-y-1 py-1",
-            children: layout.eventHandlers.filter(function (value, index, array) {
-              return array.indexOf(value) === index;
-            }) // remove any possible duplicates
-            .map(function (handler) {
-              var selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false; //isHandlerSelected(handler);
-              return /*#__PURE__*/jsx("div", {
-                onClick: function onClick() {
-                  return selected ? handleRemoveEventHandler(handler) : handleSelectEventHandler(handler);
-                },
-                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true && "bg-indigo-700"),
-                children: /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col px-2",
-                  children: /*#__PURE__*/jsx("span", {
-                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
-                    children: handler
-                  })
-                })
-              });
-            })
-          })]
-        });
-      });
-    }
-  }
-  return itemSelected !== null && /*#__PURE__*/jsx(Panel, {
-    theme: false,
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full h-full overflow-hidden",
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full overflow-hidden space-x-4 justify-between",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3",
-            children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col rounded p-4 py-10 space-y-4",
-              children: [/*#__PURE__*/jsx("p", {
-                className: "text-5xl font-bold ".concat(theme["text-secondary-very-light"]),
-                children: "Listen Up."
-              }), /*#__PURE__*/jsx("p", {
-                className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
-                children: "Widgets and Workspaces can talk, but we have to setup the phone wires."
-              }), /*#__PURE__*/jsx("p", {
-                className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
-                children: "Select the method to handle the message first, then select the message it will handle."
-              })]
-            })
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3 scrollbar-thin",
-            children: [/*#__PURE__*/jsxs("span", {
-              className: "uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2",
-              children: ["Available Handlers", " "]
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col h-full overflow-y-scroll p-2 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100",
-              children: [itemSelected.eventHandlers.length > 0 && renderAvailableHandlers(), itemSelected.eventHandlers.length === 0 && /*#__PURE__*/jsx("div", {
-                className: "flex flex-col text-yellow-600 font-bold p-4",
-                children: "No available Handlers found."
-              })]
-            })]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3",
-            children: [/*#__PURE__*/jsxs("span", {
-              className: "uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2",
-              children: ["Available Events", " "]
-            }), /*#__PURE__*/jsx(LayoutContainer, {
-              direction: "col",
-              scrollable: true,
-              className: "p-2",
-              children: eventHandlerSelected !== null && renderAvailableEvents()
-            })]
-          })]
-        })
-      })
-    })
-  });
-};
-
-function _slicedToArray$i(r, e) { return _arrayWithHoles$i(r) || _iterableToArrayLimit$i(r, e) || _unsupportedIterableToArray$j(r, e) || _nonIterableRest$i(); }
-function _nonIterableRest$i() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$j(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$j(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$j(r, a) : void 0; } }
-function _arrayLikeToArray$j(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$i(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$i(r) { if (Array.isArray(r)) return r; }
-var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
-  var workspace = _ref.workspace,
-    open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    onSaveWorkspace = _ref.onSaveWorkspace,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useContext = useContext$1(ThemeContext),
-    theme = _useContext.theme;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$i(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$i(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _useState5 = useState("edit"),
-    _useState6 = _slicedToArray$i(_useState5, 2),
-    configMenuItemSelected = _useState6[0],
-    setConfigMenuItemSelected = _useState6[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$i(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (item !== itemSelected) {
-      setItemSelected(function () {
-        return item;
-      });
-    }
-    if (workspace !== workspaceSelected) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-    }
-    if (open === false) {
-      setItemSelected(null);
-      setConfigMenuItemSelected("edit");
-      setWorkspaceSelected(null);
-    }
-  }, [open]);
-
-  /**
-   * handleEditChange
-   * This method will receive the item and workspace
-   * but not SAVE it...only update the data.
-   *
-   * @param {} itemChanged the LaoutItem
-   * @param {*} workspaceChanged the Workspace item
-   */
-  function handleEditChange(itemChanged, workspaceChanged) {
-    setItemSelected(function () {
-      return itemChanged;
-    });
-    setWorkspaceSelected(function () {
-      return workspaceChanged;
-    });
-    // onSaveWorkspace(workspaceChanged);
-    forceUpdate();
-  }
-  function handleSaveConfig() {
-    onSaveWorkspace(workspaceSelected);
-  }
-  return itemSelected !== null && /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-11/12 xl:w-5/6",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      padding: false,
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-col h-full ".concat(theme["bg-secondary-very-dark"], " p-2 px-4 pt-4 space-y-2"),
-            children: [/*#__PURE__*/jsx(ButtonIcon, {
-              icon: "cog",
-              iconSize: "w-6 h-6",
-              onClick: function onClick() {
-                return setConfigMenuItemSelected("edit");
-              },
-              bgColor: configMenuItemSelected === "edit" ? "bg-blue-700" : "bg-blue-900"
-            }), itemSelected["workspace"] !== "layout" && /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "phone",
-              iconSize: "w-6 h-6",
-              onClick: function onClick() {
-                return setConfigMenuItemSelected("handlers");
-              },
-              bgColor: configMenuItemSelected === "handlers" ? "bg-blue-700" : "bg-blue-900"
-            }), /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "code",
-              iconSize: "w-6 h-6",
-              onClick: function onClick() {
-                return setConfigMenuItemSelected("code");
-              },
-              bgColor: configMenuItemSelected === "code" ? "bg-blue-700" : "bg-blue-900"
-            })]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4 ".concat(theme["bg-secondary-dark"]),
-            children: [configMenuItemSelected === "edit" && /*#__PURE__*/jsx(PanelEditItem, {
-              item: itemSelected,
-              onUpdate: handleEditChange,
-              workspace: workspaceSelected
-            }), configMenuItemSelected === "handlers" && /*#__PURE__*/jsx(PanelEditItemHandlers, {
-              item: itemSelected,
-              onUpdate: handleEditChange,
-              workspace: workspaceSelected
-            }), configMenuItemSelected === "code" && /*#__PURE__*/jsx(PanelCode, {
-              item: itemSelected,
-              onUpdate: handleEditChange,
-              workspace: workspaceSelected
-            })]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row justify-end ".concat(theme["bg-primary-very-dark"], " p-4 rounded-br rounded-bl border-t border-gray-800 justify-between items-center"),
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-row font-bold text-xl ".concat(theme["text-secondary-light"], " px-2"),
-            children: itemSelected["component"]
-          }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-2",
-            children: [/*#__PURE__*/jsx(Button, {
-              title: "Cancel",
-              bgColor: "bg-gray-800",
-              textSize: "text-lg",
-              padding: "py-2 px-4",
-              onClick: function onClick() {
-                return setIsOpen(false);
-              }
-            }), /*#__PURE__*/jsx(Button, {
-              title: "Save Changes",
-              bgColor: "bg-gray-800",
-              hoverBackgroundColor: "hover:bg-green-700",
-              textSize: "text-lg",
-              padding: "py-2 px-4",
-              onClick: handleSaveConfig
-            })]
-          })]
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$h(r, e) { return _arrayWithHoles$h(r) || _iterableToArrayLimit$h(r, e) || _unsupportedIterableToArray$i(r, e) || _nonIterableRest$h(); }
-function _nonIterableRest$h() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$i(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$i(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$i(r, a) : void 0; } }
-function _arrayLikeToArray$i(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$h(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$h(r) { if (Array.isArray(r)) return r; }
-var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
-  var workspace = _ref.workspace,
-    open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    onUpdate = _ref.onUpdate,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useContext = useContext$1(ThemeContext);
-    _useContext.theme;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$h(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$h(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$h(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (item !== itemSelected) {
-      setItemSelected(function () {
-        return item;
-      });
-    }
-    if (workspace !== workspaceSelected) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-    }
-    if (open === false) {
-      setItemSelected(null);
-      setWorkspaceSelected(null);
-    }
-  }, [open, workspace, item]);
-  function handleSaveChanges(itemData) {
-    if (itemData !== null) {
-      onUpdate(itemData);
-      setItemSelected(null);
-      setIsOpen(false);
-    }
-  }
-  function handleUpdate(data) {
-    var workspaceTemp = WorkspaceModel(workspaceSelected);
-    var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
-    workspaceTemp.layout = newLayout;
-    setWorkspaceSelected(function () {
-      return workspaceTemp;
-    });
-    setItemSelected(function () {
-      return data;
-    });
-    forceUpdate();
-  }
-  function renderEditContainer() {
-    try {
-      if (itemSelected !== null && workspaceSelected !== null) {
-        var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
-        if (itemSelected.parentWorkspace !== undefined && itemSelected.parentWorkspace !== null) {
-          // let's make a custom layout with the parent workspace and the itemSelected
-          // need the workspace for the functionality...
-          var parentWorkspaceTemp = JSON.parse(JSON.stringify(item.parentWorkspace));
-          var layout = JSON.parse(JSON.stringify(workspaceSelectedTemp["layout"]));
-          var itemTemp = JSON.parse(JSON.stringify(itemSelected));
-
-          // VERY IMPORTANT TO CHECK THE WORKSPACES!!!!
-          // otherwise the workspace will crash as the widget doesnt belong...
-          if (itemSelected["workspace"] === parentWorkspaceTemp["workspace"]) {
-            if (itemSelected.parentWorkspace) {
-              // set the id's to work appropriately.
-              parentWorkspaceTemp["id"] = 1;
-              parentWorkspaceTemp["parent"] = 0;
-              itemTemp["parent"] = 1; //parentWorkspaceTemp['id'];
-              // set the new layout
-              layout = [parentWorkspaceTemp, itemTemp];
-            }
-            return itemSelected.parentWorkspace && _renderLayout({
-              workspaceSelected: workspaceSelected,
-              layout: layout,
-              parentKey: 0,
-              previewMode: true,
-              isDraggable: false
-            });
-          } else {
-            // workspace mismatch!
-            return null;
-          }
-        }
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-  function getTitle() {
-    try {
-      if (itemSelected.parentWorkspace) {
-        if ("component" in itemSelected.parentWorkspace) {
-          return "".concat(itemSelected.parentWorkspace["component"], ": ").concat(itemSelected["component"]);
-        } else {
-          return itemSelected["component"];
-        }
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-  return itemSelected && /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-5/6 2xl:w-3/4",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      padding: false,
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full space-y-2 overflow-hidden",
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row text-xl font-bold text-white justify-between",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-row text-xl font-bold text-white p-2 space-x-2 justify-center items-center",
-            children: itemSelected && /*#__PURE__*/jsxs(Fragment, {
-              children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                icon: "folder"
-              }), /*#__PURE__*/jsx("span", {
-                className: "text-xl font-bold text-gray-200",
-                children: getTitle()
-              })]
-            })
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "xmark",
-            onClick: function onClick() {
-              return setIsOpen(false);
-            },
-            bgColor: "".concat(getContainerColor(itemSelected["parentWorkspace"]))
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-col w-3/4 min-w-3/4 bg-gray-900 h-full rounded p-2",
-            children: /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col w-full h-full border-2 border-gray-800 rounded space-y-2",
-              children: [/*#__PURE__*/jsx("div", {
-                className: "flex bg-gray-800 p-2 text-xs text-gray-300 rounded-br uppercase font-bold",
-                children: "Preview"
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col p-2",
-                children: itemSelected !== null && workspaceSelected !== null && renderEditContainer()
-              })]
-            })
-          }), itemSelected && /*#__PURE__*/jsx("div", {
-            className: "flex flex-col w-1/4",
-            children: /*#__PURE__*/jsx(WidgetConfigPanel, {
-              item: itemSelected,
-              onChange: handleUpdate,
-              onSave: handleSaveChanges,
-              disabled: itemSelected === null,
-              workspace: workspaceSelected,
-              parentWorkspace: itemSelected.parentWorkspace
-            })
-          })]
-        })]
-      })
-    })
-  });
-};
-
-function _slicedToArray$g(r, e) { return _arrayWithHoles$g(r) || _iterableToArrayLimit$g(r, e) || _unsupportedIterableToArray$h(r, e) || _nonIterableRest$g(); }
-function _nonIterableRest$g() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
-function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$g(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$g(r) { if (Array.isArray(r)) return r; }
-var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
-  var workspace = _ref.workspace,
-    open = _ref.open,
-    setIsOpen = _ref.setIsOpen,
-    onSave = _ref.onSave,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$g(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  var _useState3 = useState(workspace),
-    _useState4 = _slicedToArray$g(_useState3, 2),
-    workspaceSelected = _useState4[0],
-    setWorkspaceSelected = _useState4[1];
-  var _useState5 = useState({}),
-    _useState6 = _slicedToArray$g(_useState5, 2),
-    componentsSelected = _useState6[0];
-    _useState6[1];
-  // const [eventSelected, setEventSelected] = useState(null);
-  var _useState7 = useState({}),
-    _useState8 = _slicedToArray$g(_useState7, 2),
-    eventsSelected = _useState8[0],
-    setEventsSelected = _useState8[1];
-  var _useState9 = useState(null),
-    _useState0 = _slicedToArray$g(_useState9, 2),
-    eventHandlerSelected = _useState0[0],
-    setEventHandlerSelected = _useState0[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$g(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  useEffect(function () {
-    if (open === true && workspaceSelected === null && workspaceSelected !== workspace) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-      loadExistingListeners(workspace);
-    }
-    if (item !== itemSelected) {
-      setItemSelected(function () {
-        return item;
-      });
-      loadExistingListeners(workspace);
-    }
-    if (workspace !== workspaceSelected) {
-      setWorkspaceSelected(function () {
-        return workspace;
-      });
-      loadExistingListeners(workspace);
-    }
-    if (open === false) {
-      setItemSelected(function () {
-        return null;
-      });
-      // setComponentsSelected(() => []);
-      setEventsSelected(function () {});
-      setEventHandlerSelected(function () {
-        return null;
-      });
-    }
-    if (Object.keys(componentsSelected).length < 1) {
-      loadExistingListeners(workspace);
-    }
-  }, [open, workspace, item]);
-  function loadExistingListeners(ws) {
-    if (ws !== null) {
-      var existingListeners = {};
-      ws.layout.forEach(function (layoutItem) {
-        if ("listeners" in layoutItem) {
-          Object.keys(layoutItem["listeners"]).forEach(function (key) {
-            var events = layoutItem["listeners"][key];
-            existingListeners[key] = events;
-          });
-        }
-      });
-      setEventsSelected(function () {
-        return existingListeners;
-      });
-
-      // let's select one for the user
-      if (Object.keys(existingListeners).length > 0) {
-        setEventHandlerSelected(function () {
-          return Object.keys(existingListeners)[0];
-        });
-      }
-      forceUpdate();
-    }
-  }
-
-  // function loadExistingListenersForComponent(ws) {
-  //     if (ws !== null) {
-  //         const existingListeners = {};
-  //         ws.layout.forEach(layoutItem => {
-  //             existingListeners[layoutItem['id']] = layoutItem['listeners'];
-  //         });
-  //         console.log('EXISTING LISTENERS ', existingListeners);
-  //         setComponentsSelected(() => existingListeners);
-  //         forceUpdate();
-  //     }
-  // }
-
-  // function handleSelectWorkspaceItem(workspaceItem) {
-  //     setItemSelected(() => workspaceItem);
-  //     forceUpdate();
-  // }
-
-  // function handleToggleSelectItem(selectedItem, event, eventString) {
-  //     const selected = componentsSelected;
-  //     if (selectedItem && event && itemSelected) {
-  //         if (itemSelected['id'] in selected === false) {
-  //             selected[`${itemSelected['id']}`] = [];
-  //         }
-  //         // add the event "string" to the listeners for the id of the item selected
-  //         selected[`${itemSelected['id']}`].push(eventString);
-  //         selected[`${itemSelected['id']}`].filter((value, index, array) => array.indexOf(value) === index);
-
-  //         // let's set the current event selected so that we can tie this to the handler
-  //         // when the user chooses that as well...
-  //         const payload = { event, eventString };
-  //         setEventSelected(() => payload);
-
-  //         // now update the component selections
-  //         setComponentsSelected(() => selected);
-  //         handleUpdate();
-  //     }
-  // }
-
-  function handleSelectEvent(eventString) {
-    try {
-      if (eventsSelected) {
-        // check if we have the hander "key" in the events object
-        var tempEvents = [];
-        var tempEventsSelected = deepCopy(eventsSelected);
-        if (eventHandlerSelected in tempEventsSelected) {
-          tempEvents = tempEventsSelected[eventHandlerSelected];
-        }
-        tempEvents.push(eventString);
-        var uniqueEventsSelected = tempEvents.filter(function (value, index, array) {
-          return array.indexOf(value) === index;
-        }); // remove any possible duplicates;
-        tempEventsSelected[eventHandlerSelected] = uniqueEventsSelected;
-        setEventsSelected(function () {
-          return tempEventsSelected;
-        });
-      }
-    } catch (e) {
-    }
-  }
-  function handleRemoveEvent(eventString) {
-    var eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(function (event) {
-      return event !== eventString;
-    });
-    setEventsSelected(function () {
-      return eventsSelectedTemp;
-    });
-  }
-  function handleSelectEventHandler(handler) {
-    setEventHandlerSelected(function () {
-      return handler;
-    });
-  }
-  function handleRemoveEventHandler(handler) {
-    setEventHandlerSelected(function () {
-      return null;
-    });
-    setEventsSelected(function () {});
-  }
-  function getLayoutItemById(id) {
-    if (workspaceSelected !== null) {
-      var layoutItems = workspaceSelected.layout.filter(function (layoutItem) {
-        return layoutItem["id"] === parseInt(id, 10);
-      });
-      if (layoutItems.length > 0) {
-        return layoutItems[0];
-      }
-    }
-    return null;
-  }
-
-  // function replaceLayoutItemInWorkspace(layoutItem, tempWorkspace) {
-  //     if (tempWorkspace !== null && workspaceSelected !== null) {
-  //         tempWorkspace.layout.forEach((li, index) => {
-  //             if (li['id'] === layoutItem['id']) {
-  //                 console.log('replacing item', layoutItem['listeners']);
-  //                 //tempWorkspace.layout[index] = layoutItem;
-  //                 li['listeners'] = layoutItem['listeners'];
-  //             }
-  //         });
-  //         return tempWorkspace;
-  //     }
-  // }
-
-  function handleSaveChanges(itemData) {
-    try {
-      if (workspaceSelected !== null) {
-        var tempWorkspace = deepCopy(workspaceSelected);
-
-        // craft the event handler + listeners
-        // and add to the layout item
-        var layoutItem = getLayoutItemById(itemSelected["id"]);
-
-        // now lets add to it...
-        layoutItem["listeners"] = eventsSelected;
-        tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
-
-        // save the new workspace
-        onSave(tempWorkspace);
-
-        // reset the component
-        setItemSelected(function () {
-          return null;
-        });
-        setWorkspaceSelected(function () {
-          return null;
-        });
-        setEventsSelected(function () {});
-        setEventHandlerSelected(function () {
-          return null;
-        });
-        setIsOpen(false);
-      }
-    } catch (e) {
-    }
-  }
-
-  // function handleUpdate() {
-  //     if (workspaceSelected !== null) {
-  //         const tempWorkspace = deepCopy(workspaceSelected);
-  //         Object.keys(componentsSelected).map(key => {
-  //             // the item doing the listening...
-  //             const layoutItem = getLayoutItemById(key); // source item
-  //             if (layoutItem !== null) {
-  //                 const listnersForItem = componentsSelected[layoutItem['id']];
-  //                 layoutItem['listeners'] = listnersForItem;
-  //                 replaceLayoutItemInWorkspace(layoutItem, tempWorkspace);
-  //             }
-  //         });
-  //         // set the new workspace
-  //         setWorkspaceSelected(() => tempWorkspace);
-  //         forceUpdate();
-  //     }
-  // }
-
-  // function getTitle() {
-  //     try {
-  //         if (itemSelected.parentWorkspace) {
-  //             if ('component' in itemSelected.parentWorkspace) {
-  //                 return <span className="flex flex-row">{itemSelected['component']}</span>// in the&nbsp; <span className="flex flex-row underline">{itemSelected['parentWorkspaceName']}</span> &nbsp;workspace</span>;
-  //             } else {
-  //                 return itemSelected['component'];
-  //             }
-  //         }
-  //         return null;
-  //     } catch(e) {
-  //         return null;
-  //     }
-  // }
-
-  /**
-   * isSelected
-   * Check to see if the event for the component is selected
-   *
-   * @param {String} eventString the string containing {component}[{id}].{event}
-   * @returns
-   */
-  // function isSelected(eventString) {
-  //     let selected = false;
-  //     if (itemSelected !== null) {
-  //         // first lets check to see if it is in our components array as "Selected" but pending save.
-  //         if (itemSelected['id'] in componentsSelected) {
-  //             componentsSelected[itemSelected['id']].forEach(event => {
-  //                 if (event === eventString) selected = true;
-  //             });
-  //         }
-  //     }
-  //     return selected;
-  // }
-
-  function isSelectedEvent(event) {
-    try {
-      if (eventsSelected !== null && eventHandlerSelected) {
-        return eventsSelected[eventHandlerSelected].includes(event);
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
-  }
-  function renderAvailableEvents() {
-    if (workspaceSelected !== null) {
-      return workspaceSelected.layout.filter(function (l) {
-        return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
-      }).filter(function (e) {
-        return e.events.length > 0;
-      }).filter(function (li) {
-        return li["component"] !== itemSelected["component"];
-      }).map(function (layout) {
-        return /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col text-base font-bold text-gray-400 p-2",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
-            children: /*#__PURE__*/jsxs("span", {
-              className: "text-lg",
-              children: [layout["component"], "\xA0[", layout["id"], "]"]
-            })
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col space-y-1 py-1",
-            children: layout.events.filter(function (value, index, array) {
-              return array.indexOf(value) === index;
-            }) // remove any possible duplicates
-            .map(function (event) {
-              var eventString = "".concat(layout["component"], "[").concat(layout["id"], "].").concat(event);
-              var selected = isSelectedEvent(eventString);
-              return /*#__PURE__*/jsxs("div", {
-                onClick: function onClick() {
-                  return selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString);
-                },
-                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true ? "bg-blue-800" : "", " "),
-                children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                  icon: "square-check",
-                  className: "".concat(selected === true ? "text-blue-500" : "text-gray-700", " text-xl")
-                }), /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col",
-                  children: /*#__PURE__*/jsx("span", {
-                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
-                    children: event
-                  })
-                })]
-              });
-            })
-          })]
-        });
-      });
-    }
-  }
-  function renderAvailableHandlers() {
-    if (workspaceSelected !== null) {
-      return workspaceSelected.layout.filter(function (li) {
-        return li["id"] === itemSelected["id"];
-      }).map(function (layout) {
-        return /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col text-base font-bold text-gray-400 p-2",
-          children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
-            children: /*#__PURE__*/jsxs("span", {
-              className: "text-lg",
-              children: [layout["component"], "\xA0[", layout["id"], "]"]
-            })
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col space-y-1 py-1",
-            children: layout.eventHandlers.filter(function (value, index, array) {
-              return array.indexOf(value) === index;
-            }) // remove any possible duplicates
-            .map(function (handler) {
-              var selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false; //isHandlerSelected(handler);
-              return /*#__PURE__*/jsx("div", {
-                onClick: function onClick() {
-                  return selected ? handleRemoveEventHandler() : handleSelectEventHandler(handler);
-                },
-                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true && "bg-indigo-700"),
-                children: /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col px-2",
-                  children: /*#__PURE__*/jsx("span", {
-                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
-                    children: handler
-                  })
-                })
-              });
-            })
-          })]
-        });
-      });
-    }
-  }
-  return itemSelected !== null && /*#__PURE__*/jsx(Modal, {
-    isOpen: open,
-    setIsOpen: setIsOpen,
-    width: "w-5/6 2xl:w-3/4",
-    height: "h-5/6",
-    children: /*#__PURE__*/jsx(Panel, {
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full  overflow-hidden bg-blue-800",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col w-full h-full overflow-hidden",
-          children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-6",
-            children: [/*#__PURE__*/jsx("div", {
-              className: "flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3",
-              children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
-                className: "flex flex-col border border-blue-800 rounded p-4 py-10 space-y-4",
-                children: [/*#__PURE__*/jsx("p", {
-                  className: "text-5xl font-bold text-gray-200",
-                  children: "Listen Up."
-                }), /*#__PURE__*/jsx("p", {
-                  className: "text-xl font-normal text-gray-300",
-                  children: "Widgets and Workspaces can talk, but we have to setup the phone wires."
-                }), /*#__PURE__*/jsx("p", {
-                  className: "text-xl font-normal text-gray-300",
-                  children: "Select the method to handle the message first, then select the message it will handle."
-                })]
-              })
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col bg-gray-900 h-full rounded w-1/3",
-              children: [/*#__PURE__*/jsxs("span", {
-                className: "uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4",
-                children: ["Available Handlers", " "]
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col h-full overflow-y-scroll p-4",
-                children: renderAvailableHandlers()
-              })]
-            }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col bg-gray-900 h-full rounded w-1/3",
-              children: [/*#__PURE__*/jsxs("span", {
-                className: "uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4",
-                children: ["Available Events", " "]
-              }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col h-full overflow-y-scroll p-4",
-                children: eventHandlerSelected && renderAvailableEvents()
-              })]
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800",
-            children: /*#__PURE__*/jsxs("div", {
-              className: "flex flex-row space-x-2",
-              children: [/*#__PURE__*/jsx(Button, {
-                title: "Cancel",
-                bgColor: "bg-gray-800",
-                textSize: "text-lg",
-                padding: "py-2 px-4",
-                onClick: function onClick() {
-                  return setIsOpen(false);
-                }
-              }), /*#__PURE__*/jsx(Button, {
-                title: "Save Changes",
-                bgColor: "bg-gray-800",
-                hoverBackgroundColor: "hover:bg-green-700",
-                textSize: "text-lg",
-                padding: "py-2 px-4",
-                onClick: handleSaveChanges
-              })]
-            })
-          })]
-        })
-      })
-    })
-  });
-};
-
-function _slicedToArray$f(r, e) { return _arrayWithHoles$f(r) || _iterableToArrayLimit$f(r, e) || _unsupportedIterableToArray$g(r, e) || _nonIterableRest$f(); }
-function _nonIterableRest$f() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$g(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$g(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$g(r, a) : void 0; } }
-function _arrayLikeToArray$g(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$f(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$f(r) { if (Array.isArray(r)) return r; }
-var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
-  var _ref$onSave = _ref.onSave,
-    onSave = _ref$onSave === void 0 ? null : _ref$onSave,
-    onChange = _ref.onChange,
-    _ref$item = _ref.item,
-    item = _ref$item === void 0 ? null : _ref$item,
-    _ref$disabled = _ref.disabled,
-    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
-    _ref.context;
-  var _useState = useState(item),
-    _useState2 = _slicedToArray$f(_useState, 2),
-    itemSelected = _useState2[0],
-    setItemSelected = _useState2[1];
-  useEffect(function () {
-    if (item !== itemSelected) {
-      setItemSelected(function () {
-        return item;
-      });
-    }
-  }, [item]);
-  function handleSaveChanges() {
-    // setItemSelected(null);
-    onSave && onSave(itemSelected);
-    // setItemSelected(null);
-  }
-  function generateFractions() {
-    var numerators = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    var denominators = [2, 3, 4, 5, 6, 12];
-    var fractions = [];
-    return numerators.map(function (v) {
-      return denominators.map(function (vv) {
-        var fraction = v / vv;
-        if (v % vv > 0 && v < vv && fractions.indexOf(fraction) < 0) {
-          fractions.push(fraction);
-          return /*#__PURE__*/jsxs("option", {
-            value: "w-".concat(v, "/").concat(vv, " min-w-").concat(v, "/").concat(vv),
-            children: [v, "/", vv]
-          }, "".concat(v, "-").concat(vv));
-        } else {
-          return null;
-        }
-      }).filter(function (p) {
-        return p !== null;
-      });
-    });
-  }
-  function generateHeightFractions() {
-    // get the fraction variants for height
-    var fractions = tailwindHeightFractions();
-    return fractions.map(function (fractionObject) {
-      return /*#__PURE__*/jsx("option", {
-        name: fractionObject.name,
-        value: fractionObject.value,
-        children: fractionObject.fraction
-      });
-    });
-  }
-  function handleUpdate(e) {
-    try {
-      var newItem = JSON.parse(JSON.stringify(itemSelected));
-      var _e$target = e.target,
-        name = _e$target.name,
-        value = _e$target.value;
-      newItem[name] = value;
-      if (value === "false") newItem[name] = false;
-      if (value === "true") newItem[name] = true;
-      setItemSelected(function () {
-        return newItem;
-      });
-      onChange(e, newItem);
-    } catch (e) {
-    }
-  }
-  function handleTextChangeCustom(e, config) {
-    var newItem = JSON.parse(JSON.stringify(itemSelected));
-    if ("userPrefs" in itemSelected === false) {
-      newItem["userPrefs"] = {};
-    }
-    newItem["userPrefs"][e.target.name] = e.target.value;
-    //setItemSelected(() => newItem);
-    onChange(e, newItem);
-  }
-
-  /**
-   * renderCustomSettings
-   * This will use the userConfig key in the Component.dash.js file to render the inputs to the end user
-   * The Developer can specify the options in the userConfig that are then translated to inputs
-   *
-   * @returns
-   */
-  function renderCustomSettings() {
-    if (itemSelected) {
-      if ("userConfig" in itemSelected) {
-        var userConfig = itemSelected["userConfig"];
-        return Object.keys(userConfig).map(function (key) {
-          // depending on the type...
-          var configItem = userConfig[key];
-          var instructions = configItem.instructions,
-            displayName = configItem.displayName,
-            required = configItem.required;
-            configItem.type;
-
-          // get the user prefs for the key
-          var userPrefs = itemSelected.userPrefs;
-          return renderFormItem(displayName, key, instructions, required, userPrefs[key], handleTextChangeCustom, configItem);
-        });
-      }
-    }
-    return null;
-  }
-  function renderFormItem(displayName, key, instructions, required, value, _onChange, configItem) {
-    return /*#__PURE__*/jsxs("div", {
-      className: "rounded flex flex-col p-2 space-y-1",
-      children: [/*#__PURE__*/jsxs("span", {
-        className: "uppercase text-gray-300 font-bold text-sm",
-        children: [displayName, " ", required === true && /*#__PURE__*/jsx("span", {
-          className: "text-red-500",
-          children: "*"
-        })]
-      }), /*#__PURE__*/jsx("div", {
-        className: "text-xs text-gray-400 pb-2",
-        children: instructions
-      }), configItem["type"] === "text" && /*#__PURE__*/jsx(InputText, {
-        type: "text",
-        name: key,
-        value: value,
-        onChange: function onChange(e) {
-          return _onChange(e, configItem);
-        },
-        textSize: "text-base"
-      }), configItem["type"] === "secret" && /*#__PURE__*/jsx(InputText, {
-        type: "password",
-        name: key,
-        value: value,
-        onChange: function onChange(e) {
-          return _onChange(e, configItem);
-        },
-        textSize: "text-base"
-      }), configItem["type"] === "select" && /*#__PURE__*/jsxs(SelectMenu, {
-        name: key,
-        selectedValue: value,
-        onChange: function onChange(e) {
-          return _onChange(e, configItem);
-        },
-        textSize: "text-base",
-        children: ["options" in configItem && configItem.options.map(function (option) {
-          return /*#__PURE__*/jsx("option", {
-            value: option.value,
-            children: option.displayName
-          });
-        }), "optionsValues" in configItem && /*#__PURE__*/jsx("option", {
-          children: configItem["optionsValues"]
-        })]
-      })]
-    }, "config-item-".concat(key));
-  }
-  return itemSelected && /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full",
-    children: [/*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full h-full overflow-hidden",
-      children: /*#__PURE__*/jsxs(LayoutContainer, {
-        direction: "col",
-        scrollable: true,
-        space: false,
-        grow: true,
-        children: [renderCustomSettings(), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Width", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "The width of your Widget in the Layout."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "width",
-            onChange: handleUpdate,
-            selectedValue: itemSelected.width,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: "",
-              children: "-"
-            }, "width-full"), /*#__PURE__*/jsx("option", {
-              value: "w-full",
-              children: "Full"
-            }, "width-full"), generateFractions()]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Height", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "The height of your Widget in the Layout."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "height",
-            onChange: handleUpdate,
-            selectedValue: itemSelected.height,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: "h-full",
-              children: "Full Height"
-            }, "height-full"), generateHeightFractions(), /*#__PURE__*/jsx("option", {
-              value: "h-fit",
-              children: "Fit Content"
-            }, "height-fit")]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Direction", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "The layout direction for the widget content."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "direction",
-            onChange: handleUpdate,
-            selectedValue: itemSelected && itemSelected.direction,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: "col",
-              children: "Vertical"
-            }, "direction-col"), /*#__PURE__*/jsx("option", {
-              value: "row",
-              children: "Horizontal"
-            }, "direction-row")]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Scrolling", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "If this widget allows vertical scrolling."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "scrollable",
-            onChange: handleUpdate,
-            selectedValue: itemSelected.scrollable,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: true,
-              children: "Scrollable"
-            }, "scrollable-yes"), /*#__PURE__*/jsx("option", {
-              value: false,
-              children: "Fixed (No Scrolling)"
-            }, "scrollable-no")]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Spacing", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "If this item will be space child items evenly."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "space",
-            onChange: handleUpdate,
-            selectedValue: itemSelected.space,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: true,
-              children: "Allow Spacing"
-            }, "space-yes"), /*#__PURE__*/jsx("option", {
-              value: false,
-              children: "No Spacing"
-            }, "space-no")]
-          })]
-        }), /*#__PURE__*/jsxs("div", {
-          className: "rounded flex flex-col p-2",
-          children: [/*#__PURE__*/jsxs("span", {
-            className: "uppercase text-gray-300 font-bold text-sm",
-            children: ["Grow", " ", /*#__PURE__*/jsx("span", {
-              className: "text-red-500",
-              children: "*"
-            })]
-          }), /*#__PURE__*/jsx("div", {
-            className: "text-xs text-gray-400 pb-2",
-            children: "If this item will grow to fit the space."
-          }), /*#__PURE__*/jsxs(SelectMenu, {
-            name: "grow",
-            onChange: handleUpdate,
-            selectedValue: itemSelected.grow,
-            textSize: "text-base",
-            children: [/*#__PURE__*/jsx("option", {
-              value: true,
-              children: "Allow Growing"
-            }, "grow-yes"), /*#__PURE__*/jsx("option", {
-              value: false,
-              children: "No Growing Allowed"
-            }, "grow-no")]
-          })]
-        })]
-      })
-    }), onSave !== null && /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full",
-      children: /*#__PURE__*/jsx(Button, {
-        title: "Save Changes",
-        onClick: handleSaveChanges,
-        block: true,
-        disabled: disabled
-      })
-    })]
-  });
-};
-
-function _slicedToArray$e(r, e) { return _arrayWithHoles$e(r) || _iterableToArrayLimit$e(r, e) || _unsupportedIterableToArray$f(r, e) || _nonIterableRest$e(); }
-function _nonIterableRest$e() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
-function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$e(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$e(r) { if (Array.isArray(r)) return r; }
-var LayoutBuilderConfigContainerMenuItem = function LayoutBuilderConfigContainerMenuItem(_ref) {
-  var id = _ref.id,
-    component = _ref.component,
-    onClick = _ref.onClick,
-    onMouseOver = _ref.onMouseOver,
-    item = _ref.item,
-    children = _ref.children;
-  useEffect(function () {
-    // const color = getContainerColor(item['parentWorkspace']);
-  }, [item]);
-  var _useState = useState(false),
-    _useState2 = _slicedToArray$e(_useState, 2),
-    isMouseOver = _useState2[0],
-    setIsMouseOver = _useState2[1];
-  function handleMouseOver(e) {
-    setIsMouseOver(true);
-    onMouseOver(e);
-  }
-  function handleMouseOut(e) {
-    setIsMouseOver(false);
-  }
-  function handleClick(e) {
-    onClick(item);
-  }
-  return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col border-dashed border border-indigo-800 rounded p-2 space-y-2",
-    children: [/*#__PURE__*/jsxs("div", {
-      className: "flex flex-row p-2 space-x-2 cursor-pointer ".concat(isMouseOver === true ? "bg-indigo-600" : "", " rounded"),
-      onClick: handleClick,
-      onMouseOver: handleMouseOver,
-      onMouseOut: handleMouseOut,
-      children: [/*#__PURE__*/jsx(Tag, {
-        text: "".concat(id),
-        textSize: "text-xs",
-        color: getContainerColor(item)
-      }), /*#__PURE__*/jsx("span", {
-        className: "text-sm font-medium text-gray-200",
-        children: component
-      })]
-    }), children]
-  });
-};
-
-function _slicedToArray$d(r, e) { return _arrayWithHoles$d(r) || _iterableToArrayLimit$d(r, e) || _unsupportedIterableToArray$e(r, e) || _nonIterableRest$d(); }
-function _nonIterableRest$d() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$e(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$e(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$e(r, a) : void 0; } }
-function _arrayLikeToArray$e(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$d(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$d(r) { if (Array.isArray(r)) return r; }
-var LayoutBuilderConfigMenuItem = function LayoutBuilderConfigMenuItem(_ref) {
-  var id = _ref.id,
-    component = _ref.component,
-    onClick = _ref.onClick,
-    onMouseOver = _ref.onMouseOver,
-    item = _ref.item;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray$d(_useState, 2),
-    isMouseOver = _useState2[0],
-    setIsMouseOver = _useState2[1];
-  function handleMouseOver(e) {
-    setIsMouseOver(true);
-    onMouseOver(e);
-  }
-  function handleMouseOut(e) {
-    setIsMouseOver(false);
-  }
-  function handleClick(e) {
-    onClick(item);
-  }
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full border border-gray-900 space-x-2 p-2 cursor-pointer justify-between items-center ".concat(isMouseOver === true ? "bg-green-600" : "", " rounded"),
-    onClick: handleClick,
-    onMouseOver: handleMouseOver,
-    onMouseOut: handleMouseOut,
-    children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row space-x-2",
-      children: [/*#__PURE__*/jsx(Tag, {
-        textSize: "text-xs",
-        text: "".concat(id),
-        color: getContainerColor(item["parentWorkspace"])
-      }), /*#__PURE__*/jsx("span", {
-        className: "text-sm font-medium ".concat(isMouseOver === true ? "text-gray-200" : "text-gray-200"),
-        children: component
-      })]
-    })
-  });
-};
-
-function classNames() {
-  for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
-    classes[_key] = arguments[_key];
-  }
-  return classes.filter(Boolean).join(" ");
-}
-var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
-  var _ref$onClickItem = _ref.onClickItem,
-    onClickItem = _ref$onClickItem === void 0 ? undefined : _ref$onClickItem;
-    _ref.className;
-    var item = _ref.item;
-    _ref.workspace;
-  var workspacesForWorkspace = getWorkspacesForWorkspace(item);
-  var widgetsForWorkspace = getWidgetsForWorkspace(item);
-  return /*#__PURE__*/jsxs(Menu$1, {
-    as: "div",
-    className: "fixed inline-block text-left z-50",
-    children: [/*#__PURE__*/jsx("div", {
-      children: /*#__PURE__*/jsxs(Menu$1.Button, {
-        className: "flex items-center rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-none",
-        children: [/*#__PURE__*/jsx("span", {
-          className: "sr-only",
-          children: "Open options"
-        }), /*#__PURE__*/jsx(EllipsisVerticalIcon, {
-          className: "h-5 w-5",
-          "aria-hidden": "true"
-        })]
-      })
-    }), /*#__PURE__*/jsx(Transition, {
-      as: Fragment,
-      enter: "transition ease-out duration-100",
-      enterFrom: "transform opacity-0 scale-95",
-      enterTo: "transform opacity-100 scale-100",
-      leave: "transition ease-in duration-75",
-      leaveFrom: "transform opacity-100 scale-100",
-      leaveTo: "transform opacity-0 scale-95",
-      children: /*#__PURE__*/jsx(Menu$1.Items, {
-        className: "fixed right-0 z-50 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "py-1 z-50",
-          children: [workspacesForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
-            className: "px-4 py-3",
-            children: /*#__PURE__*/jsx("p", {
-              className: "text-sm text-gray-400",
-              children: "Layout/Function"
-            })
-          }), workspacesForWorkspace.map(function (w) {
-            return /*#__PURE__*/jsx(Menu$1.Item, {
-              onClick: function onClick() {
-                return onClickItem(w);
-              },
-              children: function children(_ref2) {
-                var active = _ref2.active;
-                return /*#__PURE__*/jsxs("span", {
-                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2 z-50"),
-                  children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                    icon: "square"
-                  }), /*#__PURE__*/jsx("span", {
-                    children: w.name
-                  })]
-                });
-              }
-            });
-          }), widgetsForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
-            className: "px-4 py-3 z-50",
-            children: /*#__PURE__*/jsx("p", {
-              className: "text-sm text-gray-400",
-              children: "Widgets"
-            })
-          }), widgetsForWorkspace.map(function (c) {
-            return /*#__PURE__*/jsx(Menu$1.Item, {
-              onClick: function onClick() {
-                return onClickItem(c);
-              },
-              children: function children(_ref3) {
-                var active = _ref3.active;
-                return /*#__PURE__*/jsxs("span", {
-                  className: classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2 z-50"),
-                  children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-                    icon: "cog"
-                  }), /*#__PURE__*/jsx("span", {
-                    children: c.name
-                  })]
-                });
-              }
-            });
-          })]
-        })
-      })
-    })]
-  });
-};
-
-function _slicedToArray$c(r, e) { return _arrayWithHoles$c(r) || _iterableToArrayLimit$c(r, e) || _unsupportedIterableToArray$d(r, e) || _nonIterableRest$c(); }
-function _nonIterableRest$c() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$d(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$d(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$d(r, a) : void 0; } }
-function _arrayLikeToArray$d(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$c(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$c(r) { if (Array.isArray(r)) return r; }
-var sampleLayout = [{
-  id: 1,
-  order: 1,
-  direction: "row",
-  width: "w-full",
-  component: "LayoutContainer",
-  hasChildren: 1,
-  scrollable: true,
-  parent: 0
-}];
-var LayoutBuilder = function LayoutBuilder(_ref) {
-  var workspace = _ref.workspace,
-    _ref$preview = _ref.preview,
-    preview = _ref$preview === void 0 ? false : _ref$preview,
-    onTogglePreview = _ref.onTogglePreview,
-    _ref$onWorkspaceChang = _ref.onWorkspaceChange,
-    onWorkspaceChange = _ref$onWorkspaceChang === void 0 ? null : _ref$onWorkspaceChang,
-    dashboardId = _ref.dashboardId;
-  var _useContext = useContext$1(AppContext),
-    debugMode = _useContext.debugMode;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray$c(_useState, 2);
-    _useState2[0];
-    var setIsConfigOpen = _useState2[1];
-  var _useState3 = useState(false),
-    _useState4 = _slicedToArray$c(_useState3, 2),
-    isWidgetModalOpen = _useState4[0],
-    setIsWidgetModalOpen = _useState4[1];
-  var _useState5 = useState(false),
-    _useState6 = _slicedToArray$c(_useState5, 2),
-    isAddWidgetModalOpen = _useState6[0],
-    setIsAddWidgetModalOpen = _useState6[1];
-  var _useState7 = useState(false),
-    _useState8 = _slicedToArray$c(_useState7, 2),
-    isEventModalOpen = _useState8[0],
-    setIsEventModalOpen = _useState8[1];
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray$c(_useState9, 2),
-    isConfigModalOpen = _useState0[0],
-    setIsConfigModalOpen = _useState0[1];
-  var _useState1 = useState(null),
-    _useState10 = _slicedToArray$c(_useState1, 2),
-    itemSelected = _useState10[0],
-    setItemSelected = _useState10[1];
-  var _React$useState = React.useState(),
-    _React$useState2 = _slicedToArray$c(_React$useState, 2),
-    updateState = _React$useState2[1];
-  var forceUpdate = React.useCallback(function () {
-    return updateState({});
-  }, []);
-  var _useState11 = useState(workspace),
-    _useState12 = _slicedToArray$c(_useState11, 2),
-    currentWorkspace = _useState12[0],
-    setCurrentWorkspace = _useState12[1];
-  var _useState13 = useState(null),
-    _useState14 = _slicedToArray$c(_useState13, 2);
-    _useState14[0];
-    var setSelectedItem = _useState14[1];
-  useEffect(function () {
-    // IMPORTANT DO NOT REMOVE!!!!
-    // We have to check the diff in the layout and set
-    // We also have to "reset" the layout upon a new layout...
-    // console.log(
-    //     "layout builder workspace change ",
-    //     workspace["version"],
-    //     currentWorkspace["version"],
-    //     workspace,
-    //     currentWorkspace
-    // );
-    // console.log("resetting workspace ", workspace);
-    setCurrentWorkspace(workspace);
-
-    // if (
-    //     currentWorkspace["layout"] !== workspace["layout"] &&
-    //     workspace !== null &&
-    //     currentWorkspace["layout"] !== sampleLayout &&
-    //     currentWorkspace["version"] !== workspace["version"]
-    // ) {
-    //     console.log("resetting workspace ", workspace);
-    //     setCurrentWorkspace(workspace);
-    // }
-
-    if (currentWorkspace["layout"] === null) {
-      setCurrentWorkspace({
-        name: "Workspace " + Date.now(),
-        layout: sampleLayout
-      });
-    }
-  }, [workspace]);
-
-  /**
-   * onClickAdd
-   * From the Widget or Container, clicked plus button to add a widget
-   */
-  function onClickAdd(item) {
-    setItemSelected(item);
-    setIsAddWidgetModalOpen(true);
-    forceUpdate();
-  }
-  function onClickQuickAdd(item, toItem) {
-    handleClickConfirmAdd(item, toItem);
-  }
-  function handleClickConfirmAdd(itemChosen, toItem) {
-    try {
-      var layout = currentWorkspace["layout"];
-      var hasChildren = itemChosen["type"] === "workspace";
-      var newLayout = addItemToItemLayout(layout, toItem["id"], itemChosen, hasChildren);
-      var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-      newWorkspace["layout"] = newLayout;
-      setCurrentWorkspace(newWorkspace);
-      setIsAddWidgetModalOpen(false);
-      forceUpdate();
-    } catch (e) {
-    }
-  }
-  function handleSaveNewWorkspace(newWorkspace) {
-    setCurrentWorkspace(function () {
-      return newWorkspace;
-    });
-    setIsConfigModalOpen(false);
-    onWorkspaceChange(newWorkspace);
-  }
-  function onClickRemove(id) {
-    var layout = currentWorkspace["layout"];
-    var newLayout = removeItemFromLayout(layout, id);
-    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-    newWorkspace["layout"] = newLayout;
-    setCurrentWorkspace(newWorkspace);
-    forceUpdate();
-  }
-  function onDragItem(item) {
-  }
-  function onDropItem(item) {
-    try {
-      // console.log("dropped item ", item);
-
-      var draggedId = item["sourceIndex"];
-      var droppedId = item["dropIndex"];
-      var draggedComponent = getComponentInLayout(draggedId, currentWorkspace["layout"]);
-      var droppedComponent = getComponentInLayout(droppedId, currentWorkspace["layout"]);
-
-      // console.log("FOUND IT IN LAYOUT ", draggedComponent);
-      var isDraggedWidget = isWidget(draggedComponent);
-      var isDroppedWidget = isWidget(droppedComponent);
-      // console.log(
-      //     "RESULT ",
-      //     "widget: ",
-      //     isDraggedWidget,
-      //     "drop widget: ",
-      //     isDroppedWidget,
-      //     "container: ",
-      //     isContainer(droppedComponent),
-      //     "workspace: ",
-      //     isWorkspace(droppedComponent)
-      // );
-
-      // We have to determine if we are allowed to DROP the DRAGGED item
-      // onto the DROPPED ITEM...
-
-      // RULES
-      // 1. IF DRAG item is a widget, and the DROPPED item is a Container...
-      //      the next workspace parent of the DROPPED item MUST match the widget workspace type
-      if (isWidget(draggedComponent) === true && isContainer(droppedComponent) === true) {
-        var parent = getParentWorkspaceForItem(droppedId, currentWorkspace["layout"], draggedComponent["workspace"]);
-        // If there is no parent workspace that matches the dragged item in the chain, (encapsulating)
-        // then we have to return as this child does not belong where the user has dropped the component
-        if (parent === null) return;
-      }
-      //     return;
-      // 2. If DRAG item is a Workspace, and DROPPED item is a Container - OK
-
-      // 2a If DRAG item is a Workspace, and DROPPED item is a Workspace - FAIL
-      if (isWorkspace(draggedComponent) === true && isWorkspace(droppedComponent) === true) return;
-
-      // traverseParentTree(currentWorkspace["layout"], {
-      //     parent: item["dropIndex"],
-      //     current: item["sourceIndex"],
-      // });
-
-      if (currentWorkspace) {
-        var sourceIndex = item.sourceIndex,
-          dropIndex = item.dropIndex;
-        // we have to find the item
-        // then we have to set the parent id to a different id
-        var layout = currentWorkspace["layout"];
-        var newLayout = updateParentForItem(layout, sourceIndex, dropIndex);
-        if (newLayout) {
-          var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-          newWorkspace["layout"] = newLayout;
-          setCurrentWorkspace(function () {
-            return newWorkspace;
-          });
-          forceUpdate();
-        } else {
-          // console.log("failed new layout", newLayout);
-        }
-      } else {
-        // console.log("no current workspace ", currentWorkspace);
-      }
-    } catch (e) {
-    }
-  }
-  function onClickShrink(id, currentWidth) {
-  }
-  function onClickExpand(id, currentWidth) {
-  }
-  function onChangeDirection(id, currentDirection) {
-    var layout = currentWorkspace["layout"];
-    var newLayout = changeDirectionForLayoutItem(layout, id);
-    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-    newWorkspace["layout"] = newLayout;
-    setCurrentWorkspace(newWorkspace);
-    forceUpdate();
-  }
-  function onChangeOrder(item, direction) {
-    var currentOrder = parseInt(item["order"], 10);
-    var layout = currentWorkspace["layout"];
-    var nextItem = null;
-    var layoutFiltered = {};
-    Object.keys(layout).filter(function (li) {
-      return layout[li]["parent"] === item["parent"];
-    }).forEach(function (fli) {
-      layoutFiltered[fli] = layout[fli];
-    });
-
-    // Add 1 to the selected item's order, and then loop and find the new order value item and increase
-    if (direction === "up") {
-      // increase current item by 1 (1,2 3 ...2 moves "down" to 1 and 1 to 2)
-      // increase the existing item with this new order (check) by 1
-      nextItem = getNextHighestItemInLayout(layoutFiltered, currentOrder);
-      // item['order'] = nextItem['order'];
-      // nextItem['order'] = currentOrder;
-    }
-    if (direction === "down") {
-      // decrease current item by 1 (1,2 3 ...2 moves "down" to 1 and 1 to 2)
-      // decrease the existing item with this new order (check) by 1
-      nextItem = getNextLowestItemInLayout(layoutFiltered, currentOrder);
-      // item['order'] = nextItem['order'];
-      // nextItem['order'] = currentOrder;
-    }
-
-    // we have to loop through and set the new items...
-
-    // // const newLayout = changeDirectionForLayoutItem(layout, id, currentDirection);
-    var newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
-    if (nextItem) {
-      Object.keys(currentWorkspace.layout).forEach(function (li) {
-        if (currentWorkspace.layout[li]["id"] === nextItem["id"]) {
-          newWorkspace.layout[li]["order"] = currentOrder;
-        }
-        if (newWorkspace.layout[li]["id"] === item["id"]) {
-          newWorkspace.layout[li]["order"] = nextItem["order"];
-        }
-      });
-    }
-
-    // // newWorkspace['layout'] = newLayout;
-    setCurrentWorkspace(function () {
-      return newWorkspace;
-    });
-    forceUpdate();
-  }
-  function handleSaveConfiguration(data) {
-    var newWorkspace = saveItemToWorkspace(data);
-    setCurrentWorkspace(newWorkspace);
-    setIsConfigOpen(false);
-    setIsWidgetModalOpen(false);
-    setSelectedItem(null);
-    forceUpdate();
-    onTogglePreview();
-  }
-  function handleSaveWidgetChanges(data) {
-    var newWorkspace = saveItemToWorkspace(data);
-    setCurrentWorkspace(function () {
-      return newWorkspace;
-    });
-    setItemSelected(function () {
-      return null;
-    });
-    setIsConfigOpen(false);
-    setIsWidgetModalOpen(false);
-    forceUpdate();
-    // onTogglePreview();
-  }
-  function saveItemToWorkspace(data) {
-    var layout = deepCopy(currentWorkspace["layout"]); // JSON.parse(JSON.stringify(currentWorkspace["layout"]));
-    var newLayout = updateLayoutItem(layout, data);
-    var newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
-    newWorkspace["layout"] = newLayout;
-    return newWorkspace;
-  }
-  function handleClickEditItem(newItem) {
-    delete newItem["api"];
-    delete newItem["componentData"];
-    setItemSelected(function () {
-      return newItem;
-    });
-    // setIsWidgetModalOpen(() => true);
-    setIsConfigModalOpen(function () {
-      return true;
-    });
-    forceUpdate();
-  }
-  function handleClickEvents(d) {
-    setItemSelected(function () {
-      return d;
-    });
-    // setIsEventModalOpen(() => true);
-    setIsConfigModalOpen(true);
-  }
-  return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col w-full h-full overflow-hidden",
-    children: [/*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full overflow-hidden",
-      children: /*#__PURE__*/jsxs(LayoutContainer, {
-        id: "search-layout-builder",
-        scrollable: !preview,
-        direction: "col",
-        width: "w-full",
-        height: "h-full",
-        grow: true,
-        space: preview,
-        children: [preview === true && /*#__PURE__*/jsx(LayoutDragBuilder, {
-          dashboardId: dashboardId,
-          isDraggable: true,
-          workspace: currentWorkspace,
-          header: currentWorkspace["name"],
-          layout: currentWorkspace["layout"],
-          parentKey: 0,
-          debugMode: debugMode,
-          previewMode: preview,
-          onClickAdd: onClickAdd,
-          onClickQuickAdd: onClickQuickAdd,
-          onClickRemove: onClickRemove,
-          onClickShrink: onClickShrink,
-          onClickExpand: onClickExpand,
-          onChangeDirection: onChangeDirection,
-          onChangeOrder: onChangeOrder,
-          onDropItem: onDropItem,
-          onDragItem: onDragItem,
-          onOpenConfig: handleClickEditItem //{handleClickConfigure}
-          ,
-          onOpenEvents: handleClickEvents,
-          onSaveConfiguration: handleSaveConfiguration
-          // onSaveConfiguration={handleSaveWidgetChanges}
-          ,
-          onClickEdit: onTogglePreview
-        }, "layout-drag-".concat(dashboardId)), preview === false && /*#__PURE__*/jsx(LayoutDragBuilderEdit, {
-          dashboardId: dashboardId,
-          isDraggable: true,
-          workspace: currentWorkspace,
-          header: currentWorkspace["name"],
-          layout: currentWorkspace["layout"],
-          parentKey: 0,
-          debugMode: debugMode,
-          previewMode: preview,
-          onClickAdd: onClickAdd,
-          onClickQuickAdd: onClickQuickAdd,
-          onClickRemove: onClickRemove,
-          onClickShrink: onClickShrink,
-          onClickExpand: onClickExpand,
-          onChangeDirection: onChangeDirection,
-          onChangeOrder: onChangeOrder,
-          onDropItem: onDropItem,
-          onDragItem: onDragItem,
-          onOpenConfig: handleClickEditItem //{handleClickConfigure}
-          ,
-          onOpenEvents: handleClickEvents,
-          onSaveConfiguration: handleSaveConfiguration,
-          onClickEdit: onTogglePreview
-        }, "layout-drag-edit-".concat(dashboardId))]
-      }, "search-layout-builder")
-    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderEditItemModal, {
-      open: isWidgetModalOpen,
-      setIsOpen: setIsWidgetModalOpen,
-      item: itemSelected,
-      onUpdate: handleSaveWidgetChanges,
-      workspace: currentWorkspace
-    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderAddItemModal, {
-      open: isAddWidgetModalOpen,
-      setIsOpen: setIsAddWidgetModalOpen,
-      item: isAddWidgetModalOpen === true ? itemSelected : null,
-      onSaveItem: handleClickConfirmAdd,
-      workspace: isAddWidgetModalOpen === true ? currentWorkspace : null
-    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderEventModal, {
-      open: isEventModalOpen,
-      setIsOpen: setIsEventModalOpen,
-      item: isEventModalOpen === true ? itemSelected : null,
-      onSave: handleSaveNewWorkspace,
-      workspace: isEventModalOpen === true ? currentWorkspace : null
-    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderConfigModal, {
-      open: isConfigModalOpen,
-      setIsOpen: setIsConfigModalOpen,
-      item: isConfigModalOpen === true ? itemSelected : null,
-      onSaveWorkspace: handleSaveNewWorkspace
-      // onSaveWidgetChanges={handleSaveWidgetChanges}
-      ,
-      workspace: isConfigModalOpen === true ? currentWorkspace : null
-    })]
-  }, "layout-builder");
-};
-
-var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
-  var layout = _ref.layout,
-    dashboardId = _ref.dashboardId,
-    parentKey = _ref.parentKey,
-    debugMode = _ref.debugMode,
-    previewMode = _ref.previewMode,
-    onClickAdd = _ref.onClickAdd,
-    onClickQuickAdd = _ref.onClickQuickAdd,
-    onDropItem = _ref.onDropItem,
-    onClickRemove = _ref.onClickRemove,
-    onClickShrink = _ref.onClickShrink,
-    onClickExpand = _ref.onClickExpand,
-    onChangeDirection = _ref.onChangeDirection,
-    onChangeOrder = _ref.onChangeOrder,
-    onOpenConfig = _ref.onOpenConfig,
-    onOpenEvents = _ref.onOpenEvents,
-    onSaveConfiguration = _ref.onSaveConfiguration,
-    workspace = _ref.workspace,
-    _ref$isDraggable = _ref.isDraggable,
-    isDraggable = _ref$isDraggable === void 0 ? true : _ref$isDraggable;
-  return isDraggable === true ? /*#__PURE__*/jsx(DndProvider, {
-    backend: HTML5Backend,
-    children: _renderLayout({
-      dashboardId: dashboardId,
-      layout: layout,
-      parentKey: parentKey,
-      debugMode: debugMode,
-      previewMode: previewMode,
-      onClickAdd: onClickAdd,
-      onClickQuickAdd: onClickQuickAdd,
-      onClickRemove: onClickRemove,
-      onClickShrink: onClickShrink,
-      onClickExpand: onClickExpand,
-      onChangeDirection: onChangeDirection,
-      onChangeOrder: onChangeOrder,
-      onOpenConfig: onOpenConfig,
-      onOpenEvents: onOpenEvents,
-      onSaveConfiguration: onSaveConfiguration,
-      onDropItem: onDropItem,
-      workspace: workspace
-    })
-  }, "dnd-provider") : _renderLayout({
-    dashboardId: dashboardId,
-    layout: layout,
-    parentKey: parentKey,
-    debugMode: debugMode,
-    previewMode: previewMode,
-    onClickAdd: onClickAdd,
-    onClickQuickAdd: onClickQuickAdd,
-    onClickRemove: onClickRemove,
-    onClickShrink: onClickShrink,
-    onClickExpand: onClickExpand,
-    onChangeDirection: onChangeDirection,
-    onChangeOrder: onChangeOrder,
-    onOpenConfig: onOpenConfig,
-    onOpenEvents: onOpenEvents,
-    onSaveConfiguration: onSaveConfiguration,
-    onDropItem: onDropItem,
-    workspace: workspace
-  });
-};
-
-var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
-  var layout = _ref.layout,
-    dashboardId = _ref.dashboardId,
-    parentKey = _ref.parentKey,
-    debugMode = _ref.debugMode,
-    previewMode = _ref.previewMode,
-    onClickAdd = _ref.onClickAdd,
-    onClickQuickAdd = _ref.onClickQuickAdd,
-    onDropItem = _ref.onDropItem,
-    onDragItem = _ref.onDragItem,
-    onClickRemove = _ref.onClickRemove,
-    onClickShrink = _ref.onClickShrink,
-    onClickExpand = _ref.onClickExpand,
-    onChangeDirection = _ref.onChangeDirection,
-    onChangeOrder = _ref.onChangeOrder,
-    onOpenConfig = _ref.onOpenConfig,
-    onOpenEvents = _ref.onOpenEvents,
-    onSaveConfiguration = _ref.onSaveConfiguration,
-    workspace = _ref.workspace,
-    _ref$isDraggable = _ref.isDraggable,
-    isDraggable = _ref$isDraggable === void 0 ? true : _ref$isDraggable;
-  return isDraggable === true ? /*#__PURE__*/jsx(DndProvider, {
-    backend: HTML5Backend,
-    children: _renderLayout({
-      dashboardId: dashboardId,
-      layout: layout,
-      parentKey: parentKey,
-      debugMode: debugMode,
-      previewMode: previewMode,
-      onClickAdd: onClickAdd,
-      onClickQuickAdd: onClickQuickAdd,
-      onClickRemove: onClickRemove,
-      onClickShrink: onClickShrink,
-      onClickExpand: onClickExpand,
-      onChangeDirection: onChangeDirection,
-      onChangeOrder: onChangeOrder,
-      onOpenConfig: onOpenConfig,
-      onOpenEvents: onOpenEvents,
-      onSaveConfiguration: onSaveConfiguration,
-      onDropItem: onDropItem,
-      onDragItem: onDragItem,
-      workspace: workspace
-    })
-  }, "dnd-provider-edit") : _renderLayout({
-    dashboardId: dashboardId,
-    layout: layout,
-    parentKey: parentKey,
-    debugMode: debugMode,
-    previewMode: previewMode,
-    onClickAdd: onClickAdd,
-    onClickQuickAdd: onClickQuickAdd,
-    onClickRemove: onClickRemove,
-    onClickShrink: onClickShrink,
-    onClickExpand: onClickExpand,
-    onChangeDirection: onChangeDirection,
-    onChangeOrder: onChangeOrder,
-    onOpenConfig: onOpenConfig,
-    onOpenEvents: onOpenEvents,
-    onSaveConfiguration: onSaveConfiguration,
-    onDropItem: onDropItem,
-    onDragItem: onDragItem,
-    workspace: workspace
-  });
-};
-
-function _slicedToArray$b(r, e) { return _arrayWithHoles$b(r) || _iterableToArrayLimit$b(r, e) || _unsupportedIterableToArray$c(r, e) || _nonIterableRest$b(); }
-function _nonIterableRest$b() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$c(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$c(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$c(r, a) : void 0; } }
-function _arrayLikeToArray$c(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$b(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$b(r) { if (Array.isArray(r)) return r; }
-function DragComponent(_ref) {
-  var obj = _ref.obj,
-    id = _ref.id,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "layout-widget" : _ref$type,
-    _ref$parent = _ref.parent,
-    parent = _ref$parent === void 0 ? 0 : _ref$parent,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-full" : _ref$width,
-    children = _ref.children,
-    onDropItem = _ref.onDropItem;
-    _ref.onDragItem;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray$b(_useState, 2);
-    _useState2[0];
-    _useState2[1];
-  var _useDrag = useDrag(function () {
-      return {
-        type: type,
-        item: {
-          id: id,
-          type: type,
-          parent: parent,
-          obj: obj
-        },
-        collect: function collect(monitor, props) {
-          // console.log("collect ", monitor.getItem());
-          // alert the parent that we are dragging
-          // onDragItem(monitor.getItem());
-          return {
-            isDragging: monitor.isDragging(),
-            sourceIndex: monitor.sourceIndex,
-            item: monitor.getItem()
-          };
-        },
-        end: function end(item, monitor) {
-          var dropResult = monitor.getDropResult();
-          if (item && dropResult) {
-            // on Drop, we would like to pass this data back to the AlgoliaUIFactory component in the page preview
-            // where we can then freeze the hits and not use the connectedHits, but rather the frozen hits, to reposition
-            // the grid...and then prompt the user to make a rule? (if they unfreeze, it will resume to Algolia search)
-            onDropItem({
-              itemDropped: item,
-              sourceIndex: item.id,
-              dropIndex: dropResult.id,
-              layoutId: dropResult.type,
-              parentIndex: item.parent
-            });
-          }
-        }
-      };
-    }),
-    _useDrag2 = _slicedToArray$b(_useDrag, 3),
-    collected = _useDrag2[0],
-    drag = _useDrag2[1],
-    dragPreview = _useDrag2[2];
-  return collected.isDragging ? /*#__PURE__*/jsx("div", {
-    ref: dragPreview,
-    className: " h-full flex flex-col min-h-fit w-full",
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    ref: drag,
-    id: collected.id,
-    type: collected.type,
-    className: "scale-100 flex flex-col ".concat(width, " min-w-xl rounded min-h-fit z-10"),
-    style: {
-      animationDelay: "-.75s",
-      animationDuration: ".25s"
-    },
-    children: children
-  });
-}
-
-/**
- * LayoutBuilderGridItem
- * An item without any Children in the editable layout
- *
- * @param {*} param0
- * @returns
- */
-var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
-  var item = _ref.item,
-    workspace = _ref.workspace,
-    id = _ref.id,
-    parent = _ref.parent,
-    order = _ref.order,
-    scrollable = _ref.scrollable,
-    _ref$component = _ref.component,
-    component = _ref$component === void 0 ? null : _ref$component,
-    preview = _ref.preview,
-    children = _ref.children,
-    onClickRemove = _ref.onClickRemove,
-    onChangeDirection = _ref.onChangeDirection,
-    onChangeOrder = _ref.onChangeOrder,
-    onOpenConfig = _ref.onOpenConfig,
-    onOpenEvents = _ref.onOpenEvents,
-    onDropItem = _ref.onDropItem,
-    onDragItem = _ref.onDragItem;
-    _ref.width;
-    var direction = _ref.direction,
-    isDraggable = _ref.isDraggable;
-  function handleClickRemove(e) {
-    onClickRemove(id);
-  }
-  function handleChangeDirection() {
-    onChangeDirection(id, direction);
-  }
-  function handleChangeOrder(direction) {
-    onChangeOrder(item, direction);
-  }
-  function handleOpenConfig() {
-    onOpenConfig(item);
-  }
-  function renderArrows() {
-    return preview === false && /*#__PURE__*/jsx("div", {
-      className: "flex ".concat(direction),
-      children: /*#__PURE__*/jsx("div", {
-        className: "flex ".concat(direction, " w-full h-fit min-h-full text-base lg:text-lg cursor-pointer text-gray-200 pb-2"),
-        onClick: handleOpenConfig,
-        children: component
-      })
-    });
-  }
-  function renderUserPreferences() {
-    try {
-      return preview === false && item.hasOwnProperty("userPrefs") && /*#__PURE__*/jsx("div", {
-        className: "flex flex-col h-fit",
-        children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-full text-xs text-gray-200 justify-start p-2",
-          onClick: handleOpenConfig,
-          children: Object.keys(item["userPrefs"]).map(function (userPref) {
-            return /*#__PURE__*/jsx("span", {
-              className: "font-normal",
-              children: "".concat(userPref, ":").concat(item["userPrefs"][userPref])
-            }, "user-pref-".concat(userPref));
-          })
-        })
-      });
-    } catch (e) {
-      return null;
-    }
-  }
-  function renderComponentData() {
-    return component ? renderComponent(component, id, item, null) : null;
-  }
-  function handleDropItem(item) {
-    // we have to shuffle the parent of the source item to the drop item
-    if (onDropItem) {
-      onDropItem(item);
-    }
-  }
-  function handleDragItem(item) {
-    // we have to shuffle the parent of the source item to the drag item
-    if (onDragItem) {
-      onDragItem(item);
-    }
-  }
-  function handleClickEvents() {
-    onOpenEvents(item);
-  }
-  function dragType(item) {
-    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
-      return item["parentWorkspaceName"];
-    }
-    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
-      return "layout";
-    }
-    return item["parentWorkspaceName"];
-  }
-
-  // function numChildrenForLayout() {
-  //     let num = 0;
-  //     if ('parentWorkspace' in item) {
-  //         if ('layout' in item['parentWorkspace']) {
-  //             num = Object.keys(item['parentWorkspace']['layout']).length;
-  //         }
-  //     }
-  //     return num;
-  // }
-
-  function renderEditView() {
-    var drag = dragType(item);
-    var numChildren = numChildrenForLayout(item, workspace["layout"]);
-
-    // determine the parent layout direction...
-    var parentLayout = getLayoutItemById(workspace["layout"], item["parent"]);
-    var parentDirection = parentLayout ? parentLayout["direction"] : item["parentWorkspace"]["direction"];
-
-    // determine if the item is at the "start/end" of the col/row
-    var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
-    var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
-    return isDraggable === true ? /*#__PURE__*/jsx(DragComponent, {
-      obj: item,
-      id: id,
-      type: drag,
-      parent: parent,
-      onDropItem: handleDropItem,
-      onDragItem: handleDragItem,
-      width: "w-full",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 p-2 ").concat(getContainerColor(item["parentWorkspace"])),
-        children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-col ".concat(scrollable, " ").concat(preview === false && "text-blue-900 rounded", " "),
-          onClick: handleOpenConfig,
-          children: [preview === false && renderArrows(), preview === false && renderUserPreferences()]
-        }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-row space-x-1 justify-between text-xs w-full",
-          children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row space-x-1",
-            children: [item.eventHandlers.length > 0 && /*#__PURE__*/jsx(ButtonIcon, {
-              icon: "phone",
-              onClick: handleClickEvents,
-              backgroundColor: getContainerColor(item["parentWorkspace"]),
-              hoverBackgroundColor: "",
-              text: item.eventHandlers.length > 0 ? item.eventHandlers.length : "",
-              textSize: "text-xs"
-            }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-              theme: false,
-              icon: "".concat(parentDirection === "col" ? "arrow-left" : "arrow-up"),
-              onClick: function onClick() {
-                return handleChangeOrder("down");
-              },
-              backgroundColor: "bg-transparent",
-              hoverBackgroundColor: "hover:bg-blue-700"
-            }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-              theme: false,
-              icon: "".concat(parentDirection === "col" ? "arrow-right" : "arrow-down"),
-              onClick: function onClick() {
-                return handleChangeOrder("up");
-              },
-              backgroundColor: "bg-transparent",
-              hoverBackgroundColor: "hover:bg-blue-700"
-            }), /*#__PURE__*/jsx(ButtonIcon, {
-              theme: false,
-              icon: "trash",
-              onClick: handleClickRemove,
-              backgroundColor: getContainerColor(item["parentWorkspace"]),
-              hoverBackgroundColor: "hover:bg-red-900"
-            })]
-          })
-        })]
-      })
-    }) : /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 grow",
-      children: [/*#__PURE__*/jsx("div", {
-        className: "flex flex-row space-x-2 rounded-t justify-between w-full",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "hidden xl:flex flex-row space-x-1 w-full justify-end p-2",
-          children: [numChildren > 1 && /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "".concat(parentDirection === "col" ? "arrows-left-right" : "arrows-up-down"),
-            onClick: handleChangeDirection,
-            backgroundColor: "bg-transparent",
-            hoverBackgroundColor: "hover:bg-blue-700"
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "cog",
-            onClick: handleOpenConfig,
-            backgroundColor: "bg-transparent",
-            hoverBackgroundColor: "hover:bg-blue-700"
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "trash",
-            onClick: handleClickRemove,
-            backgroundColor: "bg-transparent",
-            hoverBackgroundColor: "hover:bg-red-900"
-          })]
-        })
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex ".concat(direction, " ").concat(scrollable, " text-lg ").concat(preview === false && "text-blue-900 rounded m-2"),
-        children: preview === false && renderUserPreferences()
-      }), /*#__PURE__*/jsx("div", {
-        className: "flex flex-row space-x-1 w-full justify-between text-xs",
-        children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row space-x-1",
-          children: [item.eventHandlers.length > 0 && /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "phone",
-            onClick: handleClickEvents,
-            bgColor: getContainerColor(item["parentWorkspace"]),
-            hoverBackgroundColor: "hover:bg-gray-900",
-            text: item.eventHandlers.length > 0 ? item.eventHandlers.length : "",
-            textSize: "text-xs"
-          }), /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "trash",
-            onClick: handleClickRemove,
-            backgroundColor: getContainerColor(item["parentWorkspace"]),
-            hoverBackgroundColor: "hover:bg-red-900"
-          }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "".concat(parentDirection === "col" ? "arrow-left" : "arrow-up"),
-            onClick: function onClick() {
-              return handleChangeOrder("down");
-            },
-            backgroundColor: "bg-transparent",
-            hoverBackgroundColor: "hover:bg-blue-700"
-          }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
-            icon: "".concat(parentDirection === "col" ? "arrow-right" : "arrow-down"),
-            onClick: function onClick() {
-              return handleChangeOrder("up");
-            },
-            backgroundColor: "bg-transparent",
-            hoverBackgroundColor: "hover:bg-blue-700"
-          })]
-        })
-      })]
-    });
-  }
-  return children ? children : preview === false ? renderEditView() : renderComponentData();
-};
-
-function _slicedToArray$a(r, e) { return _arrayWithHoles$a(r) || _iterableToArrayLimit$a(r, e) || _unsupportedIterableToArray$b(r, e) || _nonIterableRest$a(); }
-function _nonIterableRest$a() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$b(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$b(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$b(r, a) : void 0; } }
-function _arrayLikeToArray$b(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$a(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$a(r) { if (Array.isArray(r)) return r; }
-function DropComponent(_ref) {
-  var item = _ref.item,
-    id = _ref.id,
-    _ref$type = _ref.type,
-    type = _ref$type === void 0 ? "layout-widget" : _ref$type,
-    _ref$children = _ref.children,
-    children = _ref$children === void 0 ? null : _ref$children;
-    _ref.onDropItem;
-    var width = _ref.width;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray$a(_useState, 2);
-    _useState2[0];
-    var setHasDropped = _useState2[1];
-  var _useState3 = useState(false),
-    _useState4 = _slicedToArray$a(_useState3, 2);
-    _useState4[0];
-    var setHasDroppedOnChild = _useState4[1];
-  var _useDrop = useDrop({
-      accept: type,
-      drop: function drop(_item, monitor) {
-        var didDrop = monitor.didDrop();
-        if (didDrop) {
-          return;
-        }
-        setHasDropped(true);
-        setHasDroppedOnChild(didDrop);
-        return {
-          id: id,
-          type: type,
-          dropIndex: id,
-          obj: item
-        };
-      },
-      // the id and the type AGAIN of the item for dropping
-      canDrop: function canDrop(obj) {
-        return obj.id !== 1 && item.canHaveChildren === true;
-      },
-      // this will cause the elements that are droppable to be styles (if we choose!)
-
-      collect: function collect(monitor) {
-        // console.log(monitor);
-        return {
-          isOver: monitor.isOver(),
-          // canDrop: monitor.canDrop(),
-          isDragging: monitor.isDragging,
-          isOverCurrent: monitor.isOver({
-            shallow: true
-          })
-        };
-      }
-    }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray$a(_useDrop, 2),
-    _useDrop2$ = _useDrop2[0],
-    isOver = _useDrop2$.isOver,
-    isOverCurrent = _useDrop2$.isOverCurrent,
-    canDrop = _useDrop2$.canDrop,
-    drop = _useDrop2[1];
-  return /*#__PURE__*/jsxs("div", {
-    ref: drop,
-    id: id,
-    className: "drop-component relative cursor-pointer rounded min-w-lg ".concat(width, " ").concat(isOverCurrent ? "opacity-50 border-2 border-yellow-500" : "opacity-100 border-2 border-none", " "),
-    children: [children, canDrop === true && isOverCurrent === true && isOver === true && /*#__PURE__*/jsx("div", {
-      className: "absolute inset-0 flex justify-center items-center z-10 bg-green-600 w-full h-full rounded opacity-100",
-      children: /*#__PURE__*/jsx("p", {
-        className: "text-2xl font-bold",
-        children: "Drop Me"
-      })
-    })]
-  });
-}
-
-function _typeof$D(o) { "@babel/helpers - typeof"; return _typeof$D = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$D(o); }
-var _excluded$x = ["uuid", "children", "version", "direction", "scrollable", "className", "width", "height", "space", "grow", "componentName", "api"];
-function ownKeys$x(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$x(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$x(Object(t), !0).forEach(function (r) { _defineProperty$z(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$x(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$z(e, r, t) { return (r = _toPropertyKey$D(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$D(t) { var i = _toPrimitive$D(t, "string"); return "symbol" == _typeof$D(i) ? i : i + ""; }
-function _toPrimitive$D(t, r) { if ("object" != _typeof$D(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$D(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$x(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$x(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$x(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var Widget = function Widget(_ref) {
-  var uuid = _ref.uuid,
-    children = _ref.children,
-    _ref$version = _ref.version,
-    version = _ref$version === void 0 ? 1 : _ref$version,
-    _ref$direction = _ref.direction,
-    direction = _ref$direction === void 0 ? "col" : _ref$direction,
-    _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
-    _ref$width = _ref.width,
-    width = _ref$width === void 0 ? "w-full" : _ref$width,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "" : _ref$height,
-    _ref$space = _ref.space,
-    space = _ref$space === void 0 ? true : _ref$space,
-    _ref$grow = _ref.grow,
-    grow = _ref$grow === void 0 ? true : _ref$grow;
-    _ref.componentName;
-    _ref.api;
-    var props = _objectWithoutProperties$x(_ref, _excluded$x);
-  var uuidString = getUUID(uuid);
-  return /*#__PURE__*/jsx(WidgetContext.Provider, {
-    value: {
-      widgetData: _objectSpread$x({
-        uuid: uuid
-      }, props)
-    },
-    children: /*#__PURE__*/jsx(LayoutContainer, {
-      id: "WIDGET-".concat(uuidString),
-      version: version,
-      direction: direction,
-      height: height,
-      width: width,
-      className: "".concat(className),
-      grow: grow,
-      space: space,
-      scrollable: scrollable,
-      children: children
-    }, "WIDGET'-".concat(uuidString))
-  });
-};
-
-function _typeof$C(o) { "@babel/helpers - typeof"; return _typeof$C = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$C(o); }
-function _classCallCheck$5(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties$5(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$C(o.key), o); } }
-function _createClass$5(e, r, t) { return r && _defineProperties$5(e.prototype, r), t && _defineProperties$5(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _defineProperty$y(e, r, t) { return (r = _toPropertyKey$C(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$C(t) { var i = _toPrimitive$C(t, "string"); return "symbol" == _typeof$C(i) ? i : i + ""; }
-function _toPrimitive$C(t, r) { if ("object" != _typeof$C(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$C(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-/**
- * WidgetHelpers
- *
- * Class created to act as a proxy for the widgetApi
- * to pass in the widget params do the developer
- * doesnt have to.
- */
-var WidgetHelpers = /*#__PURE__*/function () {
-  function WidgetHelpers(params, api) {
-    _classCallCheck$5(this, WidgetHelpers);
-    _defineProperty$y(this, "params", null);
-    // the widget api that will be called by the helper function
-    // default to empty functions
-    _defineProperty$y(this, "api", {
-      publishEvent: function publishEvent() {},
-      registerListeners: function registerListeners() {}
-    });
-    this.params = params;
-    this.api = api;
-  }
-  return _createClass$5(WidgetHelpers, [{
-    key: "listen",
-    value: function listen(listeners, handlers) {
-      if ("registerListeners" in this.api && typeof this.api["registerListeners"] === "function") {
-        this.api.registerListeners(listeners, handlers, this.params.uuid);
-      }
-    }
-  }, {
-    key: "publishEvent",
-    value: function publishEvent(eventName, payload) {
-      if ("publishEvent" in this.api && typeof this.api["publishEvent"] === "function") {
-        this.api.publishEvent("".concat(this.params.component, "[").concat(this.params.id, "].").concat(eventName), payload);
-      }
-    }
-  }]);
-}();
-
-function _typeof$B(o) { "@babel/helpers - typeof"; return _typeof$B = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$B(o); }
-function ownKeys$w(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$w(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$w(Object(t), !0).forEach(function (r) { _defineProperty$x(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$w(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$x(e, r, t) { return (r = _toPropertyKey$B(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$B(t) { var i = _toPrimitive$B(t, "string"); return "symbol" == _typeof$B(i) ? i : i + ""; }
-function _toPrimitive$B(t, r) { if ("object" != _typeof$B(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$B(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var WidgetFactory = {
-  getComponent: function getComponent(component) {
-    try {
-      return ComponentManager.getComponent(component);
-    } catch (e) {
-      return null;
-    }
-  },
-  render: function render(component, key) {
-    var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    var children = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-    try {
-      var m = ComponentManager.componentMap();
-
-      // pull in the widgetAPI in order to initialize it
-      // with the widget parameters specific to the widget being rendered
-      var _useContext = useContext$1(DashboardContext),
-        dashApi = _useContext.dashApi;
-      if (component && m) {
-        var isLayout = ComponentManager.isLayoutContainer(component);
-        // grab the component from the map
-        var WidgetComponent = isLayout === false ? m[component]["component"] : LayoutContainer;
-
-        // get the config details from the .dash file
-        var config = ComponentManager.config(component, params);
-
-        // and set the styles from the config if they exist
-        var styles = "styles" in config ? config["styles"] : null;
-
-        // user input for the customization of the widget
-        var userPrefs = params["userPrefs"];
-
-        // Check to make sure this is a Component
-        if (typeof WidgetComponent !== "function") return null;
-        if (isLayout === false) {
-          params["width"] = "w-full";
-        }
-        if ("width" in params === false) {
-          params["width"] = "w-full";
-        }
-        params["componentName"] = component;
-
-        // init will inject the params from the widget into the widgetAPI
-        // widgetApi.init(params);
-
-        var bgColor = "";
-        if (styles !== null) {
-          bgColor = "backgroundColor" in styles ? styles["backgroundColor"] : "";
-        }
-
-        // need to set the electron api here.
-        var w = WidgetApi;
-        w.init({
-          id: key,
-          name: component
-        });
-        w.setElectronApi(dashApi);
-        w.setPublisher(DashboardPublisher);
-
-        // init the helpers
-        var helpers = new WidgetHelpers(params, dashApi);
-        return children === null ? /*#__PURE__*/jsx(WidgetComponent, _objectSpread$w(_objectSpread$w(_objectSpread$w({
-          id: "widget-nokids-".concat(key),
-          listen: function listen(listeners, handlers) {
-            return helpers.listen(listeners, handlers);
-          },
-          publishEvent: function publishEvent(eventName, payload) {
-            return helpers.publishEvent(eventName, payload);
-          },
-          api: w
-        }, params), userPrefs), {}, {
-          backgroundColor: bgColor
-        }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$w(_objectSpread$w(_objectSpread$w({
-          listen: function listen(listeners, handlers) {
-            return helpers.listen(listeners, handlers);
-          },
-          publishEvent: function publishEvent(eventName, payload) {
-            return helpers.publishEvent(eventName, payload);
-          },
-          api: w,
-          id: "widget-kids-".concat(key)
-        }, params), userPrefs), {}, {
-          backgroundColor: bgColor,
-          children: children
-        }), "widget-kids-".concat(key));
-      }
-    } catch (e) {
-      return null;
-    }
-  },
-  renderChildren: function renderChildren(children) {
-    return React.Children.map(children, function (el) {
-      return el;
-      // const clonedComponent = React.cloneElement(el);
-      // return clonedComponent;
-    });
-  },
-  /**
-   * config
-   * Get the developer's component configuration and enhance that configuration with
-   * required fields if they are not present
-   *
-   * @param {object} component
-   * @returns
-   */
-  config: function config(component) {
-    if (component) {
-      ComponentManager.isLayoutContainer(component);
-      var requiredFields = {
-        type: {
-          value: "text"
-        },
-        required: {
-          value: false
-        },
-        options: {
-          value: []
-        },
-        defaultValue: {
-          value: ""
-        },
-        events: [] // events that will be published
-      };
-
-      // get the component configuration from the map
-      var components = ComponentManager.map();
-
-      // let c = deepCopy(components['component']);
-      var c = JSON.parse(JSON.stringify(components[component]));
-      c["component"] = component;
-      if ("userConfig" in c === false) {
-        c["userConfig"] = {};
-        return c;
-      }
-      var userPrefs = {};
-      // now we can make sure the configuration is "complete"
-      Object.keys(c["userConfig"]).forEach(function (key) {
-        // check the required fields!
-        Object.keys(requiredFields).forEach(function (k) {
-          if (k in c["userConfig"][key] === false) {
-            c["userConfig"][key][k] = requiredFields[k]["value"];
-          }
-        });
-        // tack on the user preferences
-        userPrefs[key] = WidgetFactory.userPrefsForItem(c, key, c["userConfig"][key]);
-      });
-      c["userPrefs"] = userPrefs;
-      return c;
-    }
-    return null;
-  },
-  workspace: function workspace(component) {
-    var components = WidgetFactory.map();
-    if (component !== undefined && components) {
-      if (component in components) {
-        var c = components[component];
-        if ("workspace" in c) {
-          return c["workspace"];
-        }
-      }
-    }
-    return null;
-  },
-  map: function map() {
-    return ComponentManager.map();
-  },
-  /**
-   * userConfig
-   * We want to make sure all of the keys are available, and if not, set defaults...
-   * @param {object} config the current configuration object
-   * @returns
-   */
-  userPrefsForItem: function userPrefsForItem(item, key, config) {
-    try {
-      // console.log('value: ', item['userPrefs'][key]);
-      // console.log('user prefs config item ', item, key, config);
-
-      var prefsForItem = {};
-      if ("userPrefs" in item) {
-        if (key in item["userPrefs"]) {
-          prefsForItem = _defineProperty$x({}, key, item["userPrefs"][key]);
-        } else {
-          if ("defaultValue" in config) {
-            prefsForItem = _defineProperty$x({}, key, config["defaultValue"]);
-          }
-        }
-      } else {
-        // no user preferences in the item yet so we can try and set the defaults.
-        // console.log('config item ', config);
-        prefsForItem[key] = "defaultValue" in config ? config["defaultValue"] : "";
-      }
-
-      // console.log('config item prefs ', prefsForItem);
-      return prefsForItem;
-    } catch (e) {
-      return {};
-    }
-  }
-};
-
-var _excluded$w = ["layoutItem", "workspace", "direction", "order", "parent", "onClickAdd", "onChangeDirection", "onChangeOrder", "onRemove", "onOpenConfig"];
-function _objectWithoutProperties$w(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$w(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$w(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var LayoutItemEditHeader = function LayoutItemEditHeader(_ref) {
-  var layoutItem = _ref.layoutItem,
-    workspace = _ref.workspace,
-    direction = _ref.direction,
-    order = _ref.order,
-    parent = _ref.parent,
-    onClickAdd = _ref.onClickAdd,
-    onChangeDirection = _ref.onChangeDirection,
-    onChangeOrder = _ref.onChangeOrder,
-    onRemove = _ref.onRemove,
-    onOpenConfig = _ref.onOpenConfig;
-    _objectWithoutProperties$w(_ref, _excluded$w);
-  function renderEditFooter(item) {
-    var config = ComponentManager.config(item["component"], item);
-    var canHaveChildren = config ? config["canHaveChildren"] : false;
-    var numChildren = numChildrenForLayout(item, workspace["layout"]);
-
-    // determine the parent layout direction...
-    var parentLayout = getLayoutItemById(workspace["layout"], item["parent"]);
-    var parentDirection = parentLayout ? parentLayout["direction"] : item["parentWorkspace"]["direction"];
-
-    // determine if the item is at the "start/end" of the col/row
-    var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
-    var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
-    var isContainer = item["component"] === "Container";
-    var textColor = isContainer === true ? "text-gray-700" : "text-gray-300";
-
-    //console.log("HEADER ", isContainer, textColor, item);
-
-    return /*#__PURE__*/jsx("div", {
-      className: "flex flex-row space-x-1 justify-between w-full pb-1",
-      children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row space-x-1 ".concat(textColor),
-        children: [canHaveChildren === true && /*#__PURE__*/jsx(ButtonIcon3, {
-          icon: "plus",
-          onClick: onClickAdd,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-green-700",
-          className: "".concat(textColor)
-        }), /*#__PURE__*/jsx(ButtonIcon3, {
-          icon: "".concat(direction === "col" ? "arrows-left-right" : "arrows-up-down"),
-          onClick: onChangeDirection,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700",
-          className: "".concat(textColor)
-        }), /*#__PURE__*/jsx(ButtonIcon3, {
-          className: "".concat(textColor),
-          icon: "cog",
-          onClick: onOpenConfig,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700"
-        }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon3, {
-          icon: "".concat(parentDirection === "col" ? "arrow-up" : "arrow-left"),
-          iconSize: "h-3 w-3",
-          onClick: function onClick() {
-            return onChangeOrder("down");
-          },
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700",
-          className: "".concat(textColor)
-        }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon3, {
-          icon: "".concat(parentDirection === "col" ? "arrow-down" : "arrow-right"),
-          iconSize: "h-3 w-3",
-          onClick: function onClick() {
-            return onChangeOrder("up");
-          },
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-blue-700",
-          className: "".concat(textColor)
-        }), parent > 0 && /*#__PURE__*/jsx(ButtonIcon3, {
-          icon: "trash",
-          iconSize: "h-3 w-3",
-          onClick: onRemove,
-          backgroundColor: "bg-transparent",
-          hoverBackgroundColor: "hover:bg-red-900",
-          className: "".concat(textColor)
-        })]
-      })
-    });
-  }
-  function renderEditHeader(item) {
-    return item["workspace"] !== "layout" ? /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row px-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
-      children: [/*#__PURE__*/jsx("span", {
-        className: "text-xs font-medium",
-        children: "".concat(item["component"])
-      }), /*#__PURE__*/jsx("div", {
-        id: "quick-add-menu",
-        className: "flex flex-row",
-        children: renderEditFooter(layoutItem)
-      })]
-    }) : /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row space-x-1 px-2 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full justify-between items-center z-10"),
-      children: [/*#__PURE__*/jsx("span", {
-        className: "text-xs font-medium text-gray-500",
-        children: "".concat(item["component"])
-      }), /*#__PURE__*/jsx("div", {
-        id: "quick-add-menu",
-        className: "flex flex-row justify-end py-1 px-1",
-        children: renderEditFooter(layoutItem)
-      })]
-    });
-  }
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full justify-end z-10 flex-shrink",
-    children: renderEditHeader(layoutItem)
-  });
-};
-
-var LayoutGridContainer = function LayoutGridContainer(_ref) {
-  var item = _ref.item,
-    workspace = _ref.workspace,
-    _ref$preview = _ref.preview,
-    preview = _ref$preview === void 0 ? false : _ref$preview,
-    id = _ref.id,
-    parent = _ref.parent,
-    scrollable = _ref.scrollable;
-    _ref.space;
-    var grow = _ref.grow,
-    order = _ref.order,
-    _ref$children = _ref.children,
-    children = _ref$children === void 0 ? null : _ref$children,
-    onClickAdd = _ref.onClickAdd;
-    _ref.onClickQuickAdd;
-    var onClickRemove = _ref.onClickRemove,
-    onChangeDirection = _ref.onChangeDirection,
-    onChangeOrder = _ref.onChangeOrder,
-    onOpenConfig = _ref.onOpenConfig;
-    _ref.onOpenEvents;
-    var width = _ref.width,
-    direction = _ref.direction,
-    _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-full" : _ref$height,
-    onDropItem = _ref.onDropItem;
-    _ref.onDragItem;
-  function handleClickAdd() {
-    onClickAdd(item);
-  }
-  function handleClickRemove(item) {
-    onClickRemove(id);
-  }
-  function handleChangeDirection(item) {
-    onChangeDirection(id, direction);
-  }
-  function handleOpenConfig() {
-    onOpenConfig(item);
-  }
-  function handleDropItem(item) {
-    if (onDropItem) {
-      onDropItem(item);
-    }
-  }
-  function handleDragItem(item) {
-    // if (onDragItem) {
-    //     onDragItem(item);
-    // }
-  }
-  function handleChangeOrder(direction) {
-    onChangeOrder(item, direction);
-  }
-  function getBorderStyle() {
-    try {
-      return WidgetFactory.workspace(item["component"]) === "layout" ? "border-dashed" : "border-4";
-    } catch (e) {
-      return "";
-    }
-  }
-  function renderComponentContainer(children) {
-    return item ? renderComponent(item["component"], id, item, children) : null;
-  }
-  function getAllWorkspaceNames() {
-    if (workspace !== null) {
-      var names = workspace.layout.map(function (layout) {
-        return "workspace" in layout ? layout.workspace : null;
-      });
-      return names.filter(function (value, index, array) {
-        return array.indexOf(value) === index;
-      }).filter(function (i) {
-        return i !== null;
-      });
-    }
-    return null;
-  }
-  function dropType(item) {
-    // if item is a Workspace, and NOT a container, can only drop into a Container (layout)
-    if (isWorkspace(item) === true) {
-      return ["layout", item["parentWorkspaceName"]];
-    }
-    // if a container, we can place this into ANY other container or workspace
-    if (isContainer(item) === true) {
-      return getAllWorkspaceNames();
-    }
-    return ["layout", item["parentWorkspaceName"]];
-  }
-  function dragType(item) {
-    if (isWorkspace(item) === true) {
-      return item["parentWorkspaceName"];
-    }
-    if (isContainer(item)) {
-      return "layout";
-    }
-    return item["parentWorkspaceName"];
-  }
-  return preview === false ? /*#__PURE__*/jsx(DropComponent, {
-    item: item,
-    id: id,
-    type: dropType(item),
-    onDropItem: handleDropItem,
-    width: width,
-    children: /*#__PURE__*/jsx(DragComponent, {
-      id: id,
-      type: dragType(item),
-      onDropItem: handleDropItem,
-      onDragItem: handleDragItem,
-      width: "w-full",
-      children: /*#__PURE__*/jsxs(LayoutContainer, {
-        id: "grid-container-parent-".concat(id),
-        direction: "col",
-        width: "w-full",
-        height: "h-fit",
-        scrollable: false,
-        className: "rounded overflow-x-hidden ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24 ").concat(item["component"] === "Container" && "", " z-10"),
-        space: preview,
-        children: [preview === false && /*#__PURE__*/jsx(LayoutItemEditHeader, {
-          layoutItem: item,
-          workspace: workspace,
-          direction: direction,
-          order: order,
-          parent: parent,
-          onChangeOrder: handleChangeOrder,
-          onChangeDirection: handleChangeDirection,
-          onRemove: handleClickRemove,
-          onClickAdd: handleClickAdd,
-          onOpenConfig: handleOpenConfig
-        }), /*#__PURE__*/jsx(LayoutContainer, {
-          id: "grid-container-".concat(id),
-          direction: direction,
-          scrollable: scrollable,
-          width: "w-full",
-          height: "".concat(height, " min-h-24"),
-          space: preview,
-          grow: grow,
-          className: "".concat(preview === false && item["component"] !== "Container" ? "p-3" : "px-1", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
-          children: children !== null && children
-        })]
-      })
-    })
-  }) : renderComponentContainer(children);
-};
-
 // TODO, move this into a argument as opposed to a file...
 var _componentMap = {};
 var ComponentManager = {
@@ -10543,6 +2229,13 @@ var ComponentManager = {
   componentMap: function componentMap() {
     return _componentMap;
   },
+  /**
+   * The method for registering the widget into the Dashboard application
+   * This is a requirement for the widget to be included into the Dash
+   *
+   * @param {Object} widgetConfig the widget configuration script created by the developer
+   * @param {*} widgetKey the unique id for the widget
+   */
   registerWidget: function registerWidget(widgetConfig, widgetKey) {
     var tempComponentMap = this.componentMap();
     tempComponentMap[widgetKey] = ComponentConfigModel(widgetConfig["default"]);
@@ -10572,10 +2265,9 @@ var ComponentManager = {
     return {};
   },
   /**
-   * getComponent
    * Fetch the React Component from the map of registered components
-   * @param {string} component
-   * @returns
+   * @param {string} component the component/widget in the componentMap
+   * @returns {Widget} the Widget in the component map
    */
   getComponent: function getComponent(component) {
     try {
@@ -10589,7 +2281,6 @@ var ComponentManager = {
             return cmp;
           }
         } else {
-          // console.log("getting component ", component);
           return {
             name: "Container",
             component: LayoutContainer,
@@ -10668,10 +2359,6 @@ var ComponentManager = {
           events: "events" in c ? c["events"] : [],
           eventHandlers: "eventHandlers" in c ? c["eventHandlers"] : []
         };
-
-        // } else {
-        //     return c;
-        // }
       }
       return null;
     }
@@ -10714,12 +2401,12 @@ var ComponentManager = {
   }
 };
 
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray$a(r) || _nonIterableSpread(); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray$B(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
+function _unsupportedIterableToArray$B(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$B(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$B(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray$a(r); }
-function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray$B(r); }
+function _arrayLikeToArray$B(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function compareChildren(a, b) {
   if (a.order < b.order) {
     return -1;
@@ -10731,10 +2418,12 @@ function compareChildren(a, b) {
 }
 
 /**
- * renderLayout
- * @param {*} tempLayout
- * @param {*} parentKey
- * @param {*} debugMode
+ * Render the layout of the Widgets recursively
+ * If there are children in the layout we will call renderLayout again and so forth.
+ *
+ * @param {Object} tempLayout the layout we are rendering
+ * @param {String} parentKey the key of the parent element we are rendering children into
+ * @param {Boolean} debugMode if we are in debug mode
  * @param {*} onClick
  * @param {*} onClickRemove
  * @returns
@@ -11577,219 +3266,8551 @@ var tailwindHeightFractions = function tailwindHeightFractions() {
   return fractions;
 };
 
-var _colorMap;
+var _excluded$D = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix"];
+function _objectWithoutProperties$D(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$D(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$D(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var LayoutContainer = function LayoutContainer(_ref) {
+  var id = _ref.id,
+    children = _ref.children,
+    _ref$direction = _ref.direction,
+    direction = _ref$direction === void 0 ? "row" : _ref$direction,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$scrollable = _ref.scrollable,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "" : _ref$height,
+    _ref$space = _ref.space,
+    space = _ref$space === void 0 ? true : _ref$space,
+    _ref$grow = _ref.grow,
+    grow = _ref$grow === void 0 ? false : _ref$grow,
+    _ref$debug = _ref.debug,
+    debug = _ref$debug === void 0 ? false : _ref$debug,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? undefined : _ref$onClick,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "" : _ref$padding,
+    _ref$prefix = _ref.prefix,
+    prefix = _ref$prefix === void 0 ? "layout-container" : _ref$prefix,
+    props = _objectWithoutProperties$D(_ref, _excluded$D);
+  var containerId = "uuid" in props ? props["uuid"] : getUUID$1(id, prefix);
+
+  // get the styles
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.LAYOUT_CONTAINER, currentTheme, {
+    scrollable: scrollable,
+    width: width,
+    height: height,
+    grow: grow,
+    hasChildren: children !== undefined,
+    childCount: React.Children.count(children),
+    direction: direction,
+    space: space,
+    padding: padding
+  }, containerId);
+  function renderDebugger(children, styleString) {
+    return debug === true && /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col bg-inherit space-y-1 flex-shrink",
+      children: [/*#__PURE__*/jsxs("span", {
+        className: "flex flex-row flex-shrink text-xs bg-gray-900 uppercase text-gray-200 rounded",
+        children: [containerId, " ", styleString]
+      }), children]
+    });
+  }
+
+  // const classString = className !== "" ? className : styles.string;
+  var classString = styles.string;
+  return /*#__PURE__*/jsxs("div", {
+    // id={`LayoutContainer-${containerId}-${id}`}
+    id: containerId,
+    className: "flex ".concat(classString, " ").concat(className),
+    onClick: onClick,
+    children: [debug === false && children, debug === true && renderDebugger(children, styles.string)]
+  });
+};
+
+var LayoutTitlePane = function LayoutTitlePane(_ref) {
+  _ref.onClick;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col rounded font-medium justify-between",
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col rounded font-medium justify-between overflow-hidden",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col rounded p-6 py-10 space-y-4 w-full",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-row w-full",
+          children: [/*#__PURE__*/jsx(Heading, {
+            title: "Lay. Out.",
+            padding: false,
+            textColor: "text-gray-300"
+          }), /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "plus",
+            textSize: "text-2xl",
+            backgroundColor: "bg-gray-800",
+            hoverBackgroundColor: "hover:bg-green-600",
+            iconSize: "h-6 w-6",
+            textColor: "text-gray-400"
+            // onClick={onClickNewTheme}
+          })]
+        }), /*#__PURE__*/jsx("p", {
+          className: "text-lg font-normal text-gray-300",
+          children: "Create Layout Templates to be used as starter kits for your Dashboards."
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$A(r, e) { return _arrayWithHoles$A(r) || _iterableToArrayLimit$A(r, e) || _unsupportedIterableToArray$A(r, e) || _nonIterableRest$A(); }
+function _nonIterableRest$A() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$A(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$A(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$A(r, a) : void 0; } }
+function _arrayLikeToArray$A(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$A(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$A(r) { if (Array.isArray(r)) return r; }
+var LayoutManagerPicker = function LayoutManagerPicker() {
+  var _useContext = useContext$1(AppContext),
+    api = _useContext.api,
+    creds = _useContext.creds;
+  var _useState = useState(null),
+    _useState2 = _slicedToArray$A(_useState, 2),
+    layoutTemplates = _useState2[0],
+    setLayoutTemplates = _useState2[1];
+  useEffect(function () {
+    if (layoutTemplates === null) {
+      listLayoutTemplates();
+    }
+  });
+  function listLayoutTemplates() {
+    var layouts = api.layout.listLayoutsForApplication(creds.appId);
+    setLayoutTemplates(layouts);
+  }
+  return /*#__PURE__*/jsxs(Panel, {
+    horizontal: true,
+    width: "w-full",
+    children: [/*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-1/3",
+      children: /*#__PURE__*/jsx(LayoutTitlePane, {})
+    }), /*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-2/3",
+      children: JSON.stringify(layoutTemplates)
+    })]
+  });
+};
+
+var _excluded$C = ["open", "setIsOpen"];
+function _objectWithoutProperties$C(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$C(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$C(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var LayoutManagerModal = function LayoutManagerModal(_ref) {
+  var open = _ref.open,
+    setIsOpen = _ref.setIsOpen;
+    _objectWithoutProperties$C(_ref, _excluded$C);
+  function handleSelectLayout(data) {
+  }
+  return /*#__PURE__*/jsxs(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-5/6",
+    height: "h-5/6",
+    children: [/*#__PURE__*/jsx(Panel, {
+      backgroundColor: "bg-slate-800",
+      padding: false,
+      children: /*#__PURE__*/jsx(Panel.Body, {
+        children: /*#__PURE__*/jsx(LayoutManagerPicker, {
+          onClick: handleSelectLayout
+        })
+      })
+    }), /*#__PURE__*/jsx(Modal.Footer, {
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-2",
+        children: [/*#__PURE__*/jsx(Button, {
+          onClick: function onClick() {
+            return setIsEditing(false);
+          },
+          title: "Cancel",
+          textSize: "text-base xl:text-lg",
+          padding: "py-2 px-4",
+          backgroundColor: "bg-gray-700",
+          textColor: "text-gray-300",
+          hoverTextColor: "hover:text-gray-100",
+          hoverBackgroundColor: "hover:bg-gray-700"
+        }), /*#__PURE__*/jsx(Button
+        // onClick={() => handleSaveTheme(themeKeySelected)}
+        , {
+          title: "Create New",
+          textSize: "text-base xl:text-lg",
+          padding: "py-2 px-4",
+          backgroundColor: "bg-gray-700",
+          textColor: "text-gray-300",
+          hoverTextColor: "hover:text-gray-100",
+          hoverBackgroundColor: "hover:bg-gray-700"
+        })]
+      })
+    })]
+  });
+};
+
+function _slicedToArray$z(r, e) { return _arrayWithHoles$z(r) || _iterableToArrayLimit$z(r, e) || _unsupportedIterableToArray$z(r, e) || _nonIterableRest$z(); }
+function _nonIterableRest$z() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$z(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$z(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$z(r, a) : void 0; } }
+function _arrayLikeToArray$z(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$z(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$z(r) { if (Array.isArray(r)) return r; }
+var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
+  var workspace = _ref.workspace,
+    open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item,
+    _ref$onSaveItem = _ref.onSaveItem,
+    onSaveItem = _ref$onSaveItem === void 0 ? null : _ref$onSaveItem;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var _useState = useState(""),
+    _useState2 = _slicedToArray$z(_useState, 2),
+    searchTerm = _useState2[0],
+    setSearchTerm = _useState2[1];
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray$z(_useState3, 2),
+    menuItemSelected = _useState4[0],
+    setMenuItemSelected = _useState4[1];
+  var _useState5 = useState(workspace),
+    _useState6 = _slicedToArray$z(_useState5, 2),
+    workspaceSelected = _useState6[0],
+    setWorkspaceSelected = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray$z(_useState7, 2),
+    parentWorkspace = _useState8[0];
+    _useState8[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$z(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (open === false) {
+      setMenuItemSelected(null);
+      setWorkspaceSelected(null);
+    } else {
+      if (workspaceSelected !== workspace) setWorkspaceSelected(function () {
+        return workspace;
+      });
+    }
+  }, [open]);
+  useEffect(function () {
+    if (workspace !== workspaceSelected && workspace !== null) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+    }
+  }, [item, open, workspace]);
+  useEffect(function () {
+  }, [menuItemSelected]);
+  function renderWidgets() {
+    var componentMap = ComponentManager.map();
+    var workspaceType = item ? item["workspace"] : null;
+    var canAddChildren = item ? item["canHaveChildren"] : true;
+    var parentWorkspaceType = item["parentWorkspaceName"] !== null && item["parentWorkspaceName"] !== undefined ? item["parentWorkspaceName"] : "layout";
+    if (parentWorkspaceType !== null) {
+      var options = workspaceType !== null && canAddChildren && Object.keys(componentMap).sort().filter(function (c) {
+        return componentMap[c]["type"] === "widget";
+      }).filter(function (c) {
+        return workspaceType !== null ? componentMap[c]["workspace"] === parentWorkspaceType : true;
+      }).map(function (w) {
+        return renderMenuItem("widget", w);
+      });
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-col rounded space-y-1",
+        children: options
+      });
+    } else {
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-col rounded"
+      });
+    }
+  }
+  function renderWorkspaces() {
+    var componentMap = ComponentManager.map();
+    var canAddChildren = item ? item.canHaveChildren : true;
+
+    // We want to make sure the item (parent) can have children from the config
+    // We also want to limit the workspaces to layout only
+    // if the parent workspace is NOT layout, we only allow "layout" components
+
+    var options = canAddChildren === true && item["parentWorkspaceName"] === "layout" ? Object.keys(componentMap).sort().filter(function (i) {
+      return searchTerm !== "" ? i.toLowerCase().includes(searchTerm) : true;
+    }).filter(function (c) {
+      return componentMap[c]["type"] === "workspace" || componentMap[c]["workspace"] === "layout";
+    }).map(function (w) {
+      return renderMenuItem("workspace", w);
+    }) : Object.keys(componentMap).sort().filter(function (i) {
+      return searchTerm !== "" ? i.toLowerCase().includes(searchTerm) : true;
+    }).filter(function (c) {
+      return componentMap[c]["workspace"] === "layout";
+    }).map(function (w) {
+      return renderMenuItem("workspace", w);
+    });
+    return /*#__PURE__*/jsx("div", {
+      className: "flex flex-col rounded space-y-1",
+      children: options
+    });
+  }
+  function handleClickItem(data) {
+    try {
+      var layoutModel = LayoutModel(data, workspace, workspace["id"]);
+
+      // we have to give the widget an ID
+      var nextId = getNextHighestId(workspace["layout"]);
+      var nextOrderData = getNextHighestOrder(workspace["layout"]);
+      var nextOrder = nextOrderData["highest"];
+      // data['id'] = nextId;
+
+      layoutModel.id = nextId;
+      layoutModel.order = nextOrder;
+      layoutModel["parent"] = parentWorkspace !== null && parentWorkspace !== undefined ? "id" in parentWorkspace ? parentWorkspace["id"] : 0 : 0; // unsure if this is ok
+
+      layoutModel["parentWorkspace"] = item["parentWorkspace"];
+      layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
+      layoutModel["parent"] = item["id"];
+      // nearest parent workspace (use the original widget/workspace clicked
+      // to begin looking...
+
+      // lets add the data to the original workspace...
+      var newWorkspace = JSON.parse(JSON.stringify(workspace));
+      newWorkspace["layout"] = [layoutModel["parentWorkspace"], layoutModel];
+      setMenuItemSelected(function () {
+        return layoutModel;
+      });
+      setWorkspaceSelected(function () {
+        return newWorkspace;
+      });
+      forceUpdate();
+    } catch (e) {
+    }
+  }
+  function handleAddItem(data) {
+    // The "item" is the item we selected in the layout to add TO
+    // The menuItemSelected is the item we chose from the list...
+    onSaveItem(menuItemSelected, item);
+  }
+  function renderMenuItem(type, componentName) {
+    return /*#__PURE__*/jsx(MenuItem3, {
+      onClick: function onClick() {
+        return handleClickItem({
+          type: type,
+          component: componentName
+        });
+      },
+      children: componentName
+    }, "menu-item-".concat(componentName));
+  }
+  function handleUpdate(e, layoutItem) {
+    try {
+
+      // let configItem = ComponentManager.config(data['component'], data);
+
+      // // we have to give the widget an ID
+      var nextId = getNextHighestId(workspaceSelected["layout"]);
+      // const nextOrder = getNextHighestOrder(workspaceSelected['layout']);
+
+      layoutItem["id"] = nextId;
+      // data['widgetConfig'] = configItem;
+
+      // // lets add the data to the original workspace...
+      layoutItem["parent"] = parentWorkspace !== null ? parentWorkspace["id"] : 0; // unsure if this is ok
+
+      // // lets add the data to the original workspace...
+      var newWorkspace = JSON.parse(JSON.stringify(workspace));
+      newWorkspace["layout"] = [parentWorkspace, layoutItem];
+      setMenuItemSelected(function () {
+        return layoutItem;
+      });
+      setWorkspaceSelected(function () {
+        return newWorkspace;
+      });
+      // forceUpdate();
+    } catch (e) {
+    }
+  }
+  function renderAddContainer(itemData) {
+    try {
+      var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
+      if (item.parentWorkspace !== undefined && item.parentWorkspace !== null) {
+        // let's make a custom layout with the parent workspace and the item selected
+        // need the workspace for the functionality...
+        var parentWorkspaceTemp = JSON.parse(JSON.stringify(item.parentWorkspace));
+        var layout = JSON.parse(JSON.stringify(workspaceSelectedTemp["layout"]));
+        var itemTemp = JSON.parse(JSON.stringify(itemData));
+        if (item.parentWorkspace) {
+          // set the id's to work appropriately.
+          itemTemp["parent"] = parentWorkspaceTemp["id"];
+          // set the new layout
+          layout = [parentWorkspaceTemp, itemTemp];
+
+          // let's determine the order...
+          // const layoutItems = parentWorkspaceTemp.layout.map(li => li.order);
+          // console.log('ORDER OF ITEMS ', layoutItems);
+        }
+        return item.parentWorkspace && _renderLayout({
+          workspaceSelected: workspaceSelected,
+          layout: layout,
+          parentKey: item.parentWorkspace["parent"],
+          previewMode: true,
+          isDraggable: false
+        });
+      }
+    } catch (e) {
+    }
+  }
+  return item && /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-5/6",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-row w-full h-full space-x-4 overflow-hidden rounded",
+          children: [/*#__PURE__*/jsxs(LayoutContainer, {
+            direction: "col",
+            width: "w-1/4",
+            space: true,
+            scrollable: true,
+            className: "h-full rounded p-4 text-gray-200",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "flex flex-row pb-4",
+              children: /*#__PURE__*/jsx(InputText, {
+                textSize: "text-sm",
+                onChange: function onChange(e) {
+                  return setSearchTerm(e.target.value);
+                },
+                value: searchTerm,
+                placeholder: "Widgetize"
+              })
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col space-y-2",
+              children: [/*#__PURE__*/jsx("span", {
+                className: "text-xs uppercase font-bold px-2 text-gray-400",
+                children: "Layout/Function"
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-col rounded space-y-2",
+                children: renderWorkspaces()
+              })]
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col space-y-2",
+              children: [/*#__PURE__*/jsx("span", {
+                className: "text-xs uppercase font-bold px-2 text-gray-400",
+                children: "Widgets"
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-col rounded space-y-2",
+                children: renderWidgets()
+              })]
+            })]
+          }), /*#__PURE__*/jsxs(LayoutContainer, {
+            direction: "row",
+            space: true,
+            grow: true,
+            scrollable: true,
+            width: "w-full",
+            className: "p-4 ".concat(currentTheme["bg-secondary-dark"]),
+            children: [menuItemSelected === null && /*#__PURE__*/jsx("div", {
+              className: "flex-col h-full rounded font-medium text-gray-400 w-full xl:w-1/2 p-10",
+              children: /*#__PURE__*/jsxs("div", {
+                className: "flex flex-col rounded p-4 py-10 space-y-4",
+                children: [/*#__PURE__*/jsx(Heading, {
+                  title: "Build.",
+                  padding: false
+                }), /*#__PURE__*/jsx(SubHeading3, {
+                  title: "Choose a Workspace or Widget from the Available Components.",
+                  padding: false
+                }), /*#__PURE__*/jsx(Paragraph, {
+                  text: "Don't worry, you can't mess this up.",
+                  padding: false
+                })]
+              })
+            }), menuItemSelected !== null && /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col rounded border-2 border-gray-800 ".concat(getBorderStyle(menuItemSelected), " overflow-hidden h-full w-3/4 bg-gray-900"),
+              children: [/*#__PURE__*/jsx("div", {
+                className: "flex flex-col p-2 space-x-1 uppercase text-xs text-gray-200 font-bold bg-gray-800",
+                children: menuItemSelected !== null && /*#__PURE__*/jsxs("div", {
+                  className: "flex flex-row",
+                  children: ["Preview:", " ", menuItemSelected["component"]]
+                })
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-col overflow-hidden justify-between h-full",
+                children: /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col grow p-2",
+                  children: renderAddContainer(menuItemSelected)
+                })
+              })]
+            }), menuItemSelected && /*#__PURE__*/jsx("div", {
+              className: "flex flex-col w-1/4",
+              children: /*#__PURE__*/jsx(WidgetConfigPanel, {
+                item: menuItemSelected,
+                onChange: handleUpdate
+                // onSave={handleAddItem}
+                ,
+                disabled: false,
+                workspace: workspaceSelected,
+                parentWorkspace: parentWorkspace
+              })
+            })]
+          })]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-row justify-end ".concat(currentTheme["bg-primary-very-dark"], " p-4 rounded-br rounded-bl border-t ").concat(currentTheme["border-primary-dark"]),
+          children: /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(Button, {
+              title: "Cancel",
+              bgColor: "bg-gray-800",
+              textSize: "text-lg",
+              padding: "py-2 px-4",
+              onClick: function onClick() {
+                return setIsOpen(false);
+              }
+            }), /*#__PURE__*/jsx(Button, {
+              title: "Save Changes",
+              bgColor: "bg-gray-800",
+              hoverBackgroundColor: "hover:bg-green-700",
+              textSize: "text-lg",
+              padding: "py-2 px-4",
+              onClick: handleAddItem
+            })]
+          })
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$y(r, e) { return _arrayWithHoles$y(r) || _iterableToArrayLimit$y(r, e) || _unsupportedIterableToArray$y(r, e) || _nonIterableRest$y(); }
+function _nonIterableRest$y() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$y(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$y(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$y(r, a) : void 0; } }
+function _arrayLikeToArray$y(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$y(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$y(r) { if (Array.isArray(r)) return r; }
+var PanelEditItem = function PanelEditItem(_ref) {
+  var workspace = _ref.workspace,
+    onUpdate = _ref.onUpdate,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$y(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$y(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$y(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    //console.log('EFFECT PanelEditItem', workspace, workspaceSelected, item['userPrefs'], itemSelected['userPrefs']);
+    //console.log('COMPARE RESULT: ', deepEqual(item, itemSelected));
+    if (deepEqual(item, itemSelected) === false) {
+      setItemSelected(function () {
+        return item;
+      });
+      forceUpdate();
+    }
+    if (deepEqual(workspace, workspaceSelected) === false) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+      forceUpdate();
+    }
+
+    // if (open === false) {
+    //     setItemSelected(null);
+    //     setWorkspaceSelected(null);
+    // }
+  }, [workspace, item]);
+  function handleUpdate(e, data) {
+    var workspaceTemp = WorkspaceModel(workspaceSelected);
+    var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
+    workspaceTemp.layout = newLayout;
+
+    // setWorkspaceSelected(() => workspaceTemp);
+    // setItemSelected(() => data);
+    onUpdate(data, workspaceTemp);
+    forceUpdate();
+  }
+  function renderEditContainer() {
+    try {
+      if (itemSelected !== null && workspaceSelected !== null) {
+        var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
+        if (itemSelected.parentWorkspace !== undefined && itemSelected.parentWorkspace !== null) {
+          // let's make a custom layout with the parent workspace and the itemSelected
+          // need the workspace for the functionality...
+          var parentWorkspaceTemp = JSON.parse(JSON.stringify(itemSelected.parentWorkspace));
+          var layout = JSON.parse(JSON.stringify(workspaceSelectedTemp["layout"]));
+          var itemTemp = JSON.parse(JSON.stringify(itemSelected));
+
+          // VERY IMPORTANT TO CHECK THE WORKSPACES!!!!
+          // otherwise the workspace will crash as the widget doesnt belong...
+          if (itemSelected["workspace"] === parentWorkspaceTemp["workspace"]) {
+            if (item.parentWorkspace) {
+              // set the id's to work appropriately.
+              parentWorkspaceTemp["id"] = 1;
+              parentWorkspaceTemp["parent"] = 0;
+              itemTemp["parent"] = 1; //parentWorkspaceTemp['id'];
+              // set the new layout
+              layout = [parentWorkspaceTemp, itemTemp];
+            }
+            return itemSelected.parentWorkspace && _renderLayout({
+              workspace: workspaceSelected,
+              layout: layout,
+              parentKey: 0,
+              previewMode: true,
+              isDraggable: false
+            });
+          } else {
+            // workspace mismatch!
+            return null;
+          }
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
+    padding: false,
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      children: [/*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-3/4 min-w-3/4 h-full rounded",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col w-full h-full rounded space-y-2 border-2 border-dashed ".concat(theme["border-secondary-very-dark"]),
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex p-2 text-xs ".concat(theme["text-secondary-dark"], " rounded-br uppercase font-bold "),
+            children: "Preview"
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col p-4 h-full",
+            children: itemSelected !== null && workspaceSelected !== null && renderEditContainer()
+          })]
+        })
+      }), /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-1/4 ".concat(theme["bg-secondary-dark"]),
+        children: itemSelected && /*#__PURE__*/jsx(WidgetConfigPanel, {
+          item: itemSelected,
+          onChange: handleUpdate,
+          onSave: null,
+          disabled: itemSelected === null,
+          workspace: workspaceSelected,
+          parentWorkspace: itemSelected.parentWorkspace
+        })
+      })]
+    })
+  });
+};
+
+function _slicedToArray$x(r, e) { return _arrayWithHoles$x(r) || _iterableToArrayLimit$x(r, e) || _unsupportedIterableToArray$x(r, e) || _nonIterableRest$x(); }
+function _nonIterableRest$x() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$x(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$x(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$x(r, a) : void 0; } }
+function _arrayLikeToArray$x(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$x(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$x(r) { if (Array.isArray(r)) return r; }
+var PanelCode = function PanelCode(_ref) {
+  var workspace = _ref.workspace,
+    onUpdate = _ref.onUpdate,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$x(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$x(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$x(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (deepEqual(item, itemSelected) === false) {
+      setItemSelected(function () {
+        return item;
+      });
+      forceUpdate();
+    }
+    if (deepEqual(workspace, workspaceSelected) === false) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+      forceUpdate();
+    }
+  }, [workspace, item]);
+  function handleCodeChange(code) {
+    var itemToSave = JSON.parse(code);
+    onUpdate(itemToSave, workspaceSelected);
+  }
+  return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row w-full min-w-3/4 h-full rounded",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "flex-col h-full rounded font-medium ".concat(theme["text-secondary-dark"], " w-full hidden xl:flex lg:w-1/3"),
+          children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col rounded p-4 py-10 space-y-4",
+            children: [/*#__PURE__*/jsx("p", {
+              className: "text-5xl font-bold ".concat(theme["text-secondary-very-light"]),
+              children: "Nerdery."
+            }), /*#__PURE__*/jsx("p", {
+              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
+              children: "If this appears to be jibberish to you, please turn around."
+            }), /*#__PURE__*/jsx("p", {
+              className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
+              children: "If you need to manually edit the code for the Component selected, by all means."
+            })]
+          })
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col h-full border-2 border-gray-800 rounded ".concat(theme["bg-secondary-very-dark"], " w-full xl:w-2/3"),
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex ".concat(theme["bg-secondary-very-dark"], " p-2 text-xs text-gray-300 rounded-br uppercase font-bold"),
+            children: "Code Editor"
+          }), /*#__PURE__*/jsx(LayoutContainer, {
+            direction: "col",
+            scrollable: true,
+            className: "text-green-600 ".concat(theme["bg-secondary-very-dark"]),
+            children: itemSelected !== null && workspaceSelected !== null && /*#__PURE__*/jsx("div", {
+              className: "text-xs break-all h-full ".concat(theme["bg-secondary-very-dark"]),
+              children: /*#__PURE__*/jsx(CodeEditorInline, {
+                code: JSON.stringify(itemSelected, null, 2),
+                className: "p-0 h-full ".concat(theme["bg-secondary-very-dark"]),
+                setCode: handleCodeChange
+              })
+            })
+          })]
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$w(r, e) { return _arrayWithHoles$w(r) || _iterableToArrayLimit$w(r, e) || _unsupportedIterableToArray$w(r, e) || _nonIterableRest$w(); }
+function _nonIterableRest$w() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$w(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$w(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$w(r, a) : void 0; } }
+function _arrayLikeToArray$w(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$w(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$w(r) { if (Array.isArray(r)) return r; }
+var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
+  var workspace = _ref.workspace,
+    open = _ref.open,
+    onUpdate = _ref.onUpdate,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$w(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$w(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _useState5 = useState({}),
+    _useState6 = _slicedToArray$w(_useState5, 2),
+    eventsSelected = _useState6[0];
+    _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray$w(_useState7, 2),
+    eventHandlerSelected = _useState8[0],
+    setEventHandlerSelected = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray$w(_useState9, 2),
+    loadedExisting = _useState0[0],
+    setLoadedExisting = _useState0[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$w(_React$useState, 2),
+    updateState = _React$useState2[1];
+  React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    // console.log(
+    //     "event workspace ",
+    //     item,
+    //     itemSelected,
+    //     workspace,
+    //     workspaceSelected
+    // );
+
+    // if (workspaceSelected === null && deepEqual(workspaceSelected, workspace) === false) {
+    //     setWorkspaceSelected(() => workspace);
+    //     loadExistingListeners(workspace);
+    // }
+
+    if (deepEqual(item, itemSelected) === false) {
+      setItemSelected(function () {
+        return item;
+      });
+      // reset the selected items
+      // setEventsSelected(() => {});
+      // setEventHandlerSelected(null);
+      setLoadedExisting(false);
+    }
+    if (deepEqual(workspace, workspaceSelected) === false) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+      // loadExistingListeners(workspace);
+    }
+    if (workspaceSelected === workspace && loadedExisting === false) {
+      setLoadedExisting(function () {
+        return true;
+      });
+      // loadExistingListeners(workspaceSelected);
+    }
+    // if (open === false) {
+    //     setItemSelected(() => null);
+    //     // setComponentsSelected(() => []);
+    //     setEventsSelected(() => {});
+    //     setEventHandlerSelected(() => null);
+    // }
+
+    // if (Object.keys(componentsSelected).length < 1) {
+    //     loadExistingListeners(workspace);
+    // }
+  }, [open, workspace, item]);
+  useEffect(function () {
+    // if (
+    //     eventHandlerSelected !== null &&
+    //     eventsSelected !== null &&
+    //     eventsSelected !== undefined &&
+    //     Object.keys(eventsSelected).length > 0
+    // ) {
+    //     handleSaveChanges();
+    // }
+  }, [eventsSelected, eventHandlerSelected]);
+  function handleSelectEvent(eventString) {
+    try {
+      if (eventString && eventHandlerSelected !== null) {
+        // check if we have the hander "key" in the events object
+        var tempEvents = [];
+        var currentListeners = deepCopy(itemSelected["listeners"]);
+
+        // check to see if we already have the handler in the listeners
+        if (eventHandlerSelected in currentListeners) {
+          tempEvents = currentListeners[eventHandlerSelected];
+        }
+        tempEvents.push(eventString);
+        var uniqueEventsSelected = tempEvents.filter(function (value, index, array) {
+          return array.indexOf(value) === index;
+        });
+
+        // and now set the handler to the unique event
+        currentListeners[eventHandlerSelected] = uniqueEventsSelected;
+        // setEventsSelected(() => currentListeners);
+        handleSaveChanges(currentListeners);
+      }
+    } catch (e) {
+    }
+  }
+  function handleRemoveEvent(eventString) {
+    try {
+      if (eventHandlerSelected) {
+        // grab the current listeners OBJECT from the itemSelected
+        var currentListeners = deepCopy(itemSelected["listeners"]);
+
+        // 1. Remove the event from the temp array of events (from current item)
+        // filter out the event listener selected (eventString)
+        var eventsSelectedTemp = eventHandlerSelected in currentListeners ? currentListeners[eventHandlerSelected].filter(function (event) {
+          return event !== eventString;
+        }) : [];
+
+        // ok we have some events, and need to set them as the value for the handler selected
+
+        // want to update the listeners OBJECT
+        // handler: [event, event]
+        if (eventsSelectedTemp.length > 0) {
+          if (eventHandlerSelected in currentListeners) {
+            currentListeners[eventHandlerSelected] = eventsSelectedTemp;
+          }
+        } else {
+          // there are NO events for this handler, so we can remove this handler from
+          // the listeners entirely.
+          delete currentListeners[eventHandlerSelected];
+        }
+
+        // setEventsSelected(() => currentListeners);
+
+        handleSaveChanges(currentListeners);
+      }
+    } catch (e) {
+    }
+  }
+  function handleSelectEventHandler(handler) {
+    setEventHandlerSelected(function () {
+      return handler;
+    });
+    // setEventsSelected(() => {});
+    // handleSaveChanges();
+  }
+
+  /**
+   * handleRemoveEventHandler
+   * We are removing the event handler, and thus removing all of the
+   * events that are associated with the handler in the listeners...
+   * @param {string} handler
+   */
+  function handleRemoveEventHandler(handler) {
+    setEventHandlerSelected(function () {
+      return null;
+    });
+    // setEventsSelected(() => {});
+
+    // hmm, removing the event handler....
+    // we should remove this key from the listeners then save the changes...
+    var currentListeners = deepCopy(itemSelected["listeners"]);
+
+    // ok we have some events, and need to set them as the value for the handler selected
+
+    // want to update the listeners OBJECT
+    // handler: [event, event]
+    if (handler in currentListeners) {
+      // there are NO events for this handler, so we can remove this handler from
+      // the listeners entirely.
+      delete currentListeners[handler];
+    }
+    handleSaveChanges(currentListeners);
+  }
+  function getLayoutItemById(id) {
+    if (workspaceSelected !== null) {
+      var layoutItems = workspaceSelected.layout.filter(function (layoutItem) {
+        return layoutItem["id"] === parseInt(id, 10);
+      });
+      if (layoutItems.length > 0) {
+        return layoutItems[0];
+      }
+    }
+    return null;
+  }
+  function handleSaveChanges() {
+    var currentListeners = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    try {
+      if (workspaceSelected !== null && eventHandlerSelected !== null && "id" in itemSelected && itemSelected["id"] !== null) {
+        // let's copy the workspace selected to replace the listeners
+        var tempWorkspace = deepCopy(workspaceSelected);
+
+        // craft the event handler + listeners
+        // and add to the layout item
+        var layoutItem = getLayoutItemById(itemSelected["id"]);
+
+        // now lets add to it...
+        layoutItem["listeners"] = currentListeners;
+        tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
+        // // save the new workspace
+        onUpdate(layoutItem, tempWorkspace);
+      }
+    } catch (e) {
+    }
+  }
+
+  /**
+   * isSelected
+   * Check to see if the event for the component is selected
+   *
+   * @param {String} eventString the string containing {component}[{id}].{event}
+   * @returns
+   */
+
+  function isSelectedEvent(event) {
+    try {
+      if (event && eventHandlerSelected) {
+        // const listenerArray = workspaceSelected.layout
+        //     .filter((a) => {
+        //         console.log(
+        //             "filter check id ",
+        //             a["id"],
+        //             itemSelected["id"]
+        //         );
+        //         return a["id"] === itemSelected["id"];
+        //     })
+        //     .filter((k) => {
+        //         return (
+        //             workspaceSelected["layout"][k]["listeners"].length >
+        //             0
+        //         );
+        //     })
+        //     .map((h) => {
+        //         return workspaceSelected["layout"][h]["listeners"];
+        //     });
+        // console.log("listeners array from workspace ", listenerArray);
+        var isSelected = false;
+        if (eventHandlerSelected in itemSelected["listeners"]) {
+          if (itemSelected["listeners"][eventHandlerSelected].includes(event) === true) {
+            isSelected = true;
+          }
+        }
+        return isSelected;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+  function renderAvailableEvents() {
+    if (workspaceSelected !== null) {
+      return workspaceSelected.layout.filter(function (l) {
+        return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
+      }).filter(function (e) {
+        return e.events.length > 0;
+      }).filter(function (li) {
+        return li["component"] !== itemSelected["component"];
+      }).map(function (layout) {
+        return /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col text-base font-bold text-gray-400 p-2",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
+            children: /*#__PURE__*/jsxs("span", {
+              className: "text-lg",
+              children: [layout["component"], "\xA0[", layout["id"], "]"]
+            })
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col space-y-1 py-1",
+            children: layout.events.filter(function (value, index, array) {
+              return array.indexOf(value) === index;
+            }) // remove any possible duplicates
+            .map(function (event) {
+              var eventString = "".concat(layout["component"], "[").concat(layout["id"], "].").concat(event);
+              var selected = isSelectedEvent(eventString);
+              return /*#__PURE__*/jsxs("div", {
+                onClick: function onClick() {
+                  return selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString);
+                },
+                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true ? "bg-blue-800" : "", " "),
+                children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                  icon: "square-check",
+                  className: "".concat(selected === true ? "text-blue-500" : "text-gray-700", " text-xl")
+                }), /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col",
+                  children: /*#__PURE__*/jsx("span", {
+                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
+                    children: event
+                  })
+                })]
+              });
+            })
+          })]
+        });
+      });
+    }
+  }
+  function renderAvailableHandlers() {
+    if (workspaceSelected !== null) {
+      return workspaceSelected.layout.filter(function (li) {
+        return li["id"] === itemSelected["id"];
+      }).map(function (layout) {
+        return layout.eventHandlers.length > 0 && /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col text-base font-bold text-gray-400 p-2",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
+            children: /*#__PURE__*/jsxs("span", {
+              className: "text-lg",
+              children: [layout["component"], "\xA0[", layout["id"], "]"]
+            })
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col space-y-1 py-1",
+            children: layout.eventHandlers.filter(function (value, index, array) {
+              return array.indexOf(value) === index;
+            }) // remove any possible duplicates
+            .map(function (handler) {
+              var selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false; //isHandlerSelected(handler);
+              return /*#__PURE__*/jsx("div", {
+                onClick: function onClick() {
+                  return selected ? handleRemoveEventHandler(handler) : handleSelectEventHandler(handler);
+                },
+                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true && "bg-indigo-700"),
+                children: /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col px-2",
+                  children: /*#__PURE__*/jsx("span", {
+                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
+                    children: handler
+                  })
+                })
+              });
+            })
+          })]
+        });
+      });
+    }
+  }
+  return itemSelected !== null && /*#__PURE__*/jsx(Panel, {
+    theme: false,
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-full h-full overflow-hidden",
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row w-full h-full overflow-hidden space-x-4 justify-between",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3",
+            children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col rounded p-4 py-10 space-y-4",
+              children: [/*#__PURE__*/jsx("p", {
+                className: "text-5xl font-bold ".concat(theme["text-secondary-very-light"]),
+                children: "Listen Up."
+              }), /*#__PURE__*/jsx("p", {
+                className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
+                children: "Widgets and Workspaces can talk, but we have to setup the phone wires."
+              }), /*#__PURE__*/jsx("p", {
+                className: "text-xl font-normal ".concat(theme["text-secondary-light"]),
+                children: "Select the method to handle the message first, then select the message it will handle."
+              })]
+            })
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3 scrollbar-thin",
+            children: [/*#__PURE__*/jsxs("span", {
+              className: "uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2",
+              children: ["Available Handlers", " "]
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col h-full overflow-y-scroll p-2 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100",
+              children: [itemSelected.eventHandlers.length > 0 && renderAvailableHandlers(), itemSelected.eventHandlers.length === 0 && /*#__PURE__*/jsx("div", {
+                className: "flex flex-col text-yellow-600 font-bold p-4",
+                children: "No available Handlers found."
+              })]
+            })]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col bg-gray-900 h-full rounded w-1/2 xl:w-1/3",
+            children: [/*#__PURE__*/jsxs("span", {
+              className: "uppercase text-xs text-gray-300 font-bold p-2 bg-gray-800 rounded-t px-2",
+              children: ["Available Events", " "]
+            }), /*#__PURE__*/jsx(LayoutContainer, {
+              direction: "col",
+              scrollable: true,
+              className: "p-2",
+              children: eventHandlerSelected !== null && renderAvailableEvents()
+            })]
+          })]
+        })
+      })
+    })
+  });
+};
+
+function _slicedToArray$v(r, e) { return _arrayWithHoles$v(r) || _iterableToArrayLimit$v(r, e) || _unsupportedIterableToArray$v(r, e) || _nonIterableRest$v(); }
+function _nonIterableRest$v() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$v(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$v(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$v(r, a) : void 0; } }
+function _arrayLikeToArray$v(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$v(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$v(r) { if (Array.isArray(r)) return r; }
+var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
+  var workspace = _ref.workspace,
+    open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    onSaveWorkspace = _ref.onSaveWorkspace,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$v(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$v(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _useState5 = useState("edit"),
+    _useState6 = _slicedToArray$v(_useState5, 2),
+    configMenuItemSelected = _useState6[0],
+    setConfigMenuItemSelected = _useState6[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$v(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (item !== itemSelected) {
+      setItemSelected(function () {
+        return item;
+      });
+    }
+    if (workspace !== workspaceSelected) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+    }
+    if (open === false) {
+      setItemSelected(null);
+      setConfigMenuItemSelected("edit");
+      setWorkspaceSelected(null);
+    }
+  }, [open]);
+
+  /**
+   * handleEditChange
+   * This method will receive the item and workspace
+   * but not SAVE it...only update the data.
+   *
+   * @param {} itemChanged the LaoutItem
+   * @param {*} workspaceChanged the Workspace item
+   */
+  function handleEditChange(itemChanged, workspaceChanged) {
+    setItemSelected(function () {
+      return itemChanged;
+    });
+    setWorkspaceSelected(function () {
+      return workspaceChanged;
+    });
+    // onSaveWorkspace(workspaceChanged);
+    forceUpdate();
+  }
+  function handleSaveConfig() {
+    onSaveWorkspace(workspaceSelected);
+  }
+  return itemSelected !== null && /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-5/6",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-row w-full h-full overflow-hidden",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-col h-full ".concat(theme["bg-secondary-very-dark"], " p-2 px-4 pt-4 space-y-2"),
+            children: [/*#__PURE__*/jsx(ButtonIcon, {
+              icon: "cog",
+              iconSize: "w-6 h-6",
+              onClick: function onClick() {
+                return setConfigMenuItemSelected("edit");
+              },
+              bgColor: configMenuItemSelected === "edit" ? "bg-blue-700" : "bg-blue-900"
+            }), itemSelected["workspace"] !== "layout" && /*#__PURE__*/jsx(ButtonIcon, {
+              icon: "phone",
+              iconSize: "w-6 h-6",
+              onClick: function onClick() {
+                return setConfigMenuItemSelected("handlers");
+              },
+              bgColor: configMenuItemSelected === "handlers" ? "bg-blue-700" : "bg-blue-900"
+            }), /*#__PURE__*/jsx(ButtonIcon, {
+              icon: "code",
+              iconSize: "w-6 h-6",
+              onClick: function onClick() {
+                return setConfigMenuItemSelected("code");
+              },
+              bgColor: configMenuItemSelected === "code" ? "bg-blue-700" : "bg-blue-900"
+            })]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4 ".concat(theme["bg-secondary-dark"]),
+            children: [configMenuItemSelected === "edit" && /*#__PURE__*/jsx(PanelEditItem, {
+              item: itemSelected,
+              onUpdate: handleEditChange,
+              workspace: workspaceSelected
+            }), configMenuItemSelected === "handlers" && /*#__PURE__*/jsx(PanelEditItemHandlers, {
+              item: itemSelected,
+              onUpdate: handleEditChange,
+              workspace: workspaceSelected
+            }), configMenuItemSelected === "code" && /*#__PURE__*/jsx(PanelCode, {
+              item: itemSelected,
+              onUpdate: handleEditChange,
+              workspace: workspaceSelected
+            })]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row justify-end ".concat(theme["bg-primary-very-dark"], " p-4 rounded-br rounded-bl border-t border-gray-800 justify-between items-center"),
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-row font-bold text-xl ".concat(theme["text-secondary-light"], " px-2"),
+            children: itemSelected["component"]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(Button, {
+              title: "Cancel",
+              bgColor: "bg-gray-800",
+              textSize: "text-lg",
+              padding: "py-2 px-4",
+              onClick: function onClick() {
+                return setIsOpen(false);
+              }
+            }), /*#__PURE__*/jsx(Button, {
+              title: "Save Changes",
+              bgColor: "bg-gray-800",
+              hoverBackgroundColor: "hover:bg-green-700",
+              textSize: "text-lg",
+              padding: "py-2 px-4",
+              onClick: handleSaveConfig
+            })]
+          })]
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$u(r, e) { return _arrayWithHoles$u(r) || _iterableToArrayLimit$u(r, e) || _unsupportedIterableToArray$u(r, e) || _nonIterableRest$u(); }
+function _nonIterableRest$u() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$u(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$u(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$u(r, a) : void 0; } }
+function _arrayLikeToArray$u(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$u(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$u(r) { if (Array.isArray(r)) return r; }
+var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
+  var workspace = _ref.workspace,
+    open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    onUpdate = _ref.onUpdate,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useContext = useContext$1(ThemeContext);
+    _useContext.theme;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$u(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$u(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$u(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (item !== itemSelected) {
+      setItemSelected(function () {
+        return item;
+      });
+    }
+    if (workspace !== workspaceSelected) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+    }
+    if (open === false) {
+      setItemSelected(null);
+      setWorkspaceSelected(null);
+    }
+  }, [open, workspace, item]);
+  function handleSaveChanges(itemData) {
+    if (itemData !== null) {
+      onUpdate(itemData);
+      setItemSelected(null);
+      setIsOpen(false);
+    }
+  }
+  function handleUpdate(data) {
+    var workspaceTemp = WorkspaceModel(workspaceSelected);
+    var newLayout = replaceItemInLayout(workspaceTemp.layout, data["id"], data);
+    workspaceTemp.layout = newLayout;
+    setWorkspaceSelected(function () {
+      return workspaceTemp;
+    });
+    setItemSelected(function () {
+      return data;
+    });
+    forceUpdate();
+  }
+  function renderEditContainer() {
+    try {
+      if (itemSelected !== null && workspaceSelected !== null) {
+        var workspaceSelectedTemp = JSON.parse(JSON.stringify(workspaceSelected));
+        if (itemSelected.parentWorkspace !== undefined && itemSelected.parentWorkspace !== null) {
+          // let's make a custom layout with the parent workspace and the itemSelected
+          // need the workspace for the functionality...
+          var parentWorkspaceTemp = JSON.parse(JSON.stringify(item.parentWorkspace));
+          var layout = JSON.parse(JSON.stringify(workspaceSelectedTemp["layout"]));
+          var itemTemp = JSON.parse(JSON.stringify(itemSelected));
+
+          // VERY IMPORTANT TO CHECK THE WORKSPACES!!!!
+          // otherwise the workspace will crash as the widget doesnt belong...
+          if (itemSelected["workspace"] === parentWorkspaceTemp["workspace"]) {
+            if (itemSelected.parentWorkspace) {
+              // set the id's to work appropriately.
+              parentWorkspaceTemp["id"] = 1;
+              parentWorkspaceTemp["parent"] = 0;
+              itemTemp["parent"] = 1; //parentWorkspaceTemp['id'];
+              // set the new layout
+              layout = [parentWorkspaceTemp, itemTemp];
+            }
+            return itemSelected.parentWorkspace && _renderLayout({
+              workspaceSelected: workspaceSelected,
+              layout: layout,
+              parentKey: 0,
+              previewMode: true,
+              isDraggable: false
+            });
+          } else {
+            // workspace mismatch!
+            return null;
+          }
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  function getTitle() {
+    try {
+      if (itemSelected.parentWorkspace) {
+        if ("component" in itemSelected.parentWorkspace) {
+          return "".concat(itemSelected.parentWorkspace["component"], ": ").concat(itemSelected["component"]);
+        } else {
+          return itemSelected["component"];
+        }
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+  return itemSelected && /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-5/6 2xl:w-3/4",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col w-full h-full space-y-2 overflow-hidden",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-row text-xl font-bold text-white justify-between",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-row text-xl font-bold text-white p-2 space-x-2 justify-center items-center",
+            children: itemSelected && /*#__PURE__*/jsxs(Fragment, {
+              children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                icon: "folder"
+              }), /*#__PURE__*/jsx("span", {
+                className: "text-xl font-bold text-gray-200",
+                children: getTitle()
+              })]
+            })
+          }), /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "xmark",
+            onClick: function onClick() {
+              return setIsOpen(false);
+            },
+            bgColor: "".concat(getContainerColor(itemSelected["parentWorkspace"]))
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-col w-3/4 min-w-3/4 bg-gray-900 h-full rounded p-2",
+            children: /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col w-full h-full border-2 border-gray-800 rounded space-y-2",
+              children: [/*#__PURE__*/jsx("div", {
+                className: "flex bg-gray-800 p-2 text-xs text-gray-300 rounded-br uppercase font-bold",
+                children: "Preview"
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-col p-2",
+                children: itemSelected !== null && workspaceSelected !== null && renderEditContainer()
+              })]
+            })
+          }), itemSelected && /*#__PURE__*/jsx("div", {
+            className: "flex flex-col w-1/4",
+            children: /*#__PURE__*/jsx(WidgetConfigPanel, {
+              item: itemSelected,
+              onChange: handleUpdate,
+              onSave: handleSaveChanges,
+              disabled: itemSelected === null,
+              workspace: workspaceSelected,
+              parentWorkspace: itemSelected.parentWorkspace
+            })
+          })]
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$t(r, e) { return _arrayWithHoles$t(r) || _iterableToArrayLimit$t(r, e) || _unsupportedIterableToArray$t(r, e) || _nonIterableRest$t(); }
+function _nonIterableRest$t() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$t(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$t(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$t(r, a) : void 0; } }
+function _arrayLikeToArray$t(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$t(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$t(r) { if (Array.isArray(r)) return r; }
+var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
+  var workspace = _ref.workspace,
+    open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    onSave = _ref.onSave,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$t(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  var _useState3 = useState(workspace),
+    _useState4 = _slicedToArray$t(_useState3, 2),
+    workspaceSelected = _useState4[0],
+    setWorkspaceSelected = _useState4[1];
+  var _useState5 = useState({}),
+    _useState6 = _slicedToArray$t(_useState5, 2),
+    componentsSelected = _useState6[0];
+    _useState6[1];
+  // const [eventSelected, setEventSelected] = useState(null);
+  var _useState7 = useState({}),
+    _useState8 = _slicedToArray$t(_useState7, 2),
+    eventsSelected = _useState8[0],
+    setEventsSelected = _useState8[1];
+  var _useState9 = useState(null),
+    _useState0 = _slicedToArray$t(_useState9, 2),
+    eventHandlerSelected = _useState0[0],
+    setEventHandlerSelected = _useState0[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$t(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (open === true && workspaceSelected === null && workspaceSelected !== workspace) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+      loadExistingListeners(workspace);
+    }
+    if (item !== itemSelected) {
+      setItemSelected(function () {
+        return item;
+      });
+      loadExistingListeners(workspace);
+    }
+    if (workspace !== workspaceSelected) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+      loadExistingListeners(workspace);
+    }
+    if (open === false) {
+      setItemSelected(function () {
+        return null;
+      });
+      // setComponentsSelected(() => []);
+      setEventsSelected(function () {});
+      setEventHandlerSelected(function () {
+        return null;
+      });
+    }
+    if (Object.keys(componentsSelected).length < 1) {
+      loadExistingListeners(workspace);
+    }
+  }, [open, workspace, item]);
+  function loadExistingListeners(ws) {
+    if (ws !== null) {
+      var existingListeners = {};
+      ws.layout.forEach(function (layoutItem) {
+        if ("listeners" in layoutItem) {
+          Object.keys(layoutItem["listeners"]).forEach(function (key) {
+            var events = layoutItem["listeners"][key];
+            existingListeners[key] = events;
+          });
+        }
+      });
+      setEventsSelected(function () {
+        return existingListeners;
+      });
+
+      // let's select one for the user
+      if (Object.keys(existingListeners).length > 0) {
+        setEventHandlerSelected(function () {
+          return Object.keys(existingListeners)[0];
+        });
+      }
+      forceUpdate();
+    }
+  }
+
+  // function loadExistingListenersForComponent(ws) {
+  //     if (ws !== null) {
+  //         const existingListeners = {};
+  //         ws.layout.forEach(layoutItem => {
+  //             existingListeners[layoutItem['id']] = layoutItem['listeners'];
+  //         });
+  //         console.log('EXISTING LISTENERS ', existingListeners);
+  //         setComponentsSelected(() => existingListeners);
+  //         forceUpdate();
+  //     }
+  // }
+
+  // function handleSelectWorkspaceItem(workspaceItem) {
+  //     setItemSelected(() => workspaceItem);
+  //     forceUpdate();
+  // }
+
+  // function handleToggleSelectItem(selectedItem, event, eventString) {
+  //     const selected = componentsSelected;
+  //     if (selectedItem && event && itemSelected) {
+  //         if (itemSelected['id'] in selected === false) {
+  //             selected[`${itemSelected['id']}`] = [];
+  //         }
+  //         // add the event "string" to the listeners for the id of the item selected
+  //         selected[`${itemSelected['id']}`].push(eventString);
+  //         selected[`${itemSelected['id']}`].filter((value, index, array) => array.indexOf(value) === index);
+
+  //         // let's set the current event selected so that we can tie this to the handler
+  //         // when the user chooses that as well...
+  //         const payload = { event, eventString };
+  //         setEventSelected(() => payload);
+
+  //         // now update the component selections
+  //         setComponentsSelected(() => selected);
+  //         handleUpdate();
+  //     }
+  // }
+
+  function handleSelectEvent(eventString) {
+    try {
+      if (eventsSelected) {
+        // check if we have the hander "key" in the events object
+        var tempEvents = [];
+        var tempEventsSelected = deepCopy(eventsSelected);
+        if (eventHandlerSelected in tempEventsSelected) {
+          tempEvents = tempEventsSelected[eventHandlerSelected];
+        }
+        tempEvents.push(eventString);
+        var uniqueEventsSelected = tempEvents.filter(function (value, index, array) {
+          return array.indexOf(value) === index;
+        }); // remove any possible duplicates;
+        tempEventsSelected[eventHandlerSelected] = uniqueEventsSelected;
+        setEventsSelected(function () {
+          return tempEventsSelected;
+        });
+      }
+    } catch (e) {
+    }
+  }
+  function handleRemoveEvent(eventString) {
+    var eventsSelectedTemp = eventsSelected[eventHandlerSelected].filter(function (event) {
+      return event !== eventString;
+    });
+    setEventsSelected(function () {
+      return eventsSelectedTemp;
+    });
+  }
+  function handleSelectEventHandler(handler) {
+    setEventHandlerSelected(function () {
+      return handler;
+    });
+  }
+  function handleRemoveEventHandler(handler) {
+    setEventHandlerSelected(function () {
+      return null;
+    });
+    setEventsSelected(function () {});
+  }
+  function getLayoutItemById(id) {
+    if (workspaceSelected !== null) {
+      var layoutItems = workspaceSelected.layout.filter(function (layoutItem) {
+        return layoutItem["id"] === parseInt(id, 10);
+      });
+      if (layoutItems.length > 0) {
+        return layoutItems[0];
+      }
+    }
+    return null;
+  }
+
+  // function replaceLayoutItemInWorkspace(layoutItem, tempWorkspace) {
+  //     if (tempWorkspace !== null && workspaceSelected !== null) {
+  //         tempWorkspace.layout.forEach((li, index) => {
+  //             if (li['id'] === layoutItem['id']) {
+  //                 console.log('replacing item', layoutItem['listeners']);
+  //                 //tempWorkspace.layout[index] = layoutItem;
+  //                 li['listeners'] = layoutItem['listeners'];
+  //             }
+  //         });
+  //         return tempWorkspace;
+  //     }
+  // }
+
+  function handleSaveChanges(itemData) {
+    try {
+      if (workspaceSelected !== null) {
+        var tempWorkspace = deepCopy(workspaceSelected);
+
+        // craft the event handler + listeners
+        // and add to the layout item
+        var layoutItem = getLayoutItemById(itemSelected["id"]);
+
+        // now lets add to it...
+        layoutItem["listeners"] = eventsSelected;
+        tempWorkspace["layout"] = replaceItemInLayout(tempWorkspace.layout, layoutItem["id"], layoutItem);
+
+        // save the new workspace
+        onSave(tempWorkspace);
+
+        // reset the component
+        setItemSelected(function () {
+          return null;
+        });
+        setWorkspaceSelected(function () {
+          return null;
+        });
+        setEventsSelected(function () {});
+        setEventHandlerSelected(function () {
+          return null;
+        });
+        setIsOpen(false);
+      }
+    } catch (e) {
+    }
+  }
+
+  // function handleUpdate() {
+  //     if (workspaceSelected !== null) {
+  //         const tempWorkspace = deepCopy(workspaceSelected);
+  //         Object.keys(componentsSelected).map(key => {
+  //             // the item doing the listening...
+  //             const layoutItem = getLayoutItemById(key); // source item
+  //             if (layoutItem !== null) {
+  //                 const listnersForItem = componentsSelected[layoutItem['id']];
+  //                 layoutItem['listeners'] = listnersForItem;
+  //                 replaceLayoutItemInWorkspace(layoutItem, tempWorkspace);
+  //             }
+  //         });
+  //         // set the new workspace
+  //         setWorkspaceSelected(() => tempWorkspace);
+  //         forceUpdate();
+  //     }
+  // }
+
+  // function getTitle() {
+  //     try {
+  //         if (itemSelected.parentWorkspace) {
+  //             if ('component' in itemSelected.parentWorkspace) {
+  //                 return <span className="flex flex-row">{itemSelected['component']}</span>// in the&nbsp; <span className="flex flex-row underline">{itemSelected['parentWorkspaceName']}</span> &nbsp;workspace</span>;
+  //             } else {
+  //                 return itemSelected['component'];
+  //             }
+  //         }
+  //         return null;
+  //     } catch(e) {
+  //         return null;
+  //     }
+  // }
+
+  /**
+   * isSelected
+   * Check to see if the event for the component is selected
+   *
+   * @param {String} eventString the string containing {component}[{id}].{event}
+   * @returns
+   */
+  // function isSelected(eventString) {
+  //     let selected = false;
+  //     if (itemSelected !== null) {
+  //         // first lets check to see if it is in our components array as "Selected" but pending save.
+  //         if (itemSelected['id'] in componentsSelected) {
+  //             componentsSelected[itemSelected['id']].forEach(event => {
+  //                 if (event === eventString) selected = true;
+  //             });
+  //         }
+  //     }
+  //     return selected;
+  // }
+
+  function isSelectedEvent(event) {
+    try {
+      if (eventsSelected !== null && eventHandlerSelected) {
+        return eventsSelected[eventHandlerSelected].includes(event);
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+  function renderAvailableEvents() {
+    if (workspaceSelected !== null) {
+      return workspaceSelected.layout.filter(function (l) {
+        return l["component"] !== "Container" && l["component"] !== "LayoutContainer";
+      }).filter(function (e) {
+        return e.events.length > 0;
+      }).filter(function (li) {
+        return li["component"] !== itemSelected["component"];
+      }).map(function (layout) {
+        return /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col text-base font-bold text-gray-400 p-2",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
+            children: /*#__PURE__*/jsxs("span", {
+              className: "text-lg",
+              children: [layout["component"], "\xA0[", layout["id"], "]"]
+            })
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col space-y-1 py-1",
+            children: layout.events.filter(function (value, index, array) {
+              return array.indexOf(value) === index;
+            }) // remove any possible duplicates
+            .map(function (event) {
+              var eventString = "".concat(layout["component"], "[").concat(layout["id"], "].").concat(event);
+              var selected = isSelectedEvent(eventString);
+              return /*#__PURE__*/jsxs("div", {
+                onClick: function onClick() {
+                  return selected === true ? handleRemoveEvent(eventString) : handleSelectEvent(eventString);
+                },
+                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true ? "bg-blue-800" : "", " "),
+                children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                  icon: "square-check",
+                  className: "".concat(selected === true ? "text-blue-500" : "text-gray-700", " text-xl")
+                }), /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col",
+                  children: /*#__PURE__*/jsx("span", {
+                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
+                    children: event
+                  })
+                })]
+              });
+            })
+          })]
+        });
+      });
+    }
+  }
+  function renderAvailableHandlers() {
+    if (workspaceSelected !== null) {
+      return workspaceSelected.layout.filter(function (li) {
+        return li["id"] === itemSelected["id"];
+      }).map(function (layout) {
+        return /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col text-base font-bold text-gray-400 p-2",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-row border-b border-indigo-800 p-2 space-x-2 justify-between mb-4",
+            children: /*#__PURE__*/jsxs("span", {
+              className: "text-lg",
+              children: [layout["component"], "\xA0[", layout["id"], "]"]
+            })
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col space-y-1 py-1",
+            children: layout.eventHandlers.filter(function (value, index, array) {
+              return array.indexOf(value) === index;
+            }) // remove any possible duplicates
+            .map(function (handler) {
+              var selected = eventHandlerSelected !== null ? eventHandlerSelected === handler : false; //isHandlerSelected(handler);
+              return /*#__PURE__*/jsx("div", {
+                onClick: function onClick() {
+                  return selected ? handleRemoveEventHandler() : handleSelectEventHandler(handler);
+                },
+                className: "flex flex-row ".concat(selected === false && "hover:bg-gray-800", " rounded cursor-pointer p-2 font-bold items-center space-x-2 ").concat(selected === true && "bg-indigo-700"),
+                children: /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col px-2",
+                  children: /*#__PURE__*/jsx("span", {
+                    className: "text-base hover:text-gray-300 ".concat(selected === true ? "text-gray-300" : "text-gray-400"),
+                    children: handler
+                  })
+                })
+              });
+            })
+          })]
+        });
+      });
+    }
+  }
+  return itemSelected !== null && /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-5/6 2xl:w-3/4",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-full h-full  overflow-hidden bg-blue-800",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col w-full h-full overflow-hidden",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-6",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3",
+              children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
+                className: "flex flex-col border border-blue-800 rounded p-4 py-10 space-y-4",
+                children: [/*#__PURE__*/jsx("p", {
+                  className: "text-5xl font-bold text-gray-200",
+                  children: "Listen Up."
+                }), /*#__PURE__*/jsx("p", {
+                  className: "text-xl font-normal text-gray-300",
+                  children: "Widgets and Workspaces can talk, but we have to setup the phone wires."
+                }), /*#__PURE__*/jsx("p", {
+                  className: "text-xl font-normal text-gray-300",
+                  children: "Select the method to handle the message first, then select the message it will handle."
+                })]
+              })
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col bg-gray-900 h-full rounded w-1/3",
+              children: [/*#__PURE__*/jsxs("span", {
+                className: "uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4",
+                children: ["Available Handlers", " "]
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-col h-full overflow-y-scroll p-4",
+                children: renderAvailableHandlers()
+              })]
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col bg-gray-900 h-full rounded w-1/3",
+              children: [/*#__PURE__*/jsxs("span", {
+                className: "uppercase text-xs text-gray-400 font-bold p-2 bg-gray-800 rounded-t px-4",
+                children: ["Available Events", " "]
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-col h-full overflow-y-scroll p-4",
+                children: eventHandlerSelected && renderAvailableEvents()
+              })]
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800",
+            children: /*#__PURE__*/jsxs("div", {
+              className: "flex flex-row space-x-2",
+              children: [/*#__PURE__*/jsx(Button, {
+                title: "Cancel",
+                bgColor: "bg-gray-800",
+                textSize: "text-lg",
+                padding: "py-2 px-4",
+                onClick: function onClick() {
+                  return setIsOpen(false);
+                }
+              }), /*#__PURE__*/jsx(Button, {
+                title: "Save Changes",
+                bgColor: "bg-gray-800",
+                hoverBackgroundColor: "hover:bg-green-700",
+                textSize: "text-lg",
+                padding: "py-2 px-4",
+                onClick: handleSaveChanges
+              })]
+            })
+          })]
+        })
+      })
+    })
+  });
+};
+
+function _slicedToArray$s(r, e) { return _arrayWithHoles$s(r) || _iterableToArrayLimit$s(r, e) || _unsupportedIterableToArray$s(r, e) || _nonIterableRest$s(); }
+function _nonIterableRest$s() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$s(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$s(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$s(r, a) : void 0; } }
+function _arrayLikeToArray$s(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$s(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$s(r) { if (Array.isArray(r)) return r; }
+var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
+  var _ref$onSave = _ref.onSave,
+    onSave = _ref$onSave === void 0 ? null : _ref$onSave,
+    onChange = _ref.onChange,
+    _ref$item = _ref.item,
+    item = _ref$item === void 0 ? null : _ref$item,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
+    _ref.context;
+  var _useState = useState(item),
+    _useState2 = _slicedToArray$s(_useState, 2),
+    itemSelected = _useState2[0],
+    setItemSelected = _useState2[1];
+  useEffect(function () {
+    if (item !== itemSelected) {
+      setItemSelected(function () {
+        return item;
+      });
+    }
+  }, [item]);
+  function handleSaveChanges() {
+    // setItemSelected(null);
+    onSave && onSave(itemSelected);
+    // setItemSelected(null);
+  }
+  function generateFractions() {
+    var numerators = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var denominators = [2, 3, 4, 5, 6, 12];
+    var fractions = [];
+    return numerators.map(function (v) {
+      return denominators.map(function (vv) {
+        var fraction = v / vv;
+        if (v % vv > 0 && v < vv && fractions.indexOf(fraction) < 0) {
+          fractions.push(fraction);
+          return /*#__PURE__*/jsxs("option", {
+            value: "w-".concat(v, "/").concat(vv, " min-w-").concat(v, "/").concat(vv),
+            children: [v, "/", vv]
+          }, "".concat(v, "-").concat(vv));
+        } else {
+          return null;
+        }
+      }).filter(function (p) {
+        return p !== null;
+      });
+    });
+  }
+  function generateHeightFractions() {
+    // get the fraction variants for height
+    var fractions = tailwindHeightFractions();
+    return fractions.map(function (fractionObject) {
+      return /*#__PURE__*/jsx("option", {
+        name: fractionObject.name,
+        value: fractionObject.value,
+        children: fractionObject.fraction
+      });
+    });
+  }
+  function handleUpdate(e) {
+    try {
+      var newItem = JSON.parse(JSON.stringify(itemSelected));
+      var _e$target = e.target,
+        name = _e$target.name,
+        value = _e$target.value;
+      newItem[name] = value;
+      if (value === "false") newItem[name] = false;
+      if (value === "true") newItem[name] = true;
+      setItemSelected(function () {
+        return newItem;
+      });
+      onChange(e, newItem);
+    } catch (e) {
+    }
+  }
+  function handleTextChangeCustom(e, config) {
+    var newItem = JSON.parse(JSON.stringify(itemSelected));
+    if ("userPrefs" in itemSelected === false) {
+      newItem["userPrefs"] = {};
+    }
+    newItem["userPrefs"][e.target.name] = e.target.value;
+    //setItemSelected(() => newItem);
+    onChange(e, newItem);
+  }
+
+  /**
+   * renderCustomSettings
+   * This will use the userConfig key in the Component.dash.js file to render the inputs to the end user
+   * The Developer can specify the options in the userConfig that are then translated to inputs
+   *
+   * @returns
+   */
+  function renderCustomSettings() {
+    if (itemSelected) {
+      if ("userConfig" in itemSelected) {
+        var userConfig = itemSelected["userConfig"];
+        return Object.keys(userConfig).map(function (key) {
+          // depending on the type...
+          var configItem = userConfig[key];
+          var instructions = configItem.instructions,
+            displayName = configItem.displayName,
+            required = configItem.required;
+            configItem.type;
+
+          // get the user prefs for the key
+          var userPrefs = itemSelected.userPrefs;
+          return renderFormItem(displayName, key, instructions, required, userPrefs[key], handleTextChangeCustom, configItem);
+        });
+      }
+    }
+    return null;
+  }
+  function renderFormItem(displayName, key, instructions, required, value, _onChange, configItem) {
+    return /*#__PURE__*/jsxs("div", {
+      className: "rounded flex flex-col p-2 space-y-1",
+      children: [/*#__PURE__*/jsxs("span", {
+        className: "uppercase text-gray-300 font-bold text-sm",
+        children: [displayName, " ", required === true && /*#__PURE__*/jsx("span", {
+          className: "text-red-500",
+          children: "*"
+        })]
+      }), /*#__PURE__*/jsx("div", {
+        className: "text-xs text-gray-400 pb-2",
+        children: instructions
+      }), configItem["type"] === "text" && /*#__PURE__*/jsx(InputText, {
+        type: "text",
+        name: key,
+        value: value,
+        onChange: function onChange(e) {
+          return _onChange(e, configItem);
+        },
+        textSize: "text-base"
+      }), configItem["type"] === "secret" && /*#__PURE__*/jsx(InputText, {
+        type: "password",
+        name: key,
+        value: value,
+        onChange: function onChange(e) {
+          return _onChange(e, configItem);
+        },
+        textSize: "text-base"
+      }), configItem["type"] === "select" && /*#__PURE__*/jsxs(SelectMenu, {
+        name: key,
+        selectedValue: value,
+        onChange: function onChange(e) {
+          return _onChange(e, configItem);
+        },
+        textSize: "text-base",
+        children: ["options" in configItem && configItem.options.map(function (option) {
+          return /*#__PURE__*/jsx("option", {
+            value: option.value,
+            children: option.displayName
+          });
+        }), "optionsValues" in configItem && /*#__PURE__*/jsx("option", {
+          children: configItem["optionsValues"]
+        })]
+      })]
+    }, "config-item-".concat(key));
+  }
+  return itemSelected && /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full",
+    children: [/*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-full h-full overflow-hidden",
+      children: /*#__PURE__*/jsxs(LayoutContainer, {
+        direction: "col",
+        scrollable: true,
+        space: false,
+        grow: true,
+        children: [renderCustomSettings(), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Width", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "The width of your Widget in the Layout."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "width",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.width,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: "",
+              children: "-"
+            }, "width-full"), /*#__PURE__*/jsx("option", {
+              value: "w-full",
+              children: "Full"
+            }, "width-full"), generateFractions()]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Height", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "The height of your Widget in the Layout."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "height",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.height,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: "h-full",
+              children: "Full Height"
+            }, "height-full"), generateHeightFractions(), /*#__PURE__*/jsx("option", {
+              value: "h-fit",
+              children: "Fit Content"
+            }, "height-fit")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Direction", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "The layout direction for the widget content."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "direction",
+            onChange: handleUpdate,
+            selectedValue: itemSelected && itemSelected.direction,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: "col",
+              children: "Vertical"
+            }, "direction-col"), /*#__PURE__*/jsx("option", {
+              value: "row",
+              children: "Horizontal"
+            }, "direction-row")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Scrolling", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "If this widget allows vertical scrolling."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "scrollable",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.scrollable,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: true,
+              children: "Scrollable"
+            }, "scrollable-yes"), /*#__PURE__*/jsx("option", {
+              value: false,
+              children: "Fixed (No Scrolling)"
+            }, "scrollable-no")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Spacing", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "If this item will be space child items evenly."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "space",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.space,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: true,
+              children: "Allow Spacing"
+            }, "space-yes"), /*#__PURE__*/jsx("option", {
+              value: false,
+              children: "No Spacing"
+            }, "space-no")]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "rounded flex flex-col p-2",
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "uppercase text-gray-300 font-bold text-sm",
+            children: ["Grow", " ", /*#__PURE__*/jsx("span", {
+              className: "text-red-500",
+              children: "*"
+            })]
+          }), /*#__PURE__*/jsx("div", {
+            className: "text-xs text-gray-400 pb-2",
+            children: "If this item will grow to fit the space."
+          }), /*#__PURE__*/jsxs(SelectMenu, {
+            name: "grow",
+            onChange: handleUpdate,
+            selectedValue: itemSelected.grow,
+            textSize: "text-base",
+            children: [/*#__PURE__*/jsx("option", {
+              value: true,
+              children: "Allow Growing"
+            }, "grow-yes"), /*#__PURE__*/jsx("option", {
+              value: false,
+              children: "No Growing Allowed"
+            }, "grow-no")]
+          })]
+        })]
+      })
+    }), onSave !== null && /*#__PURE__*/jsx("div", {
+      className: "flex flex-row w-full",
+      children: /*#__PURE__*/jsx(Button, {
+        title: "Save Changes",
+        onClick: handleSaveChanges,
+        block: true,
+        disabled: disabled
+      })
+    })]
+  });
+};
+
+function _slicedToArray$r(r, e) { return _arrayWithHoles$r(r) || _iterableToArrayLimit$r(r, e) || _unsupportedIterableToArray$r(r, e) || _nonIterableRest$r(); }
+function _nonIterableRest$r() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$r(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$r(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$r(r, a) : void 0; } }
+function _arrayLikeToArray$r(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$r(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$r(r) { if (Array.isArray(r)) return r; }
+var LayoutBuilderConfigContainerMenuItem = function LayoutBuilderConfigContainerMenuItem(_ref) {
+  var id = _ref.id,
+    component = _ref.component,
+    onClick = _ref.onClick,
+    onMouseOver = _ref.onMouseOver,
+    item = _ref.item,
+    children = _ref.children;
+  useEffect(function () {
+    // const color = getContainerColor(item['parentWorkspace']);
+  }, [item]);
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$r(_useState, 2),
+    isMouseOver = _useState2[0],
+    setIsMouseOver = _useState2[1];
+  function handleMouseOver(e) {
+    setIsMouseOver(true);
+    onMouseOver(e);
+  }
+  function handleMouseOut(e) {
+    setIsMouseOver(false);
+  }
+  function handleClick(e) {
+    onClick(item);
+  }
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col border-dashed border border-indigo-800 rounded p-2 space-y-2",
+    children: [/*#__PURE__*/jsxs("div", {
+      className: "flex flex-row p-2 space-x-2 cursor-pointer ".concat(isMouseOver === true ? "bg-indigo-600" : "", " rounded"),
+      onClick: handleClick,
+      onMouseOver: handleMouseOver,
+      onMouseOut: handleMouseOut,
+      children: [/*#__PURE__*/jsx(Tag, {
+        text: "".concat(id),
+        textSize: "text-xs",
+        color: getContainerColor(item)
+      }), /*#__PURE__*/jsx("span", {
+        className: "text-sm font-medium text-gray-200",
+        children: component
+      })]
+    }), children]
+  });
+};
+
+function _slicedToArray$q(r, e) { return _arrayWithHoles$q(r) || _iterableToArrayLimit$q(r, e) || _unsupportedIterableToArray$q(r, e) || _nonIterableRest$q(); }
+function _nonIterableRest$q() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$q(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$q(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$q(r, a) : void 0; } }
+function _arrayLikeToArray$q(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$q(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$q(r) { if (Array.isArray(r)) return r; }
+var LayoutBuilderConfigMenuItem = function LayoutBuilderConfigMenuItem(_ref) {
+  var id = _ref.id,
+    component = _ref.component,
+    onClick = _ref.onClick,
+    onMouseOver = _ref.onMouseOver,
+    item = _ref.item;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$q(_useState, 2),
+    isMouseOver = _useState2[0],
+    setIsMouseOver = _useState2[1];
+  function handleMouseOver(e) {
+    setIsMouseOver(true);
+    onMouseOver(e);
+  }
+  function handleMouseOut(e) {
+    setIsMouseOver(false);
+  }
+  function handleClick(e) {
+    onClick(item);
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full border border-gray-900 space-x-2 p-2 cursor-pointer justify-between items-center ".concat(isMouseOver === true ? "bg-green-600" : "", " rounded"),
+    onClick: handleClick,
+    onMouseOver: handleMouseOver,
+    onMouseOut: handleMouseOut,
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row space-x-2",
+      children: [/*#__PURE__*/jsx(Tag, {
+        textSize: "text-xs",
+        text: "".concat(id),
+        color: getContainerColor(item["parentWorkspace"])
+      }), /*#__PURE__*/jsx("span", {
+        className: "text-sm font-medium ".concat(isMouseOver === true ? "text-gray-200" : "text-gray-200"),
+        children: component
+      })]
+    })
+  });
+};
+
+function classNames$1() {
+  for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
+    classes[_key] = arguments[_key];
+  }
+  return classes.filter(Boolean).join(" ");
+}
+var LayoutQuickAddMenu = function LayoutQuickAddMenu(_ref) {
+  var _ref$onClickItem = _ref.onClickItem,
+    onClickItem = _ref$onClickItem === void 0 ? undefined : _ref$onClickItem;
+    _ref.className;
+    var item = _ref.item;
+    _ref.workspace;
+  var workspacesForWorkspace = getWorkspacesForWorkspace(item);
+  var widgetsForWorkspace = getWidgetsForWorkspace(item);
+  return /*#__PURE__*/jsxs(Menu$1, {
+    as: "div",
+    className: "fixed inline-block text-left z-50",
+    children: [/*#__PURE__*/jsx("div", {
+      children: /*#__PURE__*/jsxs(Menu$1.Button, {
+        className: "flex items-center rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-none",
+        children: [/*#__PURE__*/jsx("span", {
+          className: "sr-only",
+          children: "Open options"
+        }), /*#__PURE__*/jsx(EllipsisVerticalIcon, {
+          className: "h-5 w-5",
+          "aria-hidden": "true"
+        })]
+      })
+    }), /*#__PURE__*/jsx(Transition, {
+      as: Fragment,
+      enter: "transition ease-out duration-100",
+      enterFrom: "transform opacity-0 scale-95",
+      enterTo: "transform opacity-100 scale-100",
+      leave: "transition ease-in duration-75",
+      leaveFrom: "transform opacity-100 scale-100",
+      leaveTo: "transform opacity-0 scale-95",
+      children: /*#__PURE__*/jsx(Menu$1.Items, {
+        className: "fixed right-0 z-50 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "py-1 z-50",
+          children: [workspacesForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
+            className: "px-4 py-3",
+            children: /*#__PURE__*/jsx("p", {
+              className: "text-sm text-gray-400",
+              children: "Layout/Function"
+            })
+          }), workspacesForWorkspace.map(function (w) {
+            return /*#__PURE__*/jsx(Menu$1.Item, {
+              onClick: function onClick() {
+                return onClickItem(w);
+              },
+              children: function children(_ref2) {
+                var active = _ref2.active;
+                return /*#__PURE__*/jsxs("span", {
+                  className: classNames$1(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2 z-50"),
+                  children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                    icon: "square"
+                  }), /*#__PURE__*/jsx("span", {
+                    children: w.name
+                  })]
+                });
+              }
+            });
+          }), widgetsForWorkspace.length > 0 && /*#__PURE__*/jsx("div", {
+            className: "px-4 py-3 z-50",
+            children: /*#__PURE__*/jsx("p", {
+              className: "text-sm text-gray-400",
+              children: "Widgets"
+            })
+          }), widgetsForWorkspace.map(function (c) {
+            return /*#__PURE__*/jsx(Menu$1.Item, {
+              onClick: function onClick() {
+                return onClickItem(c);
+              },
+              children: function children(_ref3) {
+                var active = _ref3.active;
+                return /*#__PURE__*/jsxs("span", {
+                  className: classNames$1(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-sm space-x-2 z-50"),
+                  children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                    icon: "cog"
+                  }), /*#__PURE__*/jsx("span", {
+                    children: c.name
+                  })]
+                });
+              }
+            });
+          })]
+        })
+      })
+    })]
+  });
+};
+
+function _slicedToArray$p(r, e) { return _arrayWithHoles$p(r) || _iterableToArrayLimit$p(r, e) || _unsupportedIterableToArray$p(r, e) || _nonIterableRest$p(); }
+function _nonIterableRest$p() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$p(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$p(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$p(r, a) : void 0; } }
+function _arrayLikeToArray$p(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$p(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$p(r) { if (Array.isArray(r)) return r; }
+var sampleLayout = [{
+  id: 1,
+  order: 1,
+  direction: "row",
+  width: "w-full",
+  component: "LayoutContainer",
+  hasChildren: 1,
+  scrollable: true,
+  parent: 0
+}];
+var LayoutBuilder = function LayoutBuilder(_ref) {
+  var workspace = _ref.workspace,
+    _ref$preview = _ref.preview,
+    preview = _ref$preview === void 0 ? false : _ref$preview,
+    onTogglePreview = _ref.onTogglePreview,
+    _ref$onWorkspaceChang = _ref.onWorkspaceChange,
+    onWorkspaceChange = _ref$onWorkspaceChang === void 0 ? null : _ref$onWorkspaceChang,
+    dashboardId = _ref.dashboardId;
+  var _useContext = useContext$1(AppContext),
+    debugMode = _useContext.debugMode;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$p(_useState, 2);
+    _useState2[0];
+    var setIsConfigOpen = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray$p(_useState3, 2),
+    isWidgetModalOpen = _useState4[0],
+    setIsWidgetModalOpen = _useState4[1];
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray$p(_useState5, 2),
+    isAddWidgetModalOpen = _useState6[0],
+    setIsAddWidgetModalOpen = _useState6[1];
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray$p(_useState7, 2),
+    isEventModalOpen = _useState8[0],
+    setIsEventModalOpen = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray$p(_useState9, 2),
+    isConfigModalOpen = _useState0[0],
+    setIsConfigModalOpen = _useState0[1];
+  var _useState1 = useState(null),
+    _useState10 = _slicedToArray$p(_useState1, 2),
+    itemSelected = _useState10[0],
+    setItemSelected = _useState10[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$p(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  var _useState11 = useState(workspace),
+    _useState12 = _slicedToArray$p(_useState11, 2),
+    currentWorkspace = _useState12[0],
+    setCurrentWorkspace = _useState12[1];
+  var _useState13 = useState(null),
+    _useState14 = _slicedToArray$p(_useState13, 2);
+    _useState14[0];
+    var setSelectedItem = _useState14[1];
+  useEffect(function () {
+    // IMPORTANT DO NOT REMOVE!!!!
+    // We have to check the diff in the layout and set
+    // We also have to "reset" the layout upon a new layout...
+    // console.log(
+    //     "layout builder workspace change ",
+    //     workspace["version"],
+    //     currentWorkspace["version"],
+    //     workspace,
+    //     currentWorkspace
+    // );
+    // console.log("resetting workspace ", workspace);
+    setCurrentWorkspace(workspace);
+
+    // if (
+    //     currentWorkspace["layout"] !== workspace["layout"] &&
+    //     workspace !== null &&
+    //     currentWorkspace["layout"] !== sampleLayout &&
+    //     currentWorkspace["version"] !== workspace["version"]
+    // ) {
+    //     console.log("resetting workspace ", workspace);
+    //     setCurrentWorkspace(workspace);
+    // }
+
+    if (currentWorkspace["layout"] === null) {
+      setCurrentWorkspace({
+        name: "Workspace " + Date.now(),
+        layout: sampleLayout
+      });
+    }
+  }, [workspace]);
+
+  /**
+   * onClickAdd
+   * From the Widget or Container, clicked plus button to add a widget
+   */
+  function onClickAdd(item) {
+    setItemSelected(item);
+    setIsAddWidgetModalOpen(true);
+    forceUpdate();
+  }
+  function onClickQuickAdd(item, toItem) {
+    handleClickConfirmAdd(item, toItem);
+  }
+  function handleClickConfirmAdd(itemChosen, toItem) {
+    try {
+      var layout = currentWorkspace["layout"];
+      var hasChildren = itemChosen["type"] === "workspace";
+      var newLayout = addItemToItemLayout(layout, toItem["id"], itemChosen, hasChildren);
+      var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+      newWorkspace["layout"] = newLayout;
+      setCurrentWorkspace(newWorkspace);
+      setIsAddWidgetModalOpen(false);
+      forceUpdate();
+    } catch (e) {
+    }
+  }
+  function handleSaveNewWorkspace(newWorkspace) {
+    setCurrentWorkspace(function () {
+      return newWorkspace;
+    });
+    setIsConfigModalOpen(false);
+    onWorkspaceChange(newWorkspace);
+  }
+  function onClickRemove(id) {
+    var layout = currentWorkspace["layout"];
+    var newLayout = removeItemFromLayout(layout, id);
+    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+    newWorkspace["layout"] = newLayout;
+    setCurrentWorkspace(newWorkspace);
+    forceUpdate();
+  }
+  function onDragItem(item) {
+  }
+  function onDropItem(item) {
+    try {
+      // console.log("dropped item ", item);
+
+      var draggedId = item["sourceIndex"];
+      var droppedId = item["dropIndex"];
+      var draggedComponent = getComponentInLayout(draggedId, currentWorkspace["layout"]);
+      var droppedComponent = getComponentInLayout(droppedId, currentWorkspace["layout"]);
+
+      // console.log("FOUND IT IN LAYOUT ", draggedComponent);
+      var isDraggedWidget = isWidget(draggedComponent);
+      var isDroppedWidget = isWidget(droppedComponent);
+      // console.log(
+      //     "RESULT ",
+      //     "widget: ",
+      //     isDraggedWidget,
+      //     "drop widget: ",
+      //     isDroppedWidget,
+      //     "container: ",
+      //     isContainer(droppedComponent),
+      //     "workspace: ",
+      //     isWorkspace(droppedComponent)
+      // );
+
+      // We have to determine if we are allowed to DROP the DRAGGED item
+      // onto the DROPPED ITEM...
+
+      // RULES
+      // 1. IF DRAG item is a widget, and the DROPPED item is a Container...
+      //      the next workspace parent of the DROPPED item MUST match the widget workspace type
+      if (isWidget(draggedComponent) === true && isContainer(droppedComponent) === true) {
+        var parent = getParentWorkspaceForItem(droppedId, currentWorkspace["layout"], draggedComponent["workspace"]);
+        // If there is no parent workspace that matches the dragged item in the chain, (encapsulating)
+        // then we have to return as this child does not belong where the user has dropped the component
+        if (parent === null) return;
+      }
+      //     return;
+      // 2. If DRAG item is a Workspace, and DROPPED item is a Container - OK
+
+      // 2a If DRAG item is a Workspace, and DROPPED item is a Workspace - FAIL
+      if (isWorkspace(draggedComponent) === true && isWorkspace(droppedComponent) === true) return;
+
+      // traverseParentTree(currentWorkspace["layout"], {
+      //     parent: item["dropIndex"],
+      //     current: item["sourceIndex"],
+      // });
+
+      if (currentWorkspace) {
+        var sourceIndex = item.sourceIndex,
+          dropIndex = item.dropIndex;
+        // we have to find the item
+        // then we have to set the parent id to a different id
+        var layout = currentWorkspace["layout"];
+        var newLayout = updateParentForItem(layout, sourceIndex, dropIndex);
+        if (newLayout) {
+          var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+          newWorkspace["layout"] = newLayout;
+          setCurrentWorkspace(function () {
+            return newWorkspace;
+          });
+          forceUpdate();
+        } else {
+          // console.log("failed new layout", newLayout);
+        }
+      } else {
+        // console.log("no current workspace ", currentWorkspace);
+      }
+    } catch (e) {
+    }
+  }
+  function onClickShrink(id, currentWidth) {
+  }
+  function onClickExpand(id, currentWidth) {
+  }
+  function onChangeDirection(id, currentDirection) {
+    var layout = currentWorkspace["layout"];
+    var newLayout = changeDirectionForLayoutItem(layout, id);
+    var newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+    newWorkspace["layout"] = newLayout;
+    setCurrentWorkspace(newWorkspace);
+    forceUpdate();
+  }
+  function onChangeOrder(item, direction) {
+    var currentOrder = parseInt(item["order"], 10);
+    var layout = currentWorkspace["layout"];
+    var nextItem = null;
+    var layoutFiltered = {};
+    Object.keys(layout).filter(function (li) {
+      return layout[li]["parent"] === item["parent"];
+    }).forEach(function (fli) {
+      layoutFiltered[fli] = layout[fli];
+    });
+
+    // Add 1 to the selected item's order, and then loop and find the new order value item and increase
+    if (direction === "up") {
+      // increase current item by 1 (1,2 3 ...2 moves "down" to 1 and 1 to 2)
+      // increase the existing item with this new order (check) by 1
+      nextItem = getNextHighestItemInLayout(layoutFiltered, currentOrder);
+      // item['order'] = nextItem['order'];
+      // nextItem['order'] = currentOrder;
+    }
+    if (direction === "down") {
+      // decrease current item by 1 (1,2 3 ...2 moves "down" to 1 and 1 to 2)
+      // decrease the existing item with this new order (check) by 1
+      nextItem = getNextLowestItemInLayout(layoutFiltered, currentOrder);
+      // item['order'] = nextItem['order'];
+      // nextItem['order'] = currentOrder;
+    }
+
+    // we have to loop through and set the new items...
+
+    // // const newLayout = changeDirectionForLayoutItem(layout, id, currentDirection);
+    var newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
+    if (nextItem) {
+      Object.keys(currentWorkspace.layout).forEach(function (li) {
+        if (currentWorkspace.layout[li]["id"] === nextItem["id"]) {
+          newWorkspace.layout[li]["order"] = currentOrder;
+        }
+        if (newWorkspace.layout[li]["id"] === item["id"]) {
+          newWorkspace.layout[li]["order"] = nextItem["order"];
+        }
+      });
+    }
+
+    // // newWorkspace['layout'] = newLayout;
+    setCurrentWorkspace(function () {
+      return newWorkspace;
+    });
+    forceUpdate();
+  }
+  function handleSaveConfiguration(data) {
+    var newWorkspace = saveItemToWorkspace(data);
+    setCurrentWorkspace(newWorkspace);
+    setIsConfigOpen(false);
+    setIsWidgetModalOpen(false);
+    setSelectedItem(null);
+    forceUpdate();
+    onTogglePreview();
+  }
+  function handleSaveWidgetChanges(data) {
+    var newWorkspace = saveItemToWorkspace(data);
+    setCurrentWorkspace(function () {
+      return newWorkspace;
+    });
+    setItemSelected(function () {
+      return null;
+    });
+    setIsConfigOpen(false);
+    setIsWidgetModalOpen(false);
+    forceUpdate();
+    // onTogglePreview();
+  }
+  function saveItemToWorkspace(data) {
+    var layout = deepCopy(currentWorkspace["layout"]); // JSON.parse(JSON.stringify(currentWorkspace["layout"]));
+    var newLayout = updateLayoutItem(layout, data);
+    var newWorkspace = deepCopy(currentWorkspace); //JSON.parse(JSON.stringify(currentWorkspace));
+    newWorkspace["layout"] = newLayout;
+    return newWorkspace;
+  }
+  function handleClickEditItem(newItem) {
+    delete newItem["api"];
+    delete newItem["componentData"];
+    setItemSelected(function () {
+      return newItem;
+    });
+    // setIsWidgetModalOpen(() => true);
+    setIsConfigModalOpen(function () {
+      return true;
+    });
+    forceUpdate();
+  }
+  function handleClickEvents(d) {
+    setItemSelected(function () {
+      return d;
+    });
+    // setIsEventModalOpen(() => true);
+    setIsConfigModalOpen(true);
+  }
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col w-full h-full overflow-hidden",
+    children: [/*#__PURE__*/jsx("div", {
+      className: "flex flex-row w-full h-full overflow-hidden",
+      children: /*#__PURE__*/jsxs(LayoutContainer, {
+        id: "search-layout-builder",
+        scrollable: !preview,
+        direction: "col",
+        width: "w-full",
+        height: "h-full",
+        grow: true,
+        space: preview,
+        children: [preview === true && /*#__PURE__*/jsx(LayoutDragBuilder, {
+          dashboardId: dashboardId,
+          isDraggable: true,
+          workspace: currentWorkspace,
+          header: currentWorkspace["name"],
+          layout: currentWorkspace["layout"],
+          parentKey: 0,
+          debugMode: debugMode,
+          previewMode: preview,
+          onClickAdd: onClickAdd,
+          onClickQuickAdd: onClickQuickAdd,
+          onClickRemove: onClickRemove,
+          onClickShrink: onClickShrink,
+          onClickExpand: onClickExpand,
+          onChangeDirection: onChangeDirection,
+          onChangeOrder: onChangeOrder,
+          onDropItem: onDropItem,
+          onDragItem: onDragItem,
+          onOpenConfig: handleClickEditItem //{handleClickConfigure}
+          ,
+          onOpenEvents: handleClickEvents,
+          onSaveConfiguration: handleSaveConfiguration
+          // onSaveConfiguration={handleSaveWidgetChanges}
+          ,
+          onClickEdit: onTogglePreview
+        }, "layout-drag-".concat(dashboardId)), preview === false && /*#__PURE__*/jsx(LayoutDragBuilderEdit, {
+          dashboardId: dashboardId,
+          isDraggable: true,
+          workspace: currentWorkspace,
+          header: currentWorkspace["name"],
+          layout: currentWorkspace["layout"],
+          parentKey: 0,
+          debugMode: debugMode,
+          previewMode: preview,
+          onClickAdd: onClickAdd,
+          onClickQuickAdd: onClickQuickAdd,
+          onClickRemove: onClickRemove,
+          onClickShrink: onClickShrink,
+          onClickExpand: onClickExpand,
+          onChangeDirection: onChangeDirection,
+          onChangeOrder: onChangeOrder,
+          onDropItem: onDropItem,
+          onDragItem: onDragItem,
+          onOpenConfig: handleClickEditItem //{handleClickConfigure}
+          ,
+          onOpenEvents: handleClickEvents,
+          onSaveConfiguration: handleSaveConfiguration,
+          onClickEdit: onTogglePreview
+        }, "layout-drag-edit-".concat(dashboardId))]
+      }, "search-layout-builder")
+    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderEditItemModal, {
+      open: isWidgetModalOpen,
+      setIsOpen: setIsWidgetModalOpen,
+      item: itemSelected,
+      onUpdate: handleSaveWidgetChanges,
+      workspace: currentWorkspace
+    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderAddItemModal, {
+      open: isAddWidgetModalOpen,
+      setIsOpen: setIsAddWidgetModalOpen,
+      item: isAddWidgetModalOpen === true ? itemSelected : null,
+      onSaveItem: handleClickConfirmAdd,
+      workspace: isAddWidgetModalOpen === true ? currentWorkspace : null
+    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderEventModal, {
+      open: isEventModalOpen,
+      setIsOpen: setIsEventModalOpen,
+      item: isEventModalOpen === true ? itemSelected : null,
+      onSave: handleSaveNewWorkspace,
+      workspace: isEventModalOpen === true ? currentWorkspace : null
+    }), itemSelected !== null && /*#__PURE__*/jsx(LayoutBuilderConfigModal, {
+      open: isConfigModalOpen,
+      setIsOpen: setIsConfigModalOpen,
+      item: isConfigModalOpen === true ? itemSelected : null,
+      onSaveWorkspace: handleSaveNewWorkspace
+      // onSaveWidgetChanges={handleSaveWidgetChanges}
+      ,
+      workspace: isConfigModalOpen === true ? currentWorkspace : null
+    })]
+  }, "layout-builder");
+};
+
+var LayoutDragBuilder = function LayoutDragBuilder(_ref) {
+  var layout = _ref.layout,
+    dashboardId = _ref.dashboardId,
+    parentKey = _ref.parentKey,
+    debugMode = _ref.debugMode,
+    previewMode = _ref.previewMode,
+    onClickAdd = _ref.onClickAdd,
+    onClickQuickAdd = _ref.onClickQuickAdd,
+    onDropItem = _ref.onDropItem,
+    onClickRemove = _ref.onClickRemove,
+    onClickShrink = _ref.onClickShrink,
+    onClickExpand = _ref.onClickExpand,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onOpenConfig = _ref.onOpenConfig,
+    onOpenEvents = _ref.onOpenEvents,
+    onSaveConfiguration = _ref.onSaveConfiguration,
+    workspace = _ref.workspace,
+    _ref$isDraggable = _ref.isDraggable,
+    isDraggable = _ref$isDraggable === void 0 ? true : _ref$isDraggable;
+  return isDraggable === true ? /*#__PURE__*/jsx(DndProvider, {
+    backend: HTML5Backend,
+    children: _renderLayout({
+      dashboardId: dashboardId,
+      layout: layout,
+      parentKey: parentKey,
+      debugMode: debugMode,
+      previewMode: previewMode,
+      onClickAdd: onClickAdd,
+      onClickQuickAdd: onClickQuickAdd,
+      onClickRemove: onClickRemove,
+      onClickShrink: onClickShrink,
+      onClickExpand: onClickExpand,
+      onChangeDirection: onChangeDirection,
+      onChangeOrder: onChangeOrder,
+      onOpenConfig: onOpenConfig,
+      onOpenEvents: onOpenEvents,
+      onSaveConfiguration: onSaveConfiguration,
+      onDropItem: onDropItem,
+      workspace: workspace
+    })
+  }, "dnd-provider") : _renderLayout({
+    dashboardId: dashboardId,
+    layout: layout,
+    parentKey: parentKey,
+    debugMode: debugMode,
+    previewMode: previewMode,
+    onClickAdd: onClickAdd,
+    onClickQuickAdd: onClickQuickAdd,
+    onClickRemove: onClickRemove,
+    onClickShrink: onClickShrink,
+    onClickExpand: onClickExpand,
+    onChangeDirection: onChangeDirection,
+    onChangeOrder: onChangeOrder,
+    onOpenConfig: onOpenConfig,
+    onOpenEvents: onOpenEvents,
+    onSaveConfiguration: onSaveConfiguration,
+    onDropItem: onDropItem,
+    workspace: workspace
+  });
+};
+
+var LayoutDragBuilderEdit = function LayoutDragBuilderEdit(_ref) {
+  var layout = _ref.layout,
+    dashboardId = _ref.dashboardId,
+    parentKey = _ref.parentKey,
+    debugMode = _ref.debugMode,
+    previewMode = _ref.previewMode,
+    onClickAdd = _ref.onClickAdd,
+    onClickQuickAdd = _ref.onClickQuickAdd,
+    onDropItem = _ref.onDropItem,
+    onDragItem = _ref.onDragItem,
+    onClickRemove = _ref.onClickRemove,
+    onClickShrink = _ref.onClickShrink,
+    onClickExpand = _ref.onClickExpand,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onOpenConfig = _ref.onOpenConfig,
+    onOpenEvents = _ref.onOpenEvents,
+    onSaveConfiguration = _ref.onSaveConfiguration,
+    workspace = _ref.workspace,
+    _ref$isDraggable = _ref.isDraggable,
+    isDraggable = _ref$isDraggable === void 0 ? true : _ref$isDraggable;
+  return isDraggable === true ? /*#__PURE__*/jsx(DndProvider, {
+    backend: HTML5Backend,
+    children: _renderLayout({
+      dashboardId: dashboardId,
+      layout: layout,
+      parentKey: parentKey,
+      debugMode: debugMode,
+      previewMode: previewMode,
+      onClickAdd: onClickAdd,
+      onClickQuickAdd: onClickQuickAdd,
+      onClickRemove: onClickRemove,
+      onClickShrink: onClickShrink,
+      onClickExpand: onClickExpand,
+      onChangeDirection: onChangeDirection,
+      onChangeOrder: onChangeOrder,
+      onOpenConfig: onOpenConfig,
+      onOpenEvents: onOpenEvents,
+      onSaveConfiguration: onSaveConfiguration,
+      onDropItem: onDropItem,
+      onDragItem: onDragItem,
+      workspace: workspace
+    })
+  }, "dnd-provider-edit") : _renderLayout({
+    dashboardId: dashboardId,
+    layout: layout,
+    parentKey: parentKey,
+    debugMode: debugMode,
+    previewMode: previewMode,
+    onClickAdd: onClickAdd,
+    onClickQuickAdd: onClickQuickAdd,
+    onClickRemove: onClickRemove,
+    onClickShrink: onClickShrink,
+    onClickExpand: onClickExpand,
+    onChangeDirection: onChangeDirection,
+    onChangeOrder: onChangeOrder,
+    onOpenConfig: onOpenConfig,
+    onOpenEvents: onOpenEvents,
+    onSaveConfiguration: onSaveConfiguration,
+    onDropItem: onDropItem,
+    onDragItem: onDragItem,
+    workspace: workspace
+  });
+};
+
+function _slicedToArray$o(r, e) { return _arrayWithHoles$o(r) || _iterableToArrayLimit$o(r, e) || _unsupportedIterableToArray$o(r, e) || _nonIterableRest$o(); }
+function _nonIterableRest$o() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$o(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$o(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$o(r, a) : void 0; } }
+function _arrayLikeToArray$o(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$o(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$o(r) { if (Array.isArray(r)) return r; }
+function DragComponent(_ref) {
+  var obj = _ref.obj,
+    id = _ref.id,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "layout-widget" : _ref$type,
+    _ref$parent = _ref.parent,
+    parent = _ref$parent === void 0 ? 0 : _ref$parent,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    children = _ref.children,
+    onDropItem = _ref.onDropItem;
+    _ref.onDragItem;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$o(_useState, 2);
+    _useState2[0];
+    _useState2[1];
+  var _useDrag = useDrag(function () {
+      return {
+        type: type,
+        item: {
+          id: id,
+          type: type,
+          parent: parent,
+          obj: obj
+        },
+        collect: function collect(monitor, props) {
+          // console.log("collect ", monitor.getItem());
+          // alert the parent that we are dragging
+          // onDragItem(monitor.getItem());
+          return {
+            isDragging: monitor.isDragging(),
+            sourceIndex: monitor.sourceIndex,
+            item: monitor.getItem()
+          };
+        },
+        end: function end(item, monitor) {
+          var dropResult = monitor.getDropResult();
+          if (item && dropResult) {
+            // on Drop, we would like to pass this data back to the AlgoliaUIFactory component in the page preview
+            // where we can then freeze the hits and not use the connectedHits, but rather the frozen hits, to reposition
+            // the grid...and then prompt the user to make a rule? (if they unfreeze, it will resume to Algolia search)
+            onDropItem({
+              itemDropped: item,
+              sourceIndex: item.id,
+              dropIndex: dropResult.id,
+              layoutId: dropResult.type,
+              parentIndex: item.parent
+            });
+          }
+        }
+      };
+    }),
+    _useDrag2 = _slicedToArray$o(_useDrag, 3),
+    collected = _useDrag2[0],
+    drag = _useDrag2[1],
+    dragPreview = _useDrag2[2];
+  return collected.isDragging ? /*#__PURE__*/jsx("div", {
+    ref: dragPreview,
+    className: " h-full flex flex-col min-h-fit w-full",
+    children: children
+  }) : /*#__PURE__*/jsx("div", {
+    ref: drag,
+    id: collected.id,
+    type: collected.type,
+    className: "scale-100 flex flex-col ".concat(width, " min-w-xl rounded min-h-fit z-10"),
+    style: {
+      animationDelay: "-.75s",
+      animationDuration: ".25s"
+    },
+    children: children
+  });
+}
+
+/**
+ * LayoutBuilderGridItem
+ * An item without any Children in the editable layout
+ *
+ * @param {*} param0
+ * @returns
+ */
+var LayoutBuilderGridItem = function LayoutBuilderGridItem(_ref) {
+  var item = _ref.item,
+    workspace = _ref.workspace,
+    id = _ref.id,
+    parent = _ref.parent,
+    order = _ref.order,
+    scrollable = _ref.scrollable,
+    _ref$component = _ref.component,
+    component = _ref$component === void 0 ? null : _ref$component,
+    preview = _ref.preview,
+    children = _ref.children,
+    onClickRemove = _ref.onClickRemove,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onOpenConfig = _ref.onOpenConfig,
+    onOpenEvents = _ref.onOpenEvents,
+    onDropItem = _ref.onDropItem,
+    onDragItem = _ref.onDragItem;
+    _ref.width;
+    var direction = _ref.direction,
+    isDraggable = _ref.isDraggable;
+  function handleClickRemove(e) {
+    onClickRemove(id);
+  }
+  function handleChangeDirection() {
+    onChangeDirection(id, direction);
+  }
+  function handleChangeOrder(direction) {
+    onChangeOrder(item, direction);
+  }
+  function handleOpenConfig() {
+    onOpenConfig(item);
+  }
+  function renderArrows() {
+    return preview === false && /*#__PURE__*/jsx("div", {
+      className: "flex ".concat(direction),
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex ".concat(direction, " w-full h-fit min-h-full text-base lg:text-lg cursor-pointer text-gray-200 pb-2"),
+        onClick: handleOpenConfig,
+        children: component
+      })
+    });
+  }
+  function renderUserPreferences() {
+    try {
+      return preview === false && item.hasOwnProperty("userPrefs") && /*#__PURE__*/jsx("div", {
+        className: "flex flex-col h-fit",
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-col w-full text-xs text-gray-200 justify-start p-2",
+          onClick: handleOpenConfig,
+          children: Object.keys(item["userPrefs"]).map(function (userPref) {
+            return /*#__PURE__*/jsx("span", {
+              className: "font-normal",
+              children: "".concat(userPref, ":").concat(item["userPrefs"][userPref])
+            }, "user-pref-".concat(userPref));
+          })
+        })
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+  function renderComponentData() {
+    return component ? renderComponent(component, id, item, null) : null;
+  }
+  function handleDropItem(item) {
+    // we have to shuffle the parent of the source item to the drop item
+    if (onDropItem) {
+      onDropItem(item);
+    }
+  }
+  function handleDragItem(item) {
+    // we have to shuffle the parent of the source item to the drag item
+    if (onDragItem) {
+      onDragItem(item);
+    }
+  }
+  function handleClickEvents() {
+    onOpenEvents(item);
+  }
+  function dragType(item) {
+    if (item["type"] === "workspace" && item["component"] !== "Container" && item["component"] !== "LayoutContainer") {
+      return item["parentWorkspaceName"];
+    }
+    if (item["component"] === "Container" || item["component"] === "LayoutContainer") {
+      return "layout";
+    }
+    return item["parentWorkspaceName"];
+  }
+
+  // function numChildrenForLayout() {
+  //     let num = 0;
+  //     if ('parentWorkspace' in item) {
+  //         if ('layout' in item['parentWorkspace']) {
+  //             num = Object.keys(item['parentWorkspace']['layout']).length;
+  //         }
+  //     }
+  //     return num;
+  // }
+
+  function renderEditView() {
+    var drag = dragType(item);
+    var numChildren = numChildrenForLayout(item, workspace["layout"]);
+
+    // determine the parent layout direction...
+    var parentLayout = getLayoutItemById(workspace["layout"], item["parent"]);
+    var parentDirection = parentLayout ? parentLayout["direction"] : item["parentWorkspace"]["direction"];
+
+    // determine if the item is at the "start/end" of the col/row
+    var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
+    var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
+    return isDraggable === true ? /*#__PURE__*/jsx(DragComponent, {
+      obj: item,
+      id: id,
+      type: drag,
+      parent: parent,
+      onDropItem: handleDropItem,
+      onDragItem: handleDragItem,
+      width: "w-full",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col border-4 ".concat(getContainerBorderColor(item["parentWorkspace"]), " rounded text-xs font-bold text-gray-200 p-2 ").concat(getContainerColor(item["parentWorkspace"])),
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-col ".concat(scrollable, " ").concat(preview === false && "text-blue-900 rounded", " "),
+          onClick: handleOpenConfig,
+          children: [preview === false && renderArrows(), preview === false && renderUserPreferences()]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-row space-x-1 justify-between text-xs w-full",
+          children: /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-1",
+            children: [item.eventHandlers.length > 0 && /*#__PURE__*/jsx(ButtonIcon, {
+              icon: "phone",
+              onClick: handleClickEvents,
+              backgroundColor: getContainerColor(item["parentWorkspace"]),
+              hoverBackgroundColor: "",
+              text: item.eventHandlers.length > 0 ? item.eventHandlers.length : "",
+              textSize: "text-xs"
+            }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
+              theme: false,
+              icon: "".concat(parentDirection === "col" ? "arrow-left" : "arrow-up"),
+              onClick: function onClick() {
+                return handleChangeOrder("down");
+              },
+              backgroundColor: "bg-transparent",
+              hoverBackgroundColor: "hover:bg-blue-700"
+            }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
+              theme: false,
+              icon: "".concat(parentDirection === "col" ? "arrow-right" : "arrow-down"),
+              onClick: function onClick() {
+                return handleChangeOrder("up");
+              },
+              backgroundColor: "bg-transparent",
+              hoverBackgroundColor: "hover:bg-blue-700"
+            }), /*#__PURE__*/jsx(ButtonIcon, {
+              theme: false,
+              icon: "trash",
+              onClick: handleClickRemove,
+              backgroundColor: getContainerColor(item["parentWorkspace"]),
+              hoverBackgroundColor: "hover:bg-red-900"
+            })]
+          })
+        })]
+      })
+    }) : /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col border-4 rounded text-xs font-bold text-gray-200 grow",
+      children: [/*#__PURE__*/jsx("div", {
+        className: "flex flex-row space-x-2 rounded-t justify-between w-full",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "hidden xl:flex flex-row space-x-1 w-full justify-end p-2",
+          children: [numChildren > 1 && /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "".concat(parentDirection === "col" ? "arrows-left-right" : "arrows-up-down"),
+            onClick: handleChangeDirection,
+            backgroundColor: "bg-transparent",
+            hoverBackgroundColor: "hover:bg-blue-700"
+          }), /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "cog",
+            onClick: handleOpenConfig,
+            backgroundColor: "bg-transparent",
+            hoverBackgroundColor: "hover:bg-blue-700"
+          }), /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "trash",
+            onClick: handleClickRemove,
+            backgroundColor: "bg-transparent",
+            hoverBackgroundColor: "hover:bg-red-900"
+          })]
+        })
+      }), /*#__PURE__*/jsx("div", {
+        className: "flex ".concat(direction, " ").concat(scrollable, " text-lg ").concat(preview === false && "text-blue-900 rounded m-2"),
+        children: preview === false && renderUserPreferences()
+      }), /*#__PURE__*/jsx("div", {
+        className: "flex flex-row space-x-1 w-full justify-between text-xs",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-1",
+          children: [item.eventHandlers.length > 0 && /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "phone",
+            onClick: handleClickEvents,
+            bgColor: getContainerColor(item["parentWorkspace"]),
+            hoverBackgroundColor: "hover:bg-gray-900",
+            text: item.eventHandlers.length > 0 ? item.eventHandlers.length : "",
+            textSize: "text-xs"
+          }), /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "trash",
+            onClick: handleClickRemove,
+            backgroundColor: getContainerColor(item["parentWorkspace"]),
+            hoverBackgroundColor: "hover:bg-red-900"
+          }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "".concat(parentDirection === "col" ? "arrow-left" : "arrow-up"),
+            onClick: function onClick() {
+              return handleChangeOrder("down");
+            },
+            backgroundColor: "bg-transparent",
+            hoverBackgroundColor: "hover:bg-blue-700"
+          }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "".concat(parentDirection === "col" ? "arrow-right" : "arrow-down"),
+            onClick: function onClick() {
+              return handleChangeOrder("up");
+            },
+            backgroundColor: "bg-transparent",
+            hoverBackgroundColor: "hover:bg-blue-700"
+          })]
+        })
+      })]
+    });
+  }
+  return children ? children : preview === false ? renderEditView() : renderComponentData();
+};
+
+function _slicedToArray$n(r, e) { return _arrayWithHoles$n(r) || _iterableToArrayLimit$n(r, e) || _unsupportedIterableToArray$n(r, e) || _nonIterableRest$n(); }
+function _nonIterableRest$n() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$n(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$n(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$n(r, a) : void 0; } }
+function _arrayLikeToArray$n(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$n(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$n(r) { if (Array.isArray(r)) return r; }
+function DropComponent(_ref) {
+  var item = _ref.item,
+    id = _ref.id,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "layout-widget" : _ref$type,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children;
+    _ref.onDropItem;
+    var width = _ref.width;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$n(_useState, 2);
+    _useState2[0];
+    var setHasDropped = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray$n(_useState3, 2);
+    _useState4[0];
+    var setHasDroppedOnChild = _useState4[1];
+  var _useDrop = useDrop({
+      accept: type,
+      drop: function drop(_item, monitor) {
+        var didDrop = monitor.didDrop();
+        if (didDrop) {
+          return;
+        }
+        setHasDropped(true);
+        setHasDroppedOnChild(didDrop);
+        return {
+          id: id,
+          type: type,
+          dropIndex: id,
+          obj: item
+        };
+      },
+      // the id and the type AGAIN of the item for dropping
+      canDrop: function canDrop(obj) {
+        return obj.id !== 1 && item.canHaveChildren === true;
+      },
+      // this will cause the elements that are droppable to be styles (if we choose!)
+
+      collect: function collect(monitor) {
+        // console.log(monitor);
+        return {
+          isOver: monitor.isOver(),
+          // canDrop: monitor.canDrop(),
+          isDragging: monitor.isDragging,
+          isOverCurrent: monitor.isOver({
+            shallow: true
+          })
+        };
+      }
+    }, [setHasDropped, setHasDroppedOnChild]),
+    _useDrop2 = _slicedToArray$n(_useDrop, 2),
+    _useDrop2$ = _useDrop2[0],
+    isOver = _useDrop2$.isOver,
+    isOverCurrent = _useDrop2$.isOverCurrent,
+    canDrop = _useDrop2$.canDrop,
+    drop = _useDrop2[1];
+  return /*#__PURE__*/jsxs("div", {
+    ref: drop,
+    id: id,
+    className: "drop-component relative cursor-pointer rounded min-w-lg ".concat(width, " ").concat(isOverCurrent ? "opacity-50 border-2 border-yellow-500" : "opacity-100 border-2 border-none", " "),
+    children: [children, canDrop === true && isOverCurrent === true && isOver === true && /*#__PURE__*/jsx("div", {
+      className: "absolute inset-0 flex justify-center items-center z-10 bg-green-600 w-full h-full rounded opacity-100",
+      children: /*#__PURE__*/jsx("p", {
+        className: "text-2xl font-bold",
+        children: "Drop Me"
+      })
+    })]
+  });
+}
+
+var _excluded$B = ["layoutItem", "workspace", "direction", "order", "parent", "onClickAdd", "onChangeDirection", "onChangeOrder", "onRemove", "onOpenConfig"];
+function _objectWithoutProperties$B(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$B(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$B(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var LayoutItemEditHeader = function LayoutItemEditHeader(_ref) {
+  var layoutItem = _ref.layoutItem,
+    workspace = _ref.workspace,
+    direction = _ref.direction,
+    order = _ref.order,
+    parent = _ref.parent,
+    onClickAdd = _ref.onClickAdd,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onRemove = _ref.onRemove,
+    onOpenConfig = _ref.onOpenConfig;
+    _objectWithoutProperties$B(_ref, _excluded$B);
+  function renderEditFooter(item) {
+    var config = ComponentManager.config(item["component"], item);
+    var canHaveChildren = config ? config["canHaveChildren"] : false;
+    var numChildren = numChildrenForLayout(item, workspace["layout"]);
+
+    // determine the parent layout direction...
+    var parentLayout = getLayoutItemById(workspace["layout"], item["parent"]);
+    var parentDirection = parentLayout ? parentLayout["direction"] : item["parentWorkspace"]["direction"];
+
+    // determine if the item is at the "start/end" of the col/row
+    var isMaxOrder = isMaxOrderForItem(workspace["layout"], item, item["parent"]);
+    var isMinOrder = isMinOrderForItem(workspace["layout"], item, item["parent"]);
+    var isContainer = item["component"] === "Container";
+    var textColor = isContainer === true ? "text-gray-700" : "text-gray-300";
+
+    //console.log("HEADER ", isContainer, textColor, item);
+
+    return /*#__PURE__*/jsx("div", {
+      className: "flex flex-row space-x-1 justify-between w-full pb-1",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-1 ".concat(textColor),
+        children: [canHaveChildren === true && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "plus",
+          onClick: onClickAdd,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-green-700",
+          className: "".concat(textColor)
+        }), /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "".concat(direction === "col" ? "arrows-left-right" : "arrows-up-down"),
+          onClick: onChangeDirection,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700",
+          className: "".concat(textColor)
+        }), /*#__PURE__*/jsx(ButtonIcon3, {
+          className: "".concat(textColor),
+          icon: "cog",
+          onClick: onOpenConfig,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700"
+        }), order > 1 && numChildren > 1 && isMinOrder === false && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "".concat(parentDirection === "col" ? "arrow-up" : "arrow-left"),
+          iconSize: "h-3 w-3",
+          onClick: function onClick() {
+            return onChangeOrder("down");
+          },
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700",
+          className: "".concat(textColor)
+        }), order > 1 && numChildren > 1 && isMaxOrder === false && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "".concat(parentDirection === "col" ? "arrow-down" : "arrow-right"),
+          iconSize: "h-3 w-3",
+          onClick: function onClick() {
+            return onChangeOrder("up");
+          },
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-blue-700",
+          className: "".concat(textColor)
+        }), parent > 0 && /*#__PURE__*/jsx(ButtonIcon3, {
+          icon: "trash",
+          iconSize: "h-3 w-3",
+          onClick: onRemove,
+          backgroundColor: "bg-transparent",
+          hoverBackgroundColor: "hover:bg-red-900",
+          className: "".concat(textColor)
+        })]
+      })
+    });
+  }
+  function renderEditHeader(item) {
+    return item["workspace"] !== "layout" ? /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row px-2 space-x-1 text-sm font-bold ".concat(getContainerColor(item), " text-gray-300 w-full justify-between items-center"),
+      children: [/*#__PURE__*/jsx("span", {
+        className: "text-xs font-medium",
+        children: "".concat(item["component"])
+      }), /*#__PURE__*/jsx("div", {
+        id: "quick-add-menu",
+        className: "flex flex-row",
+        children: renderEditFooter(layoutItem)
+      })]
+    }) : /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row space-x-1 px-2 text-xs ".concat(getContainerColor(item), " text-gray-300 font-medium w-full justify-between items-center z-10"),
+      children: [/*#__PURE__*/jsx("span", {
+        className: "text-xs font-medium text-gray-500",
+        children: "".concat(item["component"])
+      }), /*#__PURE__*/jsx("div", {
+        id: "quick-add-menu",
+        className: "flex flex-row justify-end py-1 px-1",
+        children: renderEditFooter(layoutItem)
+      })]
+    });
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full justify-end z-10 flex-shrink",
+    children: renderEditHeader(layoutItem)
+  });
+};
+
+var LayoutGridContainer = function LayoutGridContainer(_ref) {
+  var item = _ref.item,
+    workspace = _ref.workspace,
+    _ref$preview = _ref.preview,
+    preview = _ref$preview === void 0 ? false : _ref$preview,
+    id = _ref.id,
+    parent = _ref.parent,
+    scrollable = _ref.scrollable;
+    _ref.space;
+    var grow = _ref.grow,
+    order = _ref.order,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children,
+    onClickAdd = _ref.onClickAdd;
+    _ref.onClickQuickAdd;
+    var onClickRemove = _ref.onClickRemove,
+    onChangeDirection = _ref.onChangeDirection,
+    onChangeOrder = _ref.onChangeOrder,
+    onOpenConfig = _ref.onOpenConfig;
+    _ref.onOpenEvents;
+    var width = _ref.width,
+    direction = _ref.direction,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-full" : _ref$height,
+    onDropItem = _ref.onDropItem;
+    _ref.onDragItem;
+  function handleClickAdd() {
+    onClickAdd(item);
+  }
+  function handleClickRemove(item) {
+    onClickRemove(id);
+  }
+  function handleChangeDirection(item) {
+    onChangeDirection(id, direction);
+  }
+  function handleOpenConfig() {
+    onOpenConfig(item);
+  }
+  function handleDropItem(item) {
+    if (onDropItem) {
+      onDropItem(item);
+    }
+  }
+  function handleDragItem(item) {
+    // if (onDragItem) {
+    //     onDragItem(item);
+    // }
+  }
+  function handleChangeOrder(direction) {
+    onChangeOrder(item, direction);
+  }
+  function getBorderStyle() {
+    try {
+      return WidgetFactory.workspace(item["component"]) === "layout" ? "border-dashed" : "border-4";
+    } catch (e) {
+      return "";
+    }
+  }
+  function renderComponentContainer(children) {
+    return item ? renderComponent(item["component"], id, item, children) : null;
+  }
+  function getAllWorkspaceNames() {
+    if (workspace !== null) {
+      var names = workspace.layout.map(function (layout) {
+        return "workspace" in layout ? layout.workspace : null;
+      });
+      return names.filter(function (value, index, array) {
+        return array.indexOf(value) === index;
+      }).filter(function (i) {
+        return i !== null;
+      });
+    }
+    return null;
+  }
+  function dropType(item) {
+    // if item is a Workspace, and NOT a container, can only drop into a Container (layout)
+    if (isWorkspace(item) === true) {
+      return ["layout", item["parentWorkspaceName"]];
+    }
+    // if a container, we can place this into ANY other container or workspace
+    if (isContainer(item) === true) {
+      return getAllWorkspaceNames();
+    }
+    return ["layout", item["parentWorkspaceName"]];
+  }
+  function dragType(item) {
+    if (isWorkspace(item) === true) {
+      return item["parentWorkspaceName"];
+    }
+    if (isContainer(item)) {
+      return "layout";
+    }
+    return item["parentWorkspaceName"];
+  }
+  return preview === false ? /*#__PURE__*/jsx(DropComponent, {
+    item: item,
+    id: id,
+    type: dropType(item),
+    onDropItem: handleDropItem,
+    width: width,
+    children: /*#__PURE__*/jsx(DragComponent, {
+      id: id,
+      type: dragType(item),
+      onDropItem: handleDropItem,
+      onDragItem: handleDragItem,
+      width: "w-full",
+      children: /*#__PURE__*/jsxs(LayoutContainer, {
+        id: "grid-container-parent-".concat(id),
+        direction: "col",
+        width: "w-full",
+        height: "h-fit",
+        scrollable: false,
+        className: "rounded overflow-x-hidden ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24 ").concat(item["component"] === "Container" && "", " z-10"),
+        space: preview,
+        children: [preview === false && /*#__PURE__*/jsx(LayoutItemEditHeader, {
+          layoutItem: item,
+          workspace: workspace,
+          direction: direction,
+          order: order,
+          parent: parent,
+          onChangeOrder: handleChangeOrder,
+          onChangeDirection: handleChangeDirection,
+          onRemove: handleClickRemove,
+          onClickAdd: handleClickAdd,
+          onOpenConfig: handleOpenConfig
+        }), /*#__PURE__*/jsx(LayoutContainer, {
+          id: "grid-container-".concat(id),
+          direction: direction,
+          scrollable: scrollable,
+          width: "w-full",
+          height: "".concat(height, " min-h-24"),
+          space: preview,
+          grow: grow,
+          className: "".concat(preview === false && item["component"] !== "Container" ? "p-3" : "px-1", " ").concat(direction === "col" ? "space-y-2" : "space-x-2"),
+          children: children !== null && children
+        })]
+      })
+    })
+  }) : renderComponentContainer(children);
+};
+
+function _slicedToArray$m(r, e) { return _arrayWithHoles$m(r) || _iterableToArrayLimit$m(r, e) || _unsupportedIterableToArray$m(r, e) || _nonIterableRest$m(); }
+function _nonIterableRest$m() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$m(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$m(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$m(r, a) : void 0; } }
+function _arrayLikeToArray$m(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$m(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$m(r) { if (Array.isArray(r)) return r; }
+function DashboardMenuItem(_ref) {
+  _ref.theme;
+    var item = _ref.item,
+    id = _ref.id,
+    icon = _ref.icon,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "menu-item" : _ref$type,
+    onClick = _ref.onClick;
+    _ref.selected;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$m(_useState, 2);
+    _useState2[0];
+    var setHasDropped = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray$m(_useState3, 2);
+    _useState4[0];
+    var setHasDroppedOnChild = _useState4[1];
+  var _useDrop = useDrop({
+      accept: type,
+      drop: function drop(_item, monitor) {
+        var didDrop = monitor.didDrop();
+        if (didDrop) {
+          return;
+        }
+        setHasDropped(true);
+        setHasDroppedOnChild(didDrop);
+        return {
+          id: id,
+          type: type,
+          dropIndex: id,
+          obj: item
+        };
+      },
+      // the id and the type AGAIN of the item for dropping
+      // canDrop: (obj) => {
+      //     return id !== 1 && (item.canHaveChildren === true);// && obj.parent !== id; // cant drop in these places
+      // }, // this will cause the elements that are droppable to be styles (if we choose!)
+      collect: function collect(monitor) {
+        return {
+          isOver: monitor.isOver(),
+          canDrop: monitor.canDrop(),
+          isDragging: monitor.isDragging,
+          isOverCurrent: monitor.isOver({
+            shallow: true
+          })
+        };
+      }
+    }, [setHasDropped, setHasDroppedOnChild]),
+    _useDrop2 = _slicedToArray$m(_useDrop, 2),
+    _useDrop2$ = _useDrop2[0];
+    _useDrop2$.isOver;
+    var isOverCurrent = _useDrop2$.isOverCurrent;
+    _useDrop2$.canDrop;
+    var drop = _useDrop2[1];
+  return /*#__PURE__*/jsx("div", {
+    ref: drop,
+    id: id,
+    className: "drop-component relative cursor-pointer rounded min-w-lg ".concat(isOverCurrent ? "w-10 h-10 opacity-100 animate-pulse" : "w-10 h-10 opacity-100", " "),
+    children: /*#__PURE__*/jsx("div", {
+      className: "w-full- h-full items-center justify-center",
+      children: /*#__PURE__*/jsx(ButtonIcon, {
+        icon: icon,
+        onClick: onClick
+      })
+    })
+  });
+}
+
+function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
+function ownKeys$D(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$D(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$D(Object(t), !0).forEach(function (r) { _defineProperty$F(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$D(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$F(e, r, t) { return (r = _toPropertyKey$J(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$J(t) { var i = _toPrimitive$J(t, "string"); return "symbol" == _typeof$J(i) ? i : i + ""; }
+function _toPrimitive$J(t, r) { if ("object" != _typeof$J(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$J(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var withRouter = function withRouter(Component) {
+  var Wrapper = function Wrapper(props) {
+    var navigate = useNavigate();
+    var location = useLocation();
+    var params = useParams();
+    return /*#__PURE__*/jsx(Component, _objectSpread$D({
+      navigate: navigate,
+      location: location,
+      params: params
+    }, props));
+  };
+  return Wrapper;
+};
+
+function _typeof$I(o) { "@babel/helpers - typeof"; return _typeof$I = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$I(o); }
+var _excluded$A = ["title", "textSize", "fontWeight"];
+function ownKeys$C(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$C(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$C(Object(t), !0).forEach(function (r) { _defineProperty$E(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$C(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$E(e, r, t) { return (r = _toPropertyKey$I(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$I(t) { var i = _toPrimitive$I(t, "string"); return "symbol" == _typeof$I(i) ? i : i + ""; }
+function _toPrimitive$I(t, r) { if ("object" != _typeof$I(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$I(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$A(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$A(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$A(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var FormLabel = function FormLabel(_ref) {
+  var title = _ref.title,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
+    _ref$fontWeight = _ref.fontWeight,
+    fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
+    props = _objectWithoutProperties$A(_ref, _excluded$A);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$C({}, props));
+  var textSizeCalc = textSize !== null ? textSize : "text-base 2xl:text-lg";
+  return /*#__PURE__*/jsx("label", {
+    className: "".concat(fontWeight, " ").concat(textSizeCalc, " ").concat(styles.string),
+    children: title
+  });
+};
+
+function _typeof$H(o) { "@babel/helpers - typeof"; return _typeof$H = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$H(o); }
+var _excluded$z = ["key", "onChange", "onKeyDown", "onClick", "name", "value", "type", "padding", "placeholder", "hasBorder", "disabled", "textSize"];
+function ownKeys$B(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$B(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$B(Object(t), !0).forEach(function (r) { _defineProperty$D(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$B(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$D(e, r, t) { return (r = _toPropertyKey$H(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$H(t) { var i = _toPrimitive$H(t, "string"); return "symbol" == _typeof$H(i) ? i : i + ""; }
+function _toPrimitive$H(t, r) { if ("object" != _typeof$H(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$H(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$z(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$z(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$z(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var InputText = function InputText(_ref) {
+  var _ref$key = _ref.key,
+    key = _ref$key === void 0 ? "inputText" : _ref$key,
+    onChange = _ref.onChange,
+    onKeyDown = _ref.onKeyDown,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    name = _ref.name,
+    value = _ref.value,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "text" : _ref$type,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "p-2" : _ref$padding,
+    _ref$placeholder = _ref.placeholder,
+    placeholder = _ref$placeholder === void 0 ? "" : _ref$placeholder,
+    _ref$hasBorder = _ref.hasBorder,
+    hasBorder = _ref$hasBorder === void 0 ? true : _ref$hasBorder,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? "text-sm lg:text-base 2xl:text-lg" : _ref$textSize,
+    props = _objectWithoutProperties$z(_ref, _excluded$z);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$B({}, props));
+  function renderComponent(styles) {
+    return /*#__PURE__*/jsx("input", {
+      type: type,
+      name: name,
+      value: value !== null ? value : "",
+      onChange: onChange,
+      onKeyDown: onKeyDown,
+      onClick: onClick,
+      placeholder: placeholder,
+      className: "".concat(padding, " rounded focus:outline-0 outline-0 border-0 focus:border-0 ").concat(styles.string, " font-bold ").concat(textSize, " w-full ").concat(hasBorder === false && "border-0"),
+      disabled: disabled
+    }, key);
+  }
+  return renderComponent(styles);
+};
+
+function _typeof$G(o) { "@babel/helpers - typeof"; return _typeof$G = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$G(o); }
+var _excluded$y = ["name", "onChange", "selectedValue", "children", "textSize"];
+function ownKeys$A(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$A(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$A(Object(t), !0).forEach(function (r) { _defineProperty$C(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$A(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$C(e, r, t) { return (r = _toPropertyKey$G(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$G(t) { var i = _toPrimitive$G(t, "string"); return "symbol" == _typeof$G(i) ? i : i + ""; }
+function _toPrimitive$G(t, r) { if ("object" != _typeof$G(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$G(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$y(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$y(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$y(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var SelectMenu = function SelectMenu(_ref) {
+  var name = _ref.name,
+    onChange = _ref.onChange,
+    selectedValue = _ref.selectedValue,
+    children = _ref.children,
+    _ref$textSize = _ref.textSize,
+    textSize = _ref$textSize === void 0 ? "text-base 2xl:text-lg" : _ref$textSize,
+    props = _objectWithoutProperties$y(_ref, _excluded$y);
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$A(_objectSpread$A({}, props), {}, {
+    height: "h-fit"
+  }));
+  return /*#__PURE__*/jsx("select", {
+    className: "p-2 rounded ".concat(textSize, " font-bold ").concat(styles.string, " focus:outline-none cursor-pointer min-w-lg w-full"),
+    name: name,
+    onChange: onChange,
+    value: selectedValue,
+    children: children
+  });
+};
+
+function _slicedToArray$l(r, e) { return _arrayWithHoles$l(r) || _iterableToArrayLimit$l(r, e) || _unsupportedIterableToArray$l(r, e) || _nonIterableRest$l(); }
+function _nonIterableRest$l() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$l(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$l(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$l(r, a) : void 0; } }
+function _arrayLikeToArray$l(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$l(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$l(r) { if (Array.isArray(r)) return r; }
+var MainMenuConst = function MainMenuConst(_ref) {
+  var _ref$onClickNewWorksp = _ref.onClickNewWorkspace,
+    onClickNewWorkspace = _ref$onClickNewWorksp === void 0 ? null : _ref$onClickNewWorksp;
+    _ref.onCreateNewFolder;
+    var active = _ref.active,
+    menuItems = _ref.menuItems,
+    workspaces = _ref.workspaces,
+    _ref$selectedMainItem = _ref.selectedMainItem,
+    selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
+    onWorkspaceMenuChange = _ref.onWorkspaceMenuChange;
+    _ref.onClick;
+  var _useContext = useContext$1(AppContext),
+    dashApi = _useContext.dashApi,
+    credentials = _useContext.credentials;
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var _useState = useState(""),
+    _useState2 = _slicedToArray$l(_useState, 2),
+    searchTerm = _useState2[0],
+    setSearchTerm = _useState2[1];
+
+  // Force Update
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$l(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  /**
+   * useEffect
+   * We can use the useEffect lifecycle to load the init for the plugins
+   * and any other methods
+   */
+  useEffect(function () {
+    setSearchTerm("");
+  }, [active, selectedMainItem]);
+  useEffect(function () {
+    forceUpdate();
+  }, [workspaces]);
+  function handleClickMenuItem(ws) {
+    onWorkspaceMenuChange && onWorkspaceMenuChange(ws);
+  }
+  function renderWorkspaces(workspaces) {
+    // We need to do this TWICE...
+    // Once for the items that have a organized folder,
+    // and once for the ones that do NOT....
+    var m = workspaces && menuItems.sort(function (a, b) {
+      return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
+    }).map(function (menuItem) {
+      // let's check to see if the user has applied any filters...
+      // const folderSelected =
+      //     selectedMainItem !== null
+      //         ? menuItem.id === selectedMainItem.id
+      //         : false;
+      return /*#__PURE__*/jsx(MainMenuSection, {
+        id: menuItem.id,
+        name: menuItem.name,
+        menuItem: menuItem,
+        onCreateNew: handleCreateNew,
+        children: workspaces.sort(function (a, b) {
+          return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
+        }).filter(function (w) {
+          return "menuId" in w && w.menuId === menuItem.id;
+        }).filter(function (ws) {
+          return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        }).map(function (ws) {
+          return /*#__PURE__*/jsx(MainMenuItem, {
+            menuItem: menuItem,
+            highlight: searchTerm !== "",
+            id: ws.id,
+            workspaceId: ws.id,
+            workspaceMenuId: ws.menuId,
+            name: ws.name,
+            onClick: function onClick(e) {
+              return handleClickMenuItem(ws);
+            },
+            title: ws.name,
+            onDropItem: function onDropItem(e) {
+              return handleDropMenuItem({
+                workspaceId: ws.id,
+                menuItemId: e.dropIndex
+              });
+            }
+          }, "main-menu-item-ws-".concat(ws.id));
+        })
+      }, "menu-item-".concat(menuItem.id));
+    });
+    return m;
+  }
+  function renderOrphanedWorkspaces(workspaces) {
+    // We need to do this TWICE...
+    // Once for the items that have a organized folder,
+    // and once for the ones that do NOT....
+
+    var menuItem = {
+      id: 1,
+      name: "Uncategorized",
+      icon: "folder"
+    };
+    return currentTheme && workspaces && /*#__PURE__*/jsx("div", {
+      children: /*#__PURE__*/jsx(MainMenuSection, {
+        id: menuItem.id,
+        name: menuItem.name,
+        menuItem: menuItem,
+        onCreateNew: handleCreateNew,
+        children: workspaces.sort(function (a, b) {
+          return a["name"].toLowerCase().localeCompare(b["name"].toLowerCase());
+        }).filter(function (w) {
+          return workspaceIsOrphan(w) === true;
+        }).filter(function (ws) {
+          return searchTerm !== "" ? ws.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        }).sort(function (a, b) {
+          return a["name"] - b["name"];
+        }).map(function (ws) {
+          return /*#__PURE__*/jsx(MainMenuItem, {
+            highlight: searchTerm !== "",
+            menuItem: menuItem,
+            workspaceId: ws.id,
+            workspaceMenuId: ws.menuId,
+            id: ws.id,
+            name: ws.name,
+            onClick: function onClick(e) {
+              return handleClickMenuItem(ws);
+            },
+            title: ws.name,
+            onDropItem: function onDropItem(e) {
+              handleDropMenuItem({
+                workspaceId: ws.id,
+                menuItemId: e.dropIndex
+              });
+            }
+          }, "main-menu-item-ws-".concat(ws.id));
+        })
+      }, "menu-item-".concat(menuItem.id))
+    }, "menu-item-orphan");
+  }
+
+  /**
+   * workspaceIsOrphan
+   * Check to see if the menuItem that is associated with the workspace no longer exists.
+   * @param {Object} workspaceToCheck
+   */
+  function workspaceIsOrphan(workspaceToCheck) {
+    return menuItems.filter(function (menuItem) {
+      return menuItem.id === workspaceToCheck.menuId;
+    }).length === 0;
+  }
+  function handleDropMenuItem(dropData) {
+    try {
+      var workspaceId = dropData.workspaceId,
+        menuItemId = dropData.menuItemId;
+      var workspaceSelected = null;
+      var workspaceArray = workspaces.filter(function (ws) {
+        return ws.id === workspaceId;
+      });
+      if (workspaceArray.length > 0) {
+        workspaceSelected = workspaceArray[0];
+      }
+      if (workspaceSelected) {
+        var newWorkspace = deepCopy(workspaceSelected);
+        // we have to update the workspace menu id
+        newWorkspace["menuId"] = menuItemId;
+        if (dashApi && credentials) {
+          dashApi.saveWorkspace(credentials.appId, newWorkspace, handleSaveWorkspaceMenuIdComplete, handleSaveWorkspaceError);
+        }
+      }
+    } catch (e) {
+    }
+  }
+  function handleSaveWorkspaceMenuIdComplete(e, message) {
+  }
+  function handleSaveWorkspaceError(e, message) {
+  }
+  function handleCreateNew(menuItem) {
+    [{
+      id: 1,
+      order: 1,
+      direction: "col",
+      width: "w-full",
+      component: "Container",
+      hasChildren: 1,
+      scrollable: true,
+      parent: 0,
+      menuId: selectedMainItem["id"]
+    }];
+    onClickNewWorkspace && onClickNewWorkspace(menuItem
+    // id: Date.now(),
+    // name: "New Workspace",
+    // label: "New",
+    // type: selectedMainItem,
+    // layout: newLayout,
+    // menuId: menuItem["id"],
+    );
+  }
+  function handleChangeSearch(e) {
+    setSearchTerm(e.target.value);
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col min-w-64 w-full h-full",
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col space-y-2 w-full h-full",
+      children: [/*#__PURE__*/jsx("div", {
+        className: "flex flex-row justify-between items-center space-x-2 w-full",
+        children: /*#__PURE__*/jsx(InputText, {
+          name: "search-workspaces",
+          value: searchTerm,
+          placeholder: "Search Dashboards",
+          onChange: handleChangeSearch,
+          textSize: "text-lg",
+          className: "border-transparent focus:border-transparent focus:ring-0",
+          hasBorder: false
+        })
+      }), /*#__PURE__*/jsx(DndProvider, {
+        backend: HTML5Backend,
+        children: /*#__PURE__*/jsxs(LayoutContainer, {
+          direction: "col",
+          scrollable: true,
+          space: true,
+          width: "w-full",
+          padding: "py-2",
+          children: [renderWorkspaces(workspaces), renderOrphanedWorkspaces(workspaces)]
+        })
+      })]
+    })
+  });
+};
+var MainMenu = withRouter(MainMenuConst);
+
+var MainMenuItem = function MainMenuItem(_ref) {
+  _ref.workspaceMenuId;
+    _ref.onDropItem;
+    var onClick = _ref.onClick,
+    title = _ref.title;
+  return (
+    /*#__PURE__*/
+    // <DragDropWidget
+    //     id={workspaceMenuId}
+    //     width={"w-full"}
+    //     type={"menu-item"}
+    //     onDropItem={onDropItem}
+    // >
+    jsx(MenuItem3, {
+      onClick: onClick,
+      className: "p-4 font-bold rounded",
+      children: title
+    })
+    // </DragDropWidget>
+  );
+};
+
+function _typeof$F(o) { "@babel/helpers - typeof"; return _typeof$F = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$F(o); }
+var _excluded$x = ["children", "border", "className"];
+function ownKeys$z(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$z(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$z(Object(t), !0).forEach(function (r) { _defineProperty$B(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$z(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$B(e, r, t) { return (r = _toPropertyKey$F(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$F(t) { var i = _toPrimitive$F(t, "string"); return "symbol" == _typeof$F(i) ? i : i + ""; }
+function _toPrimitive$F(t, r) { if ("object" != _typeof$F(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$F(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$x(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$x(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$x(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var Menu = function Menu(_ref) {
+  var children = _ref.children;
+    _ref.border;
+    var _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "space-y-2" : _ref$className,
+    props = _objectWithoutProperties$x(_ref, _excluded$x);
+  return /*#__PURE__*/jsx(Panel, _objectSpread$z(_objectSpread$z({}, props), {}, {
+    className: className,
+    children: children
+  }));
+};
+
+var MainMenuSection = function MainMenuSection(_ref) {
+  _ref.id;
+    _ref.type;
+    var menuItem = _ref.menuItem,
+    children = _ref.children,
+    onCreateNew = _ref.onCreateNew;
+  var _useContext = useContext$1(ThemeContext);
+    _useContext.currentTheme;
+
+  // Drop Functionality
+  // const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop({
+  //     accept: type,
+  //     drop: (_item, monitor) => {
+  //         const didDrop = monitor.didDrop();
+  //         if (didDrop) {
+  //             return;
+  //         }
+  //         return { id, type, dropIndex: id };
+  //     },
+  //     canDrop: (obj) => {
+  //         return obj.id !== menuItem.id;
+  //     },
+  //     collect: (monitor) => {
+  //         return {
+  //             isDragging: monitor.isDragging,
+  //             isOverCurrent: monitor.isOver({ shallow: true }),
+  //             canDrop: monitor.canDrop(),
+  //         };
+  //     },
+  // });
+
+  function handleCreateNew(menuItem) {
+    onCreateNew && onCreateNew(menuItem);
+  }
+  return /*#__PURE__*/jsxs(Panel3, {
+    id: menuItem.id,
+    scrollable: false,
+    grow: false,
+    horizontal: false,
+    padding: "px-1",
+    border: false,
+    children: [/*#__PURE__*/jsxs("div", {
+      className: "flex flex-row justify-between p-2 pl-2 w-full",
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row text-xs items-center space-x-2 w-full",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: menuItem.icon
+        }), /*#__PURE__*/jsx(Paragraph3, {
+          text: menuItem.name,
+          className: "font-bold uppercase text-xs items-center"
+        })]
+      }), /*#__PURE__*/jsx(ButtonIcon, {
+        icon: "plus",
+        textSize: "text-xs",
+        padding: false,
+        onClick: function onClick() {
+          return handleCreateNew(menuItem);
+        },
+        className: "hover:bg-green-500 bg-transparent"
+      })]
+    }), /*#__PURE__*/jsx(Menu, {
+      children: children
+    })]
+  });
+};
+
+var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
+  var open = _ref.open,
+    setOpen = _ref.setOpen,
+    children = _ref.children;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  return currentTheme && /*#__PURE__*/jsx(Transition.Root, {
+    show: open,
+    as: Fragment,
+    children: /*#__PURE__*/jsx(Dialog, {
+      as: "div",
+      className: "fixed inset-0 overflow-hidden",
+      onClose: setOpen,
+      children: /*#__PURE__*/jsxs("div", {
+        className: "absolute inset-0 overflow-hidden z-30",
+        children: [/*#__PURE__*/jsx(Transition.Child, {
+          as: Fragment,
+          enter: "ease-in-out duration-400",
+          enterFrom: "opacity-0",
+          enterTo: "opacity-100",
+          leave: "ease-in-out duration-300",
+          leaveFrom: "opacity-100",
+          leaveTo: "opacity-0",
+          children: /*#__PURE__*/jsx(Dialog.Overlay, {
+            className: "absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
+          })
+        }), /*#__PURE__*/jsx("div", {
+          className: "pointer-events-none fixed inset-y-0 left-0 flex max-w-full pl-0",
+          children: /*#__PURE__*/jsx(Transition.Child, {
+            as: Fragment,
+            enter: "transform transition ease-in-out duration-400 sm:duration-700",
+            enterFrom: "-translate-x-full",
+            enterTo: "translate-x-0",
+            leave: "transform transition ease-in-out duration-300 sm:duration-700",
+            leaveFrom: "translate-x-0",
+            leaveTo: "-translate-x-full",
+            children: /*#__PURE__*/jsx("div", {
+              className: "pointer-events-auto max-w-2xl xl:max-w-3xl overflow-hidden",
+              children: /*#__PURE__*/jsx("div", {
+                className: "flex h-full flex-col shadow-xl ".concat(currentTheme["bg-secondary-very-dark"], " ").concat(currentTheme["text-secondary-light"], " scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-hidden"),
+                children: /*#__PURE__*/jsx("div", {
+                  className: "relative mt-6 flex-1 px-6 sm:px-6 overflow-hidden h-full",
+                  children: children
+                })
+              })
+            })
+          })
+        })]
+      })
+    })
+  });
+};
+
+function _typeof$E(o) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$E(o); }
+function _classCallCheck$5(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties$5(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$E(o.key), o); } }
+function _createClass$5(e, r, t) { return r && _defineProperties$5(e.prototype, r), t && _defineProperties$5(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _callSuper$5(t, o, e) { return o = _getPrototypeOf$5(o), _possibleConstructorReturn$5(t, _isNativeReflectConstruct$5() ? Reflect.construct(o, e || [], _getPrototypeOf$5(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn$5(t, e) { if (e && ("object" == _typeof$E(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$5(t); }
+function _assertThisInitialized$5(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct$5() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$5 = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf$5(t) { return _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf$5(t); }
+function _inherits$5(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf$5(t, e); }
+function _setPrototypeOf$5(t, e) { return _setPrototypeOf$5 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf$5(t, e); }
+function _defineProperty$A(e, r, t) { return (r = _toPropertyKey$E(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$E(t) { var i = _toPrimitive$E(t, "string"); return "symbol" == _typeof$E(i) ? i : i + ""; }
+function _toPrimitive$E(t, r) { if ("object" != _typeof$E(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$E(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var mainApi$1 = window.mainApi;
+function classNames() {
+  for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
+    classes[_key] = arguments[_key];
+  }
+  return classes.filter(Boolean).join(" ");
+}
+var SideMenu = /*#__PURE__*/function (_React$Component) {
+  function SideMenu() {
+    var _this;
+    _classCallCheck$5(this, SideMenu);
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+    _this = _callSuper$5(this, SideMenu, [].concat(args));
+    _defineProperty$A(_this, "handlePath", function (path) {
+      _this.props.navigate(path);
+    });
+    _defineProperty$A(_this, "generatePageChildren", function (pages, indexName) {
+      var pathname = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+      return pages !== null ? pages.length > 0 ? pages.filter(function (p) {
+        return p.indexName === indexName;
+      }).map(function (page) {
+        return {
+          icon: "file",
+          name: page.displayName,
+          href: "/rules-manager/pages/" + page.id,
+          current: pathname === "/rules-manager/pages/" + page.id
+        };
+      }) : null : null;
+    });
+    _defineProperty$A(_this, "generateTemplateChildren", function (templates, indexName) {
+      var pathname = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+      return templates !== null ? templates.length > 0 ? templates.filter(function (p) {
+        return p.index === indexName;
+      }).map(function (t) {
+        return {
+          icon: "file",
+          name: t.name,
+          href: "/rules-manager/templates/" + t.name,
+          current: pathname === "/rules-manager/templates/" + t.name
+        };
+      }) : null : null;
+    });
+    _defineProperty$A(_this, "generateApplicationChildren", function (pages, templates, queries, indexName) {
+      var children = [];
+      children.push({
+        name: indexName
+        // href: '/rules-manager/pages',
+        // current: pages !== null,
+        // icon: 'code'
+      });
+      children.push({
+        name: "Pages",
+        href: "/rules-manager/pages",
+        current: pages !== null,
+        icon: "file"
+      });
+      children.push({
+        name: "Display Templates",
+        href: "/rules-manager/templates",
+        current: templates !== null,
+        icon: "palette"
+      });
+      children.push({
+        name: "Queries",
+        href: "/rules-manager/query-test",
+        current: queries !== null,
+        icon: "vial-circle-check"
+      });
+      return children;
+    });
+    _defineProperty$A(_this, "generateNavigation", function () {
+      var _this$props = _this.props,
+        pages = _this$props.pages,
+        templates = _this$props.templates,
+        location = _this$props.location,
+        queries = _this$props.queries;
+      var application = mainApi$1.getApplication();
+      var indexName = mainApi$1.getIndexName();
+      var currentPath = "pathname" in location ? location["pathname"] : "";
+      var navigation = [{
+        name: "Home",
+        href: "/applications",
+        icon: "home"
+      }];
+      application !== undefined && navigation.push({
+        name: application["appId"],
+        href: "/applications/" + application["appId"],
+        current: currentPath === "/applications/" + application["appId"],
+        icon: "server",
+        children: indexName && _this.generateApplicationChildren(pages, templates, queries, indexName)
+      });
+
+      // indexName && navigation.push({
+      //   name: indexName,
+      //   href: '/applications/' + application['appId'],
+      //   // current: currentPath === '/applications/' + application['appId'],
+      //   icon: 'server',
+      //   // children: indexName && this.generateApplicationChildren(pages, templates, queries, indexName)
+      // });
+
+      // application !== undefined && indexName && navigation.push({
+      //   name: 'Pages',
+      //   href: '/rules-manager/pages',
+      //   current: pages !== null,
+      //   icon: 'file'
+      //   // children: this.generatePageChildren(pages, indexName, currentPath),
+
+      // });
+
+      // application !== undefined && indexName && navigation.push({
+      //   name: 'Display Templates',
+      //   href: '/rules-manager/templates',
+      //   current: templates !== null,
+      //   icon: 'palette'
+      //   // children: this.generateTemplateChildren(templates, indexName, currentPath),
+
+      // });
+
+      // application !== undefined && indexName && navigation.push({
+      //   name: 'Queries',
+      //   href: '/rules-manager/query-test',
+      //   current: queries !== null,
+      //   icon: 'vial-circle-check'
+      // });
+      return navigation;
+    });
+    return _this;
+  }
+  _inherits$5(SideMenu, _React$Component);
+  return _createClass$5(SideMenu, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      var _this$props2 = this.props,
+        location = _this$props2.location;
+        _this$props2.showMenu;
+      var navigation = this.generateNavigation();
+      var isSettingsSelected = "pathname" in location && (location["pathname"] === "/settings" ? true : false);
+      return /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col border-r border-gray-800 pb-4 overflow-y-scroll h-full scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "flex-grow flex flex-col bg-gray-900 p-2",
+          children: /*#__PURE__*/jsx("nav", {
+            className: "flex flex-col px-0 2xl:px-2 space-y-2",
+            "aria-label": "Sidebar",
+            children: navigation.map(function (item) {
+              return !item.children ? /*#__PURE__*/jsxs(Link, {
+                to: item.href,
+                className: classNames(item.current ? "bg-gray-800 text-indigo-400 font-bold" : "bg-gray-900 text-gray-500 hover:bg-gray-700 hover:text-gray-200", "group w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
+                children: [item.icon !== undefined && /*#__PURE__*/jsx(FontAwesomeIcon, {
+                  icon: item.icon,
+                  className: "text-gray-400"
+                }), /*#__PURE__*/jsx("span", {
+                  className: "hidden 2xl:inline-flex ml-2",
+                  children: item.name
+                })]
+              }, item.href) : /*#__PURE__*/jsx(Disclosure, {
+                as: "div",
+                className: "space-y-2",
+                children: function children(_ref) {
+                  _ref.open;
+                  return /*#__PURE__*/jsxs(Fragment, {
+                    children: [/*#__PURE__*/jsx(Disclosure.Button, {
+                      className: classNames(item.current ? "text-indigo-300" : "text-gray-300 hover:bg-gray-700 hover:text-gray-200", "w-full flex items-center justify-center pl-3 pr-2 py-2 text-lg 2xl:text-xl 2xl:justify-start font-bold rounded-md space-x-2"),
+                      children: /*#__PURE__*/jsxs(Link, {
+                        to: item.href,
+                        className: "flex flex-row space-x-2 items-center justify-center",
+                        children: [item.icon !== undefined && /*#__PURE__*/jsx(FontAwesomeIcon, {
+                          icon: item.icon,
+                          className: "text-gray-400"
+                        }), /*#__PURE__*/jsx("span", {
+                          className: "hidden 2xl:inline-flex",
+                          children: item.name
+                        })]
+                      })
+                    }), /*#__PURE__*/jsx(Disclosure.Panel, {
+                      className: "space-y-2 bg-slate-900 rounded-lg p-2 2xl:p-2 border border-gray-800",
+                      "static": true,
+                      children: item.children.map(function (subItem) {
+                        return /*#__PURE__*/jsxs(Disclosure.Button, {
+                          as: "a",
+                          onClick: function onClick() {
+                            return _this2.handlePath(subItem.href);
+                          },
+                          className: classNames(subItem.current ? "bg-gray-800 text-indigo-300" : "text-gray-500 hover:bg-indigo-800 hover:text-gray-200", "group w-full flex items-center justify-start pl-3 pr-2 py-2 text-sm lg:text-base 2xl:text-base font-medium rounded-md hover:text-gray-200 hover:bg-gray-700 cursor-pointer space-x-2"),
+                          children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                            icon: subItem.icon
+                          }), /*#__PURE__*/jsx("span", {
+                            className: "hidden 2xl:inline-flex ml-2",
+                            children: subItem.name
+                          })]
+                        }, subItem.name);
+                      })
+                    })]
+                  });
+                }
+              }, item.name);
+            })
+          })
+        }), /*#__PURE__*/jsx("div", {
+          children: /*#__PURE__*/jsx(Disclosure, {
+            as: "div",
+            className: "px-4 2xl:px-4",
+            children: /*#__PURE__*/jsxs(Disclosure.Button, {
+              as: "a",
+              onClick: function onClick() {
+                return _this2.handlePath("/settings");
+              },
+              className: classNames(isSettingsSelected ? "text-indigo-300" : "text-gray-500 hover:bg-gray-800 hover:text-gray-200", "group w-full flex items-center p-0 pl-0 2xl:p-2 2xl:pl-3 text-left text-lg 2xl:text-xl font-bold rounded-md focus:outline-none space-x-2 cursor-pointer"),
+              children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+                icon: "gear",
+                className: "text-gray-500"
+              }), /*#__PURE__*/jsx("span", {
+                className: "hidden 2xl:inline-flex",
+                children: "Settings"
+              })]
+            }, "menu-settings")
+          }, "menu-settings")
+        })]
+      });
+    }
+  }]);
+}(React.Component);
+SideMenu.defaultProps = {
+  pages: [],
+  templates: null,
+  queries: null,
+  showMenu: true
+};
+
+function _slicedToArray$k(r, e) { return _arrayWithHoles$k(r) || _iterableToArrayLimit$k(r, e) || _unsupportedIterableToArray$k(r, e) || _nonIterableRest$k(); }
+function _nonIterableRest$k() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$k(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$k(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$k(r, a) : void 0; } }
+function _arrayLikeToArray$k(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$k(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$k(r) { if (Array.isArray(r)) return r; }
+var AddMenuItemModal = function AddMenuItemModal(_ref) {
+  var menuItems = _ref.menuItems,
+    open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    onSave = _ref.onSave;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var _useState = useState(menuItems),
+    _useState2 = _slicedToArray$k(_useState, 2),
+    menuItemsSelected = _useState2[0],
+    setMenuItemsSelected = _useState2[1];
+  var _useState3 = useState(""),
+    _useState4 = _slicedToArray$k(_useState3, 2),
+    menuItemNameSelected = _useState4[0],
+    setMenuItemNameSelected = _useState4[1];
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray$k(_useState5, 2),
+    menuIconSelected = _useState6[0],
+    setMenuIconSelected = _useState6[1];
+  // const [, updateState] = React.useState();
+  // const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  useEffect(function () {
+    if (open === true && menuItemsSelected === null && menuItemsSelected !== menuItems) {
+      setMenuItemsSelected(function () {
+        return menuItems;
+      });
+    }
+    if (menuItems !== menuItemsSelected) {
+      setMenuItemsSelected(function () {
+        return menuItems;
+      });
+    }
+    if (open === false) {
+      setMenuItemsSelected(function () {
+        return null;
+      });
+      setMenuIconSelected(null);
+      setMenuItemNameSelected(null);
+    }
+  }, [open, menuItems]);
+  function handleMenuNameChange(e) {
+    setMenuItemNameSelected(function () {
+      return e.target.value;
+    });
+  }
+  function handleSaveChanges(itemData) {
+    try {
+      if (menuIconSelected && menuItemNameSelected) {
+        var menuItem = {
+          id: Date.now(),
+          name: menuItemNameSelected,
+          icon: menuIconSelected
+        };
+        onSave(menuItem);
+      }
+      // if (workspaceSelected !== null) {
+
+      //     const tempWorkspace = deepCopy(workspaceSelected);
+
+      //     // craft the event handler + listeners
+      //     // and add to the layout item
+      //     const layoutItem = getLayoutItemById(itemSelected['id']);
+
+      //     // now lets add to it...
+      //     layoutItem['listeners'] = eventsSelected;
+      //     tempWorkspace['layout'] = replaceItemInLayout(tempWorkspace.layout, layoutItem['id'], layoutItem);
+
+      //     // save the new workspace
+      //     onSave(tempWorkspace);
+
+      //     // reset the component
+      //     setItemSelected(() => null);
+      //     setWorkspaceSelected(() => null);
+      //     setEventsSelected(() => {});
+      //     setEventHandlerSelected(() => null);
+      //     setIsOpen(false);
+      // }
+    } catch (e) {
+    }
+  }
+  function renderAvailableIcons() {
+    var icons = ["phone", "clone", "home", "plug", "magnifying-glass", "arrow-down", "arrow-left", "arrow-right", "arrow-up", "minus", "arrows-up-down", "arrows-left-right", "square", "eye", "pencil", "folder", "signal", "hammer", "seedling", "trophy", "robot", "leaf", "baby", "baby-carriage", "database"];
+    return icons.map(function (icon) {
+      var selected = icon === menuIconSelected;
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-col text-5xl p-4 ".concat(selected === true ? "".concat(currentTheme["bg-secondary-very-dark"], " ").concat(currentTheme["border-secondary-very-dark"]) : currentTheme["bg-secondary-medium"], " h-fit w-full rounded border-4 ").concat(currentTheme["border-secondary-medium"], " ").concat(selected === false && "".concat(currentTheme["hover-bg-secondary-medium"], " ").concat(currentTheme["hover-border-secondary-dark"]), " cursor-pointer text-gray-200"),
+        onClick: function onClick() {
+          return setMenuIconSelected(icon);
+        },
+        children: /*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: icon
+        })
+      }, "icon-".concat(icon));
+    });
+  }
+  return menuItemsSelected !== null && currentTheme && /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-5/6",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      direction: "col",
+      padding: false,
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col w-full h-full overflow-hidden",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-6",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3",
+              children: menuItemsSelected !== null && /*#__PURE__*/jsxs("div", {
+                className: "flex flex-col rounded p-6 py-10 space-y-4",
+                children: [/*#__PURE__*/jsx(Heading, {
+                  title: "Get Organized",
+                  padding: false
+                }), /*#__PURE__*/jsx(SubHeading3, {
+                  title: "Add new \"folders\" to organize all of your dashboards.",
+                  padding: false
+                })]
+              })
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col w-2/3 space-y-4 py-10",
+              children: [/*#__PURE__*/jsx("div", {
+                className: "flex flex-col rounded w-full",
+                children: /*#__PURE__*/jsx(InputText, {
+                  value: menuItemNameSelected,
+                  onChange: handleMenuNameChange,
+                  placeholder: "My Folder"
+                })
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
+                children: /*#__PURE__*/jsx(LayoutContainer, {
+                  direction: "row",
+                  scrollable: true,
+                  space: false,
+                  height: "h-full",
+                  width: "w-full",
+                  className: "grid grid-cols-5 gap-4",
+                  children: renderAvailableIcons()
+                })
+              })]
+            })]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row justify-between bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800",
+            children: [/*#__PURE__*/jsxs("div", {
+              className: "flex flex-row text-lg text-gray-600 items-center font-bold px-4",
+              children: ["Click the", " ", /*#__PURE__*/jsx(FontAwesomeIcon, {
+                icon: "plus",
+                className: "px-2"
+              }), " ", "button to open this window."]
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-row space-x-2",
+              children: [/*#__PURE__*/jsx(Button, {
+                title: "Cancel",
+                bgColor: "bg-gray-800",
+                textSize: "text-lg",
+                padding: "py-2 px-4",
+                onClick: function onClick() {
+                  return setIsOpen(false);
+                }
+              }), /*#__PURE__*/jsx(Button, {
+                title: "Save Changes",
+                bgColor: "bg-gray-800",
+                hoverBackgroundColor: "hover:bg-green-700",
+                textSize: "text-lg",
+                padding: "py-2 px-4",
+                onClick: handleSaveChanges
+              })]
+            })]
+          })]
+        })
+      })
+    })
+  });
+};
+
+var ThemePane = function ThemePane(_ref) {
+  var children = _ref.children,
+    searchTerm = _ref.searchTerm,
+    _ref$inputValue = _ref.inputValue,
+    inputValue = _ref$inputValue === void 0 ? null : _ref$inputValue,
+    _ref$onInputChange = _ref.onInputChange,
+    onInputChange = _ref$onInputChange === void 0 ? null : _ref$onInputChange,
+    _ref$inputPlaceholder = _ref.inputPlaceholder,
+    inputPlaceholder = _ref$inputPlaceholder === void 0 ? "" : _ref$inputPlaceholder;
+    _ref.scroll;
+  return /*#__PURE__*/jsxs(LayoutContainer, {
+    id: "theme-pane-layout-container",
+    direction: "col",
+    scrollable: false,
+    width: "w-full",
+    children: [inputValue !== null && onInputChange !== null && /*#__PURE__*/jsx("div", {
+      className: "flex flex-row",
+      children: /*#__PURE__*/jsx(InputText, {
+        value: searchTerm,
+        textSize: "text-sm",
+        onChange: onInputChange,
+        placeholder: inputPlaceholder
+      })
+    }), /*#__PURE__*/jsx("div", {
+      className: "flex flex-col text-xs break-all h-full space-y-2 w-full",
+      children: children
+    })]
+  });
+};
+
+function _typeof$D(o) { "@babel/helpers - typeof"; return _typeof$D = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$D(o); }
+function ownKeys$y(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$y(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$y(Object(t), !0).forEach(function (r) { _defineProperty$z(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$y(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$z(e, r, t) { return (r = _toPropertyKey$D(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$D(t) { var i = _toPrimitive$D(t, "string"); return "symbol" == _typeof$D(i) ? i : i + ""; }
+function _toPrimitive$D(t, r) { if ("object" != _typeof$D(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$D(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var PreviewComponentsPane = function PreviewComponentsPane(_ref) {
+  var theme = _ref.theme,
+    themeVariant = _ref.themeVariant,
+    onClick = _ref.onClick;
+  function handleClickItem(itemType, styles) {
+    try {
+      // get the styles for the item and display...
+      var temp = {
+        item: itemType,
+        styles: styles
+      };
+      // setItemSelected(() => temp);
+      // setItemColorSelected(null);
+      onClick(temp);
+    } catch (e) {
+    }
+  }
+  function renderPanels() {
+    var styles = getStylesForItem(themeObjects.PANEL, theme[themeVariant]);
+    var styles2 = getStylesForItem(themeObjects.PANEL_2, theme[themeVariant]);
+    var styles3 = getStylesForItem(themeObjects.PANEL_3, theme[themeVariant]);
+
+    // Panel 1
+    var headingStyles = getStylesForItem(themeObjects.HEADING, theme[themeVariant]);
+    var subHeadingStyles = getStylesForItem(themeObjects.SUBHEADING, theme[themeVariant]);
+    var paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH, theme[themeVariant]);
+    var buttonStyles = getStylesForItem(themeObjects.BUTTON, theme[themeVariant]);
+    var buttonIconStyles = getStylesForItem(themeObjects.BUTTON_ICON, theme[themeVariant]);
+    var menuItemStyles = getStylesForItem(themeObjects.MENU_ITEM, theme[themeVariant]);
+    var tagStyles = getStylesForItem(themeObjects.TAG, theme[themeVariant]);
+    var heading2Styles = getStylesForItem(themeObjects.HEADING_2, theme[themeVariant]);
+    var subHeading2Styles = getStylesForItem(themeObjects.SUBHEADING_2, theme[themeVariant]);
+    var paragraph2Styles = getStylesForItem(themeObjects.PARAGRAPH_2, theme[themeVariant]);
+    var button2Styles = getStylesForItem(themeObjects.BUTTON_2, theme[themeVariant]);
+    var buttonIcon2Styles = getStylesForItem(themeObjects.BUTTON_ICON_2, theme[themeVariant]);
+    var menuItem2Styles = getStylesForItem(themeObjects.MENU_ITEM_2, theme[themeVariant]);
+    var tag2Styles = getStylesForItem(themeObjects.TAG_2, theme[themeVariant]);
+    var heading3Styles = getStylesForItem(themeObjects.HEADING_3, theme[themeVariant]);
+    var subHeading3Styles = getStylesForItem(themeObjects.SUBHEADING_3, theme[themeVariant]);
+    var paragraph3Styles = getStylesForItem(themeObjects.PARAGRAPH_3, theme[themeVariant]);
+    var button3Styles = getStylesForItem(themeObjects.BUTTON_3, theme[themeVariant]);
+    var buttonIcon3Styles = getStylesForItem(themeObjects.BUTTON_ICON_3, theme[themeVariant]);
+    var menuItem3Styles = getStylesForItem(themeObjects.MENU_ITEM_3, theme[themeVariant]);
+    var tag3Styles = getStylesForItem(themeObjects.TAG_3, theme[themeVariant]);
+    return /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col space-y-4 p-4",
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row bg-gray-900 p-4 space-x-4 rounded justify-between",
+        children: [/*#__PURE__*/jsxs(Panel, _objectSpread$y(_objectSpread$y({}, styles), {}, {
+          scrollable: false,
+          className: "rounded",
+          children: [/*#__PURE__*/jsx(Panel.Header, {
+            className: "text-xs uppercase font-bold",
+            children: "Panel"
+          }), /*#__PURE__*/jsx(Panel.Body, _objectSpread$y(_objectSpread$y({}, styles), {}, {
+            onClick: function onClick() {
+              handleClickItem(themeObjects.PANEL, styles);
+            }
+          })), /*#__PURE__*/jsx(Panel.Footer, {
+            className: "text-xs uppercase font-light",
+            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL)
+          })]
+        })), /*#__PURE__*/jsxs(Panel2, _objectSpread$y(_objectSpread$y({
+          className: "rounded"
+        }, styles2), {}, {
+          scrollable: false,
+          children: [/*#__PURE__*/jsx(Panel2.Header, {
+            className: "text-xs uppercase font-bold",
+            children: "Panel 2"
+          }), /*#__PURE__*/jsx(Panel2.Body, _objectSpread$y(_objectSpread$y({}, styles2), {}, {
+            onClick: function onClick() {
+              handleClickItem(themeObjects.PANEL_2, styles2);
+            }
+          })), /*#__PURE__*/jsx(Panel2.Footer, {
+            className: "text-xs uppercase font-light",
+            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_2)
+          })]
+        })), /*#__PURE__*/jsxs(Panel3, _objectSpread$y(_objectSpread$y({
+          className: "rounded"
+        }, styles3), {}, {
+          scrollable: false,
+          children: [/*#__PURE__*/jsx(Panel3.Header, {
+            className: "text-xs uppercase font-bold",
+            children: "Panel 3"
+          }), /*#__PURE__*/jsx(Panel3.Body, _objectSpread$y(_objectSpread$y({}, styles3), {}, {
+            onClick: function onClick() {
+              handleClickItem(themeObjects.PANEL_3, styles3);
+            }
+          })), /*#__PURE__*/jsx(Panel3.Footer, {
+            className: "text-xs uppercase font-light",
+            children: getCSSStyleForClassname("backgroundColor", themeObjects.PANEL_3)
+          })]
+        }))]
+      }), /*#__PURE__*/jsxs(Panel, _objectSpread$y(_objectSpread$y({
+        className: "p-6 rounded border-4 space-y-4",
+        scrollable: false,
+        height: "h-fit"
+      }, styles), {}, {
+        children: [/*#__PURE__*/jsx(Heading, _objectSpread$y(_objectSpread$y({
+          title: "Heading"
+        }, headingStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING, headingStyles);
+          }
+        })), /*#__PURE__*/jsx(Heading2, _objectSpread$y(_objectSpread$y({
+          title: "Heading 2"
+        }, heading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
+          }
+        })), /*#__PURE__*/jsx(Heading3, _objectSpread$y(_objectSpread$y({
+          title: "Heading 3"
+        }, heading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeadingStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$y(_objectSpread$y({
+          title: "Subheading 2"
+        }, subHeading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraphStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraph2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraph3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
+          }
+        })), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-2 w-full",
+          children: [/*#__PURE__*/jsx(Button, _objectSpread$y(_objectSpread$y({
+            title: "Button"
+          }, buttonStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON, buttonStyles);
+            }
+          })), /*#__PURE__*/jsx(Button2, _objectSpread$y(_objectSpread$y({
+            title: "Button 2"
+          }, button2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON_2, button2Styles);
+            }
+          })), /*#__PURE__*/jsx(Button3, _objectSpread$y(_objectSpread$y({
+            title: "Button 3"
+          }, button3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON_3, button3Styles);
+            }
+          }))]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-4 w-full h-fit",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon",
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
+              }
+            }))]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon 2",
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+              }
+            }))]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon 3",
+              icon: "pencil"
+            }, buttonIcon3Styles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIcon3Styles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+              }
+            }))]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col space-y-2 w-full",
+          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$y(_objectSpread$y({}, menuItemStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
+            },
+            children: "Menu Item"
+          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$y(_objectSpread$y({}, menuItem2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
+            },
+            children: "Menu Item 2"
+          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$y(_objectSpread$y({}, menuItem3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
+            },
+            children: "Menu Item 3"
+          }))]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-2 w-full",
+          children: [/*#__PURE__*/jsx(Tag, _objectSpread$y(_objectSpread$y({
+            text: "Tag",
+            icon: "pencil"
+          }, tagStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG, tagStyles);
+            }
+          })), /*#__PURE__*/jsx(Tag2, _objectSpread$y(_objectSpread$y({
+            text: "Tag 2",
+            icon: "pencil"
+          }, tag2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG_2, tag2Styles);
+            }
+          })), /*#__PURE__*/jsx(Tag3, _objectSpread$y(_objectSpread$y({
+            text: "Tag 3",
+            icon: "pencil"
+          }, tag3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG_3, tag3Styles);
+            }
+          }))]
+        })]
+      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$y(_objectSpread$y({
+        className: "p-6 rounded border-4 space-y-4",
+        height: "h-fit"
+      }, styles2), {}, {
+        children: [/*#__PURE__*/jsx(Heading, _objectSpread$y(_objectSpread$y({
+          title: "Heading"
+        }, headingStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING, headingStyles);
+          }
+        })), /*#__PURE__*/jsx(Heading2, _objectSpread$y(_objectSpread$y({
+          title: "Heading 2"
+        }, heading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
+          }
+        })), /*#__PURE__*/jsx(Heading3, _objectSpread$y(_objectSpread$y({
+          title: "Heading 3"
+        }, heading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeadingStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$y(_objectSpread$y({
+          title: "Subheading 2"
+        }, subHeading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraphStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraph2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraph3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
+          }
+        })), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-2 w-full",
+          children: [/*#__PURE__*/jsx(Button, _objectSpread$y(_objectSpread$y({
+            title: "Button"
+          }, buttonStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON, buttonStyles);
+            }
+          })), /*#__PURE__*/jsx(Button2, _objectSpread$y(_objectSpread$y({
+            title: "Button 2"
+          }, button2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON_2, button2Styles);
+            }
+          })), /*#__PURE__*/jsx(Button3, _objectSpread$y(_objectSpread$y({
+            title: "Button 3"
+          }, button3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON_3, button3Styles);
+            }
+          }))]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-4 w-full",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon",
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
+              }
+            }))]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon 2",
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+              }
+            }))]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon 3",
+              icon: "pencil"
+            }, buttonIcon3Styles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIcon3Styles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+              }
+            }))]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col space-y-2 w-full",
+          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$y(_objectSpread$y({}, menuItemStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
+            },
+            children: "Menu Item"
+          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$y(_objectSpread$y({}, menuItem2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
+            },
+            children: "Menu Item 2"
+          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$y(_objectSpread$y({}, menuItem3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
+            },
+            children: "Menu Item 3"
+          }))]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-2 w-full",
+          children: [/*#__PURE__*/jsx(Tag, _objectSpread$y(_objectSpread$y({
+            text: "Tag",
+            icon: "pencil"
+          }, tagStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG, tagStyles);
+            }
+          })), /*#__PURE__*/jsx(Tag2, _objectSpread$y(_objectSpread$y({
+            text: "Tag 2",
+            icon: "pencil"
+          }, tag2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG_2, tag2Styles);
+            }
+          })), /*#__PURE__*/jsx(Tag3, _objectSpread$y(_objectSpread$y({
+            text: "Tag 3",
+            icon: "pencil"
+          }, tag3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG_3, tag3Styles);
+            }
+          }))]
+        })]
+      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$y(_objectSpread$y({
+        className: "p-6 rounded border-4 space-y-4"
+      }, styles3), {}, {
+        padding: false,
+        height: "h-fit",
+        children: [/*#__PURE__*/jsx(Heading, _objectSpread$y(_objectSpread$y({
+          title: "Heading"
+        }, headingStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING, headingStyles);
+          }
+        })), /*#__PURE__*/jsx(Heading2, _objectSpread$y(_objectSpread$y({
+          title: "Heading 2"
+        }, heading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
+          }
+        })), /*#__PURE__*/jsx(Heading3, _objectSpread$y(_objectSpread$y({
+          title: "Heading 3"
+        }, heading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeadingStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING, subHeadingStyles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$y(_objectSpread$y({
+          title: "Subheading 2"
+        }, subHeading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraphStyles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH, paragraphStyles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraph2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH, paragraph2Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$y(_objectSpread$y({
+          text: "The quick brown fox jumps over the lazy dog."
+        }, paragraph3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
+          }
+        })), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-2 w-full",
+          children: [/*#__PURE__*/jsx(Button, _objectSpread$y(_objectSpread$y({
+            title: "Button"
+          }, buttonStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON, buttonStyles);
+            }
+          })), /*#__PURE__*/jsx(Button2, _objectSpread$y(_objectSpread$y({
+            title: "Button 2"
+          }, button2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON_2, button2Styles);
+            }
+          })), /*#__PURE__*/jsx(Button3, _objectSpread$y(_objectSpread$y({
+            title: "Button 3"
+          }, button3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.BUTTON_3, button3Styles);
+            }
+          }))]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-4 w-full",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon",
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON, buttonIconStyles);
+              }
+            }))]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon 2",
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIconStyles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+              }
+            }))]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              text: "Button Icon 3",
+              icon: "pencil"
+            }, buttonIcon3Styles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+              }
+            })), /*#__PURE__*/jsx(ButtonIcon, _objectSpread$y(_objectSpread$y({
+              icon: "pencil"
+            }, buttonIcon3Styles), {}, {
+              onClick: function onClick() {
+                return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+              }
+            }))]
+          })]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col space-y-2 w-full",
+          children: [/*#__PURE__*/jsx(MenuItem, _objectSpread$y(_objectSpread$y({}, menuItemStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM, menuItemStyles);
+            },
+            children: "Menu Item"
+          })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$y(_objectSpread$y({}, menuItem2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
+            },
+            children: "Menu Item 2"
+          })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$y(_objectSpread$y({}, menuItem3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
+            },
+            children: "Menu Item 3"
+          }))]
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row space-x-2 w-full",
+          children: [/*#__PURE__*/jsx(Tag, _objectSpread$y(_objectSpread$y({
+            text: "Tag",
+            icon: "pencil"
+          }, tagStyles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG, tagStyles);
+            }
+          })), /*#__PURE__*/jsx(Tag2, _objectSpread$y(_objectSpread$y({
+            text: "Tag 2",
+            icon: "pencil"
+          }, tag2Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG_2, tag2Styles);
+            }
+          })), /*#__PURE__*/jsx(Tag3, _objectSpread$y(_objectSpread$y({
+            text: "Tag 3",
+            icon: "pencil"
+          }, tag3Styles), {}, {
+            onClick: function onClick() {
+              return handleClickItem(themeObjects.TAG_3, tag3Styles);
+            }
+          }))]
+        })]
+      })), /*#__PURE__*/jsxs(Panel2, _objectSpread$y(_objectSpread$y({
+        className: "p-6 rounded border-4 space-y-4"
+      }, styles2), {}, {
+        height: "h-fit",
+        padding: false,
+        children: [/*#__PURE__*/jsx(Heading2, _objectSpread$y(_objectSpread$y({
+          title: "Heading 2"
+        }, heading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_2, heading2Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading2, _objectSpread$y(_objectSpread$y({
+          title: "Subheading 2"
+        }, subHeading2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_2, subHeading2Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph2, _objectSpread$y(_objectSpread$y({
+          text: "Paragraph 2 - The quick brown fox jumps over the lazy dog."
+        }, paragraph2Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_2, paragraph2Styles);
+          }
+        })), /*#__PURE__*/jsx(Button2, _objectSpread$y(_objectSpread$y({
+          title: "Button"
+        }, button2Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.BUTTON_2, button2Styles);
+          }
+        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$y(_objectSpread$y({
+          text: "Button Icon",
+          icon: "pencil"
+        }, buttonIcon2Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIcon2Styles);
+          }
+        })), /*#__PURE__*/jsx(ButtonIcon2, _objectSpread$y(_objectSpread$y({
+          icon: "pencil"
+        }, buttonIcon2Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.BUTTON_ICON_2, buttonIconStyles);
+          }
+        })), /*#__PURE__*/jsx(MenuItem2, _objectSpread$y(_objectSpread$y({}, menuItem2Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.MENU_ITEM_2, menuItem2Styles);
+          },
+          children: "Menu Item"
+        })), /*#__PURE__*/jsx(Tag2, _objectSpread$y(_objectSpread$y({
+          text: "Tag 2",
+          icon: "pencil"
+        }, tag2Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.TAG_2, tag2Styles);
+          }
+        }))]
+      })), /*#__PURE__*/jsxs(Panel3, _objectSpread$y(_objectSpread$y({
+        className: "p-6 rounded border-4 space-y-4"
+      }, styles3), {}, {
+        height: "h-fit",
+        padding: false,
+        children: [/*#__PURE__*/jsx(Heading3, _objectSpread$y(_objectSpread$y({
+          title: "Heading 3"
+        }, heading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.HEADING_3, heading3Styles);
+          }
+        })), /*#__PURE__*/jsx(SubHeading3, _objectSpread$y(_objectSpread$y({
+          title: "Subheading"
+        }, subHeading3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.SUBHEADING_3, subHeading3Styles);
+          }
+        })), /*#__PURE__*/jsx(Paragraph3, _objectSpread$y(_objectSpread$y({
+          text: "Paragraph 3 - The quick brown fox jumps over the lazy dog."
+        }, paragraph3Styles), {}, {
+          padding: false,
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.PARAGRAPH_3, paragraph3Styles);
+          }
+        })), /*#__PURE__*/jsx(Button3, _objectSpread$y(_objectSpread$y({
+          title: "Button"
+        }, button3Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.BUTTON_3, button3Styles);
+          }
+        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$y(_objectSpread$y({
+          text: "Button Icon 3",
+          icon: "pencil"
+        }, buttonIcon3Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+          }
+        })), /*#__PURE__*/jsx(ButtonIcon3, _objectSpread$y(_objectSpread$y({
+          icon: "pencil"
+        }, buttonIcon3Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.BUTTON_ICON_3, buttonIcon3Styles);
+          }
+        })), /*#__PURE__*/jsx(MenuItem3, _objectSpread$y(_objectSpread$y({}, menuItem3Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.MENU_ITEM_3, menuItem3Styles);
+          },
+          children: "Menu Item"
+        })), /*#__PURE__*/jsx(Tag3, _objectSpread$y(_objectSpread$y({
+          text: "Tag",
+          icon: "pencil"
+        }, tag3Styles), {}, {
+          onClick: function onClick() {
+            return handleClickItem(themeObjects.TAG_3, tag3Styles);
+          }
+        }))]
+      }))]
+    });
+  }
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    scrollable: true,
+    direction: "col",
+    children: renderPanels()
+  });
+};
+
+function _typeof$C(o) { "@babel/helpers - typeof"; return _typeof$C = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$C(o); }
+var _excluded$w = ["colorFromTheme", "colorName", "shade", "variant", "colorType", "colorLevelName", "selected", "onClick", "onMouseOver", "width", "height"];
+function ownKeys$x(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$x(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$x(Object(t), !0).forEach(function (r) { _defineProperty$y(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$x(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$y(e, r, t) { return (r = _toPropertyKey$C(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$C(t) { var i = _toPrimitive$C(t, "string"); return "symbol" == _typeof$C(i) ? i : i + ""; }
+function _toPrimitive$C(t, r) { if ("object" != _typeof$C(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$C(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$w(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$w(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$w(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var ColorTile = function ColorTile(_ref) {
+  var _ref$colorFromTheme = _ref.colorFromTheme,
+    colorFromTheme = _ref$colorFromTheme === void 0 ? null : _ref$colorFromTheme,
+    _ref$colorName = _ref.colorName,
+    colorName = _ref$colorName === void 0 ? null : _ref$colorName,
+    _ref$shade = _ref.shade,
+    shade = _ref$shade === void 0 ? null : _ref$shade,
+    _ref$variant = _ref.variant,
+    variant = _ref$variant === void 0 ? "dark" : _ref$variant,
+    _ref$colorType = _ref.colorType,
+    colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
+    _ref$colorLevelName = _ref.colorLevelName,
+    colorLevelName = _ref$colorLevelName === void 0 ? null : _ref$colorLevelName,
+    _ref$selected = _ref.selected,
+    selected = _ref$selected === void 0 ? false : _ref$selected,
+    _ref$onClick = _ref.onClick,
+    _onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$onMouseOver = _ref.onMouseOver,
+    _onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-full" : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-10" : _ref$height,
+    rest = _objectWithoutProperties$w(_ref, _excluded$w);
+  var c = ColorModel(_objectSpread$x({
+    colorFromTheme: colorFromTheme,
+    colorName: colorName,
+    colorType: colorType,
+    shade: shade,
+    variant: variant,
+    level: colorLevelName
+  }, rest));
+
+  // console.log("Color Model Tile ", c);
+
+  // const stringColor = colorFromTheme === null ? `bg-${colorName}${shade !== null ? `-${shade}` : ''}` : colorFromTheme;
+  // const parts = colorFromTheme !== null ? colorFromTheme.split('-') : null;
+
+  // const derivedShade = parts !== null ? parts[parts.length -1] : null;
+  // const derivedColorName = parts !== null ? parts[parts.length - 2] : null;
+
+  // const stringThemeColorName = '';
+  // const objToSend = {
+  //     colorName: colorName !== null ? colorName : colorFromTheme !== null && derivedColorName,
+  //     shade: shade !== null ? shade : colorFromTheme !== null && derivedShade,
+  //     stringColor,
+  //     ...rest
+  // };
+
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col rounded-lg cursor-pointer items-center justify-center border-2 text-xs ".concat(selected === true ? "border-yellow-500" : "border-gray-800", " hover:border-yellow-500 border-gray-800 ").concat(c["class"], " ").concat(width, " ").concat(height),
+    onClick: function onClick() {
+      return _onClick !== null ? _onClick(_objectSpread$x(_objectSpread$x({}, c), rest)) : null;
+    },
+    onMouseOver: function onMouseOver() {
+      return _onMouseOver !== null ? _onMouseOver(_objectSpread$x(_objectSpread$x({}, c), rest)) : null;
+    },
+    children: "\xA0"
+  });
+};
+
+function _typeof$B(o) { "@babel/helpers - typeof"; return _typeof$B = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$B(o); }
+function ownKeys$w(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$w(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$w(Object(t), !0).forEach(function (r) { _defineProperty$x(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$w(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$x(e, r, t) { return (r = _toPropertyKey$B(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$B(t) { var i = _toPrimitive$B(t, "string"); return "symbol" == _typeof$B(i) ? i : i + ""; }
+function _toPrimitive$B(t, r) { if ("object" != _typeof$B(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$B(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var PreviewColorsPane = function PreviewColorsPane(_ref) {
+  var _ref$styles = _ref.styles,
+    styles = _ref$styles === void 0 ? null : _ref$styles,
+    theme = _ref.theme,
+    _ref$itemType = _ref.itemType,
+    itemType = _ref$itemType === void 0 ? null : _ref$itemType,
+    _ref$onClickItem = _ref.onClickItem,
+    onClickItem = _ref$onClickItem === void 0 ? null : _ref$onClickItem,
+    _ref$onResetStyles = _ref.onResetStyles,
+    onResetStyles = _ref$onResetStyles === void 0 ? null : _ref$onResetStyles;
+  var _useContext = useContext$1(ThemeContext),
+    themeVariant = _useContext.themeVariant;
+  function handleClickItem(data, styleNameCss, itemType, objectType) {
+    // override the object type
+    data["objectType"] = objectType;
+    onClickItem(_objectSpread$w(_objectSpread$w({}, data), {}, {
+      itemType: itemType,
+      styleName: styleNameCss
+    }));
+  }
+  function handleResetStyles() {
+    onResetStyles(itemType);
+  }
+  function hasCustomStyles() {
+    var hasStyles = false;
+    // are there any styles (custom) in the theme for this item?
+    var themeStyles = theme[themeVariant][itemType];
+    // do we have any custom styles in the theme?
+    if (themeStyles !== undefined) {
+      Object.keys(styles).forEach(function (styleKey) {
+        if (styleKey in themeStyles) {
+          hasStyles = true;
+        }
+      });
+    }
+    return hasStyles;
+  }
+  function renderAvailableColors() {
+    // are there any styles (custom) in the theme for this item?
+    var themeStyles = theme[themeVariant][itemType];
+    // do we have any custom styles in the theme?
+    var newStyles = deepCopy(styles);
+    if (themeStyles !== undefined) {
+      Object.keys(styles).forEach(function (styleKey) {
+        newStyles[styleKey] = styleKey in themeStyles ? themeStyles[styleKey] : styles[styleKey];
+      });
+    }
+    return Object.keys(newStyles).filter(function (t) {
+      return t !== "string";
+    }).map(function (key) {
+      // lets get the base...
+      // we also have to compare the current theme selected and the colors that are in there?
+      // does the item have a default for the key? if not, abort!
+
+      var parts = key in newStyles ? newStyles[key] !== undefined ? newStyles[key].split("-") : null : null;
+      if (parts !== null) {
+        var objectType = parts[0];
+        var colorName = parts[1];
+        var shade = parts[2];
+        var c = ColorModel({
+          colorFromTheme: "".concat(parts[0], "-").concat(parts[1], "-").concat(parts[2]),
+          colorName: colorName,
+          shade: shade
+        });
+        return key !== "string" && /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row justify-between py-2 items-center border-b border-gray-700 px-4",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-col space-y-1",
+            children: [/*#__PURE__*/jsx("span", {
+              className: "text-sm font-bold text-gray-300",
+              children: key
+            }), c && "hex" in c && /*#__PURE__*/jsx("span", {
+              className: "text-xs font-light text-gray-500",
+              children: isObject(c.hex) ? c.hex[shade] : c.hex
+            })]
+          }), /*#__PURE__*/jsx(ColorTile, {
+            width: "w-1/2",
+            colorFromTheme: "".concat(parts[0], "-").concat(parts[1], "-").concat(parts[2]),
+            shade: shade,
+            colorName: colorName,
+            panelType: "item",
+            itemType: itemType,
+            objectType: "bg",
+            variant: "dark",
+            onClick: function onClick(data) {
+              return handleClickItem(data, key, itemType, objectType);
+            }
+          })]
+        }, "preview-color-".concat(key));
+      }
+      return null;
+    });
+  }
+  return styles !== null && itemType !== null ? /*#__PURE__*/jsxs(ThemePane, {
+    children: [/*#__PURE__*/jsx("div", {
+      className: "flex flex-col",
+      children: renderAvailableColors()
+    }), hasCustomStyles() === true && /*#__PURE__*/jsx("div", {
+      className: "flex flex-row justify-end p-2",
+      children: /*#__PURE__*/jsx(Tag3, {
+        theme: false,
+        text: "Reset to Default",
+        backgroundColor: "bg-orange-700",
+        onClick: handleResetStyles,
+        textSize: "text-xs"
+      })
+    })]
+  }) : null;
+};
+
+var AvailableColorsGridPane = function AvailableColorsGridPane(_ref) {
+  var _ref$currentColor = _ref.currentColor,
+    currentColor = _ref$currentColor === void 0 ? null : _ref$currentColor,
+    _ref$colorType = _ref.colorType,
+    colorType = _ref$colorType === void 0 ? "primary" : _ref$colorType,
+    _ref$onClick = _ref.onClick,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
+    _ref$onCancel = _ref.onCancel,
+    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel,
+    _ref$onMouseOver = _ref.onMouseOver,
+    onMouseOver = _ref$onMouseOver === void 0 ? null : _ref$onMouseOver,
+    _ref$shade = _ref.shade,
+    shade = _ref$shade === void 0 ? null : _ref$shade;
+  function handleChooseColor(data) {
+    onClick !== null && onClick(data);
+  }
+  function handleChooseColorTemp(data) {
+    onMouseOver !== null && onMouseOver(data);
+  }
+  function handleCancel() {
+    onCancel && onCancel(currentColor);
+  }
+  function renderAvailableColors() {
+    return colorNames.sort().map(function (colorName) {
+      return shades.filter(function (c) {
+        return shade === null ? true : c === shade;
+      }).map(function (shadeLevel) {
+        var cModel = ColorModel({
+          colorName: colorName,
+          colorType: colorType,
+          shade: shadeLevel,
+          level: shadeLevel
+        });
+        return /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row justify-between items-center py-2 border-b border-gray-700",
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "flex flex-col",
+            children: [/*#__PURE__*/jsxs("span", {
+              className: "text-sm font-bold text-gray-300",
+              children: [capitalizeFirstLetter(colorName), " ", shadeLevel]
+            }), cModel && /*#__PURE__*/jsx("span", {
+              className: "text-xs font-light text-gray-500",
+              children: cModel.hex[shadeLevel]
+            }), !cModel && /*#__PURE__*/jsx("span", {
+              className: "text-xs font-light text-gray-500",
+              children: "NA"
+            })]
+          }), /*#__PURE__*/jsx(ColorTile, {
+            width: "w-2/3",
+            colorType: colorType,
+            colorName: colorName,
+            colorLevelName: shadeLevel,
+            shade: shadeLevel,
+            onClick: handleChooseColor,
+            onMouseOver: handleChooseColorTemp
+          })]
+        });
+      });
+    });
+  }
+  return (
+    /*#__PURE__*/
+    // <LayoutContainer
+    //     direction="col"
+    //     scrollable={false}
+    //     className="space-y-1"
+    //     height={"h-full"}
+    // >
+    jsxs(DashPanel, {
+      height: "h-full",
+      scrollable: true,
+      children: [/*#__PURE__*/jsx(DashPanel.Header, {
+        title: "AvailableColors"
+      }), /*#__PURE__*/jsx(DashPanel.Body, {
+        scrollable: true,
+        space: true,
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-col space-y-1",
+          children: renderAvailableColors()
+        })
+      }), onCancel && /*#__PURE__*/jsx(DashPanel.Footer, {
+        children: /*#__PURE__*/jsx(Button, {
+          title: "Cancel",
+          block: true,
+          onClick: handleCancel
+        })
+      })]
+    })
+    // </LayoutContainer>
+  );
+};
+
+function _slicedToArray$j(r, e) { return _arrayWithHoles$j(r) || _iterableToArrayLimit$j(r, e) || _unsupportedIterableToArray$j(r, e) || _nonIterableRest$j(); }
+function _nonIterableRest$j() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$j(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$j(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$j(r, a) : void 0; } }
+function _arrayLikeToArray$j(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$j(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$j(r) { if (Array.isArray(r)) return r; }
+var ThemeMenuPane = function ThemeMenuPane(_ref) {
+  var _ref$currentColor = _ref.currentColor,
+    currentColor = _ref$currentColor === void 0 ? null : _ref$currentColor,
+    theme = _ref.theme,
+    onChooseColor = _ref.onChooseColor,
+    onChooseReplacementColor = _ref.onChooseReplacementColor,
+    _ref$onCancel = _ref.onCancel,
+    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel;
+  var _useState = useState(null),
+    _useState2 = _slicedToArray$j(_useState, 2),
+    selectedColor = _useState2[0],
+    setSelectedColor = _useState2[1];
+  var _useContext = useContext$1(ThemeContext),
+    themeVariant = _useContext.themeVariant;
+  function handleSelectColor(c, colorType) {
+    setSelectedColor({
+      color: c,
+      colorType: colorType,
+      type: c["objectType"],
+      itemType: c["itemType"]
+    });
+    onChooseColor(c);
+  }
+  function handleCancelSelectColor(color) {
+    setSelectedColor(null);
+    onCancel && onCancel(color);
+  }
+  function handleReplaceColor(_ref2) {
+    var _ref2$panelType = _ref2.panelType,
+      panelType = _ref2$panelType === void 0 ? "main" : _ref2$panelType,
+      colorType = _ref2.colorType,
+      colorName = _ref2.colorName,
+      _ref2$shade = _ref2.shade,
+      shade = _ref2$shade === void 0 ? 500 : _ref2$shade;
+    if (selectedColor !== null) {
+      var colorReplacement = {
+        colorName: colorName,
+        colorType: colorType,
+        shade: shade,
+        panelType: panelType
+      };
+      var r = ColorModel(colorReplacement);
+      onChooseReplacementColor(selectedColor, r);
+      setSelectedColor(null);
+    }
+  }
+  function handleReplaceColorTemp(_ref3) {
+    var _ref3$panelType = _ref3.panelType,
+      panelType = _ref3$panelType === void 0 ? "main" : _ref3$panelType,
+      colorType = _ref3.colorType,
+      colorName = _ref3.colorName,
+      _ref3$shade = _ref3.shade,
+      shade = _ref3$shade === void 0 ? 500 : _ref3$shade;
+    if (selectedColor !== null) {
+      var colorReplacement = {
+        colorName: colorName,
+        colorType: colorType,
+        shade: shade,
+        panelType: panelType
+      };
+      var r = ColorModel(colorReplacement);
+      onChooseReplacementColor(selectedColor, r);
+    }
+  }
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    direction: "col",
+    scrollable: true,
+    children: /*#__PURE__*/jsxs(LayoutContainer, {
+      direction: "col",
+      scrollable: true,
+      height: "h-fit",
+      children: [(selectedColor === null || selectedColor["color"]["panelType"] === "main") && /*#__PURE__*/jsxs(DashPanel, {
+        scrollable: false
+        // padding={true}
+        // height={selectedColor !== null ? "" : "h-fit"}
+        ,
+        height: "h-0",
+        children: [/*#__PURE__*/jsx(DashPanel.Header, {
+          title: "Main"
+        }), /*#__PURE__*/jsx(DashPanel.Body, {
+          scrollable: false,
+          children: colorTypes.filter(function (ct) {
+            return selectedColor !== null ? selectedColor["color"]["panelType"] === "main" && selectedColor["color"]["colorType"] === ct : true;
+          }).map(function (colorType) {
+            var bgColor = theme[themeVariant][colorType];
+            return /*#__PURE__*/jsxs("div", {
+              className: "flex flex-row justify-between items-center py-2 border-b border-gray-700",
+              children: [/*#__PURE__*/jsx("div", {
+                className: "flex flex-col h-fit",
+                children: /*#__PURE__*/jsx("span", {
+                  className: "text-sm font-bold text-gray-300",
+                  children: capitalizeFirstLetter(colorType)
+                })
+              }), /*#__PURE__*/jsx(ColorTile, {
+                width: "w-2/3",
+                colorName: bgColor,
+                colorType: colorType,
+                colorLevelName: null,
+                selected: false,
+                panelType: "main",
+                shade: 500,
+                onClick: function onClick(c) {
+                  return handleSelectColor(c, colorType);
+                }
+              })]
+            });
+          })
+        })]
+      }), (selectedColor === null || selectedColor["color"]["panelType"] === "sub") &&
+      /*#__PURE__*/
+      // <div
+      //     className={`flex flex-col rounded w-full space-y-2 min-h-1/4 overflow-y-scroll ${
+      //         selectedColor !== null ? "h-1/4" : "h-full"
+      //     }`}
+      // >
+      // <LayoutContainer scrollable={true} direction="col">
+      jsx(Fragment$1, {
+        children: colorTypes.filter(function (ct) {
+          return selectedColor !== null ? selectedColor["color"]["panelType"] === "sub" && selectedColor["color"]["colorType"] === ct : true;
+        }).map(function (colorType) {
+          return /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col w-full rounded bg-gray-800",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
+              children: colorType
+            }), /*#__PURE__*/jsx("div", {
+              className: "flex flex-col p-2",
+              children: themeVariants.filter(function (v) {
+                return selectedColor !== null ? selectedColor["color"]["level"] === v : true;
+              }).map(function (colorLevelName) {
+                var stringToCheck = "bg-".concat(colorType, "-").concat(colorLevelName);
+                // const bgColor = theme[themeVariant][colorType];
+                var themeColor = theme[themeVariant][stringToCheck];
+                var parts = themeColor.split("-");
+                var colorName = parts[1];
+                var shade = parts[parts.length - 1];
+                var selected = selectedColor !== null ? colorType === selectedColor["color"]["colorType"] && colorLevelName === selectedColor["color"]["level"] && selectedColor["color"]["panelType"] === "sub" : false;
+                return /*#__PURE__*/jsxs("div", {
+                  className: "flex flex-row justify-between py-1 items-center ".concat(selectedColor === null ? "border-b border-gray-700" : "", " px-2"),
+                  children: [/*#__PURE__*/jsx("span", {
+                    className: "text-sm font-bold text-gray-300",
+                    children: colorLevelName
+                  }), /*#__PURE__*/jsx(ColorTile, {
+                    colorFromTheme: themeColor,
+                    colorName: colorName,
+                    colorType: colorType,
+                    colorLevelName: colorLevelName,
+                    variant: themeVariant,
+                    selected: selected,
+                    panelType: "sub",
+                    shade: shade,
+                    onClick: handleSelectColor
+                    // onHover={handleSelectColorTemp}
+                    // height={'h-5'}
+                    ,
+                    width: "w-1/2"
+                  })]
+                });
+              })
+            })]
+          });
+        })
+      })
+      // </LayoutContainer>
+      , selectedColor !== null && /*#__PURE__*/jsx(AvailableColorsGridPane, {
+        currentColor: currentColor,
+        colorType: selectedColor["color"]["colorType"],
+        onClick: handleReplaceColor,
+        onCancel: handleCancelSelectColor,
+        onMouseOver: handleReplaceColorTemp,
+        shade: selectedColor["color"]["panelType"] === "main" ? 500 : null
+      })]
+    })
+  });
+};
+
+function _slicedToArray$i(r, e) { return _arrayWithHoles$i(r) || _iterableToArrayLimit$i(r, e) || _unsupportedIterableToArray$i(r, e) || _nonIterableRest$i(); }
+function _nonIterableRest$i() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$i(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$i(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$i(r, a) : void 0; } }
+function _arrayLikeToArray$i(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$i(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$i(r) { if (Array.isArray(r)) return r; }
+var PanelTheme = function PanelTheme(_ref) {
+  var onUpdate = _ref.onUpdate,
+    _ref$theme = _ref.theme,
+    theme = _ref$theme === void 0 ? null : _ref$theme,
+    themeKey = _ref.themeKey,
+    rawTheme = _ref.rawTheme;
+  var _useContext = useContext$1(ThemeContext),
+    themeVariant = _useContext.themeVariant,
+    rawThemes = _useContext.rawThemes;
+  var _useState = useState(theme),
+    _useState2 = _slicedToArray$i(_useState, 2),
+    themeSelected = _useState2[0],
+    setThemeSelected = _useState2[1];
+  // const [themeMainColor, setThemeMainColor] = useState(null);
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray$i(_useState3, 2),
+    themeNameToEdit = _useState4[0],
+    setThemeNameToEdit = _useState4[1];
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray$i(_useState5, 2),
+    itemSelected = _useState6[0],
+    setItemSelected = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray$i(_useState7, 2),
+    itemColorSelected = _useState8[0],
+    setItemColorSelected = _useState8[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$i(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (deepEqual(theme, themeSelected) === false) {
+      setThemeSelected(function () {
+        return theme;
+      });
+      forceUpdate();
+    }
+  }, [theme, rawThemes, themeSelected, forceUpdate]);
+
+  // function handleSelectThemeColor(colorType, variant, objectType) {
+  //     const themeToEdit = { colorType, variant, objectType };
+  //     setThemeNameToEdit(() => themeToEdit);
+  // }
+
+  function handleSelectColor(color) {
+    // const c = ColorModel(color);
+    // if (color['panelType'] === 'main') {
+    //     setThemeMainColor(c);
+    // }
+    // if (color['panelType'] === 'sub') {
+    //     console.log('color selected SUB ', color);
+    // }
+    setThemeNameToEdit(color);
+  }
+  function handleSelectColorCancel(color) {
+    var newTheme = deepCopy(rawTheme);
+
+    // // set the MAIN color
+    if (themeNameToEdit["panelType"] === "main") {
+      newTheme[color["colorType"]] = color["colorName"];
+      onUpdate(newTheme, themeKey);
+      forceUpdate();
+    }
+    if (themeNameToEdit["panelType"] === "sub") {
+      newTheme[themeVariant][themeNameToEdit["themeClass"]] = color["class"];
+      onUpdate(newTheme, themeKey);
+      forceUpdate();
+    }
+  }
+  function handleSelectReplacementColor(color, colorReplacement) {
+    var newTheme = deepCopy(rawTheme);
+    var replacementColorModel = ColorModel(colorReplacement);
+    // set the MAIN color
+    if (themeNameToEdit["panelType"] === "main") {
+      // use the type we added on in the main panel, not from the model
+      newTheme[color["colorType"]] = replacementColorModel["colorName"];
+      onUpdate(newTheme, themeKey);
+      // setThemeMainColor(() => null);
+      forceUpdate();
+    }
+
+    // set the generated value (override)
+    if (themeNameToEdit["panelType"] === "sub") {
+      // make sure we have the variant in the RAW THEME
+      if (themeVariant in newTheme === false) {
+        newTheme[themeVariant] = {};
+      }
+      newTheme[themeVariant][themeNameToEdit["themeClass"]] = replacementColorModel["class"];
+      onUpdate(newTheme, themeKey);
+      // setThemeMainColor(() => null);
+      forceUpdate();
+    }
+  }
+  function handleThemeNameChange(e) {
+    try {
+      if (rawTheme) {
+        var newTheme = deepCopy(rawTheme);
+        newTheme["name"] = e.target.value;
+        // push the new color change to the theme manager modal
+        onUpdate(newTheme, themeKey);
+      }
+    } catch (e) {
+    }
+  }
+  function handleSelectComponent(data) {
+    setItemSelected(function () {
+      return data;
+    });
+    setItemColorSelected(null);
+  }
+  function handleSelectColorForItem(data) {
+    try {
+      if (rawTheme) {
+        var newTheme = deepCopy(rawTheme);
+        var itemType = itemColorSelected.itemType,
+          styleName = itemColorSelected.styleName,
+          objectType = itemColorSelected.objectType;
+        var colorName = data.colorName,
+          shade = data.shade;
+        if (itemType in newTheme[themeVariant] === false) {
+          newTheme[themeVariant][itemType] = {};
+        }
+        newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
+        // push the new color change to the theme manager modal
+        onUpdate(newTheme, themeKey);
+        setItemColorSelected(null);
+      }
+    } catch (e) {
+    }
+  }
+  function handleSelectColorForItemTemp(data) {
+    try {
+      if (rawTheme !== null && rawTheme !== undefined) {
+        var newTheme = deepCopy(rawTheme);
+        var itemType = itemColorSelected.itemType,
+          styleName = itemColorSelected.styleName,
+          objectType = itemColorSelected.objectType;
+        var colorName = data.colorName,
+          shade = data.shade;
+        // check if light|dark exists in the raw theme
+        if (themeVariant && themeVariant in newTheme === false) {
+          newTheme[themeVariant] = {};
+        }
+        // now check within the variant type for the item (button, etc...)
+        if (itemType && itemType in newTheme[themeVariant] === false) {
+          newTheme[themeVariant][itemType] = {};
+        }
+        newTheme[themeVariant][itemType][styleName] = "".concat(objectType, "-").concat(colorName, "-").concat(shade);
+        // push the new color change to the theme manager modal
+        onUpdate(newTheme, themeKey);
+      }
+    } catch (e) {
+    }
+  }
+  function handleResetStylesForItem(itemType) {
+    try {
+      if (rawTheme !== null && rawTheme !== undefined) {
+        var newTheme = deepCopy(rawTheme);
+        // check if light|dark exists in the raw theme
+        if (themeVariant && themeVariant in newTheme === false) {
+          newTheme[themeVariant] = {};
+        }
+        newTheme[themeVariant][itemType] = {};
+        // push the new color change to the theme manager modal
+        onUpdate(newTheme, themeKey);
+      }
+    } catch (e) {
+    }
+  }
+  function handleResetStylesForTheme(itemType) {
+    try {
+      if (rawTheme !== null && rawTheme !== undefined) {
+        var newTheme = deepCopy(rawTheme);
+
+        // remove all of the custom colors for each variant...
+        newTheme["dark"] = {};
+        newTheme["light"] = {};
+
+        // push the new color change to the theme manager modal
+        onUpdate(newTheme, themeKey);
+      }
+    } catch (e) {
+    }
+  }
+  return /*#__PURE__*/jsx(Panel, {
+    theme: false,
+    backgroundColor: "",
+    padding: false,
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-row h-full rounded space-x-2 w-full",
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-row w-full space-x-2",
+          children: /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col h-full rounded w-full overflow-hidden space-y-2",
+            children: [/*#__PURE__*/jsxs("div", {
+              className: "flex flex-row space-x-2",
+              children: [themeSelected !== null && /*#__PURE__*/jsx(InputText, {
+                name: "name",
+                padding: "p-4",
+                value: themeSelected.name,
+                onChange: handleThemeNameChange,
+                textSize: "text-lg",
+                placeholder: "Colorama ;-)",
+                bgColor: "bg-gray-900",
+                textColor: "text-gray-400",
+                hasBorder: false
+              }), /*#__PURE__*/jsx(ButtonIcon, {
+                onClick: handleResetStylesForTheme,
+                icon: "trash",
+                text: "Reset Theme"
+              })]
+            }), /*#__PURE__*/jsxs("div", {
+              className: "flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1",
+              children: [/*#__PURE__*/jsx("div", {
+                className: "flex flex-col h-full w-1/3 overflow-hidden",
+                children: /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col h-full space-y-2 border-r border-gray-700 p-2 w-full",
+                  children: /*#__PURE__*/jsx(ThemeMenuPane, {
+                    currentColor: themeNameToEdit,
+                    theme: themeSelected,
+                    onChooseColor: handleSelectColor,
+                    onChooseReplacementColor: handleSelectReplacementColor,
+                    onCancel: handleSelectColorCancel
+                  })
+                })
+              }), themeSelected && /*#__PURE__*/jsx("div", {
+                className: "flex flex-col ".concat(itemSelected === null ? "w-3/4" : "w-1/2"),
+                children: /*#__PURE__*/jsx(PreviewComponentsPane, {
+                  theme: themeSelected,
+                  themeVariant: themeVariant,
+                  onClick: handleSelectComponent
+                })
+              }), /*#__PURE__*/jsxs("div", {
+                className: "flex flex-col w-1/4 min-w-1/4 p-1 space-y-1",
+                children: [itemSelected !== null && /*#__PURE__*/jsxs("div", {
+                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
+                  children: [/*#__PURE__*/jsx("div", {
+                    className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
+                    children: itemSelected["item"]
+                  }), /*#__PURE__*/jsx(LayoutContainer, {
+                    scrollable: true,
+                    direction: "col",
+                    children: /*#__PURE__*/jsx(PreviewColorsPane, {
+                      styles: itemSelected["styles"],
+                      theme: themeSelected,
+                      itemType: itemSelected["item"],
+                      onClickItem: function onClickItem(i) {
+                        setItemColorSelected(i);
+                        forceUpdate();
+                      },
+                      onResetStyles: handleResetStylesForItem
+                    })
+                  })]
+                }), itemSelected === null && /*#__PURE__*/jsx("div", {
+                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
+                  children: /*#__PURE__*/jsx("div", {
+                    className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
+                    children: "Inspector"
+                  })
+                }), itemColorSelected !== null && /*#__PURE__*/jsxs("div", {
+                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-1/2",
+                  children: [/*#__PURE__*/jsx("div", {
+                    className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
+                    children: "Available Colors"
+                  }), /*#__PURE__*/jsx(LayoutContainer, {
+                    scrollable: true,
+                    direction: "col",
+                    children: /*#__PURE__*/jsx(AvailableColorsGridPane, {
+                      colorType: "primary",
+                      itemType: itemSelected,
+                      onMouseOver: handleSelectColorForItemTemp,
+                      onClick: handleSelectColorForItem
+                    })
+                  })]
+                })]
+              })]
+            })]
+          })
+        })
+      })
+    })
+  });
+};
+
+var ThemePickerGridPane = function ThemePickerGridPane(_ref) {
+  var themeKey = _ref.themeKey,
+    onChooseTheme = _ref.onChooseTheme;
+  var _useContext = useContext$1(ThemeContext),
+    themes = _useContext.themes,
+    themeVariant = _useContext.themeVariant;
+  function renderMenuItem(tk) {
+    var displayTheme = themes[tk][themeVariant];
+    var colors = [{
+      colorName: displayTheme["secondary"],
+      type: "secondary",
+      color: displayTheme["bg-secondary-medium"]
+    }, {
+      colorName: displayTheme["tertiary"],
+      type: "tertiary",
+      color: displayTheme["bg-tertiary-medium"]
+    }, {
+      colorName: displayTheme["neutral"],
+      type: "neutral",
+      color: displayTheme["bg-neutral-light"]
+    }];
+    return colors.map(function (color) {
+      return /*#__PURE__*/jsx("div", {
+        className: "rounded ".concat(color["color"], " h-20 w-full")
+      }, "theme-grid-".concat(color.type));
+    });
+  }
+  function renderCurrentThemes() {
+    return Object.keys(themes).map(function (tk) {
+      // is this selected
+      var selected = tk === themeKey;
+      var current = themes[tk][themeVariant];
+      return /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col text-xs p-4 space-y-4 h-48 w-full rounded justify-between border-2 ".concat(selected === true ? "border-yellow-600 hover:border-yellow-600" : "hover:border-yellow-600 border-gray-800", " cursor-pointer text-gray-200 ").concat(themes[tk][themeVariant]["bg-primary-dark"]),
+        onClick: function onClick() {
+          return onChooseTheme(tk);
+        },
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-col w-full",
+          children: [/*#__PURE__*/jsx("span", {
+            className: "font-bold text-xl word-break-all",
+            children: current["name"]
+          }), /*#__PURE__*/jsx("span", {
+            className: "font-bold text-xs text-gray-500",
+            children: tk
+          })]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-row space-x-2",
+          children: renderMenuItem(tk)
+        })]
+      }, "icon-".concat(tk));
+    });
+  }
+  return /*#__PURE__*/jsx(ThemePane, {
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
+      children: /*#__PURE__*/jsx("div", {
+        className: "grid grid-cols-3 gap-4 w-full h-full overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800",
+        children: renderCurrentThemes()
+      })
+    })
+  });
+};
+
+var ThemeTitlePane = function ThemeTitlePane(_ref) {
+  var onChooseVariant = _ref.onChooseVariant,
+    onClickNewTheme = _ref.onClickNewTheme;
+  var _useContext = useContext$1(ThemeContext),
+    themeVariant = _useContext.themeVariant;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col rounded font-medium hidden xl:flex w-1/3 justify-between",
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col rounded font-medium justify-between overflow-hidden",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col rounded p-6 py-10 space-y-4 w-full hidden xl:flex",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-row justify-between",
+          children: [/*#__PURE__*/jsx(Heading, {
+            title: "Theme.",
+            padding: false,
+            textColor: "text-gray-300"
+          }), /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "plus",
+            textSize: "text-2xl",
+            backgroundColor: "bg-gray-800",
+            hoverBackgroundColor: "hover:bg-green-600",
+            iconSize: "h-6 w-6",
+            textColor: "text-gray-400",
+            onClick: onClickNewTheme
+          })]
+        }), /*#__PURE__*/jsxs("p", {
+          className: "text-lg font-normal text-gray-300",
+          children: ["We all know dark is best, but if you", " ", /*#__PURE__*/jsx("span", {
+            className: "italic",
+            children: "have"
+          }), " to change colors, we'll allow it."]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-col space-y-2 w-full",
+          children: /*#__PURE__*/jsx(Toggle, {
+            enabled: themeVariant === "dark" ? true : false,
+            setEnabled: function setEnabled() {
+              return onChooseVariant(themeVariant === "dark" ? "light" : "dark");
+            },
+            text: "Dark",
+            theme: false,
+            backgroundColor: "bg-gray-900",
+            hoverBackgroundColor: "hover:bg-gray-900"
+          })
+        })]
+      })
+    })
+  });
+};
+
+var PanelThemePicker = function PanelThemePicker(_ref) {
+  var onUpdate = _ref.onUpdate,
+    onCreateNew = _ref.onCreateNew,
+    onChangeVariant = _ref.onChangeVariant,
+    _ref$theme = _ref.theme,
+    theme = _ref$theme === void 0 ? null : _ref$theme,
+    themeKey = _ref.themeKey;
+  var _useContext = useContext$1(ThemeContext);
+    _useContext.themeVariant;
+    var rawThemes = _useContext.rawThemes;
+  function handleSelectTheme(themeKey) {
+    onUpdate(rawThemes[themeKey], themeKey);
+  }
+  function handleCreateNewTheme() {
+    // lets generate a new Key, and a new theme
+    onCreateNew("theme-".concat(Date.now()));
+  }
+  return /*#__PURE__*/jsx(Panel, {
+    theme: false,
+    backgroundColor: "bg-transparent",
+    width: "w-full",
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-full h-full xl:space-x-4 overflow-hidden",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row h-full rounded xl:space-x-4 w-full",
+        children: [/*#__PURE__*/jsx(ThemeTitlePane, {
+          theme: theme,
+          themeKey: themeKey,
+          onClickNewTheme: handleCreateNewTheme,
+          onChooseVariant: onChangeVariant
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-col w-full w-1/2 xl:w-3/4",
+          children: theme !== null && /*#__PURE__*/jsx("div", {
+            className: "flex flex-row h-full rounded w-full overflow-hidden bg-gray-900 xl:space-x-2 p-2",
+            children: /*#__PURE__*/jsx(ThemePickerGridPane, {
+              theme: theme,
+              themeKey: themeKey,
+              onClickNewTheme: handleCreateNewTheme,
+              onChooseTheme: handleSelectTheme,
+              onChooseVariant: onChangeVariant
+            })
+          })
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$h(r, e) { return _arrayWithHoles$h(r) || _iterableToArrayLimit$h(r, e) || _unsupportedIterableToArray$h(r, e) || _nonIterableRest$h(); }
+function _nonIterableRest$h() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
+function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$h(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$h(r) { if (Array.isArray(r)) return r; }
+var ThemeManagerModal = function ThemeManagerModal(_ref) {
+  var open = _ref.open,
+    setIsOpen = _ref.setIsOpen;
+  var _useContext = useContext$1(ThemeContext),
+    changeThemesForApplication = _useContext.changeThemesForApplication,
+    rawThemes = _useContext.rawThemes,
+    themes = _useContext.themes,
+    changeCurrentTheme = _useContext.changeCurrentTheme,
+    changeThemeVariant = _useContext.changeThemeVariant;
+  var _useContext2 = useContext$1(AppContext),
+    dashApi = _useContext2.dashApi,
+    credentials = _useContext2.credentials,
+    settings = _useContext2.settings;
+  var _useState = useState(null),
+    _useState2 = _slicedToArray$h(_useState, 2),
+    themeSelected = _useState2[0],
+    setThemeSelected = _useState2[1];
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray$h(_useState3, 2),
+    rawThemeSelected = _useState4[0],
+    setRawThemeSelected = _useState4[1];
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray$h(_useState5, 2),
+    themeKeySelected = _useState6[0],
+    setThemeKeySelected = _useState6[1];
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray$h(_useState7, 2),
+    isEditing = _useState8[0],
+    setIsEditing = _useState8[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$h(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    if (open === false) {
+      setThemeSelected(null);
+      setRawThemeSelected(null);
+      setThemeKeySelected(null);
+    } else {
+      // if there is no key selected...
+      if (themeKeySelected === null && themes) {
+        var themeKeyTemp = themeKeySelected === null && settings && "theme" in settings ? settings["theme"] in themes ? settings["theme"] : Object.keys(themes)[0] : Object.keys(themes)[0];
+        var themeModel = ThemeModel(rawThemes[themeKeyTemp]);
+        setThemeKeySelected(function () {
+          return themeKeyTemp;
+        });
+        setThemeSelected(function () {
+          return themeModel;
+        });
+        setRawThemeSelected(function () {
+          return rawThemes[themeKeyTemp];
+        });
+      }
+    }
+  }, [open, themes, rawThemes, settings, themeKeySelected]);
+  function handleThemeSelected(themeUpdated, themeKey) {
+    // the Raw theme is the "abbreviated" version which will be stored
+    // in the file. The model will inflate this to fill in the rest
+
+    // we have to merge the dirty information into this selected item if exists...
+    var newRawThemeSelected = deepCopy(rawThemeSelected);
+    if (newRawThemeSelected !== null) {
+      Object.keys(themeUpdated).forEach(function (k) {
+        newRawThemeSelected[k] = themeUpdated[k];
+      });
+    } else {
+      newRawThemeSelected = deepCopy(themeUpdated);
+    }
+    setRawThemeSelected(function () {
+      return newRawThemeSelected;
+    });
+    var newTheme = ThemeModel(deepCopy(newRawThemeSelected));
+    setThemeKeySelected(function () {
+      return themeKey;
+    });
+    setThemeSelected(function () {
+      return newTheme;
+    });
+    forceUpdate();
+  }
+  function handleCreateNewTheme(themeKey) {
+    var newRawTheme = {
+      id: themeKey,
+      name: "New Theme",
+      primary: "gray",
+      secondary: "slate",
+      tertiary: "orange",
+      neutral: "gray",
+      shadeBackgroundFrom: 200,
+      shadeBorderFrom: 300,
+      shadeTextFrom: 700
+    };
+
+    // now we can present a new raw theme and store it...
+
+    // // we have to merge the dirty information into this selected item if exists...
+    var newRawThemes = deepCopy(rawThemes);
+    newRawThemes[themeKey] = newRawTheme;
+
+    // Here is where we have to add this theme to the themes available
+    // and save to the themes file.
+    // api.removeAllListeners();
+    // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeCompleteNew);
+    // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeErrorNew);
+
+    // api.themes.saveThemeForApplication(creds.appId, themeKey, newRawTheme);
+
+    if (dashApi) {
+      dashApi.saveTheme(credentials.appId, themeKeySelected, newRawTheme, handleSaveThemeComplete, handleSaveThemeError);
+    }
+  }
+  function handleSaveTheme() {
+    if (themeKeySelected !== null && rawThemeSelected !== null) {
+      // Here is where we have to add this theme to the themes available
+      // and save to the themes file.
+      // api.removeAllListeners();
+      // api.on(api.events.THEME_SAVE_COMPLETE, handleSaveThemeComplete);
+      // api.on(api.events.THEME_SAVE_ERROR, handleSaveThemeError);
+      // api.themes.saveThemeForApplication(
+      //     creds.appId,
+      //     themeKeySelected,
+      //     rawThemeSelected
+      // );
+      if (dashApi) {
+        dashApi.saveTheme(credentials.appId, themeKeySelected, rawThemeSelected, handleSaveThemeComplete, handleSaveThemeError);
+      }
+    }
+    setIsEditing(false);
+  }
+  function handleSaveThemeComplete(e, message) {
+    changeThemesForApplication(message["themes"]);
+    setIsEditing(false);
+  }
+  function handleSaveThemeError(e, message) {
+  }
+  function handleChooseTheme(themeKey) {
+    setThemeSelected(function () {
+      return themes[themeKey];
+    });
+    setThemeKeySelected(function () {
+      return themeKey;
+    });
+    setRawThemeSelected(function () {
+      return rawThemes[themeKey];
+    });
+  }
+  function handleActivateTheme() {
+    changeCurrentTheme(themeKeySelected);
+    setIsOpen(false);
+    // reset
+    setThemeSelected(null);
+    setIsEditing(false);
+  }
+  return /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-full",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      backgroundColor: "bg-slate-800",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "flex flex-row w-full h-full overflow-hidden",
+          children: /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            children: [themeSelected && isEditing === false && /*#__PURE__*/jsx(PanelThemePicker, {
+              theme: themeSelected,
+              themeKey: themeKeySelected,
+              onUpdate: handleThemeSelected,
+              onCreateNew: handleCreateNewTheme,
+              onChooseTheme: handleChooseTheme,
+              onChangeVariant: changeThemeVariant,
+              rawTheme: rawThemeSelected
+            }), themeSelected && isEditing === true && /*#__PURE__*/jsx(PanelTheme, {
+              theme: themeSelected,
+              themeKey: themeKeySelected,
+              onUpdate: handleThemeSelected,
+              onCreateNew: handleCreateNewTheme,
+              rawTheme: rawThemeSelected
+            })]
+          })
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800 justify-between items-center",
+          children: [themeSelected !== null && /*#__PURE__*/jsx("div", {
+            className: "flex flex-row",
+            children: /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col font-bold text-xl px-2",
+              children: [themeSelected !== null ? themeSelected["name"] : "", /*#__PURE__*/jsx("span", {
+                className: "text-xs text-gray-600",
+                children: themeKeySelected
+              })]
+            })
+          }), isEditing === false && /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(Button, {
+              onClick: function onClick() {
+                return setIsOpen(false);
+              },
+              title: "Cancel",
+              textSize: "text-base xl:text-lg",
+              padding: "py-2 px-4",
+              backgroundColor: "bg-gray-700",
+              textColor: "text-gray-300",
+              hoverTextColor: "hover:text-gray-100",
+              hoverBackgroundColor: "hover:bg-gray-700"
+            }), themeSelected !== null && /*#__PURE__*/jsx(Button, {
+              onClick: function onClick() {
+                return setIsEditing(true);
+              },
+              title: "Edit",
+              textSize: "text-base xl:text-lg",
+              padding: "py-2 px-4",
+              backgroundColor: "bg-gray-700",
+              textColor: "text-gray-300",
+              hoverTextColor: "hover:text-gray-100",
+              hoverBackgroundColor: "hover:bg-gray-700"
+            }), themeSelected !== null && /*#__PURE__*/jsx(Button, {
+              onClick: handleActivateTheme,
+              title: "Activate",
+              textSize: "text-base xl:text-lg",
+              padding: "py-2 px-4",
+              backgroundColor: "bg-gray-700",
+              textColor: "text-gray-300",
+              hoverTextColor: "hover:text-gray-100",
+              hoverBackgroundColor: "hover:bg-gray-700"
+            })]
+          }), isEditing === true && /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row space-x-2",
+            children: [/*#__PURE__*/jsx(Button, {
+              onClick: function onClick() {
+                return setIsEditing(false);
+              },
+              title: "Cancel",
+              textSize: "text-base xl:text-lg",
+              padding: "py-2 px-4",
+              backgroundColor: "bg-gray-700",
+              textColor: "text-gray-300",
+              hoverTextColor: "hover:text-gray-100",
+              hoverBackgroundColor: "hover:bg-gray-700"
+            }), /*#__PURE__*/jsx(Button, {
+              onClick: function onClick() {
+                return handleSaveTheme();
+              },
+              title: "Save Changes",
+              textSize: "text-base xl:text-lg",
+              padding: "py-2 px-4",
+              backgroundColor: "bg-gray-700",
+              textColor: "text-gray-300",
+              hoverTextColor: "hover:text-gray-100",
+              hoverBackgroundColor: "hover:bg-gray-700"
+            })]
+          })]
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$g(r, e) { return _arrayWithHoles$g(r) || _iterableToArrayLimit$g(r, e) || _unsupportedIterableToArray$g(r, e) || _nonIterableRest$g(); }
+function _nonIterableRest$g() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$g(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$g(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$g(r, a) : void 0; } }
+function _arrayLikeToArray$g(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$g(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$g(r) { if (Array.isArray(r)) return r; }
+var PanelWelcome = function PanelWelcome(_ref) {
+  var _ref$menuItems = _ref.menuItems,
+    menuItems = _ref$menuItems === void 0 ? [] : _ref$menuItems,
+    _ref$workspaces = _ref.workspaces,
+    workspaces = _ref$workspaces === void 0 ? [] : _ref$workspaces,
+    _ref$selectedMainItem = _ref.selectedMainItem,
+    selectedMainItem = _ref$selectedMainItem === void 0 ? null : _ref$selectedMainItem,
+    _ref$onClickWorkspace = _ref.onClickWorkspace,
+    onClickWorkspace = _ref$onClickWorkspace === void 0 ? null : _ref$onClickWorkspace,
+    onClickNewWorkspace = _ref.onClickNewWorkspace,
+    _ref$onNewMenuItem = _ref.onNewMenuItem,
+    onNewMenuItem = _ref$onNewMenuItem === void 0 ? null : _ref$onNewMenuItem,
+    _ref$onOpenThemeManag = _ref.onOpenThemeManager,
+    onOpenThemeManager = _ref$onOpenThemeManag === void 0 ? null : _ref$onOpenThemeManag,
+    _ref$onOpenSettings = _ref.onOpenSettings,
+    onOpenSettings = _ref$onOpenSettings === void 0 ? null : _ref$onOpenSettings,
+    _ref$onOpenDashboardL = _ref.onOpenDashboardLoader,
+    onOpenDashboardLoader = _ref$onOpenDashboardL === void 0 ? null : _ref$onOpenDashboardL;
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme,
+    currentTheme = _useContext.currentTheme,
+    changeThemeVariant = _useContext.changeThemeVariant,
+    themeVariant = _useContext.themeVariant;
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$g(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    forceUpdate();
+  }, [theme, currentTheme, forceUpdate]);
+  var handleAddNewMenuItem = function handleAddNewMenuItem() {
+    onNewMenuItem && onNewMenuItem();
+  };
+  var handleOpenThemeManager = function handleOpenThemeManager() {
+    onOpenThemeManager && onOpenThemeManager();
+  };
+  var handleOpenSettings = function handleOpenSettings() {
+    onOpenSettings && onOpenSettings();
+  };
+  var handleClickNewWorkspace = function handleClickNewWorkspace(data) {
+    try {
+      if (data === undefined) {
+        selectedMainItem = 1;
+      } else {
+        selectedMainItem = data.id;
+      }
+
+      // if we have no data, we have to create a layout
+      var newLayout = {
+        id: 1,
+        order: 1,
+        direction: "col",
+        width: "w-full",
+        component: "Container",
+        hasChildren: 1,
+        scrollable: false,
+        parent: 0,
+        menuId: selectedMainItem // default menu item id is 1
+      };
+      var newWorkspace = new WorkspaceModel({
+        layout: [newLayout]
+      });
+      onClickNewWorkspace && onClickNewWorkspace(newWorkspace);
+    } catch (e) {
+    }
+  };
+  function handleClickLoadDashboard() {
+    onOpenDashboardLoader();
+  }
+
+  // const handleClickWorkspace = (data) => {
+  //     onClickWorkspace && onClickWorkspace(data);
+  // };
+
+  return currentTheme && /*#__PURE__*/jsx("div", {
+    className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center",
+      children: /*#__PURE__*/jsxs(Panel2, {
+        horizontal: true,
+        padding: false,
+        direction: "row",
+        width: "w-full",
+        height: "h-2/3",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-col space-y-1 p-2 h-full justify-between ".concat(currentTheme["bg-secondary-dark"]),
+          children: [/*#__PURE__*/jsxs("div", {
+            className: "w-10 h-10 items-center justify-center",
+            children: [/*#__PURE__*/jsx(ButtonIcon, {
+              icon: "plus",
+              onClick: function onClick() {
+                return handleClickNewWorkspace();
+              },
+              hoverBackgroundColor: "hover:bg-green-700",
+              backgroundColor: currentTheme["bg-primary-dark"]
+            }), /*#__PURE__*/jsx(ButtonIcon, {
+              icon: "database",
+              onClick: function onClick() {
+                return handleClickLoadDashboard();
+              },
+              hoverBackgroundColor: "hover:bg-green-700",
+              backgroundColor: currentTheme["bg-primary-dark"]
+            })]
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col space-y-1",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "folder-plus",
+                onClick: handleAddNewMenuItem,
+                hoverBackgroundColor: "hover:bg-green-700"
+              })
+            }), /*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: themeVariant === "dark" ? "sun" : "moon",
+                onClick: function onClick() {
+                  return changeThemeVariant(themeVariant === "dark" ? "light" : "dark");
+                }
+              })
+            }), /*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "palette",
+                onClick: handleOpenThemeManager,
+                hoverBackgroundColor: "hover:bg-orange-700"
+              })
+            }), /*#__PURE__*/jsx("div", {
+              className: "w-10 h-10 items-center justify-center",
+              children: /*#__PURE__*/jsx(ButtonIcon, {
+                icon: "computer",
+                onClick: handleOpenSettings,
+                hoverBackgroundColor: "hover:bg-orange-700"
+              })
+            })]
+          })]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-col w-full h-full overflow-hidden p-4",
+          children: /*#__PURE__*/jsxs("div", {
+            className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+            children: [/*#__PURE__*/jsxs("div", {
+              className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-6 justify-between",
+              children: [/*#__PURE__*/jsxs("div", {
+                className: "flex flex-col rounded py-4 space-y-4",
+                children: [/*#__PURE__*/jsx(Heading, {
+                  title: "Dash.",
+                  padding: false
+                }), /*#__PURE__*/jsx("div", {
+                  className: "flex-row hidden 2xl:flex w-full ",
+                  children: /*#__PURE__*/jsx(SubHeading3, {
+                    title: "Dashboard Generator.",
+                    padding: false
+                  })
+                })]
+              }), /*#__PURE__*/jsx("div", {
+                className: "flex flex-row space-x-2 items-center",
+                children: theme !== null && theme !== undefined && /*#__PURE__*/jsx(Tag, {
+                  text: "Current theme: ".concat(theme["name"]),
+                  onClick: handleOpenThemeManager
+                })
+              })]
+            }), /*#__PURE__*/jsx(Panel3, {
+              scrollable: false,
+              space: true,
+              horizontal: true,
+              width: "w-full",
+              children: /*#__PURE__*/jsx(Panel3.Body, {
+                children: /*#__PURE__*/jsx(LayoutContainer, {
+                  direction: "row",
+                  space: false,
+                  scrollable: true,
+                  width: "w-full",
+                  children: /*#__PURE__*/jsx(MainMenu, {
+                    menuItems: menuItems,
+                    workspaces: workspaces,
+                    onClickNewWorkspace: handleClickNewWorkspace,
+                    selectedMainItem: selectedMainItem,
+                    onWorkspaceMenuChange: onClickWorkspace,
+                    onCreateNewFolder: handleAddNewMenuItem
+                  })
+                })
+              })
+            })]
+          })
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$f(r, e) { return _arrayWithHoles$f(r) || _iterableToArrayLimit$f(r, e) || _unsupportedIterableToArray$f(r, e) || _nonIterableRest$f(); }
+function _nonIterableRest$f() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
+function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$f(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$f(r) { if (Array.isArray(r)) return r; }
+var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
+  var settings = _ref.settings,
+    workspaces = _ref.workspaces,
+    setIsOpen = _ref.setIsOpen;
+  var messagesEnd = useRef(null);
+  var _useContext = useContext$1(ThemeContext),
+    theme = _useContext.theme,
+    themes = _useContext.themes,
+    changeCurrentTheme = _useContext.changeCurrentTheme;
+  var _useContext2 = useContext$1(AppContext),
+    creds = _useContext2.creds,
+    api = _useContext2.api;
+    _useContext2.debugMode;
+    var changeDebugMode = _useContext2.changeDebugMode;
+  var _useState = useState(""),
+    _useState2 = _slicedToArray$f(_useState, 2),
+    userInput = _useState2[0],
+    setUserInput = _useState2[1];
+  var _useState3 = useState(0),
+    _useState4 = _slicedToArray$f(_useState3, 2),
+    userInputIndex = _useState4[0],
+    setUserInputIndex = _useState4[1];
+
+  // store the "chat"
+  var _useState5 = useState([]),
+    _useState6 = _slicedToArray$f(_useState5, 2),
+    applicationInput = _useState6[0],
+    setApplicationInput = _useState6[1];
+  var _useState7 = useState([]),
+    _useState8 = _slicedToArray$f(_useState7, 2),
+    userInputs = _useState8[0],
+    setUserInputs = _useState8[1];
+  useEffect(function () {
+    if (applicationInput.length === 0) {
+      addDashInput("Talk robot to me.");
+    }
+    scrollToBottom();
+  });
+  function handleUserInput(e) {
+    // only add when the user presses enter
+    setUserInput(function () {
+      return "".concat(e.target.value);
+    });
+  }
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      addUserInput(userInput);
+      evaluateUserInput(userInput);
+      setUserInput(function () {
+        return "";
+      });
+    }
+    if (e.key === "ArrowUp") {
+      var currentIndex = deepCopy(userInputIndex);
+      var newIndex = currentIndex - 1;
+      var text = userInputs[newIndex];
+      if (text !== undefined && text !== null) {
+        setUserInput(function () {
+          return text;
+        });
+        setUserInputIndex(function () {
+          return newIndex;
+        });
+      }
+    }
+    if (e.key === "ArrowDown") {
+      var _currentIndex = deepCopy(userInputIndex);
+      var _newIndex = _currentIndex + 1;
+      var _text = userInputs[_newIndex];
+      if (_text !== undefined && _text !== null) {
+        setUserInput(function () {
+          return _text;
+        });
+        setUserInputIndex(function () {
+          return _newIndex;
+        });
+      }
+    }
+  }
+  function evaluateUserInput(input) {
+    // in some cases we have to get the substring and
+    // use the rest of the string to "change" the configuration
+
+    var newInput = input;
+    if (input.indexOf("/") > -1) {
+      newInput = input.substring(1);
+    }
+
+    // break up the command line statement into parts split by spaces
+    var parts = newInput.split(" ");
+    var command = parts[0];
+    var args = {};
+    if (parts.length > 1) {
+      var tempParts = deepCopy(parts);
+      tempParts.shift();
+      args = tempParts.length > 1 ? parseArgs(tempParts) : null;
+      if (args === null && parts.length > 1) {
+        args = tempParts;
+      }
+    }
+    var stringObject = "";
+    switch (command.toLowerCase()) {
+      case "exit":
+        setIsOpen(false);
+        break;
+      case "debug":
+        // either true or false!
+        if (args[0] === "true" || args[0] === "false") {
+          changeDebugMode(args[0]);
+          stringObject = "Changing debugMode to ".concat(args[0]);
+        }
+        break;
+      case "history":
+        var inputs = userInputs.join("\n");
+        stringObject = inputs;
+        break;
+      case "settings":
+        stringObject = "".concat(JSON.stringify(settings, null, 2));
+        break;
+      case "creds":
+        stringObject = "".concat(JSON.stringify(creds, null, 2));
+        break;
+      case "api":
+        stringObject = "".concat(JSON.stringify(api, null, 2));
+        break;
+      case "widget":
+        if (Object.keys(args).length > 0) {
+          if (args[0] === "list") {
+            var m = ComponentManager.map();
+            var widgets = Object.keys(m).filter(function (key) {
+              return m[key]["type"] === "widget";
+            });
+            stringObject = "".concat(JSON.stringify(widgets, null, 2));
+          }
+        }
+        break;
+      case "workspace":
+        if (Object.keys(args).length > 0) {
+          if (args[0] === "list") {
+            stringObject = "".concat(JSON.stringify(workspaces.map(function (ws) {
+              return ws["name"];
+            }), null, 2));
+          }
+        }
+        break;
+      case "theme":
+        if (Object.keys(args).length > 0) {
+          // -c (change theme)
+          if ("c" in args) {
+            changeCurrentTheme(args["c"]);
+            stringObject = "Changing theme to ".concat(args["c"]);
+          }
+
+          // list
+          if (args[0] === "list") {
+            // theme keys list
+            var themeKeys = Object.keys(themes).map(function (themeKey) {
+              return {
+                name: themes[themeKey]["name"],
+                key: themeKey
+              }; //join('\n');
+            });
+            stringObject = "".concat(JSON.stringify(themeKeys, null, 2));
+          }
+        } else {
+          if (args[0] === "list") {
+            // theme keys list
+            var _themeKeys = Object.keys(themes).join("\n");
+            stringObject = "".concat(_themeKeys);
+          } else {
+            stringObject = "".concat(JSON.stringify(theme, null, 2));
+          }
+        }
+        break;
+      case "help":
+        var helpObject = ["settings - list application setting configuration", "creds - list application credentials (appId, apiKey)", "api - list the Electron api information", "widget list", "workspace list", "theme list  - list the theme 'keys'", "theme [-c <themeKey>] - change the theme", "exit - close the Nerd.", "debug [true|false] - set debugMode"];
+        stringObject = JSON.stringify(helpObject, null, 2);
+        break;
+    }
+    var o = [{
+      message: input,
+      author: "human",
+      textType: "string"
+    }];
+    if (stringObject !== "") {
+      o.push({
+        message: stringObject,
+        author: "dash",
+        textType: "code"
+      });
+    }
+    addInputs(o);
+  }
+  function addInputs() {
+    var inputs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var applicationInputCurrent = deepCopy(applicationInput);
+    var newArray = applicationInputCurrent.concat(inputs);
+    setApplicationInput(function () {
+      return newArray;
+    });
+  }
+  function addDashInput(input) {
+    var textType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "string";
+    var applicationInputCurrent = deepCopy(applicationInput);
+    applicationInputCurrent.push({
+      author: "dash",
+      message: input,
+      textType: textType
+    });
+    setApplicationInput(function () {
+      return applicationInputCurrent;
+    });
+  }
+  function addUserInput(input) {
+    var applicationInputCurrent = deepCopy(applicationInput);
+    applicationInputCurrent.push({
+      author: "human",
+      message: input
+    });
+    var userInputsCurrent = deepCopy(userInputs);
+    userInputsCurrent.push(input);
+    setApplicationInput(function () {
+      return applicationInputCurrent;
+    });
+    setUserInputs(function () {
+      return userInputsCurrent;
+    });
+    setUserInputIndex(function () {
+      return userInputs.length;
+    });
+  }
+  function writeInput(input, author, textType) {
+    return author === "dash" ? writeApplicationInput(input, textType) : writeUserInput(input);
+  }
+  function writeUserInput(input) {
+    return /*#__PURE__*/jsx("div", {
+      className: "flex flex-row shadow w-full",
+      children: /*#__PURE__*/jsx("span", {
+        className: "text-blue-500 bg-gray-800 px-4 py-2 rounded w-full shadow text-xs",
+        children: input
+      })
+    });
+  }
+  function writeApplicationInput(input) {
+    var textType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "string";
+    return textType === "string" ? /*#__PURE__*/jsx("div", {
+      className: "flex flex-row shadow w-full",
+      children: /*#__PURE__*/jsx("span", {
+        className: "text-green-500 bg-slate-900 px-4 py-2 rounded w-full shadow text-xs",
+        children: input
+      })
+    }) : /*#__PURE__*/jsx("div", {
+      className: "flex flex-row w-full shadow",
+      children: /*#__PURE__*/jsx("span", {
+        className: "text-green-500 bg-slate-900 px-4 py-2 rounded w-full shadow text-xs",
+        children: /*#__PURE__*/jsx("pre", {
+          children: input
+        })
+      })
+    });
+  }
+  function renderApplicationInput() {
+    return applicationInput.map(function (input, index) {
+      return /*#__PURE__*/jsx("div", {
+        className: "flex flex-row w-full py-1 font-mono text-green font-normal text-xs xl:text-sm",
+        children: writeInput(input["message"], input["author"], input["textType"])
+      }, "input-".concat(index));
+    });
+  }
+  function scrollToBottom() {
+    var _messagesEnd$current;
+    (_messagesEnd$current = messagesEnd.current) === null || _messagesEnd$current === void 0 || _messagesEnd$current.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col w-full h-full overflow-hidden",
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+      children: [/*#__PURE__*/jsx("div", {
+        className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col rounded py-10 space-y-4 w-full overflow-hidden",
+          children: [/*#__PURE__*/jsx(Heading, {
+            title: "Hello",
+            padding: false
+          }), /*#__PURE__*/jsx(SubHeading3, {
+            title: "01001000 01100101 01101100 01101100 01101111",
+            padding: false
+          })]
+        })
+      }), /*#__PURE__*/jsx("div", {
+        className: "flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full",
+        children: /*#__PURE__*/jsxs("div", {
+          className: "flex flex-col bg-gradient-to-tr from-gray-900 to-gray-800 text-green-600 h-full w-full rounded-lg p-6 overflow-hidden border border-gray-900",
+          children: [/*#__PURE__*/jsx("div", {
+            className: "flex flex-col py-4 text-sm font-mono overflow-hidden h-full",
+            children: /*#__PURE__*/jsxs("div", {
+              className: "flex flex-col py-4 text-xs font-mono h-full overflow-y-scroll",
+              children: [/*#__PURE__*/jsx("div", {
+                className: "flex flex-1 flex-col h-full"
+              }), renderApplicationInput(), /*#__PURE__*/jsx("div", {
+                ref: messagesEnd,
+                style: {
+                  "float": "left",
+                  clear: "both"
+                }
+              })]
+            })
+          }), /*#__PURE__*/jsxs("div", {
+            className: "text-xs text-gray-400 space-y-1",
+            children: [/*#__PURE__*/jsx("div", {
+              className: "flex flex-row text-xs text-gray-400",
+              children: "Type 'help' for more information, 'exit' to leave."
+            }), /*#__PURE__*/jsx(InputText, {
+              name: "name",
+              padding: "p-4",
+              value: userInput,
+              onKeyDown: handleKeyDown,
+              onChange: handleUserInput,
+              textSize: "text-lg",
+              placeholder: "",
+              bgColor: "bg-gray-400",
+              textColor: "text-gray-800",
+              hasBorder: false
+            })]
+          })]
+        })
+      })]
+    })
+  });
+};
+
+var ApplicationSettingsModal = function ApplicationSettingsModal(_ref) {
+  var workspaces = _ref.workspaces,
+    open = _ref.open,
+    setIsOpen = _ref.setIsOpen;
+    _ref.onSave;
+  var _useContext = useContext$1(AppContext),
+    settings = _useContext.settings;
+  return /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-5/6",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "flex flex-row w-full h-full overflow-hidden",
+          children: /*#__PURE__*/jsx("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            children: /*#__PURE__*/jsx(PanelApplicationSettings, {
+              settings: settings,
+              setIsOpen: setIsOpen,
+              workspaces: workspaces
+            })
+          })
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-row justify-end bg-gray-900 p-4 rounded-br rounded-bl border-t border-gray-800 justify-between items-center"
+        })]
+      })
+    })
+  });
+};
+
+function _slicedToArray$e(r, e) { return _arrayWithHoles$e(r) || _iterableToArrayLimit$e(r, e) || _unsupportedIterableToArray$e(r, e) || _nonIterableRest$e(); }
+function _nonIterableRest$e() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$e(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$e(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$e(r, a) : void 0; } }
+function _arrayLikeToArray$e(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$e(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$e(r) { if (Array.isArray(r)) return r; }
+var apiKey = process.env.REACT_APP_DASH_API_KEY;
+var indexName = process.env.REACT_APP_DASH_INDEX_NAME;
+var appId = process.env.REACT_APP_DASH_APP_ID;
+var PanelDashboardLoader = function PanelDashboardLoader(_ref) {
+  var onSelecDashboard = _ref.onSelecDashboard,
+    onClose = _ref.onClose;
+  var _useContext = useContext$1(ThemeContext);
+    _useContext.theme;
+    var currentTheme = _useContext.currentTheme;
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$e(_React$useState, 2),
+    updateState = _React$useState2[1];
+  React.useCallback(function () {
+    return updateState({});
+  }, []);
+  var _useState = useState(null),
+    _useState2 = _slicedToArray$e(_useState, 2),
+    searchClient = _useState2[0],
+    setSearchClient = _useState2[1];
+  useEffect(function () {
+    initSearchClient();
+  });
+  function initSearchClient() {
+    if (searchClient === null) {
+      if (indexName && apiKey && appId) {
+        var searchClientTemp = algoliasearch(appId, apiKey);
+        setSearchClient(searchClientTemp);
+      }
+    }
+  }
+  function Hit(_ref2) {
+    var hit = _ref2.hit;
+    return /*#__PURE__*/jsx("div", {
+      className: "flex flex-col hover:bg-indigo-800 cursor-pointer",
+      onClick: function onClick() {
+        return onSelecDashboard(hit);
+      },
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-row rounded bg-gray-900 p-2 px-4",
+        children: hit.name
+      })
+    });
+  }
+  function handleClose() {
+    onClose();
+  }
+  return currentTheme && /*#__PURE__*/jsxs(Panel2, {
+    padding: false,
+    width: "w-full",
+    height: "h-full",
+    children: [/*#__PURE__*/jsx(Panel2.Body, {
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex flex-col rounded p-6 space-y-4 w-1/3",
+          children: [/*#__PURE__*/jsx(Heading, {
+            title: "Load.",
+            padding: false
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex-col hidden 2xl:flex w-full space-y-4",
+            children: [/*#__PURE__*/jsx(SubHeading3, {
+              title: "Pick a dashboard. Any dashboard.",
+              padding: false
+            }), /*#__PURE__*/jsx(Paragraph, {
+              padding: false,
+              textColor: "text-gray-400",
+              children: "Dashboards have been generated by exporting, and storing the layouts in an Algolia index. Search the index for Dashboards to load."
+            })]
+          })]
+        }), /*#__PURE__*/jsx("div", {
+          className: "flex flex-col w-2/3 space-y-2",
+          children: searchClient !== null && /*#__PURE__*/jsxs(InstantSearch, {
+            searchClient: searchClient,
+            indexName: indexName,
+            children: [/*#__PURE__*/jsx(AlgoliaSearchBox, {
+              placeholder: "Search for Dashboards"
+            }), /*#__PURE__*/jsx(Hits, {
+              hitComponent: Hit
+            })]
+          })
+        })]
+      })
+    }), /*#__PURE__*/jsx(Panel2.Footer, {
+      children: /*#__PURE__*/jsx(ButtonIcon, {
+        icon: "arrow-left",
+        onClick: handleClose
+      })
+    })]
+  });
+};
+
+var DashboardLoaderModal = function DashboardLoaderModal(_ref) {
+  var open = _ref.open,
+    setIsOpen = _ref.setIsOpen,
+    onSelecDashboard = _ref.onSelecDashboard,
+    onClose = _ref.onClose;
+  return /*#__PURE__*/jsx(Modal, {
+    isOpen: open,
+    setIsOpen: setIsOpen,
+    width: "w-11/12 xl:w-5/6",
+    height: "h-5/6",
+    children: /*#__PURE__*/jsx(Panel, {
+      padding: false,
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-full h-full overflow-hidden",
+        children: /*#__PURE__*/jsx("div", {
+          className: "flex flex-row w-full h-full overflow-hidden",
+          children: /*#__PURE__*/jsx("div", {
+            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            children: /*#__PURE__*/jsx(PanelDashboardLoader, {
+              onSelecDashboard: onSelecDashboard,
+              onClose: onClose
+            })
+          })
+        })
+      })
+    })
+  });
+};
+
+function _slicedToArray$d(r, e) { return _arrayWithHoles$d(r) || _iterableToArrayLimit$d(r, e) || _unsupportedIterableToArray$d(r, e) || _nonIterableRest$d(); }
+function _nonIterableRest$d() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$d(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$d(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$d(r, a) : void 0; } }
+function _arrayLikeToArray$d(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$d(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$d(r) { if (Array.isArray(r)) return r; }
+var Dashboard = function Dashboard(_ref) {
+  var dashApi = _ref.dashApi,
+    credentials = _ref.credentials,
+    _ref$workspace = _ref.workspace,
+    workspace = _ref$workspace === void 0 ? null : _ref$workspace,
+    _ref$preview = _ref.preview,
+    preview = _ref$preview === void 0 ? true : _ref$preview,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor;
+  // const { api, settings, creds } = useContext(AppContext);
+  var _useContext = useContext$1(DashboardContext),
+    pub = _useContext.pub;
+
+  /**
+   * ThemeContext
+   */
+  var _useContext2 = useContext$1(ThemeContext);
+    _useContext2.currentTheme;
+    var changeCurrentTheme = _useContext2.changeCurrentTheme;
+  var _useState = useState(null //WorkspaceModel(workspace)
+    ),
+    _useState2 = _slicedToArray$d(_useState, 2),
+    workspaceSelected = _useState2[0],
+    setWorkspaceSelected = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray$d(_useState3, 2);
+    _useState4[0];
+    var setIsShowing = _useState4[1];
+  var _useState5 = useState({
+      name: "home",
+      id: 1
+    }),
+    _useState6 = _slicedToArray$d(_useState5, 2),
+    selectedMainItem = _useState6[0];
+    _useState6[1];
+  var _useState7 = useState(preview),
+    _useState8 = _slicedToArray$d(_useState7, 2),
+    previewMode = _useState8[0],
+    setPreviewMode = _useState8[1];
+
+  // Workspace Management (loading)
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray$d(_useState9, 2),
+    isLoadingWorkspaces = _useState0[0],
+    setIsLoadingWorkspaces = _useState0[1];
+  var _useState1 = useState(false),
+    _useState10 = _slicedToArray$d(_useState1, 2),
+    isLoadingMenuItems = _useState10[0],
+    setIsLoadingMenuItems = _useState10[1];
+  var _useState11 = useState([]),
+    _useState12 = _slicedToArray$d(_useState11, 2),
+    menuItems = _useState12[0],
+    setMenuItems = _useState12[1];
+  var _useState13 = useState([]),
+    _useState14 = _slicedToArray$d(_useState13, 2),
+    workspaceConfig = _useState14[0],
+    setWorkspaceConfig = _useState14[1];
+
+  // Add Menu Item Modal
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray$d(_useState15, 2),
+    isAddItemModalOpen = _useState16[0],
+    setIsAddWidgetModalOpen = _useState16[1];
+  var _useState17 = useState(false),
+    _useState18 = _slicedToArray$d(_useState17, 2),
+    isThemeManagerOpen = _useState18[0],
+    setIsThemeManagerOpen = _useState18[1];
+  var _useState19 = useState(false),
+    _useState20 = _slicedToArray$d(_useState19, 2),
+    isSettingsModalOpen = _useState20[0],
+    setIsSettingsModalOpen = _useState20[1];
+  var _useState21 = useState(false),
+    _useState22 = _slicedToArray$d(_useState21, 2),
+    isDashboardLoaderOpen = _useState22[0],
+    setIsDashboardLoaderOpen = _useState22[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$d(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+  useEffect(function () {
+    isLoadingWorkspaces === false && loadWorkspaces();
+    isLoadingMenuItems === false && loadMenuItems();
+  }, [workspace]);
+
+  // useEffect(() => {
+  //     forceUpdate();
+  // }, [workspaceConfig]);
+
+  // useEffect(() => {
+  //     // forceUpdate();
+  // }, [themesForApplication]);
+
+  // useEffect(() => {
+  //     console.log("dashboard settings ", settings);
+  //     if (!settings) {
+  //         console.log("loading settings");
+  //         setIsSettingsModalOpen(true);
+  //     }
+  // }, [settings]);
+
+  function loadWorkspaces() {
+    try {
+      setIsLoadingWorkspaces(function () {
+        return true;
+      });
+      if (dashApi && credentials) {
+        dashApi.listWorkspaces(credentials.appId, handleLoadWorkspacesComplete, handleLoadWorkspacesError);
+      }
+    } catch (e) {
+    }
+  }
+  function handleLoadWorkspacesComplete(e, message) {
+    // console.log(
+    //     "2. Handle Load Workspaces Complete ======================",
+    //     message
+    // );
+    try {
+      // let's make sure we have the entire component configuration for each item?
+      var workspaces = deepCopy(message["workspaces"]);
+      var workspacesTemp = workspaces.map(function (ws) {
+        // const layout = ws['layout'];
+        // push the LayoutModel back into the Widget here... (inflate)
+        var tempLayout = ws["layout"].map(function (layoutOG) {
+          //console.log("layout OG ", layoutOG);
+          return LayoutModel(layoutOG, workspaces, ws["id"]); //workspaces);
+        });
+        ws["layout"] = tempLayout;
+        return WorkspaceModel(ws);
+      });
+
+      // test the emit
+      // pub.pub("dashboard.workspaceChange", {
+      //     workspaces: workspacesTemp,
+      // });
+
+      setWorkspaceConfig(function () {
+        return workspacesTemp;
+      });
+      setIsLoadingWorkspaces(false);
+      forceUpdate();
+    } catch (e) {
+    }
+  }
+  function handleLoadWorkspacesError(e, message) {
+    setWorkspaceConfig([]);
+  }
+  // Sub Menu
+  // The user has chosen a workspace and we need to load that workspace data
+  // into the workspace component.
+  function handleClick(workspaceItem) {
+    // pub.removeAllListeners();
+    setWorkspaceSelected(function () {
+      return workspaceItem;
+    });
+    setIsShowing(function () {
+      return false;
+    });
+  }
+  function handleClickNew(workspaceItem) {
+    try {
+      setPreviewMode(function () {
+        return false;
+      });
+      setWorkspaceSelected(function () {
+        return workspaceItem;
+      });
+    } catch (e) {
+    }
+  }
+  function handleWorkspaceChange(ws) {
+    if (ws) {
+      setPreviewMode(function () {
+        return false;
+      });
+      setWorkspaceSelected(function () {
+        return null;
+      });
+      setWorkspaceSelected(function () {
+        return WorkspaceModel(ws);
+      });
+    }
+  }
+  function renderComponent(workspaceItem) {
+    try {
+      return workspaceItem !== undefined ? /*#__PURE__*/jsx(LayoutBuilder, {
+        dashboardId: workspaceItem["id"],
+        preview: previewMode,
+        workspace: workspaceItem,
+        onWorkspaceChange: handleWorkspaceChange // for when we save a workspace change! fetch new ones!
+        ,
+        onTogglePreview: function onTogglePreview() {
+          return setPreviewMode(!previewMode);
+        }
+      }, "LayoutBuilder-".concat(workspaceItem["id"])) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function handleAddNewMenuItem() {
+    setIsAddWidgetModalOpen(true);
+  }
+  function loadMenuItems() {
+    try {
+      setIsLoadingMenuItems(function () {
+        return true;
+      });
+      // we have to remove the widgetConfig which contains the component
+      // sanitize the workspace layout remove widgetConfig items
+      if (dashApi && credentials) {
+        dashApi.listMenuItems(credentials.appId, handleListMenuItemComplete, handleListMenuItemError);
+      }
+    } catch (e) {
+    }
+  }
+  function handleListMenuItemComplete(e, message) {
+    try {
+      setMenuItems(function () {
+        return message.menuItems;
+      });
+      setIsLoadingMenuItems(function () {
+        return false;
+      });
+      if (message.menuItems.length === 0) setIsAddWidgetModalOpen(true);
+      forceUpdate();
+    } catch (e) {
+    }
+  }
+  function handleListMenuItemError(e, message) {
+    setMenuItems(function () {
+      return [];
+    });
+    setIsLoadingMenuItems(function () {
+      return false;
+    });
+  }
+  function handleSaveNewMenuItem(menuItem) {
+    // we have to remove the widgetConfig which contains the component
+    // sanitize the workspace layout remove widgetConfig items
+
+    if (dashApi && credentials) {
+      dashApi.saveMenuItem(credentials.appId, MenuItemModel(menuItem), handleSaveMenuItemComplete, handleSaveMenuItemError);
+    }
+  }
+  function handleSaveMenuItemComplete(e, message) {
+    setIsAddWidgetModalOpen(false);
+    loadMenuItems();
+  }
+  function handleSaveMenuItemError(e, message) {
+  }
+  function handleWorkspaceNameChange(name) {
+    var tempWorkspace = deepCopy(workspaceSelected);
+    tempWorkspace["name"] = name;
+    setWorkspaceSelected(function () {
+      return tempWorkspace;
+    });
+  }
+  function handleClickSaveWorkspace() {
+    try {
+      // we have to remove the widgetConfig which contains the component
+      // sanitize the workspace layout remove widgetConfig items
+      var workspaceToSave = deepCopy(workspaceSelected); //JSON.parse(JSON.stringify(workspaceSelected));
+      var layout = workspaceToSave["layout"].map(function (layoutItem) {
+        delete layoutItem["widgetConfig"];
+        // delete layoutItem["api"];
+        return layoutItem;
+      });
+      workspaceToSave["layout"] = layout;
+
+      // lets set a version so that we can compare...
+      workspaceToSave["version"] = Date.now();
+      if (dashApi && credentials) {
+        dashApi.saveWorkspace(credentials.appId, workspaceToSave, handleSaveWorkspaceComplete, handleSaveWorkspaceError);
+      }
+    } catch (e) {
+    }
+  }
+  function handleSaveWorkspaceComplete(e, message) {
+    // setPreviewMode(true);
+    // onTogglePreview();
+    // onWorkspaceChange();
+    // changeThemesForApplication(message['workspace'])
+
+    // Set the overall workspaces.
+    // test the emit
+    pub.pub("dashboard.workspaceChange", {
+      workspaces: message["workspaces"]
+    });
+    setWorkspaceConfig(function () {
+      return message["workspaces"];
+    });
+    setIsLoadingWorkspaces(false);
+    handleWorkspaceChange(workspaceSelected);
+    setPreviewMode(function () {
+      return true;
+    });
+  }
+  function handleSaveWorkspaceError(e, message) {
+  }
+  function handleOpenThemeManager() {
+    setIsThemeManagerOpen(true);
+  }
+
+  // function handleSelectLoadDashboard(dashboardSelected) {
+  //     console.log(dashboardSelected);
+  // }
+
+  function handleSelectLoadDashboard(dashboardSelected) {
+    try {
+      // if (dashboardSelected === undefined) {
+      //     selectedMainItem = 1;
+      // } else {
+      //     selectedMainItem = data.id;
+      // }
+
+      // if we have no data, we have to create a layout
+      // const newLayout = {
+      //     id: 1,
+      //     order: 1,
+      //     direction: "col",
+      //     width: "w-full",
+      //     component: "Container",
+      //     hasChildren: 1,
+      //     scrollable: false,
+      //     parent: 0,
+      //     menuId: selectedMainItem, // default menu item id is 1
+      // };
+
+      var newLayout = dashboardSelected.layout;
+      var workspaceItem = new WorkspaceModel({
+        layout: newLayout
+      });
+      setPreviewMode(function () {
+        return false;
+      });
+      setWorkspaceSelected(function () {
+        return workspaceItem;
+      });
+      setIsDashboardLoaderOpen(false);
+    } catch (e) {
+    }
+  }
+  function handleCloseDashboardLoader() {
+    setIsDashboardLoaderOpen(false);
+  }
+  return /*#__PURE__*/jsx(DashboardWrapper, {
+    dashApi: dashApi,
+    credentials: credentials,
+    backgroundColor: backgroundColor,
+    children: menuItems && /*#__PURE__*/jsx(LayoutContainer, {
+      padding: false,
+      space: true,
+      height: "h-full",
+      width: "w-full",
+      direction: "row",
+      scrollable: false,
+      grow: true,
+      children: /*#__PURE__*/jsxs(DndProvider, {
+        backend: HTML5Backend,
+        children: [workspaceSelected !== null && /*#__PURE__*/jsxs(LayoutContainer, {
+          padding: false,
+          space: true,
+          height: "h-full",
+          width: "w-full",
+          direction: "col",
+          scrollable: false,
+          grow: true,
+          children: [workspaceSelected !== null && /*#__PURE__*/jsx(DashboardHeader, {
+            workspace: workspaceSelected,
+            preview: previewMode,
+            onNameChange: handleWorkspaceNameChange
+          }), /*#__PURE__*/jsx("div", {
+            className: "flex flex-col w-full h-full ".concat(previewMode === true ? "overflow-y-auto" : "overflow-hidden"),
+            children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
+          }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
+            onClickEdit: function onClickEdit() {
+              return setPreviewMode(!previewMode);
+            },
+            workspace: workspaceSelected,
+            preview: previewMode,
+            onSaveChanges: handleClickSaveWorkspace,
+            onNewMenuItem: handleAddNewMenuItem,
+            onOpenThemeManager: handleOpenThemeManager,
+            onHome: function onHome() {
+              return setWorkspaceSelected(null);
+            },
+            onOpenSettings: function onOpenSettings() {
+              return setIsSettingsModalOpen(true);
+            }
+          })]
+        }), workspaceSelected === null && workspaceConfig && /*#__PURE__*/jsx(PanelWelcome, {
+          menuItems: menuItems,
+          workspaces: workspaceConfig,
+          onClickWorkspace: handleClick,
+          onClickCreateMenuItem: function onClickCreateMenuItem() {
+            return setIsAddWidgetModalOpen(true);
+          },
+          onNewMenuItem: handleAddNewMenuItem,
+          onOpenThemeManager: handleOpenThemeManager,
+          onHome: function onHome() {
+            return setWorkspaceSelected(null);
+          },
+          onOpenSettings: function onOpenSettings() {
+            return setIsSettingsModalOpen(true);
+          }
+          //onClickNew={handleClickNew}
+          ,
+          onClickNewWorkspace: handleClickNew,
+          selectedMainItem: selectedMainItem,
+          onOpenDashboardLoader: function onOpenDashboardLoader() {
+            return setIsDashboardLoaderOpen(true);
+          }
+        }), /*#__PURE__*/jsx(AddMenuItemModal, {
+          open: isAddItemModalOpen,
+          setIsOpen: function setIsOpen() {
+            return setIsAddWidgetModalOpen(!isAddItemModalOpen);
+          },
+          onSave: handleSaveNewMenuItem
+        }), /*#__PURE__*/jsx(ThemeManagerModal, {
+          open: isThemeManagerOpen,
+          setIsOpen: function setIsOpen() {
+            return setIsThemeManagerOpen(!isThemeManagerOpen);
+          },
+          onSave: function onSave(themeKey) {
+            changeCurrentTheme(themeKey);
+            setIsThemeManagerOpen(function () {
+              return false;
+            });
+            forceUpdate();
+          }
+        }), /*#__PURE__*/jsx(ApplicationSettingsModal, {
+          open: isSettingsModalOpen,
+          setIsOpen: setIsSettingsModalOpen,
+          workspaces: workspaceConfig
+        }), /*#__PURE__*/jsx(DashboardLoaderModal, {
+          open: isDashboardLoaderOpen,
+          setIsOpen: setIsDashboardLoaderOpen,
+          workspaces: workspaceConfig,
+          onSelecDashboard: handleSelectLoadDashboard,
+          onClose: function onClose() {
+            return handleCloseDashboardLoader();
+          }
+        })]
+      })
+    })
+  });
+};
+
+var DashboardFooter = function DashboardFooter(_ref) {
+  var workspace = _ref.workspace,
+    preview = _ref.preview,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
+    _ref$borderColor = _ref.borderColor,
+    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
+    _ref$textColor = _ref.textColor,
+    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
+    _ref$onClickEdit = _ref.onClickEdit,
+    onClickEdit = _ref$onClickEdit === void 0 ? null : _ref$onClickEdit,
+    _ref$onSaveChanges = _ref.onSaveChanges,
+    onSaveChanges = _ref$onSaveChanges === void 0 ? null : _ref$onSaveChanges;
+    _ref.onNewMenuItem;
+    _ref.onOpenThemeManager;
+    _ref.onOpenSettings;
+    var _ref$onHome = _ref.onHome,
+    onHome = _ref$onHome === void 0 ? null : _ref$onHome;
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var stylesFooter = getStylesForItem(themeObjects.DASHBOARD_FOOTER, currentTheme, {
+    borderColor: borderColor,
+    grow: false
+  });
+  getStylesForItem(themeObjects.DASHBOARD_FOOTER, currentTheme, {
+    backgroundColor: backgroundColor,
+    borderColor: borderColor,
+    textColor: textColor
+  });
+  var handleHome = function handleHome() {
+    onHome && onHome();
+  };
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    direction: "row",
+    grow: false,
+    space: true,
+    className: "p-2 border-t ".concat(stylesFooter.string),
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row justify-between w-full",
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-4",
+        children: [/*#__PURE__*/jsx("div", {
+          className: "w-10 h-10 items-center justify-center",
+          children: /*#__PURE__*/jsx(ButtonIcon, {
+            icon: "arrow-left",
+            onClick: handleHome
+          })
+        }), workspace && /*#__PURE__*/jsx("div", {
+          className: "flex flex-row justify-center items-center",
+          children: /*#__PURE__*/jsx(SubHeading3, {
+            title: "".concat(workspace.name),
+            padding: false,
+            className: "text-gray-700 font-bold text-base"
+          })
+        })]
+      }), preview === true && /*#__PURE__*/jsx("div", {
+        className: "flex flex-row space-x-1",
+        children: /*#__PURE__*/jsx(ButtonIcon, {
+          text: "Edit",
+          onClick: onClickEdit,
+          hoverBackgroundColor: "hover:bg-indigo-700"
+        })
+      }), preview === false && /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row space-x-1",
+        children: [/*#__PURE__*/jsx(ButtonIcon, {
+          text: "Cancel",
+          onClick: onClickEdit,
+          hoverBackgroundColor: "hover:bg-indigo-700"
+        }), /*#__PURE__*/jsx(ButtonIcon, {
+          text: "Save Changes",
+          onClick: onSaveChanges,
+          hoverBackgroundColor: "hover:bg-green-700"
+        })]
+      })]
+    })
+  });
+};
+
+function _slicedToArray$c(r, e) { return _arrayWithHoles$c(r) || _iterableToArrayLimit$c(r, e) || _unsupportedIterableToArray$c(r, e) || _nonIterableRest$c(); }
+function _nonIterableRest$c() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$c(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$c(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$c(r, a) : void 0; } }
+function _arrayLikeToArray$c(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$c(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$c(r) { if (Array.isArray(r)) return r; }
+var DashboardHeader = function DashboardHeader(_ref) {
+  var workspace = _ref.workspace,
+    preview = _ref.preview,
+    _ref$onClickEdit = _ref.onClickEdit,
+    onClickEdit = _ref$onClickEdit === void 0 ? null : _ref$onClickEdit,
+    onNameChange = _ref.onNameChange;
+  var _useState = useState(workspace),
+    _useState2 = _slicedToArray$c(_useState, 2),
+    workspaceSelected = _useState2[0],
+    setWorkspaceSelected = _useState2[1];
+  var _useContext = useContext$1(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  useEffect(function () {
+    if (deepEqual(workspace, workspaceSelected) === false) {
+      setWorkspaceSelected(function () {
+        return workspace;
+      });
+    }
+  }, [workspace, workspaceSelected]);
+  return preview === false && /*#__PURE__*/jsxs("div", {
+    className: "flex flex-row p-1 justify-between shrink items-center px-4 ".concat(currentTheme["bg-primary-dark"], " py-2"),
+    children: [/*#__PURE__*/jsx(InputText, {
+      name: "name",
+      value: workspaceSelected.name,
+      onChange: function onChange(e) {
+        return onNameChange(e.target.value);
+      },
+      textSize: "text-lg",
+      placeholder: "My Workspace",
+      bgColor: "bg-gray-800",
+      textColor: "text-gray-400",
+      hasBorder: false
+    }), onClickEdit !== null && /*#__PURE__*/jsx("div", {
+      className: "flex flex-row space-x-1",
+      children: /*#__PURE__*/jsx(ButtonIcon, {
+        icon: "pencil",
+        textSize: "text-xs",
+        onClick: onClickEdit
+      })
+    })]
+  });
+};
+
+var DashboardMonitor = function DashboardMonitor() {
+  var _useContext = useContext(DashboardContext);
+    _useContext.pub;
+  useEffect(function () {});
+  return /*#__PURE__*/jsx(LayoutContainer, {
+    direction: "col",
+    scrollable: true
+  });
+};
+
 function _typeof$A(o) { "@babel/helpers - typeof"; return _typeof$A = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$A(o); }
 function ownKeys$v(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$v(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$v(Object(t), !0).forEach(function (r) { _defineProperty$w(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$v(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$w(e, r, t) { return (r = _toPropertyKey$A(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$A(t) { var i = _toPrimitive$A(t, "string"); return "symbol" == _typeof$A(i) ? i : i + ""; }
 function _toPrimitive$A(t, r) { if ("object" != _typeof$A(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$A(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border"
-// "p",
-// "m",
-// "textSize",
-];
-var objectTypeClasses = {
-  bg: {
-    "class": "backgroundColor"
-  },
-  border: {
-    "class": "borderColor"
-  },
-  text: {
-    "class": "textColor"
-  },
-  "hover-text": {
-    "class": "hoverTextColor"
-  },
-  "hover-bg": {
-    "class": "hoverBackgroundColor"
-  },
-  "hover-border": {
-    "class": "hoverBorderColor"
-  }
-  // p: {
-  //     class: "padding",
-  // },
-  // m: {
-  //     class: "margin",
-  // },
-  // "text-size": {
-  //     class: "textSize",
-  // },
-};
-var themeVariants = ["very-light", "light", "medium", "dark", "very-dark"];
-var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
-var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
-var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-var colorMap = (_colorMap = {}, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.BUTTON, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), styleClassNames.PADDING, "padding-primary")), themeObjects.BUTTON_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.PANEL, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_HEADER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_FOOTER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_HEADER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_FOOTER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.PANEL_HEADER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_FOOTER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.BUTTON_ICON, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark")), themeObjects.BUTTON_ICON_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_ICON_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.HEADING, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.SUBHEADING_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.TOGGLE, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium")), themeObjects.DASHBOARD_FOOTER, _defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark")), themeObjects.DASHBOARD_FOOTER_2, _defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark")), themeObjects.DASHBOARD_FOOTER_3, _defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark")), themeObjects.CODE_EDITOR, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.INPUT_TEXT, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SELECT_MENU, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.FORM_LABEL, _defineProperty$w({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.DASH_PANEL, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.DASH_PANEL_HEADER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w(_colorMap, themeObjects.DASH_PANEL_FOOTER, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_2, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-very-dark")), themeObjects.DASH_PANEL_HEADER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_FOOTER_2, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_3, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.DASH_PANEL_HEADER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.DASH_PANEL_FOOTER_3, _defineProperty$w(_defineProperty$w(_defineProperty$w({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.WIDGET, {}), themeObjects.WORKSPACE, {}), themeObjects.LAYOUT_CONTAINER, {}));
-var getCSSStyleForClassname = function getCSSStyleForClassname(className, itemName) {
-  return colorMap[itemName][className];
-};
-/**
- * getStylesForItem
- * @param {string} itemName the name of the component (button, panel, etc)
- *
- */
-var getStylesForItem = function getStylesForItem() {
-  var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  try {
-    if (itemName !== null) {
-      // get the colors from the theme by default
-      // this is a MAP like "bg-primary-dark" which needs to
-      // fetch its value from the actual theme based on this key mapping
-      var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
+var event = {
+  list: new Map(),
+  //  Map(1) { '<widget-UUID>' => { 'CustomSearchbar[10].searchQueryChanged': [] } }
+  /**
+   * on
+   *
+   * Register a unique event to a unique widget
+   * Widgets can ONLY listen to an event ONCE, you cannot have
+   * multiple handlers in the same widget.
+   *
+   * @param {string} eventType the unique event type for a widget
+   * @param {*} eventAction the handler for the event type
+   * @param {*} uuid the UUID of the widget listening
+   * @returns
+   */
+  on: function on(eventType, eventAction) {
+    var uuid = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    this.list.has(eventType) || this.list.set(eventType, []);
+    // this.list.has(uuid) || this.list.set(uuid, {});
+    if (this.list.get(eventType)) {
+      // this is key:value pair mapping
+      // each key is a widget UUID
+      var currentActionsForEvent = this.list.get(eventType);
 
-      // then we have to determine if this item has any theme overrides
-
-      var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
-      Object.keys(themeOverrides).length > 0 && (void 0);
-
-      // then we have to determine if the component has any MANUAL overrides
-      var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
-
-      // and this is the styles we shall return
-      var styles = {};
-
-      // First set all of the defaults
-      Object.keys(defaultStyles).forEach(function (key) {
-        styles[key] = theme[defaultStyles[key]];
+      // lets check to see if the UUID is available for the event type...
+      var hasEvent = false;
+      currentActionsForEvent.forEach(function (e, index) {
+        if (e.uuid === uuid) {
+          hasEvent = index;
+        }
       });
 
-      // scrollbars?
+      // if we have a match at the index, lets remove it
+      // and replace with the new one
+      if (hasEvent !== false) currentActionsForEvent.splice(hasEvent, 1);
 
-      var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden ".concat(grow, " mr-0");
-      var hasChildren = "hasChildren" in overrides ? overrides["hasChildren"] : false;
-      var childCount = "childCount" in overrides ? overrides["childCount"] : null;
-      var directionValue = "direction" in overrides ? overrides["direction"] : null;
-      var widthValue = "width" in overrides ? overrides["width"] : null;
-      var heightValue = "height" in overrides ? overrides["height"] : null;
-      var paddingValue = "padding" in overrides ? overrides["padding"] : null;
-      var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
-      var paddingStyles = (itemName === themeObjects.LAYOUT_CONTAINER || itemName === themeObjects.WORKSPACE) && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
-
-      var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles);
-      if (paddingStyles !== null) {
-        additionalStyles = additionalStyles.concat(" ", paddingStyles);
-      }
-      if (widthValue !== null) {
-        additionalStyles = additionalStyles.concat(" ", widthValue);
-      }
-      if (heightValue !== null) {
-        additionalStyles = additionalStyles.concat(" ", heightValue);
-      }
-      if (paddingValue !== null) {
-        additionalStyles = additionalStyles.concat(" ", paddingValue);
-      }
-
-      // we have to begin with the defaults for the theme so we have access
-      // and knowledge of what keys in the theme to return.
-      // the trick is applying the overrides to those theme keys
-      // if they exist.
-
-      if (itemName === "panel-2") {
-      }
-      if (defaultStyles !== null) {
-        // now we have to handle the overrides
-        // if the user has passed in any
-        Object.keys(defaultStyles).forEach(function (className) {
-          // Order of operations...
-          // Default
-          // Theme
-          // Manual (in component itself)
-          if (className in themeOverrides) {
-            var themeClass = getStyleValueVariant(className, themeOverrides);
-            styles[className] = themeClass;
-          }
-
-          // Manual Overrides
-          // in props of component itself (custom deepest level)
-          if (className in manualOverrides && manualOverrides[className] !== null) {
-            styles[className] = getStyleValueVariant(className, manualOverrides);
+      // if (hasEvent === false) {
+      var eventObject = {
+        uuid: uuid,
+        action: eventAction
+      };
+      currentActionsForEvent.push(eventObject);
+      this.list.set(eventType, currentActionsForEvent);
+      // }
+    }
+    return this;
+  },
+  // publish events...
+  emit: function emit(eventType) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+    var subscriptionsToEvent = this.list.get(eventType);
+    if (subscriptionsToEvent && subscriptionsToEvent.length > 0) {
+      subscriptionsToEvent.forEach(function (subscriber) {
+        var objectToSend = {
+          message: args[0],
+          event: eventType,
+          uuid: subscriber["uuid"]
+        };
+        if ("action" in subscriber && subscriber.action !== undefined) {
+          subscriber["action"](_objectSpread$v({}, objectToSend));
+        }
+      });
+    }
+  },
+  clear: function clear() {
+    this.list = new Map();
+  }
+};
+var DashboardPublisher = {
+  sub: function sub(eventType, action, uuid) {
+    event.on(eventType, action, uuid);
+  },
+  pub: function pub(eventType, content) {
+    event.emit(eventType, content);
+    // send to ALL
+    // event.emit("DashboardPublisher.monitor", { eventType, content });
+  },
+  listeners: function listeners() {
+    return event.list;
+  },
+  registerListeners: function registerListeners(listeners, handlerMap, uuid) {
+    if (listeners !== undefined) {
+      if (isObject(listeners) === true) {
+        Object.keys(listeners).forEach(function (handlerKey) {
+          if (handlerKey in listeners) {
+            listeners[handlerKey].forEach(function (event) {
+              // subscribe our listeners
+              DashboardPublisher.sub(event, handlerMap[handlerKey], uuid);
+            });
           }
         });
       }
-      if (itemName === "panel-3") {
-      }
-
-      // generate the final styles object including the string
-      // that can be used in the className variable of the component
-      var stylesObject = _objectSpread$v({
-        string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
-          return styles[key];
-        }).join(" ").concat(" ", additionalStyles) : additionalStyles
-      }, styles);
-
-      // console.log(stylesObject);
-      // console.log(stylesObject.string);
-
-      return stylesObject;
     }
-  } catch (e) {
-    // console.log("getStylesforItem", e.message);
+  },
+  removeAllListeners: function removeAllListeners() {
+    // we want to begin fresh when we switch workspaces...
+    // event = new Map();
+    //event.clear();
+  },
+  clearAllMessage: function clearAllMessage() {
+    event.emit("clearAllMessage");
+  }
+};
+
+function buildWidgetApi() {
+  var w = WidgetApi;
+  w.setPublisher(DashboardPublisher);
+  return w;
+}
+var DashboardContext = /*#__PURE__*/createContext({
+  pub: DashboardPublisher,
+  widgetApi: buildWidgetApi(),
+  dashApi: null
+});
+
+function _slicedToArray$b(r, e) { return _arrayWithHoles$b(r) || _iterableToArrayLimit$b(r, e) || _unsupportedIterableToArray$b(r, e) || _nonIterableRest$b(); }
+function _nonIterableRest$b() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$b(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$b(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$b(r, a) : void 0; } }
+function _arrayLikeToArray$b(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$b(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$b(r) { if (Array.isArray(r)) return r; }
+var themes$1 = {
+  "theme-1": {
+    name: "Default 1",
+    primary: "gray",
+    secondary: "indigo",
+    tertiary: "blue",
+    shadeBackgroundFrom: 600,
+    shadeBorderFrom: 600,
+    shadeTextFrom: 100,
+    dark: {
+      "bg-primary-very-dark": "bg-black" // override test
+    },
+    light: {
+      "bg-primary-very-light": "bg-white",
+      // override test
+      "bg-primary-very-dark": "bg-gray-600" // override test
+    }
+  },
+  "theme-2": {
+    name: "Default 2",
+    primary: "gray",
+    secondary: "slate",
+    tertiary: "orange",
+    shadeBackgroundFrom: 200,
+    shadeBorderFrom: 300,
+    shadeTextFrom: 700,
+    dark: {
+      "bg-primary-very-dark": "bg-black" // override test
+    },
+    light: {
+      "bg-primary-very-light": "bg-white",
+      // override test
+      "bg-primary-very-dark": "bg-gray-600" // override test
+    }
+  }
+};
+var ThemeWrapper = function ThemeWrapper(_ref) {
+  var _ref$theme = _ref.theme,
+    theme = _ref$theme === void 0 ? null : _ref$theme,
+    dashApi = _ref.dashApi,
+    credentials = _ref.credentials,
+    children = _ref.children;
+  // changeApplicationTheme will save this to the settings config
+  var _useContext = useContext$1(AppContext),
+    changeApplicationTheme = _useContext.changeApplicationTheme;
+  var _useState = useState(theme),
+    _useState2 = _slicedToArray$b(_useState, 2),
+    chosenTheme = _useState2[0],
+    setChosenTheme = _useState2[1];
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray$b(_useState3, 2),
+    themeName = _useState4[0],
+    setThemeName = _useState4[1];
+  var _useState5 = useState("dark"),
+    _useState6 = _slicedToArray$b(_useState5, 2),
+    themeVariant = _useState6[0],
+    setThemeVariant = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray$b(_useState7, 2),
+    themesForApplication = _useState8[0],
+    setThemesForApplication = _useState8[1];
+  var _useState9 = useState({}),
+    _useState0 = _slicedToArray$b(_useState9, 2),
+    rawThemes = _useState0[0],
+    setRawThemes = _useState0[1];
+  var _React$useState = React.useState(),
+    _React$useState2 = _slicedToArray$b(_React$useState, 2),
+    updateState = _React$useState2[1];
+  var forceUpdate = React.useCallback(function () {
+    return updateState({});
+  }, []);
+
+  // console.log("THEME WRAPPER ", chosenTheme, dashApi, credentials);
+
+  useEffect(function () {
+    // If the user has provided a theme as a override,
+    // we can skip loading the themes...
+
+    // console.log(
+    //     "THEME WRAPPER ",
+    //     chosenTheme,
+    //     dashApi,
+    //     credentials,
+    //     themesForApplication
+    // );
+
+    if (chosenTheme === null) {
+      if (theme !== null) {
+        var defaultTheme = ThemeModel(theme);
+        setThemeVariant(function () {
+          return "dark";
+        });
+        setChosenTheme(function () {
+          return defaultTheme;
+        });
+      } else {
+        // if the themes for application is null...
+        // we have to load the themes...
+        if (themesForApplication === null) {
+          // finally
+          themesForApplication === null && loadThemes();
+        } else {
+          var themeKeyDefault = themesForApplication !== null ? Object.keys(themesForApplication)[0] : "theme-1";
+          var _defaultTheme = ThemeModel(themesForApplication !== null ? themesForApplication[themeKeyDefault] : themes$1[themeKeyDefault]);
+          setThemeVariant(function () {
+            return "dark";
+          });
+          setChosenTheme(function () {
+            return _defaultTheme;
+          });
+        }
+      }
+    } else {
+      // we have a theme chosen but need to load the application themes overall...
+      if (themesForApplication === null) loadThemes();
+    }
+  }, [chosenTheme]);
+
+  /**
+   * loadThemes
+   * Load in the themes for this application
+   */
+  function loadThemes() {
+    if (dashApi && credentials) {
+      dashApi.listThemes(credentials.appId, handleLoadThemesComplete, handleLoadThemesError);
+    }
+  }
+
+  /**
+   * handleLoadThemesComplete
+   * Load in the themes saved to the configuration, if no themes
+   * exist, then use the default themes provided.
+   * @param {*} e
+   * @param {*} message
+   */
+  function handleLoadThemesComplete(e, message) {
+    if ("themes" in message) {
+      checkThemes(message["themes"]);
+      // if (theme === null) {
+      //     changeCurrentTheme(Object.keys(message["themes"])[0]);
+      // }
+    }
+  }
+  function checkThemes(themesToCheck) {
+    try {
+      var themesChecked = {};
+      var _rawThemes = {};
+      if (themesToCheck !== null) {
+        if (Object.keys(themesToCheck).length === 0) {
+          Object.keys(themes$1).forEach(function (themeKey) {
+            var themeObject = ThemeModel(themes$1[themeKey]);
+            _rawThemes[themeKey] = themes$1[themeKey];
+            themesChecked[themeKey] = themeObject;
+          });
+          setThemesForApplication(function () {
+            return themesChecked;
+          });
+          setRawThemes(function () {
+            return _rawThemes;
+          });
+        } else {
+          // let's make sure all of the information is there!
+          Object.keys(themesToCheck).forEach(function (themeKey) {
+            var themeObject = ThemeModel(themesToCheck[themeKey]);
+            _rawThemes[themeKey] = themesToCheck[themeKey];
+            themesChecked[themeKey] = themeObject;
+          });
+
+          // console.log('themes to check AFTER had keys', themesChecked);
+
+          // now let's add our default themes as well
+          // if ('theme-1' in themesChecked === false) {
+          //     themesChecked['theme-1'] = ThemeModel(themes['theme-1']);
+          // }
+          // if ('theme-2' in themesChecked === false) {
+          //     themesChecked['theme-2'] = ThemeModel(themes['theme-2']);
+          // }
+          setThemesForApplication(function () {
+            return themesChecked;
+          });
+          setRawThemes(function () {
+            return _rawThemes;
+          });
+
+          // if (!chosenTheme) {
+          //     changeCurrentTheme(Object.keys(themesChecked)[0]);
+          // }
+        }
+        // set the theme
+        if (!chosenTheme && Object.keys(themesChecked).length > 0) {
+          changeCurrentTheme(Object.keys(themesChecked)[0]);
+        }
+        forceUpdate();
+      }
+    } catch (e) {
+    }
+  }
+  function handleLoadThemesError(e, message) {
+    setThemesForApplication(null);
+  }
+  var changeCurrentTheme = function changeCurrentTheme(themeKey) {
+    if (rawThemes !== null) {
+      var themeData = ThemeModel(rawThemes[themeKey]);
+      if (themeKey !== null) {
+        setChosenTheme(function () {
+          return themeData;
+        });
+        setThemeName(function () {
+          return themeKey;
+        });
+        changeApplicationTheme(themeKey);
+        forceUpdate();
+      }
+    }
+  };
+  var changeThemesForApplication = function changeThemesForApplication(themes) {
+    checkThemes(themes);
+  };
+  var changeThemeVariant = function changeThemeVariant(variant) {
+    setThemeVariant(function () {
+      return variant;
+    });
+  };
+  var getValue = function getValue() {
+    try {
+      return {
+        key: Date.now(),
+        currentTheme: chosenTheme !== null ? themeVariant in chosenTheme ? chosenTheme[themeVariant] : null : null,
+        currentThemeKey: themeName,
+        theme: chosenTheme !== null ? themeVariant in chosenTheme ? chosenTheme[themeVariant] : null : null,
+        themeKey: themeName,
+        themeVariant: themeVariant,
+        changeCurrentTheme: changeCurrentTheme,
+        changeThemeVariant: changeThemeVariant,
+        changeThemesForApplication: changeThemesForApplication,
+        loadThemes: loadThemes,
+        themes: themesForApplication,
+        rawThemes: rawThemes
+      };
+    } catch (e) {
+      return {};
+    }
+  };
+  return /*#__PURE__*/jsx(ThemeContext.Provider, {
+    value: getValue(),
+    children: children
+  });
+};
+
+function _slicedToArray$a(r, e) { return _arrayWithHoles$a(r) || _iterableToArrayLimit$a(r, e) || _unsupportedIterableToArray$a(r, e) || _nonIterableRest$a(); }
+function _nonIterableRest$a() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
+function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$a(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$a(r) { if (Array.isArray(r)) return r; }
+var debugStyles = {
+  workspace: {
+    classes: "bg-gray-800 border border-red-900 rounded p-4"
+  },
+  "workspace-menu": {
+    classes: "bg-gray-800 border border-orange-900 rounded p-4"
+  },
+  "workspace-footer": {
+    classes: "bg-gray-800 border-t border-orange-900 rounded p-4"
+  },
+  layout: {
+    classes: "border border-green-900 bg-gray-800 rounded p-4"
+  },
+  widget: {
+    classes: "border border-blue-700 bg-gray-800 rounded p-4"
+  }
+};
+var AppWrapper = function AppWrapper(_ref) {
+  var children = _ref.children,
+    _ref$credentials = _ref.credentials,
+    credentials = _ref$credentials === void 0 ? null : _ref$credentials,
+    dashApi = _ref.dashApi;
+  var _useState = useState(credentials),
+    _useState2 = _slicedToArray$a(_useState, 2),
+    creds = _useState2[0],
+    setCreds = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray$a(_useState3, 2),
+    debugMode = _useState4[0],
+    setDebugmode = _useState4[1];
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray$a(_useState5, 2),
+    searchClient = _useState6[0],
+    setSearchClient = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray$a(_useState7, 2),
+    settings = _useState8[0],
+    setSettings = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray$a(_useState9, 2),
+    isLoadingSettings = _useState0[0],
+    setIsLoadingSettings = _useState0[1];
+  var _useState1 = useState(false),
+    _useState10 = _slicedToArray$a(_useState1, 2);
+    _useState10[0];
+    _useState10[1];
+  useEffect(function () {
+    if (settings === null && isLoadingSettings === false) {
+      loadSettings();
+    }
+  }, [credentials, settings]);
+  function changeSearchClient(searchClientTo) {
+    setSearchClient(function () {
+      return searchClientTo;
+    });
+  }
+  function changeCreds(appId, apiKey) {
+    var credentialsTemp = {
+      appId: appId,
+      apiKey: apiKey
+    };
+    var s = deepCopy(settings);
+    s["creds"] = credentialsTemp;
+    setCreds(function () {
+      return credentialsTemp;
+    });
+    changeSettings(s);
+  }
+  function changeDebugMode(to) {
+    setDebugmode(to);
+    var s = deepCopy(settings);
+    s["debugMode"] = to;
+    changeSettings(s);
+  }
+  function changeSettings(settingsObject) {
+    setSettings(function () {
+      return settingsObject;
+    });
+    saveSettings();
+  }
+  function changeApplicationTheme(themeKey) {
+    try {
+      var s = deepCopy(settings);
+      if (s) {
+        if ("theme" in s && themeKey) {
+          s["theme"] = themeKey;
+        }
+        changeSettings(s);
+      }
+    } catch (e) {
+    }
+  }
+  function loadSettings() {
+    // Here is where we have to add this theme to the themes available
+    // and save to the themes file.
+    if (dashApi && credentials) {
+      dashApi.listSettings(credentials.appId, handleGetSettingsComplete, handleGetSettingsError);
+    }
+  }
+  function handleGetSettingsComplete(e, message) {
+    if ("settings" in message) {
+      var settingsObject;
+      if (Object.keys(message["settings"]).length === 0) {
+        // nothing in settings so we should set some things....
+        // set a default theme for the user
+        settingsObject = SettingsModel({
+          theme: "theme-1"
+        });
+      } else {
+        settingsObject = SettingsModel(message["settings"]);
+      }
+      setSettings(function () {
+        return settingsObject;
+      });
+    }
+    // set the settings model to the context
+    setIsLoadingSettings(function () {
+      return false;
+    });
+    // forceUpdate();
+  }
+  function handleGetSettingsError(e, error) {
+    setIsLoadingSettings(function () {
+      return false;
+    });
+  }
+  function saveSettings() {
+    // Here is where we have to add this theme to the themes available
+    // and save to the themes file.
+    if (dashApi) {
+      dashApi.saveSettings(credentials.appId, settings, handleGetSettingsComplete, handleGetSettingsError);
+    }
+  }
+
+  // function handleSaveSettingsComplete(e, message) {
+  //     if ('settings' in message) {
+  //         let settingsObject;
+  //         if (Object.keys(message['settings']).length === 0) {
+  //             // nothing in settings so we should set some things....
+  //             // set a default theme for the user
+  //             settingsObject = SettingsModel({ theme: 'theme-1' });
+  //         } else {
+  //             settingsObject = SettingsModel(message['settings']);
+  //         }
+  //         setSettings(() => settingsObject);
+  //     }
+  //     // set the settings model to the context
+  //     setIsSavingSettings(() => false);
+  // }
+
+  // function handleSaveSettingsError(e, message) {
+  //     console.log('settings load error ', e, message);
+  //     setIsSavingSettings(() => false);
+  // }
+
+  function getValue() {
+    try {
+      return {
+        key: Date.now(),
+        debugMode: debugMode,
+        debugStyles: debugStyles,
+        creds: creds,
+        credentials: credentials,
+        searchClient: searchClient,
+        api: dashApi,
+        dashApi: dashApi,
+        settings: settings,
+        changeSearchClient: changeSearchClient,
+        changeCreds: changeCreds,
+        changeDebugMode: changeDebugMode,
+        changeSettings: changeSettings,
+        changeApplicationTheme: changeApplicationTheme
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+  return /*#__PURE__*/jsx(AppContext.Provider, {
+    value: getValue(),
+    children: children
+  });
+};
+
+var WidgetContext = /*#__PURE__*/createContext({
+  widgetData: null
+});
+
+var DashboardWrapper = function DashboardWrapper(_ref) {
+  var dashApi = _ref.dashApi,
+    credentials = _ref.credentials,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
+    children = _ref.children;
+  // use the contexts to pass through any information
+  var _useContext = useContext$1(ThemeContext);
+    _useContext.currentTheme;
+  function buildWidgetApi() {
+    var w = WidgetApi;
+    w.setPublisher(DashboardPublisher);
+    w.setElectronApi(dashApi);
+    return w;
+  }
+  function getValue() {
     return {
-      string: ""
+      widgetApi: buildWidgetApi(),
+      pub: DashboardPublisher,
+      dashApi: dashApi,
+      credentials: credentials
     };
   }
-  return {
-    string: null
-  };
+  return /*#__PURE__*/jsx(AppWrapper, {
+    dashApi: dashApi,
+    credentials: credentials,
+    children: /*#__PURE__*/jsx(ThemeWrapper, {
+      dashApi: dashApi,
+      credentials: credentials,
+      children: /*#__PURE__*/jsx("div", {
+        className: "flex flex-col w-screen h-screen overflow-hidden justify-between p-0",
+        children: /*#__PURE__*/jsx(MainSection, {
+          backgroundColor: backgroundColor,
+          children: /*#__PURE__*/jsx(DashboardContext.Provider, {
+            value: getValue(),
+            children: children
+          })
+        })
+      })
+    })
+  });
 };
-var getStyleValueVariant = function getStyleValueVariant(className, obj) {
-  try {
-    switch (className) {
-      case "hoverBorderColor":
-      case "hoverBackgroundColor":
-        var val = obj[className].replaceAll("hover:", "");
-        return "hover:" + val;
-      default:
-        return obj[className];
-    }
-  } catch (e) {
-    return "";
-  }
-};
-var getClassForObjectType = function getClassForObjectType(objectType) {
-  return objectTypeClasses[objectType]["class"];
-};
-function getStyleName(objectType) {
-  var s = null;
-  switch (objectType) {
-    case "bg":
-      s = "background";
-      break;
-    case "text":
-      s = "text";
-      break;
-    case "hover:text":
-      s = "hover-text";
-      break;
-    case "hover:bg":
-      s = "hover-background";
-      break;
-    case "p":
-      s = "padding";
-      break;
-    default:
-      s = objectType;
-      break;
-  }
-  return s;
-}
 
 function _typeof$z(o) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$z(o); }
-var _excluded$v = ["children", "border", "className", "padding", "defaultPadding"],
+var _excluded$v = ["children", "border", "className", "padding", "defaultPadding", "direction"],
   _excluded2$6 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
   _excluded3$6 = ["children", "className", "defaultPadding", "padding"],
   _excluded4$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border"],
-  _excluded5$1 = ["children", "border", "className", "padding", "defaultPadding"],
+  _excluded5$1 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
   _excluded6$1 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding", "height", "width"],
   _excluded7$1 = ["children", "className", "defaultPadding", "padding"],
   _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding", "border"],
-  _excluded9$1 = ["children", "border", "className", "padding", "defaultPadding"],
+  _excluded9$1 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
   _excluded0$1 = ["children", "scrollable", "className", "space", "onClick", "defaultPadding", "padding", "height", "width"],
   _excluded1$1 = ["children", "className", "padding", "defaultPadding"],
   _excluded10$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "grow", "defaultPadding", "border"];
@@ -11810,14 +11831,21 @@ var PanelHeader = function PanelHeader(_ref) {
     padding = _ref$padding === void 0 ? true : _ref$padding,
     _ref$defaultPadding = _ref.defaultPadding,
     defaultPadding = _ref$defaultPadding === void 0 ? "p-6" : _ref$defaultPadding,
+    _ref$direction = _ref.direction,
+    direction = _ref$direction === void 0 ? "horizontal" : _ref$direction,
     props = _objectWithoutProperties$v(_ref, _excluded$v);
-  var _useContext = useContext$1(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+  var _useContext = useContext$1(WidgetContext);
+    _useContext.widgetData;
+  var _useContext2 = useContext$1(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     grow: false
   }));
+  // since we do not have a layout container we can create an id like so
+  var id = getUUID$1("", "panel-header");
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    id: id,
+    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " rounded-t ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -11837,12 +11865,13 @@ var PanelBody = function PanelBody(_ref2) {
     _ref2$padding = _ref2.padding,
     padding = _ref2$padding === void 0 ? true : _ref2$padding,
     props = _objectWithoutProperties$v(_ref2, _excluded2$6);
-  var _useContext2 = useContext$1(ThemeContext),
-    currentTheme = _useContext2.currentTheme;
+  var _useContext3 = useContext$1(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     scrollable: false
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({}, props), {}, {
+    prefix: "panel-body",
     className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     scrollable: scrollable,
     width: "w-full",
@@ -11862,8 +11891,8 @@ var PanelFooter = function PanelFooter(_ref3) {
     _ref3$padding = _ref3.padding,
     padding = _ref3$padding === void 0 ? true : _ref3$padding,
     props = _objectWithoutProperties$v(_ref3, _excluded3$6);
-  var _useContext3 = useContext$1(ThemeContext),
-    currentTheme = _useContext3.currentTheme;
+  var _useContext4 = useContext$1(ThemeContext),
+    currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     height: "h-auto",
     grow: false
@@ -11898,8 +11927,8 @@ var Panel = function Panel(_ref4) {
     border = _ref4$border === void 0 ? true : _ref4$border,
     props = _objectWithoutProperties$v(_ref4, _excluded4$1);
   // Fetch the Styles from the utility
-  var _useContext4 = useContext$1(ThemeContext),
-    currentTheme = _useContext4.currentTheme;
+  var _useContext5 = useContext$1(ThemeContext),
+    currentTheme = _useContext5.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
@@ -11908,6 +11937,7 @@ var Panel = function Panel(_ref4) {
     height: height
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
+    prefix: "panel",
     direction: horizontal === true ? "row" : "col",
     className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg overflow-hidden ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
@@ -11938,15 +11968,17 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     padding = _ref5$padding === void 0 ? true : _ref5$padding,
     _ref5$defaultPadding = _ref5.defaultPadding,
     defaultPadding = _ref5$defaultPadding === void 0 ? "p-4" : _ref5$defaultPadding,
+    _ref5$direction = _ref5.direction,
+    direction = _ref5$direction === void 0 ? "horizontal" : _ref5$direction,
     props = _objectWithoutProperties$v(_ref5, _excluded5$1);
-  var _useContext5 = useContext$1(ThemeContext),
-    currentTheme = _useContext5.currentTheme;
+  var _useContext6 = useContext$1(ThemeContext),
+    currentTheme = _useContext6.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     height: "h-auto",
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " rounded-t ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -11966,8 +11998,8 @@ var PanelBody2 = function PanelBody2(_ref6) {
     height = _ref6$height === void 0 ? "h-full" : _ref6$height;
     _ref6.width;
     var props = _objectWithoutProperties$v(_ref6, _excluded6$1);
-  var _useContext6 = useContext$1(ThemeContext),
-    currentTheme = _useContext6.currentTheme;
+  var _useContext7 = useContext$1(ThemeContext),
+    currentTheme = _useContext7.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({
     scrollable: false
   }, "scrollable", scrollable), "padding", padding), "width", "w-full"), "height", height)));
@@ -11991,8 +12023,8 @@ var PanelFooter2 = function PanelFooter2(_ref7) {
     _ref7$padding = _ref7.padding,
     padding = _ref7$padding === void 0 ? true : _ref7$padding,
     props = _objectWithoutProperties$v(_ref7, _excluded7$1);
-  var _useContext7 = useContext$1(ThemeContext),
-    currentTheme = _useContext7.currentTheme;
+  var _useContext8 = useContext$1(ThemeContext),
+    currentTheme = _useContext8.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     height: "h-auto",
     grow: false
@@ -12025,8 +12057,8 @@ var Panel2 = function Panel2(_ref8) {
     _ref8$border = _ref8.border,
     border = _ref8$border === void 0 ? true : _ref8$border,
     props = _objectWithoutProperties$v(_ref8, _excluded8$1);
-  var _useContext8 = useContext$1(ThemeContext),
-    currentTheme = _useContext8.currentTheme;
+  var _useContext9 = useContext$1(ThemeContext),
+    currentTheme = _useContext9.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
@@ -12064,15 +12096,17 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     padding = _ref9$padding === void 0 ? true : _ref9$padding,
     _ref9$defaultPadding = _ref9.defaultPadding,
     defaultPadding = _ref9$defaultPadding === void 0 ? "p-2" : _ref9$defaultPadding,
+    _ref9$direction = _ref9.direction,
+    direction = _ref9$direction === void 0 ? "horizontal" : _ref9$direction,
     props = _objectWithoutProperties$v(_ref9, _excluded9$1);
-  var _useContext9 = useContext$1(ThemeContext),
-    currentTheme = _useContext9.currentTheme;
+  var _useContext0 = useContext$1(ThemeContext),
+    currentTheme = _useContext0.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_HEADER_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     height: "h-auto",
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-t ".concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " rounded-t ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -12094,8 +12128,8 @@ var PanelBody3 = function PanelBody3(_ref0) {
     _ref0.width;
     var props = _objectWithoutProperties$v(_ref0, _excluded0$1);
   try {
-    var _useContext0 = useContext$1(ThemeContext),
-      currentTheme = _useContext0.currentTheme;
+    var _useContext1 = useContext$1(ThemeContext),
+      currentTheme = _useContext1.currentTheme;
     var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
       direction: props.horizontal === true ? "row" : "col",
       scrollable: scrollable,
@@ -12126,8 +12160,8 @@ var PanelFooter3 = function PanelFooter3(_ref1) {
     _ref1$defaultPadding = _ref1.defaultPadding,
     defaultPadding = _ref1$defaultPadding === void 0 ? "p-2" : _ref1$defaultPadding,
     props = _objectWithoutProperties$v(_ref1, _excluded1$1);
-  var _useContext1 = useContext$1(ThemeContext),
-    currentTheme = _useContext1.currentTheme;
+  var _useContext10 = useContext$1(ThemeContext),
+    currentTheme = _useContext10.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     height: "h-auto",
     grow: false
@@ -12159,8 +12193,8 @@ var Panel3 = function Panel3(_ref10) {
     _ref10$border = _ref10.border,
     border = _ref10$border === void 0 ? true : _ref10$border,
     props = _objectWithoutProperties$v(_ref10, _excluded10$1);
-  var _useContext10 = useContext$1(ThemeContext),
-    currentTheme = _useContext10.currentTheme;
+  var _useContext11 = useContext$1(ThemeContext),
+    currentTheme = _useContext11.currentTheme;
   var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
@@ -12222,9 +12256,9 @@ var Modal = function Modal(_ref2) {
 Modal.Footer = ModalFooter;
 
 function _typeof$y(o) { "@babel/helpers - typeof"; return _typeof$y = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$y(o); }
-var _excluded$u = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width", "children"],
-  _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className", "grow", "space"],
-  _excluded3$5 = ["text", "padding", "onClick", "scrollable", "grow", "space", "className"];
+var _excluded$u = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width", "children", "debug"],
+  _excluded2$5 = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width"],
+  _excluded3$5 = ["text", "padding", "onClick", "scrollable", "grow", "space", "className", "height", "width"];
 function ownKeys$t(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$t(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$t(Object(t), !0).forEach(function (r) { _defineProperty$u(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$t(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$u(e, r, t) { return (r = _toPropertyKey$y(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -12247,14 +12281,23 @@ function Paragraph(_ref) {
     _ref$space = _ref.space,
     space = _ref$space === void 0 ? false : _ref$space,
     _ref$height = _ref.height,
-    height = _ref$height === void 0 ? "h-full" : _ref$height,
+    height = _ref$height === void 0 ? "" : _ref$height,
     _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-full" : _ref$width,
     children = _ref.children,
+    _ref$debug = _ref.debug,
+    debug = _ref$debug === void 0 ? false : _ref$debug,
     props = _objectWithoutProperties$u(_ref, _excluded$u);
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, props, space, grow, padding, scrollable, height, width);
+  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+    space: space,
+    grow: grow,
+    padding: padding,
+    scrollable: scrollable,
+    height: height,
+    width: width
+  }));
   return /*#__PURE__*/jsx(LayoutContainer, {
     className: "".concat(styles.string),
     onClick: onClick,
@@ -12264,6 +12307,7 @@ function Paragraph(_ref) {
     height: height,
     width: width,
     padding: padding,
+    debug: debug,
     children: text !== null ? text : children
   });
 }
@@ -12280,20 +12324,28 @@ function Paragraph2(_ref2) {
     grow = _ref2$grow === void 0 ? false : _ref2$grow,
     _ref2$space = _ref2.space,
     space = _ref2$space === void 0 ? false : _ref2$space,
+    _ref2$height = _ref2.height,
+    height = _ref2$height === void 0 ? "" : _ref2$height,
+    _ref2$width = _ref2.width,
+    width = _ref2$width === void 0 ? "w-full" : _ref2$width,
     props = _objectWithoutProperties$u(_ref2, _excluded2$5);
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
     scrollable: scrollable,
     space: space,
-    grow: grow
+    grow: grow,
+    height: height,
+    width: width
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "h-full w-full ".concat(className, " ").concat(styles.string),
+    className: "".concat(className, " ").concat(styles.string),
     onClick: onClick,
     scrollable: scrollable,
     grow: grow,
     space: space,
+    height: height,
+    width: width,
     children: text
   });
 }
@@ -12311,6 +12363,10 @@ function Paragraph3(_ref3) {
     space = _ref3$space === void 0 ? false : _ref3$space,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "text-xs xl:text-sm font-normal p-2" : _ref3$className,
+    _ref3$height = _ref3.height,
+    height = _ref3$height === void 0 ? "" : _ref3$height,
+    _ref3$width = _ref3.width,
+    width = _ref3$width === void 0 ? "w-full" : _ref3$width,
     props = _objectWithoutProperties$u(_ref3, _excluded3$5);
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -12318,14 +12374,18 @@ function Paragraph3(_ref3) {
     scrollable: scrollable,
     grow: grow,
     space: space,
-    padding: padding
+    padding: padding,
+    height: height,
+    width: width
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "h-full w-full ".concat(styles.string, " ").concat(className),
+    className: "".concat(styles.string, " ").concat(className),
     onClick: onClick,
     scrollable: scrollable,
     grow: grow,
     space: space,
+    height: height,
+    width: width,
     children: text
   });
 }
@@ -12355,7 +12415,8 @@ var MenuItem = function MenuItem(_ref) {
     _ref$selected = _ref.selected,
     selected = _ref$selected === void 0 ? false : _ref$selected,
     _ref$grow = _ref.grow,
-    grow = _ref$grow === void 0 ? false : _ref$grow;
+    grow = _ref$grow === void 0 ? false : _ref$grow,
+    id = _ref.id;
   var _useContext = useContext$1(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.MENU_ITEM, currentTheme, {
@@ -12369,11 +12430,16 @@ var MenuItem = function MenuItem(_ref) {
     selected: selected,
     grow: grow
   });
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1(id, "menu-item");
   return theme === true ? /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row font-bold ".concat(styles.string, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
     children: children
   }) : /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row font-bold ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
     children: children
@@ -12404,7 +12470,8 @@ var MenuItem2 = function MenuItem2(_ref2) {
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$grow = _ref2.grow,
-    grow = _ref2$grow === void 0 ? false : _ref2$grow;
+    grow = _ref2$grow === void 0 ? false : _ref2$grow,
+    id = _ref2.id;
   var _useContext2 = useContext$1(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
@@ -12420,7 +12487,11 @@ var MenuItem2 = function MenuItem2(_ref2) {
   });
   var baseStyles = "".concat(onClick && "cursor-pointer", " p-2 px-4 rounded items-center space-x-2 ").concat(border === true && "border-2", " ").concat(border === true && "border-2");
   var baseTextStyles = "text-base font-medium";
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " "),
     children: children
@@ -12453,8 +12524,8 @@ var MenuItem3 = function MenuItem3(_ref3) {
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$grow = _ref3.grow,
-    grow = _ref3$grow === void 0 ? false : _ref3$grow;
-    _ref3.id;
+    grow = _ref3$grow === void 0 ? false : _ref3$grow,
+    id = _ref3.id;
     _ref3.type;
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -12471,7 +12542,10 @@ var MenuItem3 = function MenuItem3(_ref3) {
   });
   var baseStyles = "".concat(onClick && "cursor-pointer", " p-2 px-4 rounded items-center space-x-2 ").concat(border === true && "border-2", " ").concat(border === true && "border-2");
   var baseTextStyles = "text-sm font-normal";
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " "),
     children: children
@@ -12695,7 +12769,11 @@ var Button = function Button(_ref) {
   var width = block === true ? "w-full" : "";
   var textSizeComputed = textSize !== null ? textSize : "text-lg lg:text-xl xl:text-xl 2xl:text-2xl";
   var paddingComputed = padding !== null ? padding : "p-2 py-1 px-2 lg:px-4 lg:py-2 xl:px-6 xl:py-4";
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "button");
   return /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: handleOnClick,
     className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
     children: title
@@ -12729,7 +12807,10 @@ var Button2 = function Button2(_ref2) {
   var width = block === true ? "w-full" : "";
   var textSizeComputed = textSize !== null ? textSize : "text-base lg:text-lg 2xl:text-xl";
   var paddingComputed = padding !== null ? padding : "p-1 lg:p-2 xl:p-4";
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "button-2");
   return /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: handleOnClick,
     className: "flex flex-row flex-shrink justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-medium"),
     children: title
@@ -12764,7 +12845,11 @@ var Button3 = function Button3(_ref3) {
   var width = block === true ? "w-full" : "";
   var textSizeComputed = textSize !== null ? textSize : "text-sm xl:text-base 2xl:text-base";
   var paddingComputed = padding !== null ? padding : "p-1 lg:p-1 xl:p-2";
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "button-3");
   return /*#__PURE__*/jsx("div", {
+    id: uuid,
     onClick: handleOnClick,
     className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-normal"),
     children: title
@@ -12816,7 +12901,11 @@ var ButtonIcon = function ButtonIcon(_ref) {
   }
   var disabledStyles = onClick !== null && disabled === false && "cursor-pointer";
   var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-4" : text === "" ? "space-x-0 px-0" : "space-x-0 px-4";
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "button-icon");
   return /*#__PURE__*/jsxs("div", {
+    id: uuid,
     onClick: handleOnClick,
     className: "flex flex-row ".concat(className, " ").concat(styles.string, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(textSize, " ").concat(disabledStyles, " whitespace-nowrap"),
     children: [icon !== "" && /*#__PURE__*/jsx("span", {
@@ -12865,7 +12954,11 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
   }
   var disabledStyles = onClick !== null && disabled === false && "cursor-pointer";
   var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "button-icon-2");
   return /*#__PURE__*/jsxs("div", {
+    id: uuid,
     onClick: handleOnClick,
     className: "flex flex-row  ".concat(styles.string, " ").concat(className, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-1 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
     children: [icon !== "" && /*#__PURE__*/jsx("span", {
@@ -12917,7 +13010,11 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
 
   // center styles
   var center = "justify-center items-center cursor-pointer";
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "button-icon-3");
   return /*#__PURE__*/jsxs("div", {
+    id: uuid,
     onClick: handleOnClick,
     className: "flex flex-row ".concat(className, " ").concat(styles.string, " rounded font-medium ").concat(center, " ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " ").concat(textSize, " ").concat(block === true && "w-full", " ").concat(styles.string, " whitespace-nowrap"),
     children: [icon !== "" && /*#__PURE__*/jsx("span", {
@@ -13261,7 +13358,9 @@ var Tag = function Tag(_ref) {
   // maybe we need to apply the className IF this exists?
   // only allow the user to change the "style" not the structure
   var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var uuid = getUUID$1("", "tag");
   return /*#__PURE__*/jsx("span", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
     children: text
@@ -13287,7 +13386,9 @@ var Tag2 = function Tag2(_ref2) {
   // maybe we need to apply the className IF this exists?
   // only allow the user to change the "style" not the structure
   var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var uuid = getUUID$1("", "tag-2");
   return /*#__PURE__*/jsx("span", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
     children: text
@@ -13311,7 +13412,9 @@ var Tag3 = function Tag3(_ref3) {
   // maybe we need to apply the className IF this exists?
   // only allow the user to change the "style" not the structure
   var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var uuid = getUUID$1("", "tag-3");
   return /*#__PURE__*/jsx("span", {
+    id: uuid,
     onClick: onClick,
     className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
     children: text
@@ -13341,8 +13444,11 @@ var Container = function Container(_ref) {
   var scrollStyle = scrollable === true ? "scrollbar overflow-y-scroll" : "overflow-hidden";
   var widthStyle = width;
   var heightStyle = scrollable === true ? height : height;
+
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID(id, "container");
   return /*#__PURE__*/jsx("div", {
-    id: "container-".concat(id),
+    id: uuid,
     onMouseOver: onMouseOver,
     onMouseOut: onMouseOut,
     className: "flex ".concat(directionStyle, " ").concat(scrollStyle, " ").concat(widthStyle, " ").concat(heightStyle, " ").concat(className),
@@ -13762,7 +13868,10 @@ var DashPanelHeader = function DashPanelHeader(_ref) {
     height: "h-fit",
     grow: false
   }));
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "dash-panel-header");
   return /*#__PURE__*/jsxs("div", {
+    id: uuid,
     className: "flex flex-row rounded-t p-2 border-b justify-between items-center ".concat(styles.string),
     children: [/*#__PURE__*/jsx("span", {
       className: "uppercase text-xs font-bold ".concat(styles.textColor),
@@ -13796,6 +13905,7 @@ var DashPanelBody = function DashPanelBody(_ref2) {
     space: false
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$l(_objectSpread$l({}, props), {}, {
+    prefix: "dash-panel-body",
     className: "".concat(styles.string, " p-4"),
     scrollable: scrollable,
     width: width,
@@ -13815,7 +13925,10 @@ var DashPanelFooter = function DashPanelFooter(_ref3) {
     height: "h-fit",
     grow: false
   }));
+  // since we do not have a layout container we can create an id like so
+  var uuid = getUUID$1("", "dash-panel-footer");
   return /*#__PURE__*/jsx("div", {
+    id: uuid,
     className: "flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ".concat(styles.string),
     children: children
   });
@@ -14062,7 +14175,7 @@ var Workspace = function Workspace(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$k(_ref, _excluded$k);
   // Generate the UUID for the Workspace to identify
-  var uuidString = getUUID(uuid);
+  var uuidString = getUUID$1(uuid);
   return /*#__PURE__*/jsx(WorkspaceContext.Provider, {
     value: {
       workspaceData: props
@@ -23780,6 +23893,7 @@ var MockWrapper = function MockWrapper(_ref) {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Workspace - WIDGET - Item is a child of the Widget component`"
           }), /*#__PURE__*/jsx(Workspace, {
+            uuid: "MockWorkspace1",
             id: "MockWrapperWorkspace",
             direction: "col",
             scrollable: false,
@@ -23985,5 +24099,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CHOOSE_FILE, CHOOSE_FILE_COMPLETE, CHOOSE_FILE_ERROR, CodeEditorInline, CodeEditorVS, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockDashboardWrapper, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getCSSStyleForClassname, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, _renderLayout as renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CHOOSE_FILE, CHOOSE_FILE_COMPLETE, CHOOSE_FILE_ERROR, CodeEditorInline, CodeEditorVS, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockDashboardWrapper, MockLayout, MockWorkspace, MockWrapper, Modal, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, deepCopy, getBorderStyle, getCSSStyleForClassname, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, _renderLayout as renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, withRouter };
 //# sourceMappingURL=index.js.map

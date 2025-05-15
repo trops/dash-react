@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ThemeContext} from "@dash/Context";
+import { ThemeContext } from "@dash/Context";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
@@ -17,7 +17,7 @@ const MenuItem = ({
     children,
     selected = false,
     grow = false,
-    id
+    id,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.MENU_ITEM, currentTheme, {
@@ -32,8 +32,8 @@ const MenuItem = ({
         grow,
     });
 
-     // since we do not have a layout container we can create an id like so
-     const uuid = getUUID(id, "menu-item");
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID(id, "menu-item");
 
     return theme === true ? (
         <div
@@ -72,7 +72,7 @@ const MenuItem2 = ({
     selected = false,
     className = "",
     grow = false,
-    id
+    id,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.MENU_ITEM_2, currentTheme, {
@@ -95,8 +95,8 @@ const MenuItem2 = ({
 
     const baseTextStyles = `text-base font-medium`;
 
-     // since we do not have a layout container we can create an id like so
-     const uuid = getUUID(id, "menu-item");
+    // since we do not have a layout container we can create an id like so
+    const uuid = getUUID(id, "menu-item");
 
     return (
         <div

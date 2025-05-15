@@ -59,7 +59,7 @@ const Tag2 = ({
             : `${styles.string} font-bold rounded ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
-    
+
     const uuid = getUUID("", "tag-2");
     return (
         <span

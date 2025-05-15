@@ -9,7 +9,6 @@
  */
 
 export const WidgetApi = {
-
     params: null,
 
     init: function (params) {
