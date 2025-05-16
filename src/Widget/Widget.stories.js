@@ -1,6 +1,6 @@
 import { Widget } from "./Widget";
 import { MockWrapper, mock, mockText } from "../Mock";
-import { Heading, Subheading, Paragraph } from "@dash";
+import { Heading, Subheading, Paragraph, Panel } from "@dash";
 import { LayoutContainer } from "../Layout/LayoutContainer";
 import { DashPanel } from "..";
 
@@ -50,9 +50,24 @@ const TemplateDashPanelParagraph = (args) => {
     );
 };
 
+const TemplateScrollableList = (args) => {
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes} {...args}>
+            <LayoutContainer scrollable={true} direction="col" height="h-full" width="w-full">
+                <Panel><Panel.Body>test</Panel.Body></Panel>
+                <Panel><Panel.Body>test</Panel.Body></Panel>
+                <Panel><Panel.Body>test</Panel.Body></Panel>
+                <Panel><Panel.Body>test</Panel.Body></Panel>
+                <Panel><Panel.Body>test</Panel.Body></Panel>
+            </LayoutContainer>
+        </MockWrapper>
+    );
+};
+
 export const Primary = Template.bind({});
 export const PrimaryDashPanel = TemplateDashPanel.bind({});
 export const PrimaryDashPanelParagraph = TemplateDashPanelParagraph.bind({});
+export const PrimaryScrollableList = TemplateScrollableList.bind({});
 
 Primary.args = {
     title: "Widget",
@@ -70,4 +85,12 @@ PrimaryDashPanelParagraph.args = {
     title: "Dash Panel",
     scrollable: false,
     height: "h-60",
+};
+
+
+PrimaryScrollableList.args = {
+    title: "Dash Panel",
+    scrollable: false,
+    height: "h-full",
+    direction: "vertical"
 };

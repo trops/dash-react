@@ -383,10 +383,51 @@ const colorMap = {
 const getCSSStyleForClassname = (className, itemName) => {
     return colorMap[itemName][className];
 };
+
+const uniqueClasses = [
+    "grow",
+    "scrollable",
+    "width",
+    "height",
+    "padding",
+    "backgroundColor",
+    "borderColor",
+    "direction",
+    "textColor"
+];
+
 /**
- * getStylesForItem
+ * Remove the classes from the low priority object 
+ * @param {Object} high The array that is 
+ * @param {Object} low 
+ */
+const prioritizeClasses = (high, low) => {
+    try {
+        Object.keys(high).forEach(k => {
+            if (high[k]) {
+                if (k in low) {
+                    delete low[k]
+                }
+            }
+        });
+        return { ...high, ...low};
+    } catch(e) {
+        console.log(e);
+        return null;
+    }
+}
+
+const getValueFromTheme = (key, theme) => {
+    return theme[key];
+}
+
+/**
+ * Generate the styles for the element based on the theme, themeOverrides and manual overrides
+ * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-hidden, etc etc
+ * Need to mrege what is default and what is an override
+ * 
  * @param {string} itemName the name of the component (button, panel, etc)
- *
+ * @returns {Object} the object containing the style information 
  */
 const getStylesForItem = (
     itemName = null,
@@ -402,54 +443,72 @@ const getStylesForItem = (
             const defaultStyles =
                 itemName in colorMap ? colorMap[itemName] : null;
 
+            
             // then we have to determine if this item has any theme overrides
-
+            // this uses the THEME LANGUAGE to override
             const themeOverrides =
                 theme !== null && itemName in theme ? theme[itemName] : {};
 
-            Object.keys(themeOverrides).length > 0 &&
-                console.log("theme overrides ", themeOverrides);
-
             // then we have to determine if the component has any MANUAL overrides
+            // this uses CSS CLASSES to override, no need to translate
             const manualOverrides =
                 Object.keys(overrides).length > 0 ? overrides : {};
 
-            // and this is the styles we shall return
-            let styles = {};
+            // Prioritizing ClassNames here
+            const prioritizeThemeOverrides = prioritizeClasses(themeOverrides, defaultStyles);
 
-            // First set all of the defaults
-            Object.keys(defaultStyles).forEach((key) => {
-                styles[key] = theme[defaultStyles[key]];
+            // now we have to get the TRUE value from the class from the theme...
+            const prioritizeThemeValues = {};
+            Object.keys(prioritizeThemeOverrides).forEach(k => {
+                if (prioritizeThemeOverrides[k] in theme) {
+                    prioritizeThemeValues[k] = theme[prioritizeThemeOverrides[k]];
+                } else {
+                    prioritizeThemeValues[k] = prioritizeThemeOverrides[k];
+                }
             });
 
+            // now we can prioritize the manual overrides if there are any
+            const prioritizedStyles = prioritizeClasses(manualOverrides, prioritizeThemeValues);
+
+            // and this is the styles we shall return
+            let styles = {};
+            // grab the theme values out of the theme (color, etc)
+             Object.keys(prioritizedStyles).forEach((key) => { 
+                styles[key] = getStyleValueVariant(
+                    key,
+                    prioritizedStyles
+                );
+            });
+
+            // console.log("value check final styles ", styles);
             // scrollbars?
 
             const grow =
-                "grow" in overrides && overrides["grow"] === false
+                "grow" in prioritizedStyles && prioritizedStyles["grow"] === false
                     ? "flex-shrink"
                     : "flex-grow";
 
             const scrollbarStyles =
-                "scrollable" in overrides && overrides["scrollable"] === true
+                "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
                     : `overlflow-hidden ${grow} mr-0`;
 
             const hasChildren =
-                "hasChildren" in overrides ? overrides["hasChildren"] : false;
+                "hasChildren" in prioritizedStyles ? prioritizedStyles["hasChildren"] : false;
 
             const childCount =
-                "childCount" in overrides ? overrides["childCount"] : null;
+                "childCount" in prioritizedStyles ? prioritizedStyles["childCount"] : null;
 
             const directionValue =
-                "direction" in overrides ? overrides["direction"] : null;
+                "direction" in prioritizedStyles ? prioritizedStyles["direction"] : null;
 
-            const widthValue = "width" in overrides ? overrides["width"] : null;
+            const widthValue = "width" in prioritizedStyles ? prioritizedStyles["width"] : null;
 
             const heightValue =
-                "height" in overrides ? overrides["height"] : null;
+                "height" in prioritizedStyles ? prioritizedStyles["height"] : null;
 
             const paddingValue =
-                "padding" in overrides ? overrides["padding"] : null;
+                "padding" in prioritizedStyles ? prioritizedStyles["padding"] : null;
 
             const directionStyles =
                 directionValue !== null
@@ -464,12 +523,14 @@ const getStylesForItem = (
                 hasChildren === true &&
                 childCount > 1 &&
                 directionValue !== null
-                    ? "space" in overrides && overrides["space"] !== false
+                    ? "space" in prioritizedStyles && prioritizedStyles["space"] !== false
                         ? directionValue === "col"
                             ? "space-y-4"
                             : "space-x-4"
-                        : ""
-                    : ""; // not layout container
+                        : null
+                    : null; // not layout container
+
+            
 
             let additionalStyles = scrollbarStyles
                 .concat(" ")
@@ -495,68 +556,71 @@ const getStylesForItem = (
             // the trick is applying the overrides to those theme keys
             // if they exist.
 
-            if (itemName === "panel-2") {
-                console.log(
-                    "manual overrides ",
-                    manualOverrides,
-                    themeOverrides
-                );
-            }
+            // if (prioritizedStyles !== null) {
+            //     // now we have to handle the overrides
+            //     // if the user has passed in any
+            //     Object.keys(prioritizedStyles).forEach((className) => {
+            //         // Order of operations...
+            //         // Default
+            //         // Theme
+            //         // Manual (in component itself)
+            //         // if (className in themeOverrides) {
+            //         //     const themeClass = getStyleValueVariant(
+            //         //         className,
+            //         //         themeOverrides
+            //         //     );
+            //         //     styles[className] = themeClass;
+            //         // }
 
-            if (defaultStyles !== null) {
-                // now we have to handle the overrides
-                // if the user has passed in any
-                Object.keys(defaultStyles).forEach((className) => {
-                    // Order of operations...
-                    // Default
-                    // Theme
-                    // Manual (in component itself)
-                    if (className in themeOverrides) {
-                        const themeClass = getStyleValueVariant(
-                            className,
-                            themeOverrides
-                        );
-                        styles[className] = themeClass;
-                    }
-
-                    // Manual Overrides
-                    // in props of component itself (custom deepest level)
-                    if (
-                        className in manualOverrides &&
-                        manualOverrides[className] !== null
-                    ) {
-                        styles[className] = getStyleValueVariant(
-                            className,
-                            manualOverrides
-                        );
-                    }
-                });
-            }
-
-            if (itemName === "panel-3") {
-                console.log("manual overrides styles final panel 3 ", styles);
-            }
+            //         // Manual Overrides
+            //         // in props of component itself (custom deepest level)
+            //         // if (
+            //         //     className in manualOverrides &&
+            //         //     manualOverrides[className] !== null
+            //         // ) {
+            //             styles[className] = getStyleValueVariant(
+            //                 className,
+            //                 prioritizedStyles
+            //             );
+            //         // }
+            //     });
+            // }
 
             // generate the final styles object including the string
             // that can be used in the className variable of the component
+            // we want to make sure that we remove duplicates
+
+            const finalStyles = {};
+            Object.keys(styles).forEach(k => {
+                if (k in finalStyles === false) {
+                    finalStyles[k] = styles[k];
+                }
+            });
+
+            const styleSet = [...new Set(additionalStyles.split(" ").filter(v => v !== " " && v !== false && v !== true))].join(" ");
+
+            // console.log("FINAL KEYS ", Object.keys(finalStyles), Object.keys(styles), t.join(" "));
+            
+            const finalString = Object.keys(finalStyles).length > 0
+                ? Object.keys(finalStyles)
+                    .map((key) => finalStyles[key])
+                    .join(" ")
+                    .concat(" ", styleSet)
+                : styleSet;
+
+            const removeValues = [
+                true, false, "col", "row", " ", "false", "true", 1, "1"
+            ];
             const stylesObject = {
-                string:
-                    Object.keys(styles).length > 0
-                        ? Object.keys(styles)
-                              .map((key) => styles[key])
-                              .join(" ")
-                              .concat(" ", additionalStyles)
-                        : additionalStyles,
-                ...styles,
+                string: [...new Set(finalString.split(" ").filter(v => removeValues.includes(v) === false && v !== " "))].map(v => v.trim()).join(" "),
+                ...finalStyles,
             };
 
-            // console.log(stylesObject);
-            // console.log(stylesObject.string);
-
+            console.log("STYLES OBJECT ", itemName, stylesObject);
             return stylesObject;
         }
     } catch (e) {
-        // console.log("getStylesforItem", e.message);
+        console.log("getStylesforItem", e.message);
         return {
             string: "",
         };

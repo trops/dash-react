@@ -197,7 +197,7 @@ Tertiary.args = {
     scrollable: true,
     height: "h-full",
     width: "w-full",
-    horizontal: false,
+    direction: "vertical",
     padding: true,
     backgroundColor: "bg-red-500",
 };

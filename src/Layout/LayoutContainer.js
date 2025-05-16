@@ -41,6 +41,8 @@ export const LayoutContainer = ({
         containerId
     );
 
+    console.log("layout container styles ", styles);
+
     function renderDebugger(children, styleString) {
         return (
             debug === true && (

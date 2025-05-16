@@ -132,7 +132,6 @@ const ButtonIcon3 = ({
     block = false,
     textSize = "text-xs lg:text-sm 2xl:text-sm",
     iconSize = "h-3 w-3",
-    backgroundColor = null,
     disabled = false,
     className = "",
     ...props
@@ -140,7 +139,6 @@ const ButtonIcon3 = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, {
         ...props,
-        backgroundColor,
         scrollable: false,
         grow: false,
     });
