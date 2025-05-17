@@ -93,6 +93,8 @@ const WidgetFactory = {
                         {...params}
                         {...userPrefs}
                         backgroundColor={bgColor}
+                        widgetConfig={helpers.config()}
+                        widgetEventNames={helpers.events()}
                     />
                 ) : (
                     <WidgetComponent

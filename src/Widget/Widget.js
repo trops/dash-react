@@ -15,6 +15,7 @@ export const Widget = ({
     space = true,
     grow = true,
     componentName = "",
+    publishEvent = {},
     api = {},
     ...props
 }) => {

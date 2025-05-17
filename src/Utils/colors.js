@@ -393,41 +393,41 @@ const uniqueClasses = [
     "backgroundColor",
     "borderColor",
     "direction",
-    "textColor"
+    "textColor",
 ];
 
 /**
- * Remove the classes from the low priority object 
- * @param {Object} high The array that is 
- * @param {Object} low 
+ * Remove the classes from the low priority object
+ * @param {Object} high The array that is
+ * @param {Object} low
  */
 const prioritizeClasses = (high, low) => {
     try {
-        Object.keys(high).forEach(k => {
+        Object.keys(high).forEach((k) => {
             if (high[k]) {
                 if (k in low) {
-                    delete low[k]
+                    delete low[k];
                 }
             }
         });
-        return { ...high, ...low};
-    } catch(e) {
+        return { ...high, ...low };
+    } catch (e) {
         console.log(e);
         return null;
     }
-}
+};
 
 const getValueFromTheme = (key, theme) => {
     return theme[key];
-}
+};
 
 /**
  * Generate the styles for the element based on the theme, themeOverrides and manual overrides
  * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-hidden, etc etc
  * Need to mrege what is default and what is an override
- * 
+ *
  * @param {string} itemName the name of the component (button, panel, etc)
- * @returns {Object} the object containing the style information 
+ * @returns {Object} the object containing the style information
  */
 const getStylesForItem = (
     itemName = null,
@@ -443,7 +443,6 @@ const getStylesForItem = (
             const defaultStyles =
                 itemName in colorMap ? colorMap[itemName] : null;
 
-            
             // then we have to determine if this item has any theme overrides
             // this uses the THEME LANGUAGE to override
             const themeOverrides =
@@ -455,60 +454,79 @@ const getStylesForItem = (
                 Object.keys(overrides).length > 0 ? overrides : {};
 
             // Prioritizing ClassNames here
-            const prioritizeThemeOverrides = prioritizeClasses(themeOverrides, defaultStyles);
+            const prioritizeThemeOverrides = prioritizeClasses(
+                themeOverrides,
+                defaultStyles
+            );
 
             // now we have to get the TRUE value from the class from the theme...
             const prioritizeThemeValues = {};
-            Object.keys(prioritizeThemeOverrides).forEach(k => {
+            Object.keys(prioritizeThemeOverrides).forEach((k) => {
                 if (prioritizeThemeOverrides[k] in theme) {
-                    prioritizeThemeValues[k] = theme[prioritizeThemeOverrides[k]];
+                    prioritizeThemeValues[k] =
+                        theme[prioritizeThemeOverrides[k]];
                 } else {
                     prioritizeThemeValues[k] = prioritizeThemeOverrides[k];
                 }
             });
 
             // now we can prioritize the manual overrides if there are any
-            const prioritizedStyles = prioritizeClasses(manualOverrides, prioritizeThemeValues);
+            const prioritizedStyles = prioritizeClasses(
+                manualOverrides,
+                prioritizeThemeValues
+            );
 
             // and this is the styles we shall return
             let styles = {};
             // grab the theme values out of the theme (color, etc)
-             Object.keys(prioritizedStyles).forEach((key) => { 
-                styles[key] = getStyleValueVariant(
-                    key,
-                    prioritizedStyles
-                );
+            Object.keys(prioritizedStyles).forEach((key) => {
+                styles[key] = getStyleValueVariant(key, prioritizedStyles);
             });
 
             // console.log("value check final styles ", styles);
             // scrollbars?
 
             const grow =
-                "grow" in prioritizedStyles && prioritizedStyles["grow"] === false
+                "grow" in prioritizedStyles &&
+                prioritizedStyles["grow"] === false
                     ? "flex-shrink"
                     : "flex-grow";
 
             const scrollbarStyles =
-                "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true
+                "scrollable" in prioritizedStyles &&
+                prioritizedStyles["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
                     : `overlflow-hidden ${grow} mr-0`;
 
             const hasChildren =
-                "hasChildren" in prioritizedStyles ? prioritizedStyles["hasChildren"] : false;
+                "hasChildren" in prioritizedStyles
+                    ? prioritizedStyles["hasChildren"]
+                    : false;
 
             const childCount =
-                "childCount" in prioritizedStyles ? prioritizedStyles["childCount"] : null;
+                "childCount" in prioritizedStyles
+                    ? prioritizedStyles["childCount"]
+                    : null;
 
             const directionValue =
-                "direction" in prioritizedStyles ? prioritizedStyles["direction"] : null;
+                "direction" in prioritizedStyles
+                    ? prioritizedStyles["direction"]
+                    : null;
 
-            const widthValue = "width" in prioritizedStyles ? prioritizedStyles["width"] : null;
+            const widthValue =
+                "width" in prioritizedStyles
+                    ? prioritizedStyles["width"]
+                    : null;
 
             const heightValue =
-                "height" in prioritizedStyles ? prioritizedStyles["height"] : null;
+                "height" in prioritizedStyles
+                    ? prioritizedStyles["height"]
+                    : null;
 
             const paddingValue =
-                "padding" in prioritizedStyles ? prioritizedStyles["padding"] : null;
+                "padding" in prioritizedStyles
+                    ? prioritizedStyles["padding"]
+                    : null;
 
             const directionStyles =
                 directionValue !== null
@@ -523,14 +541,13 @@ const getStylesForItem = (
                 hasChildren === true &&
                 childCount > 1 &&
                 directionValue !== null
-                    ? "space" in prioritizedStyles && prioritizedStyles["space"] !== false
+                    ? "space" in prioritizedStyles &&
+                      prioritizedStyles["space"] !== false
                         ? directionValue === "col"
                             ? "space-y-4"
                             : "space-x-4"
                         : null
                     : null; // not layout container
-
-            
 
             let additionalStyles = scrollbarStyles
                 .concat(" ")
@@ -591,28 +608,55 @@ const getStylesForItem = (
             // we want to make sure that we remove duplicates
 
             const finalStyles = {};
-            Object.keys(styles).forEach(k => {
+            Object.keys(styles).forEach((k) => {
                 if (k in finalStyles === false) {
                     finalStyles[k] = styles[k];
                 }
             });
 
-            const styleSet = [...new Set(additionalStyles.split(" ").filter(v => v !== " " && v !== false && v !== true))].join(" ");
+            const styleSet = [
+                ...new Set(
+                    additionalStyles
+                        .split(" ")
+                        .filter((v) => v !== " " && v !== false && v !== true)
+                ),
+            ].join(" ");
 
             // console.log("FINAL KEYS ", Object.keys(finalStyles), Object.keys(styles), t.join(" "));
-            
-            const finalString = Object.keys(finalStyles).length > 0
-                ? Object.keys(finalStyles)
-                    .map((key) => finalStyles[key])
-                    .join(" ")
-                    .concat(" ", styleSet)
-                : styleSet;
+
+            const finalString =
+                Object.keys(finalStyles).length > 0
+                    ? Object.keys(finalStyles)
+                          .map((key) => finalStyles[key])
+                          .join(" ")
+                          .concat(" ", styleSet)
+                    : styleSet;
 
             const removeValues = [
-                true, false, "col", "row", " ", "false", "true", 1, "1"
+                true,
+                false,
+                "col",
+                "row",
+                " ",
+                "false",
+                "true",
+                1,
+                "1",
             ];
             const stylesObject = {
-                string: [...new Set(finalString.split(" ").filter(v => removeValues.includes(v) === false && v !== " "))].map(v => v.trim()).join(" "),
+                string: [
+                    ...new Set(
+                        finalString
+                            .split(" ")
+                            .filter(
+                                (v) =>
+                                    removeValues.includes(v) === false &&
+                                    v !== " "
+                            )
+                    ),
+                ]
+                    .map((v) => v.trim())
+                    .join(" "),
                 ...finalStyles,
             };
 

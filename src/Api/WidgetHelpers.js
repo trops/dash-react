@@ -40,4 +40,20 @@ export class WidgetHelpers {
             );
         }
     }
+
+    /**
+     * The array of events from the Widget configuration
+     * @returns 
+     */
+    events = () => {
+        return this.params.events || [];
+    }
+
+    /**
+     * The widget configuration
+     * @returns the configuration object of the widget
+     */
+    config = () => {
+        return this.params || {};
+    }
 }

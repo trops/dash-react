@@ -53,12 +53,27 @@ const TemplateDashPanelParagraph = (args) => {
 const TemplateScrollableList = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes} {...args}>
-            <LayoutContainer scrollable={true} direction="col" height="h-full" width="w-full">
-                <Panel><Panel.Body>test</Panel.Body></Panel>
-                <Panel><Panel.Body>test</Panel.Body></Panel>
-                <Panel><Panel.Body>test</Panel.Body></Panel>
-                <Panel><Panel.Body>test</Panel.Body></Panel>
-                <Panel><Panel.Body>test</Panel.Body></Panel>
+            <LayoutContainer
+                scrollable={true}
+                direction="col"
+                height="h-full"
+                width="w-full"
+            >
+                <Panel>
+                    <Panel.Body>test</Panel.Body>
+                </Panel>
+                <Panel>
+                    <Panel.Body>test</Panel.Body>
+                </Panel>
+                <Panel>
+                    <Panel.Body>test</Panel.Body>
+                </Panel>
+                <Panel>
+                    <Panel.Body>test</Panel.Body>
+                </Panel>
+                <Panel>
+                    <Panel.Body>test</Panel.Body>
+                </Panel>
             </LayoutContainer>
         </MockWrapper>
     );
@@ -87,10 +102,9 @@ PrimaryDashPanelParagraph.args = {
     height: "h-60",
 };
 
-
 PrimaryScrollableList.args = {
     title: "Dash Panel",
     scrollable: false,
     height: "h-full",
-    direction: "vertical"
+    direction: "vertical",
 };

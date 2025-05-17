@@ -11,7 +11,7 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 import Editor from '@monaco-editor/react';
 import Mustache from 'mustache';
 import { useNavigate, useLocation, useParams, Link, HashRouter, Routes, Route } from 'react-router-dom';
-import { InstantSearch, Hits, useSearchBox, useRefinementList, usePagination, useInfiniteHits, Index, Configure } from 'react-instantsearch-hooks-web';
+import { InstantSearch, Hits, useSearchBox, useRefinementList, usePagination, useInfiniteHits, Configure, Index } from 'react-instantsearch-hooks-web';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import deepEqual from 'deep-equal';
 import parseArgs from 'minimist';
@@ -1138,6 +1138,12 @@ var styleClassNames = {
 
 var _colorMap;
 function _typeof$O(o) { "@babel/helpers - typeof"; return _typeof$O = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$O(o); }
+function _toConsumableArray$1(r) { return _arrayWithoutHoles$1(r) || _iterableToArray$1(r) || _unsupportedIterableToArray$C(r) || _nonIterableSpread$1(); }
+function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$C(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$C(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$C(r, a) : void 0; } }
+function _iterableToArray$1(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles$1(r) { if (Array.isArray(r)) return _arrayLikeToArray$C(r); }
+function _arrayLikeToArray$C(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$G(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$G(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$G(Object(t), !0).forEach(function (r) { _defineProperty$J(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$G(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$J(e, r, t) { return (r = _toPropertyKey$N(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -1185,10 +1191,34 @@ var colorMap = (_colorMap = {}, _defineProperty$J(_defineProperty$J(_definePrope
 var getCSSStyleForClassname = function getCSSStyleForClassname(className, itemName) {
   return colorMap[itemName][className];
 };
+
 /**
- * getStylesForItem
- * @param {string} itemName the name of the component (button, panel, etc)
+ * Remove the classes from the low priority object
+ * @param {Object} high The array that is
+ * @param {Object} low
+ */
+var prioritizeClasses = function prioritizeClasses(high, low) {
+  try {
+    Object.keys(high).forEach(function (k) {
+      if (high[k]) {
+        if (k in low) {
+          delete low[k];
+        }
+      }
+    });
+    return _objectSpread$G(_objectSpread$G({}, high), low);
+  } catch (e) {
+    return null;
+  }
+};
+
+/**
+ * Generate the styles for the element based on the theme, themeOverrides and manual overrides
+ * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-hidden, etc etc
+ * Need to mrege what is default and what is an override
  *
+ * @param {string} itemName the name of the component (button, panel, etc)
+ * @returns {Object} the object containing the style information
  */
 var getStylesForItem = function getStylesForItem() {
   var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1202,33 +1232,49 @@ var getStylesForItem = function getStylesForItem() {
       var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
 
       // then we have to determine if this item has any theme overrides
-
+      // this uses the THEME LANGUAGE to override
       var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
-      Object.keys(themeOverrides).length > 0 && (void 0);
 
       // then we have to determine if the component has any MANUAL overrides
+      // this uses CSS CLASSES to override, no need to translate
       var manualOverrides = Object.keys(overrides).length > 0 ? overrides : {};
+
+      // Prioritizing ClassNames here
+      var prioritizeThemeOverrides = prioritizeClasses(themeOverrides, defaultStyles);
+
+      // now we have to get the TRUE value from the class from the theme...
+      var prioritizeThemeValues = {};
+      Object.keys(prioritizeThemeOverrides).forEach(function (k) {
+        if (prioritizeThemeOverrides[k] in theme) {
+          prioritizeThemeValues[k] = theme[prioritizeThemeOverrides[k]];
+        } else {
+          prioritizeThemeValues[k] = prioritizeThemeOverrides[k];
+        }
+      });
+
+      // now we can prioritize the manual overrides if there are any
+      var prioritizedStyles = prioritizeClasses(manualOverrides, prioritizeThemeValues);
 
       // and this is the styles we shall return
       var styles = {};
-
-      // First set all of the defaults
-      Object.keys(defaultStyles).forEach(function (key) {
-        styles[key] = theme[defaultStyles[key]];
+      // grab the theme values out of the theme (color, etc)
+      Object.keys(prioritizedStyles).forEach(function (key) {
+        styles[key] = getStyleValueVariant(key, prioritizedStyles);
       });
 
+      // console.log("value check final styles ", styles);
       // scrollbars?
 
-      var grow = "grow" in overrides && overrides["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in overrides && overrides["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden ".concat(grow, " mr-0");
-      var hasChildren = "hasChildren" in overrides ? overrides["hasChildren"] : false;
-      var childCount = "childCount" in overrides ? overrides["childCount"] : null;
-      var directionValue = "direction" in overrides ? overrides["direction"] : null;
-      var widthValue = "width" in overrides ? overrides["width"] : null;
-      var heightValue = "height" in overrides ? overrides["height"] : null;
-      var paddingValue = "padding" in overrides ? overrides["padding"] : null;
+      var grow = "grow" in prioritizedStyles && prioritizedStyles["grow"] === false ? "flex-shrink" : "flex-grow";
+      var scrollbarStyles = "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden ".concat(grow, " mr-0");
+      var hasChildren = "hasChildren" in prioritizedStyles ? prioritizedStyles["hasChildren"] : false;
+      var childCount = "childCount" in prioritizedStyles ? prioritizedStyles["childCount"] : null;
+      var directionValue = "direction" in prioritizedStyles ? prioritizedStyles["direction"] : null;
+      var widthValue = "width" in prioritizedStyles ? prioritizedStyles["width"] : null;
+      var heightValue = "height" in prioritizedStyles ? prioritizedStyles["height"] : null;
+      var paddingValue = "padding" in prioritizedStyles ? prioritizedStyles["padding"] : null;
       var directionStyles = directionValue !== null ? directionValue === "col" ? "flex-col" : "flex-row" : "";
-      var paddingStyles = (itemName === themeObjects.LAYOUT_CONTAINER || itemName === themeObjects.WORKSPACE) && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in overrides && overrides["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : "" : ""; // not layout container
+      var paddingStyles = (itemName === themeObjects.LAYOUT_CONTAINER || itemName === themeObjects.WORKSPACE) && hasChildren === true && childCount > 1 && directionValue !== null ? "space" in prioritizedStyles && prioritizedStyles["space"] !== false ? directionValue === "col" ? "space-y-4" : "space-x-4" : null : null; // not layout container
 
       var additionalStyles = scrollbarStyles.concat(" ").concat(directionStyles);
       if (paddingStyles !== null) {
@@ -1249,46 +1295,66 @@ var getStylesForItem = function getStylesForItem() {
       // the trick is applying the overrides to those theme keys
       // if they exist.
 
-      if (itemName === "panel-2") {
-      }
-      if (defaultStyles !== null) {
-        // now we have to handle the overrides
-        // if the user has passed in any
-        Object.keys(defaultStyles).forEach(function (className) {
-          // Order of operations...
-          // Default
-          // Theme
-          // Manual (in component itself)
-          if (className in themeOverrides) {
-            var themeClass = getStyleValueVariant(className, themeOverrides);
-            styles[className] = themeClass;
-          }
+      // if (prioritizedStyles !== null) {
+      //     // now we have to handle the overrides
+      //     // if the user has passed in any
+      //     Object.keys(prioritizedStyles).forEach((className) => {
+      //         // Order of operations...
+      //         // Default
+      //         // Theme
+      //         // Manual (in component itself)
+      //         // if (className in themeOverrides) {
+      //         //     const themeClass = getStyleValueVariant(
+      //         //         className,
+      //         //         themeOverrides
+      //         //     );
+      //         //     styles[className] = themeClass;
+      //         // }
 
-          // Manual Overrides
-          // in props of component itself (custom deepest level)
-          if (className in manualOverrides && manualOverrides[className] !== null) {
-            styles[className] = getStyleValueVariant(className, manualOverrides);
-          }
-        });
-      }
-      if (itemName === "panel-3") {
-      }
+      //         // Manual Overrides
+      //         // in props of component itself (custom deepest level)
+      //         // if (
+      //         //     className in manualOverrides &&
+      //         //     manualOverrides[className] !== null
+      //         // ) {
+      //             styles[className] = getStyleValueVariant(
+      //                 className,
+      //                 prioritizedStyles
+      //             );
+      //         // }
+      //     });
+      // }
 
       // generate the final styles object including the string
       // that can be used in the className variable of the component
+      // we want to make sure that we remove duplicates
+
+      var finalStyles = {};
+      Object.keys(styles).forEach(function (k) {
+        if (k in finalStyles === false) {
+          finalStyles[k] = styles[k];
+        }
+      });
+      var styleSet = _toConsumableArray$1(new Set(additionalStyles.split(" ").filter(function (v) {
+        return v !== " " && v !== false && v !== true;
+      }))).join(" ");
+
+      // console.log("FINAL KEYS ", Object.keys(finalStyles), Object.keys(styles), t.join(" "));
+
+      var finalString = Object.keys(finalStyles).length > 0 ? Object.keys(finalStyles).map(function (key) {
+        return finalStyles[key];
+      }).join(" ").concat(" ", styleSet) : styleSet;
+      var removeValues = [true, false, "col", "row", " ", "false", "true", 1, "1"];
       var stylesObject = _objectSpread$G({
-        string: Object.keys(styles).length > 0 ? Object.keys(styles).map(function (key) {
-          return styles[key];
-        }).join(" ").concat(" ", additionalStyles) : additionalStyles
-      }, styles);
-
-      // console.log(stylesObject);
-      // console.log(stylesObject.string);
-
+        string: _toConsumableArray$1(new Set(finalString.split(" ").filter(function (v) {
+          return removeValues.includes(v) === false && v !== " ";
+        }))).map(function (v) {
+          return v.trim();
+        }).join(" ")
+      }, finalStyles);
       return stylesObject;
     }
   } catch (e) {
-    // console.log("getStylesforItem", e.message);
     return {
       string: ""
     };
@@ -12859,7 +12925,7 @@ var Button3 = function Button3(_ref3) {
 function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
 var _excluded$s = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "disabled", "className"],
   _excluded2$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className"],
-  _excluded3$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className"];
+  _excluded3$3 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "disabled", "className"];
 function ownKeys$r(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$r(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$r(Object(t), !0).forEach(function (r) { _defineProperty$s(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$r(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$s(e, r, t) { return (r = _toPropertyKey$w(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -12986,8 +13052,6 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     textSize = _ref3$textSize === void 0 ? "text-xs lg:text-sm 2xl:text-sm" : _ref3$textSize,
     _ref3$iconSize = _ref3.iconSize,
     iconSize = _ref3$iconSize === void 0 ? "h-3 w-3" : _ref3$iconSize,
-    _ref3$backgroundColor = _ref3.backgroundColor,
-    backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
     _ref3$disabled = _ref3.disabled,
     disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
     _ref3$className = _ref3.className,
@@ -12996,7 +13060,6 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
   var _useContext3 = useContext$1(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
-    backgroundColor: backgroundColor,
     scrollable: false,
     grow: false
   }));
@@ -21568,29 +21631,38 @@ var CustomSearchbar = function CustomSearchbar(_ref) {
   var _ref$id = _ref.id,
     id = _ref$id === void 0 ? "CustomSearchBar" : _ref$id,
     _ref$indexName = _ref.indexName,
-    indexName = _ref$indexName === void 0 ? "" : _ref$indexName,
+    indexName = _ref$indexName === void 0 ? "dev_find_accelerator" : _ref$indexName,
     props = _objectWithoutProperties$c(_ref, _excluded$c);
   // Widget Api injected from Widget Component
   var _useContext = useContext$1(DashboardContext),
     widgetApi = _useContext.widgetApi;
-  var _useContext2 = useContext$1(SearchContext),
-    searchClient = _useContext2.searchClient;
+  var _useContext2 = useContext$1(SearchContext);
+    _useContext2.searchClient;
   var _useState = useState([]),
     _useState2 = _slicedToArray$8(_useState, 2),
-    indices = _useState2[0],
-    setIndices = _useState2[1];
+    indices = _useState2[0];
+    _useState2[1];
   var _useState3 = useState(indexName),
     _useState4 = _slicedToArray$8(_useState3, 2),
     indexSelected = _useState4[0],
     setIndexSelected = _useState4[1];
-  useEffect(function () {
-    if (indices.length < 1) {
-      searchClient && searchClient.listIndices().then(function (result) {
-        setIndices(result.items);
-      })["catch"](function (error) {
-      });
-    }
-  }, [searchClient]);
+
+  // useEffect(() => {
+  //     if (indices.length < 1 && indexSelected !== "") {
+  //         searchClient &&
+  //             searchClient
+  //                 .listIndices()
+  //                 .then((result) => {
+  //                     console.log("got indices ", result);
+  //                     setIndices(result.items);
+  //                         setIndexSelected(result.items[0]);
+  //                 })
+  //                 .catch((error) => {
+  //                     console.log(error);
+  //                 });
+  //     }
+  // }, [searchClient]);
+
   function handleQueryChange(query) {
     if (widgetApi) {
       // submit the event
@@ -21693,6 +21765,10 @@ var CustomRefinements = function CustomRefinements(_ref) {
     }, props)),
     items = _useRefinementList.items,
     refine = _useRefinementList.refine;
+
+  // const items = [];
+  // const refine = () => {}
+
   function handleRefinementChange(data) {
     if (widgetApi) {
       // submit the event
@@ -21766,9 +21842,22 @@ var CustomRefinements_dash$1 = /*#__PURE__*/Object.freeze({
 
 var CustomHit = function CustomHit(_ref) {
   var hit = _ref.hit;
-  return /*#__PURE__*/jsx(Panel, {
-    className: "rounded p-4",
-    children: JSON.stringify(hit.title)
+  var elements = Object.keys(hit).filter(function (v) {
+    return v.indexOf("_") < 0;
+  }).map(function (k) {
+    return /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row space-x-4 bg-red-600",
+      children: [/*#__PURE__*/jsx(Tag, {
+        text: k
+      }), /*#__PURE__*/jsx(Paragraph, {
+        children: JSON.stringify(hit[k])
+      })]
+    });
+    // return (<Paragraph><Tag text={k} /> {JSON.stringify(hit[k])}</Paragraph>);
+  });
+  return /*#__PURE__*/jsx(Panel2, {
+    scrollable: false,
+    children: elements
   });
 };
 
@@ -22273,31 +22362,29 @@ function _objectWithoutProperties$8(e, t) { if (null == e) return {}; var o, r, 
 function _objectWithoutPropertiesLoose$8(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var SimpleSearch = function SimpleSearch(_ref) {
   _ref.hitComponent;
-    var _ref$cols = _ref.cols,
-    cols = _ref$cols === void 0 ? 3 : _ref$cols,
-    _ref$neuralFilter = _ref.neuralFilter,
-    neuralFilter = _ref$neuralFilter === void 0 ? "" : _ref$neuralFilter,
-    _ref$indexName = _ref.indexName,
-    indexName = _ref$indexName === void 0 ? "" : _ref$indexName,
-    _ref$hitsPerPage = _ref.hitsPerPage,
-    hitsPerPage = _ref$hitsPerPage === void 0 ? 30 : _ref$hitsPerPage,
-    _ref$page = _ref.page,
+    _ref.cols;
+    _ref.neuralFilter;
+    _ref.indexName;
+    _ref.hitsPerPage;
+    var _ref$page = _ref.page,
     page = _ref$page === void 0 ? 0 : _ref$page,
     props = _objectWithoutProperties$8(_ref, _excluded$8);
   var listeners = props.listeners,
     uuid = props.uuid;
   var _useContext = useContext$1(DashboardContext),
     widgetApi = _useContext.widgetApi;
-  var _useContext2 = useContext$1(WorkspaceContext),
-    workspaceData = _useContext2.workspaceData;
+  var _useContext2 = useContext$1(WorkspaceContext);
+    _useContext2.workspaceData;
   var _useState = useState(page),
     _useState2 = _slicedToArray$6(_useState, 2);
     _useState2[0];
     var setCurrentPage = _useState2[1];
+  var _useInfiniteHits = useInfiniteHits(props),
+    hits = _useInfiniteHits.hits;
 
   // use this to handle the listener
-  var _useSearchBox = useSearchBox(props),
-    refine = _useSearchBox.refine;
+  var _useSearchBox = useSearchBox(props);
+    _useSearchBox.refine;
   var handlers = {
     searchQueryChanged: searchQueryChanged,
     refinementsChanged: refinementsChanged,
@@ -22310,7 +22397,7 @@ var SimpleSearch = function SimpleSearch(_ref) {
     }
   }, [widgetApi, listeners]);
   function searchQueryChanged(e) {
-    refine(e.query);
+    //refine(e.query);
   }
   function refinementsChanged(data) {}
   function pageChanged(page) {
@@ -22319,40 +22406,23 @@ var SimpleSearch = function SimpleSearch(_ref) {
   function filtersChanged(filter) {
     // setNeuralFilter(filter["filter"]);
   }
-  function getHitsPerPage() {
-    return workspaceData !== undefined && workspaceData.hasOwnProperty("hitsPerPage") ? workspaceData["hitsPerPage"] : hitsPerPage !== null ? hitsPerPage : 20;
-  }
-  function getIndexName() {
-    return indexName !== "" ? indexName : workspaceData !== undefined && workspaceData.hasOwnProperty("indexName") ? workspaceData["indexName"] : "";
+  function renderHits() {
+    return hits.map(function (hit) {
+      return /*#__PURE__*/jsx(CustomHit, {
+        hit: hit
+      });
+    });
   }
   return /*#__PURE__*/jsx(Widget, {
     width: "w-full",
     height: "h-full",
+    scrollable: false,
     grow: true,
-    children: /*#__PURE__*/jsxs(Panel, {
-      height: "h-full",
-      children: [/*#__PURE__*/jsx(Panel.Header, {
-        children: /*#__PURE__*/jsx(SubHeading3, {
-          title: getIndexName(),
-          padding: false
-        })
-      }), /*#__PURE__*/jsx(Panel.Body, {
-        children: getIndexName() !== "" && /*#__PURE__*/jsxs(Index, {
-          indexName: getIndexName(),
-          indexId: "index-".concat(getIndexName()),
-          children: [/*#__PURE__*/jsx(Configure, {
-            getRankingInfo: true
-            // facets={["*"]}
-            ,
-            hitsPerPage: getHitsPerPage(),
-            page: 2
-          }), /*#__PURE__*/jsx(CustomHits, {
-            hitComponent: "CustomHitJCrew",
-            cols: cols,
-            neuralFilter: neuralFilter
-          })]
-        })
-      })]
+    debug: true,
+    backgroundColor: "bg-red-500",
+    children: /*#__PURE__*/jsx("div", {
+      className: "flex flex-col h-full overflow-y-auto",
+      children: renderHits()
     })
   });
 };
@@ -22514,7 +22584,7 @@ var AlgoliaSearchWorkspace_dash = {
   type: "workspace",
   canHaveChildren: true,
   workspace: "AlgoliaSearchWorkspace-workspace",
-  eventHandlers: ["pageChanged"],
+  eventHandlers: ["pageChanged", "refinementChanged"],
   styles: {
     backgroundColor: "bg-blue-700",
     borderColor: "border-blue-800"
@@ -23888,7 +23958,7 @@ var MockWrapper = function MockWrapper(_ref) {
         credentials: getAppContext().creds,
         dashApi: new MockDashboardApi(api),
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full h-full p-2 border rounded-lg overflow-y-auto rounded border-1 border-gray-300 bg-gray-200 ".concat(backgroundColor),
+          className: "flex flex-col space-y-2 w-full h-full p-0 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200 ".concat(backgroundColor),
           children: [/*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Workspace - WIDGET - Item is a child of the Widget component`"
