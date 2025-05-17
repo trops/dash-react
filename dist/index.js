@@ -1450,7 +1450,7 @@ function getRandomInt(max) {
 }
 
 function _typeof$M(o) { "@babel/helpers - typeof"; return _typeof$M = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$M(o); }
-var _excluded$E = ["uuid", "children", "version", "direction", "scrollable", "className", "width", "height", "space", "grow", "componentName", "api"];
+var _excluded$E = ["uuid", "children", "version", "direction", "scrollable", "className", "width", "height", "space", "grow", "componentName", "publishEvent", "api"];
 function ownKeys$F(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$F(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$F(Object(t), !0).forEach(function (r) { _defineProperty$I(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$F(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$I(e, r, t) { return (r = _toPropertyKey$M(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -1478,6 +1478,7 @@ var Widget = function Widget(_ref) {
     _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? true : _ref$grow;
     _ref.componentName;
+    _ref.publishEvent;
     _ref.api;
     var props = _objectWithoutProperties$E(_ref, _excluded$E);
   var uuidString = getUUID$1(uuid);
@@ -1519,6 +1520,7 @@ function _toPrimitive$L(t, r) { if ("object" != _typeof$L(t) || !t) return t; va
  */
 var WidgetHelpers = /*#__PURE__*/function () {
   function WidgetHelpers(params, api) {
+    var _this = this;
     _classCallCheck$6(this, WidgetHelpers);
     _defineProperty$H(this, "params", null);
     // the widget api that will be called by the helper function
@@ -1526,6 +1528,20 @@ var WidgetHelpers = /*#__PURE__*/function () {
     _defineProperty$H(this, "api", {
       publishEvent: function publishEvent() {},
       registerListeners: function registerListeners() {}
+    });
+    /**
+     * The array of events from the Widget configuration
+     * @returns
+     */
+    _defineProperty$H(this, "events", function () {
+      return _this.params.events || [];
+    });
+    /**
+     * The widget configuration
+     * @returns the configuration object of the widget
+     */
+    _defineProperty$H(this, "config", function () {
+      return _this.params || {};
     });
     this.params = params;
     this.api = api;
@@ -1623,7 +1639,9 @@ var WidgetFactory = {
           },
           api: w
         }, params), userPrefs), {}, {
-          backgroundColor: bgColor
+          backgroundColor: bgColor,
+          widgetConfig: helpers.config(),
+          widgetEventNames: helpers.events()
         }), "widget-nokids-".concat(key)) : /*#__PURE__*/jsx(WidgetComponent, _objectSpread$E(_objectSpread$E(_objectSpread$E({
           listen: function listen(listeners, handlers) {
             return helpers.listen(listeners, handlers);
@@ -20882,7 +20900,7 @@ var WeatherWorkspace_dash$1 = /*#__PURE__*/Object.freeze({
 });
 
 function _typeof$j(o) { "@babel/helpers - typeof"; return _typeof$j = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$j(o); }
-var _excluded$i = ["title", "subtitle", "listen", "publishEvent", "helpers"];
+var _excluded$i = ["title", "subtitle", "listen", "publishEvent", "events"];
 function ownKeys$j(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$j(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$j(Object(t), !0).forEach(function (r) { _defineProperty$j(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$j(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$j(e, r, t) { return (r = _toPropertyKey$j(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -20894,26 +20912,22 @@ var WeatherWidget = function WeatherWidget(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "Hello" : _ref$title,
     _ref$subtitle = _ref.subtitle,
-    subtitle = _ref$subtitle === void 0 ? "Im a widget." : _ref$subtitle,
-    listen = _ref.listen,
-    publishEvent = _ref.publishEvent;
-    _ref.helpers;
+    subtitle = _ref$subtitle === void 0 ? "Im a widget." : _ref$subtitle;
+    _ref.listen;
+    _ref.publishEvent;
+    _ref.events;
     var props = _objectWithoutProperties$i(_ref, _excluded$i);
   useEffect(function () {
     // console.log("weather widget use effect ", listen("listenEvent"));
-    var listeners = {
-      handleSearchChange: ["heardSomething"] //["CustomSearchbar[10].searchQueryChanged"],
-    };
-    var handlers = {
-      heardSomething: heardSomething
-    };
-    listen(listeners, handlers);
-    publishEvent("name", {
-      test: "test"
-    });
+    // const listeners = {
+    //     handleSearchChange: ["heardSomething"], //["CustomSearchbar[10].searchQueryChanged"],
+    // };
+    // const handlers = {
+    //     heardSomething: heardSomething,
+    // };
+    // listen(listeners, handlers);
+    // publishEvent("name", { test: "test" });
   }, []);
-  function heardSomething(data) {
-  }
   var _useContext = useContext$1(WeatherContext),
     sampleClient = _useContext.sampleClient;
   return /*#__PURE__*/jsx(Widget, _objectSpread$j(_objectSpread$j({}, props), {}, {
@@ -20975,7 +20989,7 @@ var WeatherWidget_dash = {
   canHaveChildren: false,
   workspace: "WeatherWorkspace-workspace",
   type: "widget",
-  events: [],
+  events: ["detectWeatherComplete"],
   eventHandlers: ["heardSomething"],
   styles: {
     backgroundColor: "bg-blue-900",

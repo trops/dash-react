@@ -43,11 +43,11 @@ export class WidgetHelpers {
 
     /**
      * The array of events from the Widget configuration
-     * @returns 
+     * @returns
      */
     events = () => {
         return this.params.events || [];
-    }
+    };
 
     /**
      * The widget configuration
@@ -55,5 +55,5 @@ export class WidgetHelpers {
      */
     config = () => {
         return this.params || {};
-    }
+    };
 }
