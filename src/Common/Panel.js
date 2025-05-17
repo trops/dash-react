@@ -130,7 +130,7 @@ const Panel = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} ${width} rounded-lg overflow-clip ${border === true ? "border" : ""} ${
+            } ${height} ${width} rounded-lg ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}
@@ -276,7 +276,7 @@ const Panel2 = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} ${width} rounded-md overflow-clip ${border === true ? "border" : ""} ${
+            } ${height} ${width} rounded-md ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}
@@ -428,7 +428,7 @@ const Panel3 = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} ${width} rounded overflow-clip ${border === true ? "border" : ""} ${
+            } ${height} ${width} rounded ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}

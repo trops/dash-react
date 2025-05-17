@@ -496,7 +496,7 @@ const getStylesForItem = (
                 "scrollable" in prioritizedStyles &&
                 prioritizedStyles["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
-                    : `overlflow-clip ${grow} mr-0`;
+                    : ` ${grow} mr-0`;
 
             const hasChildren =
                 "hasChildren" in prioritizedStyles
