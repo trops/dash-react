@@ -995,12 +995,13 @@ var Layout = function Layout(_ref) {
     type: workspaceDataFromContext["type"],
     controls: false
   }) : /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col w-full space-y-4 ".concat(scrollable === true ? "overflow-y-auto h-full" : "overflow-clip h-full", " ").concat(debugClasses(), " p-4"),
+    className: "flex flex-col w-full space-y-4 ".concat(scrollable === true ? "overflow-y-auto h-full" : "h-full" //"overflow-clip h-full"
+    , " ").concat(debugClasses(), " p-4"),
     children: [debugMode && /*#__PURE__*/jsxs("span", {
       className: "text-white uppercase text-xs",
       children: ["LAYOUT has children and", " ", scrollable === true ? "is scrollable" : "is not scrollable"]
     }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full space-y-4 p-0 h-full ".concat(scrollable === false ? "overflow-clip" : ""),
+      className: "flex flex-col w-full space-y-4 p-0 h-full",
       children: children
     })]
   });
@@ -1266,7 +1267,7 @@ var getStylesForItem = function getStylesForItem() {
       // scrollbars?
 
       var grow = "grow" in prioritizedStyles && prioritizedStyles["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-clip ".concat(grow, " mr-0");
+      var scrollbarStyles = "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : " ".concat(grow, " mr-0");
       var hasChildren = "hasChildren" in prioritizedStyles ? prioritizedStyles["hasChildren"] : false;
       var childCount = "childCount" in prioritizedStyles ? prioritizedStyles["childCount"] : null;
       var directionValue = "direction" in prioritizedStyles ? prioritizedStyles["direction"] : null;
@@ -12025,7 +12026,7 @@ var Panel = function Panel(_ref4) {
   return /*#__PURE__*/jsx(LayoutContainer, {
     prefix: "panel",
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg overflow-clip ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -12154,7 +12155,7 @@ var Panel2 = function Panel2(_ref8) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md overflow-clip ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -12291,7 +12292,7 @@ var Panel3 = function Panel3(_ref10) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded overflow-clip ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -21858,7 +21859,7 @@ var CustomHit = function CustomHit(_ref) {
     return v.indexOf("_") < 0;
   }).map(function (k) {
     return /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row space-x-4 bg-red-600",
+      className: "flex flex-row space-x-4 bg-red-600 h-full",
       children: [/*#__PURE__*/jsx(Tag, {
         text: k
       }), /*#__PURE__*/jsx(Paragraph, {
@@ -21869,6 +21870,7 @@ var CustomHit = function CustomHit(_ref) {
   });
   return /*#__PURE__*/jsx(Panel2, {
     scrollable: false,
+    height: "h-full",
     children: elements
   });
 };
@@ -22432,10 +22434,7 @@ var SimpleSearch = function SimpleSearch(_ref) {
     grow: true,
     debug: true,
     backgroundColor: "bg-red-500",
-    children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col h-full overflow-y-scroll",
-      children: renderHits()
-    })
+    children: renderHits()
   });
 };
 
@@ -22558,6 +22557,7 @@ var AlgoliaSearchWorkspace = function AlgoliaSearchWorkspace(_ref) {
     scrollable: false,
     grow: true,
     className: "space-y-4 p-4",
+    height: "h-full",
     children: /*#__PURE__*/jsx(WorkspaceContext.Provider, {
       value: {
         workspaceData: {
