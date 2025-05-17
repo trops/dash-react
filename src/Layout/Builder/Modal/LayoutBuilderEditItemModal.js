@@ -148,7 +148,7 @@ export const LayoutBuilderEditItemModal = ({
             >
                 <Panel padding={false}>
                     <div
-                        className={`flex flex-col w-full h-full space-y-2 overflow-hidden`}
+                        className={`flex flex-col w-full h-full space-y-2 overflow-clip`}
                     >
                         <div className="flex flex-row text-xl font-bold text-white justify-between">
                             <div className="flex flex-row text-xl font-bold text-white p-2 space-x-2 justify-center items-center">
@@ -169,7 +169,7 @@ export const LayoutBuilderEditItemModal = ({
                                 )}`}
                             />
                         </div>
-                        <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
+                        <div className="flex flex-row w-full h-full space-x-4 overflow-clip">
                             <div className="flex flex-col w-3/4 min-w-3/4 bg-gray-900 h-full rounded p-2">
                                 {/* render the widget item here. */}
                                 <div className="flex flex-col w-full h-full border-2 border-gray-800 rounded space-y-2">

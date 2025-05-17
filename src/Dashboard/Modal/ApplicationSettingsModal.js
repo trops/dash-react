@@ -20,9 +20,9 @@ export const ApplicationSettingsModal = ({
             height="h-5/6"
         >
             <Panel padding={false}>
-                <div className={`flex flex-col w-full h-full overflow-hidden`}>
-                    <div className="flex flex-row w-full h-full overflow-hidden">
-                        <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-4">
+                <div className={`flex flex-col w-full h-full overflow-clip`}>
+                    <div className="flex flex-row w-full h-full overflow-clip">
+                        <div className="flex flex-row w-full h-full space-x-4 overflow-clip p-4">
                             {/* Panel */}
                             <PanelApplicationSettings
                                 settings={settings}

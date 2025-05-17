@@ -416,7 +416,7 @@ export const Dashboard = ({
                                     className={`flex flex-col w-full h-full ${
                                         previewMode === true
                                             ? "overflow-y-auto"
-                                            : "overflow-hidden"
+                                            : "overflow-clip"
                                     }`}
                                 >
                                     {workspaceSelected !== null

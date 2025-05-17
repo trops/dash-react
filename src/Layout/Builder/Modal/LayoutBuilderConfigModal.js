@@ -70,9 +70,9 @@ export const LayoutBuilderConfigModal = ({
             >
                 <Panel padding={false}>
                     <div
-                        className={`flex flex-col w-full h-full overflow-hidden`}
+                        className={`flex flex-col w-full h-full overflow-clip`}
                     >
-                        <div className="flex flex-row w-full h-full overflow-hidden">
+                        <div className="flex flex-row w-full h-full overflow-clip">
                             <div
                                 className={`flex flex-col h-full ${theme["bg-secondary-very-dark"]} p-2 px-4 pt-4 space-y-2`}
                             >
@@ -119,7 +119,7 @@ export const LayoutBuilderConfigModal = ({
                                 />
                             </div>
                             <div
-                                className={`flex flex-row w-full h-full space-x-4 overflow-hidden p-4 ${theme["bg-secondary-dark"]}`}
+                                className={`flex flex-row w-full h-full space-x-4 overflow-clip p-4 ${theme["bg-secondary-dark"]}`}
                             >
                                 {configMenuItemSelected === "edit" && (
                                     <PanelEditItem

@@ -182,9 +182,9 @@ export const ThemeManagerModalUpdated = ({ open, setIsOpen }) => {
             className="m-4"
         >
             <Panel backgroundColor={"bg-slate-800"} padding={false}>
-                <div className={`flex flex-col w-full h-full overflow-hidden`}>
-                    <div className="flex flex-row w-full h-full overflow-hidden">
-                        <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-4">
+                <div className={`flex flex-col w-full h-full overflow-clip`}>
+                    <div className="flex flex-row w-full h-full overflow-clip">
+                        <div className="flex flex-row w-full h-full space-x-4 overflow-clip p-4">
                             {themeSelected && isEditing === false && (
                                 <PanelThemePicker
                                     theme={themeSelected}

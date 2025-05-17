@@ -64,7 +64,7 @@ export const PanelDashboardLoader = ({ onSelecDashboard, onClose }) => {
         currentTheme && (
             <Panel2 padding={false} width="w-full" height="h-full">
                 <Panel2.Body>
-                    <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
+                    <div className="flex flex-row w-full h-full overflow-clip xl:justify-between xl:space-x-4">
                         <div className="flex flex-col rounded p-6 space-y-4 w-1/3">
                             <Heading title={"Load."} padding={false} />
                             <div className="flex-col hidden 2xl:flex w-full space-y-4">

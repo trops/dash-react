@@ -36,14 +36,14 @@ const MockWrapper = ({
     }
 
     return (
-        <div className="flex flex-col h-screen w-full m-0 overflow-hidden bg-blue-500 p-4">
+        <div className="flex flex-col h-screen w-full m-0 overflow-clip bg-blue-500 p-4">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeWrapper
                     credentials={getAppContext().creds}
                     dashApi={new MockDashboardApi(api)}
                 >
                     <div
-                        className={`flex flex-col space-y-2 w-full h-full p-0 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200 ${backgroundColor}`}
+                        className={`flex flex-col space-y-2 w-full h-full p-0 border rounded-lg overflow-clip rounded border-1 border-gray-300 bg-gray-200 ${backgroundColor}`}
                     >
                         <span className="uppercase text-gray-800 font-bold text-sm">
                             Workspace - WIDGET - Item is a child of the Widget
@@ -103,7 +103,7 @@ const MockLayout = ({
     }
 
     return (
-        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+        <div className="flex flex-col h-screen w-full m-auto overflow-clip">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
@@ -155,7 +155,7 @@ const MockWorkspace = ({
     }
 
     return (
-        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+        <div className="flex flex-col h-screen w-full m-auto overflow-clip">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div
@@ -199,7 +199,7 @@ const MockAlgolia = ({
     );
 
     return (
-        <div className="flex flex-col h-screen w-full m-auto overflow-hidden">
+        <div className="flex flex-col h-screen w-full m-auto overflow-clip">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeContext.Provider value={mock.theme.context}>
                     <div

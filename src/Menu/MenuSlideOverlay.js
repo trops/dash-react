@@ -9,10 +9,10 @@ const MenuSlideOverlay = ({ open, setOpen, children }) => {
             <Transition.Root show={open} as={Fragment}>
                 <Dialog
                     as="div"
-                    className="fixed inset-0 overflow-hidden"
+                    className="fixed inset-0 overflow-clip"
                     onClose={setOpen}
                 >
-                    <div className="absolute inset-0 overflow-hidden z-30">
+                    <div className="absolute inset-0 overflow-clip z-30">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-in-out duration-400"
@@ -34,11 +34,11 @@ const MenuSlideOverlay = ({ open, setOpen, children }) => {
                                 leaveFrom="translate-x-0"
                                 leaveTo="-translate-x-full"
                             >
-                                <div className="pointer-events-auto max-w-2xl xl:max-w-3xl overflow-hidden">
+                                <div className="pointer-events-auto max-w-2xl xl:max-w-3xl overflow-clip">
                                     <div
-                                        className={`flex h-full flex-col shadow-xl ${currentTheme["bg-secondary-very-dark"]} ${currentTheme["text-secondary-light"]} scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-hidden`}
+                                        className={`flex h-full flex-col shadow-xl ${currentTheme["bg-secondary-very-dark"]} ${currentTheme["text-secondary-light"]} scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-clip`}
                                     >
-                                        <div className="relative mt-6 flex-1 px-6 sm:px-6 overflow-hidden h-full">
+                                        <div className="relative mt-6 flex-1 px-6 sm:px-6 overflow-clip h-full">
                                             {children}
                                         </div>
                                     </div>

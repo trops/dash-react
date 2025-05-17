@@ -423,7 +423,7 @@ const getValueFromTheme = (key, theme) => {
 
 /**
  * Generate the styles for the element based on the theme, themeOverrides and manual overrides
- * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-hidden, etc etc
+ * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-clip, etc etc
  * Need to mrege what is default and what is an override
  *
  * @param {string} itemName the name of the component (button, panel, etc)
@@ -496,7 +496,7 @@ const getStylesForItem = (
                 "scrollable" in prioritizedStyles &&
                 prioritizedStyles["scrollable"] === true
                     ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
-                    : `overlflow-hidden ${grow} mr-0`;
+                    : `overlflow-clip ${grow} mr-0`;
 
             const hasChildren =
                 "hasChildren" in prioritizedStyles
@@ -610,7 +610,7 @@ const getStylesForItem = (
             const finalStyles = {};
             Object.keys(styles).forEach((k) => {
                 if (k in finalStyles === false) {
-                    finalStyles[k] = styles[k];
+                    finalStyles[k] = styles[k].replaceAll("overflow-hidden", "overflow-clip");
                 }
             });
 
@@ -652,10 +652,10 @@ const getStylesForItem = (
                                 (v) =>
                                     removeValues.includes(v) === false &&
                                     v !== " "
-                            )
+                            ).map(v => v.replaceAll("overflow-hidden", "overflow-clip"))
                     ),
                 ]
-                    .map((v) => v.trim())
+                    .map((v) => v.trim().replaceAll("overflow-hidden", "overflow-clip"))
                     .join(" "),
                 ...finalStyles,
             };
@@ -682,7 +682,7 @@ const getStyleValueVariant = (className, obj) => {
                 const val = obj[className].replaceAll("hover:", "");
                 return "hover:" + val;
             default:
-                return obj[className];
+                return obj[className].replaceAll("overflow-hidden", "overflow-clip");
         }
     } catch (e) {
         return "";

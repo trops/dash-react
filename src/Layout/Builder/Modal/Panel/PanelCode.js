@@ -32,7 +32,7 @@ export const PanelCode = ({ workspace, onUpdate, item = null }) => {
         itemSelected &&
         workspaceSelected && (
             <Panel>
-                <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
+                <div className="flex flex-row w-full h-full space-x-4 overflow-clip">
                     <div className="flex flex-row w-full min-w-3/4 h-full rounded">
                         {/* render the widget item here. */}
                         <div

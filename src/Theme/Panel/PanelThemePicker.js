@@ -24,7 +24,7 @@ export const PanelThemePicker = ({
 
     return (
         <Panel theme={false} backgroundColor={"bg-transparent"} width="w-full">
-            <div className="flex flex-col w-full h-full xl:space-x-4 overflow-hidden">
+            <div className="flex flex-col w-full h-full xl:space-x-4 overflow-clip">
                 <div className="flex flex-row h-full rounded xl:space-x-4 w-full">
                     <ThemeTitlePane
                         theme={theme}
@@ -35,7 +35,7 @@ export const PanelThemePicker = ({
                     <div className="flex flex-col w-full w-1/2 xl:w-3/4">
                         {theme !== null && (
                             <div
-                                className={`flex flex-row h-full rounded w-full overflow-hidden bg-gray-900 xl:space-x-2 p-2`}
+                                className={`flex flex-row h-full rounded w-full overflow-clip bg-gray-900 xl:space-x-2 p-2`}
                             >
                                 <ThemePickerGridPane
                                     theme={theme}

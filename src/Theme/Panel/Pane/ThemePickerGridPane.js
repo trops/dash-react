@@ -70,7 +70,7 @@ const ThemePickerGridPane = ({ themeKey, onChooseTheme }) => {
 
     return (
         <ThemePane>
-            <div className="flex flex-row rounded overflow-hidden justify-center items-center align-center w-full">
+            <div className="flex flex-row rounded overflow-clip justify-center items-center align-center w-full">
                 <div className="grid grid-cols-3 gap-4 w-full h-full overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800">
                     {renderCurrentThemes()}
                 </div>

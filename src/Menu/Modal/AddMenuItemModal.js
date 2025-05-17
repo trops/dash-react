@@ -143,10 +143,10 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
             >
                 <Panel direction="col" padding={false}>
                     <div
-                        className={`flex flex-col w-full h-full overflow-hidden`}
+                        className={`flex flex-col w-full h-full overflow-clip`}
                     >
-                        <div className="flex flex-col w-full h-full overflow-hidden">
-                            <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-6">
+                        <div className="flex flex-col w-full h-full overflow-clip">
+                            <div className="flex flex-row w-full h-full space-x-4 overflow-clip p-6">
                                 <div className="flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3">
                                     {/* render the widget item here. */}
                                     {menuItemsSelected !== null && (
@@ -171,7 +171,7 @@ export const AddMenuItemModal = ({ menuItems, open, setIsOpen, onSave }) => {
                                             placeholder="My Folder"
                                         />
                                     </div>
-                                    <div className="flex flex-row rounded overflow-hidden justify-center items-center align-center w-full">
+                                    <div className="flex flex-row rounded overflow-clip justify-center items-center align-center w-full">
                                         <LayoutContainer
                                             direction="row"
                                             scrollable={true}

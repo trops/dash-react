@@ -17,7 +17,7 @@ export const PanelThemeEditor = ({ onUpdate, theme = null }) => {
 
     return (
         <Panel>
-            <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
+            <div className="flex flex-row w-full h-full space-x-4 overflow-clip">
                 <div className="flex flex-row w-full min-w-3/4 h-full rounded">
                     {/* render the widget item here. */}
                     <div className="flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3">

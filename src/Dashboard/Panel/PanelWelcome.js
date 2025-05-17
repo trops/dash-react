@@ -91,10 +91,10 @@ export const PanelWelcome = ({
     return (
         currentTheme && (
             <div
-                className={`flex flex-row w-full h-full overflow-hidden items-center justify-center`}
+                className={`flex flex-row w-full h-full overflow-clip items-center justify-center`}
             >
                 <div
-                    className={`flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center`}
+                    className={`flex flex-col w-5/6 h-5/6 overflow-clip rounded-lg items-center justify-center`}
                 >
                     <Panel2
                         horizontal={true}
@@ -170,8 +170,8 @@ export const PanelWelcome = ({
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col w-full h-full overflow-hidden p-4">
-                            <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
+                        <div className="flex flex-col w-full h-full overflow-clip p-4">
+                            <div className="flex flex-row w-full h-full overflow-clip xl:justify-between xl:space-x-4">
                                 <div
                                     className={`flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-6 justify-between`}
                                 >

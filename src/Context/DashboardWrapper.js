@@ -37,7 +37,7 @@ export const DashboardWrapper = ({
     return (
         <AppWrapper dashApi={dashApi} credentials={credentials}>
             <ThemeWrapper dashApi={dashApi} credentials={credentials}>
-                <div className="flex flex-col w-screen h-screen overflow-hidden justify-between p-0">
+                <div className="flex flex-col w-screen h-screen overflow-clip justify-between p-0">
                     <MainSection backgroundColor={backgroundColor}>
                         <DashboardContext.Provider value={getValue()}>
                             {children}

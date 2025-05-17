@@ -492,9 +492,9 @@ export const PanelEditItemHandlers = ({
     return (
         itemSelected !== null && (
             <Panel theme={false}>
-                <div className={`flex flex-col w-full h-full overflow-hidden`}>
-                    <div className="flex flex-col w-full h-full overflow-hidden">
-                        <div className="flex flex-row w-full h-full overflow-hidden space-x-4 justify-between">
+                <div className={`flex flex-col w-full h-full overflow-clip`}>
+                    <div className="flex flex-col w-full h-full overflow-clip">
+                        <div className="flex flex-row w-full h-full overflow-clip space-x-4 justify-between">
                             {/* <div className='flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3'> */}
                             <div className="flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3">
                                 {/* render the widget item here. */}

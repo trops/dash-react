@@ -277,9 +277,9 @@ export const LayoutBuilderAddItemModal = ({
             >
                 <Panel padding={false}>
                     <div
-                        className={`flex flex-col w-full h-full overflow-hidden`}
+                        className={`flex flex-col w-full h-full overflow-clip`}
                     >
-                        <div className="flex flex-row w-full h-full space-x-4 overflow-hidden rounded">
+                        <div className="flex flex-row w-full h-full space-x-4 overflow-clip rounded">
                             <LayoutContainer
                                 direction="col"
                                 width="w-1/4"
@@ -352,7 +352,7 @@ export const LayoutBuilderAddItemModal = ({
                                     <div
                                         className={`flex flex-col rounded border-2 border-gray-800 ${getBorderStyle(
                                             menuItemSelected
-                                        )} overflow-hidden h-full w-3/4 bg-gray-900`}
+                                        )} overflow-clip h-full w-3/4 bg-gray-900`}
                                     >
                                         <div
                                             className={`flex flex-col p-2 space-x-1 uppercase text-xs text-gray-200 font-bold bg-gray-800`}
@@ -368,7 +368,7 @@ export const LayoutBuilderAddItemModal = ({
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="flex flex-col overflow-hidden justify-between h-full">
+                                        <div className="flex flex-col overflow-clip justify-between h-full">
                                             <div className="flex flex-col grow p-2">
                                                 {renderAddContainer(
                                                     menuItemSelected

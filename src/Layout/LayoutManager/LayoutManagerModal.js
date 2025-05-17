@@ -18,8 +18,8 @@ export const LayoutManagerModal = ({ open, setIsOpen, ...props }) => {
                 <Panel.Body>
                     <LayoutManagerPicker onClick={handleSelectLayout} />
                 </Panel.Body>
-                {/* <div className={`flex flex-col w-full h-full overflow-hidden`}>
-                    <div className="flex flex-row w-full h-full overflow-hidden">
+                {/* <div className={`flex flex-col w-full h-full overflow-clip`}>
+                    <div className="flex flex-row w-full h-full overflow-clip">
                         <LayoutManagerPicker onClick={handleSelectLayout} />
                     </div>
                 </div> */}

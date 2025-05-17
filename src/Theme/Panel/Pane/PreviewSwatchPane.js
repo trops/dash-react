@@ -8,7 +8,7 @@ const PreviewSwatchPane = ({ themeEdit }) => {
     }
 
     return (
-        <div className="flex flex-col text-xs break-all h-full w-full overflow-hidden h-full">
+        <div className="flex flex-col text-xs break-all h-full w-full overflow-clip h-full">
             <div
                 className={`flex flex-col text-sm break-all h-full w-full rounded overflow-y-auto text-gray-800 ${getColorFromObject()} p-2`}
             >

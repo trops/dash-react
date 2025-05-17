@@ -446,10 +446,10 @@ export const LayoutBuilderEventModal = ({
             >
                 <Panel>
                     <div
-                        className={`flex flex-col w-full h-full  overflow-hidden bg-blue-800`}
+                        className={`flex flex-col w-full h-full  overflow-clip bg-blue-800`}
                     >
-                        <div className="flex flex-col w-full h-full overflow-hidden">
-                            <div className="flex flex-row w-full h-full space-x-4 overflow-hidden p-6">
+                        <div className="flex flex-col w-full h-full overflow-clip">
+                            <div className="flex flex-row w-full h-full space-x-4 overflow-clip p-6">
                                 <div className="flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3">
                                     {/* render the widget item here. */}
                                     {itemSelected !== null && (

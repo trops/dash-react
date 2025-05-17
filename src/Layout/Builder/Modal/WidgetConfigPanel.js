@@ -196,7 +196,7 @@ export const WidgetConfigPanel = ({
     return (
         itemSelected && (
             <div className="flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full">
-                <div className="flex flex-col w-full h-full overflow-hidden">
+                <div className="flex flex-col w-full h-full overflow-clip">
                     <LayoutContainer
                         direction="col"
                         scrollable={true}

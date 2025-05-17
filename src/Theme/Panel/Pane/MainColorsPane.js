@@ -32,7 +32,7 @@ const MainColorsPane = ({
     }
 
     return (
-        <div className="flex flex-col text-xs break-all h-full p-1 space-y-1 w-full overflow-hidden bg-gray-400 rounded h-full">
+        <div className="flex flex-col text-xs break-all h-full p-1 space-y-1 w-full overflow-clip bg-gray-400 rounded h-full">
             <div className="flex flex-col text-xs h-full space-y-1 w-full overflow-y-scroll">
                 {theme && renderThemeMainColors()}
             </div>

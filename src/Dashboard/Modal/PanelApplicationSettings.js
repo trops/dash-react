@@ -298,12 +298,12 @@ export const PanelApplicationSettings = ({
     }
 
     return (
-        <div className="flex flex-col w-full h-full overflow-hidden">
-            <div className="flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4">
+        <div className="flex flex-col w-full h-full overflow-clip">
+            <div className="flex flex-row w-full h-full overflow-clip xl:justify-between xl:space-x-4">
                 <div
                     className={`flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between`}
                 >
-                    <div className="flex flex-col rounded py-10 space-y-4 w-full overflow-hidden">
+                    <div className="flex flex-col rounded py-10 space-y-4 w-full overflow-clip">
                         <Heading title={"Hello"} padding={false} />
                         <SubHeading3
                             title={
@@ -319,8 +319,8 @@ export const PanelApplicationSettings = ({
                 <div
                     className={`flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full`}
                 >
-                    <div className="flex flex-col bg-gradient-to-tr from-gray-900 to-gray-800 text-green-600 h-full w-full rounded-lg p-6 overflow-hidden border border-gray-900">
-                        <div className="flex flex-col py-4 text-sm font-mono overflow-hidden h-full">
+                    <div className="flex flex-col bg-gradient-to-tr from-gray-900 to-gray-800 text-green-600 h-full w-full rounded-lg p-6 overflow-clip border border-gray-900">
+                        <div className="flex flex-col py-4 text-sm font-mono overflow-clip h-full">
                             <div className="flex flex-col py-4 text-xs font-mono h-full overflow-y-scroll">
                                 <div className="flex flex-1 flex-col h-full"></div>
                                 {renderApplicationInput()}

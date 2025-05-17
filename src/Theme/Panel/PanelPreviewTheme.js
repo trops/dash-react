@@ -301,7 +301,7 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
 
     return (
         <Panel theme={false} backgroundColor={""} padding={false}>
-            <div className="flex flex-col w-full h-full xl:space-x-4 overflow-hidden">
+            <div className="flex flex-col w-full h-full xl:space-x-4 overflow-clip">
                 <div className="flex flex-row h-full rounded space-x-0 xl:space-x-4 w-full">
                     {/* <ThemesPane theme={theme} themeKey={themeKey} onClickNewTheme={handleCreateNewTheme} onChooseTheme={handleSelectTheme} onChooseVariant={onChangeVariant} /> */}
                     <div className="flex flex-col w-full w-1/2 xl:w-3/4 ">
@@ -310,7 +310,7 @@ export const PanelPreviewTheme = ({ onUpdate, onCreateNew, theme = null }) => {
                         </div>
                         {theme !== null && (
                             <div
-                                className={`flex flex-row h-full rounded w-full overflow-hidden bg-gray-900 space-x-0 xl:space-x-2 p-2`}
+                                className={`flex flex-row h-full rounded w-full overflow-clip bg-gray-900 space-x-0 xl:space-x-2 p-2`}
                             >
                                 {/* Theme Preview */}
                                 {/* <MainColorsPane

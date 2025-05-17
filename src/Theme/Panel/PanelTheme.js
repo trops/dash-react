@@ -222,11 +222,11 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
 
     return (
         <Panel theme={false} backgroundColor={""} padding={false}>
-            <div className="flex flex-row w-full h-full space-x-4 overflow-hidden">
+            <div className="flex flex-row w-full h-full space-x-4 overflow-clip">
                 <div className="flex flex-row h-full rounded space-x-2 w-full">
                     <div className="flex flex-row w-full space-x-2">
                         <div
-                            className={`flex flex-col h-full rounded w-full overflow-hidden space-y-2`}
+                            className={`flex flex-col h-full rounded w-full overflow-clip space-y-2`}
                         >
                             <div className="flex flex-row space-x-2">
                                 {themeSelected !== null && (
@@ -248,8 +248,8 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                     text={"Reset Theme"}
                                 />
                             </div>
-                            <div className="flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1">
-                                <div className="flex flex-col h-full w-1/3 overflow-hidden">
+                            <div className="flex flex-row overflow-clip space-x-1 h-full rounded bg-black w-full p-1">
+                                <div className="flex flex-col h-full w-1/3 overflow-clip">
                                     <div className="flex flex-col h-full space-y-2 border-r border-gray-700 p-2 w-full">
                                         {/* <ButtonIcon
                                             icon="pallette"
@@ -292,7 +292,7 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                 <div className="flex flex-col w-1/4 min-w-1/4 p-1 space-y-1">
                                     {itemSelected !== null && (
                                         <div
-                                            className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${
+                                            className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-clip ${
                                                 itemColorSelected !== null
                                                     ? "h-1/2"
                                                     : "h-full"
@@ -326,7 +326,7 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                     )}
                                     {itemSelected === null && (
                                         <div
-                                            className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ${
+                                            className={`flex flex-col rounded bg-gray-800 space-y-4 overflow-clip ${
                                                 itemColorSelected !== null
                                                     ? "h-1/2"
                                                     : "h-full"
@@ -339,7 +339,7 @@ export const PanelTheme = ({ onUpdate, theme = null, themeKey, rawTheme }) => {
                                         </div>
                                     )}
                                     {itemColorSelected !== null && (
-                                        <div className="flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-1/2">
+                                        <div className="flex flex-col rounded bg-gray-800 space-y-4 overflow-clip h-1/2">
                                             <div className="flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700">
                                                 Available Colors
                                             </div>

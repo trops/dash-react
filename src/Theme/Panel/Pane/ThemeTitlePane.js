@@ -7,7 +7,7 @@ const ThemeTitlePane = ({ onChooseVariant, onClickNewTheme }) => {
 
     return (
         <div className="flex flex-col rounded font-medium hidden xl:flex w-1/3 justify-between">
-            <div className="flex flex-col rounded font-medium justify-between overflow-hidden">
+            <div className="flex flex-col rounded font-medium justify-between overflow-clip">
                 <div className="flex flex-col rounded p-6 py-10 space-y-4 w-full hidden xl:flex">
                     <div className="flex flex-row justify-between">
                         <Heading
