@@ -1214,7 +1214,7 @@ var prioritizeClasses = function prioritizeClasses(high, low) {
 
 /**
  * Generate the styles for the element based on the theme, themeOverrides and manual overrides
- * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-hidden, etc etc
+ * Reduce overlap/override of styles for example overflow-scroll-y, and overflow-clip, etc etc
  * Need to mrege what is default and what is an override
  *
  * @param {string} itemName the name of the component (button, panel, etc)
@@ -1266,7 +1266,7 @@ var getStylesForItem = function getStylesForItem() {
       // scrollbars?
 
       var grow = "grow" in prioritizedStyles && prioritizedStyles["grow"] === false ? "flex-shrink" : "flex-grow";
-      var scrollbarStyles = "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-hidden ".concat(grow, " mr-0");
+      var scrollbarStyles = "scrollable" in prioritizedStyles && prioritizedStyles["scrollable"] === true ? "overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ".concat(grow) : "overlflow-clip ".concat(grow, " mr-0");
       var hasChildren = "hasChildren" in prioritizedStyles ? prioritizedStyles["hasChildren"] : false;
       var childCount = "childCount" in prioritizedStyles ? prioritizedStyles["childCount"] : null;
       var directionValue = "direction" in prioritizedStyles ? prioritizedStyles["direction"] : null;
@@ -1332,7 +1332,7 @@ var getStylesForItem = function getStylesForItem() {
       var finalStyles = {};
       Object.keys(styles).forEach(function (k) {
         if (k in finalStyles === false) {
-          finalStyles[k] = styles[k];
+          finalStyles[k] = styles[k].replaceAll("overflow-hidden", "overflow-clip");
         }
       });
       var styleSet = _toConsumableArray$1(new Set(additionalStyles.split(" ").filter(function (v) {
@@ -1348,8 +1348,10 @@ var getStylesForItem = function getStylesForItem() {
       var stylesObject = _objectSpread$G({
         string: _toConsumableArray$1(new Set(finalString.split(" ").filter(function (v) {
           return removeValues.includes(v) === false && v !== " ";
+        }).map(function (v) {
+          return v.replaceAll("overflow-hidden", "overflow-clip");
         }))).map(function (v) {
-          return v.trim();
+          return v.trim().replaceAll("overflow-hidden", "overflow-clip");
         }).join(" ")
       }, finalStyles);
       return stylesObject;
@@ -1371,7 +1373,7 @@ var getStyleValueVariant = function getStyleValueVariant(className, obj) {
         var val = obj[className].replaceAll("hover:", "");
         return "hover:" + val;
       default:
-        return obj[className];
+        return obj[className].replaceAll("overflow-hidden", "overflow-clip");
     }
   } catch (e) {
     return "";
@@ -3757,9 +3759,9 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
     children: /*#__PURE__*/jsx(Panel, {
       padding: false,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full space-x-4 overflow-hidden rounded",
+          className: "flex flex-row w-full h-full space-x-4 overflow-clip rounded",
           children: [/*#__PURE__*/jsxs(LayoutContainer, {
             direction: "col",
             width: "w-1/4",
@@ -3818,7 +3820,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
                 })]
               })
             }), menuItemSelected !== null && /*#__PURE__*/jsxs("div", {
-              className: "flex flex-col rounded border-2 border-gray-800 ".concat(getBorderStyle(menuItemSelected), " overflow-hidden h-full w-3/4 bg-gray-900"),
+              className: "flex flex-col rounded border-2 border-gray-800 ".concat(getBorderStyle(menuItemSelected), " overflow-clip h-full w-3/4 bg-gray-900"),
               children: [/*#__PURE__*/jsx("div", {
                 className: "flex flex-col p-2 space-x-1 uppercase text-xs text-gray-200 font-bold bg-gray-800",
                 children: menuItemSelected !== null && /*#__PURE__*/jsxs("div", {
@@ -3826,7 +3828,7 @@ var LayoutBuilderAddItemModal = function LayoutBuilderAddItemModal(_ref) {
                   children: ["Preview:", " ", menuItemSelected["component"]]
                 })
               }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-col overflow-hidden justify-between h-full",
+                className: "flex flex-col overflow-clip justify-between h-full",
                 children: /*#__PURE__*/jsx("div", {
                   className: "flex flex-col grow p-2",
                   children: renderAddContainer(menuItemSelected)
@@ -3972,7 +3974,7 @@ var PanelEditItem = function PanelEditItem(_ref) {
   return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
     padding: false,
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      className: "flex flex-row w-full h-full space-x-4 overflow-clip",
       children: [/*#__PURE__*/jsx("div", {
         className: "flex flex-col w-3/4 min-w-3/4 h-full rounded",
         children: /*#__PURE__*/jsxs("div", {
@@ -4047,7 +4049,7 @@ var PanelCode = function PanelCode(_ref) {
   }
   return itemSelected && workspaceSelected && /*#__PURE__*/jsx(Panel, {
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      className: "flex flex-row w-full h-full space-x-4 overflow-clip",
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-row w-full min-w-3/4 h-full rounded",
         children: [/*#__PURE__*/jsx("div", {
@@ -4440,11 +4442,11 @@ var PanelEditItemHandlers = function PanelEditItemHandlers(_ref) {
   return itemSelected !== null && /*#__PURE__*/jsx(Panel, {
     theme: false,
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full h-full overflow-hidden",
+      className: "flex flex-col w-full h-full overflow-clip",
       children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full overflow-hidden space-x-4 justify-between",
+          className: "flex flex-row w-full h-full overflow-clip space-x-4 justify-between",
           children: [/*#__PURE__*/jsx("div", {
             className: "flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3",
             children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
@@ -4570,9 +4572,9 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
     children: /*#__PURE__*/jsx(Panel, {
       padding: false,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: [/*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
+          className: "flex flex-row w-full h-full overflow-clip",
           children: [/*#__PURE__*/jsxs("div", {
             className: "flex flex-col h-full ".concat(theme["bg-secondary-very-dark"], " p-2 px-4 pt-4 space-y-2"),
             children: [/*#__PURE__*/jsx(ButtonIcon, {
@@ -4598,7 +4600,7 @@ var LayoutBuilderConfigModal = function LayoutBuilderConfigModal(_ref) {
               bgColor: configMenuItemSelected === "code" ? "bg-blue-700" : "bg-blue-900"
             })]
           }), /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4 ".concat(theme["bg-secondary-dark"]),
+            className: "flex flex-row w-full h-full space-x-4 overflow-clip p-4 ".concat(theme["bg-secondary-dark"]),
             children: [configMenuItemSelected === "edit" && /*#__PURE__*/jsx(PanelEditItem, {
               item: itemSelected,
               onUpdate: handleEditChange,
@@ -4768,7 +4770,7 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
     children: /*#__PURE__*/jsx(Panel, {
       padding: false,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full space-y-2 overflow-hidden",
+        className: "flex flex-col w-full h-full space-y-2 overflow-clip",
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex flex-row text-xl font-bold text-white justify-between",
           children: [/*#__PURE__*/jsx("div", {
@@ -4789,7 +4791,7 @@ var LayoutBuilderEditItemModal = function LayoutBuilderEditItemModal(_ref) {
             bgColor: "".concat(getContainerColor(itemSelected["parentWorkspace"]))
           })]
         }), /*#__PURE__*/jsxs("div", {
-          className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+          className: "flex flex-row w-full h-full space-x-4 overflow-clip",
           children: [/*#__PURE__*/jsx("div", {
             className: "flex flex-col w-3/4 min-w-3/4 bg-gray-900 h-full rounded p-2",
             children: /*#__PURE__*/jsxs("div", {
@@ -5209,11 +5211,11 @@ var LayoutBuilderEventModal = function LayoutBuilderEventModal(_ref) {
     height: "h-5/6",
     children: /*#__PURE__*/jsx(Panel, {
       children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full  overflow-hidden bg-blue-800",
+        className: "flex flex-col w-full h-full  overflow-clip bg-blue-800",
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col w-full h-full overflow-hidden",
+          className: "flex flex-col w-full h-full overflow-clip",
           children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-6",
+            className: "flex flex-row w-full h-full space-x-4 overflow-clip p-6",
             children: [/*#__PURE__*/jsx("div", {
               className: "flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3",
               children: itemSelected !== null && /*#__PURE__*/jsxs("div", {
@@ -5441,7 +5443,7 @@ var WidgetConfigPanel = function WidgetConfigPanel(_ref) {
   return itemSelected && /*#__PURE__*/jsxs("div", {
     className: "flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full",
     children: [/*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full h-full overflow-hidden",
+      className: "flex flex-col w-full h-full overflow-clip",
       children: /*#__PURE__*/jsxs(LayoutContainer, {
         direction: "col",
         scrollable: true,
@@ -7524,10 +7526,10 @@ var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
     as: Fragment,
     children: /*#__PURE__*/jsx(Dialog, {
       as: "div",
-      className: "fixed inset-0 overflow-hidden",
+      className: "fixed inset-0 overflow-clip",
       onClose: setOpen,
       children: /*#__PURE__*/jsxs("div", {
-        className: "absolute inset-0 overflow-hidden z-30",
+        className: "absolute inset-0 overflow-clip z-30",
         children: [/*#__PURE__*/jsx(Transition.Child, {
           as: Fragment,
           enter: "ease-in-out duration-400",
@@ -7550,11 +7552,11 @@ var MenuSlideOverlay = function MenuSlideOverlay(_ref) {
             leaveFrom: "translate-x-0",
             leaveTo: "-translate-x-full",
             children: /*#__PURE__*/jsx("div", {
-              className: "pointer-events-auto max-w-2xl xl:max-w-3xl overflow-hidden",
+              className: "pointer-events-auto max-w-2xl xl:max-w-3xl overflow-clip",
               children: /*#__PURE__*/jsx("div", {
-                className: "flex h-full flex-col shadow-xl ".concat(currentTheme["bg-secondary-very-dark"], " ").concat(currentTheme["text-secondary-light"], " scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-hidden"),
+                className: "flex h-full flex-col shadow-xl ".concat(currentTheme["bg-secondary-very-dark"], " ").concat(currentTheme["text-secondary-light"], " scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-clip"),
                 children: /*#__PURE__*/jsx("div", {
-                  className: "relative mt-6 flex-1 px-6 sm:px-6 overflow-hidden h-full",
+                  className: "relative mt-6 flex-1 px-6 sm:px-6 overflow-clip h-full",
                   children: children
                 })
               })
@@ -7923,11 +7925,11 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
       direction: "col",
       padding: false,
       children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col w-full h-full overflow-hidden",
+          className: "flex flex-col w-full h-full overflow-clip",
           children: [/*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-6",
+            className: "flex flex-row w-full h-full space-x-4 overflow-clip p-6",
             children: [/*#__PURE__*/jsx("div", {
               className: "flex flex-col flex-shrink h-full rounded font-medium text-gray-400 w-1/3",
               children: menuItemsSelected !== null && /*#__PURE__*/jsxs("div", {
@@ -7950,7 +7952,7 @@ var AddMenuItemModal = function AddMenuItemModal(_ref) {
                   placeholder: "My Folder"
                 })
               }), /*#__PURE__*/jsx("div", {
-                className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
+                className: "flex flex-row rounded overflow-clip justify-center items-center align-center w-full",
                 children: /*#__PURE__*/jsx(LayoutContainer, {
                   direction: "row",
                   scrollable: true,
@@ -9456,13 +9458,13 @@ var PanelTheme = function PanelTheme(_ref) {
     backgroundColor: "",
     padding: false,
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full space-x-4 overflow-hidden",
+      className: "flex flex-row w-full h-full space-x-4 overflow-clip",
       children: /*#__PURE__*/jsx("div", {
         className: "flex flex-row h-full rounded space-x-2 w-full",
         children: /*#__PURE__*/jsx("div", {
           className: "flex flex-row w-full space-x-2",
           children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-col h-full rounded w-full overflow-hidden space-y-2",
+            className: "flex flex-col h-full rounded w-full overflow-clip space-y-2",
             children: [/*#__PURE__*/jsxs("div", {
               className: "flex flex-row space-x-2",
               children: [themeSelected !== null && /*#__PURE__*/jsx(InputText, {
@@ -9481,9 +9483,9 @@ var PanelTheme = function PanelTheme(_ref) {
                 text: "Reset Theme"
               })]
             }), /*#__PURE__*/jsxs("div", {
-              className: "flex flex-row overflow-hidden space-x-1 h-full rounded bg-black w-full p-1",
+              className: "flex flex-row overflow-clip space-x-1 h-full rounded bg-black w-full p-1",
               children: [/*#__PURE__*/jsx("div", {
-                className: "flex flex-col h-full w-1/3 overflow-hidden",
+                className: "flex flex-col h-full w-1/3 overflow-clip",
                 children: /*#__PURE__*/jsx("div", {
                   className: "flex flex-col h-full space-y-2 border-r border-gray-700 p-2 w-full",
                   children: /*#__PURE__*/jsx(ThemeMenuPane, {
@@ -9504,7 +9506,7 @@ var PanelTheme = function PanelTheme(_ref) {
               }), /*#__PURE__*/jsxs("div", {
                 className: "flex flex-col w-1/4 min-w-1/4 p-1 space-y-1",
                 children: [itemSelected !== null && /*#__PURE__*/jsxs("div", {
-                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
+                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-clip ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
                   children: [/*#__PURE__*/jsx("div", {
                     className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
                     children: itemSelected["item"]
@@ -9523,13 +9525,13 @@ var PanelTheme = function PanelTheme(_ref) {
                     })
                   })]
                 }), itemSelected === null && /*#__PURE__*/jsx("div", {
-                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
+                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-clip ".concat(itemColorSelected !== null ? "h-1/2" : "h-full"),
                   children: /*#__PURE__*/jsx("div", {
                     className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
                     children: "Inspector"
                   })
                 }), itemColorSelected !== null && /*#__PURE__*/jsxs("div", {
-                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-hidden h-1/2",
+                  className: "flex flex-col rounded bg-gray-800 space-y-4 overflow-clip h-1/2",
                   children: [/*#__PURE__*/jsx("div", {
                     className: "flex flex-row text-xs uppercase font-bold w-full text-gray-200 bg-gray-900 p-2 rounded-t border-b border-gray-700",
                     children: "Available Colors"
@@ -9608,7 +9610,7 @@ var ThemePickerGridPane = function ThemePickerGridPane(_ref) {
   }
   return /*#__PURE__*/jsx(ThemePane, {
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-row rounded overflow-hidden justify-center items-center align-center w-full",
+      className: "flex flex-row rounded overflow-clip justify-center items-center align-center w-full",
       children: /*#__PURE__*/jsx("div", {
         className: "grid grid-cols-3 gap-4 w-full h-full overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-800",
         children: renderCurrentThemes()
@@ -9625,7 +9627,7 @@ var ThemeTitlePane = function ThemeTitlePane(_ref) {
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-col rounded font-medium hidden xl:flex w-1/3 justify-between",
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded font-medium justify-between overflow-hidden",
+      className: "flex flex-col rounded font-medium justify-between overflow-clip",
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col rounded p-6 py-10 space-y-4 w-full hidden xl:flex",
         children: [/*#__PURE__*/jsxs("div", {
@@ -9689,7 +9691,7 @@ var PanelThemePicker = function PanelThemePicker(_ref) {
     backgroundColor: "bg-transparent",
     width: "w-full",
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full h-full xl:space-x-4 overflow-hidden",
+      className: "flex flex-col w-full h-full xl:space-x-4 overflow-clip",
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-row h-full rounded xl:space-x-4 w-full",
         children: [/*#__PURE__*/jsx(ThemeTitlePane, {
@@ -9700,7 +9702,7 @@ var PanelThemePicker = function PanelThemePicker(_ref) {
         }), /*#__PURE__*/jsx("div", {
           className: "flex flex-col w-full w-1/2 xl:w-3/4",
           children: theme !== null && /*#__PURE__*/jsx("div", {
-            className: "flex flex-row h-full rounded w-full overflow-hidden bg-gray-900 xl:space-x-2 p-2",
+            className: "flex flex-row h-full rounded w-full overflow-clip bg-gray-900 xl:space-x-2 p-2",
             children: /*#__PURE__*/jsx(ThemePickerGridPane, {
               theme: theme,
               themeKey: themeKey,
@@ -9884,11 +9886,11 @@ var ThemeManagerModal = function ThemeManagerModal(_ref) {
     children: /*#__PURE__*/jsx(Panel, {
       backgroundColor: "bg-slate-800",
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: [/*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
+          className: "flex flex-row w-full h-full overflow-clip",
           children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            className: "flex flex-row w-full h-full space-x-4 overflow-clip p-4",
             children: [themeSelected && isEditing === false && /*#__PURE__*/jsx(PanelThemePicker, {
               theme: themeSelected,
               themeKey: themeKeySelected,
@@ -10065,9 +10067,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
   // };
 
   return currentTheme && /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full h-full overflow-hidden items-center justify-center",
+    className: "flex flex-row w-full h-full overflow-clip items-center justify-center",
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-5/6 h-5/6 overflow-hidden rounded-lg items-center justify-center",
+      className: "flex flex-col w-5/6 h-5/6 overflow-clip rounded-lg items-center justify-center",
       children: /*#__PURE__*/jsxs(Panel2, {
         horizontal: true,
         padding: false,
@@ -10127,9 +10129,9 @@ var PanelWelcome = function PanelWelcome(_ref) {
             })]
           })]
         }), /*#__PURE__*/jsx("div", {
-          className: "flex flex-col w-full h-full overflow-hidden p-4",
+          className: "flex flex-col w-full h-full overflow-clip p-4",
           children: /*#__PURE__*/jsxs("div", {
-            className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+            className: "flex flex-row w-full h-full overflow-clip xl:justify-between xl:space-x-4",
             children: [/*#__PURE__*/jsxs("div", {
               className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-6 justify-between",
               children: [/*#__PURE__*/jsxs("div", {
@@ -10462,13 +10464,13 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
     });
   }
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col w-full h-full overflow-hidden",
+    className: "flex flex-col w-full h-full overflow-clip",
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+      className: "flex flex-row w-full h-full overflow-clip xl:justify-between xl:space-x-4",
       children: [/*#__PURE__*/jsx("div", {
         className: "flex-col h-full rounded font-medium w-full hidden xl:flex xl:w-1/3 p-10 justify-between",
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col rounded py-10 space-y-4 w-full overflow-hidden",
+          className: "flex flex-col rounded py-10 space-y-4 w-full overflow-clip",
           children: [/*#__PURE__*/jsx(Heading, {
             title: "Hello",
             padding: false
@@ -10480,9 +10482,9 @@ var PanelApplicationSettings = function PanelApplicationSettings(_ref) {
       }), /*#__PURE__*/jsx("div", {
         className: "flex flex-col h-full rounded xl:rounded-0 w-full lg:w-full",
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col bg-gradient-to-tr from-gray-900 to-gray-800 text-green-600 h-full w-full rounded-lg p-6 overflow-hidden border border-gray-900",
+          className: "flex flex-col bg-gradient-to-tr from-gray-900 to-gray-800 text-green-600 h-full w-full rounded-lg p-6 overflow-clip border border-gray-900",
           children: [/*#__PURE__*/jsx("div", {
-            className: "flex flex-col py-4 text-sm font-mono overflow-hidden h-full",
+            className: "flex flex-col py-4 text-sm font-mono overflow-clip h-full",
             children: /*#__PURE__*/jsxs("div", {
               className: "flex flex-col py-4 text-xs font-mono h-full overflow-y-scroll",
               children: [/*#__PURE__*/jsx("div", {
@@ -10534,11 +10536,11 @@ var ApplicationSettingsModal = function ApplicationSettingsModal(_ref) {
     children: /*#__PURE__*/jsx(Panel, {
       padding: false,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: [/*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
+          className: "flex flex-row w-full h-full overflow-clip",
           children: /*#__PURE__*/jsx("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            className: "flex flex-row w-full h-full space-x-4 overflow-clip p-4",
             children: /*#__PURE__*/jsx(PanelApplicationSettings, {
               settings: settings,
               setIsOpen: setIsOpen,
@@ -10611,7 +10613,7 @@ var PanelDashboardLoader = function PanelDashboardLoader(_ref) {
     height: "h-full",
     children: [/*#__PURE__*/jsx(Panel2.Body, {
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row w-full h-full overflow-hidden xl:justify-between xl:space-x-4",
+        className: "flex flex-row w-full h-full overflow-clip xl:justify-between xl:space-x-4",
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex flex-col rounded p-6 space-y-4 w-1/3",
           children: [/*#__PURE__*/jsx(Heading, {
@@ -10663,11 +10665,11 @@ var DashboardLoaderModal = function DashboardLoaderModal(_ref) {
     children: /*#__PURE__*/jsx(Panel, {
       padding: false,
       children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-full h-full overflow-hidden",
+        className: "flex flex-col w-full h-full overflow-clip",
         children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-row w-full h-full overflow-hidden",
+          className: "flex flex-row w-full h-full overflow-clip",
           children: /*#__PURE__*/jsx("div", {
-            className: "flex flex-row w-full h-full space-x-4 overflow-hidden p-4",
+            className: "flex flex-row w-full h-full space-x-4 overflow-clip p-4",
             children: /*#__PURE__*/jsx(PanelDashboardLoader, {
               onSelecDashboard: onSelecDashboard,
               onClose: onClose
@@ -11058,7 +11060,7 @@ var Dashboard = function Dashboard(_ref) {
             preview: previewMode,
             onNameChange: handleWorkspaceNameChange
           }), /*#__PURE__*/jsx("div", {
-            className: "flex flex-col w-full h-full ".concat(previewMode === true ? "overflow-y-auto" : "overflow-hidden"),
+            className: "flex flex-col w-full h-full ".concat(previewMode === true ? "overflow-y-auto" : "overflow-clip"),
             children: workspaceSelected !== null ? renderComponent(workspaceSelected) : null
           }), workspaceSelected !== null && /*#__PURE__*/jsx(DashboardFooter, {
             onClickEdit: function onClickEdit() {
@@ -11872,7 +11874,7 @@ var DashboardWrapper = function DashboardWrapper(_ref) {
       dashApi: dashApi,
       credentials: credentials,
       children: /*#__PURE__*/jsx("div", {
-        className: "flex flex-col w-screen h-screen overflow-hidden justify-between p-0",
+        className: "flex flex-col w-screen h-screen overflow-clip justify-between p-0",
         children: /*#__PURE__*/jsx(MainSection, {
           backgroundColor: backgroundColor,
           children: /*#__PURE__*/jsx(DashboardContext.Provider, {
@@ -22099,7 +22101,7 @@ var CustomHitRL = function CustomHitRL(_ref) {
       className: "rounded h-fit shadow rounded-lg min-h-64 min-h-64",
       padding: false,
       children: /*#__PURE__*/jsxs("div", {
-        className: "flex flex-col h-full rounded-lg overflow-hidden border border-gray-600 shadow",
+        className: "flex flex-col h-full rounded-lg overflow-clip border border-gray-600 shadow",
         children: [/*#__PURE__*/jsx("div", {
           className: "flex bg-gray-400 border-b border-indigo-300 rounded-t h-fit min-h-64 justify-center items-center p-6 bg-white",
           children: /*#__PURE__*/jsx("img", {
@@ -22182,7 +22184,7 @@ var CustomHitJCrew = function CustomHitJCrew(_ref) {
       children: [/*#__PURE__*/jsx(Panel2.Header, {
         padding: false,
         children: /*#__PURE__*/jsx("div", {
-          className: "flex flex-col bg-gray-400 rounded h-full justify-center items-center p-0 bg-white overflow-hidden",
+          className: "flex flex-col bg-gray-400 rounded h-full justify-center items-center p-0 bg-white overflow-clip",
           children: /*#__PURE__*/jsx("img", {
             src: hit.image_link,
             className: "p-0 object-contain"
@@ -23961,14 +23963,14 @@ var MockWrapper = function MockWrapper(_ref) {
     });
   }
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col h-screen w-full m-0 overflow-hidden bg-blue-500 p-4",
+    className: "flex flex-col h-screen w-full m-0 overflow-clip bg-blue-500 p-4",
     children: /*#__PURE__*/jsx(AppContext.Provider, {
       value: getAppContext(),
       children: /*#__PURE__*/jsx(ThemeWrapper, {
         credentials: getAppContext().creds,
         dashApi: new MockDashboardApi(api),
         children: /*#__PURE__*/jsxs("div", {
-          className: "flex flex-col space-y-2 w-full h-full p-0 border rounded-lg overflow-hidden rounded border-1 border-gray-300 bg-gray-200 ".concat(backgroundColor),
+          className: "flex flex-col space-y-2 w-full h-full p-0 border rounded-lg overflow-clip rounded border-1 border-gray-300 bg-gray-200 ".concat(backgroundColor),
           children: [/*#__PURE__*/jsx("span", {
             className: "uppercase text-gray-800 font-bold text-sm",
             children: "Workspace - WIDGET - Item is a child of the Widget component`"
@@ -24019,7 +24021,7 @@ var MockLayout = function MockLayout(_ref2) {
     });
   }
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col h-screen w-full m-auto overflow-hidden",
+    className: "flex flex-col h-screen w-full m-auto overflow-clip",
     children: /*#__PURE__*/jsx(AppContext.Provider, {
       value: getAppContext(),
       children: /*#__PURE__*/jsx(ThemeContext.Provider, {
@@ -24063,7 +24065,7 @@ var MockWorkspace = function MockWorkspace(_ref3) {
     });
   }
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col h-screen w-full m-auto overflow-hidden",
+    className: "flex flex-col h-screen w-full m-auto overflow-clip",
     children: /*#__PURE__*/jsx(AppContext.Provider, {
       value: getAppContext(),
       children: /*#__PURE__*/jsx(ThemeContext.Provider, {
@@ -24102,7 +24104,7 @@ var MockAlgolia = function MockAlgolia(_ref4) {
   }
   var searchClient = algoliasearch(process.env.REACT_APP_ALGOLIA_APP_ID, process.env.REACT_APP_ALGOLIA_API_KEY);
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-col h-screen w-full m-auto overflow-hidden",
+    className: "flex flex-col h-screen w-full m-auto overflow-clip",
     children: /*#__PURE__*/jsx(AppContext.Provider, {
       value: getAppContext(),
       children: /*#__PURE__*/jsx(ThemeContext.Provider, {

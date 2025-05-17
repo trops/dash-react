@@ -610,7 +610,10 @@ const getStylesForItem = (
             const finalStyles = {};
             Object.keys(styles).forEach((k) => {
                 if (k in finalStyles === false) {
-                    finalStyles[k] = styles[k].replaceAll("overflow-hidden", "overflow-clip");
+                    finalStyles[k] = styles[k].replaceAll(
+                        "overflow-hidden",
+                        "overflow-clip"
+                    );
                 }
             });
 
@@ -652,10 +655,15 @@ const getStylesForItem = (
                                 (v) =>
                                     removeValues.includes(v) === false &&
                                     v !== " "
-                            ).map(v => v.replaceAll("overflow-hidden", "overflow-clip"))
+                            )
+                            .map((v) =>
+                                v.replaceAll("overflow-hidden", "overflow-clip")
+                            )
                     ),
                 ]
-                    .map((v) => v.trim().replaceAll("overflow-hidden", "overflow-clip"))
+                    .map((v) =>
+                        v.trim().replaceAll("overflow-hidden", "overflow-clip")
+                    )
                     .join(" "),
                 ...finalStyles,
             };
@@ -682,7 +690,10 @@ const getStyleValueVariant = (className, obj) => {
                 const val = obj[className].replaceAll("hover:", "");
                 return "hover:" + val;
             default:
-                return obj[className].replaceAll("overflow-hidden", "overflow-clip");
+                return obj[className].replaceAll(
+                    "overflow-hidden",
+                    "overflow-clip"
+                );
         }
     } catch (e) {
         return "";

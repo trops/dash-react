@@ -18,7 +18,6 @@ export const LayoutContainer = ({
     prefix = "layout-container",
     ...props
 }) => {
-
     const containerId = "uuid" in props ? props["uuid"] : getUUID(id, prefix);
 
     // get the styles
