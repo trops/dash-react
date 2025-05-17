@@ -171,6 +171,9 @@ const newSafeList = colorSafeList.concat([
     {
         pattern: /from-(.+)-(.+)/,
     },
+    {
+        pattern: /overflow-clip-(.+)/,
+    },
 ]);
 
 module.exports = {

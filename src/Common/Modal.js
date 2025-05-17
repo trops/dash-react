@@ -15,7 +15,7 @@ const Modal = ({
         <Dialog
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            className="relative z-40 overflow-hidden rounded"
+            className="relative z-40 overflow-clip rounded"
         >
             {/* The backdrop, rendered as a fixed sibling to the panel container */}
             <div
@@ -24,10 +24,10 @@ const Modal = ({
                 onClick={() => setIsOpen(false)}
             />
             {/* Full-screen container to center the panel */}
-            <div className="fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-hidden">
+            <div className="fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-clip">
                 {/* The actual dialog panel  */}
                 <div
-                    className={`mx-auto ${width} ${height} flex flex-col shadow overflow-hidden rounded`}
+                    className={`mx-auto ${width} ${height} flex flex-col shadow overflow-clip rounded`}
                 >
                     {children}
                 </div>

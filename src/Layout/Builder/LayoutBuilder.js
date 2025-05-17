@@ -392,10 +392,10 @@ export const LayoutBuilder = ({
 
     return (
         <div
-            className={`flex flex-col w-full h-full overflow-hidden`}
+            className={`flex flex-col w-full h-full overflow-clip`}
             key={"layout-builder"}
         >
-            <div className="flex flex-row w-full h-full overflow-hidden">
+            <div className="flex flex-row w-full h-full overflow-clip">
                 <LayoutContainer
                     key={"search-layout-builder"}
                     id="search-layout-builder"

@@ -14,7 +14,7 @@ export const Container = ({
     const directionStyle =
         direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
     const scrollStyle =
-        scrollable === true ? "scrollbar overflow-y-scroll" : "overflow-hidden";
+        scrollable === true ? "scrollbar overflow-y-scroll" : "overflow-clip";
     const widthStyle = width;
     const heightStyle = scrollable === true ? height : height;
 

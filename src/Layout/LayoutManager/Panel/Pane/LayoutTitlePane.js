@@ -4,7 +4,7 @@ import { Heading, ButtonIcon } from "@dash/Common";
 export const LayoutTitlePane = ({ onClick }) => {
     return (
         <div className="flex flex-col rounded font-medium justify-between">
-            <div className="flex flex-col rounded font-medium justify-between overflow-hidden">
+            <div className="flex flex-col rounded font-medium justify-between overflow-clip">
                 <div className="flex flex-col rounded p-6 py-10 space-y-4 w-full">
                     <div className="flex flex-row w-full">
                         <Heading

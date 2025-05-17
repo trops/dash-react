@@ -36,7 +36,7 @@ export default function AlgoliaUILayout({
                         <AlgoliaMenuAlt attribute="brand" /> */}
                     {/* <AlgoliaMenuSelect attribute="brand" /> */}
                     {/* </div> */}
-                    <div className="flex flex-col w-full rounded bg-gray-900 h-full overflow-hidden space-x-4">
+                    <div className="flex flex-col w-full rounded bg-gray-900 h-full overflow-clip space-x-4">
                         <DndProvider backend={HTML5Backend}>
                             {children}
                         </DndProvider>
@@ -49,7 +49,7 @@ export default function AlgoliaUILayout({
                     {/* <RefinementList attribute="brand" /> */}
                     {/* <AlgoliaMenuSelect attribute="brand" /> */}
                     {/* </div> */}
-                    <div className="flex flex-col w-3/4 rounded bg-gray-900 overflow-hidden">
+                    <div className="flex flex-col w-3/4 rounded bg-gray-900 overflow-clip">
                         <DndProvider backend={HTML5Backend}>
                             {children}
                         </DndProvider>

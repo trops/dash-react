@@ -315,7 +315,7 @@ export const LayoutGridContainer = ({
                     width={"w-full"}
                     height={"h-fit"}
                     scrollable={false}
-                    className={`rounded overflow-x-hidden ${
+                    className={`rounded overflow-x-clip ${
                         preview === false && "border-2 rounded"
                     } ${preview === false && getContainerBorderColor(item)} ${
                         preview === false && getBorderStyle()

@@ -92,7 +92,7 @@ class MainLayout extends React.Component {
         } = this.props;
 
         return (
-            <div className="flex flex-row w-full h-full overflow-hidden p-0 2xl:space-x-4">
+            <div className="flex flex-row w-full h-full overflow-clip p-0 2xl:space-x-4">
                 {showMenu === true && (
                     <div className="flex flex-col flex-shrink 2xl:w-1/3 p-2 2xl:p-4 max-w-sm">
                         <SideMenu

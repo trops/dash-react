@@ -148,7 +148,7 @@ const HitsTemplateComponent = ({
                             hitIndex={index}
                             promoted={promoted}
                         >
-                            <div className="flex flex-col flex-1 w-full space-y-2 rounded overflow-hidden p-2">
+                            <div className="flex flex-col flex-1 w-full space-y-2 rounded overflow-clip p-2">
                                 <div className="flex flex-col w-full min-h-lg h-full">
                                     <div className="relative h-full flex flex-col flex-1">
                                         <ReactMustache
@@ -157,7 +157,7 @@ const HitsTemplateComponent = ({
                                             template={parsedTemplate}
                                             data={translatedHit}
                                         />
-                                        <div className="absolute inset-0 flex justify-start items-start z-10 w-full  rounded p-2 m-2 opacity-75 space-x-2 overflow-hidden">
+                                        <div className="absolute inset-0 flex justify-start items-start z-10 w-full  rounded p-2 m-2 opacity-75 space-x-2 overflow-clip">
                                             {promoted && <Tag text="Pinned" />}
                                             {promotedFromReRanking && (
                                                 <Tag
@@ -286,7 +286,7 @@ const HitsTemplateComponent = ({
                             </div>
                         </AlgoliaDropComponent>
                     ) : (
-                        <div className="flex flex-col flex-1 w-full space-y-2 rounded overflow-hidden p-2">
+                        <div className="flex flex-col flex-1 w-full space-y-2 rounded overflow-clip p-2">
                             <div className="flex flex-col w-full min-h-lg h-full">
                                 <div className="relative h-full flex flex-col flex-1">
                                     <ReactMustache
@@ -295,7 +295,7 @@ const HitsTemplateComponent = ({
                                         template={parsedTemplate}
                                         data={translatedHit}
                                     />
-                                    <div className="absolute inset-0 flex justify-start items-start z-10 w-full  rounded p-2 m-2 opacity-75 space-x-2 overflow-hidden">
+                                    <div className="absolute inset-0 flex justify-start items-start z-10 w-full  rounded p-2 m-2 opacity-75 space-x-2 overflow-clip">
                                         {promoted && <Tag text="Pinned" />}
                                         {promotedFromReRanking && (
                                             <Tag

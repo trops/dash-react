@@ -217,7 +217,6 @@ const DashPanel2 = ({
     });
     return (
         <Panel2
-            // className={`justify-between overflow-hidden`}
             {...styles}
             padding={false}
         >
@@ -317,7 +316,6 @@ const DashPanel3 = ({
     });
     return (
         <Panel3
-            // className={`justify-between overflow-hidden`}
             {...styles}
             padding={false}
         >

@@ -38,9 +38,9 @@ export default function LayoutBuilderConfigPanel({
 
     return (
         currentWorkspace && (
-            <div className="flex flex-col overflow-hidden h-full w-full">
-                <div className="flex flex-col justify-between h-full overflow-hidden w-full">
-                    <div className="flex flex-col h-full overflow-hidden w-full rounded space-y-4">
+            <div className="flex flex-col overflow-clip h-full w-full">
+                <div className="flex flex-col justify-between h-full overflow-clip w-full">
+                    <div className="flex flex-col h-full overflow-clip w-full rounded space-y-4">
                         <div className="rounded flex flex-col">
                             <InputText
                                 name={"name"}

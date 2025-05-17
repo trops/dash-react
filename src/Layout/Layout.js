@@ -33,7 +33,7 @@ export const Layout = ({ children, preview, scrollable = false }) => {
             className={`flex flex-col w-full space-y-4 ${
                 scrollable === true
                     ? "overflow-y-auto h-full"
-                    : "overflow-hidden h-full"
+                    : "overflow-clip h-full"
             } ${debugClasses()} p-4`}
         >
             {debugMode && (
@@ -46,7 +46,7 @@ export const Layout = ({ children, preview, scrollable = false }) => {
             )}
             <div
                 className={`flex flex-col w-full space-y-4 p-0 h-full ${
-                    scrollable === false ? "overflow-hidden" : ""
+                    scrollable === false ? "overflow-clip" : ""
                 }`}
             >
                 {children}

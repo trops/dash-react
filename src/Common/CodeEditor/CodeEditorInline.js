@@ -26,7 +26,7 @@ export function CodeEditorInline({
     return (
         <div
             key={`code-editor-${uniqueKey}`}
-            className={`flex flex-1 flex-col w-full h-full space-y-4 rounded ${styles.string} overflow-hidden`}
+            className={`flex flex-1 flex-col w-full h-full space-y-4 rounded ${styles.string} overflow-clip`}
         >
             <div
                 className={`flex flex-col rounded w-full h-full ${styles.string}`}

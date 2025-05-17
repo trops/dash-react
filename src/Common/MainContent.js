@@ -4,7 +4,7 @@ class MainContent extends React.Component {
     render() {
         const { title, horizontal, padding } = this.props;
         return (
-            <div className="flex flex-1 flex-col bg-gray-700 h-full w-full overflow-hidden">
+            <div className="flex flex-1 flex-col bg-gray-700 h-full w-full overflow-clip">
                 <div
                     className={`flex ${
                         horizontal === true

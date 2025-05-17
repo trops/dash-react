@@ -15,10 +15,10 @@ export default function SlidePanelOverlay({
         <Transition.Root show={open} as={Fragment}>
             <Dialog
                 as="div"
-                className="fixed inset-0 overflow-hidden"
+                className="fixed inset-0 overflow-clip"
                 onClose={setOpen}
             >
-                <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute inset-0 overflow-clip">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-in-out duration-500"
@@ -41,8 +41,8 @@ export default function SlidePanelOverlay({
                             leaveFrom="translate-x-0"
                             leaveTo="translate-x-full"
                         >
-                            <div className="pointer-events-auto w-screen max-w-2xl xl:max-w-3xl overflow-hidden">
-                                <div className="flex h-full flex-col shadow-xl bg-gray-900 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-hidden">
+                            <div className="pointer-events-auto w-screen max-w-2xl xl:max-w-3xl overflow-clip">
+                                <div className="flex h-full flex-col shadow-xl bg-gray-900 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-clip">
                                     {title !== null && (
                                         <div className="px-4 sm:px-6 py-6">
                                             <div className="flex items-start justify-between px-2">
@@ -68,7 +68,7 @@ export default function SlidePanelOverlay({
                                         </div>
                                     )}
 
-                                    <div className="relative mt-6 flex-1 px-4 sm:px-6 overflow-hidden h-full">
+                                    <div className="relative mt-6 flex-1 px-4 sm:px-6 overflow-clip h-full">
                                         {children}
                                     </div>
                                 </div>
