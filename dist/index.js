@@ -995,12 +995,12 @@ var Layout = function Layout(_ref) {
     type: workspaceDataFromContext["type"],
     controls: false
   }) : /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col w-full space-y-4 ".concat(scrollable === true ? "overflow-y-auto h-full" : "overflow-hidden h-full", " ").concat(debugClasses(), " p-4"),
+    className: "flex flex-col w-full space-y-4 ".concat(scrollable === true ? "overflow-y-auto h-full" : "overflow-clip h-full", " ").concat(debugClasses(), " p-4"),
     children: [debugMode && /*#__PURE__*/jsxs("span", {
       className: "text-white uppercase text-xs",
       children: ["LAYOUT has children and", " ", scrollable === true ? "is scrollable" : "is not scrollable"]
     }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-col w-full space-y-4 p-0 h-full ".concat(scrollable === false ? "overflow-hidden" : ""),
+      className: "flex flex-col w-full space-y-4 p-0 h-full ".concat(scrollable === false ? "overflow-clip" : ""),
       children: children
     })]
   });
@@ -3421,7 +3421,7 @@ var LayoutTitlePane = function LayoutTitlePane(_ref) {
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-col rounded font-medium justify-between",
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col rounded font-medium justify-between overflow-hidden",
+      className: "flex flex-col rounded font-medium justify-between overflow-clip",
       children: /*#__PURE__*/jsxs("div", {
         className: "flex flex-col rounded p-6 py-10 space-y-4 w-full",
         children: [/*#__PURE__*/jsxs("div", {
@@ -6109,9 +6109,9 @@ var LayoutBuilder = function LayoutBuilder(_ref) {
     setIsConfigModalOpen(true);
   }
   return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col w-full h-full overflow-hidden",
+    className: "flex flex-col w-full h-full overflow-clip",
     children: [/*#__PURE__*/jsx("div", {
-      className: "flex flex-row w-full h-full overflow-hidden",
+      className: "flex flex-row w-full h-full overflow-clip",
       children: /*#__PURE__*/jsxs(LayoutContainer, {
         id: "search-layout-builder",
         scrollable: !preview,
@@ -6940,7 +6940,7 @@ var LayoutGridContainer = function LayoutGridContainer(_ref) {
         width: "w-full",
         height: "h-fit",
         scrollable: false,
-        className: "rounded overflow-x-hidden ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24 ").concat(item["component"] === "Container" && "", " z-10"),
+        className: "rounded overflow-x-clip ".concat(preview === false && "border-2 rounded", " ").concat(preview === false && getContainerBorderColor(item), " ").concat(preview === false && getBorderStyle(), " min-h-24 ").concat(item["component"] === "Container" && "", " z-10"),
         space: preview,
         children: [preview === false && /*#__PURE__*/jsx(LayoutItemEditHeader, {
           layoutItem: item,
@@ -12023,7 +12023,7 @@ var Panel = function Panel(_ref4) {
   return /*#__PURE__*/jsx(LayoutContainer, {
     prefix: "panel",
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg overflow-hidden ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg overflow-clip ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -12152,7 +12152,7 @@ var Panel2 = function Panel2(_ref8) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md overflow-hidden ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md overflow-clip ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -12289,7 +12289,7 @@ var Panel3 = function Panel3(_ref10) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$u(_objectSpread$u({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded overflow-hidden ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded overflow-clip ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -12321,7 +12321,7 @@ var Modal = function Modal(_ref2) {
     onClose: function onClose() {
       return setIsOpen(false);
     },
-    className: "relative z-40 overflow-hidden rounded",
+    className: "relative z-40 overflow-clip rounded",
     children: [/*#__PURE__*/jsx("div", {
       className: "fixed inset-0 bg-black/90",
       "aria-hidden": "true",
@@ -12329,9 +12329,9 @@ var Modal = function Modal(_ref2) {
         return setIsOpen(false);
       }
     }), /*#__PURE__*/jsx("div", {
-      className: "fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-hidden",
+      className: "fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-clip",
       children: /*#__PURE__*/jsx("div", {
-        className: "mx-auto ".concat(width, " ").concat(height, " flex flex-col shadow overflow-hidden rounded"),
+        className: "mx-auto ".concat(width, " ").concat(height, " flex flex-col shadow overflow-clip rounded"),
         children: children
       })
     })]
@@ -13242,7 +13242,7 @@ function CodeEditorInline(_ref) {
   }));
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-hidden"),
+    className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-clip"),
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col rounded w-full h-full ".concat(styles.string),
       children: /*#__PURE__*/jsx("div", {
@@ -13345,7 +13345,7 @@ function CodeEditorVS(_ref) {
   }
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-hidden"),
+    className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-clip"),
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col rounded w-full h-full ".concat(styles.string),
       children: /*#__PURE__*/jsx("div", {
@@ -13522,7 +13522,7 @@ var Container = function Container(_ref) {
     onMouseOut = _ref$onMouseOut === void 0 ? null : _ref$onMouseOut;
   // determine the classes based on the props...
   var directionStyle = direction === "row" ? "flex-row space-x-2" : "flex-col space-y-2";
-  var scrollStyle = scrollable === true ? "scrollbar overflow-y-scroll" : "overflow-hidden";
+  var scrollStyle = scrollable === true ? "scrollbar overflow-y-scroll" : "overflow-clip";
   var widthStyle = width;
   var heightStyle = scrollable === true ? height : height;
 
@@ -13731,7 +13731,7 @@ var MainSection = function MainSection(_ref) {
     return backgroundColor !== null ? backgroundColor : currentTheme ? currentTheme["bg-primary-very-dark"] : "bg-black";
   }
   return currentTheme !== null && /*#__PURE__*/jsx("div", {
-    className: "flex flex-col ".concat(backgroundColorStyle(), " h-full overflow-hidden w-full p-0 m-0"),
+    className: "flex flex-col ".concat(backgroundColorStyle(), " h-full overflow-clip w-full p-0 m-0"),
     children: children
   });
 };
@@ -13814,7 +13814,7 @@ var MainContent = /*#__PURE__*/function (_React$Component) {
         horizontal = _this$props.horizontal,
         padding = _this$props.padding;
       return /*#__PURE__*/jsx("div", {
-        className: "flex flex-1 flex-col bg-gray-700 h-full w-full overflow-hidden",
+        className: "flex flex-1 flex-col bg-gray-700 h-full w-full overflow-clip",
         children: /*#__PURE__*/jsxs("div", {
           className: "flex ".concat(horizontal === true ? "flex-row space-x-4" : "flex-col space-y-4", " w-full h-full bg-gray-900 rounded-sm overflow-y-auto ").concat(padding === true ? "p-4" : "p-0"),
           children: [title && /*#__PURE__*/jsx("div", {
@@ -14123,9 +14123,7 @@ var DashPanel2 = function DashPanel2(_ref8) {
     width: width,
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(Panel2
-  // className={`justify-between overflow-hidden`}
-  , _objectSpread$l(_objectSpread$l({}, styles), {}, {
+  return /*#__PURE__*/jsx(Panel2, _objectSpread$l(_objectSpread$l({}, styles), {}, {
     padding: false,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col h-full",
@@ -14216,9 +14214,7 @@ var DashPanel3 = function DashPanel3(_ref10) {
     height: height,
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(Panel3
-  // className={`justify-between overflow-hidden`}
-  , _objectSpread$l(_objectSpread$l({}, styles), {}, {
+  return /*#__PURE__*/jsx(Panel3, _objectSpread$l(_objectSpread$l({}, styles), {}, {
     padding: false,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col h-full bg-inherit",
@@ -22435,7 +22431,7 @@ var SimpleSearch = function SimpleSearch(_ref) {
     debug: true,
     backgroundColor: "bg-red-500",
     children: /*#__PURE__*/jsx("div", {
-      className: "flex flex-col h-full overflow-y-auto",
+      className: "flex flex-col h-full overflow-y-scroll",
       children: renderHits()
     })
   });

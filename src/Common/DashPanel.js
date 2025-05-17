@@ -216,10 +216,7 @@ const DashPanel2 = ({
         scrollable,
     });
     return (
-        <Panel2
-            {...styles}
-            padding={false}
-        >
+        <Panel2 {...styles} padding={false}>
             <div className="flex flex-col h-full">{children}</div>
         </Panel2>
     );
@@ -315,10 +312,7 @@ const DashPanel3 = ({
         scrollable,
     });
     return (
-        <Panel3
-            {...styles}
-            padding={false}
-        >
+        <Panel3 {...styles} padding={false}>
             <div className="flex flex-col h-full bg-inherit">{children}</div>
         </Panel3>
     );
