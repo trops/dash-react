@@ -9,6 +9,7 @@ export default function DropComponent({
     children = null,
     onDropItem,
     width,
+    height,
 }) {
     const [hasDropped, setHasDropped] = useState(false);
     const [hasDroppedOnChild, setHasDroppedOnChild] = useState(false);
@@ -46,7 +47,7 @@ export default function DropComponent({
         <div
             ref={drop}
             id={id}
-            className={`drop-component relative cursor-pointer rounded min-w-lg ${width} ${
+            className={`flex flex-col drop-component relative cursor-pointer rounded min-w-lg ${width} ${height} ${
                 isOverCurrent
                     ? "opacity-50 border-2 border-yellow-500"
                     : "opacity-100 border-2 border-none"

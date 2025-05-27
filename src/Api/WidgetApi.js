@@ -12,7 +12,6 @@ export const WidgetApi = {
     params: null,
 
     init: function (params) {
-        console.log("init params", params.id);
         this.params = params;
     },
 

@@ -202,8 +202,6 @@ const PanelBody2 = ({
         height,
     });
 
-    console.log("panel 2 ' ", styles.string, props, currentTheme);
-
     return (
         <LayoutContainer
             {...props}
@@ -368,7 +366,6 @@ const PanelBody3 = ({
             </LayoutContainer>
         );
     } catch (e) {
-        console.log("panel 3 error : ", e.message);
         return null;
     }
 };
@@ -422,7 +419,6 @@ const Panel3 = ({
         grow,
     });
 
-    console.log("panel styles, ", styles.string, { ...props });
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}

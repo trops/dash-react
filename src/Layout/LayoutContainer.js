@@ -39,7 +39,7 @@ export const LayoutContainer = ({
         containerId
     );
 
-    console.log("layout container styles ", styles);
+    //console.log("layout container styles ", styles);
 
     function renderDebugger(children, styleString) {
         return (

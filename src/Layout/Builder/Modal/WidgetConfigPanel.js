@@ -110,7 +110,7 @@ export const WidgetConfigPanel = ({
                     const { instructions, displayName, required, type } =
                         configItem;
 
-                    console.log("widget config", configItem);
+                    // console.log("widget config", configItem);
 
                     // get the user prefs for the key
                     const userPrefs = itemSelected.userPrefs;

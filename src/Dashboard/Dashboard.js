@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Profiler } from "react";
 import { LayoutContainer } from "@dash/Layout";
 import { LayoutBuilder } from "@dash/Layout";
 import {
@@ -22,6 +22,7 @@ import { WorkspaceModel, MenuItemModel } from "../Models";
 // import Notification from "../../Dashboard/common/Notification";
 import { ApplicationSettingsModal } from "./Modal/ApplicationSettingsModal";
 import { DashboardLoaderModal } from "./Modal/DashboardLoaderModal";
+import { LayoutBuilderWidgetConfigPanel } from "@dash/Layout/Builder/LayoutBuilderWidgetConfigPanel";
 
 export const Dashboard = ({
     dashApi, // use this API for the Dashboard (JS|Electron)
@@ -46,7 +47,17 @@ export const Dashboard = ({
         name: "home",
         id: 1,
     });
+
+    /**
+     * @param {Boolean} previewMode this is a toggle telling the dash we are editing
+     */
     const [previewMode, setPreviewMode] = useState(preview);
+
+    /**
+     * @param {String["layout", "workspace", "widget"]} editMode this is the actual mode we are in
+     */
+    const [editMode, setEditMode] = useState("all"); // for the time being use "all" as our "old" way
+
 
     // Workspace Management (loading)
     const [isLoadingWorkspaces, setIsLoadingWorkspaces] = useState(false);
@@ -189,6 +200,7 @@ export const Dashboard = ({
                     onWorkspaceChange={handleWorkspaceChange} // for when we save a workspace change! fetch new ones!
                     onTogglePreview={() => setPreviewMode(!previewMode)}
                     key={`LayoutBuilder-${workspaceItem["id"]}`}
+                    editMode={editMode}
                 />
             ) : null;
         } catch (e) {
@@ -379,6 +391,7 @@ export const Dashboard = ({
     }
 
     return (
+        <Profiler id="myapp">
         <DashboardWrapper
             dashApi={dashApi}
             credentials={credentials}
@@ -430,6 +443,7 @@ export const Dashboard = ({
                                         }
                                         workspace={workspaceSelected}
                                         preview={previewMode}
+                                        editMode={editMode}
                                         onSaveChanges={handleClickSaveWorkspace}
                                         onNewMenuItem={handleAddNewMenuItem}
                                         onOpenThemeManager={
@@ -441,6 +455,7 @@ export const Dashboard = ({
                                         onOpenSettings={() =>
                                             setIsSettingsModalOpen(true)
                                         }
+                                        onChangeEditMode={(mode) => setEditMode(mode)}
                                     />
                                 )}
                             </LayoutContainer>
@@ -503,9 +518,11 @@ export const Dashboard = ({
                             onSelecDashboard={handleSelectLoadDashboard}
                             onClose={() => handleCloseDashboardLoader()}
                         />
+
                     </DndProvider>
                 </LayoutContainer>
             )}
         </DashboardWrapper>
+        </Profiler>
     );
 };

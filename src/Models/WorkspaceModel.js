@@ -1,10 +1,11 @@
-/**
- * WorkspaceModel
- *
- */
 import { deepCopy } from "@dash/Utils";
 import { LayoutModel } from "./LayoutModel";
 
+/**
+ * A Model for a Workspace (Dashboard)
+ * The Workspace in this instance is the entire Dashboard Layout inclusive of the workspaces and widgets
+ * When the user selects a Dashboard, this is the model that stores that information.
+ */
 export const WorkspaceModel = (workspaceItem) => {
     const obj =
         workspaceItem !== null && workspaceItem !== undefined

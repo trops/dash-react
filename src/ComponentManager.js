@@ -98,6 +98,24 @@ export const ComponentManager = {
             return null;
         }
     },
+    getWorkspaceByName: function (workspaceName) {
+        try {
+            const m = this.componentMap();
+            let workspaceComponent = null;
+            if (m) {
+                Object.keys(m).forEach(componentName => {
+                    const cmp = m[componentName];
+                    if (cmp.workspace === workspaceName && cmp["type"] === "workspace") {
+                        cmp["component"] = componentName;
+                        workspaceComponent = cmp;
+                    }
+                });
+                return workspaceComponent;
+            }
+        } catch (e) {
+            return null;
+        }
+    },
     config: function (component, data = {}) {
         if (component) {
             // console.log("config");

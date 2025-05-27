@@ -668,7 +668,7 @@ const getStylesForItem = (
                 ...finalStyles,
             };
 
-            console.log("STYLES OBJECT ", itemName, stylesObject);
+            // console.log("STYLES OBJECT ", itemName, stylesObject);
             return stylesObject;
         }
     } catch (e) {

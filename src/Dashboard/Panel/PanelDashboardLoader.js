@@ -11,12 +11,9 @@ import {
 
 import {
     InstantSearch,
-    Configure,
-    Index,
     Hits,
 } from "react-instantsearch-hooks-web";
 import { ThemeContext } from "@dash/Context";
-import { WorkspaceModel } from "../../Models";
 import { Paragraph } from "../../Common";
 
 const apiKey = process.env.REACT_APP_DASH_API_KEY;

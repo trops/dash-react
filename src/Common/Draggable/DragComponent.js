@@ -7,6 +7,7 @@ export default function DragComponent({
     type = "layout-widget",
     parent = 0,
     width = "w-full",
+    height,
     children,
     onDropItem,
     onDragItem,
@@ -28,6 +29,7 @@ export default function DragComponent({
         },
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
+            //console.log("drop result ", dropResult);
             if (item && dropResult) {
                 // on Drop, we would like to pass this data back to the AlgoliaUIFactory component in the page preview
                 // where we can then freeze the hits and not use the connectedHits, but rather the frozen hits, to reposition
@@ -46,7 +48,7 @@ export default function DragComponent({
     return collected.isDragging ? (
         <div
             ref={dragPreview}
-            className=" h-full flex flex-col min-h-fit w-full"
+            className="h-full flex flex-col min-h-fit w-full"
         >
             {children}
         </div>
@@ -55,7 +57,7 @@ export default function DragComponent({
             ref={drag}
             id={collected.id}
             type={collected.type}
-            className={`scale-100 flex flex-col ${width} min-w-xl rounded min-h-fit z-10`}
+            className={`scale-100 flex flex-col ${width} min-w-xl rounded min-h-fit ${height} z-10`}
             style={{ animationDelay: "-.75s", animationDuration: ".25s" }}
         >
             {children}

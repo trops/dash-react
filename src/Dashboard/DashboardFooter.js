@@ -7,6 +7,7 @@ import { LayoutContainer } from "..";
 export const DashboardFooter = ({
     workspace,
     preview,
+    editMode,
     backgroundColor = null,
     borderColor = null,
     textColor = null,
@@ -16,6 +17,7 @@ export const DashboardFooter = ({
     onOpenThemeManager = null,
     onOpenSettings = null,
     onHome = null,
+    onChangeEditMode = null
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const stylesFooter = getStylesForItem(
@@ -49,7 +51,6 @@ export const DashboardFooter = ({
         onHome && onHome();
     };
 
-    console.log("DS workspace ", workspace);
 
     return (
         <LayoutContainer
@@ -84,6 +85,24 @@ export const DashboardFooter = ({
                 )}
 
                 {preview === false && (
+                //     <><div className="flex flex-row space-x-1">
+                //         Edit Mode {editMode}
+                //     <ButtonIcon
+                //         text={"Layout"}
+                //         onClick={() => onChangeEditMode("layout")}
+                //         hoverBackgroundColor={"hover:bg-indigo-700"}
+                //     />
+                //     <ButtonIcon
+                //         text={"Functionality"}
+                //         onClick={() => onChangeEditMode("workspace")}
+                //         hoverBackgroundColor={"hover:bg-green-700"}
+                //     />
+                //     <ButtonIcon
+                //         text={"Widgets"}
+                //         onClick={() => onChangeEditMode("widget")}
+                //         hoverBackgroundColor={"hover:bg-green-700"}
+                //     />
+                // </div>
                     <div className="flex flex-row space-x-1">
                         <ButtonIcon
                             text={"Cancel"}

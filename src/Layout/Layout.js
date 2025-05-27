@@ -1,12 +1,10 @@
-/**
- * Layout
- *
- * Manage the Layout of Workspaces
- */
 import React, { useContext, useEffect } from "react";
 import { WorkspaceContext, AppContext } from "@dash/Context";
 import { LayoutBuilder } from "@dash/Layout";
 
+/**
+ * Manage the Layout of Workspaces
+ */
 export const Layout = ({ children, preview, scrollable = false }) => {
     const { debugMode, debugStyles } = useContext(AppContext);
     const workspaceDataFromContext = useContext(WorkspaceContext);
