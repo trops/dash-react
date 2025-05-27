@@ -28,6 +28,7 @@ import {
     isWorkspace,
     traverseParentTree,
 } from "../../Utils";
+import { LayoutBuilderWidgetConfigPanel } from "./LayoutBuilderWidgetConfigPanel";
 
 // import LayoutBuilderEditItemModal from "./Modal/LayoutBuilderEditItemModal";
 // import LayoutBuilderEventModal from "./Modal/LayoutBuilderEventModal";
@@ -58,6 +59,7 @@ export const LayoutBuilder = ({
     onTogglePreview,
     onWorkspaceChange = null,
     dashboardId,
+    editMode = "all"
 }) => {
     const { debugMode } = useContext(AppContext);
 
@@ -75,6 +77,8 @@ export const LayoutBuilder = ({
     const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
+
+        console.log("use effect in builder");
         // IMPORTANT DO NOT REMOVE!!!!
         // We have to check the diff in the layout and set
         // We also have to "reset" the layout upon a new layout...
@@ -119,6 +123,13 @@ export const LayoutBuilder = ({
     function onClickQuickAdd(item, toItem) {
         console.log("quick add ", item, toItem);
         handleClickConfirmAdd(item, toItem);
+    }
+
+    function handleSaveWorkspace(tempWorkspace) {
+        console.log("saving workspace", tempWorkspace);
+        setCurrentWorkspace(tempWorkspace);
+        setIsAddWidgetModalOpen(false);
+        forceUpdate();
     }
 
     function handleClickConfirmAdd(itemChosen, toItem) {
@@ -395,7 +406,7 @@ export const LayoutBuilder = ({
             className={`flex flex-col w-full h-full overflow-clip`}
             key={"layout-builder"}
         >
-            <div className="flex flex-row w-full h-full overflow-clip">
+            <div className="flex flex-row w-full h-full overflow-clip p-10">
                 <LayoutContainer
                     key={"search-layout-builder"}
                     id="search-layout-builder"
@@ -433,7 +444,7 @@ export const LayoutBuilder = ({
                             onClickEdit={onTogglePreview}
                         />
                     )}
-                    {preview === false && (
+                    {preview === false && editMode === "all" && (
                         <LayoutDragBuilderEdit
                             key={`layout-drag-edit-${dashboardId}`}
                             dashboardId={dashboardId}
@@ -444,6 +455,89 @@ export const LayoutBuilder = ({
                             parentKey={0}
                             debugMode={debugMode}
                             previewMode={preview}
+                            editMode={editMode}
+                            onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
+                            onClickRemove={onClickRemove}
+                            onClickShrink={onClickShrink}
+                            onClickExpand={onClickExpand}
+                            onChangeDirection={onChangeDirection}
+                            onChangeOrder={onChangeOrder}
+                            onDropItem={onDropItem}
+                            onDragItem={onDragItem}
+                            onOpenConfig={handleClickEditItem} //{handleClickConfigure}
+                            onOpenEvents={handleClickEvents}
+                            onSaveConfiguration={handleSaveConfiguration}
+                            onClickEdit={onTogglePreview}
+                        />
+                    )}
+
+                    {preview === false && editMode === "layout" && (
+                        <LayoutDragBuilderEdit
+                            key={`layout-drag-edit-${dashboardId}`}
+                            dashboardId={dashboardId}
+                            isDraggable={true}
+                            workspace={currentWorkspace}
+                            header={currentWorkspace["name"]}
+                            layout={currentWorkspace["layout"]}
+                            parentKey={0}
+                            debugMode={debugMode}
+                            previewMode={preview}
+                            editMode={editMode}
+                            onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
+                            onClickRemove={onClickRemove}
+                            onClickShrink={onClickShrink}
+                            onClickExpand={onClickExpand}
+                            onChangeDirection={onChangeDirection}
+                            onChangeOrder={onChangeOrder}
+                            onDropItem={onDropItem}
+                            onDragItem={onDragItem}
+                            onOpenConfig={handleClickEditItem} //{handleClickConfigure}
+                            onOpenEvents={handleClickEvents}
+                            onSaveConfiguration={handleSaveConfiguration}
+                            onClickEdit={onTogglePreview}
+                        />
+                    )}
+                     {preview === false && editMode === "workspace" && (
+                        <LayoutDragBuilderEdit
+                            key={`layout-drag-edit-${dashboardId}`}
+                            dashboardId={dashboardId}
+                            isDraggable={true}
+                            workspace={currentWorkspace}
+                            header={currentWorkspace["name"]}
+                            layout={currentWorkspace["layout"]}
+                            parentKey={0}
+                            debugMode={debugMode}
+                            previewMode={preview}
+                            editMode={editMode}
+                            onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
+                            onClickRemove={onClickRemove}
+                            onClickShrink={onClickShrink}
+                            onClickExpand={onClickExpand}
+                            onChangeDirection={onChangeDirection}
+                            onChangeOrder={onChangeOrder}
+                            onDropItem={onDropItem}
+                            onDragItem={onDragItem}
+                            onOpenConfig={handleClickEditItem} //{handleClickConfigure}
+                            onOpenEvents={handleClickEvents}
+                            onSaveConfiguration={handleSaveConfiguration}
+                            onClickEdit={onTogglePreview}
+                        />
+                    )}
+                     {preview === false && editMode === "widget" && (
+                        <LayoutDragBuilderEdit
+                            key={`layout-drag-edit-${dashboardId}`}
+                            dashboardId={dashboardId}
+                            isDraggable={true}
+                            workspace={currentWorkspace}
+                            header={currentWorkspace["name"]}
+                            layout={currentWorkspace["layout"]}
+                            parentKey={0}
+                            debugMode={debugMode}
+                            previewMode={preview}
+                            editMode={editMode}
                             onClickAdd={onClickAdd}
                             onClickQuickAdd={onClickQuickAdd}
                             onClickRemove={onClickRemove}
@@ -479,28 +573,33 @@ export const LayoutBuilder = ({
                     workspace={currentWorkspace}
                 />
             )}
+            {/*
+                This is the modal window that will allow a user to ADD a widget
+                It has the "Build" title and contains all of the widgets/workspaces that can be added 
+                to the project
+            */}
             {itemSelected !== null && (
                 <LayoutBuilderAddItemModal
                     open={isAddWidgetModalOpen}
                     setIsOpen={setIsAddWidgetModalOpen}
                     item={isAddWidgetModalOpen === true ? itemSelected : null}
-                    onSaveItem={handleClickConfirmAdd}
+                    onSaveItem={handleSaveWorkspace}
                     workspace={
                         isAddWidgetModalOpen === true ? currentWorkspace : null
                     }
                 />
             )}
-            {itemSelected !== null && (
+            {/* {itemSelected !== null && (
                 <LayoutBuilderEventModal
-                    open={isEventModalOpen}
+                    open={isConfigModalOpen}
                     setIsOpen={setIsEventModalOpen}
-                    item={isEventModalOpen === true ? itemSelected : null}
+                    item={isConfigModalOpen === true ? itemSelected : null}
                     onSave={handleSaveNewWorkspace}
                     workspace={
                         isEventModalOpen === true ? currentWorkspace : null
                     }
                 />
-            )}
+            )} */}
             {itemSelected !== null && (
                 <LayoutBuilderConfigModal
                     open={isConfigModalOpen}
@@ -513,6 +612,19 @@ export const LayoutBuilder = ({
                     }
                 />
             )}
+
+            {/* {itemSelected !== null && (
+                <LayoutBuilderWidgetConfigPanel
+                    open={true}
+                    setOpen={setIsConfigModalOpen}
+                    // item={isConfigModalOpen === true ? itemSelected : null}
+                    layoutItem={itemSelected}
+                    workspace={
+                        isConfigModalOpen === true ? currentWorkspace : null
+                    }
+                    onClose={() => console.log("close me")}
+                />
+            )} */}
         </div>
     );
 };

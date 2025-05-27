@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
-import { SlidePanelOverlay, Button } from "@dash/Common";
+import { Button } from "@dash/Common";
+import SlidePanelOverlay from "@dash/Common/SlidePanelOverlay";
 import {
     FormLabel,
     InputText,
     SelectMenu,
-} from "../../../Dashboard/common/Form";
+} from "@dash/Common/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * 
+ * 
+ * @returns 
+ */
 function LayoutBuilderWidgetConfigPanel({
     layoutItem = null,
     open,
@@ -17,7 +23,7 @@ function LayoutBuilderWidgetConfigPanel({
     const [item, setItem] = useState(layoutItem);
 
     useEffect(() => {
-        if (layoutItem !== item && layoutItem !== undefined) {
+        if (layoutItem !== undefined && layoutItem !== item) {
             setItem(layoutItem);
         }
     });
@@ -73,7 +79,7 @@ function LayoutBuilderWidgetConfigPanel({
                 open={open}
                 setOpen={setOpen}
                 backgroundColor="bg-gray-800"
-                // onClose={onClose}
+                onClose={onClose}
             >
                 <div className="flex flex-col w-full h-full justify-center items-center bg-gray-900 p-4 space-y-4 grow flex-grow">
                     <div className="flex flex-col rounded w-full h-full space-y-4 bg-gray-800 p-4 justify-between grow">

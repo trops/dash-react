@@ -3,6 +3,11 @@ import { Button, Panel, Modal } from "@dash/Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { replaceItemInLayout, deepCopy } from "@dash/Utils";
 
+/**
+ * DEPRECATED
+ * A modal window to set the event listeners for the widgets
+ * We no longer use this modal window, but keeping in the project in case something changes
+ */
 export const LayoutBuilderEventModal = ({
     workspace,
     open,

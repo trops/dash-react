@@ -1,6 +1,6 @@
 import React from "react";
 import { LayoutQuickAddMenu } from "./LayoutQuickAddMenu";
-import { ComponentManager } from "@dash";
+import { ComponentManager, Tag } from "@dash";
 import {
     getContainerBorderColor,
     getContainerColor,
@@ -72,7 +72,7 @@ export const LayoutItemEditHeader = ({
                     </div>
                 )} */}
                 <div className={`flex flex-row space-x-1 ${textColor}`}>
-                    {canHaveChildren === true && (
+                    {canHaveChildren === true && isContainer && (
                         <ButtonIcon3
                             icon="plus"
                             onClick={onClickAdd}
@@ -150,7 +150,7 @@ export const LayoutItemEditHeader = ({
                     item
                 )} text-gray-300 w-full justify-between items-center`}
             >
-                <span className="text-xs font-medium">{`${item["component"]}`}</span>
+                <span className="text-xs font-medium">{`${item["component"]} ID: ${item.id} order: ${item.order} parent: ${item.parent}`}</span>
                 <div id="quick-add-menu" className="flex flex-row">
                     {renderEditFooter(layoutItem)}
                 </div>
@@ -161,7 +161,7 @@ export const LayoutItemEditHeader = ({
                     item
                 )} text-gray-300 font-medium w-full justify-between items-center z-10`}
             >
-                <span className="text-xs font-medium text-gray-500">{`${item["component"]}`}</span>
+                <span className="text-xs font-medium text-gray-500">{`${item["component"]} [${item.id}]`}</span>
                 <div
                     id="quick-add-menu"
                     className="flex flex-row justify-end py-1 px-1"

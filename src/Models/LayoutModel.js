@@ -43,7 +43,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
             "canHaveChildren" in obj
                 ? obj.canHaveChildren !== undefined
                     ? obj.canHaveChildren
-                    : false
+                    : obj.type !== "widget"
                 : true;
         layout.width = "width" in obj ? obj.width : "w-full";
         layout.height = "height" in obj ? obj.height : "h-full";

@@ -8,8 +8,9 @@ export default function SlidePanelOverlay({
     setOpen,
     title = null,
     children,
+    onClose
 }) {
-    //   const [open, setOpen] = useState(true)
+    // const [open, setOpen] = useState(open)
 
     return (
         <Transition.Root show={open} as={Fragment}>

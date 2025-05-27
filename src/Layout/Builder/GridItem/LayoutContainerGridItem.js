@@ -18,15 +18,18 @@ import {
     isMinOrderForItem,
 } from "@dash/Utils";
 
-import { LayoutContainerGridItem } from "./GridItem/LayoutContainerGridItem";
-import { WorkspaceContainerGridItem } from "./GridItem/WorkspaceContainerGridItem";
-import { WidgetContainerGridItem } from "./GridItem/WidgetContainerGridItem";
-
 /**
- * Depending on the editMode we will show the different grid builder items to show the correct
- * functionality for editing appropriately.
+ * This is SPECIFICALLY to render the Container elements in the editor
+ * We would like to have these elements displayed when the MODE is set to 
+ * - LAYOUT
+ * - The modes that we can have are, 
+ * 
+ * - Layout - show only containers and the overall layout
+ * - Workspaces - show the workspaces and allow function for each container
+ * - Widgets - show the actual widgets you wish to have in each worksdpace
+ * 
  */
-export const LayoutBuilderGridItem = ({
+export const LayoutContainerGridItem = ({
     item,
     workspace,
     id,
@@ -35,13 +38,8 @@ export const LayoutBuilderGridItem = ({
     scrollable,
     component = null,
     preview,
-    editMode,
     children,
     onClickRemove,
-    onClickAdd,
-    onClickQuickAdd,
-    onClickExpand,
-    onClickShrink,
     onChangeDirection,
     onChangeOrder,
     onOpenConfig,
@@ -49,13 +47,9 @@ export const LayoutBuilderGridItem = ({
     onDropItem,
     onDragItem,
     width,
-    height,
-    space,
-    grow,
     direction,
     isDraggable,
-    uuid,
-    layout,
+    mode = "preview",
 }) => {
     function handleClickRemove(e) {
         console.log("clicked remove ", e);
@@ -210,10 +204,9 @@ export const LayoutBuilderGridItem = ({
                 onDropItem={handleDropItem}
                 onDragItem={handleDragItem}
                 width={"w-full"}
-                height={"h-full"}
             >
                 <div
-                    className={`flex flex-col border-4 h-full w-full ${getContainerBorderColor(
+                    className={`flex flex-col border-4 ${getContainerBorderColor(
                         item["parentWorkspace"]
                     )} rounded text-xs font-bold text-gray-200 p-2 ${getContainerColor(
                         item["parentWorkspace"]
@@ -229,6 +222,13 @@ export const LayoutBuilderGridItem = ({
                         {preview === false && renderUserPreferences()}
                     </div>
                     <div className="flex flex-row space-x-1 justify-between text-xs w-full">
+                        {/* {item && "workspace" in item && (
+                            <Tag
+                                text={`${drag}`}
+                                textSize={"text-xs"}
+                                backgroundColor={"bg-transparent"}
+                            />
+                        )} */}
                         <div className="flex flex-row space-x-1">
                             {item.eventHandlers.length > 0 && (
                                 <ButtonIcon
@@ -328,7 +328,6 @@ export const LayoutBuilderGridItem = ({
                         preview === false && "text-blue-900 rounded m-2"
                     }`}
                 >
-                     ITEM not draggable {editMode} {item["component"]} {item["type"]} {item["workspace"]}
                     {preview === false && renderUserPreferences()}
                 </div>
                 <div className="flex flex-row space-x-1 w-full justify-between text-xs">
@@ -394,146 +393,10 @@ export const LayoutBuilderGridItem = ({
         );
     }
 
-    function renderEditModeView() {
-        console.log("rendering edit mode view");
-        if (editMode === "layout") return renderLayoutGridItem();
-        if (editMode === "workspace") return renderWorkspaceGridItem();
-        if (editMode === "widget") return renderWidgetGridItem();
-        if (editMode === "all") return renderEditView();
-    }
-
-    function renderLayoutGridItem() {
-        return (
-            <LayoutContainerGridItem 
-            key={`container-grid-item-${uuid}-${
-                preview === true ? "view" : "edit"
-            }`}
-            uuid={uuid}
-            item={item}
-            layout={layout}
-            id={id}
-            parent={parent}
-            row={order}
-            col={order}
-            order={order}
-            onClickAdd={onClickAdd}
-            onClickQuickAdd={onClickQuickAdd}
-            onClickRemove={onClickRemove}
-            onClickExpand={onClickExpand}
-            onClickShrink={onClickShrink}
-            onChangeDirection={onChangeDirection}
-            onChangeOrder={onChangeOrder}
-            onDropItem={onDropItem}
-            onDragItem={onDragItem}
-            name={id}
-            width={width}
-            height={height}
-            direction={direction}
-            scrollable={scrollable}
-            space={space}
-            grow={grow}
-            preview={preview}
-            editMode={editMode}
-            component={component}
-            onOpenConfig={onOpenConfig}
-            onOpenEvents={onOpenEvents}
-            isDraggable={isDraggable}
-            workspace={workspace}
-            >
-                {children}
-            </LayoutContainerGridItem>
-        );
-    }
-
-    function renderWorkspaceGridItem() {
-       return (
-        <WorkspaceContainerGridItem 
-        key={`container-grid-item-${uuid}-${
-            preview === true ? "view" : "edit"
-        }`}
-        uuid={uuid}
-        item={item}
-        layout={layout}
-        id={id}
-        parent={parent}
-        row={order}
-        col={order}
-        order={order}
-        onClickAdd={onClickAdd}
-        onClickQuickAdd={onClickQuickAdd}
-        onClickRemove={onClickRemove}
-        onClickExpand={onClickExpand}
-        onClickShrink={onClickShrink}
-        onChangeDirection={onChangeDirection}
-        onChangeOrder={onChangeOrder}
-        onDropItem={onDropItem}
-        onDragItem={onDragItem}
-        name={id}
-        width={width}
-        height={height}
-        direction={direction}
-        scrollable={scrollable}
-        space={space}
-        grow={grow}
-        preview={preview}
-        editMode={editMode}
-        component={component}
-        onOpenConfig={onOpenConfig}
-        onOpenEvents={onOpenEvents}
-        isDraggable={isDraggable}
-        workspace={workspace}
-        >
-            {children}
-        </WorkspaceContainerGridItem>
-       )
-    }
-
-    function renderWidgetGridItem() {
-        return (
-            <WidgetContainerGridItem 
-            key={`container-grid-item-${uuid}-${
-                preview === true ? "view" : "edit"
-            }`}
-            uuid={uuid}
-            item={item}
-            layout={layout}
-            id={id}
-            parent={parent}
-            row={order}
-            col={order}
-            order={order}
-            onClickAdd={onClickAdd}
-            onClickQuickAdd={onClickQuickAdd}
-            onClickRemove={onClickRemove}
-            onClickExpand={onClickExpand}
-            onClickShrink={onClickShrink}
-            onChangeDirection={onChangeDirection}
-            onChangeOrder={onChangeOrder}
-            onDropItem={onDropItem}
-            onDragItem={onDragItem}
-            name={id}
-            width={width}
-            height={height}
-            direction={direction}
-            scrollable={scrollable}
-            space={space}
-            grow={grow}
-            preview={preview}
-            editMode={editMode}
-            component={component}
-            onOpenConfig={onOpenConfig}
-            onOpenEvents={onOpenEvents}
-            isDraggable={isDraggable}
-            workspace={workspace}
-            >
-                {children}
-            </WidgetContainerGridItem>
-        )
-    }
-
+    //return item["workspace"] === "layout" && renderEditView();
     return children
         ? children
         : preview === false
-          ? renderEditModeView()
+          ? renderEditView()
           : renderComponentData();
 };

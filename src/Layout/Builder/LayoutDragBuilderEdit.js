@@ -8,6 +8,7 @@ export const LayoutDragBuilderEdit = ({
     parentKey,
     debugMode,
     previewMode,
+    editMode,
     onClickAdd,
     onClickQuickAdd,
     onDropItem,
@@ -44,6 +45,7 @@ export const LayoutDragBuilderEdit = ({
                 onDropItem,
                 onDragItem,
                 workspace,
+                editMode
             })}
         </DndProvider>
     ) : (
@@ -66,6 +68,7 @@ export const LayoutDragBuilderEdit = ({
             onDropItem,
             onDragItem,
             workspace,
+            editMode
         })
     );
 };

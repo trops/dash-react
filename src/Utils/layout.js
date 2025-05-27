@@ -38,6 +38,7 @@ export const renderLayout = ({
     isDraggable = true,
     debugMode = false,
     previewMode = false,
+    editMode,
     onClickAdd = null,
     onClickQuickAdd = undefined,
     onClickRemove = null,
@@ -52,6 +53,7 @@ export const renderLayout = ({
     dashboardId,
 }) => {
     try {
+        console.log("rendering layout");
         // Go through each item in the Workspace Layout to render the items.
         return (
             layout !== null &&
@@ -63,8 +65,6 @@ export const renderLayout = ({
                 .sort(compareChildren) // set the order of the elements
                 .map((child) => {
                     const childLayout = LayoutModel(child, layout, dashboardId);
-
-                    console.log("child layout model ", childLayout);
                     const {
                         id,
                         hasChildren,
@@ -100,6 +100,7 @@ export const renderLayout = ({
                             onClickQuickAdd={onClickQuickAdd}
                             order={order}
                             preview={previewMode}
+                            editMode={editMode}
                             onOpenConfig={onOpenConfig}
                             onOpenEvents={onOpenEvents}
                             onDropItem={onDropItem}
@@ -119,6 +120,7 @@ export const renderLayout = ({
                                     parentKey: id,
                                     debugMode,
                                     previewMode,
+                                    editMode,
                                     onClickAdd,
                                     onClickQuickAdd,
                                     onClickRemove,
@@ -165,6 +167,7 @@ export const renderLayout = ({
                             space={space}
                             grow={grow}
                             preview={previewMode}
+                            editMode={editMode}
                             component={component}
                             onOpenConfig={onOpenConfig}
                             onOpenEvents={onOpenEvents}
@@ -724,7 +727,7 @@ export function getNearestParentWorkspace(
 }
 
 export function getContainerBorderColor(item) {
-    let color = "border-gray-800";
+    let color = "border-gray-900";
     try {
         if (item) {
             // const config = ComponentManager.config(item['component'], item);
@@ -968,6 +971,60 @@ export function getLayoutItemForWorkspace(item, workspace, parentItem = null) {
         return { layout: null, newWorkspace: null };
     }
 }
+
+/**
+ * Get all of the children for a particular layout item
+ * @param {Object} workspace the Workspace Model - use the layout
+ * @param {Object} layoutItem the item (LayoutModel) we are checking
+ * @returns {Array} the child layout items that are a match
+ */
+export function getChildrenForLayoutItem(workspace, layoutItem) {
+    return workspace.layout.filter(workspaceItem => {
+        return layoutItem.id === workspaceItem.parent;
+    })
+}
+/**
+ * Determine if the layout item has a workspace by the given workspace name
+ * A child is denoted by having a parent id equal to the parent id of the item we 
+ * are inputting
+ * 
+ * if parent === layoutItem.id
+ */
+export function layoutItemHasWorkspaceAsChild(workspace, layoutItem, workspaceName) {
+    return getChildrenForLayoutItem(workspace, layoutItem).filter(workspaceItem => {
+        return workspaceItem.workspace === workspaceName && workspaceItem.type === "workspace"
+    })
+}
+
+
+/**
+ * Add a component as a child of another component
+ * @param {LayoutModel} childComponent the child component we want to add to the layout item
+ * @param {LayoutModel} layoutItem the LayoutModel item we want to add the child component TO
+ * @param {Object} workspace the entire workspace we are performing the layout changes
+ * @returns {Object} workspace
+ */
+export function addChildToLayoutItem(childComponent, layoutItem, workspace) {
+    
+    const nextId = getNextHighestId(workspace["layout"]);
+
+    // then get the next highest ORDER of the items
+    const nextOrderData = getNextHighestOrder(workspace["layout"]);
+    const nextOrder = nextOrderData["highest"];
+    childComponent['id'] = nextId;
+    childComponent["order"] = nextOrder;
+
+    // 1. Add the layoutItem as the parentWorkspace of the childComponent
+    childComponent["parentWorkspace"] = layoutItem;
+    childComponent["parent"] = layoutItem["id"];
+
+    // 2. Add the element back into the layout
+    workspace.layout.push(childComponent);
+
+    return workspace;
+}
+
+
 
 // export {
 //     renderLayout,
