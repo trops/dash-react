@@ -167,9 +167,8 @@ export class DashboardModel {
 
             parentComponent.hasChildren = 1;
 
-            console.log("adding to ", itemId);
-
-            this.updateLayoutItem(parentComponent);
+            // update the item in the layout
+            // this.updateLayoutItem(parentComponent);
 
             console.log("adding to parent component ", parentComponent);
             // now we can add the widget to the new workspace.
