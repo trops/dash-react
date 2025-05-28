@@ -53,7 +53,6 @@ export const renderLayout = ({
     dashboardId,
 }) => {
     try {
-        console.log("rendering layout");
         // Go through each item in the Workspace Layout to render the items.
         return (
             layout !== null &&
@@ -732,34 +731,33 @@ export function getContainerBorderColor(item) {
         if (item) {
             // const config = ComponentManager.config(item['component'], item);
             const canHaveChildren = item ? item["canHaveChildren"] : false;
-            if (item) {
-                if ("styles" in item) {
-                    color =
-                        "backgroundColor" in item["styles"]
-                            ? item["styles"]["borderColor"]
-                            : color;
-                } else {
-                    switch (item["type"]) {
-                        case "workspace":
-                            if (item["workspace"] === "layout") {
-                                color = "border-gray-700 border-dashed";
+            if ("styles" in item) {
+                color =
+                    "backgroundColor" in item["styles"]
+                        ? item["styles"]["borderColor"]
+                        : color;
+            } else {
+                switch (item["type"]) {
+                    case "workspace":
+                        if (item["workspace"] === "layout") {
+                            color = "border-gray-700 border-dashed";
+                        } else {
+                            if (canHaveChildren === true) {
+                                color = "border-indigo-800";
                             } else {
-                                if (canHaveChildren === true) {
-                                    color = "border-indigo-800";
-                                } else {
-                                    color = "border-indigo-900";
-                                }
+                                color = "border-indigo-900";
                             }
-                            break;
-                        case "widget":
-                            color = "border-green-800";
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    case "widget":
+                        color = "border-green-800";
+                        break;
+                    default:
+                        break;
                 }
             }
         }
+        
         return color;
     } catch (e) {
         console.log(e);

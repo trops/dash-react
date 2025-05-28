@@ -1965,8 +1965,8 @@ export const mockApi = {
                                 userPrefs: {},
                                 userConfig: {},
                                 styles: {
-                                    backgroundColor: "bg-blue-900",
-                                    borderColor: "border-blue-900",
+                                    backgroundColor: "bg-green-400",
+                                    borderColor: "border-green-700",
                                 },
                                 events: [],
                                 parentWorkspaceName:
@@ -1993,8 +1993,8 @@ export const mockApi = {
                                     userPrefs: {},
                                     userConfig: {},
                                     styles: {
-                                        backgroundColor: "bg-blue-900",
-                                        borderColor: "border-blue-900",
+                                        backgroundColor: "bg-blue-500",
+                                        borderColor: "border-blue-500",
                                     },
                                     events: [],
                                 },
@@ -2045,9 +2045,9 @@ export const mockApi = {
                                         required: false,
                                     },
                                 },
-                                styles: {
-                                    backgroundColor: "bg-blue-900",
-                                    borderColor: "border-blue-900",
+                               styles: {
+                                    backgroundColor: "bg-green-400",
+                                    borderColor: "border-green-700",
                                 },
                                 events: [],
                                 parentWorkspaceName: "layout",
@@ -4510,9 +4510,9 @@ export const mockApi = {
                                 uuid: "1686838647224-ListenWidgetWorkspace-19",
                                 userPrefs: {},
                                 userConfig: {},
-                                styles: {
-                                    backgroundColor: "bg-blue-900",
-                                    borderColor: "border-blue-900",
+                               styles: {
+                                    backgroundColor: "bg-green-400",
+                                    borderColor: "border-green-700",
                                 },
                                 events: [],
                                 parentWorkspaceName:
@@ -4540,10 +4540,10 @@ export const mockApi = {
                                     uuid: "1686838647224-ListenWidgetWorkspace-19",
                                     userPrefs: {},
                                     userConfig: {},
-                                    styles: {
-                                        backgroundColor: "bg-blue-900",
-                                        borderColor: "border-blue-900",
-                                    },
+                                   styles: {
+                                    backgroundColor: "bg-green-400",
+                                    borderColor: "border-green-700",
+                                },
                                     events: [],
                                 },
                             },
@@ -4569,9 +4569,9 @@ export const mockApi = {
                                 uuid: "1686838647224-ListenWidgetWorkspace-20",
                                 userPrefs: {},
                                 userConfig: {},
-                                styles: {
-                                    backgroundColor: "bg-blue-900",
-                                    borderColor: "border-blue-900",
+                               styles: {
+                                    backgroundColor: "bg-green-400",
+                                    borderColor: "border-green-700",
                                 },
                                 events: [],
                                 parentWorkspaceName:
@@ -4599,10 +4599,10 @@ export const mockApi = {
                                     uuid: "1686838647224-ListenWidgetWorkspace-20",
                                     userPrefs: {},
                                     userConfig: {},
-                                    styles: {
-                                        backgroundColor: "bg-blue-900",
-                                        borderColor: "border-blue-900",
-                                    },
+                                   styles: {
+                                    backgroundColor: "bg-green-400",
+                                    borderColor: "border-green-700",
+                                },
                                     events: [],
                                 },
                             },
@@ -5534,7 +5534,7 @@ export const mockApi = {
                     },
                     {
                         id: 1688658913275,
-                        name: "New Workspace",
+                        name: "New Workspace TEST COLOR",
                         type: {
                             id: 1688658908105,
                             name: "Connectors",
@@ -5638,7 +5638,7 @@ export const mockApi = {
                                 userPrefs: {},
                                 userConfig: {},
                                 styles: {
-                                    backgroundColor: "bg-blue-900",
+                                    backgroundColor: "bg-green-700",
                                     borderColor: "border-blue-900",
                                 },
                                 events: [],
@@ -5666,7 +5666,7 @@ export const mockApi = {
                                     userPrefs: {},
                                     userConfig: {},
                                     styles: {
-                                        backgroundColor: "bg-blue-900",
+                                        backgroundColor: "bg-green-500",
                                         borderColor: "border-blue-900",
                                     },
                                     events: [],
@@ -5715,7 +5715,7 @@ export const mockApi = {
                                     },
                                 },
                                 styles: {
-                                    backgroundColor: "bg-blue-900",
+                                    backgroundColor: "bg-yellow-900",
                                     borderColor: "border-blue-900",
                                 },
                                 events: [],
@@ -5765,8 +5765,8 @@ export const mockApi = {
                                     },
                                 },
                                 styles: {
-                                    backgroundColor: "bg-blue-900",
-                                    borderColor: "border-blue-900",
+                                    backgroundColor: "bg-green-900",
+                                    borderColor: "border-red-900",
                                 },
                                 events: [],
                                 parentWorkspaceName: "layout",

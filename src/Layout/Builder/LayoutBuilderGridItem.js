@@ -201,6 +201,10 @@ export const LayoutBuilderGridItem = ({
             item["parent"]
         );
 
+        const containerBorderColor = getContainerBorderColor(item["parentWorkspace"]);
+        const containerBackgroundColor = getContainerColor(item["parentWorkspace"]);
+
+
         return isDraggable === true ? (
             <DragComponent
                 obj={item}
@@ -213,12 +217,9 @@ export const LayoutBuilderGridItem = ({
                 height={"h-full"}
             >
                 <div
-                    className={`flex flex-col border-4 h-full w-full ${getContainerBorderColor(
-                        item["parentWorkspace"]
-                    )} rounded text-xs font-bold text-gray-200 p-2 ${getContainerColor(
-                        item["parentWorkspace"]
-                    )}`}
+                    className={`flex flex-col border-4 h-full w-full ${containerBorderColor} rounded text-xs font-bold text-gray-200 p-2 ${containerBackgroundColor}`}
                 >
+                    HERE {containerBorderColor} { containerBackgroundColor} {item["parentWorkspaceName"]}
                     <div
                         className={`flex flex-col ${scrollable} ${
                             preview === false && "text-blue-900 rounded"
@@ -531,6 +532,7 @@ export const LayoutBuilderGridItem = ({
         )
     }
 
+    console.log("in Layout Builder Grid Item", item, children, preview);
     return children
         ? children
         : preview === false

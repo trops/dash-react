@@ -1,10 +1,12 @@
-/**
- * LayoutModel
- *
- */
 import { ComponentManager } from "@dash";
 import { getNearestParentWorkspace, deepCopy } from "@dash/Utils";
-
+/**
+ * The model for all layout components used primarily in the renderLayout method
+ * @param {Object} layoutItem an object containing various attributes of the layout item
+ * @param {Object} workspaceLayout the layout property from the DashboardModel
+ * @param {Number} dashboardId the id of the dashboard we are making 
+ * @returns {Object} the layout object to be rendered 
+ */
 export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
     try {
         if (layoutItem === null || layoutItem === undefined) {
@@ -13,14 +15,26 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         const obj = deepCopy(layoutItem);
         const layout = {};
 
+        /**
+         * @param {Number} id the unique id of the layout item
+         */
         layout.id = "id" in obj ? obj["id"] : 1;
+
+        /**
+         * @param {Number} order the order in which this layout item will be rendered
+         */
         layout.order = "order" in obj ? obj.order : 1;
+
+        /**
+         * @param {Boolean} scrollable if the layout item can scroll
+         */
         layout.scrollable =
             "scrollable" in obj
                 ? obj["scrollable"] === "false" || obj["scrollable"] === false
                     ? false
                     : true
                 : false;
+
 
         layout.space =
             "space" in obj
@@ -37,28 +51,41 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                 : false;
 
         layout.component = "component" in obj ? obj.component : "Container";
+
+        // could be a component name as well...
+        if ("componentName" in obj) {
+            layout.component = obj["componentName"];
+        }
+
         layout.direction = "direction" in obj ? obj.direction : "col";
+
+        /**
+         * @param {Boolean} hasChildren if the container has children, but potentially deprecated for canHaveChildren
+         */
         layout.hasChildren = "hasChildren" in obj ? obj.hasChildren : 0;
+
+        /**
+         * @param {Boolean} canHaveChildren if the layout item can have children (if widget - cannot!)
+         */
         layout.canHaveChildren =
             "canHaveChildren" in obj
                 ? obj.canHaveChildren !== undefined
                     ? obj.canHaveChildren
                     : obj.type !== "widget"
                 : true;
+
+
         layout.width = "width" in obj ? obj.width : "w-full";
         layout.height = "height" in obj ? obj.height : "h-full";
         layout.parent = "parent" in obj ? obj.parent : 0;
 
         /**
-         * type
-         * The type of the component
-         * @example widget, workspace, layout
+         * @param {String} type The type of the component (widget|workspace|layout)
          */
         layout.type = "type" in obj ? obj.type : "layout";
 
         /**
-         * workspace
-         * The name of the Workspace the component belongs to (can exist in as a child)
+         * @param {String} workspace The name of the Workspace the component belongs to (can exist in as a child)
          */
         layout.workspace = "workspace" in obj ? obj.workspace : "layout";
 
@@ -67,8 +94,14 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         // Add the MAIN workspace that
         layout.dashboardId = dashboardId;
 
-        // Event listeners and corresponding handlers exposed by the developer in the configuration
+        /**
+         * @param {Object} listeners Event listeners and corresponding handlers exposed by the developer in the configuration
+         */
         layout.listeners = "listeners" in obj ? obj["listeners"] : {};
+
+        /**
+         * @param {Array} eventHandlers the available event handler (naming) for the layout item
+         */
         layout.eventHandlers =
             "eventHandlers" in obj ? obj["eventHandlers"] : [];
 
@@ -95,7 +128,7 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
         // }
 
         /// widget configuration
-        const widgetConfig = ComponentManager.config(obj["component"], obj);
+        const widgetConfig = ComponentManager.config(layout["component"], obj);
 
         if (widgetConfig !== null && widgetConfig !== undefined) {
             Object.keys(widgetConfig).forEach((key) => {

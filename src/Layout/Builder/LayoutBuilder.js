@@ -77,8 +77,6 @@ export const LayoutBuilder = ({
     const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
-
-        console.log("use effect in builder");
         // IMPORTANT DO NOT REMOVE!!!!
         // We have to check the diff in the layout and set
         // We also have to "reset" the layout upon a new layout...
@@ -406,7 +404,7 @@ export const LayoutBuilder = ({
             className={`flex flex-col w-full h-full overflow-clip`}
             key={"layout-builder"}
         >
-            <div className="flex flex-row w-full h-full overflow-clip p-10">
+            <div className="flex flex-row w-full h-full overflow-clip">
                 <LayoutContainer
                     key={"search-layout-builder"}
                     id="search-layout-builder"

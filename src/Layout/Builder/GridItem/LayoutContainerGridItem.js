@@ -171,6 +171,7 @@ export const LayoutContainerGridItem = ({
     // }
 
     function renderEditView() {
+        console.log("rendering edit view for item ", item, isDraggable);
         const drag = dragType(item);
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
 

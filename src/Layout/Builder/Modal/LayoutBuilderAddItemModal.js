@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Component } from "react";
 import {
     Button,
     Panel,
@@ -14,12 +14,22 @@ import {
     getNextHighestId,
     getNextHighestOrder,
     getBorderStyle,
+    layoutItemHasWorkspaceAsChild,
+    addItemToItemLayout,
+    addChildToLayoutItem
 } from "@dash/Utils";
 import { WidgetConfigPanel, LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
-import { LayoutModel } from "@dash/Models";
+import { LayoutModel, WorkspaceModel, DashboardModel } from "@dash/Models";
 import { ThemeContext } from "@dash/Context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
+/**
+ * @param {Object} workspace the current workspace for the overall dashboard being edited
+ * @param {Object} item the SOURCE ITEM that was clicked on that triggered the modal to add a widget TO
+ * @returns 
+ */
 export const LayoutBuilderAddItemModal = ({
     workspace,
     open,
@@ -33,6 +43,7 @@ export const LayoutBuilderAddItemModal = ({
     const [menuItemSelected, setMenuItemSelected] = useState(null);
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [parentWorkspace, setParentWorkspace] = useState(null);
+    const [previewWorkspace, setPreviewWorkspace] = useState(null)
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -54,9 +65,74 @@ export const LayoutBuilderAddItemModal = ({
     }, [item, open, workspace]);
 
     useEffect(() => {
-        console.log("menu item selected ", menuItemSelected);
+        console.log("menu item selected ", menuItemSelected, workspace);
     }, [menuItemSelected]);
 
+     /**
+     * Display ALL of the widgets in the application sorted by Workspace
+     * @returns 
+     */
+     function renderWidgetsByWorkspace() {
+
+        const componentMap = ComponentManager.map();
+        const workspaceType = item ? item["workspace"] : null;
+        const canAddChildren = item ? item["canHaveChildren"] : true;
+
+        const workspaces = Object.keys(componentMap)
+            .sort()
+            .filter((c) => componentMap[c]["type"] === "workspace" && componentMap[c]["parentWorkspaceName"] !== "layout" )
+            .map(key => componentMap[key]);
+
+        const parentWorkspaceType =
+            item["parentWorkspaceName"] !== null &&
+            item["parentWorkspaceName"] !== undefined
+                ? item["parentWorkspaceName"]
+                : "layout";
+
+        if (parentWorkspaceType !== null) {
+
+            const widgetOptions =
+                workspaceType !== null &&
+                canAddChildren &&
+                Object.keys(componentMap)
+                    .sort()
+                    .filter((i) =>
+                          searchTerm !== ""
+                              ? componentMap[i]["name"].toLowerCase().includes(searchTerm)
+                              : true
+                      )
+                    .filter((c) => componentMap[c]["type"] === "widget")
+                    .map(key => componentMap[key]);
+
+            // Object to store the widgets by workspace
+            return workspaces.map(ws => {
+                const widgetsInSection = renderWorkspaceSection(ws.workspace, widgetOptions, parentWorkspaceType, workspaceType);
+                return widgetsInSection.length > 0 ? (
+                    <div className="flex flex-col space-y-2 border-b border-gray-900 mb-4 pb-4">
+                        <span className="text-xs uppercase font-bold px-2 text-gray-400">
+                            {ws.name}
+                        </span>
+                        <div className="flex flex-col rounded space-y-2">
+                            {widgetsInSection}
+                        </div>
+                    </div>
+                ) : null;
+            });
+        } else {
+            return <div className="flex flex-col rounded"></div>;
+        }
+    }
+
+    function renderWorkspaceSection(workspace, widgets, parentWorkspaceType, workspaceType) {
+        const widgetsForWorkspace = widgets.filter(widget => widget.workspace === workspace);
+        return widgetsForWorkspace.map(w => {
+            return renderMenuItemWidget("widget", w);
+         });
+    }
+    /**
+     * render the widgets available in the application limited by the workspace
+     * @returns 
+     */
     function renderWidgets() {
         const componentMap = ComponentManager.map();
         const workspaceType = item ? item["workspace"] : null;
@@ -91,6 +167,10 @@ export const LayoutBuilderAddItemModal = ({
         }
     }
 
+    /**
+     * Render the available workspaces in the application
+     * @returns 
+     */
     function renderWorkspaces() {
         const componentMap = ComponentManager.map();
         const canAddChildren = item ? item.canHaveChildren : true;
@@ -127,10 +207,35 @@ export const LayoutBuilderAddItemModal = ({
         return <div className="flex flex-col rounded space-y-1">{options}</div>;
     }
 
+    /**
+     * Handle the selection of a widget or workspace and set the appropriate 
+     * layout for this element in the dashboard tree, and for preview
+     * @param {String} data.type widget|workspace|layout
+     * @param {String} data.component the name of the component
+     * @param {Object} item the SOURCE ITEM that was clicked on
+     */
     function handleClickItem(data) {
         try {
-            const layoutModel = LayoutModel(data, workspace, workspace["id"]);
 
+            // create the new dashboard.
+            let dashboard = new DashboardModel(workspace);
+
+            // grab the id of the source item
+            const toSourceItemId = item.id;
+
+            // get the component from the manager
+            const componentToAdd = ComponentManager.getComponent(data["component"]);
+            componentToAdd.hasChildren = componentToAdd.type !== "widget" ? 1 : 0;
+
+            const layoutModel = LayoutModel(componentToAdd, dashboard.workspace(), dashboard.id);
+            console.log("ITEM SELECTED CLICK ", componentToAdd, layoutModel);
+
+            // add the child to the layout item selected originally
+            dashboard.addChildToLayoutItem(layoutModel, toSourceItemId);
+
+            console.log("NEW WORKSPACE ", dashboard.workspace());
+
+            /*
             // we have to give the widget an ID
             const nextId = getNextHighestId(workspace["layout"]);
             const nextOrderData = getNextHighestOrder(workspace["layout"]);
@@ -147,6 +252,8 @@ export const LayoutBuilderAddItemModal = ({
                         : 0
                     : 0; // unsure if this is ok
 
+            // layoutModel.parent = workspaceConjured.id;
+
             layoutModel["parentWorkspace"] = item["parentWorkspace"];
             layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
             layoutModel["parent"] = item["id"];
@@ -154,30 +261,35 @@ export const LayoutBuilderAddItemModal = ({
             // to begin looking...
 
             // lets add the data to the original workspace...
-            const newWorkspace = JSON.parse(JSON.stringify(workspace));
+            
             newWorkspace["layout"] = [
                 layoutModel["parentWorkspace"],
                 layoutModel,
             ];
+            */
 
             setMenuItemSelected(() => layoutModel);
-            setWorkspaceSelected(() => newWorkspace);
+            setWorkspaceSelected(() => dashboard.workspace());
             forceUpdate();
         } catch (e) {
             console.log(e);
         }
     }
 
+    
+
     function handleAddItem(data) {
         console.log("HANDLE ADD ITEM ", data);
         // The "item" is the item we selected in the layout to add TO
         // The menuItemSelected is the item we chose from the list...
-        console.log("adding item", menuItemSelected, item);
+        console.log("adding item", menuItemSelected, item, workspaceSelected);
 
-        onSaveItem(menuItemSelected, item);
+        // onSaveItem(menuItemSelected, item);
+        onSaveItem(workspaceSelected);
     }
 
     function renderMenuItem(type, componentName) {
+        //console.log("type and componnet ", type, componentName);
         return (
             <MenuItem3
                 key={`menu-item-${componentName}`}
@@ -186,6 +298,33 @@ export const LayoutBuilderAddItemModal = ({
                 }
             >
                 {componentName}
+            </MenuItem3>
+        );
+    }
+
+    function renderMenuItemWidget(type, componentData, isPoweredByWorkspace = false) {
+        return (
+            <MenuItem3
+                key={`menu-item-${componentData.name}`}
+                onClick={() =>
+                    handleClickItem({ type, component: componentData.name })
+                }
+                // backgroundColor={isPoweredByWorkspace === true ? "bg-green-600": "bg-red-600"}
+            >
+                <div className="flex flex-row justify-between w-full">
+                    <div className="flex flex-col">
+                        <span className="">{componentData.name}</span>
+                        <span className="text-xs">in {componentData.workspace.replaceAll("-workspace","")}</span>
+                    </div>
+                    
+                        {/* <div className={`flex flex-col flex-shrink-0 pt-0.5 ${isPoweredByWorkspace === true ? "bg-green-600":"bg-red-600"} w-4 h-4 rounded-full text-gray-300 items-center justify-center p-2`}>
+                            <FontAwesomeIcon
+                                icon="check"
+                                className="w-2 h-2"
+                            />
+                        </div> */}
+                    
+                </div>
             </MenuItem3>
         );
     }
@@ -221,7 +360,7 @@ export const LayoutBuilderAddItemModal = ({
 
     function renderAddContainer(itemData) {
         try {
-            console.log("add container", itemData);
+            console.log("add container", itemData, workspaceSelected);
             const workspaceSelectedTemp = JSON.parse(
                 JSON.stringify(workspaceSelected)
             );
@@ -251,6 +390,7 @@ export const LayoutBuilderAddItemModal = ({
                     // console.log('ORDER OF ITEMS ', layoutItems);
                 }
 
+                //return (<pre>{JSON.stringify(itemData, null, 4)}</pre>);
                 return (
                     item.parentWorkspace &&
                     renderLayout({
@@ -295,9 +435,10 @@ export const LayoutBuilderAddItemModal = ({
                                             setSearchTerm(e.target.value)
                                         }
                                         value={searchTerm}
-                                        placeholder="Widgetize"
+                                        placeholder="Search for Widgets"
                                     />
                                 </div>
+                                {/* {renderWidgetsByWorkspace()} */}
                                 <div className="flex flex-col space-y-2">
                                     <span className="text-xs uppercase font-bold px-2 text-gray-400">
                                         Layout/Function
@@ -326,7 +467,7 @@ export const LayoutBuilderAddItemModal = ({
                             >
                                 {/* render the widget item here. */}
                                 {menuItemSelected === null && (
-                                    <div className="flex-col h-full rounded font-medium text-gray-400 w-full xl:w-1/2 p-10">
+                                    <div className="flex-col h-full rounded font-medium text-gray-400 w-full xl:w-full p-10">
                                         {/* render the widget item here. */}
                                         <div className="flex flex-col rounded p-4 py-10 space-y-4">
                                             <Heading
@@ -335,7 +476,7 @@ export const LayoutBuilderAddItemModal = ({
                                             />
                                             <SubHeading3
                                                 title={
-                                                    "Choose a Workspace or Widget from the Available Components."
+                                                    "Pick a Widget to add to your Dashboard Layout."
                                                 }
                                                 padding={false}
                                             />
@@ -348,7 +489,7 @@ export const LayoutBuilderAddItemModal = ({
                                         </div>
                                     </div>
                                 )}
-                                {menuItemSelected !== null && (
+                                {/* {menuItemSelected !== null && (
                                     <div
                                         className={`flex flex-col rounded border-2 border-gray-800 ${getBorderStyle(
                                             menuItemSelected
@@ -376,9 +517,9 @@ export const LayoutBuilderAddItemModal = ({
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                                 {menuItemSelected && (
-                                    <div className="flex flex-col w-1/4">
+                                    <div className="flex flex-col w-full">
                                         <WidgetConfigPanel
                                             item={menuItemSelected}
                                             onChange={handleUpdate}

@@ -51,7 +51,7 @@ export const LayoutItemEditHeader = ({
             item["parent"]
         );
 
-        const isContainer = item["component"] === "Container";
+        const isContainer = item.type !== "widget";//item["component"] === "Container";
         const textColor =
             isContainer === true ? "text-gray-700" : "text-gray-300";
 
@@ -150,7 +150,7 @@ export const LayoutItemEditHeader = ({
                     item
                 )} text-gray-300 w-full justify-between items-center`}
             >
-                <span className="text-xs font-medium">{`${item["component"]} ID: ${item.id} order: ${item.order} parent: ${item.parent}`}</span>
+                <span className="text-xs font-medium">{`${item["component"]}`}</span>
                 <div id="quick-add-menu" className="flex flex-row">
                     {renderEditFooter(layoutItem)}
                 </div>
@@ -161,7 +161,7 @@ export const LayoutItemEditHeader = ({
                     item
                 )} text-gray-300 font-medium w-full justify-between items-center z-10`}
             >
-                <span className="text-xs font-medium text-gray-500">{`${item["component"]} [${item.id}]`}</span>
+                <span className="text-xs font-medium text-gray-500">{`${item["component"]}`}</span>
                 <div
                     id="quick-add-menu"
                     className="flex flex-row justify-end py-1 px-1"
