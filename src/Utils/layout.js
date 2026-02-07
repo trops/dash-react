@@ -1,3 +1,4 @@
+import { SelectMenu } from "@dash/";
 import {
     LayoutBuilderGridItem,
     LayoutGridContainer,
@@ -5,7 +6,7 @@ import {
     LayoutBuilderConfigContainerMenuItem,
 } from "@dash/Layout";
 import { WidgetFactory } from "@dash/Widget";
-import { LayoutModel } from "@dash/Models";
+import { DashboardModel, LayoutModel } from "@dash/Models";
 import { deepCopy } from "@dash/Utils";
 import { ComponentManager } from "../ComponentManager";
 
@@ -32,6 +33,7 @@ function compareChildren(a, b) {
  */
 
 export const renderLayout = ({
+    item,
     layout,
     parentKey = 0,
     workspace,
@@ -44,8 +46,11 @@ export const renderLayout = ({
     onClickRemove = null,
     onClickShrink = null,
     onClickExpand = null,
+    onClickContextSettings = null,
     onChangeDirection = null,
     onChangeOrder = null,
+    onClickEmptyCell = null,
+    onSelectWidgetForCell = null,
     onOpenConfig = null,
     onOpenEvents = null,
     onDropItem = null,
@@ -54,6 +59,8 @@ export const renderLayout = ({
 }) => {
     try {
         // Go through each item in the Workspace Layout to render the items.
+
+        
         return (
             layout !== null &&
             layout !== undefined &&
@@ -78,7 +85,12 @@ export const renderLayout = ({
                         uuid,
                         space,
                         grow,
+                        grid
                     } = childLayout;
+
+                    const gridLayout = "grid" in child ? child["grid"] : null;
+
+                    // if (gridLayout) console.log("rendering grid ", child, childLayout);
 
                     return hasChildren === 1 && canHaveChildren === true ? (
                         <LayoutGridContainer
@@ -97,6 +109,7 @@ export const renderLayout = ({
                             scrollable={scrollable}
                             onClickAdd={onClickAdd}
                             onClickQuickAdd={onClickQuickAdd}
+                            onClickContextSettings={onClickContextSettings}
                             order={order}
                             preview={previewMode}
                             editMode={editMode}
@@ -111,7 +124,7 @@ export const renderLayout = ({
                             space={space}
                             grow={grow}
                         >
-                            {id > 0 &&
+                            {id > 0 && gridLayout === null &&
                                 renderLayout({
                                     dashboardId,
                                     item: childLayout,
@@ -125,6 +138,9 @@ export const renderLayout = ({
                                     onClickRemove,
                                     onClickShrink,
                                     onClickExpand,
+                                    onClickEmptyCell,
+                                    onClickContextSettings,
+                                    onSelectWidgetForCell,
                                     onChangeDirection,
                                     onChangeOrder,
                                     order,
@@ -135,6 +151,47 @@ export const renderLayout = ({
                                     workspace,
                                     isDraggable,
                                 })}
+                            {id > 0 && gridLayout && (
+                                renderGridLayoutFlow(gridLayout, {
+                                    dashboardId,
+                                    item: childLayout,
+                                    layout,
+                                    parentKey: id,
+                                    debugMode,
+                                    previewMode,
+                                    editMode,
+                                    onClickAdd,
+                                    onClickQuickAdd,
+                                    onClickRemove,
+                                    onClickShrink,
+                                    onClickExpand,
+                                    onClickEmptyCell,
+                                    onClickContextSettings,
+                                    onSelectWidgetForCell,
+                                    onChangeDirection,
+                                    onChangeOrder,
+                                    order,
+                                    onOpenConfig,
+                                    onOpenEvents,
+                                    onDropItem,
+                                    onDragItem,
+                                    workspace,
+                                    isDraggable,
+                                    id,
+                                    hasChildren,
+                                    parent,
+                                    direction,
+                                    scrollable,
+                                    width,
+                                    height,
+                                    component,
+                                    canHaveChildren,
+                                    uuid,
+                                    space,
+                                    grow,
+                                    grid
+                                })
+                            )}
                         </LayoutGridContainer>
                     ) : (
                         <LayoutBuilderGridItem
@@ -153,6 +210,9 @@ export const renderLayout = ({
                             onClickQuickAdd={onClickQuickAdd}
                             onClickRemove={onClickRemove}
                             onClickExpand={onClickExpand}
+                            onClickEmptyCell={onClickEmptyCell}
+                            onClickContextSettings={onClickContextSettings}
+                            onSelectWidgetForCell={onSelectWidgetForCell}
                             onClickShrink={onClickShrink}
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
@@ -180,6 +240,382 @@ export const renderLayout = ({
         console.log(e);
     }
 };
+
+/**
+ * render the grid for the container, and place the children in the specified cells based on the config
+ * 
+ * @param {Array} children the array of children to be rendered 
+ * @param {Object} gridLayoutForContainer the layout for the container grid system (tailwind)
+ * @returns {Object} the div layouts for the grid container
+ */
+export function renderGridLayout(gridLayout, args) {
+    // inside this function we will first render the GRID and then 
+    // for each cell we will then call the renderLayout to render the item inside the cell...me thinks
+    // console.log("in render grid layout", gridLayout);
+
+    const {
+            dashboardId,
+            item,
+            layout,
+            parentKey,
+            debugMode,
+            previewMode,
+            editMode,
+            onClickAdd,
+            onClickQuickAdd,
+            onClickRemove,
+            onClickShrink,
+            onClickExpand,
+            onClickContextSettings,
+            onChangeDirection,
+            onChangeOrder,
+            onOpenConfig,
+            onOpenEvents,
+            onDropItem,
+            onDragItem,
+            workspace,
+            isDraggable,
+            id,
+            hasChildren,
+            parent,
+            direction,
+            scrollable,
+            order,
+            width,
+            height,
+            component,
+            canHaveChildren,
+            uuid,
+            space,
+            grow,
+            grid
+        } = args;
+
+    const gridContents = [];
+
+    const dashboard = new DashboardModel(workspace);
+
+    for(var i = 1; i < gridLayout.rows + 1; i++) {
+        for( var j=1; j < gridLayout.cols + 1; j++) {
+            // console.log("grid layout in ", gridLayout);
+
+            const cellNumber = `${i}.${j}`;
+            const cmpIdToRender = cellNumber in gridLayout ? gridLayout[cellNumber]["component"] : null;
+
+            if (cmpIdToRender !== null) {
+                
+                // get the component based on the id in the grid
+                // we have to choose the component from the layout that we have in place 
+                // and pass that component into the LayoutBuilderGridItem component
+                // with the information for THIS component
+                const componentToRender = dashboard.getComponentById(cmpIdToRender);
+                if (componentToRender) {
+                gridContents.push(
+                     <LayoutBuilderGridItem
+                            key={`grid-item-${uuid}-${
+                                previewMode === true ? "view" : "edit"
+                            }`}
+                            uuid={uuid}
+                            item={componentToRender}
+                            layout={layout}
+                            id={cmpIdToRender}
+                            parent={componentToRender.parent}
+                            row={componentToRender.order}
+                            col={componentToRender.order}
+                            order={componentToRender.order}
+                            onClickAdd={onClickAdd}
+                            onClickQuickAdd={onClickQuickAdd}
+                            onClickRemove={onClickRemove}
+                            onClickExpand={onClickExpand}
+                            onClickShrink={onClickShrink}
+                            onClickContextSettings={onClickContextSettings}
+                            onChangeDirection={onChangeDirection}
+                            onChangeOrder={onChangeOrder}
+                            onDropItem={onDropItem}
+                            onDragItem={onDragItem}
+                            name={componentToRender.id}
+                            width={componentToRender.width}
+                            height={componentToRender.height}
+                            direction={componentToRender.direction}
+                            scrollable={componentToRender.scrollable}
+                            space={componentToRender.space}
+                            grow={componentToRender.grow}
+                            preview={previewMode}
+                            editMode={editMode}
+                            component={componentToRender.component}
+                            onOpenConfig={onOpenConfig}
+                            onOpenEvents={onOpenEvents}
+                            isDraggable={isDraggable}
+                            workspace={workspace}
+                        />
+                    );
+                }
+            } else {
+                if (previewMode === false) {
+                    gridContents.push(<div className="flex flex-col border-dotted border-gray-900 border-2 w-full h-full rounded-md p-4 text-gray-200 text-2xl font-bold justify-center items-center align-center">{cellNumber}</div>);
+                } else {
+                    gridContents.push(<div className="flex flex-col border-dotted border-gray-900 border-2 w-full h-full rounded-md p-4 text-gray-200 text-2xl font-bold justify-center items-center align-center"></div>);
+                }
+            }            
+        }
+    }
+    return (<div className={`grid grid-cols-${gridLayout["cols"] || 1} grid-rows-${gridLayout["rows"] || 1} gap-4 h-full w-full`}>
+        {gridContents}
+    </div>);
+    
+};
+
+
+    export function renderGridLayoutFlow(gridLayout, args) {
+        try {
+             const {
+                dashboardId,
+                item,
+                layout,
+                parentKey,
+                debugMode,
+                previewMode,
+                editMode,
+                onClickAdd,
+                onClickQuickAdd,
+                onClickRemove,
+                onClickShrink,
+                onClickExpand,
+                onClickContextSettings,
+                onClickEmptyCell,
+                onSelectWidgetForCell,
+                onChangeDirection,
+                onChangeOrder,
+                onOpenConfig,
+                onOpenEvents,
+                onDropItem,
+                onDragItem,
+                workspace,
+                isDraggable,
+                id,
+                hasChildren,
+                parent,
+                direction,
+                scrollable,
+                order,
+                width,
+                height,
+                component,
+                canHaveChildren,
+                uuid,
+                space,
+                grow,
+                grid
+            } = args;
+
+
+            const dashboard = new DashboardModel(workspace);
+
+            // generate the grid contents based on the gridLayout
+            let gridContentsArray = [...Array(gridLayout.rows)].map((_, row) => (
+                <div key={row} className="flex h-full w-full justify-between items-center space-x-2">
+                {[...Array(gridLayout.cols)].map((_, col) => {
+                    const cellNumber = `${row}.${col}`;
+                    const cell = gridLayout[cellNumber];
+                    if (!cell) {
+                        console.log("Cell not found in grid layout: ", cellNumber);
+                        return null;
+                    }
+
+                    const cmpIdToRender = cellNumber in gridLayout ? gridLayout[cellNumber]["component"] : null;
+                    const cellData = gridLayout[cellNumber];
+
+                    if (cmpIdToRender !== null) {
+                        // get the component based on the id in the grid
+                        // we have to choose the component from the layout that we have in place 
+                        // and pass that component into the LayoutBuilderGridItem component
+                        // with the information for THIS component
+                        const componentToRender = dashboard.getComponentById(cmpIdToRender);
+                        if (componentToRender) {
+                            // should we determine if this component is a layout container? has children? recursive in nature?
+                        
+                            console.log("component to render  ", componentToRender);
+
+                            const hasChildren = componentToRender.hasChildren || false;
+                            const canHaveChildren = componentToRender.canHaveChildren || false;
+                            console.log("component to render  has children", hasChildren, canHaveChildren);
+
+                            const cell = renderGridCell({ cellNumber, cellData, componentToRender, componentToRenderId: cmpIdToRender, props: args });
+                            return cell;
+                        }
+                    } else {
+                        const cell = renderGridCellShell({ cellNumber, cellData, component: item, componentToRenderId: cmpIdToRender, props: args, onClickEmptyCell, onSelectWidgetForCell });
+                        // gridContentsNew.push(cell);
+                        return cell;
+                    }   
+                })}
+                </div>
+            ));
+
+             return (
+                <div className={`grid gap-2 w-full h-full rounded`}>
+                   {gridContentsArray}
+                </div>
+            );
+        } catch(e) {
+            console.log(e);
+            return null;
+        }
+    }
+
+
+    function renderGridCellShell({ cellNumber, cellData, children = null, component = null, onClickEmptyCell = null, onSelectWidgetForCell = null, props }) {
+        try {
+
+            const { workspace, previewMode, grid } = props;
+            
+            const dashboard = new DashboardModel(workspace);
+            const bgColor = component !== null ? dashboard.getContainerColor(component.component) : "";
+            const compatibleWidgets = ComponentManager.getWidgets();//(component.component);
+            const compatibleWorkspaces = ComponentManager.getWorkspaces();
+            console.log("compatible widgets ", compatibleWidgets, workspace, component);
+            
+            // lets check to see if this item selected (workspace) is a layout container
+            const isLayoutContainer = ComponentManager.isLayoutContainer(component.component);
+
+            // create a width that is based on the colSpan of the cellData
+             let widthClass = "w-full";
+            if (cellData.colSpan && grid.cols && cellData.colSpan < grid.cols) {
+                widthClass = `w-${cellData.colSpan}/${grid.cols}`;
+            }
+
+            const hasComponent = cellData.component !== null;
+
+            return (
+                <div className={`flex flex-col ${bgColor} h-full rounded-md text-gray-600 ${widthClass}`} onClick={() => onClickEmptyCell && onClickEmptyCell(cellNumber, cellData, workspace)}>
+                    <div className="flex flex-row w-full justify-end p-1 space-x-1">
+                    &nbsp;
+                    </div>
+                    <div className="flex flex-col w-full h-full justify-center items-center text-2xl font-bold p-4">
+                        {hasComponent === false && (
+                            <SelectMenu onChange={(e) => onSelectWidgetForCell(e.target.value, cellNumber, cellData, component, workspace)}>
+                                <option value={""}>Select a Component</option>
+                                    {compatibleWidgets.map(cw => {
+                                        return (<option value={cw}>{cw}</option>)
+                                    })}
+                                {/* {isLayoutContainer === true && compatibleWorkspaces.map(cw => {
+                                    return (<option value={cw}>{cw}</option>)
+                                })} */}
+                            </SelectMenu>
+                        )}
+                    </div>
+                    <div className="flex flex-row w-full justify-end p-1 space-x-1">
+                        &nbsp;
+                    </div>
+                </div>
+            )
+        } catch(e) {
+            return null;
+        }
+    }
+
+function renderGridCell({ cellNumber, cellData, componentToRender, componentToRenderId, props}) {
+
+    const {
+        dashboardId,
+        item,
+        layout,
+        parentKey,
+        debugMode,
+        previewMode,
+        editMode,
+        onClickAdd,
+        onClickQuickAdd,
+        onClickRemove,
+        onClickShrink,
+        onClickExpand,
+        onClickContextSettings,
+        onChangeDirection,
+        onChangeOrder,
+        onOpenConfig,
+        onOpenEvents,
+        onDropItem,
+        onDragItem,
+        workspace,
+        isDraggable,
+        id,
+        hasChildren,
+        parent,
+        direction,
+        scrollable,
+        order,
+        width,
+        height,
+        component,
+        canHaveChildren,
+        uuid,
+        space,
+        grow,
+        grid
+    } = props;
+
+    console.log("GRID CELL ", componentToRender);
+
+    const dashboard = new DashboardModel(workspace);
+    const bgColor = component !== null ? dashboard.getContainerColor(component) : "";    
+    
+    let widthClass = "w-full";
+    if (cellData.colSpan && grid.cols && cellData.colSpan < grid.cols) {
+        widthClass = `w-${cellData.colSpan}/${grid.cols}`;
+    }
+
+    // const spanValue = "span" in cellData && cellData["span"] !== null ? `${cellData["span"]}` : "";
+    // const isSelected = cellsSelected.filter(cell => cell.cellNumber === cellNumber).length > 0;
+    //const borderStyle = component !== null ? (isSelected === true ? "border-2 border-gray-200":"") : (isSelected === true ? "border-2 border-gray-200" : "border-dotted border-gray-600 border-2");
+    const borderStyle = "";//"border-2 border-gray-200";
+    // const isHidden = "hide" in cellData === false ? false : (cellData.hide === true);
+
+    return componentToRender && (
+         <div className={`flex flex-col ${bgColor} h-full rounded-md text-gray-600 ${borderStyle} ${widthClass}`} onClick={() => console.log("CLICKED CELL ", cellNumber, cellData)}>
+                <div className="flex flex-col w-full h-full justify-center items-center">
+                    <LayoutBuilderGridItem
+                        key={`grid-item-${uuid}-${
+                            previewMode === true ? "view" : "edit"
+                        }`}
+                        uuid={uuid}
+                        item={componentToRender}
+                        layout={layout}
+                        id={componentToRenderId}
+                        parent={componentToRender.parent}
+                        row={componentToRender.order}
+                        col={componentToRender.order}
+                        order={componentToRender.order}
+                        onClickAdd={onClickAdd}
+                        onClickQuickAdd={onClickQuickAdd}
+                        onClickRemove={onClickRemove}
+                        onClickExpand={onClickExpand}
+                        onClickShrink={onClickShrink}
+                        onClickContextSettings={onClickContextSettings}
+                        onChangeDirection={onChangeDirection}
+                        onChangeOrder={onChangeOrder}
+                        onDropItem={onDropItem}
+                        onDragItem={onDragItem}
+                        name={componentToRender.id}
+                        width={componentToRender.width}
+                        height={componentToRender.height}
+                        direction={componentToRender.direction}
+                        scrollable={componentToRender.scrollable}
+                        space={componentToRender.space}
+                        grow={componentToRender.grow}
+                        preview={previewMode}
+                        editMode={editMode}
+                        component={componentToRender.component}
+                        onOpenConfig={onOpenConfig}
+                        onOpenEvents={onOpenEvents}
+                        isDraggable={isDraggable}
+                        workspace={workspace}
+                    />
+                </div>        
+            </div>
+        
+    )
+}
+
 
 export function renderLayoutMenu({
     currentWorkspace,
@@ -241,6 +677,7 @@ export function renderLayoutMenu({
                             id={id}
                             component={component}
                             item={childLayout}
+                            workspace={currentWorkspace}
                         />
                     );
                 })
@@ -267,7 +704,7 @@ export function renderComponent(component, id, params = {}, children = null) {
                 }
             }
 
-            //console.log("widget to render ", component);
+            console.log("widget to render ", component);
 
             const WidgetToRender = WidgetFactory.render(
                 component,
@@ -275,6 +712,9 @@ export function renderComponent(component, id, params = {}, children = null) {
                 params,
                 children
             );
+
+            //console.log("widget to render ", WidgetToRender);
+
             return WidgetToRender ? (
                 WidgetToRender
             ) : (
@@ -726,6 +1166,7 @@ export function getNearestParentWorkspace(
 }
 
 export function getContainerBorderColor(item) {
+    console.log("getting container border color for item ", item);
     let color = "border-gray-900";
     try {
         if (item) {
@@ -953,7 +1394,7 @@ export function getLayoutItemForWorkspace(item, workspace, parentItem = null) {
             ? (layoutModel["parent"] = parentItem["id"])
             : 0;
 
-        layoutModel["parentWorkspace"] = item["parentWorkspace"];
+        // layoutModel["parentWorkspace"] = item["parentWorkspace"];
         layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
         // layoutModel["parent"] = item["id"];
         // nearest parent workspace (use the original widget/workspace clicked
@@ -1013,7 +1454,7 @@ export function addChildToLayoutItem(childComponent, layoutItem, workspace) {
     childComponent["order"] = nextOrder;
 
     // 1. Add the layoutItem as the parentWorkspace of the childComponent
-    childComponent["parentWorkspace"] = layoutItem;
+    // childComponent["parentWorkspace"] = layoutItem;
     childComponent["parent"] = layoutItem["id"];
 
     // 2. Add the element back into the layout

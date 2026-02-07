@@ -172,7 +172,10 @@ const newSafeList = colorSafeList.concat([
         pattern: /from-(.+)-(.+)/,
     },
     {
-        pattern: /overflow-clip-(.+)/,
+        pattern: /row-span-(.+)/,
+    },
+    {
+        pattern: /col-span-(.+)/,
     },
 ]);
 

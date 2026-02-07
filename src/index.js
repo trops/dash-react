@@ -43,6 +43,8 @@ import {
     faMoon,
     faFolderPlus,
     faBoltLightning,
+    faArrowRightToBracket,
+    faArrowRightFromBracket
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
     faHome,
@@ -88,7 +90,9 @@ library.add(
     faSun,
     faMoon,
     faFolderPlus,
-    faBoltLightning
+    faBoltLightning,
+    faArrowRightToBracket,
+    faArrowRightFromBracket
 );
 
 export * from "./Api";
@@ -147,6 +151,9 @@ export {
     faBabyCarriage,
     faPalette,
     faComputer,
+    faArrowRightToBracket,
+    faArrowRightFromBracket
+
 };
 
 if (process.env.NODE_ENV !== "development") {

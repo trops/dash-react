@@ -7,17 +7,20 @@ export const SelectMenu = ({
     onChange,
     selectedValue,
     children,
-    textSize = "text-base 2xl:text-lg",
+    textSize = "text-base",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, {
         ...props,
-        height: "h-fit",
+        height: "",
+        grow: false,
     });
+
+    console.log("select menu styles ", styles.string)
     return (
         <select
-            className={`p-2 rounded ${textSize} font-bold ${styles.string} focus:outline-none cursor-pointer min-w-lg w-full`}
+            className={`p-2 rounded ${styles.string} ${textSize} font-normal focus:outline-none cursor-pointer min-w-lg w-full`}
             name={name}
             onChange={onChange}
             value={selectedValue}

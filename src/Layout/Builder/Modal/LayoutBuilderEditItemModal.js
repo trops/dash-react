@@ -7,7 +7,7 @@ import {
 } from "@dash/Utils";
 import { WidgetConfigPanel } from "@dash/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { WorkspaceModel } from "@dash/Models";
+import { DashboardModel, WorkspaceModel } from "@dash/Models";
 import { ThemeContext } from "@dash/Context";
 
 export const LayoutBuilderEditItemModal = ({
@@ -138,6 +138,12 @@ export const LayoutBuilderEditItemModal = ({
         }
     }
 
+    function getParentContainerColor() {
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+        return getContainerColor(item["parentWorkspace"]);
+    }
+
     return (
         itemSelected && (
             <Modal
@@ -164,9 +170,7 @@ export const LayoutBuilderEditItemModal = ({
                             <ButtonIcon
                                 icon={"xmark"}
                                 onClick={() => setIsOpen(false)}
-                                bgColor={`${getContainerColor(
-                                    itemSelected["parentWorkspace"]
-                                )}`}
+                                bgColor={`${getParentContainerColor()}`}
                             />
                         </div>
                         <div className="flex flex-row w-full h-full space-x-4 overflow-clip">

@@ -1,5 +1,4 @@
-import { InputText } from "../../../Dashboard/common/Form";
-import { Button } from "@dash/Common";
+import { Button, InputText } from "@dash/Common";
 import { useEffect, useState } from "react";
 import { renderLayoutMenu } from "@dash/Utils/layout";
 

@@ -3,6 +3,8 @@ import {
     Button,
     Panel,
     Heading,
+    Heading2,
+    Heading3,
     SubHeading3,
     Paragraph,
     MenuItem3,
@@ -23,6 +25,7 @@ import { ComponentManager } from "@dash";
 import { LayoutModel, WorkspaceModel, DashboardModel } from "@dash/Models";
 import { ThemeContext } from "@dash/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PanelEditItemGrid from "./Panel/PanelEditItemGrid.js";
 
 
 /**
@@ -235,38 +238,7 @@ export const LayoutBuilderAddItemModal = ({
 
             console.log("NEW WORKSPACE ", dashboard.workspace());
 
-            /*
-            // we have to give the widget an ID
-            const nextId = getNextHighestId(workspace["layout"]);
-            const nextOrderData = getNextHighestOrder(workspace["layout"]);
-            const nextOrder = nextOrderData["highest"];
-            // data['id'] = nextId;
-
-            layoutModel.id = nextId;
-            layoutModel.order = nextOrder;
-
-            layoutModel["parent"] =
-                parentWorkspace !== null && parentWorkspace !== undefined
-                    ? "id" in parentWorkspace
-                        ? parentWorkspace["id"]
-                        : 0
-                    : 0; // unsure if this is ok
-
-            // layoutModel.parent = workspaceConjured.id;
-
-            layoutModel["parentWorkspace"] = item["parentWorkspace"];
-            layoutModel["parentWorkspaceName"] = item["parentWorkspaceName"];
-            layoutModel["parent"] = item["id"];
-            // nearest parent workspace (use the original widget/workspace clicked
-            // to begin looking...
-
-            // lets add the data to the original workspace...
             
-            newWorkspace["layout"] = [
-                layoutModel["parentWorkspace"],
-                layoutModel,
-            ];
-            */
 
             setMenuItemSelected(() => layoutModel);
             setWorkspaceSelected(() => dashboard.workspace());
@@ -407,6 +379,28 @@ export const LayoutBuilderAddItemModal = ({
         }
     }
 
+    function renderCompatibleWidgets() {
+        try {
+            console.log("render compatible ", menuItemSelected);
+            if (menuItemSelected) {
+                const widgets = ComponentManager.getCompatibleWidgetsForWorkspace(menuItemSelected.workspace);
+                console.log("compatible widgets found ", widgets);
+                const widgetArray = widgets.map(w => {
+                    console.log("widget ", w);
+                    return (
+                        <div className="flex flex-col rounded p-4 bg-green-600 justify-center items-center">{w}</div>
+                    )
+                });
+
+                return (
+                    <div className="grid grid-cols-4 gap-4 w-full p-4">{widgetArray}</div>
+                )
+            }
+        } catch(e) {
+            return [];
+        }
+    }
+
     return (
         item && (
             <Modal
@@ -489,6 +483,25 @@ export const LayoutBuilderAddItemModal = ({
                                         </div>
                                     </div>
                                 )}
+                                {menuItemSelected !== null && (
+                                    <div
+                                        className={`flex flex-col rounded border-2 border-gray-800 ${getBorderStyle(
+                                            menuItemSelected
+                                        )} overflow-clip h-full w-full bg-gray-900`}
+                                    >
+                                        <Heading3 title={menuItemSelected.component} />
+                                        
+                                        {renderCompatibleWidgets()}
+
+                                
+                                    {/* <PanelEditItemGrid
+                                        item={menuItemSelected}
+                                        onUpdate={() => console.log("updated")}
+                                        workspace={workspaceSelected}
+                                    /> */}
+                                
+                                    </div>
+                                )}
                                 {/* {menuItemSelected !== null && (
                                     <div
                                         className={`flex flex-col rounded border-2 border-gray-800 ${getBorderStyle(
@@ -518,8 +531,11 @@ export const LayoutBuilderAddItemModal = ({
                                         </div>
                                     </div>
                                 )} */}
-                                {menuItemSelected && (
-                                    <div className="flex flex-col w-full">
+
+
+                                {/* config panel */}
+                                {/* {menuItemSelected && (
+                                    <div className="flex flex-col w-1/4">
                                         <WidgetConfigPanel
                                             item={menuItemSelected}
                                             onChange={handleUpdate}
@@ -529,7 +545,7 @@ export const LayoutBuilderAddItemModal = ({
                                             parentWorkspace={parentWorkspace}
                                         />
                                     </div>
-                                )}
+                                )} */}
                             </LayoutContainer>
                             {/* </div> */}
                         </div>

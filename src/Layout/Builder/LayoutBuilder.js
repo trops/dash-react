@@ -21,14 +21,16 @@ import {
 } from "@dash/Layout/Builder/Modal";
 import {
     getComponentInLayout,
-    getParentForLayoutItem,
     getParentWorkspaceForItem,
     isContainer,
     isWidget,
     isWorkspace,
-    traverseParentTree,
 } from "../../Utils";
-import { LayoutBuilderWidgetConfigPanel } from "./LayoutBuilderWidgetConfigPanel";
+import { DashboardModel, LayoutModel } from "@dash/Models";
+import { ComponentManager } from "@dash/index";
+import LayoutContexts from "./LayoutContexts";
+
+import { ContextSettingsModal } from "../../Context/Modal/ContextSettingsModal.js";
 
 // import LayoutBuilderEditItemModal from "./Modal/LayoutBuilderEditItemModal";
 // import LayoutBuilderEventModal from "./Modal/LayoutBuilderEventModal";
@@ -64,6 +66,7 @@ export const LayoutBuilder = ({
     const { debugMode } = useContext(AppContext);
 
     const [isConfigOpen, setIsConfigOpen] = useState(false);
+    const [isContextSettingsOpen, setIsContextSettingsOpen] = useState(true);
     const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
     const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
     const [isEventModalOpen, setIsEventModalOpen] = useState(false);
@@ -160,12 +163,23 @@ export const LayoutBuilder = ({
     }
 
     function onClickRemove(id) {
-        const layout = currentWorkspace["layout"];
-        const newLayout = removeItemFromLayout(layout, id);
-        const newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
-        newWorkspace["layout"] = newLayout;
-        setCurrentWorkspace(newWorkspace);
+
+        try {
+        const dashboard = new DashboardModel(currentWorkspace);
+        dashboard.removeItemFromLayout(id);
+
+        console.log("new workspace after remove ", dashboard.workspace());
+        setCurrentWorkspace(dashboard.workspace());
+
+        // const layout = currentWorkspace["layout"];
+        // const newLayout = removeItemFromLayout(layout, id);
+        // const newWorkspace = JSON.parse(JSON.stringify(currentWorkspace));
+        // newWorkspace["layout"] = newLayout;
+        // setCurrentWorkspace(newWorkspace);
         forceUpdate();
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     function onDragItem(item) {
@@ -399,7 +413,55 @@ export const LayoutBuilder = ({
         setIsConfigModalOpen(true);
     }
 
+    /**
+     * handle the click of a cell in a grid that does not contain a widget yet
+     * the idea here is to allow the user to CHOOSE a widget that corresponds to 
+     * the workspace that they are clicking a cell inside of
+     * 
+     * @param {*} cellNumber the number of the cell they have clicked (to tie to the widget selected upcoming)
+     * @param {*} cellData the data for the cell clicked (this may be pertinent depending on the widget)
+     * @param {*} workspace the workspace that this cell lives in, use this to find corresponding widgets to select
+     */
+    function handleOnClickEmptyCell(cellNumber, cellData, workspace) {
+        console.log("handling click empty cell", cellNumber, cellData, workspace);
+
+        
+    }
+
+    /**
+     * When the user selects the widget for the particular cell, we want to update 
+     * the cell in the grid for the workspace, and update any other pertinent parentWorkspaces
+     * that have the same id
+     * @param {Number} widgetName the name of the widget selected from the registry
+     * @param {String} cellNumber the number for the cell in the grid
+     * @param {Object} workspace the workspace that the cell lives in 
+     */
+    function handleSelectWidgetForCell(widgetName, cellNumber, cellData, component, workspace) {
+        console.log("handle select widget for cell ", widgetName, cellNumber, cellData, component, workspace);
+
+        try {
+            // create the new dashboard.
+            let dashboard = new DashboardModel(workspace);
+            let componentToAdd = ComponentManager.getComponent(widgetName);
+            let widget = LayoutModel(componentToAdd, dashboard.workspace(), dashboard.id);
+            dashboard.addChildToLayoutItem(widget, component.id, cellNumber);
+
+            console.log("NEW WORKSPACE ", dashboard.workspace());
+            setCurrentWorkspace(() => dashboard.workspace());
+
+        } catch(e) {
+            console.log("error adding widget to grid ", e);
+        }
+    }
+
+    console.log("component map ", ComponentManager.componentMap());
+
+    // in this case we would like to reduce all of the contexts into one provider....
+
+
+
     return (
+        <LayoutContexts workspace={currentWorkspace}>
         <div
             className={`flex flex-col w-full h-full overflow-clip`}
             key={"layout-builder"}
@@ -431,6 +493,8 @@ export const LayoutBuilder = ({
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}
+                            onClickEmptyCell={handleOnClickEmptyCell}
+                            onSelectWidgetForCell={handleSelectWidgetForCell}
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
@@ -459,6 +523,15 @@ export const LayoutBuilder = ({
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}
+                            onClickEmptyCell={handleOnClickEmptyCell}
+                            onClickContextSettings={(i) => {
+                                console.log("context settings clicked ", i);
+                                // set the item here so that we can constrict the contexts 
+                                // that the user can choose from, only show the compatible contexts
+                                setItemSelected(() => i);
+                                setIsContextSettingsOpen(true);
+                            }}
+                            onSelectWidgetForCell={handleSelectWidgetForCell}
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
@@ -470,7 +543,7 @@ export const LayoutBuilder = ({
                         />
                     )}
 
-                    {preview === false && editMode === "layout" && (
+                    {/* {preview === false && editMode === "layout" && (
                         <LayoutDragBuilderEdit
                             key={`layout-drag-edit-${dashboardId}`}
                             dashboardId={dashboardId}
@@ -487,6 +560,8 @@ export const LayoutBuilder = ({
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}
+                            onClickEmptyCell={handleOnClickEmptyCell}
+                            onSelectWidgetForCell={handleSelectWidgetForCell}
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
@@ -496,8 +571,8 @@ export const LayoutBuilder = ({
                             onSaveConfiguration={handleSaveConfiguration}
                             onClickEdit={onTogglePreview}
                         />
-                    )}
-                     {preview === false && editMode === "workspace" && (
+                    )} */}
+                     {/* {preview === false && editMode === "workspace" && (
                         <LayoutDragBuilderEdit
                             key={`layout-drag-edit-${dashboardId}`}
                             dashboardId={dashboardId}
@@ -514,17 +589,19 @@ export const LayoutBuilder = ({
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}
+                            onClickEmptyCell={handleOnClickEmptyCell}
+                            onSelectWidgetForCell={handleSelectWidgetForCell}
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
                             onDragItem={onDragItem}
-                            onOpenConfig={handleClickEditItem} //{handleClickConfigure}
+                            onOpenConfig={handleClickEditItem} 
                             onOpenEvents={handleClickEvents}
                             onSaveConfiguration={handleSaveConfiguration}
                             onClickEdit={onTogglePreview}
                         />
-                    )}
-                     {preview === false && editMode === "widget" && (
+                    )} */}
+                     {/* {preview === false && editMode === "widget" && (
                         <LayoutDragBuilderEdit
                             key={`layout-drag-edit-${dashboardId}`}
                             dashboardId={dashboardId}
@@ -541,6 +618,8 @@ export const LayoutBuilder = ({
                             onClickRemove={onClickRemove}
                             onClickShrink={onClickShrink}
                             onClickExpand={onClickExpand}
+                            onClickEmptyCell={handleOnClickEmptyCell}
+                            onSelectWidgetForCell={handleSelectWidgetForCell}
                             onChangeDirection={onChangeDirection}
                             onChangeOrder={onChangeOrder}
                             onDropItem={onDropItem}
@@ -550,19 +629,32 @@ export const LayoutBuilder = ({
                             onSaveConfiguration={handleSaveConfiguration}
                             onClickEdit={onTogglePreview}
                         />
-                    )}
+                    )} */}
                 </LayoutContainer>
                 {/* {preview === false && (
                     <div className="flex flex-col p-2 text-xs text-green-700 h-full hidden xl:flex xl:w-1/4 bg-slate-900 rounded">
                         <LayoutBuilderConfigPanel 
                             workspace={currentWorkspace} 
-                            onComplete={handleClickSaveWorkspace} 
+                            onComplete={(e) => console.log(e)} 
                             onClickEdit={handleClickEditItem}
                         />
                     </div>
                 )} */}
+
+                 {/* {preview === false && itemSelected && (
+                    <div className="flex flex-col p-2 text-xs text-green-700 h-full hidden xl:flex xl:w-1/4 bg-slate-900 rounded">
+                         <WidgetConfigPanel
+                            item={itemSelected}
+                            onChange={(e) => console.log("handle update ", e)}
+                            // onSave={handleAddItem}
+                            disabled={false}
+                            workspace={currentWorkspace}
+                            parentWorkspace={currentWorkspace}
+                        />
+                    </div>
+                )} */}
             </div>
-            {itemSelected !== null && (
+            {/* {itemSelected !== null && (
                 <LayoutBuilderEditItemModal
                     open={isWidgetModalOpen}
                     setIsOpen={setIsWidgetModalOpen}
@@ -570,7 +662,7 @@ export const LayoutBuilder = ({
                     onUpdate={handleSaveWidgetChanges}
                     workspace={currentWorkspace}
                 />
-            )}
+            )} */}
             {/*
                 This is the modal window that will allow a user to ADD a widget
                 It has the "Build" title and contains all of the widgets/workspaces that can be added 
@@ -598,6 +690,7 @@ export const LayoutBuilder = ({
                     }
                 />
             )} */}
+
             {itemSelected !== null && (
                 <LayoutBuilderConfigModal
                     open={isConfigModalOpen}
@@ -623,6 +716,10 @@ export const LayoutBuilder = ({
                     onClose={() => console.log("close me")}
                 />
             )} */}
+            {currentWorkspace && currentWorkspace !== null && (
+                <ContextSettingsModal open={isContextSettingsOpen} setIsOpen={setIsContextSettingsOpen} workspace={currentWorkspace} widget={itemSelected} />
+            )}
         </div>
+        </LayoutContexts>
     );
 };

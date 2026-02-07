@@ -8,6 +8,7 @@ export const WidgetConfigPanel = ({
     onChange,
     item = null,
     disabled = false,
+    scrollable = true,
     context, // this is the Workspace context for the item...
 }) => {
     const [itemSelected, setItemSelected] = useState(item);
@@ -144,20 +145,20 @@ export const WidgetConfigPanel = ({
                 key={`config-item-${key}`}
                 className={`rounded flex flex-col p-2 space-y-1`}
             >
-                <span className="uppercase text-gray-300 font-bold text-sm">
+                <span className="text-gray-400 font-bold text-sm">
                     {displayName}{" "}
                     {required === true && (
                         <span className="text-red-500">*</span>
                     )}
                 </span>
-                <div className="text-xs text-gray-400 pb-2">{instructions}</div>
+                <div className="text-xs text-gray-400 pb-1">{instructions}</div>
                 {configItem["type"] === "text" && (
                     <InputText
                         type="text"
                         name={key}
                         value={value}
                         onChange={(e) => onChange(e, configItem)}
-                        textSize="text-base"
+                        textSize="text-sm"
                     />
                 )}
                 {configItem["type"] === "secret" && (
@@ -166,7 +167,7 @@ export const WidgetConfigPanel = ({
                         name={key}
                         value={value}
                         onChange={(e) => onChange(e, configItem)}
-                        textSize="text-base"
+                        textSize="text-sm"
                     />
                 )}
                 {configItem["type"] === "select" && (
@@ -174,12 +175,13 @@ export const WidgetConfigPanel = ({
                         name={key}
                         selectedValue={value}
                         onChange={(e) => onChange(e, configItem)}
-                        textSize="text-base"
+                        textSize="text-xs"
+                        className="font-normal"
                     >
                         {"options" in configItem &&
                             configItem.options.map((option) => {
                                 return (
-                                    <option value={option.value}>
+                                    <option value={option.value} className={"text-sm"}>
                                         {option.displayName}
                                     </option>
                                 );
@@ -195,11 +197,11 @@ export const WidgetConfigPanel = ({
 
     return (
         itemSelected && (
-            <div className="flex flex-col w-full bg-gray-900 p-4 text-2xl rounded text-gray-400 h-full">
-                <div className="flex flex-col w-full h-full overflow-clip">
+            <div className="flex flex-col w-full bg-gray-900 p-2 text-2xl rounded text-gray-400 h-full">
+                <div className="flex flex-col w-full h-full">
                     <LayoutContainer
                         direction="col"
-                        scrollable={true}
+                        scrollable={scrollable}
                         space={false}
                         grow={true}
                     >
@@ -207,18 +209,16 @@ export const WidgetConfigPanel = ({
                         {renderCustomSettings()}
 
                         <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
+                            <span className="text-gray-400 font-bold text-sm pb-1q">
                                 {"Width"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
-                            <div className="text-xs text-gray-400 pb-2">
-                                The width of your Widget in the Layout.
-                            </div>
                             <SelectMenu
                                 name={"width"}
                                 onChange={handleUpdate}
                                 selectedValue={itemSelected.width}
-                                textSize="text-base"
+                                textSize="text-sm"
+                                className="font-normal"
                             >
                                 <option key={"width-full"} value="">
                                     -
@@ -231,18 +231,16 @@ export const WidgetConfigPanel = ({
                         </div>
 
                         <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
+                            <span className=" text-gray-400 font-bold text-sm pb-1">
                                 {"Height"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
-                            <div className="text-xs text-gray-400 pb-2">
-                                The height of your Widget in the Layout.
-                            </div>
                             <SelectMenu
                                 name={"height"}
                                 onChange={handleUpdate}
                                 selectedValue={itemSelected.height}
-                                textSize="text-base"
+                                textSize="text-sm"
+                                className="font-normal"
                             >
                                 <option key={"height-full"} value="h-full">
                                     Full Height
@@ -255,20 +253,18 @@ export const WidgetConfigPanel = ({
                         </div>
 
                         <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
-                                {"Direction"}{" "}
+                            <span className=" text-gray-400 font-bold text-sm pb-1">
+                                {"Layout Direction"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
-                            <div className="text-xs text-gray-400 pb-2">
-                                The layout direction for the widget content.
-                            </div>
                             <SelectMenu
                                 name={"direction"}
                                 onChange={handleUpdate}
                                 selectedValue={
                                     itemSelected && itemSelected.direction
                                 }
-                                textSize="text-base"
+                                textSize="text-sm"
+                                className="font-normal"
                             >
                                 <option key={"direction-col"} value="col">
                                     Vertical
@@ -280,18 +276,16 @@ export const WidgetConfigPanel = ({
                         </div>
 
                         <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
+                            <span className=" text-gray-400 font-bold text-sm pb-1">
                                 {"Scrolling"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
-                            <div className="text-xs text-gray-400 pb-2">
-                                If this widget allows vertical scrolling.
-                            </div>
                             <SelectMenu
                                 name={"scrollable"}
                                 onChange={handleUpdate}
                                 selectedValue={itemSelected.scrollable}
-                                textSize="text-base"
+                                textSize="text-sm"
+                                className="font-normal"
                             >
                                 <option key={"scrollable-yes"} value={true}>
                                     Scrollable
@@ -303,7 +297,7 @@ export const WidgetConfigPanel = ({
                         </div>
 
                         <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
+                            <span className=" text-gray-400 font-bold text-sm">
                                 {"Spacing"}{" "}
                                 <span className="text-red-500">*</span>
                             </span>
@@ -314,7 +308,8 @@ export const WidgetConfigPanel = ({
                                 name={"space"}
                                 onChange={handleUpdate}
                                 selectedValue={itemSelected.space}
-                                textSize="text-base"
+                                textSize="text-sm"
+                                className="font-normal"
                             >
                                 <option key={"space-yes"} value={true}>
                                     Allow Spacing
@@ -326,7 +321,7 @@ export const WidgetConfigPanel = ({
                         </div>
 
                         <div className={`rounded flex flex-col p-2`}>
-                            <span className="uppercase text-gray-300 font-bold text-sm">
+                            <span className=" text-gray-400 font-bold text-sm">
                                 {"Grow"} <span className="text-red-500">*</span>
                             </span>
                             <div className="text-xs text-gray-400 pb-2">
@@ -336,7 +331,8 @@ export const WidgetConfigPanel = ({
                                 name={"grow"}
                                 onChange={handleUpdate}
                                 selectedValue={itemSelected.grow}
-                                textSize="text-base"
+                                textSize="text-sm"
+                                className="font-normal"
                             >
                                 <option key={"grow-yes"} value={true}>
                                     Allow Growing
@@ -347,7 +343,7 @@ export const WidgetConfigPanel = ({
                             </SelectMenu>
                         </div>
 
-                        {/* <div className="text-xs p-4 break-all">
+                        {/* <div className="text-xs p-4 break-all rounded bg-gray-800 w-full">
                             <pre>{JSON.stringify(itemSelected, null, 2)}</pre>
                         </div> */}
                     </LayoutContainer>

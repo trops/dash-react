@@ -21,7 +21,7 @@ import {
 import { LayoutContainerGridItem } from "./GridItem/LayoutContainerGridItem";
 import { WorkspaceContainerGridItem } from "./GridItem/WorkspaceContainerGridItem";
 import { WidgetContainerGridItem } from "./GridItem/WidgetContainerGridItem";
-
+import { DashboardModel } from "@dash/Models";
 /**
  * Depending on the editMode we will show the different grid builder items to show the correct
  * functionality for editing appropriately.
@@ -42,6 +42,7 @@ export const LayoutBuilderGridItem = ({
     onClickQuickAdd,
     onClickExpand,
     onClickShrink,
+    onClickContextSettings,
     onChangeDirection,
     onChangeOrder,
     onOpenConfig,
@@ -58,7 +59,7 @@ export const LayoutBuilderGridItem = ({
     layout,
 }) => {
     function handleClickRemove(e) {
-        console.log("clicked remove ", e);
+        console.log("clicked remove ", e, id);
         onClickRemove(id);
     }
 
@@ -119,6 +120,7 @@ export const LayoutBuilderGridItem = ({
     }
 
     function renderComponentData() {
+        console.log("rendering component data ", component, id, item);
         return component ? renderComponent(component, id, item, null) : null;
     }
 
@@ -166,6 +168,10 @@ export const LayoutBuilderGridItem = ({
         return item["parentWorkspaceName"];
     }
 
+    function handleClickContextSettings(item) {
+        onClickContextSettings(item);
+    }
+
     // function numChildrenForLayout() {
     //     let num = 0;
     //     if ('parentWorkspace' in item) {
@@ -180,6 +186,10 @@ export const LayoutBuilderGridItem = ({
         const drag = dragType(item);
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
 
+        // get the parent workspace
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+
         // determine the parent layout direction...
         const parentLayout = getLayoutItemById(
             workspace["layout"],
@@ -187,7 +197,7 @@ export const LayoutBuilderGridItem = ({
         );
         const parentDirection = parentLayout
             ? parentLayout["direction"]
-            : item["parentWorkspace"]["direction"];
+            : parentWorkspace["direction"];
 
         // determine if the item is at the "start/end" of the col/row
         const isMaxOrder = isMaxOrderForItem(
@@ -201,8 +211,8 @@ export const LayoutBuilderGridItem = ({
             item["parent"]
         );
 
-        const containerBorderColor = getContainerBorderColor(item["parentWorkspace"]);
-        const containerBackgroundColor = getContainerColor(item["parentWorkspace"]);
+        const containerBorderColor = getContainerBorderColor(item);
+        const containerBackgroundColor = getContainerColor(item);
 
 
         return isDraggable === true ? (
@@ -236,7 +246,7 @@ export const LayoutBuilderGridItem = ({
                                     icon="phone"
                                     onClick={handleClickEvents}
                                     backgroundColor={getContainerColor(
-                                        item["parentWorkspace"]
+                                        parentWorkspace
                                     )}
                                     hoverBackgroundColor=""
                                     text={
@@ -284,7 +294,16 @@ export const LayoutBuilderGridItem = ({
                                 icon="trash"
                                 onClick={handleClickRemove}
                                 backgroundColor={getContainerColor(
-                                    item["parentWorkspace"]
+                                    parentWorkspace
+                                )}
+                                hoverBackgroundColor="hover:bg-red-900"
+                            />
+                             <ButtonIcon
+                                theme={false}
+                                icon="plug"
+                                onClick={() => handleClickContextSettings(item)}
+                                backgroundColor={getContainerColor(
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-red-900"
                             />
@@ -329,7 +348,7 @@ export const LayoutBuilderGridItem = ({
                         preview === false && "text-blue-900 rounded m-2"
                     }`}
                 >
-                     ITEM not draggable {editMode} {item["component"]} {item["type"]} {item["workspace"]}
+                     {/* ITEM not draggable {editMode} {item["component"]} {item["type"]} {item["workspace"]} */}
                     {preview === false && renderUserPreferences()}
                 </div>
                 <div className="flex flex-row space-x-1 w-full justify-between text-xs">
@@ -342,7 +361,7 @@ export const LayoutBuilderGridItem = ({
                                 icon="phone"
                                 onClick={handleClickEvents}
                                 bgColor={getContainerColor(
-                                    item["parentWorkspace"]
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-gray-900"
                                 text={
@@ -357,7 +376,7 @@ export const LayoutBuilderGridItem = ({
                             icon="trash"
                             onClick={handleClickRemove}
                             backgroundColor={getContainerColor(
-                                item["parentWorkspace"]
+                                parentWorkspace
                             )}
                             hoverBackgroundColor="hover:bg-red-900"
                         />
@@ -396,7 +415,6 @@ export const LayoutBuilderGridItem = ({
     }
 
     function renderEditModeView() {
-        console.log("rendering edit mode view");
         if (editMode === "layout") return renderLayoutGridItem();
         if (editMode === "workspace") return renderWorkspaceGridItem();
         if (editMode === "widget") return renderWidgetGridItem();

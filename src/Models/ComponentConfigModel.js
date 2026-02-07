@@ -61,6 +61,8 @@ export const ComponentConfigModel = (obj = {}) => {
      */
     obj.type = "type" in obj ? obj["type"] : "workspace";
 
+    obj.contexts = "contexts" in obj ? obj["contexts"] : [];
+
     /**
      * workspace
      * The workspace this component belongs to

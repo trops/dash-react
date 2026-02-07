@@ -62,6 +62,30 @@ class ElectronDashboardApi implements IDashboardApi {
         }
     }
 
+    listContexts(appId, onSuccess, onError): Boolean {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners(
+                    this.events.CONTEXT_LIST_COMPLETE
+                );
+                this.api.removeAllListeners(this.events.CONTEXT_LIST_ERROR);
+                this.api.on(this.events.CONTEXT_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.CONTEXT_LIST_ERROR, onError);
+                this.api.context.listContextForApplication(appId);
+                return true;
+            } catch (e) {
+                onError(this.events.CONTEXT_LIST_ERROR, e);
+                return false;
+            }
+        } else {
+            onError(
+                this.events.CONTEXT_LIST_ERROR,
+                new Error("No Api found")
+            );
+            return false;
+        }
+    }
+
     listMenuItems(appId, onSuccess, onError): Boolean {
         if (this.api !== null) {
             try {
@@ -157,6 +181,30 @@ class ElectronDashboardApi implements IDashboardApi {
         } else {
             onError(
                 this.events.WORKSPACE_SAVE_ERROR,
+                new Error("No Api found")
+            );
+            return false;
+        }
+    }
+
+     saveContext(appId, contextToSave, onSuccess, onError): Boolean {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.CONTEXT_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.CONTEXT_SAVE_ERROR, onError);
+                this.api.context.saveContextForApplication(
+                    appId,
+                    contextToSave
+                );
+                return true;
+            } catch (e) {
+                onError(this.events.CONTEXT_SAVE_ERROR, e);
+                return false;
+            }
+        } else {
+            onError(
+                this.events.CONTEXT_SAVE_ERROR,
                 new Error("No Api found")
             );
             return false;

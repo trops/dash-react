@@ -11,6 +11,7 @@ import {
 } from "@dash/Utils";
 
 import { ButtonIcon3 } from "../../../Common";
+import { DashboardModel } from "@dash/Models";
 
 export const LayoutItemEditHeader = ({
     layoutItem,
@@ -30,6 +31,12 @@ export const LayoutItemEditHeader = ({
         const canHaveChildren = config ? config["canHaveChildren"] : false;
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
 
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+        
+
+        console.log("parent workspace ", parentWorkspace);
+
         // determine the parent layout direction...
         const parentLayout = getLayoutItemById(
             workspace["layout"],
@@ -37,7 +44,7 @@ export const LayoutItemEditHeader = ({
         );
         const parentDirection = parentLayout
             ? parentLayout["direction"]
-            : item["parentWorkspace"]["direction"];
+            : "col";
 
         // determine if the item is at the "start/end" of the col/row
         const isMaxOrder = isMaxOrderForItem(
@@ -53,24 +60,14 @@ export const LayoutItemEditHeader = ({
 
         const isContainer = item.type !== "widget";//item["component"] === "Container";
         const textColor =
-            isContainer === true ? "text-gray-700" : "text-gray-300";
+            isContainer === true ? "text-gray-300" : "text-gray-300";
 
-        //console.log("HEADER ", isContainer, textColor, item);
+        console.log("HEADER ", isContainer, textColor, item, layoutItem);
 
         return (
             <div
                 className={`flex flex-row space-x-1 justify-between w-full pb-1`}
             >
-                {/* <LayoutQuickAddMenu item={item} /> */}
-                {/* {item && "workspace" in item && (
-                    <div className="flex flex-row space-x-1">
-                        <Tag
-                            text={dragType(item)}
-                            textSize={"text-xs"}
-                            backgroundColor={"bg-transparent"}
-                        />
-                    </div>
-                )} */}
                 <div className={`flex flex-row space-x-1 ${textColor}`}>
                     {canHaveChildren === true && isContainer && (
                         <ButtonIcon3
@@ -150,7 +147,7 @@ export const LayoutItemEditHeader = ({
                     item
                 )} text-gray-300 w-full justify-between items-center`}
             >
-                <span className="text-xs font-medium">{`${item["component"]}`}</span>
+                <span className="text-xs font-medium">{`${item["component"]}`} - not layout</span>
                 <div id="quick-add-menu" className="flex flex-row">
                     {renderEditFooter(layoutItem)}
                 </div>

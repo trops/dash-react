@@ -8,6 +8,7 @@
 import React from "react";
 import { ButtonIcon, Tag } from "@dash/Common";
 import DragComponent from "@dash/Common/Draggable/DragComponent";
+import { DashboardModel } from "@dash/Models";
 import {
     renderComponent,
     getContainerColor,
@@ -174,6 +175,10 @@ export const WidgetContainerGridItem = ({
         const drag = dragType(item);
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
 
+        // get the parent workspace
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+
         // determine the parent layout direction...
         const parentLayout = getLayoutItemById(
             workspace["layout"],
@@ -181,7 +186,7 @@ export const WidgetContainerGridItem = ({
         );
         const parentDirection = parentLayout
             ? parentLayout["direction"]
-            : item["parentWorkspace"]["direction"];
+            : parentWorkspace["direction"];
 
         // determine if the item is at the "start/end" of the col/row
         const isMaxOrder = isMaxOrderForItem(
@@ -212,9 +217,9 @@ export const WidgetContainerGridItem = ({
             >
                 <div
                     className={`flex flex-col w-full h-full border-4 ${getContainerBorderColor(
-                        item["parentWorkspace"]
+                        parentWorkspace
                     )} rounded text-xs font-bold text-gray-200 p-2 ${getContainerColor(
-                        item["parentWorkspace"]
+                        parentWorkspace
                     )}`}
                 >
                     <div
@@ -240,7 +245,7 @@ export const WidgetContainerGridItem = ({
                                     icon="phone"
                                     onClick={handleClickEvents}
                                     backgroundColor={getContainerColor(
-                                        item["parentWorkspace"]
+                                        parentWorkspace
                                     )}
                                     hoverBackgroundColor=""
                                     text={
@@ -288,7 +293,7 @@ export const WidgetContainerGridItem = ({
                                 icon="trash"
                                 onClick={handleClickRemove}
                                 backgroundColor={getContainerColor(
-                                    item["parentWorkspace"]
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-red-900"
                             />
@@ -345,7 +350,7 @@ export const WidgetContainerGridItem = ({
                                 icon="phone"
                                 onClick={handleClickEvents}
                                 bgColor={getContainerColor(
-                                    item["parentWorkspace"]
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-gray-900"
                                 text={
@@ -360,7 +365,7 @@ export const WidgetContainerGridItem = ({
                             icon="trash"
                             onClick={handleClickRemove}
                             backgroundColor={getContainerColor(
-                                item["parentWorkspace"]
+                                parentWorkspace
                             )}
                             hoverBackgroundColor="hover:bg-red-900"
                         />

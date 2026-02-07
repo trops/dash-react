@@ -24,6 +24,7 @@ import {
 } from "../../../Utils";
 
 import { LayoutItemEditHeader } from "../Menu/LayoutItemEditHeader";
+import { DashboardModel } from "@dash/Models";
 
 
 // uuid={uuid}
@@ -175,6 +176,10 @@ export const GridItemWidgetContainer = ({
         const canHaveChildren = config ? config["canHaveChildren"] : false;
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
 
+        // get the parent workspace
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+
         // determine the parent layout direction...
         const parentLayout = getLayoutItemById(
             workspace["layout"],
@@ -182,7 +187,7 @@ export const GridItemWidgetContainer = ({
         );
         const parentDirection = parentLayout
             ? parentLayout["direction"]
-            : item["parentWorkspace"]["direction"];
+            : parentWorkspace["direction"];
 
         // determine if the item is at the "start/end" of the col/row
         const isMaxOrder = isMaxOrderForItem(

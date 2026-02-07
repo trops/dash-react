@@ -85,7 +85,7 @@ export const Dashboard = ({
             workspaceSelected,
             workspace
         );
-        console.log("dashboard use effect");
+        console.log("dashboard use effect", workspaceSelected, workspace);
         isLoadingWorkspaces === false && loadWorkspaces();
         isLoadingMenuItems === false && loadMenuItems();
     }, [workspace]);

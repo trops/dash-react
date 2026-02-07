@@ -84,9 +84,11 @@ const PanelFooter = ({
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, {
         ...props,
-        height: "h-auto",
+        height: "h-fit",
         grow: false,
     });
+
+    console.log("PanelFooter styles", styles);
     return (
         <div
             className={`flex flex-row rounded-b justify-between items-center ${className} ${

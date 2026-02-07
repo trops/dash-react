@@ -27,6 +27,7 @@ import {
 } from "../../Utils";
 
 import { LayoutItemEditHeader } from "./Menu/LayoutItemEditHeader";
+import { DashboardModel } from "@dash/Models";
 
 
 // uuid={uuid}
@@ -145,7 +146,7 @@ export const LayoutGridContainer = memo(({
                     item
                 )} text-gray-300 w-full justify-between items-center`}
             >
-                <span className="text-xs">{`${item["component"]}`}</span>
+                <span className="text-xs">{`${item["component"]}`} - workspace</span>
                 <div id="quick-add-menu" className="flex flex-row">
                     {/* <LayoutQuickAddMenu
                         className={`text-gray-200 ${getContainerColor(item)}`}
@@ -178,6 +179,10 @@ export const LayoutGridContainer = memo(({
         const canHaveChildren = config ? config["canHaveChildren"] : false;
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
 
+        // get the parent workspace
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+
         // determine the parent layout direction...
         const parentLayout = getLayoutItemById(
             workspace["layout"],
@@ -185,7 +190,7 @@ export const LayoutGridContainer = memo(({
         );
         const parentDirection = parentLayout
             ? parentLayout["direction"]
-            : item["parentWorkspace"]["direction"];
+            : parentWorkspace["direction"];
 
         // determine if the item is at the "start/end" of the col/row
         const isMaxOrder = isMaxOrderForItem(
@@ -332,218 +337,214 @@ export const LayoutGridContainer = memo(({
         return item["parentWorkspaceName"];
     }
 
-    function renderEditModeView() {
-        if (editMode === "layout") return renderLayoutGridItem();
-        if (editMode === "workspace") return renderWorkspaceGridItem();
-        if (editMode === "widget") return renderWidgetGridItem();
-        if (editMode === "all") return renderEditItem();
-    }
+    // function renderEditModeView() {
+    //     if (editMode === "layout") return renderLayoutGridItem();
+    //     if (editMode === "workspace") return renderWorkspaceGridItem();
+    //     if (editMode === "widget") return renderWidgetGridItem();
+    //     if (editMode === "all") return renderEditItem();
+    // }
 
-    function renderLayoutGridItem() {
-        return (
-            <GridItemLayoutContainer 
-                key={`container-grid-item-${uuid}-${
-                    preview === true ? "view" : "edit"
-                }`}
-                uuid={uuid}
-                item={item}
-                layout={layout}
-                id={id}
-                parent={parent}
-                row={order}
-                col={order}
-                order={order}
-                onClickAdd={onClickAdd}
-                onClickQuickAdd={onClickQuickAdd}
-                onClickRemove={onClickRemove}
-                onClickExpand={onClickExpand}
-                onClickShrink={onClickShrink}
-                onChangeDirection={onChangeDirection}
-                onChangeOrder={onChangeOrder}
-                onDropItem={onDropItem}
-                onDragItem={onDragItem}
-                name={id}
-                width={width}
-                height={height}
-                direction={direction}
-                scrollable={scrollable}
-                space={space}
-                grow={grow}
-                preview={preview}
-                editMode={editMode}
-                component={component}
-                onOpenConfig={onOpenConfig}
-                onOpenEvents={onOpenEvents}
-                isDraggable={isDraggable}
-                workspace={workspace}
-            >
-                {children}
-            </GridItemLayoutContainer>
-        );
-    }
+    // function renderLayoutGridItem() {
+    //     return (
+    //         <GridItemLayoutContainer 
+    //             key={`container-grid-item-${uuid}-${
+    //                 preview === true ? "view" : "edit"
+    //             }`}
+    //             uuid={uuid}
+    //             item={item}
+    //             layout={layout}
+    //             id={id}
+    //             parent={parent}
+    //             row={order}
+    //             col={order}
+    //             order={order}
+    //             onClickAdd={onClickAdd}
+    //             onClickQuickAdd={onClickQuickAdd}
+    //             onClickRemove={onClickRemove}
+    //             onClickExpand={onClickExpand}
+    //             onClickShrink={onClickShrink}
+    //             onChangeDirection={onChangeDirection}
+    //             onChangeOrder={onChangeOrder}
+    //             onDropItem={onDropItem}
+    //             onDragItem={onDragItem}
+    //             name={id}
+    //             width={width}
+    //             height={height}
+    //             direction={direction}
+    //             scrollable={scrollable}
+    //             space={space}
+    //             grow={grow}
+    //             preview={preview}
+    //             editMode={editMode}
+    //             component={component}
+    //             onOpenConfig={onOpenConfig}
+    //             onOpenEvents={onOpenEvents}
+    //             isDraggable={isDraggable}
+    //             workspace={workspace}
+    //         >
+    //             {children}
+    //         </GridItemLayoutContainer>
+    //     );
+    // }
 
-    function renderWorkspaceGridItem() {
-        return (
-            <GridItemWorkspaceContainer 
-                key={`container-grid-item-${uuid}-${
-                    preview === true ? "view" : "edit"
-                }`}
-                uuid={uuid}
-                item={item}
-                layout={layout}
-                id={id}
-                parent={parent}
-                row={order}
-                col={order}
-                order={order}
-                onClickAdd={onClickAdd}
-                onClickQuickAdd={onClickQuickAdd}
-                onClickRemove={onClickRemove}
-                onClickExpand={onClickExpand}
-                onClickShrink={onClickShrink}
-                onChangeDirection={onChangeDirection}
-                onChangeOrder={onChangeOrder}
-                onDropItem={onDropItem}
-                onDragItem={onDragItem}
-                name={id}
-                width={width}
-                height={height}
-                direction={direction}
-                scrollable={scrollable}
-                space={space}
-                grow={grow}
-                preview={preview}
-                editMode={editMode}
-                component={component}
-                onOpenConfig={onOpenConfig}
-                onOpenEvents={onOpenEvents}
-                isDraggable={isDraggable}
-                workspace={workspace}
-            >
-                {children}
-            </GridItemWorkspaceContainer>
-        )
-    }
+    // function renderWorkspaceGridItem() {
+    //     return (
+    //         <GridItemWorkspaceContainer 
+    //             key={`container-grid-item-${uuid}-${
+    //                 preview === true ? "view" : "edit"
+    //             }`}
+    //             uuid={uuid}
+    //             item={item}
+    //             layout={layout}
+    //             id={id}
+    //             parent={parent}
+    //             row={order}
+    //             col={order}
+    //             order={order}
+    //             onClickAdd={onClickAdd}
+    //             onClickQuickAdd={onClickQuickAdd}
+    //             onClickRemove={onClickRemove}
+    //             onClickExpand={onClickExpand}
+    //             onClickShrink={onClickShrink}
+    //             onChangeDirection={onChangeDirection}
+    //             onChangeOrder={onChangeOrder}
+    //             onDropItem={onDropItem}
+    //             onDragItem={onDragItem}
+    //             name={id}
+    //             width={width}
+    //             height={height}
+    //             direction={direction}
+    //             scrollable={scrollable}
+    //             space={space}
+    //             grow={grow}
+    //             preview={preview}
+    //             editMode={editMode}
+    //             component={component}
+    //             onOpenConfig={onOpenConfig}
+    //             onOpenEvents={onOpenEvents}
+    //             isDraggable={isDraggable}
+    //             workspace={workspace}
+    //         >
+    //             {children}
+    //         </GridItemWorkspaceContainer>
+    //     )
+    // }
 
-    function renderWidgetGridItem() {
-        return (
-            <GridItemWidgetContainer 
-                key={`container-grid-item-${uuid}-${
-                    preview === true ? "view" : "edit"
-                }`}
-                uuid={uuid}
-                item={item}
-                layout={layout}
-                id={id}
-                parent={parent}
-                row={order}
-                col={order}
-                order={order}
-                onClickAdd={onClickAdd}
-                onClickQuickAdd={onClickQuickAdd}
-                onClickRemove={onClickRemove}
-                onClickExpand={onClickExpand}
-                onClickShrink={onClickShrink}
-                onChangeDirection={onChangeDirection}
-                onChangeOrder={onChangeOrder}
-                onDropItem={onDropItem}
-                onDragItem={onDragItem}
-                name={id}
-                width={width}
-                height={height}
-                direction={direction}
-                scrollable={scrollable}
-                space={space}
-                grow={grow}
-                preview={preview}
-                editMode={editMode}
-                component={component}
-                onOpenConfig={onOpenConfig}
-                onOpenEvents={onOpenEvents}
-                isDraggable={isDraggable}
-                workspace={workspace}
-            >
-                {children}
-            </GridItemWidgetContainer>
-        )
-    }
+    // function renderWidgetGridItem() {
+    //     return (
+    //         <GridItemWidgetContainer 
+    //             key={`container-grid-item-${uuid}-${
+    //                 preview === true ? "view" : "edit"
+    //             }`}
+    //             uuid={uuid}
+    //             item={item}
+    //             layout={layout}
+    //             id={id}
+    //             parent={parent}
+    //             row={order}
+    //             col={order}
+    //             order={order}
+    //             onClickAdd={onClickAdd}
+    //             onClickQuickAdd={onClickQuickAdd}
+    //             onClickRemove={onClickRemove}
+    //             onClickExpand={onClickExpand}
+    //             onClickShrink={onClickShrink}
+    //             onChangeDirection={onChangeDirection}
+    //             onChangeOrder={onChangeOrder}
+    //             onDropItem={onDropItem}
+    //             onDragItem={onDragItem}
+    //             name={id}
+    //             width={width}
+    //             height={height}
+    //             direction={direction}
+    //             scrollable={scrollable}
+    //             space={space}
+    //             grow={grow}
+    //             preview={preview}
+    //             editMode={editMode}
+    //             component={component}
+    //             onOpenConfig={onOpenConfig}
+    //             onOpenEvents={onOpenEvents}
+    //             isDraggable={isDraggable}
+    //             workspace={workspace}
+    //         >
+    //             {children}
+    //         </GridItemWidgetContainer>
+    //     )
+    // }
     
 
 
-    function renderEditItem() {
-        return (
-            <DropComponent
-                item={item}
-                id={id}
-                type={dropType(item)}
-                onDropItem={handleDropItem}
-                width={item.width}
-                height={item.height}
-            >
-            <DragComponent
-                id={id}
-                type={dragType(item)}
-                onDropItem={handleDropItem}
-                onDragItem={handleDragItem}
-                width={"w-full"}
-                height={"h-full"}
-            >
-                <LayoutContainer
-                    id={`grid-container-parent-${id}`}
-                    direction={"col"}
-                    width={"w-full"}
-                    height={"h-full"}
-                    scrollable={false}
-                    className={`rounded overflow-x-clip ${
-                        preview === false && "border-2 rounded"
-                    } ${preview === false && getContainerBorderColor(item)} ${
-                        preview === false && getBorderStyle()
-                    } min-h-24 ${item["component"] === "Container" && ""} z-10`}
-                    space={preview}
-                >
-                    {/* {preview === false && renderEditFooter()} */}
-                    {/* {preview === false && renderEditHeader()} */}
-                    {preview === false && (
-                        <LayoutItemEditHeader
-                            layoutItem={item}
-                            workspace={workspace}
-                            direction={direction}
-                            order={order}
-                            parent={parent}
-                            onChangeOrder={handleChangeOrder}
-                            onChangeDirection={handleChangeDirection}
-                            onRemove={handleClickRemove}
-                            onClickAdd={handleClickAdd}
-                            onOpenConfig={handleOpenConfig}
-                        />
-                    )}
-                    <LayoutContainer
-                        id={`grid-container-${id}`}
-                        direction={direction}
-                        scrollable={scrollable}
-                        width={"w-full"}
-                        height={`${height} min-h-24`}
-                        space={preview}
-                        grow={grow}
-                        className={`${
-                            preview === false &&
-                            item["component"] !== "Container"
-                                ? "p-3"
-                                : "p-3"
-                        } ${direction === "row" ? "my-4 space-x-4" : "space-y-4"} ${item.hasChildren === true ? "justify-between" : ""}`}
-                    >
-                        {children !== null && children}
-                    </LayoutContainer>
-                    {/* {preview === false && renderEditFooter()} */}
-                </LayoutContainer>
-            </DragComponent>
-        </DropComponent>
-        )
-    }
-
-
-
-
+    // function renderEditItem() {
+    //     return (
+    //         <DropComponent
+    //             item={item}
+    //             id={id}
+    //             type={dropType(item)}
+    //             onDropItem={handleDropItem}
+    //             width={item.width}
+    //             height={item.height}
+    //         >
+    //         <DragComponent
+    //             id={id}
+    //             type={dragType(item)}
+    //             onDropItem={handleDropItem}
+    //             onDragItem={handleDragItem}
+    //             width={"w-full"}
+    //             height={"h-full"}
+    //         >
+    //             <LayoutContainer
+    //                 id={`grid-container-parent-${id}`}
+    //                 direction={"col"}
+    //                 width={"w-full"}
+    //                 height={"h-full"}
+    //                 scrollable={false}
+    //                 className={`rounded overflow-x-clip ${
+    //                     preview === false && "border-2 rounded"
+    //                 } ${preview === false && getContainerBorderColor(item)} ${
+    //                     preview === false && getBorderStyle()
+    //                 } min-h-24 ${item["component"] === "Container" && ""} z-10`}
+    //                 space={preview}
+    //             >
+    //                 {/* {preview === false && renderEditFooter()} */}
+    //                 {/* {preview === false && renderEditHeader()} */}
+    //                 {preview === false && (
+    //                     <LayoutItemEditHeader
+    //                         layoutItem={item}
+    //                         workspace={workspace}
+    //                         direction={direction}
+    //                         order={order}
+    //                         parent={parent}
+    //                         onChangeOrder={handleChangeOrder}
+    //                         onChangeDirection={handleChangeDirection}
+    //                         onRemove={handleClickRemove}
+    //                         onClickAdd={handleClickAdd}
+    //                         onOpenConfig={handleOpenConfig}
+    //                     />
+    //                 )}
+    //                 <LayoutContainer
+    //                     id={`grid-container-${id}`}
+    //                     direction={direction}
+    //                     scrollable={scrollable}
+    //                     width={"w-full"}
+    //                     height={`${height} min-h-24`}
+    //                     space={preview}
+    //                     grow={grow}
+    //                     className={`${
+    //                         preview === false &&
+    //                         item["component"] !== "Container"
+    //                             ? "p-3"
+    //                             : "p-3"
+    //                     } ${direction === "row" ? "my-4 space-x-4" : "space-y-4"} ${item.hasChildren === true ? "justify-between" : ""}`}
+    //                 >
+    //                     {children !== null && children}
+    //                 </LayoutContainer>
+    //                 {/* {preview === false && renderEditFooter()} */}
+    //             </LayoutContainer>
+    //         </DragComponent>
+    //     </DropComponent>
+    //     )
+    // }
 
 
     return preview === false ? (
@@ -578,6 +579,7 @@ export const LayoutGridContainer = memo(({
                 >
                     {/* {preview === false && renderEditFooter()} */}
                     {/* {preview === false && renderEditHeader()} */}
+                    
                     {preview === false && (
                         <LayoutItemEditHeader
                             layoutItem={item}

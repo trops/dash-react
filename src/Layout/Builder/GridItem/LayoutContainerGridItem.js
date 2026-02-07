@@ -171,9 +171,10 @@ export const LayoutContainerGridItem = ({
     // }
 
     function renderEditView() {
-        console.log("rendering edit view for item ", item, isDraggable);
         const drag = dragType(item);
         const numChildren = numChildrenForLayout(item, workspace["layout"]);
+
+        const parentWorkspace = DashboardModel.getComponentById(item["parent"]);
 
         // determine the parent layout direction...
         const parentLayout = getLayoutItemById(
@@ -182,7 +183,7 @@ export const LayoutContainerGridItem = ({
         );
         const parentDirection = parentLayout
             ? parentLayout["direction"]
-            : item["parentWorkspace"]["direction"];
+            : parentWorkspace["direction"];
 
         // determine if the item is at the "start/end" of the col/row
         const isMaxOrder = isMaxOrderForItem(
@@ -208,9 +209,9 @@ export const LayoutContainerGridItem = ({
             >
                 <div
                     className={`flex flex-col border-4 ${getContainerBorderColor(
-                        item["parentWorkspace"]
+                        parentWorkspace
                     )} rounded text-xs font-bold text-gray-200 p-2 ${getContainerColor(
-                        item["parentWorkspace"]
+                        parentWorkspace
                     )}`}
                 >
                     <div
@@ -236,7 +237,7 @@ export const LayoutContainerGridItem = ({
                                     icon="phone"
                                     onClick={handleClickEvents}
                                     backgroundColor={getContainerColor(
-                                        item["parentWorkspace"]
+                                        parentWorkspace
                                     )}
                                     hoverBackgroundColor=""
                                     text={
@@ -284,7 +285,7 @@ export const LayoutContainerGridItem = ({
                                 icon="trash"
                                 onClick={handleClickRemove}
                                 backgroundColor={getContainerColor(
-                                    item["parentWorkspace"]
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-red-900"
                             />
@@ -341,7 +342,7 @@ export const LayoutContainerGridItem = ({
                                 icon="phone"
                                 onClick={handleClickEvents}
                                 bgColor={getContainerColor(
-                                    item["parentWorkspace"]
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-gray-900"
                                 text={
@@ -356,7 +357,7 @@ export const LayoutContainerGridItem = ({
                             icon="trash"
                             onClick={handleClickRemove}
                             backgroundColor={getContainerColor(
-                                item["parentWorkspace"]
+                                parentWorkspace
                             )}
                             hoverBackgroundColor="hover:bg-red-900"
                         />

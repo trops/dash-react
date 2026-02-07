@@ -6,3 +6,4 @@ export * from "./ThemeModel";
 export * from "./ComponentConfigModel";
 export * from "./MenuItemModel";
 export * from "./DashboardModel";
+export * from "./ContextModel";

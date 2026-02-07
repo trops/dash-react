@@ -36,9 +36,18 @@ const WidgetFactory = {
 
                 // get the config details from the .dash file
                 const config = ComponentManager.config(component, params);
+                console.log("WidgetFactory config", config, component, params);
 
-                // and set the styles from the config if they exist
-                const styles = "styles" in config ? config["styles"] : null;
+                let styles = null;
+                // if the config is not null, then we can check for styles  
+                if (config !== null && config !== undefined) {
+                    // check to see if the config has styles
+                    // if it does, then we can use those styles
+                    // otherwise, we will use the default styles
+                    // styles will be an object with the styles for the widget
+                    // and set the styles from the config if they exist
+                    styles = "styles" in config ? config["styles"] : null;
+                }
 
                 // user input for the customization of the widget
                 const userPrefs = params["userPrefs"];

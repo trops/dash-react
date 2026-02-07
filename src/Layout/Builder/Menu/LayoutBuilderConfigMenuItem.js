@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Tag } from "@dash/Common";
 import { getContainerColor } from "@dash/Utils";
+import { DashboardModel } from "@dash/Models";
 
 const LayoutBuilderConfigMenuItem = ({
     id,
@@ -8,6 +9,7 @@ const LayoutBuilderConfigMenuItem = ({
     onClick,
     onMouseOver,
     item,
+    workspace
 }) => {
     const [isMouseOver, setIsMouseOver] = useState(false);
 
@@ -24,6 +26,13 @@ const LayoutBuilderConfigMenuItem = ({
         onClick(item);
     }
 
+    function getContainerColorForParent() {
+        // get the parent workspace
+        const dashboard = new DashboardModel(workspace);
+        const parentWorkspace = dashboard.getComponentById(item["parent"]);
+        return getContainerColor(parentWorkspace);
+    }
+
     return (
         <div
             className={`flex flex-row w-full border border-gray-900 space-x-2 p-2 cursor-pointer justify-between items-center ${
@@ -37,7 +46,7 @@ const LayoutBuilderConfigMenuItem = ({
                 <Tag
                     textSize={"text-xs"}
                     text={`${id}`}
-                    color={getContainerColor(item["parentWorkspace"])}
+                    color={getContainerColorForParent()}
                 />
                 <span
                     className={`text-sm font-medium ${

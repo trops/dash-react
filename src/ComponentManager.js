@@ -36,6 +36,7 @@ export const ComponentManager = {
      * @param {*} widgetKey the unique id for the widget
      */
     registerWidget: function (widgetConfig, widgetKey) {
+
         const tempComponentMap = this.componentMap();
         tempComponentMap[widgetKey] = ComponentConfigModel(
             widgetConfig.default
@@ -98,6 +99,7 @@ export const ComponentManager = {
             return null;
         }
     },
+
     getWorkspaceByName: function (workspaceName) {
         try {
             const m = this.componentMap();
@@ -105,7 +107,7 @@ export const ComponentManager = {
             if (m) {
                 Object.keys(m).forEach(componentName => {
                     const cmp = m[componentName];
-                    if (cmp.workspace === workspaceName && cmp["type"] === "workspace") {
+                    if ((cmp.workspace === `${workspaceName}-workspace` || cmp.workspace === workspaceName) && cmp["type"] === "workspace") {
                         cmp["component"] = componentName;
                         workspaceComponent = cmp;
                     }
@@ -116,7 +118,105 @@ export const ComponentManager = {
             return null;
         }
     },
+
+    getCompatibleWidgetsForWorkspace: function (workspaceName) {
+        try {
+            const m = this.componentMap();
+            if (m) {
+                return Object.keys(m).filter(componentName => {
+                    const cmp = m[componentName];
+                    if ((cmp.workspace === `${workspaceName}-workspace` || cmp.workspace === workspaceName) && cmp["type"] === "widget") {
+                        cmp["component"] = componentName;
+                        return componentName;
+                    }
+                });
+            }
+        } catch (e) {
+            return null;
+        }
+    },
+
+     getWorkspaces: function () {
+        try {
+            const m = this.componentMap();
+            if (m) {
+                return Object.keys(m).filter(componentName => {
+                    const cmp = m[componentName];
+                    if (cmp["type"] === "workspace") {
+                        cmp["component"] = componentName;
+                        return componentName;
+                    }
+                });
+            }
+        } catch (e) {
+            return null;
+        }
+    },
+
+    getWidgets: function () {
+        try {
+            const m = this.componentMap();
+            if (m) {
+                return Object.keys(m).filter(componentName => {
+                    const cmp = m[componentName];
+                    if (cmp["type"] === "widget") {
+                        cmp["component"] = componentName;
+                        return componentName;
+                    }
+                });
+            }
+        } catch (e) {
+            return null;
+        }
+    },
+
+
+    getContextsForLayout: function (config) {
+        try {
+            const m = this.componentMap();
+            const contexts = [];
+            if (m) {
+                config.layout.forEach((item) => {
+                    if ("contexts" in item && item.contexts) {
+                        item.contexts.forEach((context) => {
+                            // we want to push the Context component and the user configuration data
+                            contexts.push({ provider: m[context], props: item });
+                        });
+                    }
+                });
+            }
+            return contexts;
+        } catch (e) {
+            console.log("error getting contexts ", e);
+            return null;
+        }
+    },
+    /**
+     * Get the context by name, so that we can render all of the contexts around the dashboard widgets selected
+     * @param {String} contextName the name of the context to be fetched
+     * @returns 
+     */
+    getContextByName: function (contextName) {
+        try {
+            const m = this.componentMap();
+            let contextComponent = null;
+            if (m) {
+                Object.keys(m).forEach(componentName => {
+                    const cmp = m[componentName];
+                    if (cmp.workspace === `${contextName}-context` && cmp["type"] === "context") {
+                        cmp["component"] = componentName;
+                        contextComponent = cmp;
+                    }
+                });
+                return contextComponent;
+            }
+        } catch (e) {
+            return null;
+        }
+    },
+
     config: function (component, data = {}) {
+        try {
         if (component) {
             // console.log("config");
             const requiredFields = {
@@ -127,10 +227,15 @@ export const ComponentManager = {
             };
 
             // get the component configuration from the map
-            const components = ComponentManager.map();
+            const components = this.componentMap();
             if (component in components) {
                 // let c = deepCopy(components['component']);
-                let c = JSON.parse(JSON.stringify(components[component]));
+
+                // we have to make sure that we remove the component if this is a context
+
+                const tempComponent = components[component];
+                delete tempComponent["component"];
+                let c = JSON.parse(JSON.stringify(tempComponent));
 
                 // tack on the component name
                 c["component"] = component;
@@ -181,6 +286,10 @@ export const ComponentManager = {
             return null;
         }
         return null;
+    } catch(e) {
+        console.log("error getting config for component ", component, e);
+        return null;
+    }
     },
     /**
      * userConfig

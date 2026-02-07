@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonIcon, Panel, Modal } from "@dash/Common";
 
 import PanelEditItem from "./Panel/PanelEditItem";
+import PanelEditItemGrid from "./Panel/PanelEditItemGrid";
+
 import { PanelEditItemHandlers } from "./Panel";
 import PanelCode from "./Panel/PanelCode";
 import { ThemeContext } from "@dash/Context";
@@ -48,6 +50,7 @@ export const LayoutBuilderConfigModal = ({
      * @param {*} workspaceChanged the Workspace item
      */
     function handleEditChange(itemChanged, workspaceChanged) {
+        console.log("handleEditChange ", itemChanged, workspaceChanged);
         console.log("handle edit ", itemChanged, workspaceChanged);
         setItemSelected(() => itemChanged);
         setWorkspaceSelected(() => workspaceChanged);
@@ -78,7 +81,8 @@ export const LayoutBuilderConfigModal = ({
                             >
                                 <ButtonIcon
                                     icon="cog"
-                                    iconSize={"w-6 h-6"}
+                                    text="Settings"
+                                    iconSize={"w-4 h-4"}
                                     onClick={() =>
                                         setConfigMenuItemSelected("edit")
                                     }
@@ -88,10 +92,29 @@ export const LayoutBuilderConfigModal = ({
                                             : "bg-blue-900"
                                     }
                                 />
+                                {itemSelected["type"] !== "widget" && "grid" in itemSelected === true && (
+                                    <ButtonIcon
+                                        icon="square"
+                                        text="Layout"
+                                        iconSize={"w-4 h-4"}
+                                        onClick={() =>
+                                            setConfigMenuItemSelected(
+                                                "grid_layout"
+                                            )
+                                        }
+                                        bgColor={
+                                            configMenuItemSelected ===
+                                            "handlers"
+                                                ? "bg-blue-700"
+                                                : "bg-blue-900"
+                                        }
+                                    />
+                                )}
                                 {itemSelected["workspace"] !== "layout" && (
                                     <ButtonIcon
                                         icon="phone"
-                                        iconSize={"w-6 h-6"}
+                                        text="Listeners"
+                                        iconSize={"w-4 h-4"}
                                         onClick={() =>
                                             setConfigMenuItemSelected(
                                                 "handlers"
@@ -107,7 +130,8 @@ export const LayoutBuilderConfigModal = ({
                                 )}
                                 <ButtonIcon
                                     icon="code"
-                                    iconSize={"w-6 h-6"}
+                                    text="Code"
+                                    iconSize={"w-4 h-4"}
                                     onClick={() =>
                                         setConfigMenuItemSelected("code")
                                     }
@@ -123,6 +147,14 @@ export const LayoutBuilderConfigModal = ({
                             >
                                 {configMenuItemSelected === "edit" && (
                                     <PanelEditItem
+                                        item={itemSelected}
+                                        onUpdate={handleEditChange}
+                                        workspace={workspaceSelected}
+                                    />
+                                )}
+
+                                {configMenuItemSelected === "grid_layout" && (
+                                    <PanelEditItemGrid
                                         item={itemSelected}
                                         onUpdate={handleEditChange}
                                         workspace={workspaceSelected}

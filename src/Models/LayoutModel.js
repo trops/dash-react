@@ -7,6 +7,17 @@ import { getNearestParentWorkspace, deepCopy } from "@dash/Utils";
  * @param {Number} dashboardId the id of the dashboard we are making 
  * @returns {Object} the layout object to be rendered 
  */
+
+
+function sortObjectByKeys(obj) {
+    const sortedKeys = Object.keys(obj).sort();
+    const sortedObj = {};
+    for (const key of sortedKeys) {
+        sortedObj[key] = obj[key];
+    }
+    return sortedObj;
+}
+
 export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
     try {
         if (layoutItem === null || layoutItem === undefined) {
@@ -51,6 +62,11 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                 : false;
 
         layout.component = "component" in obj ? obj.component : "Container";
+
+        /**
+         * @param {Array} contexts the contexts in which this layout item can be used
+         */
+        layout.contexts = "contexts" in obj ? obj.contexts : [];
 
         // could be a component name as well...
         if ("componentName" in obj) {
@@ -120,28 +136,40 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                 ? `${dashboardId}-${layout["component"]}-${layout.id}`
                 : `${layout["component"]}-${layout.id}`;
 
-        // if (layout.componentData !== undefined) {
-        //     if ("type" in layout.componentData)
-        //         layout.type = layout.componentData.type;
-        //     if ("workspace" in layout.componentData)
-        //         layout.workspace = layout.componentData.workspace;
-        // }
 
         /// widget configuration
         const widgetConfig = ComponentManager.config(layout["component"], obj);
-
+        layout.userPrefs = {};
+        layout.widgetConfig = widgetConfig;
         if (widgetConfig !== null && widgetConfig !== undefined) {
-            Object.keys(widgetConfig).forEach((key) => {
-                // console.log("LayoutModel key", key);
-                layout[key] = widgetConfig[key];
-            });
+            layout.userPrefs =
+                "userPrefs" in widgetConfig ? widgetConfig["userPrefs"] : {};
+            // console.log("widgetConfig ", widgetConfig);
+            // const userPrefs = "userPrefs" in widgetConfig ? widgetConfig["userPrefs"] : {};
+            // Object.keys(userPrefs).forEach((key) => {
+            //     console.log("key ", key, " value ", userPrefs[key]);
+            //     layout["userPrefs"][key] = widgetConfig["userPrefs"][key];
+            // });
         }
 
+        layout.grid = "grid" in obj ? obj["grid"] : null;//{ "rows": 1, "cols": 1, "0.0": { component: null }};
+        if (layout.grid !== null) {
+            layout.grid = sortObjectByKeys(layout.grid);
+        }
+
+        layout.parentWorkspaceName = "parentWorkspaceName" in obj ? obj["parentWorkspaceName"] : null;
+        
+
         // last check for this being a container...
-        if ("workspace" in layout) {
-            if (layout.workspace === "layout") {
-                // if (layout.width === "") {
-                //     layout.width = "w-full";
+        // we are forcing ALL containers to be w full and h full 
+        // not sure this is a good idea, but...
+        if ("workspace" in layout || layout.type !== "widget") {
+            // if (layout.workspace === "layout") {
+                if (layout.width === "") {
+                    layout.width = "w-full";
+                }
+                // if (layout.height === "") {
+                    layout.height = "h-full";
                 // }
                 // if (layout.scrollable === "") {
                 //     layout.scrollable = true;
@@ -149,13 +177,13 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                 if (layout.direction === "") {
                     layout.direction = "col";
                 }
-            }
+            // }
         }
+
 
         // lets check to see if we already have the parent workspace?
         if (
-            layout.parentWorkspaceName === undefined ||
-            Object.keys(layout.parentWorkspace).length === 0
+            layout.parentWorkspaceName === null
         ) {
             // get the nearest workspace and assign this as the parent for rendering
             const tempLayout = deepCopy(layout);
@@ -172,9 +200,10 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                 }
             }
             layout.parentWorkspaceName = parentWorkspaceName;
-            layout.parentWorkspace = parentWS || {};
+            // layout.parentWorkspace = parentWS || {};
         }
 
+        console.log("layout model ", layout);
         return layout;
     } catch (e) {
         console.log("layout model ", e.message);
