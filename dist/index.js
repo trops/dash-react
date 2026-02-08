@@ -488,6 +488,420 @@ var CHOOSE_FILE_COMPLETE = "choose-file-complete";
 var CHOOSE_FILE_ERROR = "choose-file-error";
 
 /**
+ * Events
+ *
+ * Sample events (constants) that are to be used for listeners
+ */
+
+// console.log("workspace evenbts ", ...workspaceEvents);
+
+// const publicEvents = {
+//     algoliaEvents,
+//     dataEvents,
+// };
+
+// export { publicEvents };
+// const publicEvents = {
+//     algoliaEvents,
+//     dataEvents,
+// };
+
+// const events = {
+//     secureStorageEvents,
+//     settingsEvents,
+//     algoliaEvents,
+//     workspaceEvents,
+//     layoutEvents,
+//     dataEvents,
+//     menuItemEvents,
+//     themeEvents,
+// };
+
+// export { events };
+
+// export {
+//     publicEvents,
+//     secureStorageEvents,
+//     algoliaEvents,
+//     workspaceEvents,
+//     layoutEvents,
+//     menuItemEvents,
+//     themeEvents,
+//     dataEvents,
+//     settingsEvents,
+// };
+
+var apiEvents = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    SECURE_STORE_ENCRYPTION_CHECK: SECURE_STORE_ENCRYPTION_CHECK,
+    SECURE_STORE_ENCRYPTION_CHECK_COMPLETE: SECURE_STORE_ENCRYPTION_CHECK_COMPLETE,
+    SECURE_STORE_ENCRYPTION_CHECK_ERROR: SECURE_STORE_ENCRYPTION_CHECK_ERROR,
+    SECURE_STORAGE_ENCRYPT_STRING: SECURE_STORAGE_ENCRYPT_STRING,
+    SECURE_STORAGE_ENCRYPT_STRING_COMPLETE: SECURE_STORAGE_ENCRYPT_STRING_COMPLETE,
+    SECURE_STORAGE_ENCRYPT_STRING_ERROR: SECURE_STORAGE_ENCRYPT_STRING_ERROR,
+    SECURE_STORE_GET_DATA: SECURE_STORE_GET_DATA,
+    SECURE_STORE_GET_DATA_COMPLETE: SECURE_STORE_GET_DATA_COMPLETE,
+    SECURE_STORE_GET_DATA_ERROR: SECURE_STORE_GET_DATA_ERROR,
+    SECURE_STORE_SET_DATA: SECURE_STORE_SET_DATA,
+    SECURE_STORE_SET_DATA_COMPLETE: SECURE_STORE_SET_DATA_COMPLETE,
+    SECURE_STORE_SET_DATA_ERROR: SECURE_STORE_SET_DATA_ERROR,
+    ALGOLIA_LIST_INDICES: ALGOLIA_LIST_INDICES,
+    ALGOLIA_LIST_INDICES_COMPLETE: ALGOLIA_LIST_INDICES_COMPLETE,
+    ALGOLIA_LIST_INDICES_ERROR: ALGOLIA_LIST_INDICES_ERROR,
+    ALGOLIA_ANALYTICS_FOR_QUERY: ALGOLIA_ANALYTICS_FOR_QUERY,
+    ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE: ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE,
+    ALGOLIA_ANALYTICS_FOR_QUERY_ERROR: ALGOLIA_ANALYTICS_FOR_QUERY_ERROR,
+    WORKSPACE_LIST: WORKSPACE_LIST,
+    WORKSPACE_LIST_COMPLETE: WORKSPACE_LIST_COMPLETE,
+    WORKSPACE_LIST_ERROR: WORKSPACE_LIST_ERROR,
+    WORKSPACE_SAVE: WORKSPACE_SAVE,
+    WORKSPACE_SAVE_COMPLETE: WORKSPACE_SAVE_COMPLETE,
+    WORKSPACE_SAVE_ERROR: WORKSPACE_SAVE_ERROR,
+    LAYOUT_LIST: LAYOUT_LIST,
+    LAYOUT_LIST_COMPLETE: LAYOUT_LIST_COMPLETE,
+    LAYOUT_LIST_ERROR: LAYOUT_LIST_ERROR,
+    LAYOUT_SAVE: LAYOUT_SAVE,
+    LAYOUT_SAVE_COMPLETE: LAYOUT_SAVE_COMPLETE,
+    LAYOUT_SAVE_ERROR: LAYOUT_SAVE_ERROR,
+    MENU_ITEMS_SAVE: MENU_ITEMS_SAVE,
+    MENU_ITEMS_SAVE_COMPLETE: MENU_ITEMS_SAVE_COMPLETE,
+    MENU_ITEMS_SAVE_ERROR: MENU_ITEMS_SAVE_ERROR,
+    MENU_ITEMS_LIST: MENU_ITEMS_LIST,
+    MENU_ITEMS_LIST_COMPLETE: MENU_ITEMS_LIST_COMPLETE,
+    MENU_ITEMS_LIST_ERROR: MENU_ITEMS_LIST_ERROR,
+    THEME_LIST: THEME_LIST,
+    THEME_LIST_COMPLETE: THEME_LIST_COMPLETE,
+    THEME_LIST_ERROR: THEME_LIST_ERROR,
+    THEME_SAVE: THEME_SAVE,
+    THEME_SAVE_COMPLETE: THEME_SAVE_COMPLETE,
+    THEME_SAVE_ERROR: THEME_SAVE_ERROR,
+    PROVIDER_LIST_COMPLETE: PROVIDER_LIST_COMPLETE,
+    PROVIDER_LIST_ERROR: PROVIDER_LIST_ERROR,
+    PROVIDER_SAVE_COMPLETE: PROVIDER_SAVE_COMPLETE,
+    PROVIDER_SAVE_ERROR: PROVIDER_SAVE_ERROR,
+    PROVIDER_DELETE_COMPLETE: PROVIDER_DELETE_COMPLETE,
+    PROVIDER_DELETE_ERROR: PROVIDER_DELETE_ERROR,
+    PROVIDER_GET_COMPLETE: PROVIDER_GET_COMPLETE,
+    PROVIDER_GET_ERROR: PROVIDER_GET_ERROR,
+    DATA_JSON_TO_CSV_FILE: DATA_JSON_TO_CSV_FILE,
+    DATA_JSON_TO_CSV_FILE_COMPLETE: DATA_JSON_TO_CSV_FILE_COMPLETE,
+    DATA_JSON_TO_CSV_FILE_ERROR: DATA_JSON_TO_CSV_FILE_ERROR,
+    DATA_READ_FROM_FILE: DATA_READ_FROM_FILE,
+    DATA_READ_FROM_FILE_COMPLETE: DATA_READ_FROM_FILE_COMPLETE,
+    DATA_READ_FROM_FILE_ERROR: DATA_READ_FROM_FILE_ERROR,
+    DATA_SAVE_TO_FILE: DATA_SAVE_TO_FILE,
+    DATA_SAVE_TO_FILE_COMPLETE: DATA_SAVE_TO_FILE_COMPLETE,
+    DATA_SAVE_TO_FILE_ERROR: DATA_SAVE_TO_FILE_ERROR,
+    DATA_JSON_TO_CSV_STRING: DATA_JSON_TO_CSV_STRING,
+    DATA_JSON_TO_CSV_STRING_COMPLETE: DATA_JSON_TO_CSV_STRING_COMPLETE,
+    DATA_JSON_TO_CSV_STRING_ERROR: DATA_JSON_TO_CSV_STRING_ERROR,
+    SETTINGS_GET: SETTINGS_GET,
+    SETTINGS_GET_COMPLETE: SETTINGS_GET_COMPLETE,
+    SETTINGS_GET_ERROR: SETTINGS_GET_ERROR,
+    SETTINGS_SAVE: SETTINGS_SAVE,
+    SETTINGS_SAVE_COMPLETE: SETTINGS_SAVE_COMPLETE,
+    SETTINGS_SAVE_ERROR: SETTINGS_SAVE_ERROR,
+    CHOOSE_FILE: CHOOSE_FILE,
+    CHOOSE_FILE_COMPLETE: CHOOSE_FILE_COMPLETE,
+    CHOOSE_FILE_ERROR: CHOOSE_FILE_ERROR
+});
+
+var ElectronDashboardApi = /** @class */ (function () {
+    function ElectronDashboardApi(api, appId, events) {
+        if (appId === void 0) { appId = null; }
+        this.api = api;
+        this.appId = appId;
+        if (events) {
+            this.events = events;
+        }
+        else {
+            this.events = apiEvents;
+        }
+    }
+    ElectronDashboardApi.prototype.chooseFile = function (allowFile, extensions, onSuccess) {
+        if (allowFile === void 0) { allowFile = true; }
+        if (extensions === void 0) { extensions = ["*"]; }
+        console.log("choose file electron api");
+        try {
+            this.api.removeAllListeners(this.events.CHOOSE_FILE_COMPLETE);
+            this.api.on(this.events.CHOOSE_FILE_COMPLETE, onSuccess);
+            this.api.dialog.chooseFile(allowFile, extensions);
+        }
+        catch (e) {
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listWorkspaces = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners(this.events.WORKSPACE_LIST_COMPLETE);
+                this.api.removeAllListeners(this.events.WORKSPACE_LIST_ERROR);
+                this.api.on(this.events.WORKSPACE_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.WORKSPACE_LIST_ERROR, onError);
+                this.api.workspace.listWorkspacesForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.WORKSPACE_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.WORKSPACE_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listContexts = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners(this.events.CONTEXT_LIST_COMPLETE);
+                this.api.removeAllListeners(this.events.CONTEXT_LIST_ERROR);
+                this.api.on(this.events.CONTEXT_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.CONTEXT_LIST_ERROR, onError);
+                this.api.context.listContextForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.CONTEXT_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.CONTEXT_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listMenuItems = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.on(this.events.MENU_ITEMS_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.MENU_ITEMS_LIST_ERROR, onError);
+                this.api.menuItems.listMenuItems(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.MENU_ITEMS_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.MENU_ITEMS_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listThemes = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.THEME_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.THEME_LIST_ERROR, onError);
+                this.api.themes.listThemesForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.THEME_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.THEME_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listSettings = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.SETTINGS_GET_COMPLETE, onSuccess);
+                this.api.on(this.events.SETTINGS_GET_ERROR, onError);
+                this.api.settings.getSettingsForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.SETTINGS_GET_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.SETTINGS_GET_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveMenuItem = function (appId, menuItem, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.MENU_ITEMS_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.MENU_ITEMS_SAVE_ERROR, onError);
+                this.api.menuItems.saveMenuItem(appId, menuItem);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.MENU_ITEMS_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.MENU_ITEMS_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveWorkspace = function (appId, workspaceToSave, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.WORKSPACE_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.WORKSPACE_SAVE_ERROR, onError);
+                this.api.workspace.saveWorkspaceForApplication(appId, workspaceToSave);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.WORKSPACE_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.WORKSPACE_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveContext = function (appId, contextToSave, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.CONTEXT_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.CONTEXT_SAVE_ERROR, onError);
+                this.api.context.saveContextForApplication(appId, contextToSave);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.CONTEXT_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.CONTEXT_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveSettings = function (appId, settings, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.SETTINGS_GET_COMPLETE, onSuccess);
+                this.api.on(this.events.SETTINGS_GET_ERROR, onError);
+                this.api.settings.saveSettingsForApplication(appId, settings);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.SETTINGS_GET_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.SETTINGS_GET_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveTheme = function (appId, themeKey, rawTheme, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.THEME_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.THEME_SAVE_ERROR, onError);
+                this.api.themes.saveThemeForApplication(appId, themeKey, rawTheme);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.THEME_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.THEME_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.listProviders = function (appId, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_LIST_ERROR, onError);
+                this.api.providers.listProvidersForApplication(appId);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.PROVIDER_LIST_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.PROVIDER_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.getProvider = function (appId, providerName, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_GET_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_GET_ERROR, onError);
+                this.api.providers.getProvider(appId, providerName);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.PROVIDER_GET_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.PROVIDER_GET_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.saveProvider = function (appId, providerName, providerData, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_SAVE_ERROR, onError);
+                this.api.providers.saveProvider(appId, providerName, providerData);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.PROVIDER_SAVE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.PROVIDER_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    ElectronDashboardApi.prototype.deleteProvider = function (appId, providerName, onSuccess, onError) {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_DELETE_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_DELETE_ERROR, onError);
+                this.api.providers.deleteProvider(appId, providerName);
+                return true;
+            }
+            catch (e) {
+                onError(this.events.PROVIDER_DELETE_ERROR, e);
+                return false;
+            }
+        }
+        else {
+            onError(this.events.PROVIDER_DELETE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    };
+    return ElectronDashboardApi;
+}());
+
+/**
  * MockDashboardApi
  * A mock implementation of the IDashboardApi interface for testing purposes
  */
@@ -28999,5 +29413,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CHOOSE_FILE, CHOOSE_FILE_COMPLETE, CHOOSE_FILE_ERROR, CodeEditorInline, CodeEditorVS, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, ContextModel, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardModel$1 as DashboardModel, DashboardMonitor, DashboardPublisher, DashboardWrapper, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockDashboardWrapper, MockLayout, MockWorkspace, MockWrapper, Modal, PROVIDER_DELETE_COMPLETE, PROVIDER_DELETE_ERROR, PROVIDER_GET_COMPLETE, PROVIDER_GET_ERROR, PROVIDER_LIST_COMPLETE, PROVIDER_LIST_ERROR, PROVIDER_SAVE_COMPLETE, PROVIDER_SAVE_ERROR, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, ProviderContext, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addChildToLayoutItem, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, createProviderRegistry, deepCopy, getBorderStyle, getCSSStyleForClassname, getChildrenForLayoutItem, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem$1 as getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem$1 as getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, layoutItemHasWorkspaceAsChild, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderGridLayout, renderGridLayoutFlow, _renderLayout as renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, useDashboard, useProvider, useWidgetProviders, withRouter };
+export { ALGOLIA_ANALYTICS_FOR_QUERY, ALGOLIA_ANALYTICS_FOR_QUERY_COMPLETE, ALGOLIA_ANALYTICS_FOR_QUERY_ERROR, ALGOLIA_LIST_INDICES, ALGOLIA_LIST_INDICES_COMPLETE, ALGOLIA_LIST_INDICES_ERROR, AddMenuItemModal, AlgoliaRefinementList, AlgoliaSearchBox, AppContext, AppWrapper, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, CHOOSE_FILE, CHOOSE_FILE_COMPLETE, CHOOSE_FILE_ERROR, CodeEditorInline, CodeEditorVS, CodeRenderer, ColorModel, ComponentConfigModel, ComponentManager, Container, ContextModel, DATA_JSON_TO_CSV_FILE, DATA_JSON_TO_CSV_FILE_COMPLETE, DATA_JSON_TO_CSV_FILE_ERROR, DATA_JSON_TO_CSV_STRING, DATA_JSON_TO_CSV_STRING_COMPLETE, DATA_JSON_TO_CSV_STRING_ERROR, DATA_READ_FROM_FILE, DATA_READ_FROM_FILE_COMPLETE, DATA_READ_FROM_FILE_ERROR, DATA_SAVE_TO_FILE, DATA_SAVE_TO_FILE_COMPLETE, DATA_SAVE_TO_FILE_ERROR, DashPanel, DashPanel2, DashPanel3, Dashboard, DashboardApi, DashboardContext, DashboardFooter, DashboardHeader, DashboardMenuItem, DashboardModel$1 as DashboardModel, DashboardMonitor, DashboardPublisher, DashboardWrapper, ElectronDashboardApi, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LAYOUT_LIST, LAYOUT_LIST_COMPLETE, LAYOUT_LIST_ERROR, LAYOUT_SAVE, LAYOUT_SAVE_COMPLETE, LAYOUT_SAVE_ERROR, Layout, LayoutBuilder, LayoutBuilderAddItemModal, LayoutBuilderConfigContainerMenuItem, LayoutBuilderConfigMenuItem, LayoutBuilderConfigModal, LayoutBuilderEditItemModal, LayoutBuilderEventModal, LayoutBuilderGridItem, LayoutContainer, LayoutDragBuilder, LayoutDragBuilderEdit, LayoutGridContainer, LayoutManagerModal, LayoutModel, LayoutQuickAddMenu, MENU_ITEMS_LIST, MENU_ITEMS_LIST_COMPLETE, MENU_ITEMS_LIST_ERROR, MENU_ITEMS_SAVE, MENU_ITEMS_SAVE_COMPLETE, MENU_ITEMS_SAVE_ERROR, MainMenu, MainMenuItem, MainMenuSection, MainSection, MenuItem, MenuItem2, MenuItem3, MenuItemModel, MenuSlideOverlay, MockAlgolia, MockDashboard, MockDashboardApi, MockDashboardWrapper, MockLayout, MockWorkspace, MockWrapper, Modal, PROVIDER_DELETE_COMPLETE, PROVIDER_DELETE_ERROR, PROVIDER_GET_COMPLETE, PROVIDER_GET_ERROR, PROVIDER_LIST_COMPLETE, PROVIDER_LIST_ERROR, PROVIDER_SAVE_COMPLETE, PROVIDER_SAVE_ERROR, Panel, Panel2, Panel3, PanelCode, PanelEditItem, PanelEditItemHandlers, Paragraph, Paragraph2, Paragraph3, ProviderContext, SECURE_STORAGE_ENCRYPT_STRING, SECURE_STORAGE_ENCRYPT_STRING_COMPLETE, SECURE_STORAGE_ENCRYPT_STRING_ERROR, SECURE_STORE_ENCRYPTION_CHECK, SECURE_STORE_ENCRYPTION_CHECK_COMPLETE, SECURE_STORE_ENCRYPTION_CHECK_ERROR, SECURE_STORE_GET_DATA, SECURE_STORE_GET_DATA_COMPLETE, SECURE_STORE_GET_DATA_ERROR, SECURE_STORE_SET_DATA, SECURE_STORE_SET_DATA_COMPLETE, SECURE_STORE_SET_DATA_ERROR, SETTINGS_GET, SETTINGS_GET_COMPLETE, SETTINGS_GET_ERROR, SETTINGS_SAVE, SETTINGS_SAVE_COMPLETE, SETTINGS_SAVE_ERROR, SelectMenu, SettingsModel, SideMenu, SubHeading, SubHeading2, SubHeading3, THEME_LIST, THEME_LIST_COMPLETE, THEME_LIST_ERROR, THEME_SAVE, THEME_SAVE_COMPLETE, THEME_SAVE_ERROR, Tag, Tag2, Tag3, ThemeApi, ThemeContext, ThemeModel, ThemeWrapper, Toggle, WORKSPACE_LIST, WORKSPACE_LIST_COMPLETE, WORKSPACE_LIST_ERROR, WORKSPACE_SAVE, WORKSPACE_SAVE_COMPLETE, WORKSPACE_SAVE_ERROR, WebDashboardApi, Widget, WidgetApi, WidgetConfigPanel, WidgetContext, WidgetFactory, Workspace, WorkspaceContext, WorkspaceFooter, WorkspaceMenu, WorkspaceModel, addChildToLayoutItem, addItemToItemLayout, capitalizeFirstLetter, changeDirectionForLayoutItem, colorNames, colorTypes, createProviderRegistry, deepCopy, getBorderStyle, getCSSStyleForClassname, getChildrenForLayoutItem, getClassForObjectType, getComponentInLayout, getContainerBorderColor, getContainerColor, getIndexOfLayoutChildrenForItem$1 as getIndexOfLayoutChildrenForItem, getIndexOfLayoutItem$1 as getIndexOfLayoutItem, getLayoutItemById, getLayoutItemForWorkspace, getNearestParentWorkspace, getNextHighestId, getNextHighestItemInLayout, getNextHighestOrder, getNextHighestParentId, getNextLowestItemInLayout, getParentForLayoutItem, getParentWorkspaceForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, getWidgetsForWorkspace, getWorkspacesForWorkspace, isContainer, isMaxOrderForItem, isMinOrderForItem, isObject, isWidget, isWorkspace, layoutItemHasWorkspaceAsChild, mock, mockText, numChildrenForLayout, objectTypes, removeItemFromLayout, renderComponent, renderGridLayout, renderGridLayoutFlow, _renderLayout as renderLayout, renderLayoutMenu, replaceItemInLayout, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, traverseParentTree, updateLayoutItem, updateParentForItem, useDashboard, useProvider, useWidgetProviders, withRouter };
 //# sourceMappingURL=index.js.map

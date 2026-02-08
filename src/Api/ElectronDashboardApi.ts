@@ -328,3 +328,5 @@ class ElectronDashboardApi implements IDashboardApi {
         }
     }
 }
+
+export { ElectronDashboardApi };
