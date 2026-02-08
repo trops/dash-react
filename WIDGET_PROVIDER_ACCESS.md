@@ -53,25 +53,25 @@ selectedProviders: {
 import { useWidgetProviders } from "@trops/dash-react";
 
 function MyAlgoliaWidget() {
-  const { providers, hasProvider, getProvider } = useWidgetProviders();
+    const { providers, hasProvider, getProvider } = useWidgetProviders();
 
-  // Check if provider is available
-  if (!hasProvider("algolia")) {
-    return <div>Algolia provider not configured</div>;
-  }
+    // Check if provider is available
+    if (!hasProvider("algolia")) {
+        return <div>Algolia provider not configured</div>;
+    }
 
-  // Get provider by type
-  const algoliaProvider = getProvider("algolia");
-  const { appId, apiKey } = algoliaProvider.credentials;
+    // Get provider by type
+    const algoliaProvider = getProvider("algolia");
+    const { appId, apiKey } = algoliaProvider.credentials;
 
-  // Or access all providers at once
-  const slackProvider = providers.slack; // undefined if not selected
+    // Or access all providers at once
+    const slackProvider = providers.slack; // undefined if not selected
 
-  // Initialize Algolia client
-  const algoliasearch = require("algoliasearch");
-  const client = algoliasearch(appId, apiKey);
+    // Initialize Algolia client
+    const algoliasearch = require("algoliasearch");
+    const client = algoliasearch(appId, apiKey);
 
-  return <SearchResults client={client} />;
+    return <SearchResults client={client} />;
 }
 ```
 
@@ -81,13 +81,13 @@ function MyAlgoliaWidget() {
 const { providers, hasProvider, getProvider } = useWidgetProviders();
 
 // Check if a provider type is available
-hasProvider("algolia") // true/false
+hasProvider("algolia"); // true/false
 
 // Get a specific provider by type
-getProvider("algolia") // { name, type, credentials } or null
+getProvider("algolia"); // { name, type, credentials } or null
 
 // Access all selected providers
-providers // { algolia: {...}, slack: {...} }
+providers; // { algolia: {...}, slack: {...} }
 ```
 
 ## Approach 2: useDashboard Hook with widgetId Parameter
@@ -99,16 +99,16 @@ providers // { algolia: {...}, slack: {...} }
 import { useDashboard } from "@trops/dash-react";
 
 function MyComponent({ widgetId }) {
-  const { dashboard, widgetProviders } = useDashboard(widgetId);
+    const { dashboard, widgetProviders } = useDashboard(widgetId);
 
-  if (!widgetProviders?.algolia) {
-    return <div>No Algolia provider for this widget</div>;
-  }
+    if (!widgetProviders?.algolia) {
+        return <div>No Algolia provider for this widget</div>;
+    }
 
-  const { credentials } = widgetProviders.algolia;
-  const { appId, apiKey } = credentials;
+    const { credentials } = widgetProviders.algolia;
+    const { appId, apiKey } = credentials;
 
-  return <SearchResults appId={appId} apiKey={apiKey} />;
+    return <SearchResults appId={appId} apiKey={apiKey} />;
 }
 ```
 
@@ -121,23 +121,25 @@ function MyComponent({ widgetId }) {
 import { useDashboard } from "@trops/dash-react";
 
 function DashboardToolbar() {
-  const { dashboard } = useDashboard();
+    const { dashboard } = useDashboard();
 
-  // Access ALL providers
-  const allProviders = dashboard.providers;
-  // {
-  //   "Algolia Production": {...},
-  //   "Algolia Staging": {...},
-  //   "Slack Dev": {...}
-  // }
+    // Access ALL providers
+    const allProviders = dashboard.providers;
+    // {
+    //   "Algolia Production": {...},
+    //   "Algolia Staging": {...},
+    //   "Slack Dev": {...}
+    // }
 
-  return (
-    <select>
-      {Object.entries(allProviders).map(([name, provider]) => (
-        <option key={name}>{name} ({provider.type})</option>
-      ))}
-    </select>
-  );
+    return (
+        <select>
+            {Object.entries(allProviders).map(([name, provider]) => (
+                <option key={name}>
+                    {name} ({provider.type})
+                </option>
+            ))}
+        </select>
+    );
 }
 ```
 
@@ -149,28 +151,28 @@ function DashboardToolbar() {
 ```javascript
 // Parent widget component
 function ParentWidget({ selectedProviders }) {
-  const { dashboard } = useDashboard();
+    const { dashboard } = useDashboard();
 
-  // Look up selected providers by name
-  const algoliaName = selectedProviders.algolia;
-  const algoliaProvider = dashboard.providers[algoliaName];
+    // Look up selected providers by name
+    const algoliaName = selectedProviders.algolia;
+    const algoliaProvider = dashboard.providers[algoliaName];
 
-  return (
-    <ChildComponent
-      selectedProviders={selectedProviders}
-      credentials={algoliaProvider?.credentials}
-    />
-  );
+    return (
+        <ChildComponent
+            selectedProviders={selectedProviders}
+            credentials={algoliaProvider?.credentials}
+        />
+    );
 }
 
 // Child component
 function ChildComponent({ selectedProviders, credentials }) {
-  if (!credentials) {
-    return <div>Provider not available</div>;
-  }
+    if (!credentials) {
+        return <div>Provider not available</div>;
+    }
 
-  const { appId, apiKey } = credentials;
-  // Use credentials...
+    const { appId, apiKey } = credentials;
+    // Use credentials...
 }
 ```
 
@@ -182,52 +184,52 @@ import { useWidgetProviders } from "@trops/dash-react";
 import algoliasearch from "algoliasearch";
 
 export function AlgoliaSearchWidget() {
-  // Get this widget's selected providers with credentials
-  const { providers, hasProvider } = useWidgetProviders();
+    // Get this widget's selected providers with credentials
+    const { providers, hasProvider } = useWidgetProviders();
 
-  // Validate provider is available
-  if (!hasProvider("algolia")) {
+    // Validate provider is available
+    if (!hasProvider("algolia")) {
+        return (
+            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded">
+                <p>Algolia provider not configured for this widget.</p>
+                <p className="text-sm text-gray-600">
+                    Please select an Algolia provider in the dashboard settings.
+                </p>
+            </div>
+        );
+    }
+
+    // Get the provider for this widget
+    const algoliaProvider = providers.algolia;
+    const { appId, apiKey, indexName } = algoliaProvider.credentials;
+
+    // Initialize search client
+    const client = algoliasearch(appId, apiKey);
+    const index = client.initIndex(indexName);
+
+    // Render widget
     return (
-      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded">
-        <p>Algolia provider not configured for this widget.</p>
-        <p className="text-sm text-gray-600">
-          Please select an Algolia provider in the dashboard settings.
-        </p>
-      </div>
+        <div className="p-4">
+            <h2>Search {indexName}</h2>
+            <SearchUI index={index} />
+        </div>
     );
-  }
-
-  // Get the provider for this widget
-  const algoliaProvider = providers.algolia;
-  const { appId, apiKey, indexName } = algoliaProvider.credentials;
-
-  // Initialize search client
-  const client = algoliasearch(appId, apiKey);
-  const index = client.initIndex(indexName);
-
-  // Render widget
-  return (
-    <div className="p-4">
-      <h2>Search {indexName}</h2>
-      <SearchUI index={index} />
-    </div>
-  );
 }
 
 // Or with error handling
 export function SafeAlgoliaSearchWidget() {
-  try {
-    const { providers, getProvider } = useWidgetProviders();
+    try {
+        const { providers, getProvider } = useWidgetProviders();
 
-    const algolia = getProvider("algolia");
-    if (!algolia) {
-      return <MissingProviderUI />;
+        const algolia = getProvider("algolia");
+        if (!algolia) {
+            return <MissingProviderUI />;
+        }
+
+        return <SearchResults credentials={algolia.credentials} />;
+    } catch (error) {
+        return <ErrorUI error={error} />;
     }
-
-    return <SearchResults credentials={algolia.credentials} />;
-  } catch (error) {
-    return <ErrorUI error={error} />;
-  }
 }
 ```
 
@@ -252,6 +254,7 @@ Widget uses:
 ## Type Definitions
 
 ### Provider Object
+
 ```javascript
 {
   name: string,           // "Algolia Production"
@@ -263,6 +266,7 @@ Widget uses:
 ```
 
 ### useWidgetProviders Return
+
 ```javascript
 {
   providers: {
@@ -274,6 +278,7 @@ Widget uses:
 ```
 
 ### useDashboard Return (with widgetId)
+
 ```javascript
 {
   app: AppContext,
@@ -288,6 +293,7 @@ Widget uses:
 ## Migration Guide
 
 ### Old Pattern (Global Algolia)
+
 ```javascript
 // Before: App had one global Algolia client
 const algoliasearch = require("algoliasearch");
@@ -295,39 +301,43 @@ const client = algoliasearch(GLOBAL_APP_ID, GLOBAL_API_KEY);
 ```
 
 ### New Pattern (Widget-Specific Algolia)
+
 ```javascript
 // After: Each widget gets its selected Algolia provider
 import { useWidgetProviders } from "@trops/dash-react";
 
 function MyAlgoliaWidget() {
-  const { providers } = useWidgetProviders();
-  const algolia = providers.algolia;
+    const { providers } = useWidgetProviders();
+    const algolia = providers.algolia;
 
-  if (!algolia) {
-    return <div>Configure Algolia in widget settings</div>;
-  }
+    if (!algolia) {
+        return <div>Configure Algolia in widget settings</div>;
+    }
 
-  const { appId, apiKey } = algolia.credentials;
-  const client = algoliasearch(appId, apiKey);
-  // Use client...
+    const { appId, apiKey } = algolia.credentials;
+    const client = algoliasearch(appId, apiKey);
+    // Use client...
 }
 ```
 
 ## Error Scenarios
 
 ### Provider Not Selected
+
 ```javascript
 const { getProvider } = useWidgetProviders();
 const algolia = getProvider("algolia"); // null if not selected
 ```
 
 ### Provider Not Found
+
 ```javascript
 // If selectedProviders references a deleted provider
 // getProvider returns null because dashboard.providers[name] is undefined
 ```
 
 ### Outside Widget Context
+
 ```javascript
 // Will throw error if not inside <Widget>
 const { providers } = useWidgetProviders(); // ❌ Error!
@@ -347,21 +357,21 @@ const { widgetProviders } = useDashboard(widgetId); // ✓ Works
 ```javascript
 // ✓ Good
 function MyWidget() {
-  const { hasProvider, getProvider } = useWidgetProviders();
+    const { hasProvider, getProvider } = useWidgetProviders();
 
-  if (!hasProvider("algolia")) {
-    return <SelectProviderUI />;
-  }
+    if (!hasProvider("algolia")) {
+        return <SelectProviderUI />;
+    }
 
-  const algolia = getProvider("algolia");
-  return <SearchUI credentials={algolia.credentials} />;
+    const algolia = getProvider("algolia");
+    return <SearchUI credentials={algolia.credentials} />;
 }
 
 // ❌ Avoid
 function MyWidget() {
-  const { providers } = useWidgetProviders();
-  const { credentials } = providers.algolia; // Crashes if algolia not selected
-  return <SearchUI credentials={credentials} />;
+    const { providers } = useWidgetProviders();
+    const { credentials } = providers.algolia; // Crashes if algolia not selected
+    return <SearchUI credentials={credentials} />;
 }
 ```
 

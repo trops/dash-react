@@ -23,7 +23,7 @@ import { WorkspaceContext } from "@dash/Context/WorkspaceContext";
  * @example
  * // Access all dashboard context
  * const { app, dashboard, theme } = useDashboard();
- * 
+ *
  * @example
  * // Access providers specific to a widget
  * const { dashboard, widgetProviders } = useDashboard(widgetId);

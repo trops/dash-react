@@ -1,6 +1,6 @@
 {
     "name": "@trops/dash-react",
-    "version": "0.1.156",
+    "version": "0.1.157",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "typescript": "^2.6.2",
@@ -20,8 +20,8 @@
         "clean-dist": "rm -r ./dist/* || exit 0",
         "clean-package": "rm -r ./package/* || exit 0",
         "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css && \\cp .npmrc dist/.npmrc",
-        "copy-package": "\\cp ./package/$npm_package_name-$npm_package_version.tgz ./package/$npm_package_name.tgz || exit 0",
-        "pack-local-esm": "cd ./dist && npm pack --pack-destination ../package",
+        "copy-package": "cd ./package && cp trops-dash-react-*.tgz trops-dash-react.tgz || exit 0",
+        "pack-local-esm": "mkdir -p ./package && cd ./dist && npm pack --pack-destination ../package",
         "link-package-1": "cd ./dist && npm link",
         "roll": "NODE_ENV=prod rollup -c",
         "storybook": "storybook dev -p 6006",

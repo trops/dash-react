@@ -85,7 +85,9 @@ export const Widget = ({
     const uuidString = getUUID(uuid);
 
     return (
-        <WidgetContext.Provider value={{ widgetData: { uuid, uuidString, ...props } }}>
+        <WidgetContext.Provider
+            value={{ widgetData: { uuid, uuidString, ...props } }}
+        >
             <LayoutContainer
                 uuid={uuid}
                 id={`WIDGET-${uuidString}`}
