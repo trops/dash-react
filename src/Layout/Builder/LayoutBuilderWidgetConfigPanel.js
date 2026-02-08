@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button } from "@dash/Common";
 import SlidePanelOverlay from "@dash/Common/SlidePanelOverlay";
-import {
-    FormLabel,
-    InputText,
-    SelectMenu,
-} from "@dash/Common/Form";
+import { FormLabel, InputText, SelectMenu } from "@dash/Common/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /**
- * 
- * 
- * @returns 
+ *
+ *
+ * @returns
  */
 function LayoutBuilderWidgetConfigPanel({
     layoutItem = null,

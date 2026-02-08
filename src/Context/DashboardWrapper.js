@@ -6,6 +6,7 @@ import { ThemeWrapper } from "./ThemeWrapper";
 import { MainSection } from "../Common";
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
+import { AppContext } from "./App/AppContext";
 
 export const DashboardWrapper = ({
     dashApi,
@@ -15,6 +16,7 @@ export const DashboardWrapper = ({
 }) => {
     // use the contexts to pass through any information
     const { currentTheme } = useContext(ThemeContext);
+    const appContext = useContext(AppContext);
 
     function buildWidgetApi() {
         console.log("building widget api ", dashApi);
@@ -31,6 +33,7 @@ export const DashboardWrapper = ({
             pub: DashboardPublisher,
             dashApi,
             credentials,
+            providers: appContext?.providers || {},
         };
     }
 

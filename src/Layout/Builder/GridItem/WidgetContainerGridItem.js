@@ -21,14 +21,14 @@ import {
 
 /**
  * This is SPECIFICALLY to render the Container elements in the editor
- * We would like to have these elements displayed when the MODE is set to 
+ * We would like to have these elements displayed when the MODE is set to
  * - LAYOUT
- * - The modes that we can have are, 
- * 
+ * - The modes that we can have are,
+ *
  * - Layout - show only containers and the overall layout
  * - Workspaces - show the workspaces and allow function for each container
  * - Widgets - show the actual widgets you wish to have in each worksdpace
- * 
+ *
  */
 export const WidgetContainerGridItem = ({
     item,
@@ -50,7 +50,7 @@ export const WidgetContainerGridItem = ({
     width,
     direction,
     isDraggable,
-    mode = "preview"
+    mode = "preview",
 }) => {
     function handleClickRemove(e) {
         console.log("clicked remove ", e);
@@ -227,7 +227,7 @@ export const WidgetContainerGridItem = ({
                             preview === false && "text-blue-900 rounded"
                         } `}
                         onClick={handleOpenConfig}
-                    >   
+                    >
                         {preview === false && renderArrows()}
                         {preview === false && renderUserPreferences()}
                     </div>
@@ -349,9 +349,7 @@ export const WidgetContainerGridItem = ({
                             <ButtonIcon
                                 icon="phone"
                                 onClick={handleClickEvents}
-                                bgColor={getContainerColor(
-                                    parentWorkspace
-                                )}
+                                bgColor={getContainerColor(parentWorkspace)}
                                 hoverBackgroundColor="hover:bg-gray-900"
                                 text={
                                     item.eventHandlers.length > 0
@@ -364,9 +362,7 @@ export const WidgetContainerGridItem = ({
                         <ButtonIcon
                             icon="trash"
                             onClick={handleClickRemove}
-                            backgroundColor={getContainerColor(
-                                parentWorkspace
-                            )}
+                            backgroundColor={getContainerColor(parentWorkspace)}
                             hoverBackgroundColor="hover:bg-red-900"
                         />
                         {order > 1 &&

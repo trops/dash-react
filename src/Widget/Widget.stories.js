@@ -5,7 +5,7 @@ import { LayoutContainer } from "../Layout/LayoutContainer";
 import { DashPanel } from "..";
 
 export default {
-    title: "Widget",
+    title: "Widget/Widget",
     component: Widget,
 };
 

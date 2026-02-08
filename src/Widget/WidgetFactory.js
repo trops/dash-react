@@ -39,7 +39,7 @@ const WidgetFactory = {
                 console.log("WidgetFactory config", config, component, params);
 
                 let styles = null;
-                // if the config is not null, then we can check for styles  
+                // if the config is not null, then we can check for styles
                 if (config !== null && config !== undefined) {
                     // check to see if the config has styles
                     // if it does, then we can use those styles

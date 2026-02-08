@@ -33,7 +33,6 @@ export const LayoutItemEditHeader = ({
 
         const dashboard = new DashboardModel(workspace);
         const parentWorkspace = dashboard.getComponentById(item["parent"]);
-        
 
         console.log("parent workspace ", parentWorkspace);
 
@@ -58,7 +57,7 @@ export const LayoutItemEditHeader = ({
             item["parent"]
         );
 
-        const isContainer = item.type !== "widget";//item["component"] === "Container";
+        const isContainer = item.type !== "widget"; //item["component"] === "Container";
         const textColor =
             isContainer === true ? "text-gray-300" : "text-gray-300";
 
@@ -147,7 +146,9 @@ export const LayoutItemEditHeader = ({
                     item
                 )} text-gray-300 w-full justify-between items-center`}
             >
-                <span className="text-xs font-medium">{`${item["component"]}`} - not layout</span>
+                <span className="text-xs font-medium">
+                    {`${item["component"]}`} - not layout
+                </span>
                 <div id="quick-add-menu" className="flex flex-row">
                     {renderEditFooter(layoutItem)}
                 </div>

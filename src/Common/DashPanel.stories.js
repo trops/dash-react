@@ -3,7 +3,7 @@ import { MockWrapper, MockLayout, mock, mockText } from "../Mock";
 import { Paragraph, Paragraph2, Paragraph3 } from "./Text";
 
 export default {
-    title: "DashPanel",
+    title: "Common/DashPanel",
     component: DashPanel,
 };
 

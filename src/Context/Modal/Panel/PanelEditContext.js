@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Panel, SelectMenu, InputText } from "@dash/Common";
-import { getContainerColor, renderLayout, replaceItemInLayout } from "@dash/Utils";
+import {
+    getContainerColor,
+    renderLayout,
+    replaceItemInLayout,
+} from "@dash/Utils";
 import { WidgetConfigPanel } from "@dash/Layout";
 import { LayoutModel, WorkspaceModel } from "@dash/Models";
 import deepEqual from "deep-equal";
@@ -22,7 +26,6 @@ export const PanelEditContext = ({ onUpdate, item }) => {
             setItemSelected(() => item);
             forceUpdate();
         }
-
     }, [item]);
 
     function handleSaveChanges(itemData) {
@@ -50,11 +53,10 @@ export const PanelEditContext = ({ onUpdate, item }) => {
     //     forceUpdate();
     // }
 
-
-     function renderCustomSettings() {
+    function renderCustomSettings() {
         if (itemSelected) {
             console.log("renderCustomSettings ", itemSelected);
-            
+
             if ("userConfig" in itemSelected) {
                 const userConfig = itemSelected["userConfig"];
                 // get the user prefs for the key
@@ -63,24 +65,23 @@ export const PanelEditContext = ({ onUpdate, item }) => {
 
                 console.log("userConfig", userConfig, userPrefs);
                 return Object.keys(userConfig).map((key) => {
-
                     // if (key in userPrefs) {
-                        // depending on the type...
-                        const configItem = userConfig[key];
-                        const { instructions, displayName, required, type } =
-                            configItem;
+                    // depending on the type...
+                    const configItem = userConfig[key];
+                    const { instructions, displayName, required, type } =
+                        configItem;
 
-                        // console.log("widget config", configItem);
+                    // console.log("widget config", configItem);
 
-                        return renderFormItem(
-                            displayName,
-                            key,
-                            instructions,
-                            required,
-                            userPrefs[key] || "",
-                            handleTextChangeCustom,
-                            configItem
-                        );
+                    return renderFormItem(
+                        displayName,
+                        key,
+                        instructions,
+                        required,
+                        userPrefs[key] || "",
+                        handleTextChangeCustom,
+                        configItem
+                    );
                     //}
                 });
             }
@@ -98,78 +99,80 @@ export const PanelEditContext = ({ onUpdate, item }) => {
         handleUpdate(e, newItem);
     }
 
-     function renderFormItem(
-            displayName,
-            key,
-            instructions,
-            required,
-            value,
-            onChange,
-            configItem
-        ) {
-            return (
-                <div
-                    key={`config-item-${key}`}
-                    className={`rounded flex flex-col p-2 space-y-1`}
-                >
-                    <span className="text-gray-400 font-bold text-sm">
-                        {displayName}{" "}
-                        {required === true && (
-                            <span className="text-red-500">*</span>
+    function renderFormItem(
+        displayName,
+        key,
+        instructions,
+        required,
+        value,
+        onChange,
+        configItem
+    ) {
+        return (
+            <div
+                key={`config-item-${key}`}
+                className={`rounded flex flex-col p-2 space-y-1`}
+            >
+                <span className="text-gray-400 font-bold text-sm">
+                    {displayName}{" "}
+                    {required === true && (
+                        <span className="text-red-500">*</span>
+                    )}
+                </span>
+                <div className="text-xs text-gray-400 pb-1">{instructions}</div>
+                {configItem["type"] === "text" && (
+                    <InputText
+                        type="text"
+                        name={key}
+                        value={value}
+                        onChange={(e) => onChange(e, configItem)}
+                        textSize="text-sm"
+                    />
+                )}
+                {configItem["type"] === "secret" && (
+                    <InputText
+                        type="password"
+                        name={key}
+                        value={value}
+                        onChange={(e) => onChange(e, configItem)}
+                        textSize="text-sm"
+                    />
+                )}
+                {configItem["type"] === "select" && (
+                    <SelectMenu
+                        name={key}
+                        selectedValue={value}
+                        onChange={(e) => onChange(e, configItem)}
+                        textSize="text-xs"
+                        className="font-normal"
+                    >
+                        {"options" in configItem &&
+                            configItem.options.map((option) => {
+                                return (
+                                    <option
+                                        value={option.value}
+                                        className={"text-sm"}
+                                    >
+                                        {option.displayName}
+                                    </option>
+                                );
+                            })}
+                        {"optionsValues" in configItem && (
+                            <option>{configItem["optionsValues"]}</option>
                         )}
-                    </span>
-                    <div className="text-xs text-gray-400 pb-1">{instructions}</div>
-                    {configItem["type"] === "text" && (
-                        <InputText
-                            type="text"
-                            name={key}
-                            value={value}
-                            onChange={(e) => onChange(e, configItem)}
-                            textSize="text-sm"
-                        />
-                    )}
-                    {configItem["type"] === "secret" && (
-                        <InputText
-                            type="password"
-                            name={key}
-                            value={value}
-                            onChange={(e) => onChange(e, configItem)}
-                            textSize="text-sm"
-                        />
-                    )}
-                    {configItem["type"] === "select" && (
-                        <SelectMenu
-                            name={key}
-                            selectedValue={value}
-                            onChange={(e) => onChange(e, configItem)}
-                            textSize="text-xs"
-                            className="font-normal"
-                        >
-                            {"options" in configItem &&
-                                configItem.options.map((option) => {
-                                    return (
-                                        <option value={option.value} className={"text-sm"}>
-                                            {option.displayName}
-                                        </option>
-                                    );
-                                })}
-                            {"optionsValues" in configItem && (
-                                <option>{configItem["optionsValues"]}</option>
-                            )}
-                        </SelectMenu>
-                    )}
-                </div>
-            );
-        }
-    
+                    </SelectMenu>
+                )}
+            </div>
+        );
+    }
 
     return (
         itemSelected && (
             <Panel padding={false} border={false}>
-                 <div className={`flex flex-col w-full h-full overflow-clip`}>
+                <div className={`flex flex-col w-full h-full overflow-clip`}>
                     <div className="flex flex-col w-full h-full overflow-clip">
                         <div className="flex flex-row w-full h-full overflow-clip space-x-4 justify-between">
-                     {/* <div className="flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3">
+                            {/* <div className="flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3">
                         <div className="flex flex-col rounded p-4 py-10 space-y-4">
                             <p
                                 className={`text-5xl font-bold ${theme["text-secondary-very-light"]}`}
@@ -190,36 +193,43 @@ export const PanelEditContext = ({ onUpdate, item }) => {
                         </div>
                     </div> */}
 
-                    <div
-                        className={`flex flex-col w-full h-full rounded p-2 space-y-2`}
-                    >
-                        <div className="flex flex-col w-full space-y-2 h-full overflow-y-auto">
-
-                        <div className="flex flex-col w-full">
-                            {/* name given by the user to identify the context */}
                             <div
-                                key={`config-item-name}`}
-                                className={`rounded flex flex-col p-2 space-y-1`}
+                                className={`flex flex-col w-full h-full rounded p-2 space-y-2`}
                             >
-                                <span className="text-gray-400 font-bold text-sm">
-                                    {"Name"}{" "}<span className="text-red-500">*</span>
-                                </span>
-                                <div className="text-xs text-gray-400 pb-1">The display name for the context.</div>
-                                <InputText
-                                    type="text"
-                                    name={"display_name"}
-                                    value={itemSelected.name || ""}
-                                    onChange={(e) => onChange(e, configItem)}
-                                    textSize="text-sm"
-                                />
-                            </div>
+                                <div className="flex flex-col w-full space-y-2 h-full overflow-y-auto">
+                                    <div className="flex flex-col w-full">
+                                        {/* name given by the user to identify the context */}
+                                        <div
+                                            key={`config-item-name}`}
+                                            className={`rounded flex flex-col p-2 space-y-1`}
+                                        >
+                                            <span className="text-gray-400 font-bold text-sm">
+                                                {"Name"}{" "}
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </span>
+                                            <div className="text-xs text-gray-400 pb-1">
+                                                The display name for the
+                                                context.
+                                            </div>
+                                            <InputText
+                                                type="text"
+                                                name={"display_name"}
+                                                value={itemSelected.name || ""}
+                                                onChange={(e) =>
+                                                    onChange(e, configItem)
+                                                }
+                                                textSize="text-sm"
+                                            />
+                                        </div>
 
-                            {renderCustomSettings()}
-                        </div>
+                                        {renderCustomSettings()}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                </div>
                 </div>
             </Panel>
         )

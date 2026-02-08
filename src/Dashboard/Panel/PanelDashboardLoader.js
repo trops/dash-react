@@ -9,10 +9,7 @@ import {
     AlgoliaSearchBox,
 } from "@dash/Common";
 
-import {
-    InstantSearch,
-    Hits,
-} from "react-instantsearch-hooks-web";
+import { InstantSearch, Hits } from "react-instantsearch-hooks-web";
 import { ThemeContext } from "@dash/Context";
 import { Paragraph } from "../../Common";
 

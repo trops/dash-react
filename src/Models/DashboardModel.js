@@ -9,9 +9,8 @@ import { getNextHighestId, getNextHighestOrder } from "@dash/Utils";
  * When the user selects a Dashboard, this is the model that stores that information.
  */
 export class DashboardModel {
-    
     /**
-     * 
+     *
      * @param {Object} dashboardItem the dashboard/workspace we are using to initialize
      */
     constructor(dashboardItem) {
@@ -20,38 +19,40 @@ export class DashboardModel {
 
     validDashboardTypes = ["layout", "widget", "workspace"];
     validDashboardProperties = [
-            "id",
-            "name",
-            "type",
-            "label",
-            "layout",
-            "menuId",
-            "version",
-        ];
+        "id",
+        "name",
+        "type",
+        "label",
+        "layout",
+        "menuId",
+        "version",
+    ];
 
     /**
      * initialize the model
-     * @param {Object} dashboardItem object containing the saved workspace layout 
+     * @param {Object} dashboardItem object containing the saved workspace layout
      */
     _initialize(dashboardItem) {
         this.dashboard = {};
 
-        let obj = dashboardItem !== null && dashboardItem !== undefined
-            ? deepCopy(dashboardItem)
-            : {};
+        let obj =
+            dashboardItem !== null && dashboardItem !== undefined
+                ? deepCopy(dashboardItem)
+                : {};
 
         this.id = "id" in obj ? obj["id"] : Date.now();
         this.name = "name" in obj ? obj["name"] : "New Dashboard";
-        this.type = "type" in obj ? this._sanitizeType(obj["type"]) : "workspace";
+        this.type =
+            "type" in obj ? this._sanitizeType(obj["type"]) : "workspace";
         this.label = "label" in obj ? obj["label"] : "New Dashboard";
         this.version = "version" in obj ? obj["version"] : 1;
-        this.layout = "layout" in obj ? obj["layout"] : this._initializeLayout();
+        this.layout =
+            "layout" in obj ? obj["layout"] : this._initializeLayout();
         this.menuId = "menuId" in obj ? obj["menuId"] : 1;
 
         obj = null;
-        
     }
-    
+
     _initializeLayout() {
         try {
             const newLayout = {
@@ -66,7 +67,7 @@ export class DashboardModel {
                 menuId: 1, // default menu item id is 1
             };
             return [LayoutModel(newLayout, [])];
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return [];
         }
@@ -75,7 +76,7 @@ export class DashboardModel {
     destroy() {
         this.id = null;
         this.name = null;
-        this.type  = null;
+        this.type = null;
         this.label = null;
         this.version = null;
         this.layout = null;
@@ -92,12 +93,12 @@ export class DashboardModel {
             version: this.version,
             layout: this.layout,
             menuId: this.menuId,
-        }
+        };
     }
 
     /**
      * Make sure the type specified in the component item is valid
-     * @param {String} t the type in the dashboard item argument 
+     * @param {String} t the type in the dashboard item argument
      * @returns {Boolean}
      */
     _sanitizeType(t) {
@@ -125,9 +126,9 @@ export class DashboardModel {
     }
 
     /**
-     * Return the LayoutModel based on the id 
-     * @param {Number} componentId 
-     * @returns 
+     * Return the LayoutModel based on the id
+     * @param {Number} componentId
+     * @returns
      */
     getComponentById(componentId) {
         try {
@@ -148,7 +149,9 @@ export class DashboardModel {
      * @returns {LayoutItem} the top container in the entire layout
      */
     getRootContainer() {
-        const rootContainers = this.layout.filter(layoutItem => layoutItem.parent === 0);
+        const rootContainers = this.layout.filter(
+            (layoutItem) => layoutItem.parent === 0
+        );
         return rootContainers.length > 0 ? rootContainers[0] : null;
     }
 
@@ -157,15 +160,18 @@ export class DashboardModel {
      * This will automatically add the compatible workspace if necessary
      * @param {LayoutModel} childComponent the child component to add
      * @param {*} itemId the id of the component to add it TO
-     * @returns 
+     * @returns
      */
     addChildToLayoutItem(childComponent, itemId = 1, cellNumber = "") {
         try {
-            
             // Get the Parent Component to add the child TO
             const parentComponent = this.getComponentById(itemId);
             if ("grid" in parentComponent && parentComponent["grid"] !== null) {
-                return this.addChildToGridLayout(childComponent, itemId, cellNumber);
+                return this.addChildToGridLayout(
+                    childComponent,
+                    itemId,
+                    cellNumber
+                );
             } else {
                 parentComponent.hasChildren = 1;
 
@@ -177,16 +183,20 @@ export class DashboardModel {
                 const nextId = getNextHighestId(this.layout);
                 // then get the next highest ORDER based on the children
                 // of the parent
-                const nextOrderData = getNextHighestOrder(this.layout, parentComponent.id);
+                const nextOrderData = getNextHighestOrder(
+                    this.layout,
+                    parentComponent.id
+                );
                 const nextOrder = nextOrderData["highest"];
 
                 // set the new id and order for the item
-                childComponent['id'] = nextId;
+                childComponent["id"] = nextId;
                 childComponent["order"] = nextOrder;
                 // 1. Add the layoutItem as the parentWorkspace of the childComponent
                 // childComponent["parentWorkspace"] = parentComponent;
                 childComponent["parent"] = parentComponent["id"];
-                childComponent["parentWorkspaceName"] = parentComponent.workspace;
+                childComponent["parentWorkspaceName"] =
+                    parentComponent.workspace;
 
                 console.log("child component after add ", childComponent);
                 // 2. Add the element back into the layout
@@ -194,7 +204,6 @@ export class DashboardModel {
 
                 return childComponent.id;
             }
-
 
             // this.updateLayoutItem(childComponent);
             /*
@@ -269,17 +278,16 @@ export class DashboardModel {
                 }
             }
                 */
-            
-        } catch(e) {
+        } catch (e) {
             return this.layout;
         }
     }
 
     /**
      * set the parent of the layout item using an id for the parent layout item
-     * @param {*} parentId 
-     * @param {*} layoutItem 
-     * @returns {LayoutModel} 
+     * @param {*} parentId
+     * @param {*} layoutItem
+     * @returns {LayoutModel}
      */
     setParentForLayoutItem(parentId, layoutItem) {
         try {
@@ -292,7 +300,7 @@ export class DashboardModel {
             layoutItem.parentWorkspaceName = parentWorkspace.workspace;
 
             return this.updateLayoutItem(layoutItem);
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
@@ -304,16 +312,18 @@ export class DashboardModel {
      * @returns {Array} the child layout items that are a match
      */
     getChildrenForLayoutItem(layoutItem) {
-        return this.layout.filter(workspaceItem => {
+        return this.layout.filter((workspaceItem) => {
             return layoutItem.id === workspaceItem.parent;
-        })
+        });
     }
 
     getRootWorkspaceInContainer(container) {
         try {
-            const children = this.getChildrenForLayoutItem(container).filter(v => v.type === "workspace");
+            const children = this.getChildrenForLayoutItem(container).filter(
+                (v) => v.type === "workspace"
+            );
             return children;
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
@@ -326,9 +336,12 @@ export class DashboardModel {
     getRequiredContexts() {
         try {
             const contexts = [];
-            this.layout.forEach(layoutItem => {
-                if ("contexts" in layoutItem && layoutItem.contexts.length > 0) {
-                    layoutItem.contexts.forEach(context => {
+            this.layout.forEach((layoutItem) => {
+                if (
+                    "contexts" in layoutItem &&
+                    layoutItem.contexts.length > 0
+                ) {
+                    layoutItem.contexts.forEach((context) => {
                         if (contexts.includes(context) === false) {
                             contexts.push(context);
                         }
@@ -336,7 +349,7 @@ export class DashboardModel {
                 }
             });
             return contexts;
-        } catch(e) {
+        } catch (e) {
             return [];
         }
     }
@@ -355,14 +368,13 @@ export class DashboardModel {
             var self = this;
 
             function recursiveFunction(layoutItem) {
-                
                 const children = self.getChildrenForLayoutItem(layoutItem);
                 console.log("children for component ", children);
-                const filtered = children.filter(v => v.type === "workspace");
+                const filtered = children.filter((v) => v.type === "workspace");
                 console.log("workspace children ", children, layoutItem);
                 if (filtered.length > 0) {
                     const layoutItemId = layoutItem["id"];
-                    for (var i=0; i < filtered.length; i++) {
+                    for (var i = 0; i < filtered.length; i++) {
                         const child = filtered[i];
                         const childTemp = self.getComponentById(child.id);
                         const parentId = childTemp.parent;
@@ -373,34 +385,40 @@ export class DashboardModel {
 
                         // recurse
                         recursiveFunction(childTemp);
-                    };
+                    }
                 }
             }
 
             recursiveFunction(layoutItem);
             return tree;
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return {};
         }
     }
 
-
     getNextAvailableCellInGridLayout(gridLayout) {
         try {
             let nextCellNumber = null;
-            for(var i = 1; i < gridLayout.rows + 1; i++) {
-                for( var j=1; j < gridLayout.cols + 1; j++) {
+            for (var i = 1; i < gridLayout.rows + 1; i++) {
+                for (var j = 1; j < gridLayout.cols + 1; j++) {
                     const cellNumber = `${i}.${j}`;
-                    const cmpToRender = cellNumber in gridLayout ? gridLayout[cellNumber]["component"] : null;
+                    const cmpToRender =
+                        cellNumber in gridLayout
+                            ? gridLayout[cellNumber]["component"]
+                            : null;
                     const isHidden = gridLayout[cellNumber]["hide"] === true;
-                    if (cmpToRender === null && nextCellNumber === null && isHidden === false) {
+                    if (
+                        cmpToRender === null &&
+                        nextCellNumber === null &&
+                        isHidden === false
+                    ) {
                         nextCellNumber = cellNumber;
                     }
                 }
             }
             return nextCellNumber;
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
@@ -416,12 +434,15 @@ export class DashboardModel {
             const parentComponent = this.getComponentById(itemId);
             const parentGridLayout = parentComponent.grid;
             if (parentGridLayout) {
-
-                console.log("adding child to grid ", parentGridLayout, childComponent, cellNumber);
+                console.log(
+                    "adding child to grid ",
+                    parentGridLayout,
+                    childComponent,
+                    cellNumber
+                );
 
                 // now we can add the widget to the new workspace.
                 const nextId = getNextHighestId(this.layout);
-
 
                 let hasCellAvailable = false;
                 // if we have a cell number, add it directly...
@@ -430,11 +451,15 @@ export class DashboardModel {
                     hasCellAvailable = true;
                 } else {
                     // otherwise lets choose the next available cell...
-                    const nextCell = this.getNextAvailableCellInGridLayout(parentComponent.grid);
+                    const nextCell = this.getNextAvailableCellInGridLayout(
+                        parentComponent.grid
+                    );
                     console.log("next cell", nextCell);
                     if (nextCell !== null) {
                         if (nextCell in parentComponent.grid === false) {
-                            parentComponent.grid[nextCell] = { component: null };
+                            parentComponent.grid[nextCell] = {
+                                component: null,
+                            };
                         }
                         parentComponent.grid[nextCell]["component"] = nextId;
                         hasCellAvailable = true;
@@ -442,7 +467,6 @@ export class DashboardModel {
                         hasCellAvailable = false;
                     }
                 }
-                
 
                 if (hasCellAvailable === true) {
                     // do we need to do this?
@@ -451,20 +475,28 @@ export class DashboardModel {
                     // update the item in the layout
                     this.updateLayoutItem(parentComponent);
 
-                    console.log("adding to parent component ", parentComponent, childComponent);
-                    
+                    console.log(
+                        "adding to parent component ",
+                        parentComponent,
+                        childComponent
+                    );
+
                     // then get the next highest ORDER based on the children
                     // of the parent
-                    const nextOrderData = getNextHighestOrder(this.layout, parentComponent.id);
+                    const nextOrderData = getNextHighestOrder(
+                        this.layout,
+                        parentComponent.id
+                    );
                     const nextOrder = nextOrderData["highest"];
 
                     // set the new id and order for the item
-                    childComponent['id'] = nextId;
+                    childComponent["id"] = nextId;
                     childComponent["order"] = nextOrder;
                     // 1. Add the layoutItem as the parentWorkspace of the childComponent
                     //childComponent["parentWorkspace"] = parentComponent;
                     childComponent["parent"] = parentComponent["id"];
-                    childComponent["parentWorkspaceName"] = parentComponent.workspace;
+                    childComponent["parentWorkspaceName"] =
+                        parentComponent.workspace;
 
                     console.log("child component after add ", childComponent);
                     // 2. Add the element back into the layout
@@ -475,17 +507,16 @@ export class DashboardModel {
             }
 
             return null;
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-
     /**
-     * Sanitize the workspace layouts so that the workspaces are not "side by side" 
+     * Sanitize the workspace layouts so that the workspaces are not "side by side"
      * and formed like nexted components for a specific container
-     * 
+     *
      */
     sanitizeWorkspaceLayouts(layoutItem) {
         try {
@@ -496,9 +527,14 @@ export class DashboardModel {
 
             // Then all of the widgets become children of the deepest workspace.
 
-            const workspacesForLayout = this.getHighestOrderWorkspaceForLayoutItem(layoutItem);
-            console.log("workspaces for layout ", workspacesForLayout, Object.keys(workspacesForLayout));
-            
+            const workspacesForLayout =
+                this.getHighestOrderWorkspaceForLayoutItem(layoutItem);
+            console.log(
+                "workspaces for layout ",
+                workspacesForLayout,
+                Object.keys(workspacesForLayout)
+            );
+
             // for(var i=0; i < workspacesForLayout.length; i++) {
             //     const workspaceItem = this.getComponentById(ws.id);
             //     console.log("setting parent ", layoutItem.id, workspaceItem);
@@ -512,22 +548,23 @@ export class DashboardModel {
             //         this.setParentForLayoutItem(layoutItem.id, workspaceItem);
             //     })
             // }
-
-        } catch(e) {
+        } catch (e) {
             return null;
         }
     }
     /**
      * Change the parent for a list of child elements
-     * @param {*} parentLayoutItem 
-     * @param {*} childLayoutItems 
-     */    
+     * @param {*} parentLayoutItem
+     * @param {*} childLayoutItems
+     */
     setParentForChildren(parentLayoutItem, childLayoutItems) {
         try {
-            childLayoutItems.filter(v => v.id !== parentLayoutItem.id).forEach(child => {
-                this.setParentForLayoutItem(parentLayoutItem.id, child);
-            });
-        } catch(e) {
+            childLayoutItems
+                .filter((v) => v.id !== parentLayoutItem.id)
+                .forEach((child) => {
+                    this.setParentForLayoutItem(parentLayoutItem.id, child);
+                });
+        } catch (e) {
             console.log("failed to set children of parent");
         }
     }
@@ -544,28 +581,34 @@ export class DashboardModel {
             // want to sort the children by order
             // then go through each "in order" and change the order so that it is index + 1;
 
-            children.items.sort((a, b) => a.order - b.order).forEach((child, index) => {
-                child.order = index + 1;
-                this.updateLayoutItem(child);
-            });
-
-        } catch(e) {
-            console.log('error sanitizing order');
+            children.items
+                .sort((a, b) => a.order - b.order)
+                .forEach((child, index) => {
+                    child.order = index + 1;
+                    this.updateLayoutItem(child);
+                });
+        } catch (e) {
+            console.log("error sanitizing order");
             return null;
         }
     }
 
     /**
      * Determine if the layout item has a workspace by the given workspace name
-     * A child is denoted by having a parent id equal to the parent id of the item we 
+     * A child is denoted by having a parent id equal to the parent id of the item we
      * are inputting
-     * 
+     *
      * if parent === layoutItem.id
      */
     layoutItemHasWorkspaceAsChild(layoutItemParent, layoutItem) {
-        return this.getChildrenForLayoutItem(layoutItemParent).filter(workspaceItem => {
-            return workspaceItem.workspace === layoutItem.workspace && workspaceItem.type === "workspace"
-        })
+        return this.getChildrenForLayoutItem(layoutItemParent).filter(
+            (workspaceItem) => {
+                return (
+                    workspaceItem.workspace === layoutItem.workspace &&
+                    workspaceItem.type === "workspace"
+                );
+            }
+        );
     }
 
     /**
@@ -574,11 +617,15 @@ export class DashboardModel {
      * @returns {Array} a list of compatible Workspace layout items
      */
     compatibleWorkspaces(layoutItem) {
-        return this.layout.filter(item => item.type === "workspace" && item.workspace === layoutItem.workspace);
+        return this.layout.filter(
+            (item) =>
+                item.type === "workspace" &&
+                item.workspace === layoutItem.workspace
+        );
     }
 
     /**
-     * Check to see if the layout item (container) that we are adding a widget/workspace TO 
+     * Check to see if the layout item (container) that we are adding a widget/workspace TO
      * has a compatible workspace already inside (as a wrapper)
      * - If not, we will have to add a copatible workspace to the root of the container
      * - If so, we can simply add the child to the layout at the deepest level
@@ -587,14 +634,17 @@ export class DashboardModel {
      * @returns {Boolean} if the TO layout is compatible with the LahyoutModel we are adding
      */
     layoutItemIsCompatible(layoutItemToCheck, layoutItem) {
-        return this.layoutItemHasWorkspaceAsChild(layoutItemToCheck, layoutItem).length > 0;
+        return (
+            this.layoutItemHasWorkspaceAsChild(layoutItemToCheck, layoutItem)
+                .length > 0
+        );
     }
 
     layoutHasCompatibleWorkspace(layoutItem) {
         try {
             const rootContainer = this.getComponentById(1);
             return this.layoutItemIsCompatible(rootContainer, layoutItem);
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     }
@@ -608,52 +658,55 @@ export class DashboardModel {
             if (layoutItem.workspace === "layout") {
                 return layoutItem;
             } else {
-                const parentLayoutItem = this.getComponentById(layoutItem.parent);
+                const parentLayoutItem = this.getComponentById(
+                    layoutItem.parent
+                );
                 return this.parentContainerForLayoutItem(parentLayoutItem);
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return null;
         }
     }
     /**
      * Look for a container that encapsulates 2 other containers
-     * This is used for moving a workspace UP in the hierarchy 
-     * in case a user wants to add a widget to a container that is not currently 
+     * This is used for moving a workspace UP in the hierarchy
+     * in case a user wants to add a widget to a container that is not currently
      * compatible, but wants to maintain the same workspace to power them both.
      * @param {Array} items the array of layoutItems that are to be checked
      */
     containsLayoutItems(layoutItems) {
-        // we have to get the container for each item in the array first. 
+        // we have to get the container for each item in the array first.
         // then check to see WHICH container CONTAINS them all!
-        const containers = this.layout.filter(layoutItem => layoutItem.workspace === "layout");
+        const containers = this.layout.filter(
+            (layoutItem) => layoutItem.workspace === "layout"
+        );
         console.log(containers);
         // now check all of the children of each container
     }
 
     /**
      * Get the nearest top level container for the layout item
-     * @param {LayoutModel} layoutItem the layout item we are checking (typically a widget add motion) 
+     * @param {LayoutModel} layoutItem the layout item we are checking (typically a widget add motion)
      */
-    containerForLayoutItem(layoutItem) {
-
-    }
+    containerForLayoutItem(layoutItem) {}
 
     /**
      * Find the deepest workspace in the given container
-     * @param {*} container 
+     * @param {*} container
      */
     deepestWorkspaceInContainer(container) {
         return this.getHighestOrderWorkspaceForLayoutItem(container);
     }
 
     /**
-     * Find a compatible Workspace for the layout item using the ComponentManager (all registered components) 
-     * @param {LayoutModel} layoutItem 
+     * Find a compatible Workspace for the layout item using the ComponentManager (all registered components)
+     * @param {LayoutModel} layoutItem
      * @returns {LayoutModel} the compatible workspace component
      */
     findCompatibleWorkspaceComponent(layoutItem) {
-        const compatibleWorkspaceComponent = ComponentManager.getWorkspaceByName(layoutItem.workspace);
+        const compatibleWorkspaceComponent =
+            ComponentManager.getWorkspaceByName(layoutItem.workspace);
         if (compatibleWorkspaceComponent) {
             return LayoutModel(compatibleWorkspaceComponent);
         }
@@ -667,17 +720,24 @@ export class DashboardModel {
     addWorkspaceForWidget(toLayoutItem, layoutItemToAdd) {
         try {
             if (layoutItemToAdd.type === "widget") {
-
                 // workspace we will use to add to the Layout
                 let workspaceToAddTo = null;
 
                 // the name of the workspace compatible with the item being added
                 const workspaceRequiredName = layoutItemToAdd.workspace;
-                
-                // Fetch any compatible workspaces with in the cource container
-                const compatibleWorkspaceChildren = this.layoutItemHasWorkspaceAsChild(toLayoutItem, layoutItemToAdd);
 
-                console.log("compatible children ", compatibleWorkspaceChildren, workspaceRequiredName);
+                // Fetch any compatible workspaces with in the cource container
+                const compatibleWorkspaceChildren =
+                    this.layoutItemHasWorkspaceAsChild(
+                        toLayoutItem,
+                        layoutItemToAdd
+                    );
+
+                console.log(
+                    "compatible children ",
+                    compatibleWorkspaceChildren,
+                    workspaceRequiredName
+                );
                 // if (compatibleWorkspaceChildren.length > 0) {
                 //     console.log("ok we can add this widget as a child per usual - highest id");
                 //     // choose the workspace with the highest ID to add the item to
@@ -696,50 +756,58 @@ export class DashboardModel {
 
                 if (compatibleWorkspaceChildren.length === 0) {
                     // we have to conjur up a Compatible workspace based on the item specified
-                    const tempWorkspaceComponent = ComponentManager.getWorkspaceByName(workspaceRequiredName);
+                    const tempWorkspaceComponent =
+                        ComponentManager.getWorkspaceByName(
+                            workspaceRequiredName
+                        );
                     console.log("temp workspace name ", tempWorkspaceComponent);
-                    workspaceToAddTo = LayoutModel({ 
-                        type: tempWorkspaceComponent.type, 
+                    workspaceToAddTo = LayoutModel({
+                        type: tempWorkspaceComponent.type,
                         component: tempWorkspaceComponent.name,
                         // parent: toLayoutItem.id,
                         // parentWorkspace: toLayoutItem,
                         // parentWorkspaceName: toLayoutItem.workspace
                     });
-                    
-                    console.log("workspace component conjured from DashboardModel", workspaceToAddTo);
+
+                    console.log(
+                        "workspace component conjured from DashboardModel",
+                        workspaceToAddTo
+                    );
                 } else {
                     // we have to add this as usual to the toLayoutItem
                 }
 
                 // now we have to add the workspace as a child, but NOT below the widgets
-                // we want to basically add this as 
+                // we want to basically add this as
                 // Container
                 // workspace, workspace workspace
                 // widgets...
-                const highestOrderWorkspace = this.getHighestOrderWorkspaceForLayoutItem(toLayoutItem);
+                const highestOrderWorkspace =
+                    this.getHighestOrderWorkspaceForLayoutItem(toLayoutItem);
                 if (highestOrderWorkspace > 0) {
-                    return this.addChildToLayoutItem(workspaceToAddTo, highestOrderWorkspace["id"]);
+                    return this.addChildToLayoutItem(
+                        workspaceToAddTo,
+                        highestOrderWorkspace["id"]
+                    );
                 } else {
                     // add to the Container if no other workspaces found
-                    return this.addChildToLayoutItem(workspaceToAddTo, toLayoutItem["id"]);
+                    return this.addChildToLayoutItem(
+                        workspaceToAddTo,
+                        toLayoutItem["id"]
+                    );
                 }
-                
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
-    setParentForItem(parentId, childId) {
+    setParentForItem(parentId, childId) {}
 
-    }
-
-    setOrderForItem(order, itemId) {
-
-    }
+    setOrderForItem(order, itemId) {}
 
     /**
      * Update the LayoutModel item using the id in the item itself to execute the update
-     * @param {LayoutModel} itemData the LayoutModel we want to replace in the layout 
+     * @param {LayoutModel} itemData the LayoutModel we want to replace in the layout
      * @returns {Object} the new layout
      */
     updateLayoutItem(itemData) {
@@ -753,8 +821,7 @@ export class DashboardModel {
                 return this.replaceItemInLayout(id, item);
             }
             return this.layout;
-        } catch(e) {
-
+        } catch (e) {
             return this.layout;
         }
     }
@@ -773,7 +840,7 @@ export class DashboardModel {
                 }
             });
             return indexOfItem;
-        } catch(e) {
+        } catch (e) {
             return indexOfItem;
         }
     }
@@ -792,7 +859,7 @@ export class DashboardModel {
      * Replace the LayoutModel item in the layout based on its id, with a new LayoutModel item
      * @param {Number} id the id of the item we wish to replace
      * @param {LayoutModel} item the LayoutModel we are using as the replacement
-     * @returns 
+     * @returns
      */
     replaceItemInLayoutById(id, item) {
         try {
@@ -803,40 +870,41 @@ export class DashboardModel {
             }
             // console.log("replace with ", item, tempLayout);
             return this.layout;
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return this.layout;
         }
     }
 
-
     removeItemFromLayout(id) {
-
         try {
             if (this.layout.length > 1) {
-
-                // lets filter out all of the items that have the id of the id specified 
+                // lets filter out all of the items that have the id of the id specified
                 // and also anything that has a parent of the same id, and then anything that is a parent of that item..
                 // so we have to do this recursively.
 
                 console.log("deleting", id);
 
-                const newLayout = this.layout.filter(layoutItem => layoutItem.id === id);
+                const newLayout = this.layout.filter(
+                    (layoutItem) => layoutItem.id === id
+                );
                 const newLayoutLength = newLayout.length;
 
                 console.log("new layout ", newLayout);
 
-                // reset the layout by removing the element 
-                this.layout = this.layout.filter(layoutItem => layoutItem.id !== id);
+                // reset the layout by removing the element
+                this.layout = this.layout.filter(
+                    (layoutItem) => layoutItem.id !== id
+                );
 
                 console.log("layout after one recursion ", this.layout);
 
                 const gridCleanupLayout = [];
-                this.layout.forEach(layoutItem => {
+                this.layout.forEach((layoutItem) => {
                     if (layoutItem.grid !== null) {
                         const gridLayout = layoutItem.grid;
-                        Object.keys(gridLayout).forEach(gk => {
-                            if(gk !== "rows" && gk !== "cols") {
+                        Object.keys(gridLayout).forEach((gk) => {
+                            if (gk !== "rows" && gk !== "cols") {
                                 const cellData = gridLayout[gk];
                                 if (cellData.component === id) {
                                     cellData.component = null;
@@ -849,23 +917,26 @@ export class DashboardModel {
                     } else {
                         gridCleanupLayout.push(layoutItem);
                     }
-                })
+                });
                 // and now handle the parent...
                 // while(newLayoutLength > 0) {
-                    const children = this.layout.filter(layoutItem => layoutItem.parent === id);
-                    children.forEach(child => {
-                        console.log("removing child ", child);
-                        this.removeItemFromLayout(child.id);    
-                    })
+                const children = this.layout.filter(
+                    (layoutItem) => layoutItem.parent === id
+                );
+                children.forEach((child) => {
+                    console.log("removing child ", child);
+                    this.removeItemFromLayout(child.id);
+                });
 
-                    
                 // }
-
 
                 return;
 
                 const indexOfItem = getIndexOfLayoutItem(tempLayout, id);
-                const indexOfChildren = getIndexOfLayoutChildrenForItem(tempLayout, id);
+                const indexOfChildren = getIndexOfLayoutChildrenForItem(
+                    tempLayout,
+                    id
+                );
                 // remove the children...
                 indexOfChildren.length > 0 &&
                     indexOfChildren.forEach((index) => {
@@ -879,7 +950,7 @@ export class DashboardModel {
                 }
             }
             return tempLayout;
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return null;
         }
@@ -889,7 +960,9 @@ export class DashboardModel {
         let color = "border-gray-900";
         try {
             if (component) {
-                const canHaveChildren = component ? component["canHaveChildren"] : false;
+                const canHaveChildren = component
+                    ? component["canHaveChildren"]
+                    : false;
                 if ("styles" in component) {
                     color =
                         "backgroundColor" in component["styles"]
@@ -916,7 +989,7 @@ export class DashboardModel {
                     }
                 }
             }
-            
+
             return color;
         } catch (e) {
             console.log(e);
@@ -958,7 +1031,4 @@ export class DashboardModel {
             return color;
         }
     }
-
-
-
-};
+}

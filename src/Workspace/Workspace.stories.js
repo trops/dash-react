@@ -4,7 +4,7 @@ import { Widget } from "..";
 import { Paragraph } from "..";
 
 export default {
-    title: "Workspace",
+    title: "Workspace/Workspace",
     component: Workspace,
 };
 

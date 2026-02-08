@@ -36,7 +36,6 @@ export const ComponentManager = {
      * @param {*} widgetKey the unique id for the widget
      */
     registerWidget: function (widgetConfig, widgetKey) {
-
         const tempComponentMap = this.componentMap();
         tempComponentMap[widgetKey] = ComponentConfigModel(
             widgetConfig.default
@@ -105,9 +104,13 @@ export const ComponentManager = {
             const m = this.componentMap();
             let workspaceComponent = null;
             if (m) {
-                Object.keys(m).forEach(componentName => {
+                Object.keys(m).forEach((componentName) => {
                     const cmp = m[componentName];
-                    if ((cmp.workspace === `${workspaceName}-workspace` || cmp.workspace === workspaceName) && cmp["type"] === "workspace") {
+                    if (
+                        (cmp.workspace === `${workspaceName}-workspace` ||
+                            cmp.workspace === workspaceName) &&
+                        cmp["type"] === "workspace"
+                    ) {
                         cmp["component"] = componentName;
                         workspaceComponent = cmp;
                     }
@@ -123,9 +126,13 @@ export const ComponentManager = {
         try {
             const m = this.componentMap();
             if (m) {
-                return Object.keys(m).filter(componentName => {
+                return Object.keys(m).filter((componentName) => {
                     const cmp = m[componentName];
-                    if ((cmp.workspace === `${workspaceName}-workspace` || cmp.workspace === workspaceName) && cmp["type"] === "widget") {
+                    if (
+                        (cmp.workspace === `${workspaceName}-workspace` ||
+                            cmp.workspace === workspaceName) &&
+                        cmp["type"] === "widget"
+                    ) {
                         cmp["component"] = componentName;
                         return componentName;
                     }
@@ -136,11 +143,11 @@ export const ComponentManager = {
         }
     },
 
-     getWorkspaces: function () {
+    getWorkspaces: function () {
         try {
             const m = this.componentMap();
             if (m) {
-                return Object.keys(m).filter(componentName => {
+                return Object.keys(m).filter((componentName) => {
                     const cmp = m[componentName];
                     if (cmp["type"] === "workspace") {
                         cmp["component"] = componentName;
@@ -157,7 +164,7 @@ export const ComponentManager = {
         try {
             const m = this.componentMap();
             if (m) {
-                return Object.keys(m).filter(componentName => {
+                return Object.keys(m).filter((componentName) => {
                     const cmp = m[componentName];
                     if (cmp["type"] === "widget") {
                         cmp["component"] = componentName;
@@ -170,7 +177,6 @@ export const ComponentManager = {
         }
     },
 
-
     getContextsForLayout: function (config) {
         try {
             const m = this.componentMap();
@@ -180,7 +186,10 @@ export const ComponentManager = {
                     if ("contexts" in item && item.contexts) {
                         item.contexts.forEach((context) => {
                             // we want to push the Context component and the user configuration data
-                            contexts.push({ provider: m[context], props: item });
+                            contexts.push({
+                                provider: m[context],
+                                props: item,
+                            });
                         });
                     }
                 });
@@ -194,16 +203,19 @@ export const ComponentManager = {
     /**
      * Get the context by name, so that we can render all of the contexts around the dashboard widgets selected
      * @param {String} contextName the name of the context to be fetched
-     * @returns 
+     * @returns
      */
     getContextByName: function (contextName) {
         try {
             const m = this.componentMap();
             let contextComponent = null;
             if (m) {
-                Object.keys(m).forEach(componentName => {
+                Object.keys(m).forEach((componentName) => {
                     const cmp = m[componentName];
-                    if (cmp.workspace === `${contextName}-context` && cmp["type"] === "context") {
+                    if (
+                        cmp.workspace === `${contextName}-context` &&
+                        cmp["type"] === "context"
+                    ) {
                         cmp["component"] = componentName;
                         contextComponent = cmp;
                     }
@@ -217,79 +229,79 @@ export const ComponentManager = {
 
     config: function (component, data = {}) {
         try {
-        if (component) {
-            // console.log("config");
-            const requiredFields = {
-                type: { value: "text" },
-                required: { value: false },
-                options: { value: [] },
-                defaultValue: { value: "" },
-            };
-
-            // get the component configuration from the map
-            const components = this.componentMap();
-            if (component in components) {
-                // let c = deepCopy(components['component']);
-
-                // we have to make sure that we remove the component if this is a context
-
-                const tempComponent = components[component];
-                delete tempComponent["component"];
-                let c = JSON.parse(JSON.stringify(tempComponent));
-
-                // tack on the component name
-                c["component"] = component;
-
-                // if no userConfig key. let's add it for the next step
-                if ("userConfig" in c === false) {
-                    c["userConfig"] = {};
-                }
-
-                // if (isLayout === false) {
-                let userPrefs = {};
-                // now we can make sure the configuration is "complete"
-                if ("userConfig" in c) {
-                    Object.keys(c["userConfig"]).forEach((key) => {
-                        // check the required fields!
-                        Object.keys(requiredFields).forEach((k) => {
-                            if (k in c["userConfig"][key]) {
-                                if (k in c["userConfig"][key] === false) {
-                                    c["userConfig"][key] =
-                                        requiredFields[k]["value"];
-                                }
-                            }
-                        });
-                        // set the user preferences
-                        userPrefs[key] = ComponentManager.userPrefsForItem(
-                            "userPrefs" in data ? data : c,
-                            key,
-                            c["userConfig"][key]
-                        );
-                    });
-                }
-
-                // set the user preferences here
-                c["userPrefs"] = userPrefs;
-
-                return {
-                    type: c["type"],
-                    workspace: c["workspace"],
-                    canHaveChildren: c["canHaveChildren"],
-                    userPrefs: c["userPrefs"],
-                    userConfig: c["userConfig"],
-                    styles: "styles" in c ? c["styles"] : {},
-                    events: "events" in c ? c["events"] : [],
-                    eventHandlers:
-                        "eventHandlers" in c ? c["eventHandlers"] : [],
+            if (component) {
+                // console.log("config");
+                const requiredFields = {
+                    type: { value: "text" },
+                    required: { value: false },
+                    options: { value: [] },
+                    defaultValue: { value: "" },
                 };
+
+                // get the component configuration from the map
+                const components = this.componentMap();
+                if (component in components) {
+                    // let c = deepCopy(components['component']);
+
+                    // we have to make sure that we remove the component if this is a context
+
+                    const tempComponent = components[component];
+                    delete tempComponent["component"];
+                    let c = JSON.parse(JSON.stringify(tempComponent));
+
+                    // tack on the component name
+                    c["component"] = component;
+
+                    // if no userConfig key. let's add it for the next step
+                    if ("userConfig" in c === false) {
+                        c["userConfig"] = {};
+                    }
+
+                    // if (isLayout === false) {
+                    let userPrefs = {};
+                    // now we can make sure the configuration is "complete"
+                    if ("userConfig" in c) {
+                        Object.keys(c["userConfig"]).forEach((key) => {
+                            // check the required fields!
+                            Object.keys(requiredFields).forEach((k) => {
+                                if (k in c["userConfig"][key]) {
+                                    if (k in c["userConfig"][key] === false) {
+                                        c["userConfig"][key] =
+                                            requiredFields[k]["value"];
+                                    }
+                                }
+                            });
+                            // set the user preferences
+                            userPrefs[key] = ComponentManager.userPrefsForItem(
+                                "userPrefs" in data ? data : c,
+                                key,
+                                c["userConfig"][key]
+                            );
+                        });
+                    }
+
+                    // set the user preferences here
+                    c["userPrefs"] = userPrefs;
+
+                    return {
+                        type: c["type"],
+                        workspace: c["workspace"],
+                        canHaveChildren: c["canHaveChildren"],
+                        userPrefs: c["userPrefs"],
+                        userConfig: c["userConfig"],
+                        styles: "styles" in c ? c["styles"] : {},
+                        events: "events" in c ? c["events"] : [],
+                        eventHandlers:
+                            "eventHandlers" in c ? c["eventHandlers"] : [],
+                    };
+                }
+                return null;
             }
             return null;
+        } catch (e) {
+            console.log("error getting config for component ", component, e);
+            return null;
         }
-        return null;
-    } catch(e) {
-        console.log("error getting config for component ", component, e);
-        return null;
-    }
     },
     /**
      * userConfig

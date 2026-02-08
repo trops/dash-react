@@ -2,7 +2,7 @@ import { PanelEditItemHandlers } from "./PanelEditItemHandlers";
 import { mock, MockWrapper } from "@dash";
 
 export default {
-    title: "PanelEditItemHandlers",
+    title: "Layout/Builder/Modal/Panel/PanelEditItemHandlers",
     component: PanelEditItemHandlers,
 };
 

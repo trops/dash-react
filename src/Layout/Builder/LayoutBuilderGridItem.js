@@ -214,7 +214,6 @@ export const LayoutBuilderGridItem = ({
         const containerBorderColor = getContainerBorderColor(item);
         const containerBackgroundColor = getContainerColor(item);
 
-
         return isDraggable === true ? (
             <DragComponent
                 obj={item}
@@ -229,7 +228,8 @@ export const LayoutBuilderGridItem = ({
                 <div
                     className={`flex flex-col border-4 h-full w-full ${containerBorderColor} rounded text-xs font-bold text-gray-200 p-2 ${containerBackgroundColor}`}
                 >
-                    HERE {containerBorderColor} { containerBackgroundColor} {item["parentWorkspaceName"]}
+                    HERE {containerBorderColor} {containerBackgroundColor}{" "}
+                    {item["parentWorkspaceName"]}
                     <div
                         className={`flex flex-col ${scrollable} ${
                             preview === false && "text-blue-900 rounded"
@@ -298,7 +298,7 @@ export const LayoutBuilderGridItem = ({
                                 )}
                                 hoverBackgroundColor="hover:bg-red-900"
                             />
-                             <ButtonIcon
+                            <ButtonIcon
                                 theme={false}
                                 icon="plug"
                                 onClick={() => handleClickContextSettings(item)}
@@ -348,7 +348,7 @@ export const LayoutBuilderGridItem = ({
                         preview === false && "text-blue-900 rounded m-2"
                     }`}
                 >
-                     {/* ITEM not draggable {editMode} {item["component"]} {item["type"]} {item["workspace"]} */}
+                    {/* ITEM not draggable {editMode} {item["component"]} {item["type"]} {item["workspace"]} */}
                     {preview === false && renderUserPreferences()}
                 </div>
                 <div className="flex flex-row space-x-1 w-full justify-between text-xs">
@@ -360,9 +360,7 @@ export const LayoutBuilderGridItem = ({
                             <ButtonIcon
                                 icon="phone"
                                 onClick={handleClickEvents}
-                                bgColor={getContainerColor(
-                                    parentWorkspace
-                                )}
+                                bgColor={getContainerColor(parentWorkspace)}
                                 hoverBackgroundColor="hover:bg-gray-900"
                                 text={
                                     item.eventHandlers.length > 0
@@ -375,9 +373,7 @@ export const LayoutBuilderGridItem = ({
                         <ButtonIcon
                             icon="trash"
                             onClick={handleClickRemove}
-                            backgroundColor={getContainerColor(
-                                parentWorkspace
-                            )}
+                            backgroundColor={getContainerColor(parentWorkspace)}
                             hoverBackgroundColor="hover:bg-red-900"
                         />
                         {order > 1 &&
@@ -423,41 +419,41 @@ export const LayoutBuilderGridItem = ({
 
     function renderLayoutGridItem() {
         return (
-            <LayoutContainerGridItem 
-            key={`container-grid-item-${uuid}-${
-                preview === true ? "view" : "edit"
-            }`}
-            uuid={uuid}
-            item={item}
-            layout={layout}
-            id={id}
-            parent={parent}
-            row={order}
-            col={order}
-            order={order}
-            onClickAdd={onClickAdd}
-            onClickQuickAdd={onClickQuickAdd}
-            onClickRemove={onClickRemove}
-            onClickExpand={onClickExpand}
-            onClickShrink={onClickShrink}
-            onChangeDirection={onChangeDirection}
-            onChangeOrder={onChangeOrder}
-            onDropItem={onDropItem}
-            onDragItem={onDragItem}
-            name={id}
-            width={width}
-            height={height}
-            direction={direction}
-            scrollable={scrollable}
-            space={space}
-            grow={grow}
-            preview={preview}
-            editMode={editMode}
-            component={component}
-            onOpenConfig={onOpenConfig}
-            onOpenEvents={onOpenEvents}
-            isDraggable={isDraggable}
-            workspace={workspace}
+            <LayoutContainerGridItem
+                key={`container-grid-item-${uuid}-${
+                    preview === true ? "view" : "edit"
+                }`}
+                uuid={uuid}
+                item={item}
+                layout={layout}
+                id={id}
+                parent={parent}
+                row={order}
+                col={order}
+                order={order}
+                onClickAdd={onClickAdd}
+                onClickQuickAdd={onClickQuickAdd}
+                onClickRemove={onClickRemove}
+                onClickExpand={onClickExpand}
+                onClickShrink={onClickShrink}
+                onChangeDirection={onChangeDirection}
+                onChangeOrder={onChangeOrder}
+                onDropItem={onDropItem}
+                onDragItem={onDragItem}
+                name={id}
+                width={width}
+                height={height}
+                direction={direction}
+                scrollable={scrollable}
+                space={space}
+                grow={grow}
+                preview={preview}
+                editMode={editMode}
+                component={component}
+                onOpenConfig={onOpenConfig}
+                onOpenEvents={onOpenEvents}
+                isDraggable={isDraggable}
+                workspace={workspace}
             >
                 {children}
             </LayoutContainerGridItem>
@@ -465,89 +461,89 @@ export const LayoutBuilderGridItem = ({
     }
 
     function renderWorkspaceGridItem() {
-       return (
-        <WorkspaceContainerGridItem 
-        key={`container-grid-item-${uuid}-${
-            preview === true ? "view" : "edit"
-        }`}
-        uuid={uuid}
-        item={item}
-        layout={layout}
-        id={id}
-        parent={parent}
-        row={order}
-        col={order}
-        order={order}
-        onClickAdd={onClickAdd}
-        onClickQuickAdd={onClickQuickAdd}
-        onClickRemove={onClickRemove}
-        onClickExpand={onClickExpand}
-        onClickShrink={onClickShrink}
-        onChangeDirection={onChangeDirection}
-        onChangeOrder={onChangeOrder}
-        onDropItem={onDropItem}
-        onDragItem={onDragItem}
-        name={id}
-        width={width}
-        height={height}
-        direction={direction}
-        scrollable={scrollable}
-        space={space}
-        grow={grow}
-        preview={preview}
-        editMode={editMode}
-        component={component}
-        onOpenConfig={onOpenConfig}
-        onOpenEvents={onOpenEvents}
-        isDraggable={isDraggable}
-        workspace={workspace}
-        >
-            {children}
-        </WorkspaceContainerGridItem>
-       )
+        return (
+            <WorkspaceContainerGridItem
+                key={`container-grid-item-${uuid}-${
+                    preview === true ? "view" : "edit"
+                }`}
+                uuid={uuid}
+                item={item}
+                layout={layout}
+                id={id}
+                parent={parent}
+                row={order}
+                col={order}
+                order={order}
+                onClickAdd={onClickAdd}
+                onClickQuickAdd={onClickQuickAdd}
+                onClickRemove={onClickRemove}
+                onClickExpand={onClickExpand}
+                onClickShrink={onClickShrink}
+                onChangeDirection={onChangeDirection}
+                onChangeOrder={onChangeOrder}
+                onDropItem={onDropItem}
+                onDragItem={onDragItem}
+                name={id}
+                width={width}
+                height={height}
+                direction={direction}
+                scrollable={scrollable}
+                space={space}
+                grow={grow}
+                preview={preview}
+                editMode={editMode}
+                component={component}
+                onOpenConfig={onOpenConfig}
+                onOpenEvents={onOpenEvents}
+                isDraggable={isDraggable}
+                workspace={workspace}
+            >
+                {children}
+            </WorkspaceContainerGridItem>
+        );
     }
 
     function renderWidgetGridItem() {
         return (
-            <WidgetContainerGridItem 
-            key={`container-grid-item-${uuid}-${
-                preview === true ? "view" : "edit"
-            }`}
-            uuid={uuid}
-            item={item}
-            layout={layout}
-            id={id}
-            parent={parent}
-            row={order}
-            col={order}
-            order={order}
-            onClickAdd={onClickAdd}
-            onClickQuickAdd={onClickQuickAdd}
-            onClickRemove={onClickRemove}
-            onClickExpand={onClickExpand}
-            onClickShrink={onClickShrink}
-            onChangeDirection={onChangeDirection}
-            onChangeOrder={onChangeOrder}
-            onDropItem={onDropItem}
-            onDragItem={onDragItem}
-            name={id}
-            width={width}
-            height={height}
-            direction={direction}
-            scrollable={scrollable}
-            space={space}
-            grow={grow}
-            preview={preview}
-            editMode={editMode}
-            component={component}
-            onOpenConfig={onOpenConfig}
-            onOpenEvents={onOpenEvents}
-            isDraggable={isDraggable}
-            workspace={workspace}
+            <WidgetContainerGridItem
+                key={`container-grid-item-${uuid}-${
+                    preview === true ? "view" : "edit"
+                }`}
+                uuid={uuid}
+                item={item}
+                layout={layout}
+                id={id}
+                parent={parent}
+                row={order}
+                col={order}
+                order={order}
+                onClickAdd={onClickAdd}
+                onClickQuickAdd={onClickQuickAdd}
+                onClickRemove={onClickRemove}
+                onClickExpand={onClickExpand}
+                onClickShrink={onClickShrink}
+                onChangeDirection={onChangeDirection}
+                onChangeOrder={onChangeOrder}
+                onDropItem={onDropItem}
+                onDragItem={onDragItem}
+                name={id}
+                width={width}
+                height={height}
+                direction={direction}
+                scrollable={scrollable}
+                space={space}
+                grow={grow}
+                preview={preview}
+                editMode={editMode}
+                component={component}
+                onOpenConfig={onOpenConfig}
+                onOpenEvents={onOpenEvents}
+                isDraggable={isDraggable}
+                workspace={workspace}
             >
                 {children}
             </WidgetContainerGridItem>
-        )
+        );
     }
 
     console.log("in Layout Builder Grid Item", item, children, preview);

@@ -3,7 +3,7 @@ import { CodeRenderer } from "./CodeRenderer";
 import "@dash/tailwind.css";
 
 export default {
-    title: "CodeRenderer",
+    title: "Common/CodeRenderer",
     component: CodeRenderer,
 };
 

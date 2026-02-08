@@ -1,10 +1,8 @@
 # dash-react
 
-This project is a npm package hosted on github to be used with Dash.
+Dash React is a dashboard framework built around **Workspaces** and **Widgets**. It provides a core component set, theming, and a context-driven API surface to make it easy to compose complex dashboards and plug in custom widgets.
 
-Dash is a framework of Workspaces and Widgets that use dependency injection to pass functionality through Workspaces to the Widgets inside. You may create Widgets and Workspaces alike to utilize libraries, apis, anything you desire.
-
-Examples:
+Examples of dashboards powered by Dash:
 
 - Algolia Search
 - Google Drive
@@ -12,58 +10,136 @@ Examples:
 - Slack
 - ChatGPT
 
-# Installation and Dev Notes
+## Requirements
 
-This relies on the [@trops/dash-react](https://github.com/trops/dash-react) package hosted privately as a package on github.
+- Node.js + npm
 
-In order to install this we have provided a `.npmrc file` with the Personal Access Token (PAT) generated from github providing read-only access to the package.
+## Installation
 
-This key may change or be provided upon request.
-
-| CLI                             | Description                                                                             |
-| ------------------------------- | --------------------------------------------------------------------------------------- |
-| `npm install`                   | Install the main application, and dash-react dependency                                 |
-| `npm run dev`                   | Run Development environment and launch Electron window                                  |
-| `npm run build`                 | Build the tailwind.css file and run development environment and launch Electron window  |
-| `node ./widgetize <WidgetName>` | Generate a new Widget inside the src/Widgets directory using the template as a scaffold |
-
-## Running Production
-
-- Add all changes to git
-- Commit those changes
-- run `npm version patch` to update the package version
-- run `npm run prod` to generate the build
-- commit the changes
-- push `git push origin main`
-
-# React Web Project
-
-This current project runs Electron, but the @trops/dash-react package may be used in a simple React web based application. The caveat is the API bridge between Electron and the React renderer will have to be re-created in order to satisfy the data requirements for configuring the application. This API is injected into the Dash application for portability.
-
-More to come...
-
-# Development (Workspaces and Widgets)
-
-Developing custom Workspaces and Widgets is the whole reason for creating Dash in the first place. From Stock tracker Dashboards, to social media analytics, dashboards are very important.
-
-Inside the `src/widgets` directory is where you should create your, well, widgets!
-
-## Folder Structure
-
-Let's say you wanted to create a component named MyWidget. You should create a second file named MyWidget.dash.js, like this inside of the following folder structure.
-
-Notice we also created a Workspace in the same MyWidget folder.
-
-```
-src/widgets
-src/widgets/MyWidget
-src/widgets/MyWidget/MyWidget.js
-src/widgets/MyWidget/MyWidget.dash.js
-src/widgets/MyWidget/MyWorkspace.js
-src/widgets/MyWidget/MyWorkspace.dash.js
+```bash
+npm install
 ```
 
-Inside the `MyWidget.dash.js` file, include a configuration for the widget.
+## Common Commands
+
+```bash
+npm run storybook
+npm run build-storybook
+npm run build
+npm run build:css
+npm run prod
+```
+
+## Maintainer Guide (Account Owner)
+
+### Update UI Components
+
+1. Edit the component files under:
+    - `src/Common` (core UI primitives)
+    - `src/Layout` (layout and container primitives)
+    - `src/Menu` (navigation UI)
+    - `src/Dashboard` (dashboard-specific UI)
+    - `src/Theme` (theme manager UI)
+2. If Tailwind classes or tokens change, run:
+
+```bash
+npm run build:css
+```
+
+### Test UI Changes in Storybook
+
+```bash
+npm run storybook
+```
+
+Build the static Storybook (CI or preview builds):
+
+```bash
+npm run build-storybook
+```
+
+### Update and Release the Package
+
+```bash
+npm version patch
+npm run prod
+git push origin main
+```
+
+## Architecture Overview
+
+Dash uses a layered provider model to supply context to Workspaces and Widgets:
+
+```mermaid
+flowchart TB
+    AppWrapper --> ThemeWrapper
+    ThemeWrapper --> DashboardWrapper
+    DashboardWrapper --> Workspace
+    Workspace --> Widget
+    Widget --> WidgetContext
+    DashboardWrapper --> DashboardContext
+    AppWrapper --> AppContext
+    ThemeWrapper --> ThemeContext
+    Workspace --> WorkspaceContext
+```
+
+**Key contexts**:
+
+- `AppContext`: application-level settings, credentials, debug flags
+- `ThemeContext`: generated theme tokens for `bg-*`, `text-*`, `border-*`
+- `DashboardContext`: dashboard APIs, publisher, and Electron bridge
+- `WorkspaceContext`: workspace-level dependencies and data
+- `WidgetContext`: widget instance metadata (`uuid`, etc.)
+
+### Widget Communication (Publish/Subscribe)
+
+Widgets can publish events and register listeners via the `WidgetApi`.
+
+```mermaid
+sequenceDiagram
+    participant WidgetA
+    participant WidgetApi
+    participant Publisher
+    participant WidgetB
+    WidgetA->>WidgetApi: publishEvent(name, payload)
+    WidgetApi->>Publisher: broadcast
+    Publisher->>WidgetB: handler(payload)
+```
+
+## Platform Structure (Owner View)
+
+**What is a Workspace?**
+
+- A container that hosts widgets and optionally provides additional contexts.
+
+**What is a Widget?**
+
+- A reusable UI module rendered inside a workspace. Widgets use `WidgetApi` and contexts for communication and data.
+
+**What is a Widget Config?**
+
+- A `.dash.js` file that registers a widget/workspace and its metadata (workspace name, type, userConfig).
+
+**Where are widgets stored?**
+
+- `src/Widgets/<WidgetName>/` with `contexts`, `hooks`, `widgets`, and `workspaces` subfolders.
+
+## Widget Development
+
+Widgets are grouped under `src/Widgets/<WidgetName>/` with a workspace, widget, context, and optional hooks.
+
+```
+src/Widgets/MyWidget/
+  contexts/
+  hooks/
+  widgets/
+  workspaces/
+  index.js
+```
+
+### Widget Config Files
+
+Each widget and workspace has a `.dash.js` configuration file.
 
 ```js
 // MyWidget.dash.js
@@ -77,8 +153,6 @@ export default {
 };
 ```
 
-And for a workspace, type will change to `workspace`, canHaveChildren is set to true (or false if you are making a self-contained workspace). Both the widget and the workspace is belongs to will both have the same "workspace" name.
-
 ```js
 // MyWidgetWorkspace.dash.js
 import { MyWidgetWorkspace } from "./MyWidgetWorkspace";
@@ -91,9 +165,9 @@ export default {
 };
 ```
 
-Another example of a configuration. In this configuration, the developer is allowing the end user to enter information. The values the user enters into the form (in the dashboard) can then be used by the developer in the widget!
+### User Configurable Widgets
 
-This means you can create custom widgets that are dynamic based on the user's entered data.
+Widget configuration can expose user-editable settings in the dashboard UI:
 
 ```js
 export default {
@@ -106,7 +180,6 @@ export default {
             type: "text",
             defaultValue: "default",
             instructions: "Type a heading for your widget",
-            options: [],
             displayName: "Title",
             required: true,
         },
@@ -117,48 +190,605 @@ export default {
             displayName: "Sub Title",
         },
     },
+};
 ```
 
-# Widgetize.js
+## Hooks Strategy (Core + Custom)
 
-You may alternatively use the `widgetize.js` script in order to copy the Widget folder structure and template files.
+The core library provides `useDashboard()` which returns `app`, `dashboard`, and `theme` contexts.
 
-To generate a scaffold for a widget named `MyWidget`, enter the following into the command line in the root of your project:
+```js
+import { useDashboard } from "@dash/hooks";
 
-`node ./widgetize MyWidget`
-
-This will create a folder structure as follows inside the `src/Widgets` directory:
-
+const { app, dashboard, theme } = useDashboard();
 ```
 
-src/Widgets/MyWidget/widgets/
-src/Widgets/MyWidget/widgets/MyWidget.js
-src/Widgets/MyWidget/widgets/MyWidget.dash.js
-src/Widgets/MyWidget/workspaces/MyWidgetWorkspace.js
-src/Widgets/MyWidget/workspaces/MyWidgetWorkspace.dash.js
-src/Widgets/MyWidget/index.js
+Widget developers should create their own hook to combine core contexts with custom widget contexts:
 
+```js
+// src/Widgets/AlgoliaSearch/hooks/useAlgoliaSearch.js
+import { useContext } from "react";
+import { useDashboard } from "@dash/hooks";
+import { SearchContext } from "../contexts/SearchContext";
+
+export const useAlgoliaSearch = () => {
+    const { app, dashboard, theme } = useDashboard();
+    const search = useContext(SearchContext);
+
+    if (!search) {
+        throw new Error(
+            "useAlgoliaSearch must be used within AlgoliaSearchWorkspace"
+        );
+    }
+
+    return { app, dashboard, theme, search };
+};
 ```
 
-# Themed Components
+## WidgetApi (Core Communication)
 
-There are many Components provided with the @trops/dash-react library that may be utilized and in some cases must be utilized in the creation of Workspaces and Widgets. Here is a brief list of the Components available.
+`WidgetApi` provides publish/subscribe and data storage APIs. It is available via `DashboardContext` and through widgets that receive `api`.
 
-| Component  | Definition                                                                                                                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Dashboard  | A user generated Layout that can be customized to add different layouts, workspaces and widgets.                                                                                           |
-| Workspace  | A container that holds Widgets. The Workspace may inject functionality to the Widgets, use Contexts to provide functionaity, and be used to render display. Can have or not have children. |
-| Widgets    | A component that may be added to a Workspace. Widgets may be added to the workspace specified in their configuration.                                                                      |
-| Panel      | A User Interface Component that may be used indside your render method of your component                                                                                                   |
-| Heading    | A User Interface Component that may be used indside your render method of your component                                                                                                   |
-| SubHeading | A User Interface Component that may be used indside your render method of your component                                                                                                   |
-| Button     | A User Interface Component that may be used indside your render method of your component                                                                                                   |
-| ButtonIcon | A User Interface Component that may be used indside your render method of your component                                                                                                   |
-| MenuItem   | A User Interface Component that may be used indside your render method of your component                                                                                                   |
+Common usage:
 
-# Theme Overrides
+```js
+dashboard.widgetApi.publishEvent(name, payload);
+dashboard.widgetApi.registerListeners(listeners, handlers);
 
-The following classes may be utilized to override.
+api.storeData(data);
+api.readData({
+    callbackComplete: (data) => {},
+    callbackError: (e) => {},
+});
+```
+
+## Themes and Usage
+
+Themes are generated by `ThemeWrapper` and exposed via `ThemeContext`.
+
+```js
+import { useDashboard } from "@dash/hooks";
+
+const { theme } = useDashboard();
+const colors = theme.currentTheme;
+
+// Example token
+const className = colors["text-secondary-very-light"];
+```
+
+Theme tokens are consistent across components and include:
+
+- `bg-*`, `text-*`, `border-*`
+- variants like `very-light`, `light`, `medium`, `dark`, `very-dark`
+
+## App and Dashboard Contexts
+
+Use the core hook to access application and dashboard state:
+
+```js
+import { useDashboard } from "@dash/hooks";
+
+const { app, dashboard } = useDashboard();
+
+// app.settings, app.creds, app.debugMode
+// dashboard.widgetApi, dashboard.dashApi, dashboard.credentials
+```
+
+## Provider Registry Pattern
+
+Widgets can require external services (APIs, databases, etc.) that need authentication. The **Provider Registry** pattern allows:
+
+1. **Schema-driven**: Developers define credential requirements in widget config
+2. **Secure storage**: Electron app handles credential encryption and file persistence
+3. **Auto-generated UI**: Forms are generated automatically from credential schemas
+4. **One-time setup**: End users provide credentials once, reused across widgets
+5. **Multi-instance support**: Same provider type with different credentials (e.g., "algolia-prod", "algolia-staging")
+
+### Architecture & Data Flow
+
+```mermaid
+graph TB
+    subgraph Developer["Widget Developer"]
+        Config["Declare credentialSchema<br/>in .dash.js"]
+    end
+
+    subgraph User["End User / App Setup"]
+        UI["Dashboard Provider Manager<br/>Auto-generated form<br/>from credentialSchema"]
+    end
+
+    subgraph Electron["Electron Application"]
+        API["DashboardApi.providers"]
+        ENC["Encryption"]
+        FS["File System"]
+    end
+
+    subgraph React["React Library (dash-react)"]
+        DW["DashboardWrapper"]
+        PR["ProviderRegistry"]
+        Widget["Widget"]
+    end
+
+    Config -->|credentialSchema| UI
+    UI -->|saveProvider| API
+    API -->|encrypt & persist| FS
+    DW -->|dashApi.listProviders| API
+    API -->|decrypt| PR
+    PR -->|useProvider| Widget
+```
+
+### Setting Up Providers in DashboardWrapper
+
+The DashboardWrapper loads providers from persistent storage on startup:
+
+```js
+import {
+    DashboardWrapper,
+    ProviderContext,
+    createProviderRegistry,
+} from "@dash";
+
+const DashboardSetup = () => {
+    const providerRegistry = createProviderRegistry();
+
+    // Load persisted providers from Electron app
+    useEffect(() => {
+        dashApi.listProviders(
+            appId,
+            (event, data) => {
+                // data.providers = [
+                //   {
+                //     name: "algolia-prod",
+                //     type: "algolia",
+                //     credentials: {
+                //       appId: "xxx",
+                //       apiKey: "yyy",
+                //       indexName: "products"
+                //     }
+                //   },
+                //   {
+                //     name: "algolia-staging",
+                //     type: "algolia",
+                //     credentials: {
+                //       appId: "aaa",
+                //       apiKey: "bbb",
+                //       indexName: "staging"
+                //     }
+                //   }
+                // ]
+
+                // Store each provider by name (Electron has already decrypted)
+                data.providers.forEach((provider) => {
+                    providerRegistry.addProvider(provider.name, provider);
+                });
+            },
+            (event, error) => {
+                console.error("Failed to load providers", error);
+            }
+        );
+    }, []);
+
+    return (
+        <ProviderContext.Provider value={providerRegistry}>
+            <DashboardWrapper dashApi={dashApi} credentials={credentials}>
+                {/* Dashboard content */}
+            </DashboardWrapper>
+        </ProviderContext.Provider>
+    );
+};
+```
+
+### Widget Declaration of Provider Requirements
+
+Widget developers declare what credentials they need using a `credentialSchema`:
+
+```js
+// src/Widgets/AlgoliaSearch/widgets/AlgoliaSearchWidget.dash.js
+import { AlgoliaSearchWidget } from "./AlgoliaSearchWidget";
+
+export default {
+    component: AlgoliaSearchWidget,
+    canHaveChildren: false,
+    workspace: "AlgoliaSearchWorkspace-workspace",
+    type: "widget",
+
+    // Define what credentials are needed for this provider type
+    requiresProviders: [
+        {
+            type: "algolia",
+            credentialSchema: {
+                appId: {
+                    type: "text",
+                    displayName: "Application ID",
+                    instructions: "Your Algolia Application ID",
+                    required: true,
+                    secret: true, // masks input, stored encrypted
+                },
+                apiKey: {
+                    type: "text",
+                    displayName: "API Key",
+                    instructions: "Your Algolia API Key",
+                    required: true,
+                    secret: true,
+                },
+                indexName: {
+                    type: "text",
+                    displayName: "Index Name",
+                    instructions: "Default Algolia index to search",
+                    required: true,
+                    secret: false, // not sensitive
+                },
+            },
+        },
+    ],
+
+    // Widget config: which provider to use
+    userConfig: {
+        providerName: {
+            type: "provider",
+            providerType: "algolia",
+            displayName: "Select Algolia Provider",
+            instructions: "Choose a registered Algolia provider",
+            required: true,
+        },
+    },
+};
+```
+
+### Using a Provider in a Widget
+
+Widgets use the `useProvider()` hook to access credentials and instantiate their own clients:
+
+```js
+// src/Widgets/AlgoliaSearch/widgets/AlgoliaSearchWidget.js
+import { useProvider } from "@dash/Context";
+import algoliasearch from "algoliasearch";
+
+export const AlgoliaSearchWidget = ({ providerName }) => {
+    // Get credentials for this provider
+    const credentials = useProvider(providerName);
+    // credentials = { appId: "xxx", apiKey: "yyy", indexName: "products" }
+
+    // Instantiate client with credentials
+    const algoliaClient = algoliasearch(credentials.appId, credentials.apiKey);
+
+    const handleSearch = async (query) => {
+        const results = await algoliaClient.search([
+            {
+                indexName: credentials.indexName,
+                query,
+            },
+        ]);
+        return results;
+    };
+
+    return (
+        <Widget>
+            <Panel>
+                <input
+                    placeholder="Search..."
+                    onChange={(e) => handleSearch(e.target.value)}
+                />
+            </Panel>
+        </Widget>
+    );
+};
+```
+
+### Provider Selection UI (Missing Provider Prompt)
+
+When a widget requires a provider but none is selected, the framework automatically displays a **Missing Provider Prompt** instead of the widget content. This guides end users through provider setup without requiring any additional wrapper components.
+
+#### Automatic Detection (ProviderErrorBoundary)
+
+Each widget instance includes built-in provider detection via `ProviderErrorBoundary`:
+
+1. **Automatic Check**: On mount and when props change, the boundary checks if all required providers are registered
+2. **Independent Handling**: Each widget independently detects missing providers—if one widget needs setup, other widgets still render normally
+3. **Scoped Prompt**: The `MissingProviderPrompt` is specific to that widget and its required providers only
+
+This means dashboards with multiple widgets can have some widgets showing setup prompts while others function normally—the entire dashboard doesn't block.
+
+#### User Experience Flow
+
+```mermaid
+graph TB
+    A["Widget renders<br/>with requiredProviders"] --> B{Check: All required<br/>providers registered?}
+    B -->|No| C["ProviderErrorBoundary shows<br/>MissingProviderPrompt"]
+    B -->|Yes| D["Widget renders normally"]
+    C --> E["User clicks Configure"]
+    E --> F["ProviderSelector modal opens<br/>with two tabs"]
+    F --> G{User chooses action}
+    G -->|Selects existing| H["Provider assigned<br/>Widget re-checks providers"]
+    G -->|Creates new| I["ProviderForm from<br/>credentialSchema"]
+    I --> J["User fills & submits"]
+    J --> K["Saved to Electron<br/>encrypted"]
+    K --> H
+    H --> B
+```
+
+#### MissingProviderPrompt Component
+
+The `MissingProviderPrompt` is displayed automatically by `ProviderErrorBoundary` when a widget requires providers that aren't registered. Developers typically don't instantiate it directly—it's handled by the framework.
+
+However, for reference, the component accepts:
+
+```js
+import { MissingProviderPrompt } from "@dash/Provider";
+
+<MissingProviderPrompt
+    requiredProviders={[
+        {
+            type: "algolia",
+            credentialSchema: {
+                appId: { type: "text", required: true, secret: true },
+                apiKey: { type: "text", required: true, secret: true },
+                indexName: { type: "text", required: true },
+            },
+        },
+    ]}
+    onProviderSelect={(providerType, providerName, credentials) => {
+        // Handle provider selection
+        // Save to DashboardApi if new provider
+        // Update widget config if existing provider
+    }}
+/>;
+```
+
+**Features**:
+
+- Shows count of missing required providers
+- Lists what fields each provider requires
+- One-click "Configure" button per provider type
+- Visual hint about selecting vs creating
+
+#### Using ProviderErrorBoundary Directly
+
+If you need manual control over provider detection (rare), use `ProviderErrorBoundary` directly:
+
+```js
+import { ProviderErrorBoundary } from "@dash/Provider";
+
+<ProviderErrorBoundary
+    requiredProviders={["algolia", "slack"]}
+    widgetId="my-widget-123"
+    onProviderSelect={(type, name, credentials) => {
+        // Save provider association
+    }}
+>
+    <YourWidgetComponent />
+</ProviderErrorBoundary>;
+```
+
+**Props**:
+
+- `requiredProviders`: Array of provider type strings the widget needs
+- `widgetId`: Unique ID for tracking this provider boundary (typically UUID)
+- `onProviderSelect`: Callback when user selects or creates a provider
+- `children`: The widget or component to wrap
+
+#### ProviderSelector Modal
+
+The `ProviderSelector` is a two-tab modal:
+
+**Tab 1: Select Existing**
+
+- Filters available providers by type
+- Shows provider name, type, and fields
+- Click to select and close modal
+
+**Tab 2: Create New**
+
+- Uses `ProviderForm` to render credential input
+- Dynamically generates form from `credentialSchema`
+- Validates required fields
+- On submit, creates provider and passes back to widget
+
+```js
+import { ProviderSelector } from "@dash/Provider";
+
+<ProviderSelector
+    isOpen={isOpen}
+    setIsOpen={setIsOpen}
+    providerType="algolia"
+    existingProviders={allProviders}
+    credentialSchema={{
+        appId: {
+            type: "text",
+            displayName: "Application ID",
+            instructions: "Your Algolia Application ID",
+            required: true,
+            secret: true,
+        },
+        apiKey: {
+            type: "text",
+            displayName: "API Key",
+            instructions: "Your Algolia API Key",
+            required: true,
+            secret: true,
+        },
+        indexName: {
+            type: "text",
+            displayName: "Index Name",
+            instructions: "Default Algolia index",
+            required: true,
+            secret: false,
+        },
+    }}
+    onSelect={(providerName) => {
+        // Provider selected - update widget
+    }}
+    onCreate={(providerName, credentials) => {
+        // New provider created
+        // Save via dashApi.saveProvider()
+        // Update widget with new provider name
+    }}
+/>;
+```
+
+#### ProviderForm Component
+
+The `ProviderForm` dynamically renders form fields based on credential schema:
+
+```js
+import { ProviderForm } from "@dash/Provider";
+
+<ProviderForm
+    credentialSchema={{
+        appId: {
+            type: "text",
+            displayName: "Application ID",
+            instructions: "Your Algolia Application ID",
+            required: true,
+            secret: true
+        },
+        apiKey: { ... }
+    }}
+    initialValues={{}}  // For edit mode, pass existing values
+    onSubmit={(formData) => {
+        // formData = { appId: "xxx", apiKey: "yyy", indexName: "products" }
+        // Send to Electron for encryption and storage
+    }}
+    onCancel={() => {
+        // Handle cancel
+    }}
+    submitLabel="Create Provider"
+/>
+```
+
+**Field Features**:
+
+- Renders text inputs with labels and instructions
+- Marks required fields with asterisk
+- Secret fields (`secret: true`) use `type="password"`
+- Validates all required fields before submit
+- Clears error messages as user corrects input
+- Shows helpful error messages for validation failures
+
+#### Wrapping Widgets with Provider Detection
+
+Use `ProviderAwareWidget` wrapper to automatically handle missing providers:
+
+```js
+import { WidgetProviderWrapper } from "@dash/Provider";
+
+export const AlgoliaSearchWidget = ({ providerName }) => {
+    // Widget implementation
+    return <Widget>{/* content */}</Widget>;
+};
+
+// In your workspace or parent component:
+export const AlgoliaSearchWorkspace = ({ registeredProviders }) => {
+    return (
+        <WidgetProviderWrapper
+            requiredProviders={[
+                {
+                    type: "algolia",
+                    credentialSchema: {
+                        /* ... */
+                    },
+                },
+            ]}
+            registeredProviders={registeredProviders}
+            onProviderSelect={(type, name, credentials) => {
+                // Handle provider selection
+            }}
+        >
+            <AlgoliaSearchWidget providerName={selectedProvider} />
+        </WidgetProviderWrapper>
+    );
+};
+```
+
+Or use the higher-order component pattern:
+
+```js
+import { withProviderDetection } from "@dash/Provider";
+
+const WrappedWidget = withProviderDetection(AlgoliaSearchWidget, {
+    requiredProviders: [
+        {
+            type: "algolia",
+            credentialSchema: {
+                /* ... */
+            },
+        },
+    ],
+    registeredProviders: providers,
+    onProviderSelect: (type, name) => {
+        // Handle provider selection
+    },
+});
+```
+
+### ProviderContext API
+
+```js
+import { useProvider, createProviderRegistry } from "@dash/Context";
+
+const registry = createProviderRegistry();
+
+// Add a provider (with its credentials)
+registry.addProvider("algolia-prod", {
+    name: "algolia-prod",
+    type: "algolia",
+    credentials: { appId: "xxx", apiKey: "yyy", indexName: "products" },
+});
+
+// Access provider credentials in a widget
+const credentials = useProvider("algolia-prod");
+// Returns: { appId: "xxx", apiKey: "yyy", indexName: "products" }
+
+// List all registered providers
+const providers = registry.listProviders();
+// Returns: ["algolia-prod", "algolia-staging", ...]
+
+// Get a provider
+const provider = registry.getProvider("algolia-prod");
+// Returns: { name: "algolia-prod", type: "algolia", credentials: {...} }
+
+// Remove a provider
+registry.removeProvider("algolia-prod");
+```
+
+### Best Practices
+
+1. **Define schema in `.dash.js`**: Declare all required credentials upfront
+2. **Mark sensitive fields**: Use `secret: true` for API keys, passwords, tokens
+3. **Validate credentials early**: Check for required fields in schema
+4. **Instantiate on-demand**: Create API clients when widget mounts, not at load time
+5. **Handle missing providers**: `useProvider()` throws if provider doesn't exist—catch at workspace level
+6. **Use meaningful names**: "algolia-prod", "contentful-draft" are clearer than "provider1"
+
+## UI Components (Core Library)
+
+Below is a list of commonly used UI components exposed by the core library. Many are in `src/Common` and are intended for use inside Workspaces and Widgets.
+
+- **`Dashboard`**: main dashboard container and layout host
+- **`Workspace`**: context-enabled container for widgets
+- **`Widget`**: base widget wrapper with error boundary
+- **`LayoutContainer`**: flexible layout container for rows/columns
+- **`Panel`**: styled container panel
+- **`DashPanel`**: dashboard panel wrapper with built-in styles
+- **`Container`**: generic layout container with spacing utilities
+- **`Header` / `SubHeader` / `Footer`**: layout headers and footers
+- **`MainLayout` / `MainSection` / `MainContent`**: page-level layout primitives
+- **`Menu` / `MenuItem`**: in-widget menu and list items
+- **`MainMenu` / `SideMenu` / `DashboardMenuItem`**: dashboard navigation UI
+- **`Button` / `ButtonIcon`**: primary action components
+- **`Modal`**: modal overlay component
+- **`Notification` / `NotificationCancel`**: alert and dismissal UI
+- **`SlidePanelOverlay`**: slide-in panel overlay
+- **`Tag`**: label/tag UI component
+- **`Toggle`**: toggle switch component
+- **`ErrorBoundary` / `ErrorMessage`**: error handling UI
+- **`CodeEditor` / `CodeRenderer`**: code input and rendering components
+- **`Form`**: form inputs and utilities
+- **`Text`**: text primitives and typography helpers
+- **`Draggable`**: drag-and-drop helpers for layout widgets
+
+## Theme Overrides
+
+Common style override props:
 
 ```
 backgroundColor
@@ -170,176 +800,25 @@ hoverBorderColor
 padding
 ```
 
-For example, if you want to override the color of the border, you may pass in the borderColor as a prop of the Component.
+Example:
 
+```jsx
+<Panel borderColor="border-green-200" />
 ```
-<Panel borderColor="border-green-200"></Panel>
-```
 
-# Communication
+## Widget Data Storage
 
-All of the Workspace and Widget components may utilize the publish/subscribe pattern built into the Dash framework. All Widgets have access to the WidgetApi that allows for the publish and setup of listeners.
-
-## Publishing Events
-
-A Widget may communicate with any component with the capacity to listen in the Dashboard you create. In the configuration of your dashboard (UI) you can select the available events and the handlers to listen to.
-
-This is an example of how to publish an event.
+Dash exposes a simple widget data API via `WidgetApi`:
 
 ```js
-/**
- * publishEvent
- * @param {string} name the name of the widget (TODO - uuid + handler)
- * @param {object} events the payload for the event published
- */
- publishEvent: function (name, events)
-```
-
-## Listening for events
-
-You may pass in event listeners
-
-```js
-/**
- * registerListeners
- *
- * Register an array of listeners (strings) and set the handler (object)
- * Each handler has a key and Component named the same so we can use the handler
- * methods in code.
- *
- * @param {array} listeners
- * @param {object} handlers
- */
- registerListeners: function (listeners, handlers)
-```
-
-# Widget Data
-
-Sometimes you might want to store data. And then read it.
-For example, if I wanted to save a history of locations I search on google maps (widget), and since Dash is an Electron application, we exposed a saveData and readData method in the Widget API.
-
-The API automatically knows the uuid of your widget, so you can concentrate on saving and reading data...not the arguments of the methods.
-
-```js
-storeData: function ( data,
-        { filename = null, callbackComplete = null, callbackError = null }
-```
-
-Sample:
-
-```js
-export const MyWidget = ({ api }) => {
-...
-
 api.storeData(data);
-
-...
-```
-
-To read the stored data:
-
-```js
-/**
- * readData
- * @param {object} options
- * @param {string} filename the name of the file if you want to override the default
- * @param {object} callbackComplete the handler for dealing with the complete callback data
- * @param {object} callbackError the handler for dealing with the error callback data
- */
- readData: function ({
-        filename = null,
-        callbackComplete = null,
-        callbackError = null,
-    })
-```
-
-Sample:
-
-```js
-export const MyWidget = ({ api }) => {
-...
 
 api.readData({
     callbackComplete: (data) => {},
-    callbackError: (e) => {}
+    callbackError: (e) => {},
 });
-
-...
 ```
 
-# Widget Full Example
+## Contact
 
-Here is a simple example of a widget that offers an end user the ability to customize through the dashboard editor (part of Dash).
-
-```js
-/**
- * MyWidget.js
- * Note: We are using the Themed Components in our widget to take advantage
- * of a unified user experience
- */
-export const MyWidget = ({
-    title = "Hello",
-    subtitle = "Im a widget.",
-    ...props
-}) => {
-    // utilize the api if needed for communication to the electron backend
-    const { api } = props;
-    return (
-        <Widget {...props}>
-            <Panel>
-                {/* notice we are using the value of a userConfig variable */}
-                <Heading text={title} />
-                <Subheading text={subtitle} />
-            </Panel>
-        </Widget>
-    );
-};
-```
-
-And here is the `MyWidget.dash.js` file
-
-```js
-export default {
-    component: MyWidget,
-    canHaveChildren: false,
-    workspace: "MyWidgetWorkspace-workspace",
-    type: "widget",
-    userConfig: {
-        title: {
-            type: "text",
-            defaultValue: "default",
-            instructions: "Type a heading for your widget",
-            options: [],
-            displayName: "Title",
-            required: true,
-        },
-        subtitle: {
-            type: "text",
-            defaultValue: "Im a subtitle",
-            instructions: "Type a subtitle for your widget",
-            displayName: "Sub Title",
-        },
-    },
-```
-
-# Widget Contexts
-
-A very fun part of the Dashboard/Workspace/Widget framework is the ability to inhect functionality into the Dash itself.
-
-You can do this on a Workspace by Workspace basis.
-
-Example. Let's say I wanted to create a Google Maps Widget. I need to utilize the Google Maps API, and all of my widgets do too.
-
-I can instantiate the google maps client in my workspace component, and then set the context value to be that client.
-
-All of my Widgets will then use the context, grab the client for google maps and use that to perform it's function.
-
-# Storybook
-
-To run the Storybook file:
-
-`npm run storybook`
-
-# Contact
-
-Please contact john.giatropoulos@gmail.com for more information.
+For access and support: john.giatropoulos@gmail.com

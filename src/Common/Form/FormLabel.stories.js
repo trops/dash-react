@@ -4,7 +4,7 @@ import { MockWrapper, mock } from "../../Mock";
 import "../../tailwind.css";
 
 export default {
-    title: "FormLabel",
+    title: "Common/Form/FormLabel",
     component: FormLabel,
 };
 

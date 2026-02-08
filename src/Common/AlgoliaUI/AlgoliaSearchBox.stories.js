@@ -6,7 +6,7 @@ import { Tag } from "../Tag";
 console.log("MOCK: ", mock);
 //👇 This default export determines where your story goes in the story list
 export default {
-    title: "AlgoliaSearchBox",
+    title: "Common/AlgoliaUI/AlgoliaSearchBox",
     component: AlgoliaSearchBox,
 };
 

@@ -4,7 +4,7 @@ import { mock, MockWrapper } from "@dash";
 import "../../tailwind.css";
 
 export default {
-    title: "SelectMenu",
+    title: "Common/Form/SelectMenu",
     component: SelectMenu,
 };
 

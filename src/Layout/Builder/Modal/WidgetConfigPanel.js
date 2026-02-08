@@ -181,7 +181,10 @@ export const WidgetConfigPanel = ({
                         {"options" in configItem &&
                             configItem.options.map((option) => {
                                 return (
-                                    <option value={option.value} className={"text-sm"}>
+                                    <option
+                                        value={option.value}
+                                        className={"text-sm"}
+                                    >
                                         {option.displayName}
                                     </option>
                                 );

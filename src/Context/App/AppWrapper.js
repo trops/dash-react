@@ -31,6 +31,8 @@ export const AppWrapper = ({ children, credentials = null, dashApi }) => {
     const [settings, setSettings] = useState(null);
     const [isLoadingSettings, setIsLoadingSettings] = useState(false);
     const [isSavingSettings, setIsSavingSettings] = useState(false);
+    const [providers, setProviders] = useState({});
+    const [isLoadingProviders, setIsLoadingProviders] = useState(false);
 
     useEffect(() => {
         console.log("App Wrapper ", settings, isLoadingSettings);
@@ -38,6 +40,17 @@ export const AppWrapper = ({ children, credentials = null, dashApi }) => {
             loadSettings();
         }
     }, [credentials, settings]);
+
+    useEffect(() => {
+        // Load providers on mount
+        if (
+            providers &&
+            Object.keys(providers).length === 0 &&
+            isLoadingProviders === false
+        ) {
+            loadProviders();
+        }
+    }, [credentials]);
 
     function changeSearchClient(searchClientTo) {
         setSearchClient(() => searchClientTo);
@@ -113,6 +126,40 @@ export const AppWrapper = ({ children, credentials = null, dashApi }) => {
         setIsLoadingSettings(() => false);
     }
 
+    function loadProviders() {
+        // Load providers from the main app
+        console.log("loading providers ", dashApi, credentials);
+        if (dashApi && credentials) {
+            setIsLoadingProviders(() => true);
+            dashApi.listProviders(
+                credentials.appId,
+                handleGetProvidersComplete,
+                handleGetProvidersError
+            );
+        }
+    }
+
+    function handleGetProvidersComplete(e, message) {
+        console.log("loaded providers ", message);
+        if ("providers" in message) {
+            // message.providers is an array of { name, type, credentials }
+            // Convert to object keyed by provider name for easy lookup
+            const providersObj = {};
+            message.providers.forEach((provider) => {
+                providersObj[provider.name] = provider;
+            });
+            setProviders(() => providersObj);
+        }
+        setIsLoadingProviders(() => false);
+    }
+
+    function handleGetProvidersError(e, error) {
+        console.log("providers load error ", error.message);
+        setIsLoadingProviders(() => false);
+        // Set empty providers object so app continues to work
+        setProviders(() => ({}));
+    }
+
     function saveSettings() {
         // Here is where we have to add this theme to the themes available
         // and save to the themes file.
@@ -159,6 +206,7 @@ export const AppWrapper = ({ children, credentials = null, dashApi }) => {
                 api: dashApi,
                 dashApi,
                 settings: settings,
+                providers: providers,
                 changeSearchClient,
                 changeCreds,
                 changeDebugMode,

@@ -5,7 +5,7 @@ import { LayoutTitlePane } from "./Pane/LayoutTitlePane";
 import { Menu } from "@dash/Common/Menu";
 
 /**
- * Allow the user to select a Layout from the layouts that have been saved by the user 
+ * Allow the user to select a Layout from the layouts that have been saved by the user
  * or default layouts that come with dash-react
  */
 export const LayoutManagerPicker = () => {
@@ -26,14 +26,16 @@ export const LayoutManagerPicker = () => {
 
     function renderLayoutTemplates(data) {
         try {
-            return data.map(layoutTemplate => {
+            return data.map((layoutTemplate) => {
                 return (
-                <MenuItem>
-                    <span className="text-xs">{JSON.stringify(layoutTemplate, null, 2)}</span>
-                </MenuItem>
+                    <MenuItem>
+                        <span className="text-xs">
+                            {JSON.stringify(layoutTemplate, null, 2)}
+                        </span>
+                    </MenuItem>
                 );
-            })
-        } catch(e) {
+            });
+        } catch (e) {
             return null;
         }
     }

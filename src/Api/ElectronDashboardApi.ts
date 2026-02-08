@@ -65,9 +65,7 @@ class ElectronDashboardApi implements IDashboardApi {
     listContexts(appId, onSuccess, onError): Boolean {
         if (this.api !== null) {
             try {
-                this.api.removeAllListeners(
-                    this.events.CONTEXT_LIST_COMPLETE
-                );
+                this.api.removeAllListeners(this.events.CONTEXT_LIST_COMPLETE);
                 this.api.removeAllListeners(this.events.CONTEXT_LIST_ERROR);
                 this.api.on(this.events.CONTEXT_LIST_COMPLETE, onSuccess);
                 this.api.on(this.events.CONTEXT_LIST_ERROR, onError);
@@ -78,10 +76,7 @@ class ElectronDashboardApi implements IDashboardApi {
                 return false;
             }
         } else {
-            onError(
-                this.events.CONTEXT_LIST_ERROR,
-                new Error("No Api found")
-            );
+            onError(this.events.CONTEXT_LIST_ERROR, new Error("No Api found"));
             return false;
         }
     }
@@ -187,7 +182,7 @@ class ElectronDashboardApi implements IDashboardApi {
         }
     }
 
-     saveContext(appId, contextToSave, onSuccess, onError): Boolean {
+    saveContext(appId, contextToSave, onSuccess, onError): Boolean {
         if (this.api !== null) {
             try {
                 this.api.removeAllListeners();
@@ -203,10 +198,7 @@ class ElectronDashboardApi implements IDashboardApi {
                 return false;
             }
         } else {
-            onError(
-                this.events.CONTEXT_SAVE_ERROR,
-                new Error("No Api found")
-            );
+            onError(this.events.CONTEXT_SAVE_ERROR, new Error("No Api found"));
             return false;
         }
     }
@@ -250,6 +242,89 @@ class ElectronDashboardApi implements IDashboardApi {
             return false;
         }
     }
-}
 
-export { ElectronDashboardApi };
+    listProviders(appId, onSuccess, onError): Boolean {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_LIST_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_LIST_ERROR, onError);
+                this.api.providers.listProvidersForApplication(appId);
+                return true;
+            } catch (e) {
+                onError(this.events.PROVIDER_LIST_ERROR, e);
+                return false;
+            }
+        } else {
+            onError(this.events.PROVIDER_LIST_ERROR, new Error("No Api found"));
+            return false;
+        }
+    }
+
+    getProvider(appId, providerName, onSuccess, onError): Boolean {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_GET_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_GET_ERROR, onError);
+                this.api.providers.getProvider(appId, providerName);
+                return true;
+            } catch (e) {
+                onError(this.events.PROVIDER_GET_ERROR, e);
+                return false;
+            }
+        } else {
+            onError(this.events.PROVIDER_GET_ERROR, new Error("No Api found"));
+            return false;
+        }
+    }
+
+    saveProvider(
+        appId,
+        providerName,
+        providerData,
+        onSuccess,
+        onError
+    ): Boolean {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_SAVE_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_SAVE_ERROR, onError);
+                this.api.providers.saveProvider(
+                    appId,
+                    providerName,
+                    providerData
+                );
+                return true;
+            } catch (e) {
+                onError(this.events.PROVIDER_SAVE_ERROR, e);
+                return false;
+            }
+        } else {
+            onError(this.events.PROVIDER_SAVE_ERROR, new Error("No Api found"));
+            return false;
+        }
+    }
+
+    deleteProvider(appId, providerName, onSuccess, onError): Boolean {
+        if (this.api !== null) {
+            try {
+                this.api.removeAllListeners();
+                this.api.on(this.events.PROVIDER_DELETE_COMPLETE, onSuccess);
+                this.api.on(this.events.PROVIDER_DELETE_ERROR, onError);
+                this.api.providers.deleteProvider(appId, providerName);
+                return true;
+            } catch (e) {
+                onError(this.events.PROVIDER_DELETE_ERROR, e);
+                return false;
+            }
+        } else {
+            onError(
+                this.events.PROVIDER_DELETE_ERROR,
+                new Error("No Api found")
+            );
+            return false;
+        }
+    }
+}

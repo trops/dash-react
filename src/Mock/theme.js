@@ -9,14 +9,6 @@ export const themes = {
         shadeBackgroundFrom: 600,
         shadeBorderFrom: 600,
         shadeTextFrom: 100,
-        dark: {
-            "bg-primary-very-dark": "bg-black", // override test
-            "panel-3": { backgroundColor: "bg-amber-300" },
-        },
-        light: {
-            "bg-primary-very-light": "bg-white", // override test
-            "bg-primary-very-dark": "bg-gray-600", // override test
-        },
     },
     "theme-2": {
         name: "Default 2",
@@ -26,22 +18,17 @@ export const themes = {
         shadeBackgroundFrom: 200,
         shadeBorderFrom: 300,
         shadeTextFrom: 700,
-        dark: {
-            "bg-primary-very-dark": "bg-black", // override test
-            "panel-3": { backgroundColor: "bg-amber-300" },
-        },
-        light: {
-            "bg-primary-very-light": "bg-white", // override test
-            "bg-primary-very-dark": "bg-gray-600", // override test
-        },
     },
 };
 
+// Generate proper theme object using ThemeModel
+const generatedTheme = ThemeModel(themes["theme-1"]);
+
 export const mockThemeContext = {
     key: Date.now(),
-    currentTheme: null, //ThemeModel(themes["theme-1"])["dark"],
+    currentTheme: generatedTheme["dark"],
     currentThemeKey: "theme-1",
-    theme: null, //ThemeModel(themes["theme-1"]["dark"]),
+    theme: generatedTheme["dark"],
     themeKey: "theme-1",
     themeVariant: "dark",
     changeCurrentTheme: function () {},
@@ -50,4 +37,8 @@ export const mockThemeContext = {
     loadThemes: function () {},
     themes,
     rawThemes: themes,
+    generatedThemes: {
+        "theme-1": generatedTheme,
+        "theme-2": ThemeModel(themes["theme-2"]),
+    },
 };

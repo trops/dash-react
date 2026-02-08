@@ -9,6 +9,7 @@ export * from "./workspaceEvents";
 export * from "./layoutEvents";
 export * from "./menuItemEvents";
 export * from "./themeEvents";
+export * from "./providerEvents";
 export * from "./dataEvents";
 export * from "./settingsEvents";
 export * from "./dialogEvents";

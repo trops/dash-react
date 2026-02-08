@@ -24,6 +24,7 @@ export const LayoutDragBuilderEdit = ({
     onOpenConfig,
     onOpenEvents,
     onSaveConfiguration,
+    onProviderSelect = null,
     workspace,
     isDraggable = true,
 }) => {
@@ -48,10 +49,11 @@ export const LayoutDragBuilderEdit = ({
                 onOpenConfig,
                 onOpenEvents,
                 onSaveConfiguration,
+                onProviderSelect,
                 onDropItem,
                 onDragItem,
                 workspace,
-                editMode
+                editMode,
             })}
         </DndProvider>
     ) : (
@@ -74,10 +76,11 @@ export const LayoutDragBuilderEdit = ({
             onOpenConfig,
             onOpenEvents,
             onSaveConfiguration,
+            onProviderSelect,
             onDropItem,
             onDragItem,
             workspace,
-            editMode
+            editMode,
         })
     );
 };

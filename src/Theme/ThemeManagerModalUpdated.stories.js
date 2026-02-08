@@ -3,7 +3,7 @@ import { mock, MockWrapper } from "@dash";
 import "../tailwind.css";
 
 export default {
-    title: "ThemeManagerModalUpdated",
+    title: "Theme/ThemeManagerModalUpdated",
     component: ThemeManagerModalUpdated,
 };
 

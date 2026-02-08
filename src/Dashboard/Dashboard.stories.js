@@ -14,7 +14,7 @@ import { MockDashboardApi } from "../Api/MockDashboardApi";
 //
 //👇 This default export determines where your story goes in the story list
 export default {
-    title: "Dashboard",
+    title: "Dashboard/Dashboard",
     component: Dashboard,
 };
 

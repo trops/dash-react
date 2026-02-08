@@ -17,7 +17,7 @@ export const SelectMenu = ({
         grow: false,
     });
 
-    console.log("select menu styles ", styles.string)
+    console.log("select menu styles ", styles.string);
     return (
         <select
             className={`p-2 rounded ${styles.string} ${textSize} font-normal focus:outline-none cursor-pointer min-w-lg w-full`}

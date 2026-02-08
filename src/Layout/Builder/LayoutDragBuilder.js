@@ -20,6 +20,7 @@ export const LayoutDragBuilder = ({
     onOpenConfig,
     onOpenEvents,
     onSaveConfiguration,
+    onProviderSelect = null,
     workspace,
     isDraggable = true,
 }) => {
@@ -42,6 +43,7 @@ export const LayoutDragBuilder = ({
                 onOpenConfig,
                 onOpenEvents,
                 onSaveConfiguration,
+                onProviderSelect,
                 onDropItem,
                 workspace,
             })}
@@ -64,6 +66,7 @@ export const LayoutDragBuilder = ({
             onOpenConfig,
             onOpenEvents,
             onSaveConfiguration,
+            onProviderSelect,
             onDropItem,
             workspace,
         })

@@ -124,6 +124,74 @@ interface IDashboardApi {
         extensions: Array<String>,
         onSuccess: any
     ): Boolean;
+
+    /**
+     * listProviders
+     * List all registered providers (API clients, credentials, etc.) for the application
+     *
+     * @param appId
+     * @param onSuccess callback with { event: string; providers: Array }
+     * @param onError callback with { event: string; e: Error }
+     * @returns Boolean
+     */
+    listProviders: (
+        appId: string,
+        onSuccess: { event: string; providers: [] },
+        onError: { event: string; e: Error }
+    ) => Boolean;
+
+    /**
+     * getProvider
+     * Get a specific provider by name
+     *
+     * @param appId
+     * @param providerName unique provider identifier (e.g., "algolia-prod")
+     * @param onSuccess callback with { event: string; provider: Object }
+     * @param onError callback with { event: string; e: Error }
+     * @returns Boolean
+     */
+    getProvider: (
+        appId: string,
+        providerName: string,
+        onSuccess: { event: string; provider: any },
+        onError: { event: string; e: Error }
+    ) => Boolean;
+
+    /**
+     * saveProvider
+     * Save or update a provider (credentials will be encrypted by Electron app)
+     *
+     * @param appId
+     * @param providerName unique provider identifier
+     * @param providerData { type: string, credentials: Object }
+     * @param onSuccess callback with { event: string; message: string }
+     * @param onError callback with { event: string; e: Error }
+     * @returns Boolean
+     */
+    saveProvider: (
+        appId: string,
+        providerName: string,
+        providerData: any,
+        onSuccess: { event: string; message: string },
+        onError: { event: string; e: Error }
+    ) => Boolean;
+
+    /**
+     * deleteProvider
+     * Delete a provider from the registry
+     *
+     * @param appId
+     * @param providerName
+     * @param onSuccess callback with { event: string; message: string }
+     * @param onError callback with { event: string; e: Error }
+     * @returns Boolean
+     */
+    deleteProvider: (
+        appId: string,
+        providerName: string,
+        onSuccess: { event: string; message: string },
+        onError: { event: string; e: Error }
+    ) => Boolean;
 }
 
 export default IDashboardApi;

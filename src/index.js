@@ -44,7 +44,7 @@ import {
     faFolderPlus,
     faBoltLightning,
     faArrowRightToBracket,
-    faArrowRightFromBracket
+    faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
     faHome,
@@ -100,6 +100,7 @@ export * from "./Common";
 export * from "./ComponentManager";
 export * from "./Context";
 export * from "./Dashboard";
+export * from "./hooks";
 export * from "./Layout";
 export * from "./Menu";
 export * from "./Models";
@@ -152,8 +153,7 @@ export {
     faPalette,
     faComputer,
     faArrowRightToBracket,
-    faArrowRightFromBracket
-
+    faArrowRightFromBracket,
 };
 
 if (process.env.NODE_ENV !== "development") {

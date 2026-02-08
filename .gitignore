@@ -39,3 +39,4 @@ src/tailwind.css
 dist/.npmrc
 scripts/
 *storybook.log
+src/Widgets

@@ -4,10 +4,9 @@ import { getNearestParentWorkspace, deepCopy } from "@dash/Utils";
  * The model for all layout components used primarily in the renderLayout method
  * @param {Object} layoutItem an object containing various attributes of the layout item
  * @param {Object} workspaceLayout the layout property from the DashboardModel
- * @param {Number} dashboardId the id of the dashboard we are making 
- * @returns {Object} the layout object to be rendered 
+ * @param {Number} dashboardId the id of the dashboard we are making
+ * @returns {Object} the layout object to be rendered
  */
-
 
 function sortObjectByKeys(obj) {
     const sortedKeys = Object.keys(obj).sort();
@@ -45,7 +44,6 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                     ? false
                     : true
                 : false;
-
 
         layout.space =
             "space" in obj
@@ -89,7 +87,6 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                     ? obj.canHaveChildren
                     : obj.type !== "widget"
                 : true;
-
 
         layout.width = "width" in obj ? obj.width : "w-full";
         layout.height = "height" in obj ? obj.height : "h-full";
@@ -136,7 +133,6 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
                 ? `${dashboardId}-${layout["component"]}-${layout.id}`
                 : `${layout["component"]}-${layout.id}`;
 
-
         /// widget configuration
         const widgetConfig = ComponentManager.config(layout["component"], obj);
         layout.userPrefs = {};
@@ -152,39 +148,36 @@ export const LayoutModel = (layoutItem, workspaceLayout, dashboardId) => {
             // });
         }
 
-        layout.grid = "grid" in obj ? obj["grid"] : null;//{ "rows": 1, "cols": 1, "0.0": { component: null }};
+        layout.grid = "grid" in obj ? obj["grid"] : null; //{ "rows": 1, "cols": 1, "0.0": { component: null }};
         if (layout.grid !== null) {
             layout.grid = sortObjectByKeys(layout.grid);
         }
 
-        layout.parentWorkspaceName = "parentWorkspaceName" in obj ? obj["parentWorkspaceName"] : null;
-        
+        layout.parentWorkspaceName =
+            "parentWorkspaceName" in obj ? obj["parentWorkspaceName"] : null;
 
         // last check for this being a container...
-        // we are forcing ALL containers to be w full and h full 
+        // we are forcing ALL containers to be w full and h full
         // not sure this is a good idea, but...
         if ("workspace" in layout || layout.type !== "widget") {
             // if (layout.workspace === "layout") {
-                if (layout.width === "") {
-                    layout.width = "w-full";
-                }
-                // if (layout.height === "") {
-                    layout.height = "h-full";
-                // }
-                // if (layout.scrollable === "") {
-                //     layout.scrollable = true;
-                // }
-                if (layout.direction === "") {
-                    layout.direction = "col";
-                }
+            if (layout.width === "") {
+                layout.width = "w-full";
+            }
+            // if (layout.height === "") {
+            layout.height = "h-full";
+            // }
+            // if (layout.scrollable === "") {
+            //     layout.scrollable = true;
+            // }
+            if (layout.direction === "") {
+                layout.direction = "col";
+            }
             // }
         }
 
-
         // lets check to see if we already have the parent workspace?
-        if (
-            layout.parentWorkspaceName === null
-        ) {
+        if (layout.parentWorkspaceName === null) {
             // get the nearest workspace and assign this as the parent for rendering
             const tempLayout = deepCopy(layout);
             const parentWS = getNearestParentWorkspace(

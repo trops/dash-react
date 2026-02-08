@@ -12,4 +12,5 @@ export const DashboardContext = createContext({
     pub: DashboardPublisher,
     widgetApi: buildWidgetApi(),
     dashApi: null,
+    providers: {},
 });

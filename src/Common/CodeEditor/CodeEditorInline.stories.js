@@ -4,7 +4,7 @@ import { mock, MockWrapper } from "@dash";
 import "../../tailwind.css";
 
 export default {
-    title: "CodeEditorInline",
+    title: "Common/CodeEditor/CodeEditorInline",
     component: CodeEditorInline,
 };
 

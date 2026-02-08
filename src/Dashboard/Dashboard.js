@@ -58,7 +58,6 @@ export const Dashboard = ({
      */
     const [editMode, setEditMode] = useState("all"); // for the time being use "all" as our "old" way
 
-
     // Workspace Management (loading)
     const [isLoadingWorkspaces, setIsLoadingWorkspaces] = useState(false);
     const [isLoadingMenuItems, setIsLoadingMenuItems] = useState(false);
@@ -190,6 +189,56 @@ export const Dashboard = ({
         }
     }
 
+    function handleProviderSelect(event) {
+        /**
+         * Callback from ProviderErrorBoundary when user selects a provider
+         * event: { widgetId, selectedProviders: { "algolia": "Provider Name", ... } }
+         *
+         * Updates workspace.selectedProviders[widgetId] with the provider selections
+         * and persists to dashboard config.
+         *
+         * Note: Credentials are stored separately in providers.json (encrypted)
+         * This only stores the selected provider NAMES, not credentials.
+         */
+        console.log("Provider selected:", event);
+        const { widgetId, selectedProviders: updatedProviders } = event;
+
+        if (workspaceSelected && widgetId) {
+            // Build widget-specific provider selections
+            const currentSelections = workspaceSelected.selectedProviders || {};
+            const updatedWorkspace = {
+                ...workspaceSelected,
+                selectedProviders: {
+                    ...currentSelections,
+                    [widgetId]: updatedProviders, // Store provider selections keyed by widgetId
+                },
+            };
+            setWorkspaceSelected(updatedWorkspace);
+
+            // Persist to main app via IPC
+            try {
+                dashApi.saveWorkspace(
+                    credentials.appId,
+                    updatedWorkspace,
+                    (e, result) => {
+                        console.log(
+                            "Workspace saved with provider selections:",
+                            result
+                        );
+                    },
+                    (e, error) => {
+                        console.error(
+                            "Failed to save workspace with provider selections:",
+                            error
+                        );
+                    }
+                );
+            } catch (e) {
+                console.error("Error saving workspace:", e);
+            }
+        }
+    }
+
     function renderComponent(workspaceItem) {
         try {
             return workspaceItem !== undefined ? (
@@ -197,7 +246,8 @@ export const Dashboard = ({
                     dashboardId={workspaceItem["id"]}
                     preview={previewMode}
                     workspace={workspaceItem}
-                    onWorkspaceChange={handleWorkspaceChange} // for when we save a workspace change! fetch new ones!
+                    onWorkspaceChange={handleWorkspaceChange}
+                    onProviderSelect={handleProviderSelect}
                     onTogglePreview={() => setPreviewMode(!previewMode)}
                     key={`LayoutBuilder-${workspaceItem["id"]}`}
                     editMode={editMode}
@@ -392,137 +442,145 @@ export const Dashboard = ({
 
     return (
         <Profiler id="myapp">
-        <DashboardWrapper
-            dashApi={dashApi}
-            credentials={credentials}
-            backgroundColor={backgroundColor}
-        >
-            {menuItems && (
-                <LayoutContainer
-                    padding={false}
-                    space={true}
-                    height="h-full"
-                    width="w-full"
-                    direction="row"
-                    scrollable={false}
-                    grow={true}
-                >
-                    <DndProvider backend={HTML5Backend}>
-                        {workspaceSelected !== null && (
-                            <LayoutContainer
-                                padding={false}
-                                space={true}
-                                height="h-full"
-                                width="w-full"
-                                direction="col"
-                                scrollable={false}
-                                grow={true}
-                            >
-                                {workspaceSelected !== null && (
-                                    <DashboardHeader
-                                        workspace={workspaceSelected}
-                                        preview={previewMode}
-                                        onNameChange={handleWorkspaceNameChange}
-                                    />
-                                )}
-                                <div
-                                    className={`flex flex-col w-full h-full ${
-                                        previewMode === true
-                                            ? "overflow-y-auto"
-                                            : "overflow-clip"
-                                    }`}
+            <DashboardWrapper
+                dashApi={dashApi}
+                credentials={credentials}
+                backgroundColor={backgroundColor}
+            >
+                {menuItems && (
+                    <LayoutContainer
+                        padding={false}
+                        space={true}
+                        height="h-full"
+                        width="w-full"
+                        direction="row"
+                        scrollable={false}
+                        grow={true}
+                    >
+                        <DndProvider backend={HTML5Backend}>
+                            {workspaceSelected !== null && (
+                                <LayoutContainer
+                                    padding={false}
+                                    space={true}
+                                    height="h-full"
+                                    width="w-full"
+                                    direction="col"
+                                    scrollable={false}
+                                    grow={true}
                                 >
-                                    {workspaceSelected !== null
-                                        ? renderComponent(workspaceSelected)
-                                        : null}
-                                </div>
-                                {workspaceSelected !== null && (
-                                    <DashboardFooter
-                                        onClickEdit={() =>
-                                            setPreviewMode(!previewMode)
-                                        }
-                                        workspace={workspaceSelected}
-                                        preview={previewMode}
-                                        editMode={editMode}
-                                        onSaveChanges={handleClickSaveWorkspace}
-                                        onNewMenuItem={handleAddNewMenuItem}
-                                        onOpenThemeManager={
-                                            handleOpenThemeManager
-                                        }
-                                        onHome={() =>
-                                            setWorkspaceSelected(null)
-                                        }
-                                        onOpenSettings={() =>
-                                            setIsSettingsModalOpen(true)
-                                        }
-                                        onChangeEditMode={(mode) => setEditMode(mode)}
-                                    />
-                                )}
-                            </LayoutContainer>
-                        )}
+                                    {workspaceSelected !== null && (
+                                        <DashboardHeader
+                                            workspace={workspaceSelected}
+                                            preview={previewMode}
+                                            onNameChange={
+                                                handleWorkspaceNameChange
+                                            }
+                                        />
+                                    )}
+                                    <div
+                                        className={`flex flex-col w-full h-full ${
+                                            previewMode === true
+                                                ? "overflow-y-auto"
+                                                : "overflow-clip"
+                                        }`}
+                                    >
+                                        {workspaceSelected !== null
+                                            ? renderComponent(workspaceSelected)
+                                            : null}
+                                    </div>
+                                    {workspaceSelected !== null && (
+                                        <DashboardFooter
+                                            onClickEdit={() =>
+                                                setPreviewMode(!previewMode)
+                                            }
+                                            workspace={workspaceSelected}
+                                            preview={previewMode}
+                                            editMode={editMode}
+                                            onSaveChanges={
+                                                handleClickSaveWorkspace
+                                            }
+                                            onNewMenuItem={handleAddNewMenuItem}
+                                            onOpenThemeManager={
+                                                handleOpenThemeManager
+                                            }
+                                            onHome={() =>
+                                                setWorkspaceSelected(null)
+                                            }
+                                            onOpenSettings={() =>
+                                                setIsSettingsModalOpen(true)
+                                            }
+                                            onChangeEditMode={(mode) =>
+                                                setEditMode(mode)
+                                            }
+                                        />
+                                    )}
+                                </LayoutContainer>
+                            )}
 
-                        {workspaceSelected === null && workspaceConfig && (
-                            <PanelWelcome
-                                menuItems={menuItems}
-                                workspaces={workspaceConfig}
-                                onClickWorkspace={handleClick}
-                                onClickCreateMenuItem={() =>
-                                    setIsAddWidgetModalOpen(true)
+                            {workspaceSelected === null && workspaceConfig && (
+                                <PanelWelcome
+                                    menuItems={menuItems}
+                                    workspaces={workspaceConfig}
+                                    onClickWorkspace={handleClick}
+                                    onClickCreateMenuItem={() =>
+                                        setIsAddWidgetModalOpen(true)
+                                    }
+                                    onNewMenuItem={handleAddNewMenuItem}
+                                    onOpenThemeManager={handleOpenThemeManager}
+                                    onHome={() => setWorkspaceSelected(null)}
+                                    onOpenSettings={() =>
+                                        setIsSettingsModalOpen(true)
+                                    }
+                                    //onClickNew={handleClickNew}
+                                    onClickNewWorkspace={handleClickNew}
+                                    selectedMainItem={selectedMainItem}
+                                    onOpenDashboardLoader={() =>
+                                        setIsDashboardLoaderOpen(true)
+                                    }
+                                />
+                            )}
+
+                            <AddMenuItemModal
+                                open={isAddItemModalOpen}
+                                setIsOpen={() =>
+                                    setIsAddWidgetModalOpen(!isAddItemModalOpen)
                                 }
-                                onNewMenuItem={handleAddNewMenuItem}
-                                onOpenThemeManager={handleOpenThemeManager}
-                                onHome={() => setWorkspaceSelected(null)}
-                                onOpenSettings={() =>
-                                    setIsSettingsModalOpen(true)
-                                }
-                                //onClickNew={handleClickNew}
-                                onClickNewWorkspace={handleClickNew}
-                                selectedMainItem={selectedMainItem}
-                                onOpenDashboardLoader={() =>
-                                    setIsDashboardLoaderOpen(true)
-                                }
+                                onSave={handleSaveNewMenuItem}
                             />
-                        )}
 
-                        <AddMenuItemModal
-                            open={isAddItemModalOpen}
-                            setIsOpen={() =>
-                                setIsAddWidgetModalOpen(!isAddItemModalOpen)
-                            }
-                            onSave={handleSaveNewMenuItem}
-                        />
+                            <ThemeManagerModal
+                                open={isThemeManagerOpen}
+                                setIsOpen={() =>
+                                    setIsThemeManagerOpen(!isThemeManagerOpen)
+                                }
+                                onSave={(themeKey) => {
+                                    console.log(
+                                        "saving and changing",
+                                        themeKey
+                                    );
+                                    changeCurrentTheme(themeKey);
+                                    setIsThemeManagerOpen(() => false);
+                                    forceUpdate();
+                                }}
+                            />
 
-                        <ThemeManagerModal
-                            open={isThemeManagerOpen}
-                            setIsOpen={() =>
-                                setIsThemeManagerOpen(!isThemeManagerOpen)
-                            }
-                            onSave={(themeKey) => {
-                                console.log("saving and changing", themeKey);
-                                changeCurrentTheme(themeKey);
-                                setIsThemeManagerOpen(() => false);
-                                forceUpdate();
-                            }}
-                        />
+                            <ApplicationSettingsModal
+                                open={isSettingsModalOpen}
+                                setIsOpen={setIsSettingsModalOpen}
+                                workspaces={workspaceConfig}
+                            />
 
-                        <ApplicationSettingsModal
-                            open={isSettingsModalOpen}
-                            setIsOpen={setIsSettingsModalOpen}
-                            workspaces={workspaceConfig}
-                        />
-
-                        <DashboardLoaderModal
-                            open={isDashboardLoaderOpen}
-                            setIsOpen={setIsDashboardLoaderOpen}
-                            workspaces={workspaceConfig}
-                            onSelecDashboard={handleSelectLoadDashboard}
-                            onClose={() => handleCloseDashboardLoader()}
-                        />
-
-                    </DndProvider>
-                </LayoutContainer>
-            )}
-        </DashboardWrapper>
+                            <DashboardLoaderModal
+                                open={isDashboardLoaderOpen}
+                                setIsOpen={setIsDashboardLoaderOpen}
+                                workspaces={workspaceConfig}
+                                onSelecDashboard={handleSelectLoadDashboard}
+                                onClose={() => handleCloseDashboardLoader()}
+                            />
+                        </DndProvider>
+                    </LayoutContainer>
+                )}
+            </DashboardWrapper>
         </Profiler>
     );
 };

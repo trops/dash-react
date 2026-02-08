@@ -20,14 +20,14 @@ import {
 
 /**
  * This is SPECIFICALLY to render the Container elements in the editor
- * We would like to have these elements displayed when the MODE is set to 
+ * We would like to have these elements displayed when the MODE is set to
  * - LAYOUT
- * - The modes that we can have are, 
- * 
+ * - The modes that we can have are,
+ *
  * - Layout - show only containers and the overall layout
  * - Workspaces - show the workspaces and allow function for each container
  * - Widgets - show the actual widgets you wish to have in each worksdpace
- * 
+ *
  */
 export const WorkspaceContainerGridItem = ({
     item,
@@ -49,7 +49,7 @@ export const WorkspaceContainerGridItem = ({
     width,
     direction,
     isDraggable,
-    mode = "preview"
+    mode = "preview",
 }) => {
     function handleClickRemove(e) {
         console.log("clicked remove ", e);
@@ -211,9 +211,9 @@ export const WorkspaceContainerGridItem = ({
             >
                 <div
                     className={`flex flex-col border-4 ${getContainerBorderColor(
-                       parentWorkspace
+                        parentWorkspace
                     )} rounded text-xs font-bold text-gray-200 p-2 ${getContainerColor(
-                       parentWorkspace
+                        parentWorkspace
                     )}`}
                 >
                     <div
@@ -239,7 +239,7 @@ export const WorkspaceContainerGridItem = ({
                                     icon="phone"
                                     onClick={handleClickEvents}
                                     backgroundColor={getContainerColor(
-                                       parentWorkspace
+                                        parentWorkspace
                                     )}
                                     hoverBackgroundColor=""
                                     text={
@@ -287,7 +287,7 @@ export const WorkspaceContainerGridItem = ({
                                 icon="trash"
                                 onClick={handleClickRemove}
                                 backgroundColor={getContainerColor(
-                                   parentWorkspace
+                                    parentWorkspace
                                 )}
                                 hoverBackgroundColor="hover:bg-red-900"
                             />
@@ -343,9 +343,7 @@ export const WorkspaceContainerGridItem = ({
                             <ButtonIcon
                                 icon="phone"
                                 onClick={handleClickEvents}
-                                bgColor={getContainerColor(
-                                   parentWorkspace
-                                )}
+                                bgColor={getContainerColor(parentWorkspace)}
                                 hoverBackgroundColor="hover:bg-gray-900"
                                 text={
                                     item.eventHandlers.length > 0
@@ -358,9 +356,7 @@ export const WorkspaceContainerGridItem = ({
                         <ButtonIcon
                             icon="trash"
                             onClick={handleClickRemove}
-                            backgroundColor={getContainerColor(
-                               parentWorkspace
-                            )}
+                            backgroundColor={getContainerColor(parentWorkspace)}
                             hoverBackgroundColor="hover:bg-red-900"
                         />
                         {order > 1 &&

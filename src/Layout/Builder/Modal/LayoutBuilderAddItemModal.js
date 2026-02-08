@@ -18,7 +18,7 @@ import {
     getBorderStyle,
     layoutItemHasWorkspaceAsChild,
     addItemToItemLayout,
-    addChildToLayoutItem
+    addChildToLayoutItem,
 } from "@dash/Utils";
 import { WidgetConfigPanel, LayoutContainer } from "@dash/Layout";
 import { ComponentManager } from "@dash";
@@ -27,11 +27,10 @@ import { ThemeContext } from "@dash/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PanelEditItemGrid from "./Panel/PanelEditItemGrid.js";
 
-
 /**
  * @param {Object} workspace the current workspace for the overall dashboard being edited
  * @param {Object} item the SOURCE ITEM that was clicked on that triggered the modal to add a widget TO
- * @returns 
+ * @returns
  */
 export const LayoutBuilderAddItemModal = ({
     workspace,
@@ -46,7 +45,7 @@ export const LayoutBuilderAddItemModal = ({
     const [menuItemSelected, setMenuItemSelected] = useState(null);
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
     const [parentWorkspace, setParentWorkspace] = useState(null);
-    const [previewWorkspace, setPreviewWorkspace] = useState(null)
+    const [previewWorkspace, setPreviewWorkspace] = useState(null);
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -71,20 +70,23 @@ export const LayoutBuilderAddItemModal = ({
         console.log("menu item selected ", menuItemSelected, workspace);
     }, [menuItemSelected]);
 
-     /**
+    /**
      * Display ALL of the widgets in the application sorted by Workspace
-     * @returns 
+     * @returns
      */
-     function renderWidgetsByWorkspace() {
-
+    function renderWidgetsByWorkspace() {
         const componentMap = ComponentManager.map();
         const workspaceType = item ? item["workspace"] : null;
         const canAddChildren = item ? item["canHaveChildren"] : true;
 
         const workspaces = Object.keys(componentMap)
             .sort()
-            .filter((c) => componentMap[c]["type"] === "workspace" && componentMap[c]["parentWorkspaceName"] !== "layout" )
-            .map(key => componentMap[key]);
+            .filter(
+                (c) =>
+                    componentMap[c]["type"] === "workspace" &&
+                    componentMap[c]["parentWorkspaceName"] !== "layout"
+            )
+            .map((key) => componentMap[key]);
 
         const parentWorkspaceType =
             item["parentWorkspaceName"] !== null &&
@@ -93,23 +95,29 @@ export const LayoutBuilderAddItemModal = ({
                 : "layout";
 
         if (parentWorkspaceType !== null) {
-
             const widgetOptions =
                 workspaceType !== null &&
                 canAddChildren &&
                 Object.keys(componentMap)
                     .sort()
                     .filter((i) =>
-                          searchTerm !== ""
-                              ? componentMap[i]["name"].toLowerCase().includes(searchTerm)
-                              : true
-                      )
+                        searchTerm !== ""
+                            ? componentMap[i]["name"]
+                                  .toLowerCase()
+                                  .includes(searchTerm)
+                            : true
+                    )
                     .filter((c) => componentMap[c]["type"] === "widget")
-                    .map(key => componentMap[key]);
+                    .map((key) => componentMap[key]);
 
             // Object to store the widgets by workspace
-            return workspaces.map(ws => {
-                const widgetsInSection = renderWorkspaceSection(ws.workspace, widgetOptions, parentWorkspaceType, workspaceType);
+            return workspaces.map((ws) => {
+                const widgetsInSection = renderWorkspaceSection(
+                    ws.workspace,
+                    widgetOptions,
+                    parentWorkspaceType,
+                    workspaceType
+                );
                 return widgetsInSection.length > 0 ? (
                     <div className="flex flex-col space-y-2 border-b border-gray-900 mb-4 pb-4">
                         <span className="text-xs uppercase font-bold px-2 text-gray-400">
@@ -126,15 +134,22 @@ export const LayoutBuilderAddItemModal = ({
         }
     }
 
-    function renderWorkspaceSection(workspace, widgets, parentWorkspaceType, workspaceType) {
-        const widgetsForWorkspace = widgets.filter(widget => widget.workspace === workspace);
-        return widgetsForWorkspace.map(w => {
+    function renderWorkspaceSection(
+        workspace,
+        widgets,
+        parentWorkspaceType,
+        workspaceType
+    ) {
+        const widgetsForWorkspace = widgets.filter(
+            (widget) => widget.workspace === workspace
+        );
+        return widgetsForWorkspace.map((w) => {
             return renderMenuItemWidget("widget", w);
-         });
+        });
     }
     /**
      * render the widgets available in the application limited by the workspace
-     * @returns 
+     * @returns
      */
     function renderWidgets() {
         const componentMap = ComponentManager.map();
@@ -172,7 +187,7 @@ export const LayoutBuilderAddItemModal = ({
 
     /**
      * Render the available workspaces in the application
-     * @returns 
+     * @returns
      */
     function renderWorkspaces() {
         const componentMap = ComponentManager.map();
@@ -211,7 +226,7 @@ export const LayoutBuilderAddItemModal = ({
     }
 
     /**
-     * Handle the selection of a widget or workspace and set the appropriate 
+     * Handle the selection of a widget or workspace and set the appropriate
      * layout for this element in the dashboard tree, and for preview
      * @param {String} data.type widget|workspace|layout
      * @param {String} data.component the name of the component
@@ -219,7 +234,6 @@ export const LayoutBuilderAddItemModal = ({
      */
     function handleClickItem(data) {
         try {
-
             // create the new dashboard.
             let dashboard = new DashboardModel(workspace);
 
@@ -227,18 +241,23 @@ export const LayoutBuilderAddItemModal = ({
             const toSourceItemId = item.id;
 
             // get the component from the manager
-            const componentToAdd = ComponentManager.getComponent(data["component"]);
-            componentToAdd.hasChildren = componentToAdd.type !== "widget" ? 1 : 0;
+            const componentToAdd = ComponentManager.getComponent(
+                data["component"]
+            );
+            componentToAdd.hasChildren =
+                componentToAdd.type !== "widget" ? 1 : 0;
 
-            const layoutModel = LayoutModel(componentToAdd, dashboard.workspace(), dashboard.id);
+            const layoutModel = LayoutModel(
+                componentToAdd,
+                dashboard.workspace(),
+                dashboard.id
+            );
             console.log("ITEM SELECTED CLICK ", componentToAdd, layoutModel);
 
             // add the child to the layout item selected originally
             dashboard.addChildToLayoutItem(layoutModel, toSourceItemId);
 
             console.log("NEW WORKSPACE ", dashboard.workspace());
-
-            
 
             setMenuItemSelected(() => layoutModel);
             setWorkspaceSelected(() => dashboard.workspace());
@@ -247,8 +266,6 @@ export const LayoutBuilderAddItemModal = ({
             console.log(e);
         }
     }
-
-    
 
     function handleAddItem(data) {
         console.log("HANDLE ADD ITEM ", data);
@@ -274,7 +291,11 @@ export const LayoutBuilderAddItemModal = ({
         );
     }
 
-    function renderMenuItemWidget(type, componentData, isPoweredByWorkspace = false) {
+    function renderMenuItemWidget(
+        type,
+        componentData,
+        isPoweredByWorkspace = false
+    ) {
         return (
             <MenuItem3
                 key={`menu-item-${componentData.name}`}
@@ -286,16 +307,21 @@ export const LayoutBuilderAddItemModal = ({
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col">
                         <span className="">{componentData.name}</span>
-                        <span className="text-xs">in {componentData.workspace.replaceAll("-workspace","")}</span>
+                        <span className="text-xs">
+                            in{" "}
+                            {componentData.workspace.replaceAll(
+                                "-workspace",
+                                ""
+                            )}
+                        </span>
                     </div>
-                    
-                        {/* <div className={`flex flex-col flex-shrink-0 pt-0.5 ${isPoweredByWorkspace === true ? "bg-green-600":"bg-red-600"} w-4 h-4 rounded-full text-gray-300 items-center justify-center p-2`}>
+
+                    {/* <div className={`flex flex-col flex-shrink-0 pt-0.5 ${isPoweredByWorkspace === true ? "bg-green-600":"bg-red-600"} w-4 h-4 rounded-full text-gray-300 items-center justify-center p-2`}>
                             <FontAwesomeIcon
                                 icon="check"
                                 className="w-2 h-2"
                             />
                         </div> */}
-                    
                 </div>
             </MenuItem3>
         );
@@ -383,20 +409,27 @@ export const LayoutBuilderAddItemModal = ({
         try {
             console.log("render compatible ", menuItemSelected);
             if (menuItemSelected) {
-                const widgets = ComponentManager.getCompatibleWidgetsForWorkspace(menuItemSelected.workspace);
+                const widgets =
+                    ComponentManager.getCompatibleWidgetsForWorkspace(
+                        menuItemSelected.workspace
+                    );
                 console.log("compatible widgets found ", widgets);
-                const widgetArray = widgets.map(w => {
+                const widgetArray = widgets.map((w) => {
                     console.log("widget ", w);
                     return (
-                        <div className="flex flex-col rounded p-4 bg-green-600 justify-center items-center">{w}</div>
-                    )
+                        <div className="flex flex-col rounded p-4 bg-green-600 justify-center items-center">
+                            {w}
+                        </div>
+                    );
                 });
 
                 return (
-                    <div className="grid grid-cols-4 gap-4 w-full p-4">{widgetArray}</div>
-                )
+                    <div className="grid grid-cols-4 gap-4 w-full p-4">
+                        {widgetArray}
+                    </div>
+                );
             }
-        } catch(e) {
+        } catch (e) {
             return [];
         }
     }
@@ -489,17 +522,17 @@ export const LayoutBuilderAddItemModal = ({
                                             menuItemSelected
                                         )} overflow-clip h-full w-full bg-gray-900`}
                                     >
-                                        <Heading3 title={menuItemSelected.component} />
-                                        
+                                        <Heading3
+                                            title={menuItemSelected.component}
+                                        />
+
                                         {renderCompatibleWidgets()}
 
-                                
-                                    {/* <PanelEditItemGrid
+                                        {/* <PanelEditItemGrid
                                         item={menuItemSelected}
                                         onUpdate={() => console.log("updated")}
                                         workspace={workspaceSelected}
                                     /> */}
-                                
                                     </div>
                                 )}
                                 {/* {menuItemSelected !== null && (
@@ -531,7 +564,6 @@ export const LayoutBuilderAddItemModal = ({
                                         </div>
                                     </div>
                                 )} */}
-
 
                                 {/* config panel */}
                                 {/* {menuItemSelected && (

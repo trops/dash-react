@@ -4,7 +4,7 @@ import { Workspace } from "..";
 import { Widget } from "..";
 
 export default {
-    title: "LayoutContainer",
+    title: "Layout/LayoutContainer",
     component: LayoutContainer,
 };
 

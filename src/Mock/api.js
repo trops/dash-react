@@ -15,7 +15,7 @@ export const mockApi = {
                     description: "Default context for the application",
                     componentName: "WeatherContext",
                     type: "context",
-                    userPrefs: {}
+                    userPrefs: {},
                 },
                 "context-2": {
                     id: "context-2",
@@ -23,7 +23,7 @@ export const mockApi = {
                     description: "Context for search related operations",
                     componentName: "WeatherContext",
                     type: "context",
-                    userPrefs: {}
+                    userPrefs: {},
                 },
                 "context-3": {
                     id: "context-3",
@@ -31,7 +31,7 @@ export const mockApi = {
                     description: "Context for search related operations",
                     componentName: "RadarTransformContext",
                     type: "context",
-                    userPrefs: {}
+                    userPrefs: {},
                 },
             });
         },
@@ -43,10 +43,10 @@ export const mockApi = {
                     description: "Default context for the application",
                     componentName: "WeatherContext",
                     type: "context",
-                    userPrefs: {}
-                }
+                    userPrefs: {},
+                },
             };
-        }
+        },
     },
     themes: {
         listThemesForApplication: function () {
@@ -192,7 +192,6 @@ export const mockApi = {
         listWorkspacesForApplication: function (credentials) {
             return {
                 workspaces: [
-
                     {
                         id: 1674512105972,
                         name: "Search Static Workspace 2",
@@ -1169,7 +1168,7 @@ export const mockApi = {
                                 events: [],
                                 parentWorkspaceName: "layout",
                                 parentWorkspace: {},
-                            }  
+                            },
                         ],
                         version: 1688755959643,
                     },
@@ -1856,7 +1855,7 @@ export const mockApi = {
                                         required: false,
                                     },
                                 },
-                               styles: {
+                                styles: {
                                     backgroundColor: "bg-green-400",
                                     borderColor: "border-green-700",
                                 },
@@ -4321,7 +4320,7 @@ export const mockApi = {
                                 uuid: "1686838647224-ListenWidgetWorkspace-19",
                                 userPrefs: {},
                                 userConfig: {},
-                               styles: {
+                                styles: {
                                     backgroundColor: "bg-green-400",
                                     borderColor: "border-green-700",
                                 },
@@ -4351,10 +4350,10 @@ export const mockApi = {
                                     uuid: "1686838647224-ListenWidgetWorkspace-19",
                                     userPrefs: {},
                                     userConfig: {},
-                                   styles: {
-                                    backgroundColor: "bg-green-400",
-                                    borderColor: "border-green-700",
-                                },
+                                    styles: {
+                                        backgroundColor: "bg-green-400",
+                                        borderColor: "border-green-700",
+                                    },
                                     events: [],
                                 },
                             },
@@ -4380,7 +4379,7 @@ export const mockApi = {
                                 uuid: "1686838647224-ListenWidgetWorkspace-20",
                                 userPrefs: {},
                                 userConfig: {},
-                               styles: {
+                                styles: {
                                     backgroundColor: "bg-green-400",
                                     borderColor: "border-green-700",
                                 },
@@ -4410,10 +4409,10 @@ export const mockApi = {
                                     uuid: "1686838647224-ListenWidgetWorkspace-20",
                                     userPrefs: {},
                                     userConfig: {},
-                                   styles: {
-                                    backgroundColor: "bg-green-400",
-                                    borderColor: "border-green-700",
-                                },
+                                    styles: {
+                                        backgroundColor: "bg-green-400",
+                                        borderColor: "border-green-700",
+                                    },
                                     events: [],
                                 },
                             },
@@ -4723,141 +4722,135 @@ export const mockApi = {
                         version: 1689521384471,
                     },
                     {
-  "id": 1678712162455,
-  "name": "New Workspace",
-  "type": "workspace",
-  "label": "New",
-  "version": 1688755959643,
-  "layout": [
-    {
-      "id": 1,
-      "order": 1,
-      "scrollable": true,
-      "space": false,
-      "grow": false,
-      "component": "Container",
-      "contexts": [],
-      "direction": "col",
-      "hasChildren": 1,
-      "canHaveChildren": true,
-      "width": "w-full",
-      "height": "h-full",
-      "parent": 0,
-      "type": "workspace",
-      "workspace": "layout",
-      "dashboardId": 1678712162455,
-      "listeners": {},
-      "eventHandlers": [],
-      "siblingCount": 0,
-      "uuid": "1678712162455-Container-1",
-      "userPrefs": {},
-      "widgetConfig": null,
-      "grid": {
-        "rows": 1,
-        "cols": 3,
-        "0.0": {
-          "component": 2,
-          "rowSpan": 1,
-          "colSpan": 1
-        },
-        "0.1": {
-          "component": null,
-          "rowSpan": 1,
-          "colSpan": 1
-        },
-        "0.2": {
-          "component": null,
-          "rowSpan": 1,
-          "colSpan": 1
-        }
-      },
-      "parentWorkspaceName": "layout"
-    },
-    {
-      "id": 2,
-      "order": 1,
-      "scrollable": false,
-      "space": false,
-      "grow": false,
-      "component": "WeatherWidget",
-      "contexts": [
-        "WeatherContext"
-      ],
-      "direction": "col",
-      "hasChildren": 0,
-      "canHaveChildren": false,
-      "width": "w-full",
-      "height": "h-full",
-      "parent": 1,
-      "type": "widget",
-      "workspace": "WeatherWorkspace-workspace",
-      "dashboardId": 1678712162455,
-      "listeners": {},
-      "eventHandlers": [
-        "heardSomething"
-      ],
-      "siblingCount": 0,
-      "uuid": "1678712162455-WeatherWidget-null",
-      "userPrefs": {
-        "title": "Hi.",
-        "subtitle": "I am a widget :-)"
-      },
-      "widgetConfig": {
-        "type": "widget",
-        "workspace": "WeatherWorkspace-workspace",
-        "canHaveChildren": false,
-        "userPrefs": {
-          "title": "Hi.",
-          "subtitle": "I am a widget :-)"
-        },
-        userConfig: {
-        appId: {
-            type: "text",
-            defaultValue: "",
-            instructions: "App Id",
-            displayName: "App ID",
-            required: true,
-        },
-        apiKey: {
-            type: "secret",
-            defaultValue: "",
-            instructions: "Type in the apiKey",
-            displayName: "Api Key",
-            required: true,
-        },
-        indexName: {
-            type: "text",
-            defaultValue: "dev_find_accelerator",
-            instructions:
-                "Type in the index name (primary if using multiple indices)",
-            displayName: "Index Name",
-            required: true,
-        },
-        hitsPerPage: {
-            type: "text",
-            defaultValue: "20",
-            instructions: "Enter Results per page",
-            displayName: "Results per Page",
-            required: true,
-        },
-    },
-        "styles": {
-          "backgroundColor": "bg-blue-900",
-          "borderColor": "border-blue-900"
-        },
-        "events": [
-          "detectWeatherComplete"
-        ],
-        "eventHandlers": [
-          "heardSomething"
-        ]
-      },
-      "grid": null,
-      "parentWorkspaceName": "layout"
-    }
-  ],
-  "menuId": 1676908596944
-},
+                        id: 1678712162455,
+                        name: "New Workspace",
+                        type: "workspace",
+                        label: "New",
+                        version: 1688755959643,
+                        layout: [
+                            {
+                                id: 1,
+                                order: 1,
+                                scrollable: true,
+                                space: false,
+                                grow: false,
+                                component: "Container",
+                                contexts: [],
+                                direction: "col",
+                                hasChildren: 1,
+                                canHaveChildren: true,
+                                width: "w-full",
+                                height: "h-full",
+                                parent: 0,
+                                type: "workspace",
+                                workspace: "layout",
+                                dashboardId: 1678712162455,
+                                listeners: {},
+                                eventHandlers: [],
+                                siblingCount: 0,
+                                uuid: "1678712162455-Container-1",
+                                userPrefs: {},
+                                widgetConfig: null,
+                                grid: {
+                                    rows: 1,
+                                    cols: 3,
+                                    "0.0": {
+                                        component: 2,
+                                        rowSpan: 1,
+                                        colSpan: 1,
+                                    },
+                                    0.1: {
+                                        component: null,
+                                        rowSpan: 1,
+                                        colSpan: 1,
+                                    },
+                                    0.2: {
+                                        component: null,
+                                        rowSpan: 1,
+                                        colSpan: 1,
+                                    },
+                                },
+                                parentWorkspaceName: "layout",
+                            },
+                            {
+                                id: 2,
+                                order: 1,
+                                scrollable: false,
+                                space: false,
+                                grow: false,
+                                component: "WeatherWidget",
+                                contexts: ["WeatherContext"],
+                                direction: "col",
+                                hasChildren: 0,
+                                canHaveChildren: false,
+                                width: "w-full",
+                                height: "h-full",
+                                parent: 1,
+                                type: "widget",
+                                workspace: "WeatherWorkspace-workspace",
+                                dashboardId: 1678712162455,
+                                listeners: {},
+                                eventHandlers: ["heardSomething"],
+                                siblingCount: 0,
+                                uuid: "1678712162455-WeatherWidget-null",
+                                userPrefs: {
+                                    title: "Hi.",
+                                    subtitle: "I am a widget :-)",
+                                },
+                                widgetConfig: {
+                                    type: "widget",
+                                    workspace: "WeatherWorkspace-workspace",
+                                    canHaveChildren: false,
+                                    userPrefs: {
+                                        title: "Hi.",
+                                        subtitle: "I am a widget :-)",
+                                    },
+                                    userConfig: {
+                                        appId: {
+                                            type: "text",
+                                            defaultValue: "",
+                                            instructions: "App Id",
+                                            displayName: "App ID",
+                                            required: true,
+                                        },
+                                        apiKey: {
+                                            type: "secret",
+                                            defaultValue: "",
+                                            instructions: "Type in the apiKey",
+                                            displayName: "Api Key",
+                                            required: true,
+                                        },
+                                        indexName: {
+                                            type: "text",
+                                            defaultValue:
+                                                "dev_find_accelerator",
+                                            instructions:
+                                                "Type in the index name (primary if using multiple indices)",
+                                            displayName: "Index Name",
+                                            required: true,
+                                        },
+                                        hitsPerPage: {
+                                            type: "text",
+                                            defaultValue: "20",
+                                            instructions:
+                                                "Enter Results per page",
+                                            displayName: "Results per Page",
+                                            required: true,
+                                        },
+                                    },
+                                    styles: {
+                                        backgroundColor: "bg-blue-900",
+                                        borderColor: "border-blue-900",
+                                    },
+                                    events: ["detectWeatherComplete"],
+                                    eventHandlers: ["heardSomething"],
+                                },
+                                grid: null,
+                                parentWorkspaceName: "layout",
+                            },
+                        ],
+                        menuId: 1676908596944,
+                    },
                     {
                         id: 1688658913275,
                         name: "New Workspace TEST COLOR",
@@ -5001,11 +4994,11 @@ export const mockApi = {
                                     rows: 2,
                                     cols: 2,
                                     1.1: {
-                                        component: 5
+                                        component: 5,
                                     },
                                     1.2: {
-                                        component: 6
-                                    }
+                                        component: 6,
+                                    },
                                 },
                             },
                             {

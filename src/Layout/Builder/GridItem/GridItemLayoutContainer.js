@@ -25,7 +25,6 @@ import {
 import { LayoutItemEditHeader } from "../Menu/LayoutItemEditHeader";
 import { DashboardModel } from "@dash/Models";
 
-
 // uuid={uuid}
 // id={id}
 // item={childLayout}
@@ -52,159 +51,160 @@ import { DashboardModel } from "@dash/Models";
 // space={space}
 // grow={grow}
 
-export const GridItemLayoutContainer = memo(({
-    item,
-    workspace,
-    preview = false,
-    id,
-    parent,
-    scrollable,
-    space,
-    grow,
-    order,
-    children = null,
-    onClickAdd,
-    onClickQuickAdd,
-    onClickRemove,
-    onChangeDirection,
-    onChangeOrder,
-    onClickExpand,
-    onClickShrink,
-    onOpenConfig,
-    onOpenEvents,
-    width,
-    height = "h-full",
-    direction,
-    onDropItem,
-    onDragItem,
-    editMode,
-    uuid,
-    layout,
-    component,
-    isDraggable
-}) => {
-    function handleClickAdd() {
-        onClickAdd(item);
-    }
-
-    function handleClickRemove(item) {
-        onClickRemove(id);
-    }
-
-    function handleChangeDirection(item) {
-        onChangeDirection(id, direction);
-    }
-
-    function handleOpenConfig() {
-        onOpenConfig(item);
-    }
-
-    function handleDropItem(item) {
-        if (onDropItem) {
-            onDropItem(item);
+export const GridItemLayoutContainer = memo(
+    ({
+        item,
+        workspace,
+        preview = false,
+        id,
+        parent,
+        scrollable,
+        space,
+        grow,
+        order,
+        children = null,
+        onClickAdd,
+        onClickQuickAdd,
+        onClickRemove,
+        onChangeDirection,
+        onChangeOrder,
+        onClickExpand,
+        onClickShrink,
+        onOpenConfig,
+        onOpenEvents,
+        width,
+        height = "h-full",
+        direction,
+        onDropItem,
+        onDragItem,
+        editMode,
+        uuid,
+        layout,
+        component,
+        isDraggable,
+    }) => {
+        function handleClickAdd() {
+            onClickAdd(item);
         }
-    }
 
-    function handleDragItem(item) {
-        console.log("dragging item ", item);
-        // if (onDragItem) {
-        //     onDragItem(item);
-        // }
-    }
+        function handleClickRemove(item) {
+            onClickRemove(id);
+        }
 
-    function handleChangeOrder(direction) {
-        onChangeOrder(item, direction);
-    }
+        function handleChangeDirection(item) {
+            onChangeDirection(id, direction);
+        }
 
-    function handleQuickAdd(item, toItem) {
-        try {
-            console.log(item, toItem, workspace);
-            // set the component
-            item.component = item["name"];
-            const layoutItem = getLayoutItemForWorkspace(
+        function handleOpenConfig() {
+            onOpenConfig(item);
+        }
+
+        function handleDropItem(item) {
+            if (onDropItem) {
+                onDropItem(item);
+            }
+        }
+
+        function handleDragItem(item) {
+            console.log("dragging item ", item);
+            // if (onDragItem) {
+            //     onDragItem(item);
+            // }
+        }
+
+        function handleChangeOrder(direction) {
+            onChangeOrder(item, direction);
+        }
+
+        function handleQuickAdd(item, toItem) {
+            try {
+                console.log(item, toItem, workspace);
+                // set the component
+                item.component = item["name"];
+                const layoutItem = getLayoutItemForWorkspace(
+                    item,
+                    workspace,
+                    toItem
+                );
+
+                console.log("layout item ", layoutItem);
+                onClickQuickAdd(layoutItem.layout, toItem);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function renderEditHeader() {
+            return item["workspace"] !== "layout" ? (
+                <div
+                    id={`${item["component"]}-heading-${getRandomInt(10000)}`}
+                    className={`flex flex-row px-2 py-1 space-x-1 text-xs font-bold ${getContainerColor(
+                        item
+                    )} text-gray-300 w-full justify-between items-center`}
+                >
+                    <span className="text-xs">{`${item["component"]}`}</span>
+                    <div id="quick-add-menu" className="flex flex-row">
+                        {/* <LayoutQuickAddMenu
+                        className={`text-gray-200 ${getContainerColor(item)}`}
+                        item={item}
+                        onClickItem={(i) => handleQuickAdd(i, item)}
+                    /> */}
+                    </div>
+                </div>
+            ) : (
+                <div
+                    className={`flex flex-row px-2 py-1 space-x-1 mt-1 ml-1 mr-1 rounded text-xs text-gray-300 font-medium w-full justify-between items-center bg-gray-800`}
+                >
+                    <span className="text-xs font-medium text-gray-500">{`${item["component"]}`}</span>
+                    <div
+                        id="quick-add-menu"
+                        className="flex flex-row justify-end py-1 px-1"
+                    >
+                        {/* <LayoutQuickAddMenu
+                        className={`text-gray-200 ${getContainerColor(item)}`}
+                        item={item}
+                        onClickItem={(i) => handleQuickAdd(i, item)}
+                    /> */}
+                    </div>
+                </div>
+            );
+        }
+
+        function renderEditFooter() {
+            const config = ComponentManager.config(item["component"], item);
+            const canHaveChildren = config ? config["canHaveChildren"] : false;
+            const numChildren = numChildrenForLayout(item, workspace["layout"]);
+
+            // get the parent workspace
+            const dashboard = new DashboardModel(workspace);
+            const parentWorkspace = dashboard.getComponentById(item["parent"]);
+
+            // determine the parent layout direction...
+            const parentLayout = getLayoutItemById(
+                workspace["layout"],
+                item["parent"]
+            );
+            const parentDirection = parentLayout
+                ? parentLayout["direction"]
+                : parentWorkspace["direction"];
+
+            // determine if the item is at the "start/end" of the col/row
+            const isMaxOrder = isMaxOrderForItem(
+                workspace["layout"],
                 item,
-                workspace,
-                toItem
+                item["parent"]
+            );
+            const isMinOrder = isMinOrderForItem(
+                workspace["layout"],
+                item,
+                item["parent"]
             );
 
-            console.log("layout item ", layoutItem);
-            onClickQuickAdd(layoutItem.layout, toItem);
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    function renderEditHeader() {
-        return item["workspace"] !== "layout" ? (
-            <div
-                id={`${item["component"]}-heading-${getRandomInt(10000)}`}
-                className={`flex flex-row px-2 py-1 space-x-1 text-xs font-bold ${getContainerColor(
-                    item
-                )} text-gray-300 w-full justify-between items-center`}
-            >
-                <span className="text-xs">{`${item["component"]}`}</span>
-                <div id="quick-add-menu" className="flex flex-row">
-                    {/* <LayoutQuickAddMenu
-                        className={`text-gray-200 ${getContainerColor(item)}`}
-                        item={item}
-                        onClickItem={(i) => handleQuickAdd(i, item)}
-                    /> */}
-                </div>
-            </div>
-        ) : (
-            <div
-                className={`flex flex-row px-2 py-1 space-x-1 mt-1 ml-1 mr-1 rounded text-xs text-gray-300 font-medium w-full justify-between items-center bg-gray-800`}
-            >
-                <span className="text-xs font-medium text-gray-500">{`${item["component"]}`}</span>
+            return (
                 <div
-                    id="quick-add-menu"
-                    className="flex flex-row justify-end py-1 px-1"
+                    className={`flex flex-row space-x-1 justify-between w-full px-2 pb-1 bg-gray-900`}
                 >
-                    {/* <LayoutQuickAddMenu
-                        className={`text-gray-200 ${getContainerColor(item)}`}
-                        item={item}
-                        onClickItem={(i) => handleQuickAdd(i, item)}
-                    /> */}
-                </div>
-            </div>
-        );
-    }
-
-    function renderEditFooter() {
-        const config = ComponentManager.config(item["component"], item);
-        const canHaveChildren = config ? config["canHaveChildren"] : false;
-        const numChildren = numChildrenForLayout(item, workspace["layout"]);
-
-        // get the parent workspace
-        const dashboard = new DashboardModel(workspace);
-        const parentWorkspace = dashboard.getComponentById(item["parent"]);
-
-        // determine the parent layout direction...
-        const parentLayout = getLayoutItemById(
-            workspace["layout"],
-            item["parent"]
-        );
-        const parentDirection = parentLayout
-            ? parentLayout["direction"]
-            : parentWorkspace["direction"];
-
-        // determine if the item is at the "start/end" of the col/row
-        const isMaxOrder = isMaxOrderForItem(
-            workspace["layout"],
-            item,
-            item["parent"]
-        );
-        const isMinOrder = isMinOrderForItem(
-            workspace["layout"],
-            item,
-            item["parent"]
-        );
-
-        return (
-            <div
-                className={`flex flex-row space-x-1 justify-between w-full px-2 pb-1 bg-gray-900`}
-            >
-                {/* {item && "workspace" in item && (
+                    {/* {item && "workspace" in item && (
                     <div className="flex flex-row space-x-1">
                         <Tag
                             text={dragType(item)}
@@ -213,203 +213,203 @@ export const GridItemLayoutContainer = memo(({
                         />
                     </div>
                 )} */}
-                <div className={`flex flex-row space-x-1 text-indigo-700`}>
-                    {canHaveChildren === true && (
+                    <div className={`flex flex-row space-x-1 text-indigo-700`}>
+                        {canHaveChildren === true && (
+                            <ButtonIcon
+                                textColor="text-gray-700"
+                                hoverTextColor="hover:text-gray-300"
+                                icon="plus"
+                                onClick={handleClickAdd}
+                                backgroundColor="bg-transparent"
+                                hoverBackgroundColor="hover:bg-green-700"
+                            />
+                        )}
                         <ButtonIcon
                             textColor="text-gray-700"
                             hoverTextColor="hover:text-gray-300"
-                            icon="plus"
-                            onClick={handleClickAdd}
-                            backgroundColor="bg-transparent"
-                            hoverBackgroundColor="hover:bg-green-700"
-                        />
-                    )}
-                    <ButtonIcon
-                        textColor="text-gray-700"
-                        hoverTextColor="hover:text-gray-300"
-                        icon={`${
-                            direction === "col"
-                                ? "arrows-left-right"
-                                : "arrows-up-down"
-                        }`}
-                        onClick={handleChangeDirection}
-                        backgroundColor="bg-transparent"
-                        hoverBackgroundColor="hover:bg-blue-700"
-                    />
-                    <ButtonIcon
-                        textColor="text-gray-700"
-                        hoverTextColor="hover:text-gray-300"
-                        icon={"cog"}
-                        onClick={handleOpenConfig}
-                        backgroundColor="bg-transparent"
-                        hoverBackgroundColor="hover:bg-blue-700"
-                    />
-                    {order > 1 && numChildren > 1 && isMinOrder === false && (
-                        <ButtonIcon
                             icon={`${
-                                parentDirection === "col"
-                                    ? "arrow-up"
-                                    : "arrow-left"
+                                direction === "col"
+                                    ? "arrows-left-right"
+                                    : "arrows-up-down"
                             }`}
-                            onClick={() => handleChangeOrder("down")}
+                            onClick={handleChangeDirection}
                             backgroundColor="bg-transparent"
                             hoverBackgroundColor="hover:bg-blue-700"
                         />
-                    )}
-                    {order > 1 && numChildren > 1 && isMaxOrder === false && (
-                        <ButtonIcon
-                            icon={`${
-                                parentDirection === "col"
-                                    ? "arrow-down"
-                                    : "arrow-right"
-                            }`}
-                            onClick={() => handleChangeOrder("up")}
-                            backgroundColor="bg-transparent"
-                            hoverBackgroundColor="hover:bg-blue-700"
-                        />
-                    )}
-                    {parent > 0 && (
                         <ButtonIcon
                             textColor="text-gray-700"
                             hoverTextColor="hover:text-gray-300"
-                            icon="trash"
-                            onClick={handleClickRemove}
+                            icon={"cog"}
+                            onClick={handleOpenConfig}
                             backgroundColor="bg-transparent"
-                            hoverBackgroundColor="hover:bg-red-900"
+                            hoverBackgroundColor="hover:bg-blue-700"
                         />
-                    )}
+                        {order > 1 &&
+                            numChildren > 1 &&
+                            isMinOrder === false && (
+                                <ButtonIcon
+                                    icon={`${
+                                        parentDirection === "col"
+                                            ? "arrow-up"
+                                            : "arrow-left"
+                                    }`}
+                                    onClick={() => handleChangeOrder("down")}
+                                    backgroundColor="bg-transparent"
+                                    hoverBackgroundColor="hover:bg-blue-700"
+                                />
+                            )}
+                        {order > 1 &&
+                            numChildren > 1 &&
+                            isMaxOrder === false && (
+                                <ButtonIcon
+                                    icon={`${
+                                        parentDirection === "col"
+                                            ? "arrow-down"
+                                            : "arrow-right"
+                                    }`}
+                                    onClick={() => handleChangeOrder("up")}
+                                    backgroundColor="bg-transparent"
+                                    hoverBackgroundColor="hover:bg-blue-700"
+                                />
+                            )}
+                        {parent > 0 && (
+                            <ButtonIcon
+                                textColor="text-gray-700"
+                                hoverTextColor="hover:text-gray-300"
+                                icon="trash"
+                                onClick={handleClickRemove}
+                                backgroundColor="bg-transparent"
+                                hoverBackgroundColor="hover:bg-red-900"
+                            />
+                        )}
+                    </div>
                 </div>
-            </div>
-        );
-    }
-
-    function getBorderStyle() {
-        try {
-            return WidgetFactory.workspace(item["component"]) === "layout"
-                ? "border-dashed"
-                : "border-4";
-        } catch (e) {
-            return "";
+            );
         }
-    }
 
-    function renderComponentContainer(children) {
-        return item
-            ? renderComponent(item["component"], id, item, children)
-            : null;
-    }
-
-    function getAllWorkspaceNames() {
-        if (workspace !== null) {
-            const names = workspace.layout.map((layout) => {
-                return "workspace" in layout ? layout.workspace : null;
-            });
-            return names
-                .filter((value, index, array) => array.indexOf(value) === index)
-                .filter((i) => i !== null);
+        function getBorderStyle() {
+            try {
+                return WidgetFactory.workspace(item["component"]) === "layout"
+                    ? "border-dashed"
+                    : "border-4";
+            } catch (e) {
+                return "";
+            }
         }
-        return null;
-    }
 
-    function dropType(item) {
-        // if item is a Workspace, and NOT a container, can only drop into a Container (layout)
-        if (isWorkspace(item) === true) {
+        function renderComponentContainer(children) {
+            return item
+                ? renderComponent(item["component"], id, item, children)
+                : null;
+        }
+
+        function getAllWorkspaceNames() {
+            if (workspace !== null) {
+                const names = workspace.layout.map((layout) => {
+                    return "workspace" in layout ? layout.workspace : null;
+                });
+                return names
+                    .filter(
+                        (value, index, array) => array.indexOf(value) === index
+                    )
+                    .filter((i) => i !== null);
+            }
+            return null;
+        }
+
+        function dropType(item) {
+            // if item is a Workspace, and NOT a container, can only drop into a Container (layout)
+            if (isWorkspace(item) === true) {
+                return ["layout", item["parentWorkspaceName"]];
+            }
+            // if a container, we can place this into ANY other container or workspace
+            if (isContainer(item) === true) {
+                return getAllWorkspaceNames();
+            }
             return ["layout", item["parentWorkspaceName"]];
         }
-        // if a container, we can place this into ANY other container or workspace
-        if (isContainer(item) === true) {
-            return getAllWorkspaceNames();
-        }
-        return ["layout", item["parentWorkspaceName"]];
-    }
 
-    function dragType(item) {
-        if (isWorkspace(item) === true) {
+        function dragType(item) {
+            if (isWorkspace(item) === true) {
+                return item["parentWorkspaceName"];
+            }
+            if (isContainer(item)) {
+                return "layout";
+            }
             return item["parentWorkspaceName"];
         }
-        if (isContainer(item)) {
-            return "layout";
-        }
-        return item["parentWorkspaceName"];
-    }
-    
-    function renderEditItem() {
-        return item["workspace"] === "layout" ? (
-            <DropComponent
-                item={item}
-                id={id}
-                type={dropType(item)}
-                onDropItem={handleDropItem}
-                width={item.width}
-                height={item.height}
-            >
-            <DragComponent
-                id={id}
-                type={dragType(item)}
-                onDropItem={handleDropItem}
-                onDragItem={handleDragItem}
-                width={"w-full"}
-                height={"h-full"}
-            >
-                <LayoutContainer
-                    id={`grid-container-parent-${id}`}
-                    direction={"col"}
-                    width={"w-full"}
-                    height={"h-full"}
-                    scrollable={false}
-                    className={`rounded overflow-hidden border border-gray-900 rounded-md ${
-                        preview === false && "border-2 rounded"
-                    } ${preview === false && getContainerBorderColor(item)} min-h-24 z-10`}
-                    space={preview}
+
+        function renderEditItem() {
+            return item["workspace"] === "layout" ? (
+                <DropComponent
+                    item={item}
+                    id={id}
+                    type={dropType(item)}
+                    onDropItem={handleDropItem}
+                    width={item.width}
+                    height={item.height}
                 >
-                    {/* {preview === false && renderEditFooter()} */}
-                    {/* {preview === false && renderEditHeader()} */}
-                    {preview === false && (
-                        <LayoutItemEditHeader
-                            layoutItem={item}
-                            workspace={workspace}
-                            direction={direction}
-                            order={order}
-                            parent={parent}
-                            onChangeOrder={handleChangeOrder}
-                            onChangeDirection={handleChangeDirection}
-                            onRemove={handleClickRemove}
-                            onClickAdd={handleClickAdd}
-                            onOpenConfig={handleOpenConfig}
-                        />
-                    )}
-                    <LayoutContainer
-                        id={`grid-container-${id}`}
-                        direction={item.direction}
-                        scrollable={scrollable}
+                    <DragComponent
+                        id={id}
+                        type={dragType(item)}
+                        onDropItem={handleDropItem}
+                        onDragItem={handleDragItem}
                         width={"w-full"}
-                        height={`h-full min-h-24`}
-                        space={preview}
-                        grow={item.grow}
-                        className={`${
-                            preview === false &&
-                            item["component"] !== "Container"
-                                ? "p-2"
-                                : "p-2"
-                        } ${direction === "row" ? "space-x-2" : "space-y-2"} ${item.hasChildren === true ? "justify-between" : ""}`}
+                        height={"h-full"}
                     >
-                        {children !== null && children}
-                    </LayoutContainer>
-                    {/* {preview === false && renderEditFooter()} */}
-                </LayoutContainer>
-            </DragComponent>
-        </DropComponent>
-        ) : null;
+                        <LayoutContainer
+                            id={`grid-container-parent-${id}`}
+                            direction={"col"}
+                            width={"w-full"}
+                            height={"h-full"}
+                            scrollable={false}
+                            className={`rounded overflow-hidden border border-gray-900 rounded-md ${
+                                preview === false && "border-2 rounded"
+                            } ${preview === false && getContainerBorderColor(item)} min-h-24 z-10`}
+                            space={preview}
+                        >
+                            {/* {preview === false && renderEditFooter()} */}
+                            {/* {preview === false && renderEditHeader()} */}
+                            {preview === false && (
+                                <LayoutItemEditHeader
+                                    layoutItem={item}
+                                    workspace={workspace}
+                                    direction={direction}
+                                    order={order}
+                                    parent={parent}
+                                    onChangeOrder={handleChangeOrder}
+                                    onChangeDirection={handleChangeDirection}
+                                    onRemove={handleClickRemove}
+                                    onClickAdd={handleClickAdd}
+                                    onOpenConfig={handleOpenConfig}
+                                />
+                            )}
+                            <LayoutContainer
+                                id={`grid-container-${id}`}
+                                direction={item.direction}
+                                scrollable={scrollable}
+                                width={"w-full"}
+                                height={`h-full min-h-24`}
+                                space={preview}
+                                grow={item.grow}
+                                className={`${
+                                    preview === false &&
+                                    item["component"] !== "Container"
+                                        ? "p-2"
+                                        : "p-2"
+                                } ${direction === "row" ? "space-x-2" : "space-y-2"} ${item.hasChildren === true ? "justify-between" : ""}`}
+                            >
+                                {children !== null && children}
+                            </LayoutContainer>
+                            {/* {preview === false && renderEditFooter()} */}
+                        </LayoutContainer>
+                    </DragComponent>
+                </DropComponent>
+            ) : null;
+        }
+
+        return preview === false
+            ? renderEditItem()
+            : renderComponentContainer(children);
     }
-
-
-
-
-
-
-    return preview === false ? (
-        renderEditItem()
-    ) : (
-        renderComponentContainer(children)
-    );
-});
+);

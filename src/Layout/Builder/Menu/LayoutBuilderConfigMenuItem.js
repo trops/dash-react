@@ -9,7 +9,7 @@ const LayoutBuilderConfigMenuItem = ({
     onClick,
     onMouseOver,
     item,
-    workspace
+    workspace,
 }) => {
     const [isMouseOver, setIsMouseOver] = useState(false);
 

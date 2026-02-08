@@ -28,7 +28,7 @@
         "build-storybook": "storybook build",
         "bump": "npm version --no-git-tag-version patch",
         "bump-tag": "npm version -m patch",
-        "prettify": "yarn prettier --write . ",
+        "prettify": "prettier --write . ",
         "test-jest": "NODE_OPTIONS=--experimental-vm-modules jest",
         "test": "exit 0"
     },

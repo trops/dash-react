@@ -8,7 +8,7 @@ export default function SlidePanelOverlay({
     setOpen,
     title = null,
     children,
-    onClose
+    onClose,
 }) {
     // const [open, setOpen] = useState(open)
 

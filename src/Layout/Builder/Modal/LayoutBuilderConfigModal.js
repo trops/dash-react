@@ -92,24 +92,25 @@ export const LayoutBuilderConfigModal = ({
                                             : "bg-blue-900"
                                     }
                                 />
-                                {itemSelected["type"] !== "widget" && "grid" in itemSelected === true && (
-                                    <ButtonIcon
-                                        icon="square"
-                                        text="Layout"
-                                        iconSize={"w-4 h-4"}
-                                        onClick={() =>
-                                            setConfigMenuItemSelected(
-                                                "grid_layout"
-                                            )
-                                        }
-                                        bgColor={
-                                            configMenuItemSelected ===
-                                            "handlers"
-                                                ? "bg-blue-700"
-                                                : "bg-blue-900"
-                                        }
-                                    />
-                                )}
+                                {itemSelected["type"] !== "widget" &&
+                                    "grid" in itemSelected === true && (
+                                        <ButtonIcon
+                                            icon="square"
+                                            text="Layout"
+                                            iconSize={"w-4 h-4"}
+                                            onClick={() =>
+                                                setConfigMenuItemSelected(
+                                                    "grid_layout"
+                                                )
+                                            }
+                                            bgColor={
+                                                configMenuItemSelected ===
+                                                "handlers"
+                                                    ? "bg-blue-700"
+                                                    : "bg-blue-900"
+                                            }
+                                        />
+                                    )}
                                 {itemSelected["workspace"] !== "layout" && (
                                     <ButtonIcon
                                         icon="phone"

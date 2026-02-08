@@ -1,12 +1,12 @@
 /**
  * ContextSettingsModal.js
- * 
+ *
  * - Save the settings for the dashboard
  * - Store the settings in the global settings file?
  * - Allow the user to select a context to power their Widget
  * - Get the list of contexts that are stored globally
  * - Select the context to use for the Widget
- * 
+ *
  */
 import React, { useContext, useEffect } from "react";
 import { Panel, Modal, Button, ButtonIcon } from "@dash/Common";
@@ -25,52 +25,72 @@ export const ContextSettingsModal = ({
     contextComponent = null,
     contextConfig = null,
 }) => {
-
     const { settings, dashApi, appId } = useContext(AppContext);
     const { theme } = useContext(ThemeContext);
     const [globalContexts, setGlobalContexts] = React.useState(null);
     const [selectedContext, setSelectedContext] = React.useState(null);
-    const [isLoadingGlobalContexts, setIsLoadingGlobalContexts] = React.useState(false);
+    const [isLoadingGlobalContexts, setIsLoadingGlobalContexts] =
+        React.useState(false);
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     // this is the component
-    const [contextComponentSelected, setContextComponentSelected] = React.useState(contextComponent || null);
+    const [contextComponentSelected, setContextComponentSelected] =
+        React.useState(contextComponent || null);
     // this is the context config by the user that is stored in the application
-    const [contextConfigSelected, setContextConfigSelected] = React.useState(contextConfig || null);
+    const [contextConfigSelected, setContextConfigSelected] = React.useState(
+        contextConfig || null
+    );
 
     useEffect(() => {
-        console.log("use effect for ContextSettingsModal, workspace: ", workspace, globalContexts);
-        if (globalContexts === null && isLoadingGlobalContexts === false) getGlobalContexts();
+        console.log(
+            "use effect for ContextSettingsModal, workspace: ",
+            workspace,
+            globalContexts
+        );
+        if (globalContexts === null && isLoadingGlobalContexts === false)
+            getGlobalContexts();
     }, []);
 
     function getGlobalContexts() {
         try {
-            // using the electron/web api, fetch all of the stored contexts 
+            // using the electron/web api, fetch all of the stored contexts
             // the user has created and stored
             if (dashApi && dashApi.api) {
                 // set the loader to true so we can show a spinner
                 setIsLoadingGlobalContexts(true);
-                dashApi.api.context.listContexts(appId).then((contexts) => {
-                    // we really want to store the contexts in an object with the key being the context TYPE
-                    // and the value being another object with the context ID as the key and the contextModel object 
-                    // as the value
-                    const contextMap = {};
-                    Object.keys(contexts).forEach((contextId) => {
+                dashApi.api.context
+                    .listContexts(appId)
+                    .then((contexts) => {
+                        // we really want to store the contexts in an object with the key being the context TYPE
+                        // and the value being another object with the context ID as the key and the contextModel object
+                        // as the value
+                        const contextMap = {};
+                        Object.keys(contexts).forEach((contextId) => {
                             const contextModel = contexts[contextId];
                             // we want to store the context in a map with the componentName as the key
-                            if (contextModel.componentName in contextMap === false) {
-                                contextMap[contexts[contextId].componentName] = {};
+                            if (
+                                contextModel.componentName in contextMap ===
+                                false
+                            ) {
+                                contextMap[contexts[contextId].componentName] =
+                                    {};
                             }
                             // now we can store the contextModel in the map
-                            contextMap[contexts[contextId].componentName][contextId] = contextModel;
+                            contextMap[contexts[contextId].componentName][
+                                contextId
+                            ] = contextModel;
+                        });
+                        setGlobalContexts(contextMap);
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Error fetching global contexts: ",
+                            error
+                        );
+                        setGlobalContexts([]);
                     });
-                    setGlobalContexts(contextMap);
-                }).catch((error) => {
-                    console.error("Error fetching global contexts: ", error);
-                    setGlobalContexts([]);
-                });
             }
         } catch (e) {
             console.error("Error getting global contexts: ", e);
@@ -85,30 +105,51 @@ export const ContextSettingsModal = ({
      */
     function renderRequiredContexts(workspace) {
         try {
-            console.log("renderRequiredContexts for workspace: ", workspace, globalContexts, widget);
+            console.log(
+                "renderRequiredContexts for workspace: ",
+                workspace,
+                globalContexts,
+                widget
+            );
             if (workspace && globalContexts) {
                 const dashboard = new DashboardModel(workspace);
                 const requiredContexts = dashboard.getRequiredContexts();
-                console.log("required contexts for workspace ", workspace, requiredContexts);
+                console.log(
+                    "required contexts for workspace ",
+                    workspace,
+                    requiredContexts
+                );
                 if (requiredContexts && requiredContexts.length > 0) {
-                    return requiredContexts.filter(c => {
-                        // if we have a widget we should only show the compatible contexts for that widget
-                        if (widget && widget.contexts) {
-                            return widget.contexts.includes(c);
-                        } else {
-                            return true;
-                        }
-                    }).map((context, index) => {
-                        return (
-                            <div key={index} className="flex flex-col p-2 cursor-pointer border-b border-gray-700" onClick={() => handleSelectContextComponent({ componentName: context })}>
-                                    <span className="text-sm text-gray-300">{context}</span>
+                    return requiredContexts
+                        .filter((c) => {
+                            // if we have a widget we should only show the compatible contexts for that widget
+                            if (widget && widget.contexts) {
+                                return widget.contexts.includes(c);
+                            } else {
+                                return true;
+                            }
+                        })
+                        .map((context, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex flex-col p-2 cursor-pointer border-b border-gray-700"
+                                    onClick={() =>
+                                        handleSelectContextComponent({
+                                            componentName: context,
+                                        })
+                                    }
+                                >
+                                    <span className="text-sm text-gray-300">
+                                        {context}
+                                    </span>
                                 </div>
-                        );
-                    });
+                            );
+                        });
                 }
             }
-        } catch(e) {
-           console.error("Error getting saved contexts for workspace: ", e);
+        } catch (e) {
+            console.error("Error getting saved contexts for workspace: ", e);
         }
         return [];
     }
@@ -118,42 +159,71 @@ export const ContextSettingsModal = ({
             if (workspace && globalContexts !== null) {
                 const dashboard = new DashboardModel(workspace);
                 const requiredContexts = dashboard.getRequiredContexts();
-                console.log("required contexts for workspace ", workspace, requiredContexts, globalContexts, widget);
+                console.log(
+                    "required contexts for workspace ",
+                    workspace,
+                    requiredContexts,
+                    globalContexts,
+                    widget
+                );
                 if (globalContexts && Object.keys(globalContexts).length > 0) {
+                    return Object.keys(globalContexts)
+                        .filter((c) => {
+                            if (
+                                requiredContexts &&
+                                requiredContexts.length > 0
+                            ) {
+                                console.log(
+                                    "filtering global contexts: ",
+                                    c,
+                                    globalContexts[c],
+                                    requiredContexts
+                                );
+                                // we want to filter the global contexts based on the required contexts for the workspace
+                                return requiredContexts.includes(c);
+                            } else {
+                                // if there are no required contexts, we want to show all global contexts
+                                return true;
+                            }
+                        })
+                        .filter((c) => {
+                            // if we have a widget we should only show the compatible contexts for that widget
+                            if (widget && widget.contexts) {
+                                return widget.contexts.includes(c);
+                            } else {
+                                return true;
+                            }
+                        })
+                        .map((context, index) => {
+                            console.log(
+                                "context: ",
+                                context,
+                                globalContexts[context]
+                            );
 
-                    return Object.keys(globalContexts).filter(c => {
-                        if (requiredContexts && requiredContexts.length > 0) {
-                            console.log("filtering global contexts: ", c, globalContexts[c], requiredContexts);
-                            // we want to filter the global contexts based on the required contexts for the workspace
-                            return requiredContexts.includes(c);
-                        } else {
-                            // if there are no required contexts, we want to show all global contexts
-                            return true;
-                        }
-                    }).filter(c => {
-                        // if we have a widget we should only show the compatible contexts for that widget
-                        if (widget && widget.contexts) {
-                            return widget.contexts.includes(c);
-                        } else {
-                            return true;
-                        }
-                    }).map((context, index) => {
-                        console.log("context: ", context, globalContexts[context]);
-                        
-                        // We want to show a menu of the component names for the contexts globally
-                        // and then filter them based on the required contexts for the workspace
-                            const isSelected = contextComponentSelected !== null && contextComponentSelected === context;
+                            // We want to show a menu of the component names for the contexts globally
+                            // and then filter them based on the required contexts for the workspace
+                            const isSelected =
+                                contextComponentSelected !== null &&
+                                contextComponentSelected === context;
                             return (
-                                <div key={index} className={`flex flex-col rounded p-4 cursor-pointer ${isSelected === true && "bg-gray-900"} hover:bg-gray-900`} onClick={() => handleSelectContextComponent(context)}>
-                                    <span className="font-bold text-base text-gray-300">{context}</span>
+                                <div
+                                    key={index}
+                                    className={`flex flex-col rounded p-4 cursor-pointer ${isSelected === true && "bg-gray-900"} hover:bg-gray-900`}
+                                    onClick={() =>
+                                        handleSelectContextComponent(context)
+                                    }
+                                >
+                                    <span className="font-bold text-base text-gray-300">
+                                        {context}
+                                    </span>
                                 </div>
                             );
-                        
-                    });
+                        });
                 }
             }
-        } catch(e) {
-           console.error("Error getting saved contexts for workspace: ", e);
+        } catch (e) {
+            console.error("Error getting saved contexts for workspace: ", e);
         }
         return [];
     }
@@ -168,39 +238,71 @@ export const ContextSettingsModal = ({
             if (workspace && globalContexts !== null) {
                 const dashboard = new DashboardModel(workspace);
                 const requiredContexts = dashboard.getRequiredContexts();
-                
-                console.log("renderGlobalContexts for workspace ", workspace, requiredContexts, globalContexts, widget);
-                if (globalContexts && Object.keys(globalContexts).length > 0 && contextComponentSelected !== null) {
 
-                    return Object.keys(globalContexts).filter(c => {
-                            console.log("filtering global contexts: ", c, contextComponentSelected);
+                console.log(
+                    "renderGlobalContexts for workspace ",
+                    workspace,
+                    requiredContexts,
+                    globalContexts,
+                    widget
+                );
+                if (
+                    globalContexts &&
+                    Object.keys(globalContexts).length > 0 &&
+                    contextComponentSelected !== null
+                ) {
+                    return Object.keys(globalContexts)
+                        .filter((c) => {
+                            console.log(
+                                "filtering global contexts: ",
+                                c,
+                                contextComponentSelected
+                            );
                             // we want to filter the global contexts based on the required contexts for the workspace
                             return c === contextComponentSelected;
-                    }).map((context, index) => {
+                        })
+                        .map((context, index) => {
+                            console.log(
+                                "context: ",
+                                context,
+                                globalContexts[context]
+                            );
 
-                        console.log("context: ", context, globalContexts[context]);
-                        
-                        // We want to show a menu of the component names for the contexts globally
-                        // and then filter them based on the required contexts for the workspace
-                        const contextModels = globalContexts[context];
-                        return Object.keys(contextModels).map((contextId) => {
-                            // we want to show the contextModel in a card format
-                            const contextModel = contextModels[contextId];
-                            return (
-                                <div key={index} className="flex flex-col p-2 cursor-pointer border-b border-gray-700" onClick={() => handleSelectContextConfig(contextId)}>
-                                    <span className="text-sm text-gray-300">{contextModel.name}</span>
-                                    <span className="text-xs text-gray-600">{contextId}</span>
-                                </div>
+                            // We want to show a menu of the component names for the contexts globally
+                            // and then filter them based on the required contexts for the workspace
+                            const contextModels = globalContexts[context];
+                            return Object.keys(contextModels).map(
+                                (contextId) => {
+                                    // we want to show the contextModel in a card format
+                                    const contextModel =
+                                        contextModels[contextId];
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="flex flex-col p-2 cursor-pointer border-b border-gray-700"
+                                            onClick={() =>
+                                                handleSelectContextConfig(
+                                                    contextId
+                                                )
+                                            }
+                                        >
+                                            <span className="text-sm text-gray-300">
+                                                {contextModel.name}
+                                            </span>
+                                            <span className="text-xs text-gray-600">
+                                                {contextId}
+                                            </span>
+                                        </div>
+                                    );
+                                }
                             );
                         });
-                        
-                    });
                 } else {
                     return null;
                 }
             }
-        } catch(e) {
-           console.error("Error getting saved contexts for workspace: ", e);
+        } catch (e) {
+            console.error("Error getting saved contexts for workspace: ", e);
         }
         return [];
     }
@@ -208,14 +310,14 @@ export const ContextSettingsModal = ({
     function handleSelectContextComponent(context) {
         console.log("Selected context: ", context);
         const contextConfig = ComponentManager.config(context.componentName);
-        // now that we have the config for the context, we have to display the form, and then 
+        // now that we have the config for the context, we have to display the form, and then
         // populate the values from the context selected from the global contexts
         if (context) {
             setContextComponentSelected(context);
             // reset the context config to null so we can select a new one
             setContextConfigSelected(null);
-            // now I think we have to merge the configuration questions 
-            // and the values stored in the workspace 
+            // now I think we have to merge the configuration questions
+            // and the values stored in the workspace
         }
     }
 
@@ -223,29 +325,37 @@ export const ContextSettingsModal = ({
         console.log("Selected context: ", contextComponentSelected, contextId);
         // const contextConfig = ComponentManager.config(context.componentName);
         // const c = globalContexts[context.componentName][context];
-        // now that we have the config for the context, we have to display the form, and then 
+        // now that we have the config for the context, we have to display the form, and then
         // populate the values from the context selected from the global contexts
-        
+
         setContextConfigSelected(contextId);
         forceUpdate();
     }
 
     function handleCreateNewContextConfig() {
         // this will create a new context for the selected component
-        const newContext = new ContextModel({
-            componentName: widget ? widget.componentName : contextComponentSelected.componentName,
-            name: `New ${contextComponentSelected.componentName} Context`,
-            description: `A new context for ${contextComponentSelected.componentName}`,
-            // we can set default values here if needed
-            // for example, if the context has a configuration with default values
-            // we can set them here
-        }, workspace);
+        const newContext = new ContextModel(
+            {
+                componentName: widget
+                    ? widget.componentName
+                    : contextComponentSelected.componentName,
+                name: `New ${contextComponentSelected.componentName} Context`,
+                description: `A new context for ${contextComponentSelected.componentName}`,
+                // we can set default values here if needed
+                // for example, if the context has a configuration with default values
+                // we can set them here
+            },
+            workspace
+        );
 
         setContextConfigSelected(newContext.id);
     }
 
     function getContext() {
-        return new ContextModel(globalContexts[contextComponentSelected][contextConfigSelected], workspace);
+        return new ContextModel(
+            globalContexts[contextComponentSelected][contextConfigSelected],
+            workspace
+        );
     }
 
     return (
@@ -262,14 +372,25 @@ export const ContextSettingsModal = ({
                             {/* Panel */}
                             <div className="flex flex-col w-1/4 h-full overflow-y-auto bg-gray-800 p-4 space-y-2">
                                 {widget && renderRequiredContexts(workspace)}
-                                {!widget && renderGlobalContextComponents(workspace)}
+                                {!widget &&
+                                    renderGlobalContextComponents(workspace)}
                             </div>
                             <div className="flex flex-col w-1/4 h-full overflow-y-auto p-4 space-y-2">
-                                <ButtonIcon icon={"plus"} onClick={() => handleCreateNewContextConfig()} className="text-gray-300 hover:text-gray-100" title="Create New Context" />
+                                <ButtonIcon
+                                    icon={"plus"}
+                                    onClick={() =>
+                                        handleCreateNewContextConfig()
+                                    }
+                                    className="text-gray-300 hover:text-gray-100"
+                                    title="Create New Context"
+                                />
                                 {renderGlobalContexts(workspace)}
                             </div>
                             <div className="flex flex-col w-1/2 h-full overflow-y-auto p-4 bg-indigo-900">
-                                {contextComponentSelected !== null && contextConfigSelected !== null && <PanelEditContext item={getContext()} />}
+                                {contextComponentSelected !== null &&
+                                    contextConfigSelected !== null && (
+                                        <PanelEditContext item={getContext()} />
+                                    )}
                             </div>
                             {/* <div className="flex flex-col w-1/4 h-full overflow-y-auto text-xs text-gray-300">
                                 <pre>{JSON.stringify(workspace, null, 2)}</pre>
@@ -302,27 +423,28 @@ export const ContextSettingsModal = ({
                     )} */}
                     </div>
                 </div>
-                <Panel.Footer className="flex flex-row justify-end" padding={false}>
-                     
-                            <div className="flex flex-row space-x-2 w-full justify-end">
-                                <Button
-                                    title={"Cancel"}
-                                    bgColor={"bg-gray-800"}
-                                    textSize={"text-lg"}
-                                    padding={"py-2 px-4"}
-                                    onClick={() => setIsOpen(false)}
-                                />
-                                <Button
-                                    title={"Save Changes"}
-                                    bgColor={"bg-gray-800"}
-                                    hoverBackgroundColor={"hover:bg-green-700"}
-                                    textSize={"text-lg"}
-                                    padding={"py-2 px-4"}
-                                    onClick={() => console.log("Save Changes clicked")}
-                                />
-                            </div>
-                     
-                    </Panel.Footer>
+                <Panel.Footer
+                    className="flex flex-row justify-end"
+                    padding={false}
+                >
+                    <div className="flex flex-row space-x-2 w-full justify-end">
+                        <Button
+                            title={"Cancel"}
+                            bgColor={"bg-gray-800"}
+                            textSize={"text-lg"}
+                            padding={"py-2 px-4"}
+                            onClick={() => setIsOpen(false)}
+                        />
+                        <Button
+                            title={"Save Changes"}
+                            bgColor={"bg-gray-800"}
+                            hoverBackgroundColor={"hover:bg-green-700"}
+                            textSize={"text-lg"}
+                            padding={"py-2 px-4"}
+                            onClick={() => console.log("Save Changes clicked")}
+                        />
+                    </div>
+                </Panel.Footer>
             </Panel>
         </Modal>
     );

@@ -25,7 +25,6 @@ import {
 import { LayoutItemEditHeader } from "../Menu/LayoutItemEditHeader";
 import { DashboardModel } from "@dash/Models";
 
-
 // uuid={uuid}
 // id={id}
 // item={childLayout}
@@ -81,7 +80,7 @@ export const GridItemWorkspaceContainer = ({
     uuid,
     layout,
     component,
-    isDraggable
+    isDraggable,
 }) => {
     function handleClickAdd() {
         onClickAdd(item);
@@ -332,9 +331,8 @@ export const GridItemWorkspaceContainer = ({
         }
         return item["parentWorkspaceName"];
     }
-    
-    function renderEditItem() {
 
+    function renderEditItem() {
         const borderColor = getContainerBorderColor(item);
         const borderStyle = getBorderStyle();
         return (
@@ -346,63 +344,63 @@ export const GridItemWorkspaceContainer = ({
                 width={item.width}
                 height={item.height}
             >
-            <DragComponent
-                id={id}
-                type={dragType(item)}
-                onDropItem={handleDropItem}
-                onDragItem={handleDragItem}
-                width={"w-full"}
-                height={"h-full"}
-            >
-                <LayoutContainer
-                    id={`grid-container-parent-${id}`}
-                    direction={"col"}
+                <DragComponent
+                    id={id}
+                    type={dragType(item)}
+                    onDropItem={handleDropItem}
+                    onDragItem={handleDragItem}
                     width={"w-full"}
                     height={"h-full"}
-                    scrollable={false}
-                    className={`rounded overflow-x-clip ${
-                        preview === false && "border-2 rounded"
-                    } ${preview === false && borderColor} ${preview === false && borderStyle} min-h-24 z-10`}
-                    space={preview}
                 >
-                    {/* {preview === false && renderEditFooter()} */}
-                    {/* {preview === false && renderEditHeader()} */}
-                    {preview === false && (
-                        <LayoutItemEditHeader
-                            layoutItem={item}
-                            workspace={workspace}
-                            direction={direction}
-                            order={order}
-                            parent={parent}
-                            onChangeOrder={handleChangeOrder}
-                            onChangeDirection={handleChangeDirection}
-                            onRemove={handleClickRemove}
-                            onClickAdd={handleClickAdd}
-                            onOpenConfig={handleOpenConfig}
-                        />
-                    )}
                     <LayoutContainer
-                        id={`grid-container-${id}`}
-                        direction={direction}
-                        scrollable={scrollable}
+                        id={`grid-container-parent-${id}`}
+                        direction={"col"}
                         width={"w-full"}
-                        height={`h-full min-h-24`}
+                        height={"h-full"}
+                        scrollable={false}
+                        className={`rounded overflow-x-clip ${
+                            preview === false && "border-2 rounded"
+                        } ${preview === false && borderColor} ${preview === false && borderStyle} min-h-24 z-10`}
                         space={preview}
-                        grow={grow}
-                        className={`${
-                            preview === false &&
-                            item["component"] !== "Container"
-                                ? "p-2"
-                                : "p-2"
-                        } ${direction === "row" ? "space-x-2" : "space-y-2"} ${item.hasChildren === true ? "justify-between" : ""}`}
                     >
-                        {children !== null && children}
+                        {/* {preview === false && renderEditFooter()} */}
+                        {/* {preview === false && renderEditHeader()} */}
+                        {preview === false && (
+                            <LayoutItemEditHeader
+                                layoutItem={item}
+                                workspace={workspace}
+                                direction={direction}
+                                order={order}
+                                parent={parent}
+                                onChangeOrder={handleChangeOrder}
+                                onChangeDirection={handleChangeDirection}
+                                onRemove={handleClickRemove}
+                                onClickAdd={handleClickAdd}
+                                onOpenConfig={handleOpenConfig}
+                            />
+                        )}
+                        <LayoutContainer
+                            id={`grid-container-${id}`}
+                            direction={direction}
+                            scrollable={scrollable}
+                            width={"w-full"}
+                            height={`h-full min-h-24`}
+                            space={preview}
+                            grow={grow}
+                            className={`${
+                                preview === false &&
+                                item["component"] !== "Container"
+                                    ? "p-2"
+                                    : "p-2"
+                            } ${direction === "row" ? "space-x-2" : "space-y-2"} ${item.hasChildren === true ? "justify-between" : ""}`}
+                        >
+                            {children !== null && children}
+                        </LayoutContainer>
+                        {/* {preview === false && renderEditFooter()} */}
                     </LayoutContainer>
-                    {/* {preview === false && renderEditFooter()} */}
-                </LayoutContainer>
-            </DragComponent>
-        </DropComponent>
-        )
+                </DragComponent>
+            </DropComponent>
+        );
     }
 
     return item["type"] === "workspace" && renderEditItem();

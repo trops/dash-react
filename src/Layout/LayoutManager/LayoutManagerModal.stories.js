@@ -3,7 +3,7 @@ import { mock, MockWrapper } from "@dash";
 import "@dash/tailwind.css";
 
 export default {
-    title: "LayoutManagerModal",
+    title: "Layout/LayoutManager/LayoutManagerModal",
     component: LayoutManagerModal,
 };
 

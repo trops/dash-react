@@ -21,6 +21,7 @@ export const WorkspaceModel = (workspaceItem) => {
         "layout",
         "menuId",
         "version",
+        "selectedProviders",
     ];
     const validWorkspaceTypes = ["layout", "widget", "workspace"];
 
@@ -100,6 +101,8 @@ export const WorkspaceModel = (workspaceItem) => {
     //               ),
     //           ];
     workspace.menuId = "menuId" in obj ? obj["menuId"] : 1;
+    workspace.selectedProviders =
+        "selectedProviders" in obj ? obj["selectedProviders"] : {};
 
     return sanitizeWorkspaceObject(workspace);
     // return workspace;

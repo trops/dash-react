@@ -5,7 +5,7 @@ import { mock, MockWrapper } from "@dash";
 import "../../tailwind.css";
 
 export default {
-    title: "InputText",
+    title: "Common/Form/InputText",
     component: InputText,
 };
 

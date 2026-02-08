@@ -10,6 +10,7 @@ import {
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { InstantSearch } from "react-instantsearch-hooks-web";
 import algoliasearch from "algoliasearch";
+import { themes } from "./theme";
 
 // Local Widgets that integrate with Dash
 import * as myWidgets from "../Widgets";
@@ -39,6 +40,7 @@ const MockWrapper = ({
         <div className="flex flex-col h-screen w-full m-0 overflow-clip bg-blue-500 p-4">
             <AppContext.Provider value={getAppContext()}>
                 <ThemeWrapper
+                    theme={themes["theme-1"]}
                     credentials={getAppContext().creds}
                     dashApi={new MockDashboardApi(api)}
                 >

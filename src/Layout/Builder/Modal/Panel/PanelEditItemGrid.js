@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ButtonIcon, MenuItem3, ButtonIcon3, Panel, SelectMenu } from "@dash/Common";
+import {
+    ButtonIcon,
+    MenuItem3,
+    ButtonIcon3,
+    Panel,
+    SelectMenu,
+} from "@dash/Common";
 import { renderLayout, replaceItemInLayout, deepCopy } from "@dash/Utils";
 import { WorkspaceModel, DashboardModel } from "@dash/Models";
 import deepEqual from "deep-equal";
@@ -13,8 +19,14 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
 
     const [itemSelected, setItemSelected] = useState(item);
     const [workspaceSelected, setWorkspaceSelected] = useState(workspace);
-    const [cellSelected, setCellSelected] = useState({ cellNumber: "1.1", component: null, span: null });
-    const [cellsSelected, setCellsSelected] = useState([{ cellNumber: "1.1", component: null, span: null }]);
+    const [cellSelected, setCellSelected] = useState({
+        cellNumber: "1.1",
+        component: null,
+        span: null,
+    });
+    const [cellsSelected, setCellsSelected] = useState([
+        { cellNumber: "1.1", component: null, span: null },
+    ]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -47,7 +59,6 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
             //setIsOpen(false);
         }
     }
-
 
     function updateGridLayout(data) {
         console.log("updateGridLayout ", data);
@@ -89,17 +100,16 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
      * toggle the selected cell
      */
     function handleSelectCell(data) {
-        
         setCellSelected(() => data);
         const cellsSelectedTemp = JSON.parse(JSON.stringify(cellsSelected));
         let hasCell = false;
-        cellsSelectedTemp.forEach(c => {
+        cellsSelectedTemp.forEach((c) => {
             if (c.cellNumber === data.cellNumber) hasCell = true;
         });
 
         let filteredCells = [];
         if (hasCell === true) {
-            cellsSelectedTemp.forEach(c => {
+            cellsSelectedTemp.forEach((c) => {
                 if (c.cellNumber !== data.cellNumber) {
                     filteredCells.push(c);
                 }
@@ -108,9 +118,8 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
             filteredCells = cellsSelectedTemp;
             filteredCells.push(data);
         }
-        
-        console.log("filtered ", filteredCells);
 
+        console.log("filtered ", filteredCells);
 
         // return ONLY TWO CELLS
         setCellsSelected(() => filteredCells.slice(-2));
@@ -193,8 +202,7 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
             setItemSelected(itemSelectedTemp);
 
             handleUpdate(itemSelectedTemp);
-
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
@@ -219,32 +227,43 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
 
             // now call the update
             handleUpdate(itemSelectedTemp);
-            
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
 
-
     function renderGridLayoutFlow() {
         try {
             const gridContents = [];
-            
+
             const dashboard = new DashboardModel(workspaceSelected);
-            let gridLayout = itemSelected.grid || { cols: 1, rows: 1, 1.1: { "component": null }};
-            const compatibleWidgets = ComponentManager.getCompatibleWidgetsForWorkspace(itemSelected.component);
+            let gridLayout = itemSelected.grid || {
+                cols: 1,
+                rows: 1,
+                1.1: { component: null },
+            };
+            const compatibleWidgets =
+                ComponentManager.getCompatibleWidgetsForWorkspace(
+                    itemSelected.component
+                );
 
             const direction = itemSelected.direction;
             const rows = gridLayout["rows"];
             const cols = gridLayout["cols"];
-            const gridFlow = direction === "cols" ? `grid-flow-col grid-rows-${rows}` : `grid-flow-row grid-cols-${cols}`;
-            
+            const gridFlow =
+                direction === "cols"
+                    ? `grid-flow-col grid-rows-${rows}`
+                    : `grid-flow-row grid-cols-${cols}`;
+
             // sanitize the grid layout to make sure we have all of the cells?
-            for(var i = 1; i < gridLayout.rows + 1; i++) {
-                for( var j=1; j < gridLayout.cols + 1; j++) {
+            for (var i = 1; i < gridLayout.rows + 1; i++) {
+                for (var j = 1; j < gridLayout.cols + 1; j++) {
                     const cellNumber = `${i}.${j}`;
                     if (cellNumber in gridLayout === false) {
-                        gridLayout[cellNumber] = {component: null, span: null }
+                        gridLayout[cellNumber] = {
+                            component: null,
+                            span: null,
+                        };
                     }
                     // const cmpToRender = cellNumber in gridLayout ? gridLayout[cellNumber]["component"] : null;
                     // if (cmpToRender === null && nextCellNumber === null) {
@@ -255,8 +274,9 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
 
             console.log("grid layout clean", gridLayout);
 
-
-            const cellsInLayout =  Object.keys(gridLayout).filter(v => v !== "rows" && v !== "cols");
+            const cellsInLayout = Object.keys(gridLayout).filter(
+                (v) => v !== "rows" && v !== "cols"
+            );
 
             function sortObjectByKeys(obj) {
                 const sortedKeys = Object.keys(obj).sort();
@@ -267,42 +287,60 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
                 return sortedObj;
             }
 
-            Object.keys(sortObjectByKeys(gridLayout)).filter(v => v !== "rows" && v !== "cols").forEach(cell => {
-                const cellNumber = cell;
-                const cmpIdToRender = cellNumber in gridLayout ? gridLayout[cellNumber]["component"] : null;
-                const cellData = gridLayout[cellNumber];
+            Object.keys(sortObjectByKeys(gridLayout))
+                .filter((v) => v !== "rows" && v !== "cols")
+                .forEach((cell) => {
+                    const cellNumber = cell;
+                    const cmpIdToRender =
+                        cellNumber in gridLayout
+                            ? gridLayout[cellNumber]["component"]
+                            : null;
+                    const cellData = gridLayout[cellNumber];
 
-                if (cmpIdToRender !== null) {
-                    // get the component based on the id in the grid
-                    // we have to choose the component from the layout that we have in place 
-                    // and pass that component into the LayoutBuilderGridItem component
-                    // with the information for THIS component
+                    if (cmpIdToRender !== null) {
+                        // get the component based on the id in the grid
+                        // we have to choose the component from the layout that we have in place
+                        // and pass that component into the LayoutBuilderGridItem component
+                        // with the information for THIS component
 
-                    const componentToRender = dashboard.getComponentById(cmpIdToRender);
-                    if (componentToRender !== undefined) {
-                        console.log("component to render  ", componentToRender);
-                       
-                        const cell = renderGridCell(cellNumber, cellData, compatibleWidgets, componentToRender);
-                        // gridContents.push(<div className={`h-1/${rows} flex flex-col border-dotted border-gray-600 border-2 w-full  rounded-md p-4 text-gray-200 text-2xl font-bold justify-center items-center align-center`} onClick={() => setCellSelected({ cellNumber, component: componentToRender })}>{componentToRender.component}</div>);
+                        const componentToRender =
+                            dashboard.getComponentById(cmpIdToRender);
+                        if (componentToRender !== undefined) {
+                            console.log(
+                                "component to render  ",
+                                componentToRender
+                            );
+
+                            const cell = renderGridCell(
+                                cellNumber,
+                                cellData,
+                                compatibleWidgets,
+                                componentToRender
+                            );
+                            // gridContents.push(<div className={`h-1/${rows} flex flex-col border-dotted border-gray-600 border-2 w-full  rounded-md p-4 text-gray-200 text-2xl font-bold justify-center items-center align-center`} onClick={() => setCellSelected({ cellNumber, component: componentToRender })}>{componentToRender.component}</div>);
+                            gridContents.push(cell);
+                        }
+                    } else {
+                        // gridContents.push(<div className={`h-1/${rows} flex flex-col border-dotted border-gray-600 border-2 w-full rounded-md p-4 text-gray-200 text-2xl font-bold justify-center items-center align-center`} onClick={() => setCellSelected({ cellNumber, component: null })}>{cellNumber}</div>);
+                        const cell = renderGridCell(
+                            cellNumber,
+                            cellData,
+                            compatibleWidgets
+                        );
                         gridContents.push(cell);
                     }
-                } else {
-                    // gridContents.push(<div className={`h-1/${rows} flex flex-col border-dotted border-gray-600 border-2 w-full rounded-md p-4 text-gray-200 text-2xl font-bold justify-center items-center align-center`} onClick={() => setCellSelected({ cellNumber, component: null })}>{cellNumber}</div>);
-                    const cell = renderGridCell(cellNumber, cellData, compatibleWidgets);
-                    gridContents.push(cell);
-                }   
-            });
-
-
+                });
 
             return (
                 <div className="flex flex-col w-full h-full space-y-4">
-                    <div className={`grid grid-rows-${gridLayout.rows} grid-cols-${gridLayout.cols} gap-4 h-full w-full`}>
+                    <div
+                        className={`grid grid-rows-${gridLayout.rows} grid-cols-${gridLayout.cols} gap-4 h-full w-full`}
+                    >
                         {gridContents}
                     </div>
                 </div>
             );
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return null;
         }
@@ -318,8 +356,8 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
             let isInline = false;
             let rows = [];
             let cols = [];
-            cellsSelected.forEach(cell => {
-                const parts = cell.cellNumber.split(".")
+            cellsSelected.forEach((cell) => {
+                const parts = cell.cellNumber.split(".");
                 rows.push(parts[0]);
                 cols.push(parts[1]);
             });
@@ -330,14 +368,13 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
             console.log("merge SETS ", rowSet, colSet);
 
             if (rowSet.length === 1) {
-                
-                // if we are merging ROW CELLS, 
+                // if we are merging ROW CELLS,
                 // we have to add the span of 2 to the lowest number (cell) in the row
                 // and hide the other cell perhaps?
 
                 let cellToMerge = null;
                 let cellToHide = null;
-                cellsSelected.forEach(c => {
+                cellsSelected.forEach((c) => {
                     if (cellToMerge === null) {
                         cellToMerge = c;
                     } else {
@@ -349,7 +386,9 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
                     }
                 });
 
-                cellToHide = cellsSelected.filter(cell => cell.cellNumber !== cellToMerge.cellNumber)[0];
+                cellToHide = cellsSelected.filter(
+                    (cell) => cell.cellNumber !== cellToMerge.cellNumber
+                )[0];
 
                 console.log("ROW TO MERGE CELLS", cellToMerge);
                 cellToMerge.span = "col-span-2";
@@ -361,20 +400,21 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
             if (colSet.length === 1) {
                 let cellToMerge = null;
                 let cellToHide = null;
-                cellsSelected.forEach(c => {
+                cellsSelected.forEach((c) => {
                     if (cellToMerge === null) {
                         cellToMerge = c;
                     } else {
                         const cellParts = c.cellNumber.split(".");
                         const colPart = cellParts[0];
                         if (colPart < cellToMerge.cellNumber.split(".")[0]) {
-                            
                             cellToMerge = c;
                         }
                     }
                 });
                 console.log("COL TO MERGE CELLS", cellToMerge);
-                cellToHide = cellsSelected.filter(cell => cell.cellNumber !== cellToMerge.cellNumber)[0];
+                cellToHide = cellsSelected.filter(
+                    (cell) => cell.cellNumber !== cellToMerge.cellNumber
+                )[0];
                 cellToMerge.span = "row-span-2";
                 cellToHide.hide = true;
                 gridLayout[cellToMerge.cellNumber] = cellToMerge;
@@ -389,8 +429,7 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
 
             handleUpdate(itemSelectedTemp);
             // determine if these are in a column or a row...
-
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
@@ -405,7 +444,7 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
         let cols = gridLayout.cols + 1;
         gridLayout.cols = cols;
 
-        // now we have to loop through ALL of the other rows and 
+        // now we have to loop through ALL of the other rows and
         // add a span
 
         itemSelectedTemp.grid = gridLayout;
@@ -413,9 +452,14 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
         setItemSelected(itemSelectedTemp);
     }
 
-
     function handleSelectWidget(componentName, cellNumber, cellData) {
-        console.log(componentName, cellNumber, cellData, workspaceSelected, itemSelected);
+        console.log(
+            componentName,
+            cellNumber,
+            cellData,
+            workspaceSelected,
+            itemSelected
+        );
 
         const tempItemSelected = deepCopy(itemSelected);
         tempItemSelected.grid[cellNumber] = { component: componentName };
@@ -432,10 +476,10 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
         let gridLayout = itemSelectedTemp.grid;
         if (!gridLayout) {
             gridLayout = {
-                "rows": 1,
-                "cols": 1,
-                "1.1": { component: null }
-            }
+                rows: 1,
+                cols: 1,
+                1.1: { component: null },
+            };
         }
 
         const { position, cellNumber, cellData } = data;
@@ -458,15 +502,18 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
                 // we have to move all of the cells with row = current to the higher
                 // and do the same for all subsequent cell keys...
                 let tempGridLayout = {
-                    "rows": gridLayout.rows,
-                    "cols": gridLayout.cols,
+                    rows: gridLayout.rows,
+                    cols: gridLayout.cols,
                 };
 
                 // we need to fill in any cells due to the additional row
-                for(var i=1; i < gridLayout.rows + 1; i++) {
-                    for( var j=1; j < gridLayout.cols + 1; j++) {
-
-                        tempGridLayout[`${i}.${j}`] = { component: null, hide: false, span: null };
+                for (var i = 1; i < gridLayout.rows + 1; i++) {
+                    for (var j = 1; j < gridLayout.cols + 1; j++) {
+                        tempGridLayout[`${i}.${j}`] = {
+                            component: null,
+                            hide: false,
+                            span: null,
+                        };
                     }
                 }
 
@@ -476,48 +523,69 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
                 if (gridLayout.cols > 1) {
                     // because we have multiple columns we will have to add a span
                     // that is 1 more than the current span if there is one
-                    Object.keys(tempGridLayout).filter(c => c !== "rows" && c !== "cols").forEach(cell => {
-                        console.log("number ", cell);
-                        const cellParts = cell.split(".");
+                    Object.keys(tempGridLayout)
+                        .filter((c) => c !== "rows" && c !== "cols")
+                        .forEach((cell) => {
+                            console.log("number ", cell);
+                            const cellParts = cell.split(".");
 
-                        const cellRowNumber = parseInt(cellParts[0]);
-                        const cellColNumber = parseInt(cellParts[1]);
+                            const cellRowNumber = parseInt(cellParts[0]);
+                            const cellColNumber = parseInt(cellParts[1]);
 
-                        console.log("cell ", cell, rowNumber, rowNumber + 1, cellRowNumber, rowNumber + 1 === cellRowNumber);
+                            console.log(
+                                "cell ",
+                                cell,
+                                rowNumber,
+                                rowNumber + 1,
+                                cellRowNumber,
+                                rowNumber + 1 === cellRowNumber
+                            );
 
-                        const tempCell = cell in gridLayout ? gridLayout[cell] : tempGridLayout[cell];
+                            const tempCell =
+                                cell in gridLayout
+                                    ? gridLayout[cell]
+                                    : tempGridLayout[cell];
 
-                        
-                        // if the column is NOT the current column selected
-                        if (cellColNumber !== colNumber) {
-                            //const cellAdjustment = position === "top" ? parseInt(cellParts[0]) + 1 : parseInt(cellParts[0]);
-                            if (cellRowNumber === rowNumber) {
-                                tempGridLayout[cell] = tempCell;
-                                const currentSpan = tempCell["span"] || null;
-                                const spanNumber = currentSpan !== null ? currentSpan.split("-").pop() : 1;
-                                tempGridLayout[cell]["span"] = currentSpan === null ? "row-span-2" : `row-span-${parseInt(spanNumber) + 1}`;
-
-                            } else if ((rowNumber + 1) === cellRowNumber) {
-                                console.log("hide cell ", cell, tempGridLayout);
-                                tempGridLayout[cell] = tempCell;
-                                tempGridLayout[cell]["hide"] = true;
+                            // if the column is NOT the current column selected
+                            if (cellColNumber !== colNumber) {
+                                //const cellAdjustment = position === "top" ? parseInt(cellParts[0]) + 1 : parseInt(cellParts[0]);
+                                if (cellRowNumber === rowNumber) {
+                                    tempGridLayout[cell] = tempCell;
+                                    const currentSpan =
+                                        tempCell["span"] || null;
+                                    const spanNumber =
+                                        currentSpan !== null
+                                            ? currentSpan.split("-").pop()
+                                            : 1;
+                                    tempGridLayout[cell]["span"] =
+                                        currentSpan === null
+                                            ? "row-span-2"
+                                            : `row-span-${parseInt(spanNumber) + 1}`;
+                                } else if (rowNumber + 1 === cellRowNumber) {
+                                    console.log(
+                                        "hide cell ",
+                                        cell,
+                                        tempGridLayout
+                                    );
+                                    tempGridLayout[cell] = tempCell;
+                                    tempGridLayout[cell]["hide"] = true;
+                                } else {
+                                    tempGridLayout[cell] = tempCell;
+                                    // tempGridLayout[cell]["hide"] = true;
+                                }
                             } else {
+                                // add normally
                                 tempGridLayout[cell] = tempCell;
-                                // tempGridLayout[cell]["hide"] = true;
                             }
-                            
-                        } else {
-                            // add normally
-                            tempGridLayout[cell] = tempCell;
-                        }
-                    });
+                        });
                 } else {
                     // lets just add the new row no need to do anything else
-                    Object.keys(gridLayout).filter(c => c !== "rows" && c !== "cols").forEach(cell => {
-                        tempGridLayout[cell] = gridLayout[cell];
-                    });
+                    Object.keys(gridLayout)
+                        .filter((c) => c !== "rows" && c !== "cols")
+                        .forEach((cell) => {
+                            tempGridLayout[cell] = gridLayout[cell];
+                        });
                 }
-
 
                 gridLayout = tempGridLayout;
             }
@@ -532,46 +600,49 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
         // let cols = gridLayout.cols + 1;
         // gridLayout.cols = cols;
 
-        // now we have to loop through ALL of the other rows and 
+        // now we have to loop through ALL of the other rows and
         // add a span
 
         itemSelectedTemp.grid = gridLayout;
 
         setItemSelected(itemSelectedTemp);
-
     }
 
     function handleDeleteCell(data) {
         console.log("delete cell ", data);
     }
     /**
-     * 
-     * @param {*} cellNumber 
-     * @param {*} component 
-     * @returns 
+     *
+     * @param {*} cellNumber
+     * @param {*} component
+     * @returns
      */
-    function renderGridCell(cellNumber, cellData, compatibleWidgets = [], component = null) {
-
+    function renderGridCell(
+        cellNumber,
+        cellData,
+        compatibleWidgets = [],
+        component = null
+    ) {
         const dashboard = new DashboardModel(workspaceSelected);
 
         return (
-            <GridEditTile 
-                cellData={cellData} 
-                cellsSelected={cellsSelected} 
-                cellNumber={cellNumber} 
-                component={component} 
-                dashboard={dashboard} 
-                compatibleWidgets={compatibleWidgets} 
+            <GridEditTile
+                cellData={cellData}
+                cellsSelected={cellsSelected}
+                cellNumber={cellNumber}
+                component={component}
+                dashboard={dashboard}
+                compatibleWidgets={compatibleWidgets}
                 handleSelectCell={handleSelectCell}
-                handleSplitCell={handleSplitCell} 
-                handleSelectWidget={handleSelectWidget} 
+                handleSplitCell={handleSplitCell}
+                handleSelectWidget={handleSelectWidget}
                 handleAddCell={handleAddCell}
                 handleDeleteCell={handleDeleteCell}
             />
         );
 
         // const bgColor = component !== null ? dashboard.getContainerColor(component) : "";
-        
+
         // const direction = itemSelected.direction;
         // const spanValue = "span" in cellData && cellData["span"] !== null ? `${cellData["span"]}` : "";
 
@@ -591,7 +662,7 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
         //                     return (<option value={cw}>{cw}</option>);
         //                 })}
         //             </SelectMenu>
-                    
+
         //         </div>
         //         <div className="flex flex-row w-full justify-end p-1 space-x-1">
         //             <ButtonIcon3
@@ -622,92 +693,97 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
 
     function renderGridLayout() {
         try {
-
             const gridContents = [];
-            
+
             const dashboard = new DashboardModel(workspaceSelected);
             const gridLayout = itemSelected.grid;
 
+            for (var i = 1; i < gridLayout.rows + 1; i++) {
+                for (var j = 1; j < gridLayout.cols + 1; j++) {
+                    const cellNumber = `${i}.${j}`;
+                    const cmpIdToRender =
+                        cellNumber in gridLayout
+                            ? gridLayout[cellNumber]["component"]
+                            : null;
 
-               for(var i = 1; i < gridLayout.rows + 1; i++) {
-                   for( var j=1; j < gridLayout.cols + 1; j++) {
-
-                        const cellNumber = `${i}.${j}`;
-                        const cmpIdToRender = cellNumber in gridLayout ? gridLayout[cellNumber]["component"] : null;
-
-                        if (cmpIdToRender !== null) {
-                            
-                            // get the component based on the id in the grid
-                            // we have to choose the component from the layout that we have in place 
-                            // and pass that component into the LayoutBuilderGridItem component
-                            // with the information for THIS component
-                            const componentToRender = dashboard.getComponentById(cmpIdToRender);
-                            const cell = renderGridCell(cellNumber, componentToRender);
-                            if (componentToRender) {
-                                gridContents.push(cell);
-                            }
-                        } else {
-                            const cell = renderGridCell(cellNumber, null);
+                    if (cmpIdToRender !== null) {
+                        // get the component based on the id in the grid
+                        // we have to choose the component from the layout that we have in place
+                        // and pass that component into the LayoutBuilderGridItem component
+                        // with the information for THIS component
+                        const componentToRender =
+                            dashboard.getComponentById(cmpIdToRender);
+                        const cell = renderGridCell(
+                            cellNumber,
+                            componentToRender
+                        );
+                        if (componentToRender) {
                             gridContents.push(cell);
-                        }    
+                        }
+                    } else {
+                        const cell = renderGridCell(cellNumber, null);
+                        gridContents.push(cell);
+                    }
                 }
             }
-                return (
+            return (
                 <div className="flex flex-col w-full h-full space-y-4">
                     <div className="flex flex-row w-full h-full space-x-4">
-                        <div className={`grid grid-cols-${gridLayout["cols"] || 1} grid-rows-${gridLayout["rows"] || 1} gap-4 h-full w-full`}>
+                        <div
+                            className={`grid grid-cols-${gridLayout["cols"] || 1} grid-rows-${gridLayout["rows"] || 1} gap-4 h-full w-full`}
+                        >
                             {gridContents}
                         </div>
                     </div>
                 </div>
-                );
-        } catch(e) {
+            );
+        } catch (e) {
             console.log(e);
             return null;
         }
     }
 
-     
-     /**
-         * render the widgets available in the application limited by the workspace
-         * @returns 
-         */
-        function renderWidgets() {
-            const componentMap = ComponentManager.map();
-            const workspaceType = itemSelected ? itemSelected["workspace"] : null;
-            const canAddChildren = itemSelected ? itemSelected["canHaveChildren"] : true;
-    
-            const parentWorkspaceType =
-                itemSelected["parentWorkspaceName"] !== null &&
-                itemSelected["parentWorkspaceName"] !== undefined
-                    ? itemSelected["parentWorkspaceName"]
-                    : "layout";
-    
-            if (parentWorkspaceType !== null) {
-                const options =
-                    workspaceType !== null &&
-                    canAddChildren &&
-                    Object.keys(componentMap)
-                        .sort()
-                        .filter((c) => componentMap[c]["type"] === "widget")
-                        .filter((c) =>
-                            workspaceType !== null
-                                ? componentMap[c]["workspace"] ===
-                                  parentWorkspaceType
-                                : true
-                        )
-                        .map((w) => renderMenuItem("widget", w));
-    
-                return (
-                    <div className="flex flex-col rounded space-y-1">{options}</div>
-                );
-            } else {
-                return <div className="flex flex-col rounded"></div>;
-            }
+    /**
+     * render the widgets available in the application limited by the workspace
+     * @returns
+     */
+    function renderWidgets() {
+        const componentMap = ComponentManager.map();
+        const workspaceType = itemSelected ? itemSelected["workspace"] : null;
+        const canAddChildren = itemSelected
+            ? itemSelected["canHaveChildren"]
+            : true;
+
+        const parentWorkspaceType =
+            itemSelected["parentWorkspaceName"] !== null &&
+            itemSelected["parentWorkspaceName"] !== undefined
+                ? itemSelected["parentWorkspaceName"]
+                : "layout";
+
+        if (parentWorkspaceType !== null) {
+            const options =
+                workspaceType !== null &&
+                canAddChildren &&
+                Object.keys(componentMap)
+                    .sort()
+                    .filter((c) => componentMap[c]["type"] === "widget")
+                    .filter((c) =>
+                        workspaceType !== null
+                            ? componentMap[c]["workspace"] ===
+                              parentWorkspaceType
+                            : true
+                    )
+                    .map((w) => renderMenuItem("widget", w));
+
+            return (
+                <div className="flex flex-col rounded space-y-1">{options}</div>
+            );
+        } else {
+            return <div className="flex flex-col rounded"></div>;
         }
-     
-    
-          function renderMenuItem(type, componentName) {
+    }
+
+    function renderMenuItem(type, componentName) {
         //console.log("type and componnet ", type, componentName);
         return (
             <MenuItem3
@@ -728,41 +804,55 @@ export const PanelEditItemGrid = ({ workspace, onUpdate, item = null }) => {
                 <div className={`flex flex-col w-full h-full overflow-clip`}>
                     <div className="flex flex-col w-full h-full overflow-clip">
                         <div className="flex flex-row w-full h-full overflow-clip space-x-4 justify-between">
-
-                        <div className="flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3 justify-between">
-                            <div className="flex flex-col rounded p-4 py-10 space-y-4">
-                                <p className={`text-5xl font-bold ${theme["text-secondary-very-light"]}`}>Layout.</p>
-                                <p className={`text-xl font-normal ${theme["text-secondary-light"]}`}>
-                                    Add and Remove rows and columns to create your layout. You may also merge and split cells to create a more complex layout.
-                                </p>
+                            <div className="flex-col h-full rounded font-medium text-gray-400 w-full hidden xl:flex lg:w-1/3 justify-between">
+                                <div className="flex flex-col rounded p-4 py-10 space-y-4">
+                                    <p
+                                        className={`text-5xl font-bold ${theme["text-secondary-very-light"]}`}
+                                    >
+                                        Layout.
+                                    </p>
+                                    <p
+                                        className={`text-xl font-normal ${theme["text-secondary-light"]}`}
+                                    >
+                                        Add and Remove rows and columns to
+                                        create your layout. You may also merge
+                                        and split cells to create a more complex
+                                        layout.
+                                    </p>
+                                </div>
+                                <div className="flex flex-col rounded p-4 space-y-2 justify-end">
+                                    <div className="flex flex-row space-x-2 items-center">
+                                        <ButtonIcon icon="arrow-right-from-bracket" />
+                                        <span>To merge a cell</span>
+                                    </div>
+                                    <div className="flex flex-row space-x-2 items-center">
+                                        <ButtonIcon icon="arrow-right-to-bracket" />
+                                        <span>To split a cell</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex flex-col rounded p-4 space-y-2 justify-end">
-                                <div className="flex flex-row space-x-2 items-center"><ButtonIcon icon="arrow-right-from-bracket" /><span>To merge a cell</span></div>
-                                <div className="flex flex-row space-x-2 items-center"><ButtonIcon icon="arrow-right-to-bracket" /><span>To split a cell</span></div>
-                            </div>
-                        </div>
-                        
 
-
-
-
-                        <div
-                            className={`flex flex-col w-full h-full rounded space-y-2 border-2 border-dashed ${theme["border-secondary-very-dark"]}`}
-                        >
-                            <div className={`flex flex-col h-full w-full overflow-y-auto`}>
-                                <GridEditor onUpdate={updateGridLayout} initialGrid={itemSelected.grid} />
-                                {/* {itemSelected !== null &&
+                            <div
+                                className={`flex flex-col w-full h-full rounded space-y-2 border-2 border-dashed ${theme["border-secondary-very-dark"]}`}
+                            >
+                                <div
+                                    className={`flex flex-col h-full w-full overflow-y-auto`}
+                                >
+                                    <GridEditor
+                                        onUpdate={updateGridLayout}
+                                        initialGrid={itemSelected.grid}
+                                    />
+                                    {/* {itemSelected !== null &&
                                     workspaceSelected !== null &&
                                     renderGridLayoutFlow()} */}
+                                </div>
                             </div>
-                        </div>
 
-                    {/* <div className="flex flex-col w-1/4 h-full text-xs">
+                            {/* <div className="flex flex-col w-1/4 h-full text-xs">
                         {JSON.stringify(itemSelected, null, 4)}
                     </div> */}
-
+                        </div>
                     </div>
-                </div>
                 </div>
             </Panel>
         )

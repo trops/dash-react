@@ -3,7 +3,7 @@ import { mock, MockWrapper } from "@dash";
 import "@dash/tailwind.css";
 
 export default {
-    title: "LayoutBuilderWidgetConfigPanel",
+    title: "Layout/Builder/LayoutBuilderWidgetConfigPanel",
     component: LayoutBuilderWidgetConfigPanel,
 };
 
@@ -12,7 +12,11 @@ const Template = (args) => {
     //console.log("workspaces ", workspaces.workspaces[0].layout[1]);
     return (
         <MockWrapper api={mock.api} theme={mock.themes} args={args}>
-            <LayoutBuilderWidgetConfigPanel {...args} layoutItem={workspaces.workspaces[0].layout[1]["component"]} open={true} />
+            <LayoutBuilderWidgetConfigPanel
+                {...args}
+                layoutItem={workspaces.workspaces[0].layout[1]["component"]}
+                open={true}
+            />
         </MockWrapper>
     );
 };
