@@ -36,3 +36,5 @@ export * from "./AlgoliaUI";
 export * from "./DashPanel";
 
 export * from "./Draggable";
+
+export * from "./Menu";
