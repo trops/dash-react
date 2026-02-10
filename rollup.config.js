@@ -46,7 +46,7 @@ const PLUGINS = [
         include: "node_modules/**",
     }),
     filesize(),
-    typescript({ sourceMap: true, rootDir: "./src" }),
+    // typescript({ sourceMap: true, rootDir: "./src", noEmit: true, compilerOptions: { declaration: false } }),
     strip(),
 ];
 

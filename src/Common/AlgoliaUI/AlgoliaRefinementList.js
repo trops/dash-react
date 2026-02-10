@@ -1,7 +1,6 @@
 import React from "react";
 import { useRefinementList } from "react-instantsearch-hooks-web";
 import { Tag } from "../Tag";
-import { Widget } from "@dash/Widget";
 
 export const AlgoliaRefinementList = ({
     width = "w-auto",
@@ -19,8 +18,8 @@ export const AlgoliaRefinementList = ({
     return (
         attribute &&
         attribute !== "" && (
-            <Widget>
-                <ul className={`flex flex-col space-y-1 ${width} ${height}`}>
+            <div className={`flex flex-col ${width} ${height}`}>
+                <ul className="flex flex-col space-y-1">
                     {items.map((item) => (
                         <li
                             key={item.label}
@@ -45,7 +44,7 @@ export const AlgoliaRefinementList = ({
                         </li>
                     ))}
                 </ul>
-            </Widget>
+            </div>
         )
     );
 };

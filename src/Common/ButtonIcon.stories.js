@@ -57,7 +57,6 @@ Primary.args = {
     text: "ButtonIcon",
     icon: "pencil",
     block: false,
-    backgroundColor: "bg-yellow-800",
 };
 
 Secondary.args = {
@@ -65,7 +64,6 @@ Secondary.args = {
     text: "ButtonIcon 2",
     icon: "pencil",
     block: false,
-    backgroundColor: "bg-yellow-800",
 };
 
 Tertiary.args = {
@@ -73,7 +71,6 @@ Tertiary.args = {
     text: "ButtonIcon 3",
     icon: "cog",
     block: false,
-    backgroundColor: "bg-yellow-800",
 };
 
 TertiaryWithHeading.args = {
@@ -81,6 +78,5 @@ TertiaryWithHeading.args = {
     text: "ButtonIcon 3",
     icon: "cog",
     block: false,
-    backgroundColor: "bg-yellow-800",
     direction: "row",
 };

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects, getUUID } from "../Utils";
+import { getStylesForItem, themeObjects, getUUID } from "@dash/Utils";
 
 export const LayoutContainer = ({
     id,
