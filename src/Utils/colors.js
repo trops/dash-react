@@ -592,13 +592,22 @@ const getStylesForItem = (
                     prioritizeThemeValues[k] = theme[themeKey];
                 } else {
                     // Debug: Log missing theme keys for any component with textColor
-                    if (k === 'textColor') {
-                        console.log(`[getStylesForItem] ❌ Missing theme key for ${itemName}!`, {
-                            component: itemName,
-                            lookingFor: themeKey,
-                            availableTextKeys: theme ? Object.keys(theme).filter(key => key.includes('text-')).slice(0, 10) : [],
-                            themeIsNull: theme === null
-                        });
+                    if (k === "textColor") {
+                        console.log(
+                            `[getStylesForItem] ❌ Missing theme key for ${itemName}!`,
+                            {
+                                component: itemName,
+                                lookingFor: themeKey,
+                                availableTextKeys: theme
+                                    ? Object.keys(theme)
+                                          .filter((key) =>
+                                              key.includes("text-")
+                                          )
+                                          .slice(0, 10)
+                                    : [],
+                                themeIsNull: theme === null,
+                            }
+                        );
                     }
                     prioritizeThemeValues[k] = themeKey;
                 }
@@ -804,9 +813,10 @@ const getStylesForItem = (
 
             // Debug: Log styles for all components to see text colors
             console.log(`[getStylesForItem] ✓ ${itemName}:`, {
-                textColor: stylesObject.textColor || 'MISSING',
-                backgroundColor: stylesObject.backgroundColor || 'MISSING',
-                hasTextInString: stylesObject.string?.includes('text-') || false,
+                textColor: stylesObject.textColor || "MISSING",
+                backgroundColor: stylesObject.backgroundColor || "MISSING",
+                hasTextInString:
+                    stylesObject.string?.includes("text-") || false,
             });
             return stylesObject;
         }

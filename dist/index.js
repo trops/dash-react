@@ -301,6 +301,7 @@ var getStylesForItem = function getStylesForItem() {
   var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   try {
     if (itemName !== null) {
+      var _stylesObject$string;
       // get the colors from the theme by default
       // this is a MAP like "bg-primary-dark" which needs to
       // fetch its value from the actual theme based on this key mapping
@@ -320,10 +321,14 @@ var getStylesForItem = function getStylesForItem() {
       // now we have to get the TRUE value from the class from the theme...
       var prioritizeThemeValues = {};
       Object.keys(prioritizeThemeOverrides).forEach(function (k) {
-        if (prioritizeThemeOverrides[k] in theme) {
-          prioritizeThemeValues[k] = theme[prioritizeThemeOverrides[k]];
+        var themeKey = prioritizeThemeOverrides[k];
+        if (themeKey in theme) {
+          prioritizeThemeValues[k] = theme[themeKey];
         } else {
-          prioritizeThemeValues[k] = prioritizeThemeOverrides[k];
+          // Debug: Log missing theme keys for any component with textColor
+          if (k === "textColor") {
+          }
+          prioritizeThemeValues[k] = themeKey;
         }
       });
 
@@ -430,7 +435,7 @@ var getStylesForItem = function getStylesForItem() {
         }).join(" ")
       }, finalStyles);
 
-      // console.log("STYLES OBJECT ", itemName, stylesObject);
+      // Debug: Log styles for all components to see text colors
       return stylesObject;
     }
   } catch (e) {
