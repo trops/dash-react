@@ -620,9 +620,9 @@ const getStylesForItem = (
                 const themeKey = prioritizeThemeOverrides[k];
                 console.log(
                     `[getStylesForItem] Looking up theme key "${themeKey}" in theme:`,
-                    themeKey in theme ? theme[themeKey] : "NOT FOUND"
+                    theme && themeKey in theme ? theme[themeKey] : "NOT FOUND"
                 );
-                if (themeKey in theme) {
+                if (theme && themeKey in theme) {
                     prioritizeThemeValues[k] = theme[themeKey];
                 } else {
                     prioritizeThemeValues[k] = themeKey;
