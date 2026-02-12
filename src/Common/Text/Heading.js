@@ -11,6 +11,9 @@ function Heading({
     backgroundColor = null,
     className = "",
 }) {
+    console.log("[Heading] Component rendering. themeObjects:", themeObjects);
+    console.log("[Heading] themeObjects.HEADING:", themeObjects.HEADING);
+
     const { currentTheme } = useContext(ThemeContext);
     console.log(
         "[Heading] currentTheme from context:",

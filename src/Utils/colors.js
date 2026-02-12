@@ -560,6 +560,7 @@ const getStylesForItem = (
     overrides = {},
     id = null
 ) => {
+    console.log(`[getStylesForItem] CALLED with itemName="${itemName}", theme=${theme ? 'OBJECT' : 'NULL'}`);
     try {
         if (itemName !== null) {
             console.log(`\n[getStylesForItem] === Processing ${itemName} ===`);

@@ -117,6 +117,10 @@ const Panel = ({
 }) => {
     // Fetch the Styles from the utility
     const { currentTheme } = useContext(ThemeContext);
+    console.log("[Panel] themeObjects:", themeObjects);
+    console.log("[Panel] themeObjects.PANEL:", themeObjects.PANEL);
+    console.log("[Panel] currentTheme:", currentTheme ? 'OBJECT with ' + Object.keys(currentTheme).length + ' keys' : 'NULL');
+
     const styles = getStylesForItem(themeObjects.PANEL, currentTheme, {
         ...props,
         direction: horizontal === true ? "row" : "col",
