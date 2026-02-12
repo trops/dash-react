@@ -23,7 +23,8 @@ for (const colorName in tailwindColors) {
     if (typeof pallette === "object") {
         shades.forEach((shade) => {
             if (shade in pallette) {
-                // colorSafeList.push(`text-${colorName}-${shade}`)  <-- You can add different colored text as well
+                colorSafeList.push(`text-${colorName}-${shade}`);
+                colorSafeList.push(`hover:text-${colorName}-${shade}`);
                 colorSafeList.push(`scrollbar-thumb-${colorName}-${shade}`);
                 colorSafeList.push(`scrollbar-track-${colorName}-${shade}`);
             }

@@ -587,11 +587,20 @@ const getStylesForItem = (
             // now we have to get the TRUE value from the class from the theme...
             const prioritizeThemeValues = {};
             Object.keys(prioritizeThemeOverrides).forEach((k) => {
-                if (prioritizeThemeOverrides[k] in theme) {
-                    prioritizeThemeValues[k] =
-                        theme[prioritizeThemeOverrides[k]];
+                const themeKey = prioritizeThemeOverrides[k];
+                if (themeKey in theme) {
+                    prioritizeThemeValues[k] = theme[themeKey];
                 } else {
-                    prioritizeThemeValues[k] = prioritizeThemeOverrides[k];
+                    // Debug: Log missing theme keys for any component with textColor
+                    if (k === 'textColor') {
+                        console.log(`[getStylesForItem] ❌ Missing theme key for ${itemName}!`, {
+                            component: itemName,
+                            lookingFor: themeKey,
+                            availableTextKeys: theme ? Object.keys(theme).filter(key => key.includes('text-')).slice(0, 10) : [],
+                            themeIsNull: theme === null
+                        });
+                    }
+                    prioritizeThemeValues[k] = themeKey;
                 }
             });
 
@@ -793,17 +802,34 @@ const getStylesForItem = (
                 ...finalStyles,
             };
 
-            // console.log("STYLES OBJECT ", itemName, stylesObject);
+            // Debug: Log styles for all components to see text colors
+            console.log(`[getStylesForItem] ✓ ${itemName}:`, {
+                textColor: stylesObject.textColor || 'MISSING',
+                backgroundColor: stylesObject.backgroundColor || 'MISSING',
+                hasTextInString: stylesObject.string?.includes('text-') || false,
+            });
             return stylesObject;
         }
     } catch (e) {
         console.log("getStylesforItem", e.message);
         return {
             string: "",
+            backgroundColor: "",
+            textColor: "",
+            borderColor: "",
+            hoverBackgroundColor: "",
+            hoverTextColor: "",
+            hoverBorderColor: "",
         };
     }
     return {
-        string: null,
+        string: "",
+        backgroundColor: "",
+        textColor: "",
+        borderColor: "",
+        hoverBackgroundColor: "",
+        hoverTextColor: "",
+        hoverBorderColor: "",
     };
 };
 

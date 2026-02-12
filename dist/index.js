@@ -435,11 +435,23 @@ var getStylesForItem = function getStylesForItem() {
     }
   } catch (e) {
     return {
-      string: ""
+      string: "",
+      backgroundColor: "",
+      textColor: "",
+      borderColor: "",
+      hoverBackgroundColor: "",
+      hoverTextColor: "",
+      hoverBorderColor: ""
     };
   }
   return {
-    string: null
+    string: "",
+    backgroundColor: "",
+    textColor: "",
+    borderColor: "",
+    hoverBackgroundColor: "",
+    hoverTextColor: "",
+    hoverBorderColor: ""
   };
 };
 var getStyleValueVariant = function getStyleValueVariant(className, obj) {
