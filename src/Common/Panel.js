@@ -87,8 +87,6 @@ const PanelFooter = ({
         height: "h-fit",
         grow: false,
     });
-
-    console.log("PanelFooter styles", styles);
     return (
         <div
             className={`flex flex-row rounded-b justify-between items-center ${className} ${
@@ -117,15 +115,6 @@ const Panel = ({
 }) => {
     // Fetch the Styles from the utility
     const { currentTheme } = useContext(ThemeContext);
-    console.log("[Panel] themeObjects:", themeObjects);
-    console.log("[Panel] themeObjects.PANEL:", themeObjects.PANEL);
-    console.log(
-        "[Panel] currentTheme:",
-        currentTheme
-            ? "OBJECT with " + Object.keys(currentTheme).length + " keys"
-            : "NULL"
-    );
-
     const styles = getStylesForItem(themeObjects.PANEL, currentTheme, {
         ...props,
         direction: horizontal === true ? "row" : "col",
@@ -133,18 +122,6 @@ const Panel = ({
         grow,
         width,
         height,
-    });
-
-    console.log("[Panel] styles:", {
-        backgroundColor: styles.backgroundColor,
-        borderColor: styles.borderColor,
-        textColor: styles.textColor,
-        fullString: styles.string,
-        currentThemeKeys: currentTheme
-            ? Object.keys(currentTheme)
-                  .filter((k) => k.includes("bg-primary"))
-                  .slice(0, 10)
-            : "NO THEME",
     });
 
     return (
