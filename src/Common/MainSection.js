@@ -14,12 +14,10 @@ export const MainSection = ({ children, backgroundColor = null }) => {
     }
 
     return (
-        currentTheme !== null && (
-            <div
-                className={`flex flex-col ${backgroundColorStyle()} h-full overflow-clip w-full p-0 m-0`}
-            >
-                {children}
-            </div>
-        )
+        <div
+            className={`flex flex-col ${backgroundColorStyle()} h-full overflow-clip w-full p-0 m-0`}
+        >
+            {children}
+        </div>
     );
 };
