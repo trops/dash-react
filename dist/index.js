@@ -3986,7 +3986,7 @@ var MainSection = function MainSection(_ref) {
   function backgroundColorStyle() {
     return backgroundColor !== null ? backgroundColor : currentTheme ? currentTheme["bg-primary-very-dark"] : "bg-black";
   }
-  return currentTheme !== null && /*#__PURE__*/jsx("div", {
+  return /*#__PURE__*/jsx("div", {
     className: "flex flex-col ".concat(backgroundColorStyle(), " h-full overflow-clip w-full p-0 m-0"),
     children: children
   });
