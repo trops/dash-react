@@ -283,7 +283,6 @@ var prioritizeClasses = function prioritizeClasses(high, low) {
     });
     return _objectSpread$t(_objectSpread$t({}, high), low);
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
@@ -300,25 +299,16 @@ var getStylesForItem = function getStylesForItem() {
   var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  console.log("[getStylesForItem] CALLED with itemName=\"".concat(itemName, "\", theme=").concat(theme ? "OBJECT" : "NULL"));
   try {
     if (itemName !== null) {
-      console.log("\n[getStylesForItem] === Processing ".concat(itemName, " ==="));
-      console.log("[getStylesForItem] Theme is:", theme ? "OBJECT" : "NULL");
-      if (theme) {
-        console.log("[getStylesForItem] Theme keys (first 15):", Object.keys(theme).slice(0, 15));
-      }
-
       // get the colors from the theme by default
       // this is a MAP like "bg-primary-dark" which needs to
       // fetch its value from the actual theme based on this key mapping
       var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
-      console.log("[getStylesForItem] Default styles for ".concat(itemName, ":"), defaultStyles);
 
       // then we have to determine if this item has any theme overrides
       // this uses the THEME LANGUAGE to override
       var themeOverrides = theme !== null && itemName in theme ? theme[itemName] : {};
-      console.log("[getStylesForItem] Theme overrides for ".concat(itemName, ":"), themeOverrides);
 
       // then we have to determine if the component has any MANUAL overrides
       // this uses CSS CLASSES to override, no need to translate
@@ -326,20 +316,17 @@ var getStylesForItem = function getStylesForItem() {
 
       // Prioritizing ClassNames here
       var prioritizeThemeOverrides = prioritizeClasses(themeOverrides, defaultStyles);
-      console.log("[getStylesForItem] After prioritize (theme/default):", prioritizeThemeOverrides);
 
       // now we have to get the TRUE value from the class from the theme...
       var prioritizeThemeValues = {};
       Object.keys(prioritizeThemeOverrides).forEach(function (k) {
         var themeKey = prioritizeThemeOverrides[k];
-        console.log("[getStylesForItem] Looking up theme key \"".concat(themeKey, "\" in theme:"), theme && themeKey in theme ? theme[themeKey] : "NOT FOUND");
         if (theme && themeKey in theme) {
           prioritizeThemeValues[k] = theme[themeKey];
         } else {
           prioritizeThemeValues[k] = themeKey;
         }
       });
-      console.log("[getStylesForItem] Prioritized theme values:", prioritizeThemeValues);
 
       // now we can prioritize the manual overrides if there are any
       var prioritizedStyles = prioritizeClasses(manualOverrides, prioritizeThemeValues);
@@ -443,17 +430,9 @@ var getStylesForItem = function getStylesForItem() {
           return v.trim().replaceAll("overflow-hidden", "overflow-clip");
         }).join(" ")
       }, finalStyles);
-      console.log("[getStylesForItem] FINAL OUTPUT for ".concat(itemName, ":"), {
-        string: stylesObject.string,
-        backgroundColor: stylesObject.backgroundColor,
-        textColor: stylesObject.textColor,
-        borderColor: stylesObject.borderColor
-      });
-      console.log("[getStylesForItem] === End ".concat(itemName, " ===\n"));
       return stylesObject;
     }
   } catch (e) {
-    console.log("getStylesforItem", e.message);
     return {
       string: "",
       backgroundColor: "",
@@ -623,10 +602,6 @@ var LayoutContainer = function LayoutContainer(_ref) {
   // get the styles
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  console.log("[LayoutContainer] Component rendering");
-  console.log("[LayoutContainer] themeObjects.LAYOUT_CONTAINER:", themeObjects.LAYOUT_CONTAINER);
-  console.log("[LayoutContainer] currentTheme:", currentTheme ? "OBJECT with " + Object.keys(currentTheme).length + " keys" : "NULL");
-  console.log("[LayoutContainer] containerId:", containerId);
   var styles = getStylesForItem(themeObjects.LAYOUT_CONTAINER, currentTheme, {
     scrollable: scrollable,
     width: width,
@@ -638,7 +613,6 @@ var LayoutContainer = function LayoutContainer(_ref) {
     space: space,
     padding: padding
   }, containerId);
-  console.log("[LayoutContainer] Styles received:", styles);
 
   //console.log("layout container styles ", styles);
 
@@ -759,7 +733,6 @@ var PanelFooter = function PanelFooter(_ref3) {
     height: "h-fit",
     grow: false
   }));
-  console.log("PanelFooter styles", styles);
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row rounded-b justify-between items-center ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     children: children
@@ -792,9 +765,6 @@ var Panel = function Panel(_ref4) {
   // Fetch the Styles from the utility
   var _useContext5 = useContext(ThemeContext),
     currentTheme = _useContext5.currentTheme;
-  console.log("[Panel] themeObjects:", themeObjects);
-  console.log("[Panel] themeObjects.PANEL:", themeObjects.PANEL);
-  console.log("[Panel] currentTheme:", currentTheme ? "OBJECT with " + Object.keys(currentTheme).length + " keys" : "NULL");
   var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
@@ -802,15 +772,6 @@ var Panel = function Panel(_ref4) {
     width: width,
     height: height
   }));
-  console.log("[Panel] styles:", {
-    backgroundColor: styles.backgroundColor,
-    borderColor: styles.borderColor,
-    textColor: styles.textColor,
-    fullString: styles.string,
-    currentThemeKeys: currentTheme ? Object.keys(currentTheme).filter(function (k) {
-      return k.includes("bg-primary");
-    }).slice(0, 10) : "NO THEME"
-  });
   return /*#__PURE__*/jsx(LayoutContainer, {
     prefix: "panel",
     direction: horizontal === true ? "row" : "col",
@@ -1453,11 +1414,8 @@ function Heading(_ref) {
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className;
-  console.log("[Heading] Component rendering. themeObjects:", themeObjects);
-  console.log("[Heading] themeObjects.HEADING:", themeObjects.HEADING);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  console.log("[Heading] currentTheme from context:", currentTheme ? Object.keys(currentTheme).slice(0, 10) : "NULL");
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
   var styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
     textColor: textColor,
@@ -1465,7 +1423,6 @@ function Heading(_ref) {
     width: "w-full",
     grow: false
   });
-  console.log("[Heading] Styles received:", styles);
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " text-6xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick,
@@ -3530,7 +3487,6 @@ function CodeEditorInline(_ref) {
   var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     scrollable: scrollable
   }));
-  console.log("code editor ", styles.string);
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
   return /*#__PURE__*/jsx("div", {
     className: "flex flex-1 flex-col w-full h-full space-y-4 rounded ".concat(styles.string, " overflow-clip"),
@@ -3619,25 +3575,19 @@ function CodeEditorVS(_ref) {
   var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
     scrollable: scrollable
   }));
-  console.log("code editor ", styles.string);
   function handleEditorDidMount(editor, monaco) {
-    console.log("editor did mount", editor);
     editor.focus();
     if (monaco) {
       try {
-        console.log("trying to load this theme");
         import("monaco-themes/themes/".concat(themeName, ".json")).then(function (data) {
           monaco.editor.defineTheme("code-theme", data);
         }).then(function (_) {
           return monaco.editor.setTheme("code-theme");
         })["catch"](function (e) {
-          return console.log("error setting theme", e.message);
+          return (void 0);
         });
       } catch (e) {
-        console.log("error making my theme", e.message);
       }
-    } else {
-      console.log("monaco not loaded");
     }
   }
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
@@ -3837,7 +3787,6 @@ var Container = function Container(_ref) {
 function ErrorMessage(_ref) {
   var title = _ref.title,
     onClose = _ref.onClose;
-  console.log("error ", title);
   return /*#__PURE__*/jsx("div", {
     onClick: onClose,
     className: "flex flex-row w-full p-4 2xl:px-6 2xl:py-4 text-2xl xl:text3xl bg-indigo-700 opacity-75 rounded text-gray-300 dark:bg-indigo-800 dark:text-gray-200 font-bold",
@@ -4004,7 +3953,7 @@ var mainApi = window.mainApi;
               }), /*#__PURE__*/jsx("li", {
                 children: /*#__PURE__*/jsx("div", {
                   onClick: function onClick() {
-                    return console.log("nope.");
+                    return (void 0);
                   },
                   className: "text-xs font-bold text-gray-200 cursor-pointer",
                   children: selectedIndexName
@@ -4199,7 +4148,6 @@ var SelectMenu = function SelectMenu(_ref) {
     height: "",
     grow: false
   }));
-  console.log("select menu styles ", styles.string);
   return /*#__PURE__*/jsx("select", {
     className: "p-2 rounded ".concat(styles.string, " ").concat(textSize, " font-normal focus:outline-none cursor-pointer min-w-lg w-full"),
     name: name,
@@ -4266,7 +4214,6 @@ var AlgoliaRefinementList = function AlgoliaRefinementList(_ref) {
     var props = _objectWithoutProperties$2(_ref, _excluded$2);
   // return null;
   var attribute = props.attribute;
-  console.log("attribute ", attribute, width, height);
   var _useRefinementList = useRefinementList(_objectSpread$2({
       attribute: "tags"
     }, props)),
