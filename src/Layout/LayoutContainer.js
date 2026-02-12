@@ -22,6 +22,11 @@ export const LayoutContainer = ({
 
     // get the styles
     const { currentTheme } = useContext(ThemeContext);
+    console.log("[LayoutContainer] Component rendering");
+    console.log("[LayoutContainer] themeObjects.LAYOUT_CONTAINER:", themeObjects.LAYOUT_CONTAINER);
+    console.log("[LayoutContainer] currentTheme:", currentTheme ? 'OBJECT with ' + Object.keys(currentTheme).length + ' keys' : 'NULL');
+    console.log("[LayoutContainer] containerId:", containerId);
+
     const styles = getStylesForItem(
         themeObjects.LAYOUT_CONTAINER,
         currentTheme,
@@ -38,6 +43,7 @@ export const LayoutContainer = ({
         },
         containerId
     );
+    console.log("[LayoutContainer] Styles received:", styles);
 
     //console.log("layout container styles ", styles);
 
