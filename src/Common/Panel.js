@@ -126,6 +126,14 @@ const Panel = ({
         height,
     });
 
+    console.log("[Panel] styles:", {
+        backgroundColor: styles.backgroundColor,
+        borderColor: styles.borderColor,
+        textColor: styles.textColor,
+        fullString: styles.string,
+        currentThemeKeys: currentTheme ? Object.keys(currentTheme).filter(k => k.includes('bg-primary')).slice(0, 10) : 'NO THEME'
+    });
+
     return (
         <LayoutContainer
             prefix="panel"

@@ -12,6 +12,7 @@ function Heading({
     className = "",
 }) {
     const { currentTheme } = useContext(ThemeContext);
+    console.log('[Heading] currentTheme from context:', currentTheme ? Object.keys(currentTheme).slice(0, 10) : 'NULL');
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
         textColor,
@@ -19,6 +20,7 @@ function Heading({
         width: "w-full",
         grow: false,
     });
+    console.log('[Heading] Styles received:', styles);
     return (
         <div
             className={`flex flex-row ${className} ${paddingStyles} text-6xl font-bold ${
