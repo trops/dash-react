@@ -563,9 +563,15 @@ const getStylesForItem = (
     try {
         if (itemName !== null) {
             console.log(`\n[getStylesForItem] === Processing ${itemName} ===`);
-            console.log(`[getStylesForItem] Theme is:`, theme ? 'OBJECT' : 'NULL');
+            console.log(
+                `[getStylesForItem] Theme is:`,
+                theme ? "OBJECT" : "NULL"
+            );
             if (theme) {
-                console.log(`[getStylesForItem] Theme keys (first 15):`, Object.keys(theme).slice(0, 15));
+                console.log(
+                    `[getStylesForItem] Theme keys (first 15):`,
+                    Object.keys(theme).slice(0, 15)
+                );
             }
 
             // get the colors from the theme by default
@@ -574,14 +580,20 @@ const getStylesForItem = (
             const defaultStyles =
                 itemName in colorMap ? colorMap[itemName] : null;
 
-            console.log(`[getStylesForItem] Default styles for ${itemName}:`, defaultStyles);
+            console.log(
+                `[getStylesForItem] Default styles for ${itemName}:`,
+                defaultStyles
+            );
 
             // then we have to determine if this item has any theme overrides
             // this uses the THEME LANGUAGE to override
             const themeOverrides =
                 theme !== null && itemName in theme ? theme[itemName] : {};
 
-            console.log(`[getStylesForItem] Theme overrides for ${itemName}:`, themeOverrides);
+            console.log(
+                `[getStylesForItem] Theme overrides for ${itemName}:`,
+                themeOverrides
+            );
 
             // then we have to determine if the component has any MANUAL overrides
             // this uses CSS CLASSES to override, no need to translate
@@ -594,13 +606,19 @@ const getStylesForItem = (
                 defaultStyles
             );
 
-            console.log(`[getStylesForItem] After prioritize (theme/default):`, prioritizeThemeOverrides);
+            console.log(
+                `[getStylesForItem] After prioritize (theme/default):`,
+                prioritizeThemeOverrides
+            );
 
             // now we have to get the TRUE value from the class from the theme...
             const prioritizeThemeValues = {};
             Object.keys(prioritizeThemeOverrides).forEach((k) => {
                 const themeKey = prioritizeThemeOverrides[k];
-                console.log(`[getStylesForItem] Looking up theme key "${themeKey}" in theme:`, themeKey in theme ? theme[themeKey] : 'NOT FOUND');
+                console.log(
+                    `[getStylesForItem] Looking up theme key "${themeKey}" in theme:`,
+                    themeKey in theme ? theme[themeKey] : "NOT FOUND"
+                );
                 if (themeKey in theme) {
                     prioritizeThemeValues[k] = theme[themeKey];
                 } else {
@@ -608,7 +626,10 @@ const getStylesForItem = (
                 }
             });
 
-            console.log(`[getStylesForItem] Prioritized theme values:`, prioritizeThemeValues);
+            console.log(
+                `[getStylesForItem] Prioritized theme values:`,
+                prioritizeThemeValues
+            );
 
             // now we can prioritize the manual overrides if there are any
             const prioritizedStyles = prioritizeClasses(
@@ -812,7 +833,7 @@ const getStylesForItem = (
                 string: stylesObject.string,
                 backgroundColor: stylesObject.backgroundColor,
                 textColor: stylesObject.textColor,
-                borderColor: stylesObject.borderColor
+                borderColor: stylesObject.borderColor,
             });
             console.log(`[getStylesForItem] === End ${itemName} ===\n`);
 

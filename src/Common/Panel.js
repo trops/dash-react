@@ -131,7 +131,11 @@ const Panel = ({
         borderColor: styles.borderColor,
         textColor: styles.textColor,
         fullString: styles.string,
-        currentThemeKeys: currentTheme ? Object.keys(currentTheme).filter(k => k.includes('bg-primary')).slice(0, 10) : 'NO THEME'
+        currentThemeKeys: currentTheme
+            ? Object.keys(currentTheme)
+                  .filter((k) => k.includes("bg-primary"))
+                  .slice(0, 10)
+            : "NO THEME",
     });
 
     return (

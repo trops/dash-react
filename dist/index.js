@@ -301,7 +301,9 @@ var getStylesForItem = function getStylesForItem() {
   var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   try {
     if (itemName !== null) {
-      var _stylesObject$string;
+      if (theme) {
+      }
+
       // get the colors from the theme by default
       // this is a MAP like "bg-primary-dark" which needs to
       // fetch its value from the actual theme based on this key mapping
@@ -325,9 +327,6 @@ var getStylesForItem = function getStylesForItem() {
         if (themeKey in theme) {
           prioritizeThemeValues[k] = theme[themeKey];
         } else {
-          // Debug: Log missing theme keys for any component with textColor
-          if (k === "textColor") {
-          }
           prioritizeThemeValues[k] = themeKey;
         }
       });
@@ -434,8 +433,6 @@ var getStylesForItem = function getStylesForItem() {
           return v.trim().replaceAll("overflow-hidden", "overflow-clip");
         }).join(" ")
       }, finalStyles);
-
-      // Debug: Log styles for all components to see text colors
       return stylesObject;
     }
   } catch (e) {
