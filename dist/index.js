@@ -332,8 +332,8 @@ var getStylesForItem = function getStylesForItem() {
       var prioritizeThemeValues = {};
       Object.keys(prioritizeThemeOverrides).forEach(function (k) {
         var themeKey = prioritizeThemeOverrides[k];
-        console.log("[getStylesForItem] Looking up theme key \"".concat(themeKey, "\" in theme:"), themeKey in theme ? theme[themeKey] : "NOT FOUND");
-        if (themeKey in theme) {
+        console.log("[getStylesForItem] Looking up theme key \"".concat(themeKey, "\" in theme:"), theme && themeKey in theme ? theme[themeKey] : "NOT FOUND");
+        if (theme && themeKey in theme) {
           prioritizeThemeValues[k] = theme[themeKey];
         } else {
           prioritizeThemeValues[k] = themeKey;
