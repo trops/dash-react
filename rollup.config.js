@@ -47,7 +47,8 @@ const PLUGINS = [
     }),
     filesize(),
     // typescript({ sourceMap: true, rootDir: "./src", noEmit: true, compilerOptions: { declaration: false } }),
-    strip(),
+    // TEMPORARILY DISABLED FOR DEBUGGING - Re-enable after debugging theme issues
+    // strip(),
 ];
 
 const EXTERNAL = ["react", "react-dom", "prop-types"];
