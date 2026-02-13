@@ -56,6 +56,7 @@ const BREADCRUMBS_3 = "breadcrumbs-3";
 const ALERT = "alert";
 const ALERT_2 = "alert-2";
 const ALERT_3 = "alert-3";
+const ALERT_BANNER = "alert-banner";
 
 const PROGRESS_BAR = "progress-bar";
 const PROGRESS_BAR_2 = "progress-bar-2";
@@ -149,6 +150,7 @@ const themeObjects = {
     ALERT,
     ALERT_2,
     ALERT_3,
+    ALERT_BANNER,
     PROGRESS_BAR,
     PROGRESS_BAR_2,
     PROGRESS_BAR_3,

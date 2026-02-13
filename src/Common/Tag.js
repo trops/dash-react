@@ -4,7 +4,7 @@ import { getStylesForItem, themeObjects, getUUID } from "@dash/Utils";
 
 const Tag = ({
     text,
-    textSize = "text-xs",
+    textSize = "text-sm",
     onClick = null,
     className = "",
     ...props
@@ -20,7 +20,7 @@ const Tag = ({
     const stylesCalculated =
         className !== ""
             ? className
-            : `${styles.string} font-bold rounded ${
+            : `${styles.string} font-medium rounded ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
 
@@ -29,7 +29,7 @@ const Tag = ({
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-3 py-1.5 whitespace-nowrap items-center justify-center`}
         >
             {text}
         </span>
@@ -56,7 +56,7 @@ const Tag2 = ({
     const stylesCalculated =
         className !== ""
             ? className
-            : `${styles.string} font-bold rounded ${
+            : `${styles.string} font-medium rounded ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
 
@@ -90,7 +90,7 @@ const Tag3 = ({
     const stylesCalculated =
         className !== ""
             ? className
-            : `${styles.string} font-bold rounded ${
+            : `${styles.string} font-normal rounded ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
     const uuid = getUUID("", "tag-3");
@@ -98,7 +98,7 @@ const Tag3 = ({
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-1.5 py-0.5 whitespace-nowrap items-center justify-center`}
         >
             {text}
         </span>

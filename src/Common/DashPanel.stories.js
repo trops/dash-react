@@ -160,3 +160,83 @@ PrimaryMultiple.args = {
     direction: "col",
     space: "true",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    DashPanel (Primary Variant)
+                </h3>
+                <div className="h-64">
+                    <DashPanel>
+                        <DashPanel.Header title="Dashboard Panel">
+                            Dashboard Panel Header
+                        </DashPanel.Header>
+                        <DashPanel.Body>
+                            <Paragraph text="This is the primary dashboard panel variant." />
+                        </DashPanel.Body>
+                        <DashPanel.Footer>DashPanel Footer</DashPanel.Footer>
+                    </DashPanel>
+                </div>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Similar to Panel with dashboard-specific styling
+                    <br />
+                    Theme keys: DASH_PANEL, DASH_PANEL_HEADER, DASH_PANEL_FOOTER
+                    <br />
+                    <span className="text-amber-600">
+                        ⚠️ Note: Check if padding/sizing differs across variants like Panel does
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    DashPanel2 (Secondary Variant)
+                </h3>
+                <div className="h-64">
+                    <DashPanel2>
+                        <DashPanel2.Header title="Dashboard Panel 2">
+                            Dashboard Panel 2 Header
+                        </DashPanel2.Header>
+                        <DashPanel2.Body>
+                            <Paragraph2 text="This is the secondary dashboard panel variant." />
+                        </DashPanel2.Body>
+                        <DashPanel2.Footer>DashPanel2 Footer</DashPanel2.Footer>
+                    </DashPanel2>
+                </div>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Similar to Panel2 with dashboard-specific styling
+                    <br />
+                    Theme keys: DASH_PANEL_2, DASH_PANEL_HEADER_2, DASH_PANEL_FOOTER_2
+                    <br />
+                    <span className="text-amber-600">
+                        ⚠️ Note: Validate sizing progression from primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    DashPanel3 (Tertiary Variant)
+                </h3>
+                <div className="h-64">
+                    <DashPanel3>
+                        <DashPanel3.Header title="Dashboard Panel 3" />
+                        <DashPanel3.Body>
+                            <Paragraph3 text="This is the tertiary dashboard panel variant." />
+                        </DashPanel3.Body>
+                        <DashPanel3.Footer>DashPanel3 Footer</DashPanel3.Footer>
+                    </DashPanel3>
+                </div>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Similar to Panel3 with dashboard-specific styling
+                    <br />
+                    Theme keys: DASH_PANEL_3, DASH_PANEL_HEADER_3, DASH_PANEL_FOOTER_3
+                    <br />
+                    <span className="text-amber-600">
+                        ⚠️ Note: Validate sizing progression from primary and secondary
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

@@ -175,3 +175,49 @@ Tertiary.args = {
     space: true,
     className: "bg-gray-800 text-gray-300",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Paragraph (Primary Variant)
+                </h3>
+                <Paragraph text="This is the primary paragraph variant with base text sizing for comfortable reading." />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Default className: text-base xl:text-lg font-normal p-4
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Progressive text size hierarchy
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Paragraph2 (Secondary Variant)
+                </h3>
+                <Paragraph2 text="This is the secondary paragraph variant with smaller text sizing for moderate reading." />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Default className: text-sm xl:text-base font-normal p-2
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smaller text and padding than primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Paragraph3 (Tertiary Variant)
+                </h3>
+                <Paragraph3 text="This is the tertiary paragraph variant with the smallest text sizing for compact reading." />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Default className: text-xs xl:text-sm font-normal p-2
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smallest text size (same padding as secondary)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

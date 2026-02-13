@@ -72,3 +72,67 @@ TertiaryClassName.args = {
     text: "Tag 3 Custom",
     className: "bg-red-500 text-xl text-yellow-200 uppercase font-bold",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Tag (Primary Variant)
+                </h3>
+                <Tag text="Primary Tag" />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text size: text-sm (default)
+                    <br />
+                    Padding: px-3 py-1.5
+                    <br />
+                    Font: font-medium
+                    <br />
+                    Rounded: rounded
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Progressive text/padding/font hierarchy established
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Tag2 (Secondary Variant)
+                </h3>
+                <Tag2 text="Secondary Tag" />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text size: text-xs (default)
+                    <br />
+                    Padding: px-2 py-1
+                    <br />
+                    Font: font-medium
+                    <br />
+                    Rounded: rounded
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smaller than primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Tag3 (Tertiary Variant)
+                </h3>
+                <Tag3 text="Tertiary Tag" />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text size: text-xs (default)
+                    <br />
+                    Padding: px-1.5 py-0.5
+                    <br />
+                    Font: font-normal
+                    <br />
+                    Rounded: rounded
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smallest variant, clear hierarchy
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

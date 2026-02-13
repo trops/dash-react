@@ -23,12 +23,12 @@ const Alert = ({
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 ${className}`}
+            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 text-base ${className}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                    {title && <div className="font-semibold">{title}</div>}
+                    {title && <div className="font-semibold text-base">{title}</div>}
                     {message && <div className="opacity-90">{message}</div>}
                     {children}
                 </div>
@@ -60,13 +60,13 @@ const Alert2 = (props) => {
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 ${props.className || ""}`}
+            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-3 text-sm ${props.className || ""}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
                 <div className="space-y-1">
                     {props.title && (
-                        <div className="font-semibold">{props.title}</div>
+                        <div className="font-medium text-sm">{props.title}</div>
                     )}
                     {props.message && (
                         <div className="opacity-90">{props.message}</div>
@@ -101,13 +101,13 @@ const Alert3 = (props) => {
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 ${props.className || ""}`}
+            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-2 text-sm ${props.className || ""}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
                 <div className="space-y-1">
                     {props.title && (
-                        <div className="font-semibold">{props.title}</div>
+                        <div className="font-normal text-sm">{props.title}</div>
                     )}
                     {props.message && (
                         <div className="opacity-90">{props.message}</div>

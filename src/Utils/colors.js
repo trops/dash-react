@@ -135,6 +135,11 @@ const colorMap = {
             [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
             [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
         },
+        [themeObjects.ALERT_BANNER]: {
+            [styleClassNames.BACKGROUND_COLOR]: "bg-blue-50",
+            [styleClassNames.BORDER_COLOR]: "border-blue-500",
+            [styleClassNames.TEXT_COLOR]: "text-blue-900",
+        },
         [themeObjects.PROGRESS_BAR]: {
             [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
             [styleClassNames.BORDER_COLOR]: "border-primary-dark",

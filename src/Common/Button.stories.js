@@ -56,3 +56,49 @@ Tertiary.args = {
     //👇 The args you need here will depend on your component
     title: "Button 3",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Button (Primary Variant)
+                </h3>
+                <Button title="Primary Button" onClick={() => {}} />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text: text-lg lg:text-xl xl:text-xl 2xl:text-2xl
+                    <br />
+                    Padding: p-2 py-1 px-2 lg:px-4 lg:py-2 xl:px-6 xl:py-4
+                    <br />
+                    Font: font-bold
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Button2 (Secondary Variant)
+                </h3>
+                <Button2 title="Secondary Button" onClick={() => {}} />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text: text-base lg:text-lg 2xl:text-xl
+                    <br />
+                    Padding: p-1 lg:p-2 xl:p-4
+                    <br />
+                    Font: font-medium
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Button3 (Tertiary Variant)
+                </h3>
+                <Button3 title="Tertiary Button" onClick={() => {}} />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text: text-sm xl:text-base 2xl:text-base
+                    <br />
+                    Padding: p-1 lg:p-1 xl:p-2
+                    <br />
+                    Font: font-normal
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

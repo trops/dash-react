@@ -56,3 +56,67 @@ Tertiary.args = {
     //👇 The args you need here will depend on your component
     title: "MenuItem 3",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    MenuItem (Primary Variant)
+                </h3>
+                <MenuItem onClick={() => {}}>Primary Menu Item</MenuItem>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text size: text-lg
+                    <br />
+                    Padding: p-4
+                    <br />
+                    Font: font-bold
+                    <br />
+                    Spacing: space-x-2
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Progressive size/padding/weight hierarchy
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    MenuItem2 (Secondary Variant)
+                </h3>
+                <MenuItem2 onClick={() => {}}>Secondary Menu Item</MenuItem2>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text size: text-base
+                    <br />
+                    Padding: p-2 px-4
+                    <br />
+                    Font: font-medium
+                    <br />
+                    Spacing: space-x-2
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smaller than primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    MenuItem3 (Tertiary Variant)
+                </h3>
+                <MenuItem3 onClick={() => {}}>Tertiary Menu Item</MenuItem3>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Text size: text-sm
+                    <br />
+                    Padding: p-2 px-4 (same as secondary)
+                    <br />
+                    Font: font-normal
+                    <br />
+                    Spacing: space-x-2
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smallest text and lightest font
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

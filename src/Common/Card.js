@@ -6,7 +6,7 @@ import { themeObjects } from "@dash/Utils/themeObjects";
 const Card = ({
     children,
     onClick = null,
-    padding = "p-4",
+    padding = "p-6",
     rounded = "rounded-lg",
     shadow = "shadow-md",
     className = "",
@@ -42,8 +42,8 @@ const Card2 = ({
     children,
     onClick = null,
     padding = "p-4",
-    rounded = "rounded-lg",
-    shadow = "shadow-md",
+    rounded = "rounded-md",
+    shadow = "shadow",
     className = "",
     hover = false,
     ...props
@@ -76,9 +76,9 @@ const Card2 = ({
 const Card3 = ({
     children,
     onClick = null,
-    padding = "p-4",
-    rounded = "rounded-lg",
-    shadow = "shadow-md",
+    padding = "p-2",
+    rounded = "rounded",
+    shadow = "shadow-sm",
     className = "",
     hover = false,
     ...props

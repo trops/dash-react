@@ -73,7 +73,7 @@ const Toast2 = (props) => {
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 shadow-lg ${props.className || ""}`}
+            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-3 shadow-lg ${props.className || ""}`}
             role="status"
         >
             <div className="flex items-start justify-between">
@@ -120,7 +120,7 @@ const Toast3 = (props) => {
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 shadow-lg ${props.className || ""}`}
+            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-2 shadow-lg ${props.className || ""}`}
             role="status"
         >
             <div className="flex items-start justify-between">

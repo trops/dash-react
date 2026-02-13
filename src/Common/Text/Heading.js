@@ -163,7 +163,7 @@ function SubHeading3({
 
     return (
         <div
-            className={`flex flex-row w-full ${className} ${paddingStyles} text-2xl ${
+            className={`flex flex-row w-full ${className} ${paddingStyles} text-xl ${
                 styles.string
             } ${onClick !== null && "cursor-pointer"}`}
             onClick={onClick}

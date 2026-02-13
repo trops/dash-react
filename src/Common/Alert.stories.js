@@ -43,3 +43,79 @@ Tertiary.args = {
     title: "Warning",
     message: "This is a tertiary alert message.",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Alert (Primary Variant)
+                </h3>
+                <Alert
+                    title="Info"
+                    message="This is the primary alert variant."
+                    onClose={() => {}}
+                />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: p-4
+                    <br />
+                    Text: text-base
+                    <br />
+                    Font: font-semibold (title), opacity-90 (message)
+                    <br />
+                    Rounded: rounded-md
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Progressive padding/text hierarchy established
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Alert2 (Secondary Variant)
+                </h3>
+                <Alert2
+                    title="Success"
+                    message="This is the secondary alert variant."
+                    onClose={() => {}}
+                />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: p-3
+                    <br />
+                    Text: text-sm
+                    <br />
+                    Font: font-medium (title), opacity-90 (message)
+                    <br />
+                    Rounded: rounded-md
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smaller than primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Alert3 (Tertiary Variant)
+                </h3>
+                <Alert3
+                    title="Warning"
+                    message="This is the tertiary alert variant."
+                    onClose={() => {}}
+                />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: p-2
+                    <br />
+                    Text: text-sm
+                    <br />
+                    Font: font-normal (title), opacity-90 (message)
+                    <br />
+                    Rounded: rounded-md
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smallest variant, clear hierarchy
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

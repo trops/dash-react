@@ -8,6 +8,7 @@ export * from "./ButtonIcon";
 export * from "./Card";
 export * from "./Breadcrumbs";
 export * from "./Alert";
+export * from "./AlertBanner";
 export * from "./ProgressBar";
 export * from "./Toast";
 export * from "./WidgetChrome";

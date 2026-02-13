@@ -178,3 +178,91 @@ Grid.args = {
     rounded: "rounded-lg",
     shadow: "shadow-sm",
 };
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Card (Primary Variant)
+                </h3>
+                <Card>
+                    <Card.Header>
+                        <Heading title="Card Header" padding={false} />
+                    </Card.Header>
+                    <Card.Body>
+                        <Paragraph text="This is the primary card variant with default theme colors." />
+                    </Card.Body>
+                    <Card.Footer>
+                        <span className="text-sm opacity-75">Card Footer</span>
+                    </Card.Footer>
+                </Card>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: p-6 (default)
+                    <br />
+                    Rounded: rounded-lg (default)
+                    <br />
+                    Shadow: shadow-md (default)
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Progressive sizing hierarchy established
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Card2 (Secondary Variant)
+                </h3>
+                <Card2>
+                    <Card2.Header>
+                        <Heading2 title="Card Header 2" padding={false} />
+                    </Card2.Header>
+                    <Card2.Body>
+                        <Paragraph text="This is the secondary card variant with theme colors." />
+                    </Card2.Body>
+                    <Card2.Footer>
+                        <span className="text-sm opacity-75">Card Footer 2</span>
+                    </Card2.Footer>
+                </Card2>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: p-4 (default)
+                    <br />
+                    Rounded: rounded-md (default)
+                    <br />
+                    Shadow: shadow (default)
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Medium sizing, smaller than primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Card3 (Tertiary Variant)
+                </h3>
+                <Card3>
+                    <Card3.Header>
+                        <Heading3 title="Card Header 3" padding={false} />
+                    </Card3.Header>
+                    <Card3.Body>
+                        <Paragraph text="This is the tertiary card variant with theme colors." />
+                    </Card3.Body>
+                    <Card3.Footer>
+                        <span className="text-sm opacity-75">Card Footer 3</span>
+                    </Card3.Footer>
+                </Card3>
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: p-2 (default)
+                    <br />
+                    Rounded: rounded (default)
+                    <br />
+                    Shadow: shadow-sm (default)
+                    <br />
+                    <span className="text-green-600">
+                        ✅ GOOD: Smallest variant, clear hierarchy
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);

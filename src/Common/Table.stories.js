@@ -249,3 +249,73 @@ WithNumbers.args = {
     hoverable: true,
     bordered: true,
 };
+
+const simpleData = [
+    { id: 1, name: "Item A", value: 100 },
+    { id: 2, name: "Item B", value: 200 },
+    { id: 3, name: "Item C", value: 300 },
+];
+
+const simpleColumns = [
+    { key: "id", label: "ID" },
+    { key: "name", label: "Name" },
+    { key: "value", label: "Value" },
+];
+
+export const AllVariants = () => (
+    <MockWrapper api={mock.api} theme={mock.themes}>
+        <div className="space-y-8 p-4">
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Table (Primary Variant)
+                </h3>
+                <Table columns={simpleColumns} data={simpleData} bordered={true} />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: Uses paddingClass variable
+                    <br />
+                    Structure: w-full, overflow-x-auto
+                    <br />
+                    Borders: border-b on rows
+                    <br />
+                    <span className="text-amber-600">
+                        ⚠️ Note: Variants may differ only in theme colors and padding size - check implementation
+                    </span>
+                </div>
+            </div>
+            <div className="border-b pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Table2 (Secondary Variant)
+                </h3>
+                <Table2 columns={simpleColumns} data={simpleData} bordered={true} />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: Uses paddingClass variable
+                    <br />
+                    Structure: w-full, overflow-x-auto
+                    <br />
+                    Borders: border-b on rows
+                    <br />
+                    <span className="text-amber-600">
+                        ⚠️ Note: Check if padding differs from primary
+                    </span>
+                </div>
+            </div>
+            <div className="pb-6">
+                <h3 className="text-lg font-semibold mb-4">
+                    Table3 (Tertiary Variant)
+                </h3>
+                <Table3 columns={simpleColumns} data={simpleData} bordered={true} />
+                <div className="text-sm text-gray-600 mt-2 font-mono">
+                    Padding: Uses paddingClass variable
+                    <br />
+                    Structure: w-full, overflow-x-auto
+                    <br />
+                    Borders: border-b on rows
+                    <br />
+                    <span className="text-amber-600">
+                        ⚠️ Note: Check if padding differs from primary and secondary
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MockWrapper>
+);
