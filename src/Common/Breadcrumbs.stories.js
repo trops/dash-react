@@ -74,7 +74,8 @@ export const AllVariants = () => (
                     Links: hover:underline (no size specified)
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ ISSUE: All 3 variants use identical structure - only theme colors differ
+                        ⚠️ ISSUE: All 3 variants use identical structure - only
+                        theme colors differ
                     </span>
                 </div>
             </div>
@@ -108,7 +109,8 @@ export const AllVariants = () => (
                     Links: hover:underline (same)
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ ISSUE: No size/padding differentiation from primary and secondary
+                        ⚠️ ISSUE: No size/padding differentiation from primary
+                        and secondary
                     </span>
                 </div>
             </div>

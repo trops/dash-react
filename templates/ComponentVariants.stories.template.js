@@ -10,27 +10,21 @@ export default {
 // Primary variant story
 const Template = (args) => (
     <MockWrapper api={mock.api} theme={mock.themes}>
-        <ComponentName {...args}>
-            Primary Content
-        </ComponentName>
+        <ComponentName {...args}>Primary Content</ComponentName>
     </MockWrapper>
 );
 
 // Secondary variant story
 const Template2 = (args) => (
     <MockWrapper api={mock.api} theme={mock.themes}>
-        <ComponentName2 {...args}>
-            Secondary Content
-        </ComponentName2>
+        <ComponentName2 {...args}>Secondary Content</ComponentName2>
     </MockWrapper>
 );
 
 // Tertiary variant story
 const Template3 = (args) => (
     <MockWrapper api={mock.api} theme={mock.themes}>
-        <ComponentName3 {...args}>
-            Tertiary Content
-        </ComponentName3>
+        <ComponentName3 {...args}>Tertiary Content</ComponentName3>
     </MockWrapper>
 );
 
@@ -65,7 +59,8 @@ export const AllVariants = () => (
                     ComponentName (Primary Variant)
                 </h3>
                 <ComponentName>
-                    This is the primary variant with the largest size and boldest styling.
+                    This is the primary variant with the largest size and
+                    boldest styling.
                 </ComponentName>
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Text size: text-lg
@@ -88,7 +83,8 @@ export const AllVariants = () => (
                     ComponentName2 (Secondary Variant)
                 </h3>
                 <ComponentName2>
-                    This is the secondary variant with medium size and moderate styling.
+                    This is the secondary variant with medium size and moderate
+                    styling.
                 </ComponentName2>
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Text size: text-base
@@ -111,7 +107,8 @@ export const AllVariants = () => (
                     ComponentName3 (Tertiary Variant)
                 </h3>
                 <ComponentName3>
-                    This is the tertiary variant with the smallest size and lightest styling.
+                    This is the tertiary variant with the smallest size and
+                    lightest styling.
                 </ComponentName3>
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Text size: text-sm

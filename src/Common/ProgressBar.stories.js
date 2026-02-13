@@ -75,7 +75,8 @@ export const AllVariants = () => (
                     Label: mt-2 text-sm
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ Note: Variants may differ only in theme colors - check implementation
+                        ⚠️ Note: Variants may differ only in theme colors -
+                        check implementation
                     </span>
                 </div>
             </div>

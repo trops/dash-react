@@ -4,6 +4,7 @@
 **Last Updated:** 2026-02-13
 
 ## Table of Contents
+
 1. [Design Principles](#design-principles)
 2. [Text Size Patterns](#text-size-patterns)
 3. [Padding Patterns](#padding-patterns)
@@ -18,6 +19,7 @@
 ## Design Principles
 
 The dash-react library implements a **3-variant design system** for components:
+
 - **Primary (Component)**: Largest, most prominent variant
 - **Secondary (Component2)**: Medium variant
 - **Tertiary (Component3)**: Smallest, most subtle variant
@@ -27,12 +29,14 @@ The dash-react library implements a **3-variant design system** for components:
 **Progressive Visual Hierarchy**: Each variant should be visually distinct and progressively smaller/lighter from primary to tertiary. This creates clear visual hierarchy and allows developers to choose the appropriate emphasis level for their use case.
 
 **Key Principles:**
+
 1. **Decreasing Size**: Primary > Secondary > Tertiary
 2. **Decreasing Padding**: More internal space → Less internal space
 3. **Decreasing Font Weight**: Bolder → Medium → Normal/Light
 4. **Consistent Purpose**: All three variants serve the same functional purpose, differing only in visual emphasis
 
 **Why 3 Variants?**
+
 - Provides flexibility for different contexts and emphasis levels
 - Maintains consistency across the design system
 - Prevents arbitrary sizing decisions in application code
@@ -46,15 +50,15 @@ Text size should decrease progressively from primary to tertiary variants.
 
 ### Recommended Progressions
 
-| Component Family | Primary | Secondary | Tertiary | Notes |
-|-----------------|---------|-----------|----------|-------|
-| **Heading** | `text-6xl` | `text-5xl` | `text-4xl` | Large, bold hierarchy |
-| **SubHeading** | `text-3xl` | `text-2xl` | `text-xl` | Medium hierarchy |
-| **Paragraph** | `text-base` / `text-lg` | `text-sm` / `text-base` | `text-xs` / `text-sm` | Body text sizes |
-| **Button** | `text-lg` / `text-xl` / `text-2xl` (responsive) | `text-base` / `text-lg` | `text-sm` / `text-base` | Button text |
-| **Tag** | `text-sm` | `text-xs` | `text-xs` | Small labels (padding differentiates) |
-| **Alert** | `text-base` | `text-sm` | `text-sm` | Notification text |
-| **MenuItem** | `text-lg` | `text-base` | `text-sm` | Navigation items |
+| Component Family | Primary                                         | Secondary               | Tertiary                | Notes                                 |
+| ---------------- | ----------------------------------------------- | ----------------------- | ----------------------- | ------------------------------------- |
+| **Heading**      | `text-6xl`                                      | `text-5xl`              | `text-4xl`              | Large, bold hierarchy                 |
+| **SubHeading**   | `text-3xl`                                      | `text-2xl`              | `text-xl`               | Medium hierarchy                      |
+| **Paragraph**    | `text-base` / `text-lg`                         | `text-sm` / `text-base` | `text-xs` / `text-sm`   | Body text sizes                       |
+| **Button**       | `text-lg` / `text-xl` / `text-2xl` (responsive) | `text-base` / `text-lg` | `text-sm` / `text-base` | Button text                           |
+| **Tag**          | `text-sm`                                       | `text-xs`               | `text-xs`               | Small labels (padding differentiates) |
+| **Alert**        | `text-base`                                     | `text-sm`               | `text-sm`               | Notification text                     |
+| **MenuItem**     | `text-lg`                                       | `text-base`             | `text-sm`               | Navigation items                      |
 
 ### Guidelines
 
@@ -71,15 +75,15 @@ Padding should decrease progressively to create visual density hierarchy.
 
 ### Recommended Progressions
 
-| Component Family | Primary | Secondary | Tertiary | Notes |
-|-----------------|---------|-----------|----------|-------|
-| **Card** | `p-6` | `p-4` | `p-2` | Container padding |
-| **Panel** | `p-6` | `p-4` | `p-2` | Layout panels |
-| **Alert** | `p-4` | `p-3` | `p-2` | Notification boxes |
-| **Toast** | `p-4` | `p-3` | `p-2` | Toast notifications |
-| **Button** | `px-6 py-3` | `px-4 py-2` | `px-3 py-1.5` | Button padding |
-| **Tag** | `px-3 py-1.5` | `px-2 py-1` | `px-1.5 py-0.5` | Compact labels |
-| **MenuItem** | `p-4` | `p-2 px-4` | `p-2 px-4` | Navigation (vertical padding differs) |
+| Component Family | Primary       | Secondary   | Tertiary        | Notes                                 |
+| ---------------- | ------------- | ----------- | --------------- | ------------------------------------- |
+| **Card**         | `p-6`         | `p-4`       | `p-2`           | Container padding                     |
+| **Panel**        | `p-6`         | `p-4`       | `p-2`           | Layout panels                         |
+| **Alert**        | `p-4`         | `p-3`       | `p-2`           | Notification boxes                    |
+| **Toast**        | `p-4`         | `p-3`       | `p-2`           | Toast notifications                   |
+| **Button**       | `px-6 py-3`   | `px-4 py-2` | `px-3 py-1.5`   | Button padding                        |
+| **Tag**          | `px-3 py-1.5` | `px-2 py-1` | `px-1.5 py-0.5` | Compact labels                        |
+| **MenuItem**     | `p-4`         | `p-2 px-4`  | `p-2 px-4`      | Navigation (vertical padding differs) |
 
 ### Guidelines
 
@@ -97,15 +101,15 @@ Font weight should decrease to create typographic hierarchy.
 
 ### Recommended Progressions
 
-| Component Family | Primary | Secondary | Tertiary | Notes |
-|-----------------|---------|-----------|----------|-------|
-| **Heading** | `font-bold` | `font-bold` | `font-bold` | Headlines stay bold |
-| **SubHeading** | `font-medium` | `font-medium` | `font-normal` | Subheadings can vary |
-| **Paragraph** | `font-normal` | `font-normal` | `font-normal` | Body text stays normal |
-| **Button** | `font-bold` | `font-medium` | `font-normal` | Strong → Medium → Light |
-| **Tag** | `font-medium` | `font-medium` | `font-normal` | Labels get lighter |
-| **Alert** | `font-semibold` | `font-medium` | `font-normal` | Alert titles |
-| **MenuItem** | `font-bold` | `font-medium` | `font-normal` | Navigation hierarchy |
+| Component Family | Primary         | Secondary     | Tertiary      | Notes                   |
+| ---------------- | --------------- | ------------- | ------------- | ----------------------- |
+| **Heading**      | `font-bold`     | `font-bold`   | `font-bold`   | Headlines stay bold     |
+| **SubHeading**   | `font-medium`   | `font-medium` | `font-normal` | Subheadings can vary    |
+| **Paragraph**    | `font-normal`   | `font-normal` | `font-normal` | Body text stays normal  |
+| **Button**       | `font-bold`     | `font-medium` | `font-normal` | Strong → Medium → Light |
+| **Tag**          | `font-medium`   | `font-medium` | `font-normal` | Labels get lighter      |
+| **Alert**        | `font-semibold` | `font-medium` | `font-normal` | Alert titles            |
+| **MenuItem**     | `font-bold`     | `font-medium` | `font-normal` | Navigation hierarchy    |
 
 ### Guidelines
 
@@ -115,6 +119,7 @@ Font weight should decrease to create typographic hierarchy.
 - **Title elements**: Component titles (Alert, Toast) follow weight progression
 
 ### Tailwind Font Weight Values
+
 - `font-normal`: 400
 - `font-medium`: 500
 - `font-semibold`: 600
@@ -128,28 +133,30 @@ Visual polish elements should also follow progressive patterns.
 
 ### Border Radius Progression
 
-| Component Family | Primary | Secondary | Tertiary | Notes |
-|-----------------|---------|-----------|----------|-------|
-| **Card** | `rounded-lg` | `rounded-md` | `rounded` | Container rounding |
-| **Panel** | `rounded-lg` | `rounded-md` | `rounded` | Layout panels |
-| **Button** | `rounded-md` | `rounded-md` | `rounded` | Interactive elements |
-| **Tag** | `rounded` | `rounded` | `rounded` | Consistent small radius |
-| **Alert/Toast** | `rounded-md` | `rounded-md` | `rounded-md` | Notifications (consistent) |
+| Component Family | Primary      | Secondary    | Tertiary     | Notes                      |
+| ---------------- | ------------ | ------------ | ------------ | -------------------------- |
+| **Card**         | `rounded-lg` | `rounded-md` | `rounded`    | Container rounding         |
+| **Panel**        | `rounded-lg` | `rounded-md` | `rounded`    | Layout panels              |
+| **Button**       | `rounded-md` | `rounded-md` | `rounded`    | Interactive elements       |
+| **Tag**          | `rounded`    | `rounded`    | `rounded`    | Consistent small radius    |
+| **Alert/Toast**  | `rounded-md` | `rounded-md` | `rounded-md` | Notifications (consistent) |
 
 **Tailwind Values:**
+
 - `rounded`: 0.25rem (4px)
 - `rounded-md`: 0.375rem (6px)
 - `rounded-lg`: 0.5rem (8px)
 
 ### Shadow Progression
 
-| Component Family | Primary | Secondary | Tertiary | Notes |
-|-----------------|---------|-----------|----------|-------|
-| **Card** | `shadow-md` | `shadow` | `shadow-sm` | Elevation levels |
-| **Toast** | `shadow-lg` | `shadow-lg` | `shadow-lg` | Always elevated |
+| Component Family   | Primary           | Secondary         | Tertiary       | Notes                |
+| ------------------ | ----------------- | ----------------- | -------------- | -------------------- |
+| **Card**           | `shadow-md`       | `shadow`          | `shadow-sm`    | Elevation levels     |
+| **Toast**          | `shadow-lg`       | `shadow-lg`       | `shadow-lg`    | Always elevated      |
 | **Button (hover)** | `hover:shadow-lg` | `hover:shadow-md` | `hover:shadow` | Interactive feedback |
 
 **Tailwind Values:**
+
 - `shadow-sm`: Subtle shadow
 - `shadow`: Default shadow
 - `shadow-md`: Medium shadow
@@ -168,6 +175,7 @@ Always implement all three variants (Component, Component2, Component3) when cre
 ### 2. Establish Progressive Patterns
 
 Before coding, decide on the progression for:
+
 - Text size
 - Padding
 - Font weight
@@ -191,7 +199,7 @@ import { themeObjects } from "@dash/Utils/themeObjects";
 
 const ComponentName = ({
     // props
-    padding = "p-6",  // PRIMARY: Largest padding
+    padding = "p-6", // PRIMARY: Largest padding
     rounded = "rounded-lg",
     shadow = "shadow-md",
     className = "",
@@ -215,16 +223,20 @@ const ComponentName = ({
 };
 
 const ComponentName2 = ({
-    padding = "p-4",  // SECONDARY: Medium padding
+    padding = "p-4", // SECONDARY: Medium padding
     rounded = "rounded-md",
     shadow = "shadow",
     className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.COMPONENT_NAME_2, currentTheme, {
-        ...props,
-    });
+    const styles = getStylesForItem(
+        themeObjects.COMPONENT_NAME_2,
+        currentTheme,
+        {
+            ...props,
+        }
+    );
 
     const uuid = getUUID("", "component-name-2");
 
@@ -239,16 +251,20 @@ const ComponentName2 = ({
 };
 
 const ComponentName3 = ({
-    padding = "p-2",  // TERTIARY: Smallest padding
+    padding = "p-2", // TERTIARY: Smallest padding
     rounded = "rounded",
     shadow = "shadow-sm",
     className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.COMPONENT_NAME_3, currentTheme, {
-        ...props,
-    });
+    const styles = getStylesForItem(
+        themeObjects.COMPONENT_NAME_3,
+        currentTheme,
+        {
+            ...props,
+        }
+    );
 
     const uuid = getUUID("", "component-name-3");
 
@@ -366,23 +382,27 @@ Use this checklist when creating or reviewing component variants.
 ### ✅ Good Examples (Follow These Patterns)
 
 **Button** (`src/Common/Button.js`)
+
 - Progressive text size: `text-lg/xl/2xl` → `text-base/lg` → `text-sm/base`
 - Progressive padding: Complex responsive padding decreases across variants
 - Progressive font weight: `font-bold` → `font-medium` → `font-normal`
 - **Why it's good**: Clear visual hierarchy with multiple progressive properties
 
 **Panel** (`src/Common/Panel.js`)
+
 - Progressive padding: `p-6` → `p-4` → `p-2`
 - Progressive border radius: `rounded-lg` → `rounded-md` → `rounded`
 - **Why it's good**: Simple, predictable pattern that's easy to understand
 
 **MenuItem** (`src/Common/MenuItem.js`)
+
 - Progressive text size: `text-lg` → `text-base` → `text-sm`
 - Progressive padding: `p-4` → `p-2 px-4` → `p-2 px-4`
 - Progressive font weight: `font-bold` → `font-medium` → `font-normal`
 - **Why it's good**: Combines multiple properties for clear hierarchy
 
 **Heading** (`src/Common/Text/Heading.js`)
+
 - Progressive text size: `text-6xl` → `text-5xl` → `text-4xl`
 - Consistent padding: `p-4 2xl:px-6 2xl:py-4` (acceptable for layout stability)
 - Consistent font weight: `font-bold` (appropriate for headlines)
@@ -390,33 +410,34 @@ Use this checklist when creating or reviewing component variants.
 
 ### Component Implementation Files
 
-| Component | File Path | Status |
-|-----------|-----------|--------|
-| Button | `src/Common/Button.js` | ✅ Good |
-| Panel | `src/Common/Panel.js` | ✅ Good |
-| Heading | `src/Common/Text/Heading.js` | ✅ Good |
-| Paragraph | `src/Common/Text/Paragraph.js` | ✅ Good |
-| ButtonIcon | `src/Common/ButtonIcon.js` | ✅ Good |
-| MenuItem | `src/Common/MenuItem.js` | ✅ Good |
-| Card | `src/Common/Card.js` | ✅ Fixed |
-| Alert | `src/Common/Alert.js` | ✅ Fixed |
-| Tag | `src/Common/Tag.js` | ✅ Fixed |
-| Toast | `src/Common/Toast.js` | ✅ Fixed |
-| SubHeading | `src/Common/Text/Heading.js` | ✅ Fixed |
+| Component  | File Path                      | Status   |
+| ---------- | ------------------------------ | -------- |
+| Button     | `src/Common/Button.js`         | ✅ Good  |
+| Panel      | `src/Common/Panel.js`          | ✅ Good  |
+| Heading    | `src/Common/Text/Heading.js`   | ✅ Good  |
+| Paragraph  | `src/Common/Text/Paragraph.js` | ✅ Good  |
+| ButtonIcon | `src/Common/ButtonIcon.js`     | ✅ Good  |
+| MenuItem   | `src/Common/MenuItem.js`       | ✅ Good  |
+| Card       | `src/Common/Card.js`           | ✅ Fixed |
+| Alert      | `src/Common/Alert.js`          | ✅ Fixed |
+| Tag        | `src/Common/Tag.js`            | ✅ Fixed |
+| Toast      | `src/Common/Toast.js`          | ✅ Fixed |
+| SubHeading | `src/Common/Text/Heading.js`   | ✅ Fixed |
 
 ---
 
 ## Revision History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2026-02-13 | Initial documentation created after Phase 3 fixes |
+| Version | Date       | Changes                                           |
+| ------- | ---------- | ------------------------------------------------- |
+| 1.0     | 2026-02-13 | Initial documentation created after Phase 3 fixes |
 
 ---
 
 ## Questions or Feedback?
 
 If you have questions about variant patterns or need clarification on specifications:
+
 1. Check the AllVariants stories in Storybook for visual reference
 2. Review reference example components listed above
 3. Consult this document for general patterns

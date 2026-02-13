@@ -185,7 +185,8 @@ export const AllVariants = () => (
                     Theme keys: DASH_PANEL, DASH_PANEL_HEADER, DASH_PANEL_FOOTER
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ Note: Check if padding/sizing differs across variants like Panel does
+                        ⚠️ Note: Check if padding/sizing differs across variants
+                        like Panel does
                     </span>
                 </div>
             </div>
@@ -207,7 +208,8 @@ export const AllVariants = () => (
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Similar to Panel2 with dashboard-specific styling
                     <br />
-                    Theme keys: DASH_PANEL_2, DASH_PANEL_HEADER_2, DASH_PANEL_FOOTER_2
+                    Theme keys: DASH_PANEL_2, DASH_PANEL_HEADER_2,
+                    DASH_PANEL_FOOTER_2
                     <br />
                     <span className="text-amber-600">
                         ⚠️ Note: Validate sizing progression from primary
@@ -230,10 +232,12 @@ export const AllVariants = () => (
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Similar to Panel3 with dashboard-specific styling
                     <br />
-                    Theme keys: DASH_PANEL_3, DASH_PANEL_HEADER_3, DASH_PANEL_FOOTER_3
+                    Theme keys: DASH_PANEL_3, DASH_PANEL_HEADER_3,
+                    DASH_PANEL_FOOTER_3
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ Note: Validate sizing progression from primary and secondary
+                        ⚠️ Note: Validate sizing progression from primary and
+                        secondary
                     </span>
                 </div>
             </div>

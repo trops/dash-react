@@ -28,7 +28,9 @@ const Alert = ({
         >
             <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                    {title && <div className="font-semibold text-base">{title}</div>}
+                    {title && (
+                        <div className="font-semibold text-base">{title}</div>
+                    )}
                     {message && <div className="opacity-90">{message}</div>}
                     {children}
                 </div>

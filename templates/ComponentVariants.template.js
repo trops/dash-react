@@ -18,7 +18,7 @@ import { themeObjects } from "@dash/Utils/themeObjects";
 const ComponentName = ({
     children,
     // Add component-specific props here
-    padding = "p-6",      // PRIMARY: Largest padding
+    padding = "p-6", // PRIMARY: Largest padding
     rounded = "rounded-lg",
     shadow = "shadow-md",
     className = "",
@@ -46,18 +46,22 @@ const ComponentName = ({
 
 const ComponentName2 = ({
     children,
-    padding = "p-4",      // SECONDARY: Medium padding
+    padding = "p-4", // SECONDARY: Medium padding
     rounded = "rounded-md",
     shadow = "shadow",
     className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.COMPONENT_NAME_2, currentTheme, {
-        ...props,
-        scrollable: false,
-        grow: false,
-    });
+    const styles = getStylesForItem(
+        themeObjects.COMPONENT_NAME_2,
+        currentTheme,
+        {
+            ...props,
+            scrollable: false,
+            grow: false,
+        }
+    );
 
     const uuid = getUUID("", "component-name-2");
 
@@ -73,18 +77,22 @@ const ComponentName2 = ({
 
 const ComponentName3 = ({
     children,
-    padding = "p-2",      // TERTIARY: Smallest padding
+    padding = "p-2", // TERTIARY: Smallest padding
     rounded = "rounded",
     shadow = "shadow-sm",
     className = "",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.COMPONENT_NAME_3, currentTheme, {
-        ...props,
-        scrollable: false,
-        grow: false,
-    });
+    const styles = getStylesForItem(
+        themeObjects.COMPONENT_NAME_3,
+        currentTheme,
+        {
+            ...props,
+            scrollable: false,
+            grow: false,
+        }
+    );
 
     const uuid = getUUID("", "component-name-3");
 

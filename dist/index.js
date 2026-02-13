@@ -1561,7 +1561,7 @@ function SubHeading3(_ref6) {
     grow: false
   });
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-2xl ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
+    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-xl ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick,
     children: title
   });
@@ -1881,7 +1881,7 @@ var Card = function Card(_ref) {
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? "p-4" : _ref$padding,
+    padding = _ref$padding === void 0 ? "p-6" : _ref$padding,
     _ref$rounded = _ref.rounded,
     rounded = _ref$rounded === void 0 ? "rounded-lg" : _ref$rounded,
     _ref$shadow = _ref.shadow,
@@ -1914,9 +1914,9 @@ var Card2 = function Card2(_ref2) {
     _ref2$padding = _ref2.padding,
     padding = _ref2$padding === void 0 ? "p-4" : _ref2$padding,
     _ref2$rounded = _ref2.rounded,
-    rounded = _ref2$rounded === void 0 ? "rounded-lg" : _ref2$rounded,
+    rounded = _ref2$rounded === void 0 ? "rounded-md" : _ref2$rounded,
     _ref2$shadow = _ref2.shadow,
-    shadow = _ref2$shadow === void 0 ? "shadow-md" : _ref2$shadow,
+    shadow = _ref2$shadow === void 0 ? "shadow" : _ref2$shadow,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$hover = _ref2.hover,
@@ -1943,11 +1943,11 @@ var Card3 = function Card3(_ref3) {
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? "p-4" : _ref3$padding,
+    padding = _ref3$padding === void 0 ? "p-2" : _ref3$padding,
     _ref3$rounded = _ref3.rounded,
-    rounded = _ref3$rounded === void 0 ? "rounded-lg" : _ref3$rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded" : _ref3$rounded,
     _ref3$shadow = _ref3.shadow,
-    shadow = _ref3$shadow === void 0 ? "shadow-md" : _ref3$shadow,
+    shadow = _ref3$shadow === void 0 ? "shadow-sm" : _ref3$shadow,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$hover = _ref3.hover,
@@ -2146,14 +2146,14 @@ var Alert = function Alert(_ref) {
   var uuid = getUUID$1("", "alert");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 ").concat(className),
+    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 text-base ").concat(className),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
       children: [/*#__PURE__*/jsxs("div", {
         className: "space-y-1",
         children: [title && /*#__PURE__*/jsx("div", {
-          className: "font-semibold",
+          className: "font-semibold text-base",
           children: title
         }), message && /*#__PURE__*/jsx("div", {
           className: "opacity-90",
@@ -2179,14 +2179,14 @@ var Alert2 = function Alert2(props) {
   var uuid = getUUID$1("", "alert-2");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 ").concat(props.className || ""),
+    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-3 text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
       children: [/*#__PURE__*/jsxs("div", {
         className: "space-y-1",
         children: [props.title && /*#__PURE__*/jsx("div", {
-          className: "font-semibold",
+          className: "font-medium text-sm",
           children: props.title
         }), props.message && /*#__PURE__*/jsx("div", {
           className: "opacity-90",
@@ -2212,14 +2212,14 @@ var Alert3 = function Alert3(props) {
   var uuid = getUUID$1("", "alert-3");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 ").concat(props.className || ""),
+    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-2 text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
       children: [/*#__PURE__*/jsxs("div", {
         className: "space-y-1",
         children: [props.title && /*#__PURE__*/jsx("div", {
-          className: "font-semibold",
+          className: "font-normal text-sm",
           children: props.title
         }), props.message && /*#__PURE__*/jsx("div", {
           className: "opacity-90",
@@ -2559,7 +2559,7 @@ var Toast2 = function Toast2(props) {
   }, [props.duration, props.onClose]);
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 shadow-lg ").concat(props.className || ""),
+    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-3 shadow-lg ").concat(props.className || ""),
     role: "status",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -2601,7 +2601,7 @@ var Toast3 = function Toast3(props) {
   }, [props.duration, props.onClose]);
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 shadow-lg ").concat(props.className || ""),
+    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-2 shadow-lg ").concat(props.className || ""),
     role: "status",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -3834,7 +3834,7 @@ function _objectWithoutPropertiesLoose$6(r, e) { if (null == r) return {}; var t
 var Tag = function Tag(_ref) {
   var text = _ref.text,
     _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs" : _ref$textSize,
+    textSize = _ref$textSize === void 0 ? "text-sm" : _ref$textSize,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$className = _ref.className,
@@ -3848,12 +3848,12 @@ var Tag = function Tag(_ref) {
 
   // maybe we need to apply the className IF this exists?
   // only allow the user to change the "style" not the structure
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-3 py-1.5 whitespace-nowrap items-center justify-center"),
     children: text
   });
 };
@@ -3876,7 +3876,7 @@ var Tag2 = function Tag2(_ref2) {
   // only allow the user to change the "style" not the structure
   // maybe we need to apply the className IF this exists?
   // only allow the user to change the "style" not the structure
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag-2");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
@@ -3902,12 +3902,12 @@ var Tag3 = function Tag3(_ref3) {
 
   // maybe we need to apply the className IF this exists?
   // only allow the user to change the "style" not the structure
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-bold rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-normal rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag-3");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-1.5 py-0.5 whitespace-nowrap items-center justify-center"),
     children: text
   });
 };

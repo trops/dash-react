@@ -249,10 +249,7 @@ export const AllVariants = () => (
                 <div className="h-64">
                     <Panel>
                         <Panel.Header>
-                            <Heading
-                                title="Panel Header"
-                                padding={false}
-                            />
+                            <Heading title="Panel Header" padding={false} />
                         </Panel.Header>
                         <Panel.Body>
                             <Paragraph text="This is the primary panel variant with the most spacious padding." />
@@ -277,10 +274,7 @@ export const AllVariants = () => (
                 <div className="h-64">
                     <Panel2>
                         <Panel2.Header>
-                            <Heading2
-                                title="Panel Header 2"
-                                padding={false}
-                            />
+                            <Heading2 title="Panel Header 2" padding={false} />
                         </Panel2.Header>
                         <Panel2.Body>
                             <Paragraph2 text="This is the secondary panel variant with moderate padding." />
@@ -305,10 +299,7 @@ export const AllVariants = () => (
                 <div className="h-64">
                     <Panel3>
                         <Panel3.Header>
-                            <Heading3
-                                title="Panel Header 3"
-                                padding={false}
-                            />
+                            <Heading3 title="Panel Header 3" padding={false} />
                         </Panel3.Header>
                         <Panel3.Body>
                             <Paragraph3 text="This is the tertiary panel variant with compact padding." />

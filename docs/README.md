@@ -14,15 +14,16 @@ Welcome to the dash-react component library documentation!
 
 dash-react implements a **3-variant design system** for all components:
 
-| Variant | Purpose | Visual Characteristics |
-|---------|---------|----------------------|
-| **Primary (Component)** | Largest, most prominent | Large text, generous padding, bold fonts |
-| **Secondary (Component2)** | Medium emphasis | Medium text, moderate padding, medium fonts |
-| **Tertiary (Component3)** | Smallest, most subtle | Small text, compact padding, light fonts |
+| Variant                    | Purpose                 | Visual Characteristics                      |
+| -------------------------- | ----------------------- | ------------------------------------------- |
+| **Primary (Component)**    | Largest, most prominent | Large text, generous padding, bold fonts    |
+| **Secondary (Component2)** | Medium emphasis         | Medium text, moderate padding, medium fonts |
+| **Tertiary (Component3)**  | Smallest, most subtle   | Small text, compact padding, light fonts    |
 
 ### Progressive Patterns
 
 All variants follow **progressive visual hierarchy**:
+
 - **Text Size**: Decreases from primary → secondary → tertiary
 - **Padding**: Decreases progressively (e.g., p-6 → p-4 → p-2)
 - **Font Weight**: Gets lighter (e.g., font-bold → font-medium → font-normal)
@@ -54,25 +55,27 @@ All variants follow **progressive visual hierarchy**:
 ### Core Documentation
 
 - **[variant-specifications.md](./variant-specifications.md)**
-  - Design principles and philosophy
-  - Pattern tables (text size, padding, font weight, etc.)
-  - Component development guidelines
-  - Validation checklist
-  - Reference examples
+
+    - Design principles and philosophy
+    - Pattern tables (text size, padding, font weight, etc.)
+    - Component development guidelines
+    - Validation checklist
+    - Reference examples
 
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)**
-  - Getting started guide
-  - Component variant system overview
-  - Development workflow
-  - Pull request guidelines
-  - Code style guide
+
+    - Getting started guide
+    - Component variant system overview
+    - Development workflow
+    - Pull request guidelines
+    - Code style guide
 
 - **[VALIDATION_PROCESS.md](./VALIDATION_PROCESS.md)**
-  - Daily validation practices
-  - PR review process
-  - Quarterly comprehensive review
-  - Storybook as living documentation
-  - Maintenance schedule
+    - Daily validation practices
+    - PR review process
+    - Quarterly comprehensive review
+    - Storybook as living documentation
+    - Maintenance schedule
 
 ### Templates
 
@@ -175,25 +178,25 @@ npm run build
 
 ```javascript
 // PRIMARY (Largest)
-padding = "p-6"
-textSize = "text-lg"
-fontWeight = "font-bold"
-rounded = "rounded-lg"
-shadow = "shadow-md"
+padding = "p-6";
+textSize = "text-lg";
+fontWeight = "font-bold";
+rounded = "rounded-lg";
+shadow = "shadow-md";
 
 // SECONDARY (Medium)
-padding = "p-4"
-textSize = "text-base"
-fontWeight = "font-medium"
-rounded = "rounded-md"
-shadow = "shadow"
+padding = "p-4";
+textSize = "text-base";
+fontWeight = "font-medium";
+rounded = "rounded-md";
+shadow = "shadow";
 
 // TERTIARY (Smallest)
-padding = "p-2"
-textSize = "text-sm"
-fontWeight = "font-normal"
-rounded = "rounded"
-shadow = "shadow-sm"
+padding = "p-2";
+textSize = "text-sm";
+fontWeight = "font-normal";
+rounded = "rounded";
+shadow = "shadow-sm";
 ```
 
 ---
@@ -224,12 +227,12 @@ Common/
 
 ### Regular Tasks
 
-| Task | Frequency | Purpose |
-|------|-----------|---------|
-| Visual validation | Per change | Ensure hierarchy maintained |
-| PR review | Per PR | Validate new/modified components |
-| Quarterly audit | Every 3 months | Comprehensive consistency check |
-| Spec updates | As needed | Keep documentation current |
+| Task              | Frequency      | Purpose                          |
+| ----------------- | -------------- | -------------------------------- |
+| Visual validation | Per change     | Ensure hierarchy maintained      |
+| PR review         | Per PR         | Validate new/modified components |
+| Quarterly audit   | Every 3 months | Comprehensive consistency check  |
+| Spec updates      | As needed      | Keep documentation current       |
 
 ### Next Quarterly Review Due
 

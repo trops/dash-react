@@ -91,7 +91,8 @@ export const AllVariants = () => (
                     Rounded: rounded
                     <br />
                     <span className="text-green-600">
-                        ✅ GOOD: Progressive text/padding/font hierarchy established
+                        ✅ GOOD: Progressive text/padding/font hierarchy
+                        established
                     </span>
                 </div>
             </div>

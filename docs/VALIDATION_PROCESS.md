@@ -5,6 +5,7 @@ This document outlines the ongoing validation process for maintaining consistenc
 ## Overview
 
 The dash-react library uses a **manual Storybook-based validation approach** rather than automated testing. This provides:
+
 - Visual validation by humans who understand design intent
 - Living documentation via AllVariants stories
 - Lower maintenance burden than screenshot automation
@@ -37,6 +38,7 @@ The dash-react library uses a **manual Storybook-based validation approach** rat
 ### For PR Authors
 
 Before submitting, ensure:
+
 - ✅ AllVariants story exists and displays correctly
 - ✅ Visual hierarchy is clear and intentional
 - ✅ Patterns follow variant specifications
@@ -48,33 +50,38 @@ Before submitting, ensure:
 **Component Variant Review Checklist:**
 
 1. **Visual Hierarchy**
-   - [ ] Open AllVariants story in Storybook
-   - [ ] Primary variant is noticeably larger/bolder than secondary
-   - [ ] Secondary variant is noticeably larger/bolder than tertiary
-   - [ ] Visual difference is immediately apparent
+
+    - [ ] Open AllVariants story in Storybook
+    - [ ] Primary variant is noticeably larger/bolder than secondary
+    - [ ] Secondary variant is noticeably larger/bolder than tertiary
+    - [ ] Visual difference is immediately apparent
 
 2. **Progressive Patterns**
-   - [ ] Text size decreases (or is intentionally consistent)
-   - [ ] Padding decreases progressively
-   - [ ] Font weight progression is appropriate
-   - [ ] Border radius/shadow follows established patterns
+
+    - [ ] Text size decreases (or is intentionally consistent)
+    - [ ] Padding decreases progressively
+    - [ ] Font weight progression is appropriate
+    - [ ] Border radius/shadow follows established patterns
 
 3. **Documentation**
-   - [ ] Variant specifications documented in component file
-   - [ ] AllVariants story includes inline class documentation
-   - [ ] Status indicators (✅/⚠️) accurately reflect component state
+
+    - [ ] Variant specifications documented in component file
+    - [ ] AllVariants story includes inline class documentation
+    - [ ] Status indicators (✅/⚠️) accurately reflect component state
 
 4. **Code Quality**
-   - [ ] Theme objects registered
-   - [ ] Component follows template structure
-   - [ ] No unnecessary complexity
+
+    - [ ] Theme objects registered
+    - [ ] Component follows template structure
+    - [ ] No unnecessary complexity
 
 5. **Consistency**
-   - [ ] Patterns match variant specifications document
-   - [ ] Similar components use similar patterns
-   - [ ] No arbitrary sizing decisions
+    - [ ] Patterns match variant specifications document
+    - [ ] Similar components use similar patterns
+    - [ ] No arbitrary sizing decisions
 
 **Review Outcome:**
+
 - ✅ **Approve**: All criteria met, clear visual hierarchy
 - 🔄 **Request Changes**: Visual hierarchy unclear or patterns don't match specs
 - 💬 **Comment**: Minor suggestions, but acceptable to merge
@@ -86,6 +93,7 @@ Before submitting, ensure:
 Every quarter (or as needed), conduct a comprehensive review of all component variants.
 
 ### Goals
+
 - Identify design drift
 - Ensure consistency across all components
 - Update variant specifications if patterns evolve
@@ -103,23 +111,23 @@ Every quarter (or as needed), conduct a comprehensive review of all component va
 
 For each component family, review the AllVariants story:
 
-| Component | ✅/⚠️ | Text Size | Padding | Font Weight | Notes |
-|-----------|-------|-----------|---------|-------------|-------|
-| Button | | | | | |
-| Card | | | | | |
-| Panel | | | | | |
-| Alert | | | | | |
-| Tag | | | | | |
-| Heading | | | | | |
-| SubHeading | | | | | |
-| Paragraph | | | | | |
-| Breadcrumbs | | | | | |
-| ButtonIcon | | | | | |
-| MenuItem | | | | | |
-| ProgressBar | | | | | |
-| Toast | | | | | |
-| Table | | | | | |
-| DashPanel | | | | | |
+| Component   | ✅/⚠️ | Text Size | Padding | Font Weight | Notes |
+| ----------- | ----- | --------- | ------- | ----------- | ----- |
+| Button      |       |           |         |             |       |
+| Card        |       |           |         |             |       |
+| Panel       |       |           |         |             |       |
+| Alert       |       |           |         |             |       |
+| Tag         |       |           |         |             |       |
+| Heading     |       |           |         |             |       |
+| SubHeading  |       |           |         |             |       |
+| Paragraph   |       |           |         |             |       |
+| Breadcrumbs |       |           |         |             |       |
+| ButtonIcon  |       |           |         |             |       |
+| MenuItem    |       |           |         |             |       |
+| ProgressBar |       |           |         |             |       |
+| Toast       |       |           |         |             |       |
+| Table       |       |           |         |             |       |
+| DashPanel   |       |           |         |             |       |
 
 #### 3. Pattern Analysis (30 minutes)
 
@@ -136,6 +144,7 @@ For each component family, review the AllVariants story:
 #### 5. Action Items (15 minutes)
 
 Create GitHub issues for:
+
 - Components needing fixes
 - Specification updates needed
 - New patterns to standardize
@@ -143,6 +152,7 @@ Create GitHub issues for:
 #### 6. Review Report
 
 Publish quarterly review report in `docs/reviews/` with:
+
 - Summary of findings
 - Components reviewed
 - Issues identified
@@ -166,6 +176,7 @@ The AllVariants stories serve as both validation tools and living documentation.
 ### Best Practices
 
 **For Story Authors:**
+
 - Include all three variants
 - Show actual Tailwind classes used
 - Add status indicators (✅ GOOD / ⚠️ ISSUE)
@@ -173,6 +184,7 @@ The AllVariants stories serve as both validation tools and living documentation.
 - Use consistent story structure
 
 **For Story Consumers:**
+
 - Use as reference when creating new components
 - Check before modifying existing components
 - Share links in PR discussions
@@ -219,28 +231,32 @@ If automated validation is desired in the future, the AllVariants stories provid
 ### Potential Additions
 
 1. **Screenshot-based visual regression testing**
-   - Use Storybook test-runner with Playwright
-   - Capture AllVariants stories
-   - Compare against baseline images
+
+    - Use Storybook test-runner with Playwright
+    - Capture AllVariants stories
+    - Compare against baseline images
 
 2. **Automated class extraction**
-   - Parse Tailwind classes from component files
-   - Validate against pattern specifications
-   - Flag non-progressive patterns
+
+    - Parse Tailwind classes from component files
+    - Validate against pattern specifications
+    - Flag non-progressive patterns
 
 3. **CI/CD integration**
-   - Run Storybook build in CI
-   - Validate all stories render without errors
-   - Block PRs if AllVariants story missing
+
+    - Run Storybook build in CI
+    - Validate all stories render without errors
+    - Block PRs if AllVariants story missing
 
 4. **Design token validation**
-   - Extract sizing values from components
-   - Validate progression (e.g., 2 → 4 → 6)
-   - Flag arbitrary values
+    - Extract sizing values from components
+    - Validate progression (e.g., 2 → 4 → 6)
+    - Flag arbitrary values
 
 ### Why Start Manual
 
 Manual validation is sufficient because:
+
 - Visual hierarchy is subjective
 - Design system is still evolving
 - Human judgment adds value
@@ -248,6 +264,7 @@ Manual validation is sufficient because:
 - Stories already serve as documentation
 
 Automation should be added only when:
+
 - Patterns are fully stable
 - Manual review becomes bottleneck
 - Team size requires it
@@ -270,19 +287,21 @@ Sometimes components need to deviate from standard patterns.
 When a component intentionally breaks patterns:
 
 1. **Document in component file**
-   ```javascript
-   /**
-    * EXCEPTION: All variants use consistent padding for layout stability
-    * Rationale: Headings need consistent spacing in page layouts
-    */
-   ```
+
+    ```javascript
+    /**
+     * EXCEPTION: All variants use consistent padding for layout stability
+     * Rationale: Headings need consistent spacing in page layouts
+     */
+    ```
 
 2. **Update AllVariants story**
-   ```javascript
-   <span className="text-amber-600">
-       ⚠️ NOTE: Consistent padding intentional for layout stability
-   </span>
-   ```
+
+    ```javascript
+    <span className="text-amber-600">
+        ⚠️ NOTE: Consistent padding intentional for layout stability
+    </span>
+    ```
 
 3. **Document in variant specifications**
    Add to the pattern tables with explanation
@@ -295,12 +314,14 @@ When a component intentionally breaks patterns:
 ## Questions and Support
 
 **Need help with validation?**
+
 - Check [variant-specifications.md](./variant-specifications.md) for patterns
 - View AllVariants stories in Storybook for examples
 - Ask in PR reviews
 - Open an issue for discussion
 
 **Found an inconsistency?**
+
 - Document it in the quarterly review
 - Create a GitHub issue
 - Fix it if possible and submit a PR
@@ -310,12 +331,12 @@ When a component intentionally breaks patterns:
 
 ## Maintenance Schedule
 
-| Activity | Frequency | Duration | Owner |
-|----------|-----------|----------|-------|
-| PR Review | Per PR | 5-10 min | Reviewer |
-| Visual Validation | Per change | 2-5 min | Developer |
-| Quarterly Review | Quarterly | 3-4 hours | Team rotation |
-| Spec Updates | As needed | 30-60 min | Reviewer/Lead |
+| Activity          | Frequency  | Duration  | Owner         |
+| ----------------- | ---------- | --------- | ------------- |
+| PR Review         | Per PR     | 5-10 min  | Reviewer      |
+| Visual Validation | Per change | 2-5 min   | Developer     |
+| Quarterly Review  | Quarterly  | 3-4 hours | Team rotation |
+| Spec Updates      | As needed  | 30-60 min | Reviewer/Lead |
 
 ---
 

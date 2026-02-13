@@ -3,6 +3,7 @@
 Thank you for contributing to dash-react! This guide will help you understand our development practices and component variant system.
 
 ## Table of Contents
+
 1. [Getting Started](#getting-started)
 2. [Component Variant System](#component-variant-system)
 3. [Development Workflow](#development-workflow)
@@ -15,10 +16,12 @@ Thank you for contributing to dash-react! This guide will help you understand ou
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or yarn
 
 ### Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/your-org/dash-react.git
@@ -39,16 +42,21 @@ npm run build
 ## Component Variant System
 
 dash-react implements a **3-variant design system** for visual hierarchy:
+
 - **Primary (Component)**: Largest, most prominent
 - **Secondary (Component2)**: Medium emphasis
 - **Tertiary (Component3)**: Smallest, most subtle
 
 ### Required Reading
+
 Before creating or modifying component variants, please read:
+
 - [Variant Specifications Documentation](./variant-specifications.md)
 
 ### Key Principles
+
 ✅ **DO:**
+
 - Implement all three variants when creating new components
 - Follow progressive patterns (decreasing size, padding, font weight)
 - Create an `AllVariants` story in Storybook for validation
@@ -56,6 +64,7 @@ Before creating or modifying component variants, please read:
 - Test visual hierarchy by viewing AllVariants story
 
 ❌ **DON'T:**
+
 - Create identical styling across all three variants
 - Skip implementing any of the three variants
 - Use arbitrary sizing without following patterns
@@ -68,52 +77,58 @@ Before creating or modifying component variants, please read:
 ### Creating a New Component
 
 1. **Use the component template**
-   ```bash
-   cp templates/ComponentVariants.template.js src/Common/YourComponent.js
-   cp templates/ComponentVariants.stories.template.js src/Common/YourComponent.stories.js
-   ```
+
+    ```bash
+    cp templates/ComponentVariants.template.js src/Common/YourComponent.js
+    cp templates/ComponentVariants.stories.template.js src/Common/YourComponent.stories.js
+    ```
 
 2. **Customize the template**
-   - Replace `ComponentName` with your component name
-   - Define variant specifications in comments
-   - Implement component logic
-   - Follow progressive patterns from [variant specifications](./variant-specifications.md)
+
+    - Replace `ComponentName` with your component name
+    - Define variant specifications in comments
+    - Implement component logic
+    - Follow progressive patterns from [variant specifications](./variant-specifications.md)
 
 3. **Register theme objects**
    Add to `src/Utils/themeObjects.js`:
-   ```javascript
-   YOUR_COMPONENT: "YOUR_COMPONENT",
-   YOUR_COMPONENT_2: "YOUR_COMPONENT_2",
-   YOUR_COMPONENT_3: "YOUR_COMPONENT_3",
-   ```
+
+    ```javascript
+    YOUR_COMPONENT: "YOUR_COMPONENT",
+    YOUR_COMPONENT_2: "YOUR_COMPONENT_2",
+    YOUR_COMPONENT_3: "YOUR_COMPONENT_3",
+    ```
 
 4. **Create Storybook stories**
-   - Primary, Secondary, Tertiary individual stories
-   - **Required:** `AllVariants` story for side-by-side comparison
-   - Add inline documentation showing Tailwind classes
+
+    - Primary, Secondary, Tertiary individual stories
+    - **Required:** `AllVariants` story for side-by-side comparison
+    - Add inline documentation showing Tailwind classes
 
 5. **Visual validation**
-   - Start Storybook: `npm run storybook`
-   - Navigate to your component's `AllVariants` story
-   - Verify clear visual hierarchy across all three variants
-   - Check that patterns match [variant specifications](./variant-specifications.md)
+    - Start Storybook: `npm run storybook`
+    - Navigate to your component's `AllVariants` story
+    - Verify clear visual hierarchy across all three variants
+    - Check that patterns match [variant specifications](./variant-specifications.md)
 
 ### Modifying Existing Components
 
 1. **Read the component first**
-   - Check variant specifications in component comments
-   - View current `AllVariants` story in Storybook
-   - Understand existing patterns before changing
+
+    - Check variant specifications in component comments
+    - View current `AllVariants` story in Storybook
+    - Understand existing patterns before changing
 
 2. **Maintain progressive patterns**
-   - Don't break the visual hierarchy
-   - If changing one variant, consider impact on others
-   - Update `AllVariants` story documentation if patterns change
+
+    - Don't break the visual hierarchy
+    - If changing one variant, consider impact on others
+    - Update `AllVariants` story documentation if patterns change
 
 3. **Update documentation**
-   - Update component comments if specifications change
-   - Update `AllVariants` story status indicators
-   - Update [variant specifications](./variant-specifications.md) if establishing new patterns
+    - Update component comments if specifications change
+    - Update `AllVariants` story status indicators
+    - Update [variant specifications](./variant-specifications.md) if establishing new patterns
 
 ---
 
@@ -124,6 +139,7 @@ Before creating or modifying component variants, please read:
 Run through this checklist before opening a PR:
 
 #### For New Components
+
 - [ ] All three variants (Primary, Secondary, Tertiary) are implemented
 - [ ] Variant specifications documented in component file comments
 - [ ] Theme objects registered in `themeObjects.js`
@@ -136,6 +152,7 @@ Run through this checklist before opening a PR:
 - [ ] No console errors or warnings
 
 #### For Component Variant Modifications
+
 - [ ] Visual hierarchy maintained or intentionally improved
 - [ ] `AllVariants` story updated with new documentation
 - [ ] Changes follow patterns in [variant specifications](./variant-specifications.md)
@@ -145,6 +162,7 @@ Run through this checklist before opening a PR:
 - [ ] No regressions in other components
 
 #### For All Changes
+
 - [ ] Code follows existing style and patterns
 - [ ] No unnecessary files added (avoid file bloat)
 - [ ] Git commits are clear and descriptive
@@ -156,9 +174,11 @@ Use this template for your PR description:
 
 ```markdown
 ## Description
+
 Brief description of what this PR does.
 
 ## Type of Change
+
 - [ ] New component
 - [ ] Component variant modification
 - [ ] Bug fix
@@ -166,6 +186,7 @@ Brief description of what this PR does.
 - [ ] Other (please describe)
 
 ## Component Variant Checklist
+
 (For component-related changes only)
 
 - [ ] All three variants implemented/updated
@@ -175,14 +196,17 @@ Brief description of what this PR does.
 - [ ] Theme objects registered
 
 ## Screenshots
+
 (If applicable, add screenshots showing AllVariants story)
 
 ## Testing
+
 - [ ] Visually tested in Storybook
 - [ ] Build passes
 - [ ] No console errors
 
 ## Additional Notes
+
 Any other context or notes for reviewers.
 ```
 
@@ -195,19 +219,21 @@ Any other context or notes for reviewers.
 This is the primary testing method for component variants:
 
 1. **Start Storybook**
-   ```bash
-   npm run storybook
-   ```
+
+    ```bash
+    npm run storybook
+    ```
 
 2. **Navigate to your component**
-   - Go to the component in the Storybook sidebar
-   - Click on the `AllVariants` story
+
+    - Go to the component in the Storybook sidebar
+    - Click on the `AllVariants` story
 
 3. **Visual validation**
-   - Verify all three variants display correctly
-   - Check that visual hierarchy is clear
-   - Confirm progressive patterns are applied
-   - Review inline documentation for accuracy
+    - Verify all three variants display correctly
+    - Check that visual hierarchy is clear
+    - Confirm progressive patterns are applied
+    - Review inline documentation for accuracy
 
 ### Build Validation
 
@@ -218,6 +244,7 @@ npm run build
 ```
 
 This ensures:
+
 - No TypeScript/syntax errors
 - All imports resolve correctly
 - Library can be packaged successfully
@@ -297,6 +324,7 @@ export { ComponentName };
 ## Questions?
 
 If you have questions about:
+
 - **Variant patterns**: See [variant-specifications.md](./variant-specifications.md)
 - **Existing components**: Check the `AllVariants` stories in Storybook
 - **Getting started**: Open an issue for help

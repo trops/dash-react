@@ -96,7 +96,8 @@ export const AllVariants = () => (
                     </span>
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ NOTE: All variants use same padding (could be improved)
+                        ⚠️ NOTE: All variants use same padding (could be
+                        improved)
                     </span>
                 </div>
             </div>

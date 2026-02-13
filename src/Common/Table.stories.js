@@ -269,7 +269,11 @@ export const AllVariants = () => (
                 <h3 className="text-lg font-semibold mb-4">
                     Table (Primary Variant)
                 </h3>
-                <Table columns={simpleColumns} data={simpleData} bordered={true} />
+                <Table
+                    columns={simpleColumns}
+                    data={simpleData}
+                    bordered={true}
+                />
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Padding: Uses paddingClass variable
                     <br />
@@ -278,7 +282,8 @@ export const AllVariants = () => (
                     Borders: border-b on rows
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ Note: Variants may differ only in theme colors and padding size - check implementation
+                        ⚠️ Note: Variants may differ only in theme colors and
+                        padding size - check implementation
                     </span>
                 </div>
             </div>
@@ -286,7 +291,11 @@ export const AllVariants = () => (
                 <h3 className="text-lg font-semibold mb-4">
                     Table2 (Secondary Variant)
                 </h3>
-                <Table2 columns={simpleColumns} data={simpleData} bordered={true} />
+                <Table2
+                    columns={simpleColumns}
+                    data={simpleData}
+                    bordered={true}
+                />
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Padding: Uses paddingClass variable
                     <br />
@@ -303,7 +312,11 @@ export const AllVariants = () => (
                 <h3 className="text-lg font-semibold mb-4">
                     Table3 (Tertiary Variant)
                 </h3>
-                <Table3 columns={simpleColumns} data={simpleData} bordered={true} />
+                <Table3
+                    columns={simpleColumns}
+                    data={simpleData}
+                    bordered={true}
+                />
                 <div className="text-sm text-gray-600 mt-2 font-mono">
                     Padding: Uses paddingClass variable
                     <br />
@@ -312,7 +325,8 @@ export const AllVariants = () => (
                     Borders: border-b on rows
                     <br />
                     <span className="text-amber-600">
-                        ⚠️ Note: Check if padding differs from primary and secondary
+                        ⚠️ Note: Check if padding differs from primary and
+                        secondary
                     </span>
                 </div>
             </div>
