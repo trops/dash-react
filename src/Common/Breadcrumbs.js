@@ -43,7 +43,9 @@ const BreadcrumbsBase = ({
 
     return (
         <nav id={uuid} className={className} aria-label="Breadcrumb">
-            <ol className={`flex items-center space-x-2 ${styles.textColor} ${styles.textSize || ""}`}>
+            <ol
+                className={`flex items-center space-x-2 ${styles.textColor} ${styles.textSize || ""}`}
+            >
                 {displayItems.map((item, index) => (
                     <li
                         key={`${item.label}-${index}`}
