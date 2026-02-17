@@ -1451,6 +1451,10 @@ function getStyleName(objectType) {
     return s;
 }
 
+const getDefaultStylesForItem = (itemName) => {
+    return itemName in colorMap ? { ...colorMap[itemName] } : {};
+};
+
 export {
     colorTypes,
     colorNames,
@@ -1458,6 +1462,7 @@ export {
     themeVariants,
     objectTypes,
     getStylesForItem,
+    getDefaultStylesForItem,
     getClassForObjectType,
     getStyleName,
     getCSSStyleForClassname,
