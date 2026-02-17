@@ -154,75 +154,75 @@ const colorMap = {
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-primary-medium",
     },
     [themeObjects.CARD_2]: {
-        [themeObjects.BREADCRUMBS]: {
-            [styleClassNames.TEXT_COLOR]: "text-primary-medium",
-        },
-        [themeObjects.BREADCRUMBS_2]: {
-            [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
-        },
-        [themeObjects.BREADCRUMBS_3]: {
-            [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
-        },
-        [themeObjects.ALERT]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
-            [styleClassNames.BORDER_COLOR]: "border-primary-light",
-            [styleClassNames.TEXT_COLOR]: "text-primary-medium",
-        },
-        [themeObjects.ALERT_2]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
-            [styleClassNames.BORDER_COLOR]: "border-secondary-light",
-            [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
-        },
-        [themeObjects.ALERT_3]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
-            [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
-            [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
-        },
-        [themeObjects.ALERT_BANNER]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-blue-50",
-            [styleClassNames.BORDER_COLOR]: "border-blue-500",
-            [styleClassNames.TEXT_COLOR]: "text-blue-900",
-        },
-        [themeObjects.PROGRESS_BAR]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
-            [styleClassNames.BORDER_COLOR]: "border-primary-dark",
-            [styleClassNames.TEXT_COLOR]: "text-primary-medium",
-        },
-        [themeObjects.PROGRESS_BAR_2]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
-            [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
-            [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
-        },
-        [themeObjects.PROGRESS_BAR_3]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
-            [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
-            [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
-        },
-        [themeObjects.TOAST]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
-            [styleClassNames.BORDER_COLOR]: "border-primary-light",
-            [styleClassNames.TEXT_COLOR]: "text-primary-medium",
-        },
-        [themeObjects.TOAST_2]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
-            [styleClassNames.BORDER_COLOR]: "border-secondary-light",
-            [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
-        },
-        [themeObjects.TOAST_3]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
-            [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
-            [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
-        },
-        [themeObjects.WIDGET_CHROME]: {
-            [styleClassNames.BACKGROUND_COLOR]: "bg-primary-dark",
-            [styleClassNames.BORDER_COLOR]: "border-primary-very-dark",
-            [styleClassNames.TEXT_COLOR]: "text-primary-light",
-        },
         [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
         [styleClassNames.BORDER_COLOR]: "border-secondary-light",
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-secondary-light",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-secondary-medium",
+    },
+    [themeObjects.BREADCRUMBS]: {
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+    },
+    [themeObjects.BREADCRUMBS_2]: {
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+    },
+    [themeObjects.BREADCRUMBS_3]: {
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+    },
+    [themeObjects.ALERT]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
+        [styleClassNames.BORDER_COLOR]: "border-primary-light",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+    },
+    [themeObjects.ALERT_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-light",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+    },
+    [themeObjects.ALERT_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+    },
+    [themeObjects.ALERT_BANNER]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-blue-50",
+        [styleClassNames.BORDER_COLOR]: "border-blue-500",
+        [styleClassNames.TEXT_COLOR]: "text-blue-900",
+    },
+    [themeObjects.PROGRESS_BAR]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+    },
+    [themeObjects.PROGRESS_BAR_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+    },
+    [themeObjects.PROGRESS_BAR_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+    },
+    [themeObjects.TOAST]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
+        [styleClassNames.BORDER_COLOR]: "border-primary-light",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+    },
+    [themeObjects.TOAST_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-light",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+    },
+    [themeObjects.TOAST_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+    },
+    [themeObjects.WIDGET_CHROME]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-light",
     },
     [themeObjects.CARD_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
@@ -685,6 +685,8 @@ const colorMap = {
     },
     // Tabs (v0.3.0+)
     [themeObjects.TABS]: {},
+    [themeObjects.TABS_2]: {},
+    [themeObjects.TABS_3]: {},
     [themeObjects.TABS_LIST]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-dark",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
@@ -745,6 +747,8 @@ const colorMap = {
     },
     // Accordion (v0.3.0+)
     [themeObjects.ACCORDION]: {},
+    [themeObjects.ACCORDION_2]: {},
+    [themeObjects.ACCORDION_3]: {},
     [themeObjects.ACCORDION_ITEM]: {
         [styleClassNames.BORDER_COLOR]: "border-primary-dark",
     },
