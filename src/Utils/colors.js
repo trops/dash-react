@@ -162,12 +162,15 @@ const colorMap = {
     },
     [themeObjects.BREADCRUMBS]: {
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.TEXT_SIZE]: "text-base",
     },
     [themeObjects.BREADCRUMBS_2]: {
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.TEXT_SIZE]: "text-sm",
     },
     [themeObjects.BREADCRUMBS_3]: {
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
     },
     [themeObjects.ALERT]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
