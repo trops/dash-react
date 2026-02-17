@@ -15,6 +15,47 @@
 
 **Primary Consumer:** [@trops/dash](https://github.com/trops/dash) - Electron dashboard framework
 
+## Product Requirements Documentation
+
+**Location:** `docs/requirements/`
+
+Before implementing new components or making breaking API changes, check for relevant Product Requirements Documents (PRDs).
+
+### Documentation Hierarchy
+
+```
+PRDs (requirements) → Architecture Docs (design) → Implementation Guides (code)
+```
+
+**PRDs answer:**
+
+- **Why** are we building this component? (Consumer needs, design goals)
+- **Who** is it for? (Library consumers, use cases)
+- **What** defines success? (API design criteria, adoption metrics)
+- **When** should it be prioritized? (Implementation phases)
+
+**Technical docs answer:**
+
+- **How** is it built? (Implementation patterns, code structure)
+- **Where** is the code? (Source file locations)
+- **What** are the APIs? (Component props, hooks, utilities)
+
+### Creating New PRDs (Library Context)
+
+PRDs for dash-react focus on component API design and consumer needs:
+
+- Component families (e.g., new Chart components)
+- Theme system enhancements
+- Breaking API changes requiring migration
+
+See [docs/requirements/README.md](docs/requirements/README.md) for:
+
+- When to create library PRDs
+- Library-specific PRD considerations
+- API design goals and success metrics
+
+**Note:** For application-level PRDs (features in Dash app), see the [dash project requirements](../../../dash/dash/docs/requirements/).
+
 ## Architecture
 
 ### Core Systems

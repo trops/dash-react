@@ -7,8 +7,8 @@ const Card = ({
     children,
     onClick = null,
     padding = "p-6",
-    rounded = "rounded-lg",
-    shadow = "shadow-md",
+    rounded = "rounded-xl",
+    shadow = "shadow-sm",
     className = "",
     hover = false,
     ...props
@@ -22,16 +22,14 @@ const Card = ({
 
     const uuid = getUUID("", "card");
 
-    const hoverStyles = hover
-        ? "hover:shadow-lg transition-shadow duration-200"
-        : "";
+    const hoverStyles = hover ? "hover:shadow-md" : "";
     const clickableStyles = onClick ? "cursor-pointer" : "";
 
     return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} ${hoverStyles} ${clickableStyles} border ${className}`}
+            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
         >
             {children}
         </div>
@@ -42,8 +40,8 @@ const Card2 = ({
     children,
     onClick = null,
     padding = "p-4",
-    rounded = "rounded-md",
-    shadow = "shadow",
+    rounded = "rounded-lg",
+    shadow = "shadow-sm",
     className = "",
     hover = false,
     ...props
@@ -57,16 +55,14 @@ const Card2 = ({
 
     const uuid = getUUID("", "card-2");
 
-    const hoverStyles = hover
-        ? "hover:shadow-lg transition-shadow duration-200"
-        : "";
+    const hoverStyles = hover ? "hover:shadow-md" : "";
     const clickableStyles = onClick ? "cursor-pointer" : "";
 
     return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} ${hoverStyles} ${clickableStyles} border ${className}`}
+            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
         >
             {children}
         </div>
@@ -77,8 +73,8 @@ const Card3 = ({
     children,
     onClick = null,
     padding = "p-2",
-    rounded = "rounded",
-    shadow = "shadow-sm",
+    rounded = "rounded-md",
+    shadow = "shadow-none",
     className = "",
     hover = false,
     ...props
@@ -92,16 +88,14 @@ const Card3 = ({
 
     const uuid = getUUID("", "card-3");
 
-    const hoverStyles = hover
-        ? "hover:shadow-lg transition-shadow duration-200"
-        : "";
+    const hoverStyles = hover ? "hover:shadow-sm" : "";
     const clickableStyles = onClick ? "cursor-pointer" : "";
 
     return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} ${hoverStyles} ${clickableStyles} border ${className}`}
+            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
         >
             {children}
         </div>

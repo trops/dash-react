@@ -58,7 +58,7 @@ const BreadcrumbsBase = ({
                             <a
                                 href={item.href}
                                 onClick={(event) => handleClick(item, event)}
-                                className="hover:underline"
+                                className="hover:underline transition-colors duration-150"
                             >
                                 {item.label}
                             </a>
@@ -66,7 +66,7 @@ const BreadcrumbsBase = ({
                             <button
                                 type="button"
                                 onClick={(event) => handleClick(item, event)}
-                                className="hover:underline"
+                                className="hover:underline transition-colors duration-150"
                             >
                                 {item.label}
                             </button>

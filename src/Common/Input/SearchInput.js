@@ -55,7 +55,8 @@ const SearchInput = ({
                     value={value}
                     onChange={(event) => onChange(event.target.value, event)}
                     placeholder={placeholder}
-                    className={`w-full rounded-md border pl-10 pr-3 py-2 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus:outline-none focus:ring-2 focus:ring-offset-0 ${inputClassName}`}
+                    disabled={props.disabled}
+                    className={`w-full rounded-md border pl-10 pr-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
                 />
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, createElement } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils/colors";
 import { themeObjects } from "@dash/Utils/themeObjects";
@@ -10,6 +10,7 @@ function Heading({
     textColor = null,
     backgroundColor = null,
     className = "",
+    as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -19,15 +20,16 @@ function Heading({
         width: "w-full",
         grow: false,
     });
-    return (
-        <div
-            className={`flex flex-row ${className} ${paddingStyles} text-6xl font-bold ${
-                styles.string
-            } ${onClick !== null && "cursor-pointer"}`}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+
+    const Tag = as || "div";
+
+    return createElement(
+        Tag,
+        {
+            className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-5xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            onClick,
+        },
+        title
     );
 }
 
@@ -38,6 +40,7 @@ function Heading2({
     textColor = null,
     backgroundColor = null,
     className = "",
+    as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -47,15 +50,16 @@ function Heading2({
         width: "w-full",
         grow: false,
     });
-    return (
-        <div
-            className={`flex flex-row ${className} ${paddingStyles} text-5xl font-bold ${
-                styles.string
-            } ${onClick !== null && "cursor-pointer"}`}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+
+    const Tag = as || "div";
+
+    return createElement(
+        Tag,
+        {
+            className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-4xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            onClick,
+        },
+        title
     );
 }
 
@@ -66,6 +70,7 @@ function Heading3({
     textColor = null,
     backgroundColor = null,
     className = "",
+    as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -75,15 +80,16 @@ function Heading3({
         width: "w-full",
         grow: false,
     });
-    return (
-        <div
-            className={`flex flex-row ${className} ${paddingStyles} text-4xl font-bold ${
-                styles.string
-            } ${onClick !== null && "cursor-pointer"}`}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+
+    const Tag = as || "div";
+
+    return createElement(
+        Tag,
+        {
+            className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-3xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            onClick,
+        },
+        title
     );
 }
 
@@ -94,6 +100,7 @@ function SubHeading({
     textColor = null,
     backgroundColor = null,
     className = "",
+    as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -104,15 +111,15 @@ function SubHeading({
         grow: false,
     });
 
-    return (
-        <div
-            className={`flex flex-row w-full ${className} ${paddingStyles} text-3xl font-medium ${
-                styles.string
-            } ${onClick !== null && "cursor-pointer"}`}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+    const Tag = as || "div";
+
+    return createElement(
+        Tag,
+        {
+            className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-2xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            onClick,
+        },
+        title
     );
 }
 
@@ -123,6 +130,7 @@ function SubHeading2({
     textColor = null,
     backgroundColor = null,
     className = "",
+    as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -132,15 +140,16 @@ function SubHeading2({
         width: "w-full",
         grow: false,
     });
-    return (
-        <div
-            className={`flex flex-row w-full ${className} ${paddingStyles} text-2xl font-medium ${
-                styles.string
-            } ${onClick !== null && "cursor-pointer"}`}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+
+    const Tag = as || "div";
+
+    return createElement(
+        Tag,
+        {
+            className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-xl"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            onClick,
+        },
+        title
     );
 }
 
@@ -151,6 +160,7 @@ function SubHeading3({
     textColor = null,
     backgroundColor = null,
     className = "",
+    as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -161,15 +171,15 @@ function SubHeading3({
         grow: false,
     });
 
-    return (
-        <div
-            className={`flex flex-row w-full ${className} ${paddingStyles} text-xl ${
-                styles.string
-            } ${onClick !== null && "cursor-pointer"}`}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+    const Tag = as || "div";
+
+    return createElement(
+        Tag,
+        {
+            className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-lg"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-normal"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            onClick,
+        },
+        title
     );
 }
 

@@ -37,7 +37,7 @@ for (const colorName in tailwindColors) {
 const newSafeList = colorSafeList.concat([
     {
         pattern: /bg-(.+)-(.+)/,
-        variants: ["hover"],
+        variants: ["hover", "active", "disabled"],
     },
     {
         pattern: /animate-(.+)/,
@@ -60,7 +60,7 @@ const newSafeList = colorSafeList.concat([
     },
     {
         pattern: /text-(.+)-(.+)/,
-        variants: ["hover"],
+        variants: ["hover", "active"],
     },
     {
         pattern: /font-(.+)/,
@@ -139,10 +139,11 @@ const newSafeList = colorSafeList.concat([
     },
     {
         pattern: /opacity-(.+)/,
+        variants: ["disabled"],
     },
     {
         pattern: /border-(.+)-(.+)/,
-        variants: ["hover"],
+        variants: ["hover", "focus-visible"],
     },
     {
         pattern: /space-(.+)-(.+)/,
@@ -178,6 +179,65 @@ const newSafeList = colorSafeList.concat([
     {
         pattern: /col-span-(.+)/,
     },
+    // Design Token Patterns (v0.2.0+)
+    {
+        pattern: /shadow-(none|sm|md|lg|xl|inner)/,
+        variants: ["hover"],
+    },
+    {
+        pattern: /rounded-(none|sm|md|lg|xl|full)/,
+    },
+    {
+        pattern: /text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl)/,
+        variants: ["lg", "xl", "2xl"],
+    },
+    {
+        pattern: /transition-(all|colors|shadow|transform|opacity)/,
+    },
+    {
+        pattern: /duration-(100|150|200|300|500)/,
+    },
+    {
+        pattern: /shadow/,
+        variants: ["hover"],
+    },
+    {
+        pattern: /(bg|text)-opacity-(.+)/,
+        variants: ["hover"],
+    },
+    {
+        pattern: /ring-(.+)/,
+        variants: ["focus", "focus-visible"],
+    },
+    {
+        pattern: /ring-offset-(.+)/,
+        variants: ["focus-visible"],
+    },
+    {
+        pattern: /border/,
+        variants: ["focus", "focus-visible"],
+    },
+    {
+        pattern: /pointer-events-(.+)/,
+        variants: ["disabled"],
+    },
+    {
+        pattern: /cursor-(.+)/,
+        variants: ["disabled"],
+    },
+    // Typography tokens
+    {
+        pattern: /tracking-(.+)/,
+    },
+    {
+        pattern: /leading-(.+)/,
+    },
+    {
+        pattern: /backdrop-blur-(none|sm|md|lg|xl)/,
+    },
+    {
+        pattern: /gap-(0|1|2|3|4|6|8|12|16)/,
+    },
 ]);
 
 module.exports = {
@@ -191,6 +251,12 @@ module.exports = {
                 "1/2": "50%",
                 "1/5": "20%",
                 full: "100%",
+            },
+            // Dark mode shadows (v0.2.0+)
+            boxShadow: {
+                "sm-dark": "0 1px 2px 0 rgba(255, 255, 255, 0.05)",
+                "md-dark": "0 4px 6px -1px rgba(255, 255, 255, 0.1)",
+                "lg-dark": "0 10px 15px -3px rgba(255, 255, 255, 0.1)",
             },
         },
     },

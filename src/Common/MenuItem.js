@@ -17,6 +17,7 @@ const MenuItem = ({
     children,
     selected = false,
     grow = false,
+    className = "",
     id,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -32,26 +33,15 @@ const MenuItem = ({
         grow,
     });
 
-    // since we do not have a layout container we can create an id like so
     const uuid = getUUID(id, "menu-item");
 
-    return theme === true ? (
+    return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row font-bold ${styles.string} ${
+            className={`flex flex-row ${styles.string} ${
                 border === true && "border-4"
-            } p-4 rounded items-center space-x-2 cursor-pointer text-lg`}
-        >
-            {children}
-        </div>
-    ) : (
-        <div
-            id={uuid}
-            onClick={onClick}
-            className={`flex flex-row font-bold ${backgroundColor} ${borderColor} ${textColor} ${
-                border === true && "border-4"
-            } p-4 rounded items-center space-x-2 cursor-pointer text-lg`}
+            } px-3 py-2 rounded-md items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ${className}`}
         >
             {children}
         </div>
@@ -89,13 +79,12 @@ const MenuItem2 = ({
 
     const baseStyles = `${
         onClick && "cursor-pointer"
-    } p-2 px-4 rounded items-center space-x-2 ${
+    } px-3 py-1.5 rounded-md items-center space-x-2 ${
         border === true && "border-2"
-    } ${border === true && "border-2"}`;
+    }`;
 
-    const baseTextStyles = `text-base font-medium`;
+    const baseTextStyles = `text-sm font-medium`;
 
-    // since we do not have a layout container we can create an id like so
     const uuid = getUUID(id, "menu-item");
 
     return (
@@ -104,7 +93,7 @@ const MenuItem2 = ({
             onClick={onClick}
             className={`flex flex-row ${baseStyles} ${
                 className !== "" ? className : baseTextStyles
-            } ${styles.string} `}
+            } ${styles.string} transition-colors duration-150`}
         >
             {children}
         </div>
@@ -145,12 +134,11 @@ const MenuItem3 = ({
 
     const baseStyles = `${
         onClick && "cursor-pointer"
-    } p-2 px-4 rounded items-center space-x-2 ${
+    } px-2 py-1 rounded-md items-center space-x-2 ${
         border === true && "border-2"
-    } ${border === true && "border-2"}`;
+    }`;
 
     const baseTextStyles = `text-sm font-normal`;
-    // since we do not have a layout container we can create an id like so
     const uuid = getUUID(id, "menu-item");
 
     return (
@@ -159,25 +147,11 @@ const MenuItem3 = ({
             onClick={onClick}
             className={`flex flex-row ${baseStyles} ${
                 className !== "" ? className : baseTextStyles
-            } ${styles.string} `}
+            } ${styles.string} transition-colors duration-150`}
         >
             {children}
         </div>
     );
-
-    // return (
-    //     <div
-    //         id={id}
-    //         type={type}
-    //         ref={innerRef}
-    //         onClick={onClick}
-    //         className={`flex flex-row font-normal ${styles.string} ${
-    //             border === true && "border"
-    //         } p-2 rounded items-center space-x-2 cursor-pointer text-sm`}
-    //     >
-    //         {children}
-    //     </div>
-    // );
 };
 
 export { MenuItem, MenuItem2, MenuItem3 };

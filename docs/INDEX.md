@@ -13,6 +13,17 @@ See [../README.md](../README.md) for:
 - Theming and styling
 - Development and publishing workflow
 
+## Requirements & Product Design
+
+Product Requirements Documents (PRDs) define component design goals and consumer needs:
+
+- **[requirements/README.md](./requirements/README.md)** - PRD system overview (library-focused)
+- **[requirements/PRD-TEMPLATE.md](./requirements/PRD-TEMPLATE.md)** - Template for new PRDs
+
+**PRDs answer:** Why build this component? Who uses it? What defines success?
+
+**See technical docs below for:** How it's implemented, component APIs, usage examples
+
 ## Core Features
 
 - **UI Components** - Themed components for building dashboards

@@ -104,6 +104,59 @@ const DASH_PANEL_FOOTER_3 = "dash-panel-footer-3";
 
 const WIDGET_CHROME = "widget-chrome";
 
+const TABS = "tabs";
+const TABS_2 = "tabs-2";
+const TABS_3 = "tabs-3";
+const TABS_LIST = "tabs-list";
+const TABS_LIST_2 = "tabs-list-2";
+const TABS_LIST_3 = "tabs-list-3";
+const TABS_TRIGGER = "tabs-trigger";
+const TABS_TRIGGER_2 = "tabs-trigger-2";
+const TABS_TRIGGER_3 = "tabs-trigger-3";
+const TABS_CONTENT = "tabs-content";
+const TABS_CONTENT_2 = "tabs-content-2";
+const TABS_CONTENT_3 = "tabs-content-3";
+
+const ACCORDION = "accordion";
+const ACCORDION_2 = "accordion-2";
+const ACCORDION_3 = "accordion-3";
+const ACCORDION_ITEM = "accordion-item";
+const ACCORDION_ITEM_2 = "accordion-item-2";
+const ACCORDION_ITEM_3 = "accordion-item-3";
+const ACCORDION_TRIGGER = "accordion-trigger";
+const ACCORDION_TRIGGER_2 = "accordion-trigger-2";
+const ACCORDION_TRIGGER_3 = "accordion-trigger-3";
+const ACCORDION_CONTENT = "accordion-content";
+const ACCORDION_CONTENT_2 = "accordion-content-2";
+const ACCORDION_CONTENT_3 = "accordion-content-3";
+
+const SETTINGS_MODAL_SIDEBAR = "settings-modal-sidebar";
+const SETTINGS_MODAL_FOOTER = "settings-modal-footer";
+
+const SIDEBAR = "sidebar";
+const SIDEBAR_ITEM = "sidebar-item";
+const NAVBAR = "navbar";
+const TABBED_NAVBAR = "tabbed-navbar";
+
+const EMPTY_STATE = "empty-state";
+const STAT_CARD = "stat-card";
+const STAT_CARD_LABEL = "stat-card-label";
+const STAT_CARD_VALUE = "stat-card-value";
+const STAT_CARD_CHANGE = "stat-card-change";
+const SKELETON = "skeleton";
+const COMMAND_PALETTE = "command-palette";
+const COMMAND_PALETTE_INPUT = "command-palette-input";
+const COMMAND_PALETTE_ITEM = "command-palette-item";
+const STEPPER = "stepper";
+const STEPPER_STEP = "stepper-step";
+const STEPPER_CONNECTOR = "stepper-connector";
+const DATA_LIST = "data-list";
+const DATA_LIST_ITEM = "data-list-item";
+const DRAWER = "drawer";
+const DRAWER_HEADER = "drawer-header";
+const DRAWER_FOOTER = "drawer-footer";
+const TOOLTIP = "tooltip";
+
 const WIDGET = "widget";
 const WORKSPACE = "workspace";
 const LAYOUT_CONTAINER = "layout-container";
@@ -184,6 +237,54 @@ const themeObjects = {
     DASH_PANEL_FOOTER_2,
     DASH_PANEL_FOOTER_3,
     WIDGET_CHROME,
+    TABS,
+    TABS_2,
+    TABS_3,
+    TABS_LIST,
+    TABS_LIST_2,
+    TABS_LIST_3,
+    TABS_TRIGGER,
+    TABS_TRIGGER_2,
+    TABS_TRIGGER_3,
+    TABS_CONTENT,
+    TABS_CONTENT_2,
+    TABS_CONTENT_3,
+    ACCORDION,
+    ACCORDION_2,
+    ACCORDION_3,
+    ACCORDION_ITEM,
+    ACCORDION_ITEM_2,
+    ACCORDION_ITEM_3,
+    ACCORDION_TRIGGER,
+    ACCORDION_TRIGGER_2,
+    ACCORDION_TRIGGER_3,
+    ACCORDION_CONTENT,
+    ACCORDION_CONTENT_2,
+    ACCORDION_CONTENT_3,
+    SETTINGS_MODAL_SIDEBAR,
+    SETTINGS_MODAL_FOOTER,
+    SIDEBAR,
+    SIDEBAR_ITEM,
+    NAVBAR,
+    TABBED_NAVBAR,
+    EMPTY_STATE,
+    STAT_CARD,
+    STAT_CARD_LABEL,
+    STAT_CARD_VALUE,
+    STAT_CARD_CHANGE,
+    SKELETON,
+    COMMAND_PALETTE,
+    COMMAND_PALETTE_INPUT,
+    COMMAND_PALETTE_ITEM,
+    STEPPER,
+    STEPPER_STEP,
+    STEPPER_CONNECTOR,
+    DATA_LIST,
+    DATA_LIST_ITEM,
+    DRAWER,
+    DRAWER_HEADER,
+    DRAWER_FOOTER,
+    TOOLTIP,
     WIDGET,
     WORKSPACE,
     LAYOUT_CONTAINER,
@@ -197,6 +298,25 @@ const HOVER_TEXT_COLOR = "hoverTextColor";
 const HOVER_BORDER_COLOR = "hoverBorderColor";
 const PADDING = "padding";
 
+// Design Token Class Names (v0.2.0+)
+const SHADOW = "shadow";
+const BORDER_RADIUS = "borderRadius";
+const SPACING = "spacing";
+const TEXT_SIZE = "textSize";
+const ICON_SIZE = "iconSize";
+const TRANSITION = "transition";
+
+// Interactive State Class Names (v0.3.0+)
+const FOCUS_RING_COLOR = "focusRingColor";
+const FOCUS_BORDER_COLOR = "focusBorderColor";
+const ACTIVE_BACKGROUND_COLOR = "activeBackgroundColor";
+const ACTIVE_TEXT_COLOR = "activeTextColor";
+const DISABLED_OPACITY = "disabledOpacity";
+const FONT_WEIGHT = "fontWeight";
+const LETTER_SPACING = "letterSpacing";
+const LINE_HEIGHT = "lineHeight";
+const CURSOR = "cursor";
+
 const styleClassNames = {
     BACKGROUND_COLOR,
     TEXT_COLOR,
@@ -205,6 +325,23 @@ const styleClassNames = {
     HOVER_BORDER_COLOR,
     HOVER_TEXT_COLOR,
     PADDING,
+    // Design Tokens
+    SHADOW,
+    BORDER_RADIUS,
+    SPACING,
+    TEXT_SIZE,
+    ICON_SIZE,
+    TRANSITION,
+    // Interactive States (v0.3.0+)
+    FOCUS_RING_COLOR,
+    FOCUS_BORDER_COLOR,
+    ACTIVE_BACKGROUND_COLOR,
+    ACTIVE_TEXT_COLOR,
+    DISABLED_OPACITY,
+    FONT_WEIGHT,
+    LETTER_SPACING,
+    LINE_HEIGHT,
+    CURSOR,
 };
 
 export { themeObjects, styleClassNames };

@@ -23,7 +23,7 @@ const Alert = ({
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 text-base ${className}`}
+            className={`border border-l-4 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-lg p-4 text-base ${className}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
@@ -38,7 +38,7 @@ const Alert = ({
                     <button
                         type="button"
                         onClick={onClose}
-                        className="ml-4 text-lg leading-none opacity-70 hover:opacity-100"
+                        className="ml-4 text-lg leading-none opacity-70 hover:opacity-100 rounded-full hover:bg-black/10 p-1 transition-colors duration-150"
                         aria-label="Close alert"
                     >
                         ×
@@ -62,7 +62,7 @@ const Alert2 = (props) => {
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-3 text-sm ${props.className || ""}`}
+            className={`border border-l-4 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-lg p-3 text-sm ${props.className || ""}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
@@ -79,7 +79,7 @@ const Alert2 = (props) => {
                     <button
                         type="button"
                         onClick={props.onClose}
-                        className="ml-4 text-lg leading-none opacity-70 hover:opacity-100"
+                        className="ml-4 text-lg leading-none opacity-70 hover:opacity-100 rounded-full hover:bg-black/10 p-1 transition-colors duration-150"
                         aria-label="Close alert"
                     >
                         ×
@@ -103,7 +103,7 @@ const Alert3 = (props) => {
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-2 text-sm ${props.className || ""}`}
+            className={`border border-l-4 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-lg p-2 text-sm ${props.className || ""}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
@@ -120,7 +120,7 @@ const Alert3 = (props) => {
                     <button
                         type="button"
                         onClick={props.onClose}
-                        className="ml-4 text-lg leading-none opacity-70 hover:opacity-100"
+                        className="ml-4 text-lg leading-none opacity-70 hover:opacity-100 rounded-full hover:bg-black/10 p-1 transition-colors duration-150"
                         aria-label="Close alert"
                     >
                         ×

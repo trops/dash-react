@@ -39,7 +39,8 @@ const Checkbox = ({
                 type="checkbox"
                 checked={checked}
                 onChange={(event) => onChange(event.target.checked, event)}
-                className={`h-4 w-4 rounded border ${styles.borderColor} ${styles.backgroundColor}`}
+                disabled={props.disabled}
+                className={`h-4 w-4 rounded border ${styles.borderColor} ${styles.backgroundColor} focus-visible:ring-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
             />
             {label && (
                 <span className={`text-sm ${labelStyles.textColor}`}>

@@ -125,7 +125,12 @@ export const MockWrapper = ({
 
     return (
         <ThemeContext.Provider value={{ currentTheme }}>
-            <div style={{ padding: "20px", backgroundColor: "#f5f5f5" }}>
+            <div
+                style={{
+                    padding: "20px",
+                    backgroundColor: variant === "dark" ? "#0a0a0a" : "#fafafa",
+                }}
+            >
                 {children}
             </div>
         </ThemeContext.Provider>

@@ -1,9 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faCheck, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning, faArrowRightToBracket, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 export { faArrowDown, faArrowLeft, faArrowRight, faArrowRightFromBracket, faArrowRightToBracket, faArrowUp, faArrowsLeftRight, faArrowsUpDown, faBaby, faBabyCarriage, faBullhorn, faCheck, faClone, faCode, faCog, faComputer, faDatabase, faEarListen, faEye, faFolder, faHammer, faHome, faLeaf, faMagnifyingGlass, faMinus, faPalette, faPencil, faPhone, faPlug, faPlus, faPuzzlePiece, faRobot, faSeedling, faSignal, faSquare, faSquareCheck, faTrash, faTrophy, faXmark } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useContext, useMemo, useEffect, useState, Fragment } from 'react';
-import { jsxs, jsx } from 'react/jsx-runtime';
-import { Dialog } from '@headlessui/react';
+import React, { createContext, useContext, createElement, useMemo, useEffect, useState, Fragment, useRef, Children, useCallback } from 'react';
+import { jsxs, jsx, Fragment as Fragment$1 } from 'react/jsx-runtime';
+import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import Editor from '@monaco-editor/react';
@@ -113,6 +113,54 @@ var DASH_PANEL_FOOTER = "dash-panel-footer";
 var DASH_PANEL_FOOTER_2 = "dash-panel-footer-2";
 var DASH_PANEL_FOOTER_3 = "dash-panel-footer-3";
 var WIDGET_CHROME = "widget-chrome";
+var TABS = "tabs";
+var TABS_2 = "tabs-2";
+var TABS_3 = "tabs-3";
+var TABS_LIST = "tabs-list";
+var TABS_LIST_2 = "tabs-list-2";
+var TABS_LIST_3 = "tabs-list-3";
+var TABS_TRIGGER = "tabs-trigger";
+var TABS_TRIGGER_2 = "tabs-trigger-2";
+var TABS_TRIGGER_3 = "tabs-trigger-3";
+var TABS_CONTENT = "tabs-content";
+var TABS_CONTENT_2 = "tabs-content-2";
+var TABS_CONTENT_3 = "tabs-content-3";
+var ACCORDION = "accordion";
+var ACCORDION_2 = "accordion-2";
+var ACCORDION_3 = "accordion-3";
+var ACCORDION_ITEM = "accordion-item";
+var ACCORDION_ITEM_2 = "accordion-item-2";
+var ACCORDION_ITEM_3 = "accordion-item-3";
+var ACCORDION_TRIGGER = "accordion-trigger";
+var ACCORDION_TRIGGER_2 = "accordion-trigger-2";
+var ACCORDION_TRIGGER_3 = "accordion-trigger-3";
+var ACCORDION_CONTENT = "accordion-content";
+var ACCORDION_CONTENT_2 = "accordion-content-2";
+var ACCORDION_CONTENT_3 = "accordion-content-3";
+var SETTINGS_MODAL_SIDEBAR = "settings-modal-sidebar";
+var SETTINGS_MODAL_FOOTER = "settings-modal-footer";
+var SIDEBAR = "sidebar";
+var SIDEBAR_ITEM = "sidebar-item";
+var NAVBAR = "navbar";
+var TABBED_NAVBAR = "tabbed-navbar";
+var EMPTY_STATE = "empty-state";
+var STAT_CARD = "stat-card";
+var STAT_CARD_LABEL = "stat-card-label";
+var STAT_CARD_VALUE = "stat-card-value";
+var STAT_CARD_CHANGE = "stat-card-change";
+var SKELETON = "skeleton";
+var COMMAND_PALETTE = "command-palette";
+var COMMAND_PALETTE_INPUT = "command-palette-input";
+var COMMAND_PALETTE_ITEM = "command-palette-item";
+var STEPPER = "stepper";
+var STEPPER_STEP = "stepper-step";
+var STEPPER_CONNECTOR = "stepper-connector";
+var DATA_LIST = "data-list";
+var DATA_LIST_ITEM = "data-list-item";
+var DRAWER = "drawer";
+var DRAWER_HEADER = "drawer-header";
+var DRAWER_FOOTER = "drawer-footer";
+var TOOLTIP = "tooltip";
 var WIDGET = "widget";
 var WORKSPACE = "workspace";
 var LAYOUT_CONTAINER = "layout-container";
@@ -192,6 +240,54 @@ var themeObjects = {
   DASH_PANEL_FOOTER_2: DASH_PANEL_FOOTER_2,
   DASH_PANEL_FOOTER_3: DASH_PANEL_FOOTER_3,
   WIDGET_CHROME: WIDGET_CHROME,
+  TABS: TABS,
+  TABS_2: TABS_2,
+  TABS_3: TABS_3,
+  TABS_LIST: TABS_LIST,
+  TABS_LIST_2: TABS_LIST_2,
+  TABS_LIST_3: TABS_LIST_3,
+  TABS_TRIGGER: TABS_TRIGGER,
+  TABS_TRIGGER_2: TABS_TRIGGER_2,
+  TABS_TRIGGER_3: TABS_TRIGGER_3,
+  TABS_CONTENT: TABS_CONTENT,
+  TABS_CONTENT_2: TABS_CONTENT_2,
+  TABS_CONTENT_3: TABS_CONTENT_3,
+  ACCORDION: ACCORDION,
+  ACCORDION_2: ACCORDION_2,
+  ACCORDION_3: ACCORDION_3,
+  ACCORDION_ITEM: ACCORDION_ITEM,
+  ACCORDION_ITEM_2: ACCORDION_ITEM_2,
+  ACCORDION_ITEM_3: ACCORDION_ITEM_3,
+  ACCORDION_TRIGGER: ACCORDION_TRIGGER,
+  ACCORDION_TRIGGER_2: ACCORDION_TRIGGER_2,
+  ACCORDION_TRIGGER_3: ACCORDION_TRIGGER_3,
+  ACCORDION_CONTENT: ACCORDION_CONTENT,
+  ACCORDION_CONTENT_2: ACCORDION_CONTENT_2,
+  ACCORDION_CONTENT_3: ACCORDION_CONTENT_3,
+  SETTINGS_MODAL_SIDEBAR: SETTINGS_MODAL_SIDEBAR,
+  SETTINGS_MODAL_FOOTER: SETTINGS_MODAL_FOOTER,
+  SIDEBAR: SIDEBAR,
+  SIDEBAR_ITEM: SIDEBAR_ITEM,
+  NAVBAR: NAVBAR,
+  TABBED_NAVBAR: TABBED_NAVBAR,
+  EMPTY_STATE: EMPTY_STATE,
+  STAT_CARD: STAT_CARD,
+  STAT_CARD_LABEL: STAT_CARD_LABEL,
+  STAT_CARD_VALUE: STAT_CARD_VALUE,
+  STAT_CARD_CHANGE: STAT_CARD_CHANGE,
+  SKELETON: SKELETON,
+  COMMAND_PALETTE: COMMAND_PALETTE,
+  COMMAND_PALETTE_INPUT: COMMAND_PALETTE_INPUT,
+  COMMAND_PALETTE_ITEM: COMMAND_PALETTE_ITEM,
+  STEPPER: STEPPER,
+  STEPPER_STEP: STEPPER_STEP,
+  STEPPER_CONNECTOR: STEPPER_CONNECTOR,
+  DATA_LIST: DATA_LIST,
+  DATA_LIST_ITEM: DATA_LIST_ITEM,
+  DRAWER: DRAWER,
+  DRAWER_HEADER: DRAWER_HEADER,
+  DRAWER_FOOTER: DRAWER_FOOTER,
+  TOOLTIP: TOOLTIP,
   WIDGET: WIDGET,
   WORKSPACE: WORKSPACE,
   LAYOUT_CONTAINER: LAYOUT_CONTAINER
@@ -203,6 +299,25 @@ var HOVER_BACKGROUND_COLOR = "hoverBackgroundColor";
 var HOVER_TEXT_COLOR = "hoverTextColor";
 var HOVER_BORDER_COLOR = "hoverBorderColor";
 var PADDING = "padding";
+
+// Design Token Class Names (v0.2.0+)
+var SHADOW = "shadow";
+var BORDER_RADIUS = "borderRadius";
+var SPACING = "spacing";
+var TEXT_SIZE = "textSize";
+var ICON_SIZE = "iconSize";
+var TRANSITION = "transition";
+
+// Interactive State Class Names (v0.3.0+)
+var FOCUS_RING_COLOR = "focusRingColor";
+var FOCUS_BORDER_COLOR = "focusBorderColor";
+var ACTIVE_BACKGROUND_COLOR = "activeBackgroundColor";
+var ACTIVE_TEXT_COLOR = "activeTextColor";
+var DISABLED_OPACITY = "disabledOpacity";
+var FONT_WEIGHT = "fontWeight";
+var LETTER_SPACING = "letterSpacing";
+var LINE_HEIGHT = "lineHeight";
+var CURSOR = "cursor";
 var styleClassNames = {
   BACKGROUND_COLOR: BACKGROUND_COLOR,
   TEXT_COLOR: TEXT_COLOR,
@@ -210,22 +325,39 @@ var styleClassNames = {
   HOVER_BACKGROUND_COLOR: HOVER_BACKGROUND_COLOR,
   HOVER_BORDER_COLOR: HOVER_BORDER_COLOR,
   HOVER_TEXT_COLOR: HOVER_TEXT_COLOR,
-  PADDING: PADDING
+  PADDING: PADDING,
+  // Design Tokens
+  SHADOW: SHADOW,
+  BORDER_RADIUS: BORDER_RADIUS,
+  SPACING: SPACING,
+  TEXT_SIZE: TEXT_SIZE,
+  ICON_SIZE: ICON_SIZE,
+  TRANSITION: TRANSITION,
+  // Interactive States (v0.3.0+)
+  FOCUS_RING_COLOR: FOCUS_RING_COLOR,
+  FOCUS_BORDER_COLOR: FOCUS_BORDER_COLOR,
+  ACTIVE_BACKGROUND_COLOR: ACTIVE_BACKGROUND_COLOR,
+  ACTIVE_TEXT_COLOR: ACTIVE_TEXT_COLOR,
+  DISABLED_OPACITY: DISABLED_OPACITY,
+  FONT_WEIGHT: FONT_WEIGHT,
+  LETTER_SPACING: LETTER_SPACING,
+  LINE_HEIGHT: LINE_HEIGHT,
+  CURSOR: CURSOR
 };
 
-var _themeObjects$CARD_, _colorMap;
-function _typeof$B(o) { "@babel/helpers - typeof"; return _typeof$B = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$B(o); }
-function _toConsumableArray$2(r) { return _arrayWithoutHoles$2(r) || _iterableToArray$2(r) || _unsupportedIterableToArray$4(r) || _nonIterableSpread$2(); }
-function _nonIterableSpread$2() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$4(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$4(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$4(r, a) : void 0; } }
-function _iterableToArray$2(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$2(r) { if (Array.isArray(r)) return _arrayLikeToArray$4(r); }
-function _arrayLikeToArray$4(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function ownKeys$u(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$u(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$u(Object(t), !0).forEach(function (r) { _defineProperty$v(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$u(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$v(e, r, t) { return (r = _toPropertyKey$z(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$z(t) { var i = _toPrimitive$z(t, "string"); return "symbol" == _typeof$B(i) ? i : i + ""; }
-function _toPrimitive$z(t, r) { if ("object" != _typeof$B(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$B(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$CARD_, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$MENU_IT, _colorMap;
+function _typeof$D(o) { "@babel/helpers - typeof"; return _typeof$D = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$D(o); }
+function _toConsumableArray$3(r) { return _arrayWithoutHoles$3(r) || _iterableToArray$3(r) || _unsupportedIterableToArray$a(r) || _nonIterableSpread$3(); }
+function _nonIterableSpread$3() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
+function _iterableToArray$3(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles$3(r) { if (Array.isArray(r)) return _arrayLikeToArray$a(r); }
+function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function ownKeys$w(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$w(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$w(Object(t), !0).forEach(function (r) { _defineProperty$x(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$w(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$x(e, r, t) { return (r = _toPropertyKey$B(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$B(t) { var i = _toPrimitive$B(t, "string"); return "symbol" == _typeof$D(i) ? i : i + ""; }
+function _toPrimitive$B(t, r) { if ("object" != _typeof$D(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$D(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border"
 // "p",
 // "m",
@@ -264,7 +396,51 @@ var themeVariants = ["very-light", "light", "medium", "dark", "very-dark"];
 var colorTypes = ["primary", "secondary", "tertiary", "neutral"];
 var colorNames = ["zinc", "neutral", "stone", "red", "gray", "blue", "slate", "indigo", "yellow", "orange", "amber", "lime", "emerald", "green", "teal", "cyan", "sky", "violet", "purple", "fuchsia", "pink", "rose"];
 var shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-var colorMap = (_colorMap = {}, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_colorMap, themeObjects.BUTTON, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), styleClassNames.PADDING, "padding-primary")), themeObjects.BUTTON_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.CARD, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-light"), styleClassNames.BORDER_COLOR, "border-primary-light"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-light"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-primary-medium")), themeObjects.CARD_2, (_themeObjects$CARD_ = {}, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_themeObjects$CARD_, themeObjects.BREADCRUMBS, _defineProperty$v({}, styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.BREADCRUMBS_2, _defineProperty$v({}, styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.BREADCRUMBS_3, _defineProperty$v({}, styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.ALERT, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-light"), styleClassNames.BORDER_COLOR, "border-primary-light"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.ALERT_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-light"), styleClassNames.BORDER_COLOR, "border-secondary-light"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.ALERT_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-light"), styleClassNames.BORDER_COLOR, "border-tertiary-light"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.ALERT_BANNER, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-blue-50"), styleClassNames.BORDER_COLOR, "border-blue-500"), styleClassNames.TEXT_COLOR, "text-blue-900")), themeObjects.PROGRESS_BAR, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.PROGRESS_BAR_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.PROGRESS_BAR_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_themeObjects$CARD_, themeObjects.TOAST, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-light"), styleClassNames.BORDER_COLOR, "border-primary-light"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.TOAST_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-light"), styleClassNames.BORDER_COLOR, "border-secondary-light"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.TOAST_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-light"), styleClassNames.BORDER_COLOR, "border-tertiary-light"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.WIDGET_CHROME, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-light")), styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-light"), styleClassNames.BORDER_COLOR, "border-secondary-light"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-light"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-secondary-medium"))), themeObjects.CARD_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-light"), styleClassNames.BORDER_COLOR, "border-tertiary-light"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-light"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-tertiary-medium")), themeObjects.PANEL, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_HEADER, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_FOOTER, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_colorMap, themeObjects.PANEL_HEADER_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_FOOTER_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_HEADER_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_FOOTER_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.BUTTON_ICON, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark")), themeObjects.BUTTON_ICON_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.BUTTON_ICON_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark")), themeObjects.HEADING, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.HEADING_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_colorMap, themeObjects.HEADING_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.SUBHEADING_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.PARAGRAPH_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.MENU_ITEM_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_colorMap, themeObjects.TAG, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TABLE, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-light")), themeObjects.TABLE_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-medium"), styleClassNames.TEXT_COLOR, "text-secondary-light")), themeObjects.TABLE_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-light")), themeObjects.TOGGLE, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium")), themeObjects.DASHBOARD_FOOTER, _defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark")), themeObjects.DASHBOARD_FOOTER_2, _defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark")), themeObjects.DASHBOARD_FOOTER_3, _defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark")), _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_colorMap, themeObjects.CODE_EDITOR, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.INPUT_TEXT, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SELECT_MENU, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.FORM_LABEL, _defineProperty$v({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.TEXTAREA, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SEARCH_INPUT, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.CHECKBOX, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.RADIO, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SWITCH, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.SLIDER, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark")), _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v(_colorMap, themeObjects.DASH_PANEL, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.DASH_PANEL_HEADER, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_FOOTER, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_2, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-very-dark")), themeObjects.DASH_PANEL_HEADER_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_FOOTER_2, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_3, _defineProperty$v(_defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.DASH_PANEL_HEADER_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.DASH_PANEL_FOOTER_3, _defineProperty$v(_defineProperty$v(_defineProperty$v({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.WIDGET, {}), _defineProperty$v(_defineProperty$v(_colorMap, themeObjects.WORKSPACE, {}), themeObjects.LAYOUT_CONTAINER, {}));
+var colorMap = (_colorMap = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.BUTTON, (_themeObjects$BUTTON = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), styleClassNames.PADDING, "padding-primary"), styleClassNames.SHADOW, "shadow-sm"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "px-4 py-2"), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON, styleClassNames.TEXT_SIZE, "text-base"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-primary-light"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.BUTTON_2, (_themeObjects$BUTTON_ = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), styleClassNames.SHADOW, "shadow-sm"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "px-3 py-1.5"), styleClassNames.TEXT_SIZE, "text-sm"), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_, styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-secondary-medium"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-secondary-light"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.BUTTON_3, (_themeObjects$BUTTON_2 = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_2, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), styleClassNames.SHADOW, "shadow-sm"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "px-2 py-1"), styleClassNames.TEXT_SIZE, "text-xs"), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_2, styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-tertiary-medium"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-tertiary-light"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.FONT_WEIGHT, "font-normal"), styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.CARD, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-light"), styleClassNames.BORDER_COLOR, "border-primary-light"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-light"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-primary-medium")), themeObjects.CARD_2, (_themeObjects$CARD_ = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$CARD_, themeObjects.BREADCRUMBS, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.BREADCRUMBS_2, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.BREADCRUMBS_3, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.ALERT, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-light"), styleClassNames.BORDER_COLOR, "border-primary-light"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.ALERT_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-light"), styleClassNames.BORDER_COLOR, "border-secondary-light"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.ALERT_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-light"), styleClassNames.BORDER_COLOR, "border-tertiary-light"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.ALERT_BANNER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-blue-50"), styleClassNames.BORDER_COLOR, "border-blue-500"), styleClassNames.TEXT_COLOR, "text-blue-900")), themeObjects.PROGRESS_BAR, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.PROGRESS_BAR_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.PROGRESS_BAR_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$CARD_, themeObjects.TOAST, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-light"), styleClassNames.BORDER_COLOR, "border-primary-light"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.TOAST_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-light"), styleClassNames.BORDER_COLOR, "border-secondary-light"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.TOAST_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-light"), styleClassNames.BORDER_COLOR, "border-tertiary-light"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.WIDGET_CHROME, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-light")), styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-light"), styleClassNames.BORDER_COLOR, "border-secondary-light"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-light"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-secondary-medium"))), themeObjects.CARD_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-light"), styleClassNames.BORDER_COLOR, "border-tertiary-light"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-light"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-tertiary-medium")), themeObjects.PANEL, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark"), styleClassNames.SHADOW, "shadow-md"), styleClassNames.BORDER_RADIUS, "rounded-lg"), styleClassNames.SPACING, "p-4"), styleClassNames.TRANSITION, "transition-all duration-200")), themeObjects.PANEL_HEADER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_FOOTER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.PANEL_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.PANEL_HEADER_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_FOOTER_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark")), themeObjects.PANEL_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_HEADER_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.PANEL_FOOTER_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.BUTTON_ICON, (_themeObjects$BUTTON_3 = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_3, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-dark"), styleClassNames.SHADOW, "shadow-none"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "px-3 py-2"), styleClassNames.TEXT_SIZE, "text-base"), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_3, styleClassNames.ICON_SIZE, "h-5 w-5"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.BUTTON_ICON_2, (_themeObjects$BUTTON_4 = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_4, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-dark"), styleClassNames.SHADOW, "shadow-none"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "px-2.5 py-1.5"), styleClassNames.TEXT_SIZE, "text-sm"), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_4, styleClassNames.ICON_SIZE, "h-4 w-4"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-secondary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.BUTTON_ICON_3, (_themeObjects$BUTTON_5 = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_5, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-dark"), styleClassNames.SHADOW, "shadow-none"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "px-2 py-1"), styleClassNames.TEXT_SIZE, "text-xs"), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$BUTTON_5, styleClassNames.ICON_SIZE, "h-3 w-3"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-tertiary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.HEADING, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-5xl"), styleClassNames.FONT_WEIGHT, "font-bold"), styleClassNames.LETTER_SPACING, "tracking-tight"), styleClassNames.LINE_HEIGHT, "leading-tight")), themeObjects.HEADING_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-4xl"), styleClassNames.FONT_WEIGHT, "font-bold"), styleClassNames.LETTER_SPACING, "tracking-tight"), styleClassNames.LINE_HEIGHT, "leading-tight")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.HEADING_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-3xl"), styleClassNames.FONT_WEIGHT, "font-semibold"), styleClassNames.LETTER_SPACING, "tracking-tight"), styleClassNames.LINE_HEIGHT, "leading-tight")), themeObjects.SUBHEADING, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-2xl"), styleClassNames.FONT_WEIGHT, "font-semibold"), styleClassNames.LETTER_SPACING, "tracking-tight"), styleClassNames.LINE_HEIGHT, "leading-snug")), themeObjects.SUBHEADING_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-xl"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.LETTER_SPACING, "tracking-tight"), styleClassNames.LINE_HEIGHT, "leading-snug")), themeObjects.SUBHEADING_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-lg"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.LETTER_SPACING, "tracking-normal"), styleClassNames.LINE_HEIGHT, "leading-snug")), themeObjects.PARAGRAPH, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-base"), styleClassNames.LINE_HEIGHT, "leading-relaxed")), themeObjects.PARAGRAPH_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-sm"), styleClassNames.LINE_HEIGHT, "leading-relaxed")), themeObjects.PARAGRAPH_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-none"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-none"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TEXT_SIZE, "text-xs"), styleClassNames.LINE_HEIGHT, "leading-relaxed")), themeObjects.MENU_ITEM, (_themeObjects$MENU_IT = {}, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_themeObjects$MENU_IT, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-primary-light"), _defineProperty$x(_themeObjects$MENU_IT, styleClassNames.CURSOR, "cursor-pointer"))), themeObjects.MENU_ITEM_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-secondary-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.MENU_ITEM_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-tertiary-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.CURSOR, "cursor-pointer")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.TAG, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TAG_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.BORDER_COLOR, "border-none"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-dark"), styleClassNames.HOVER_BORDER_COLOR, "hover-border-none")), themeObjects.TABLE, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-light")), themeObjects.TABLE_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-medium"), styleClassNames.TEXT_COLOR, "text-secondary-light")), themeObjects.TABLE_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-light")), themeObjects.TOGGLE, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-medium"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-tertiary-medium"), styleClassNames.TRANSITION, "transition-colors duration-200"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:pointer-events-none"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.TOGGLE_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-medium"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-secondary-medium"), styleClassNames.TRANSITION, "transition-colors duration-200"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.TOGGLE_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.TRANSITION, "transition-colors duration-200"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.DASHBOARD_FOOTER, _defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.DASHBOARD_FOOTER_2, _defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-dark")), themeObjects.DASHBOARD_FOOTER_3, _defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-dark")), themeObjects.CODE_EDITOR, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.INPUT_TEXT, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.FOCUS_BORDER_COLOR, "border-primary-dark"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.SELECT_MENU, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.FORM_LABEL, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-dark")), themeObjects.TEXTAREA, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.SEARCH_INPUT, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.CHECKBOX, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.RADIO, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.SWITCH, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.TRANSITION, "transition-colors duration-200"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.SLIDER, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-dark"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.DISABLED_OPACITY, "disabled:opacity-50 disabled:cursor-not-allowed")), themeObjects.DASH_PANEL, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-primary-very-dark")), themeObjects.DASH_PANEL_HEADER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_FOOTER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.DASH_PANEL_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-secondary-very-dark")), themeObjects.DASH_PANEL_HEADER_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_FOOTER_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-very-dark"), styleClassNames.BORDER_COLOR, "border-secondary-very-dark"), styleClassNames.TEXT_COLOR, "text-secondary-medium")), themeObjects.DASH_PANEL_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_BORDER_COLOR, "border-tertiary-very-dark")), themeObjects.DASH_PANEL_HEADER_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.DASH_PANEL_FOOTER_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-very-dark"), styleClassNames.BORDER_COLOR, "border-tertiary-very-dark"), styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.TABS, {}), themeObjects.TABS_LIST, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "p-1")), themeObjects.TABS_LIST_2, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-secondary-dark"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "p-1")), themeObjects.TABS_LIST_3, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-tertiary-dark"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.SPACING, "p-1")), themeObjects.TABS_TRIGGER, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-light"), styleClassNames.BORDER_RADIUS, "rounded-sm"), styleClassNames.SPACING, "px-3 py-1.5"), styleClassNames.TEXT_SIZE, "text-sm"), styleClassNames.TRANSITION, "transition-all duration-150"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.TABS_TRIGGER_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-light"), styleClassNames.BORDER_RADIUS, "rounded-sm"), styleClassNames.SPACING, "px-3 py-1.5"), styleClassNames.TEXT_SIZE, "text-sm"), styleClassNames.TRANSITION, "transition-all duration-150"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.TABS_TRIGGER_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-light"), styleClassNames.BORDER_RADIUS, "rounded-sm"), styleClassNames.SPACING, "px-2 py-1"), styleClassNames.TEXT_SIZE, "text-xs"), styleClassNames.TRANSITION, "transition-all duration-150"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.TABS_CONTENT, _defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.SPACING, "mt-2")), themeObjects.TABS_CONTENT_2, _defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.SPACING, "mt-2")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.TABS_CONTENT_3, _defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.SPACING, "mt-2")), themeObjects.ACCORDION, {}), themeObjects.ACCORDION_ITEM, _defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-primary-dark")), themeObjects.ACCORDION_ITEM_2, _defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-secondary-dark")), themeObjects.ACCORDION_ITEM_3, _defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-tertiary-dark")), themeObjects.ACCORDION_TRIGGER, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-light"), styleClassNames.TRANSITION, "transition-all duration-200"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.CURSOR, "cursor-pointer"), styleClassNames.FOCUS_RING_COLOR, "ring-primary-medium")), themeObjects.ACCORDION_TRIGGER_2, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-secondary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-secondary-light"), styleClassNames.TRANSITION, "transition-all duration-200"), styleClassNames.FONT_WEIGHT, "font-medium"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.ACCORDION_TRIGGER_3, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-tertiary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-tertiary-light"), styleClassNames.TRANSITION, "transition-all duration-200"), styleClassNames.FONT_WEIGHT, "font-normal"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.ACCORDION_CONTENT, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.ACCORDION_CONTENT_2, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-secondary-medium")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.ACCORDION_CONTENT_3, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-tertiary-medium")), themeObjects.SIDEBAR, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.TRANSITION, "transition-all duration-200")), themeObjects.SIDEBAR_ITEM, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-dark"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-primary-light"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.TRANSITION, "transition-colors duration-150"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.NAVBAR, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.TABBED_NAVBAR, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.SETTINGS_MODAL_SIDEBAR, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.SETTINGS_MODAL_FOOTER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.EMPTY_STATE, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.BORDER_RADIUS, "rounded-lg"), styleClassNames.SPACING, "p-8")), themeObjects.STAT_CARD, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.BORDER_COLOR, "border-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.BORDER_RADIUS, "rounded-lg"), styleClassNames.SPACING, "p-4")), themeObjects.STAT_CARD_LABEL, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.TEXT_SIZE, "text-xs"), styleClassNames.FONT_WEIGHT, "font-semibold"), styleClassNames.LETTER_SPACING, "tracking-wider")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.STAT_CARD_VALUE, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-light"), styleClassNames.TEXT_SIZE, "text-3xl"), styleClassNames.FONT_WEIGHT, "font-bold")), themeObjects.STAT_CARD_CHANGE, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.TEXT_SIZE, "text-sm"), styleClassNames.FONT_WEIGHT, "font-medium")), themeObjects.SKELETON, _defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.BORDER_RADIUS, "rounded-md")), themeObjects.COMMAND_PALETTE, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.BORDER_RADIUS, "rounded-xl"), styleClassNames.SHADOW, "shadow-2xl")), themeObjects.COMMAND_PALETTE_INPUT, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-light"), styleClassNames.TEXT_SIZE, "text-base")), themeObjects.COMMAND_PALETTE_ITEM, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.HOVER_BACKGROUND_COLOR, "hover-bg-primary-medium"), styleClassNames.HOVER_TEXT_COLOR, "hover-text-primary-light"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-primary-light"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.TRANSITION, "transition-colors duration-100"), styleClassNames.CURSOR, "cursor-pointer")), themeObjects.STEPPER, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium")), themeObjects.STEPPER_STEP, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-primary-dark"), styleClassNames.ACTIVE_TEXT_COLOR, "text-primary-light"), styleClassNames.BORDER_RADIUS, "rounded-full"), styleClassNames.TRANSITION, "transition-colors duration-200")), themeObjects.STEPPER_CONNECTOR, _defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-medium"), styleClassNames.ACTIVE_BACKGROUND_COLOR, "bg-primary-dark")), themeObjects.DATA_LIST, _defineProperty$x({}, styleClassNames.TEXT_COLOR, "text-primary-medium")), _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_colorMap, themeObjects.DATA_LIST_ITEM, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.SPACING, "py-2.5")), themeObjects.DRAWER, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.SHADOW, "shadow-xl"), styleClassNames.TRANSITION, "transition-transform duration-300")), themeObjects.DRAWER_HEADER, _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.SPACING, "px-4 py-3")), themeObjects.DRAWER_FOOTER, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.BORDER_COLOR, "border-primary-dark"), styleClassNames.TEXT_COLOR, "text-primary-medium"), styleClassNames.SPACING, "px-4 py-3")), themeObjects.TOOLTIP, _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.BACKGROUND_COLOR, "bg-primary-very-dark"), styleClassNames.TEXT_COLOR, "text-primary-light"), styleClassNames.BORDER_RADIUS, "rounded-md"), styleClassNames.TEXT_SIZE, "text-xs"), styleClassNames.SHADOW, "shadow-lg"), styleClassNames.SPACING, "px-2.5 py-1.5")), themeObjects.WIDGET, {}), themeObjects.WORKSPACE, {}), themeObjects.LAYOUT_CONTAINER, {}));
+
+/**
+ * Size Overrides (v0.2.0+)
+ *
+ * Size-specific style configurations for components that support the size prop.
+ * Maps size variants (xs, sm, md, lg, xl) to specific spacing, text size, and icon size values.
+ *
+ * Components using size overrides:
+ * - BUTTON
+ * - BUTTON_ICON
+ * - PANEL, PANEL_HEADER, PANEL_FOOTER
+ * - And more to come in future phases...
+ */
+var sizeOverrides = _defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x(_defineProperty$x({}, themeObjects.BUTTON, {
+  xs: _defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-2 py-1"), styleClassNames.TEXT_SIZE, "text-xs"),
+  sm: _defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-3 py-1.5"), styleClassNames.TEXT_SIZE, "text-sm"),
+  md: _defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-4 py-2"), styleClassNames.TEXT_SIZE, "text-base"),
+  lg: _defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-6 py-3"), styleClassNames.TEXT_SIZE, "text-lg"),
+  xl: _defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-8 py-4"), styleClassNames.TEXT_SIZE, "text-xl")
+}), themeObjects.BUTTON_ICON, {
+  xs: _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-1.5 py-1"), styleClassNames.TEXT_SIZE, "text-xs"), styleClassNames.ICON_SIZE, "h-3 w-3"),
+  sm: _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-2 py-1.5"), styleClassNames.TEXT_SIZE, "text-sm"), styleClassNames.ICON_SIZE, "h-4 w-4"),
+  md: _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-3 py-2"), styleClassNames.TEXT_SIZE, "text-base"), styleClassNames.ICON_SIZE, "h-5 w-5"),
+  lg: _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-4 py-3"), styleClassNames.TEXT_SIZE, "text-lg"), styleClassNames.ICON_SIZE, "h-6 w-6"),
+  xl: _defineProperty$x(_defineProperty$x(_defineProperty$x({}, styleClassNames.SPACING, "px-5 py-4"), styleClassNames.TEXT_SIZE, "text-xl"), styleClassNames.ICON_SIZE, "h-8 w-8")
+}), themeObjects.PANEL, {
+  xs: _defineProperty$x({}, styleClassNames.SPACING, "p-2"),
+  sm: _defineProperty$x({}, styleClassNames.SPACING, "p-3"),
+  md: _defineProperty$x({}, styleClassNames.SPACING, "p-4"),
+  lg: _defineProperty$x({}, styleClassNames.SPACING, "p-6"),
+  xl: _defineProperty$x({}, styleClassNames.SPACING, "p-8")
+}), themeObjects.PANEL_HEADER, {
+  xs: _defineProperty$x({}, styleClassNames.SPACING, "p-2"),
+  sm: _defineProperty$x({}, styleClassNames.SPACING, "p-3"),
+  md: _defineProperty$x({}, styleClassNames.SPACING, "p-4"),
+  lg: _defineProperty$x({}, styleClassNames.SPACING, "p-6"),
+  xl: _defineProperty$x({}, styleClassNames.SPACING, "p-8")
+}), themeObjects.PANEL_FOOTER, {
+  xs: _defineProperty$x({}, styleClassNames.SPACING, "p-2"),
+  sm: _defineProperty$x({}, styleClassNames.SPACING, "p-3"),
+  md: _defineProperty$x({}, styleClassNames.SPACING, "p-4"),
+  lg: _defineProperty$x({}, styleClassNames.SPACING, "p-6"),
+  xl: _defineProperty$x({}, styleClassNames.SPACING, "p-8")
+});
 var getCSSStyleForClassname = function getCSSStyleForClassname(className, itemName) {
   return colorMap[itemName][className];
 };
@@ -283,7 +459,7 @@ var prioritizeClasses = function prioritizeClasses(high, low) {
         }
       }
     });
-    return _objectSpread$u(_objectSpread$u({}, high), low);
+    return _objectSpread$w(_objectSpread$w({}, high), low);
   } catch (e) {
     return null;
   }
@@ -301,12 +477,20 @@ var getStylesForItem = function getStylesForItem() {
   var itemName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var theme = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var overrides = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "md";
   try {
     if (itemName !== null) {
       // get the colors from the theme by default
       // this is a MAP like "bg-primary-dark" which needs to
       // fetch its value from the actual theme based on this key mapping
       var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
+
+      // Apply size-specific overrides if component supports sizing
+      // This merges size-aware design tokens (spacing, text size, icon size)
+      // with the default color styles from colorMap
+      if (sizeOverrides[itemName] && sizeOverrides[itemName][size] && defaultStyles !== null) {
+        defaultStyles = _objectSpread$w(_objectSpread$w({}, defaultStyles), sizeOverrides[itemName][size]);
+      }
 
       // then we have to determine if this item has any theme overrides
       // this uses the THEME LANGUAGE to override
@@ -413,7 +597,7 @@ var getStylesForItem = function getStylesForItem() {
           finalStyles[k] = styles[k].replaceAll("overflow-hidden", "overflow-clip");
         }
       });
-      var styleSet = _toConsumableArray$2(new Set(additionalStyles.split(" ").filter(function (v) {
+      var styleSet = _toConsumableArray$3(new Set(additionalStyles.split(" ").filter(function (v) {
         return v !== " " && v !== false && v !== true;
       }))).join(" ");
 
@@ -423,8 +607,8 @@ var getStylesForItem = function getStylesForItem() {
         return finalStyles[key];
       }).join(" ").concat(" ", styleSet) : styleSet;
       var removeValues = [true, false, "col", "row", " ", "false", "true", 1, "1"];
-      var stylesObject = _objectSpread$u({
-        string: _toConsumableArray$2(new Set(finalString.split(" ").filter(function (v) {
+      var stylesObject = _objectSpread$w({
+        string: _toConsumableArray$3(new Set(finalString.split(" ").filter(function (v) {
           return removeValues.includes(v) === false && v !== " ";
         }).map(function (v) {
           return v.replaceAll("overflow-hidden", "overflow-clip");
@@ -460,8 +644,30 @@ var getStyleValueVariant = function getStyleValueVariant(className, obj) {
     switch (className) {
       case "hoverBorderColor":
       case "hoverBackgroundColor":
-        var val = obj[className].replaceAll("hover:", "");
-        return "hover:" + val;
+      case "hoverTextColor":
+        {
+          var val = obj[className].replaceAll("hover:", "");
+          return "hover:" + val;
+        }
+      case "focusRingColor":
+      case "focusBorderColor":
+        {
+          var _val = obj[className].replaceAll("focus-visible:", "");
+          return "focus-visible:" + _val;
+        }
+      case "activeBackgroundColor":
+      case "activeTextColor":
+        {
+          var _val2 = obj[className].replaceAll("active:", "");
+          return "active:" + _val2;
+        }
+      case "textSize":
+      case "fontWeight":
+      case "letterSpacing":
+      case "lineHeight":
+      case "cursor":
+      case "disabledOpacity":
+        return obj[className];
       default:
         return obj[className].replaceAll("overflow-hidden", "overflow-clip");
     }
@@ -497,7 +703,7 @@ function getStyleName(objectType) {
   return s;
 }
 
-function _typeof$A(o) { "@babel/helpers - typeof"; return _typeof$A = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$A(o); }
+function _typeof$C(o) { "@babel/helpers - typeof"; return _typeof$C = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$C(o); }
 /**
  * deepCopy
  * @param {object} obj the object to deep copy
@@ -511,7 +717,7 @@ var deepCopy = function deepCopy(obj) {
   }
 };
 var isObject = function isObject(objValue) {
-  return objValue && _typeof$A(objValue) === "object" && objValue.constructor === Object;
+  return objValue && _typeof$C(objValue) === "object" && objValue.constructor === Object;
 };
 
 /**
@@ -570,9 +776,9 @@ var tailwindHeightFractions = function tailwindHeightFractions() {
   return fractions;
 };
 
-var _excluded$u = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix"];
-function _objectWithoutProperties$u(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$u(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$u(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var _excluded$w = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix"];
+function _objectWithoutProperties$w(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$w(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$w(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var LayoutContainer = function LayoutContainer(_ref) {
   var id = _ref.id,
     children = _ref.children,
@@ -598,7 +804,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
     padding = _ref$padding === void 0 ? "" : _ref$padding,
     _ref$prefix = _ref.prefix,
     prefix = _ref$prefix === void 0 ? "layout-container" : _ref$prefix,
-    props = _objectWithoutProperties$u(_ref, _excluded$u);
+    props = _objectWithoutProperties$w(_ref, _excluded$w);
   var containerId = "uuid" in props ? props["uuid"] : getUUID$1(id, prefix);
 
   // get the styles
@@ -639,26 +845,26 @@ var LayoutContainer = function LayoutContainer(_ref) {
   });
 };
 
-function _typeof$z(o) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$z(o); }
-var _excluded$t = ["children", "border", "className", "padding", "defaultPadding", "direction"],
-  _excluded2$8 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
-  _excluded3$8 = ["children", "className", "defaultPadding", "padding"],
-  _excluded4$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border"],
-  _excluded5$1 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
-  _excluded6$1 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding", "height", "width"],
-  _excluded7$1 = ["children", "className", "defaultPadding", "padding"],
-  _excluded8$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding", "border"],
-  _excluded9$1 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
+function _typeof$B(o) { "@babel/helpers - typeof"; return _typeof$B = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$B(o); }
+var _excluded$v = ["children", "border", "className", "padding", "defaultPadding", "direction"],
+  _excluded2$b = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
+  _excluded3$b = ["children", "className", "defaultPadding", "padding"],
+  _excluded4$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border"],
+  _excluded5$3 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
+  _excluded6$3 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding", "height", "width"],
+  _excluded7$3 = ["children", "className", "defaultPadding", "padding"],
+  _excluded8$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding", "border"],
+  _excluded9$3 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
   _excluded0$1 = ["children", "scrollable", "className", "space", "onClick", "defaultPadding", "padding", "height", "width"],
   _excluded1$1 = ["children", "className", "padding", "defaultPadding"],
   _excluded10$1 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "grow", "defaultPadding", "border"];
-function ownKeys$t(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$t(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$t(Object(t), !0).forEach(function (r) { _defineProperty$u(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$t(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$u(e, r, t) { return (r = _toPropertyKey$y(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$y(t) { var i = _toPrimitive$y(t, "string"); return "symbol" == _typeof$z(i) ? i : i + ""; }
-function _toPrimitive$y(t, r) { if ("object" != _typeof$z(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$z(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$t(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$t(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$t(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function ownKeys$v(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$v(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$v(Object(t), !0).forEach(function (r) { _defineProperty$w(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$v(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$w(e, r, t) { return (r = _toPropertyKey$A(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$A(t) { var i = _toPrimitive$A(t, "string"); return "symbol" == _typeof$B(i) ? i : i + ""; }
+function _toPrimitive$A(t, r) { if ("object" != _typeof$B(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$B(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$v(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$v(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$v(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var PanelHeader = function PanelHeader(_ref) {
   var children = _ref.children,
     _ref$border = _ref.border,
@@ -671,12 +877,12 @@ var PanelHeader = function PanelHeader(_ref) {
     defaultPadding = _ref$defaultPadding === void 0 ? "p-6" : _ref$defaultPadding,
     _ref$direction = _ref.direction,
     direction = _ref$direction === void 0 ? "horizontal" : _ref$direction,
-    props = _objectWithoutProperties$t(_ref, _excluded$t);
+    props = _objectWithoutProperties$v(_ref, _excluded$v);
   var _useContext = useContext(WidgetContext);
     _useContext.widgetData;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     grow: false
   }));
   // since we do not have a layout container we can create an id like so
@@ -702,13 +908,13 @@ var PanelBody = function PanelBody(_ref2) {
     defaultPadding = _ref2$defaultPadding === void 0 ? "p-6" : _ref2$defaultPadding,
     _ref2$padding = _ref2.padding,
     padding = _ref2$padding === void 0 ? true : _ref2$padding,
-    props = _objectWithoutProperties$t(_ref2, _excluded2$8);
+    props = _objectWithoutProperties$v(_ref2, _excluded2$b);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     scrollable: false
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$v(_objectSpread$v({}, props), {}, {
     prefix: "panel-body",
     className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     scrollable: scrollable,
@@ -728,10 +934,10 @@ var PanelFooter = function PanelFooter(_ref3) {
     defaultPadding = _ref3$defaultPadding === void 0 ? "p-6" : _ref3$defaultPadding,
     _ref3$padding = _ref3.padding,
     padding = _ref3$padding === void 0 ? true : _ref3$padding,
-    props = _objectWithoutProperties$t(_ref3, _excluded3$8);
+    props = _objectWithoutProperties$v(_ref3, _excluded3$b);
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_FOOTER, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -763,11 +969,11 @@ var Panel = function Panel(_ref4) {
     defaultPadding = _ref4$defaultPadding === void 0 ? "p-6" : _ref4$defaultPadding,
     _ref4$border = _ref4.border,
     border = _ref4$border === void 0 ? true : _ref4$border,
-    props = _objectWithoutProperties$t(_ref4, _excluded4$1);
+    props = _objectWithoutProperties$v(_ref4, _excluded4$3);
   // Fetch the Styles from the utility
   var _useContext5 = useContext(ThemeContext),
     currentTheme = _useContext5.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
     grow: grow,
@@ -808,10 +1014,10 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     defaultPadding = _ref5$defaultPadding === void 0 ? "p-4" : _ref5$defaultPadding,
     _ref5$direction = _ref5.direction,
     direction = _ref5$direction === void 0 ? "horizontal" : _ref5$direction,
-    props = _objectWithoutProperties$t(_ref5, _excluded5$1);
+    props = _objectWithoutProperties$v(_ref5, _excluded5$3);
   var _useContext6 = useContext(ThemeContext),
     currentTheme = _useContext6.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_HEADER_2, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_HEADER_2, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     height: "h-auto",
     grow: false
   }));
@@ -835,13 +1041,13 @@ var PanelBody2 = function PanelBody2(_ref6) {
     _ref6$height = _ref6.height,
     height = _ref6$height === void 0 ? "h-full" : _ref6$height;
     _ref6.width;
-    var props = _objectWithoutProperties$t(_ref6, _excluded6$1);
+    var props = _objectWithoutProperties$v(_ref6, _excluded6$3);
   var _useContext7 = useContext(ThemeContext),
     currentTheme = _useContext7.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, _defineProperty$u(_defineProperty$u(_defineProperty$u(_defineProperty$u({
+  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, _defineProperty$w(_defineProperty$w(_defineProperty$w(_defineProperty$w({
     scrollable: false
   }, "scrollable", scrollable), "padding", padding), "width", "w-full"), "height", height)));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$v(_objectSpread$v({}, props), {}, {
     className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     scrollable: scrollable,
     width: "w-full",
@@ -860,10 +1066,10 @@ var PanelFooter2 = function PanelFooter2(_ref7) {
     defaultPadding = _ref7$defaultPadding === void 0 ? "p-4" : _ref7$defaultPadding,
     _ref7$padding = _ref7.padding,
     padding = _ref7$padding === void 0 ? true : _ref7$padding,
-    props = _objectWithoutProperties$t(_ref7, _excluded7$1);
+    props = _objectWithoutProperties$v(_ref7, _excluded7$3);
   var _useContext8 = useContext(ThemeContext),
     currentTheme = _useContext8.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_FOOTER_2, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     height: "h-auto",
     grow: false
   }));
@@ -894,17 +1100,17 @@ var Panel2 = function Panel2(_ref8) {
     defaultPadding = _ref8$defaultPadding === void 0 ? "p-4" : _ref8$defaultPadding,
     _ref8$border = _ref8.border,
     border = _ref8$border === void 0 ? true : _ref8$border,
-    props = _objectWithoutProperties$t(_ref8, _excluded8$1);
+    props = _objectWithoutProperties$v(_ref8, _excluded8$3);
   var _useContext9 = useContext(ThemeContext),
     currentTheme = _useContext9.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_2, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
     width: width,
     height: height,
     grow: grow
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$v(_objectSpread$v({
     direction: horizontal === true ? "row" : "col",
     className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
@@ -936,10 +1142,10 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     defaultPadding = _ref9$defaultPadding === void 0 ? "p-2" : _ref9$defaultPadding,
     _ref9$direction = _ref9.direction,
     direction = _ref9$direction === void 0 ? "horizontal" : _ref9$direction,
-    props = _objectWithoutProperties$t(_ref9, _excluded9$1);
+    props = _objectWithoutProperties$v(_ref9, _excluded9$3);
   var _useContext0 = useContext(ThemeContext),
     currentTheme = _useContext0.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_HEADER_3, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_HEADER_3, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     height: "h-auto",
     grow: false
   }));
@@ -964,18 +1170,18 @@ var PanelBody3 = function PanelBody3(_ref0) {
     _ref0$height = _ref0.height,
     height = _ref0$height === void 0 ? "h-full" : _ref0$height;
     _ref0.width;
-    var props = _objectWithoutProperties$t(_ref0, _excluded0$1);
+    var props = _objectWithoutProperties$v(_ref0, _excluded0$1);
   try {
     var _useContext1 = useContext(ThemeContext),
       currentTheme = _useContext1.currentTheme;
-    var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+    var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
       direction: props.horizontal === true ? "row" : "col",
       scrollable: scrollable,
       padding: padding,
       width: "w-full",
       height: height
     }));
-    return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({}, props), {}, {
+    return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$v(_objectSpread$v({}, props), {}, {
       className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
       scrollable: scrollable,
       width: "w-full",
@@ -997,10 +1203,10 @@ var PanelFooter3 = function PanelFooter3(_ref1) {
     padding = _ref1$padding === void 0 ? true : _ref1$padding,
     _ref1$defaultPadding = _ref1.defaultPadding,
     defaultPadding = _ref1$defaultPadding === void 0 ? "p-2" : _ref1$defaultPadding,
-    props = _objectWithoutProperties$t(_ref1, _excluded1$1);
+    props = _objectWithoutProperties$v(_ref1, _excluded1$1);
   var _useContext10 = useContext(ThemeContext),
     currentTheme = _useContext10.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_FOOTER_3, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     height: "h-auto",
     grow: false
   }));
@@ -1030,10 +1236,10 @@ var Panel3 = function Panel3(_ref10) {
     defaultPadding = _ref10$defaultPadding === void 0 ? "p-2" : _ref10$defaultPadding,
     _ref10$border = _ref10.border,
     border = _ref10$border === void 0 ? true : _ref10$border,
-    props = _objectWithoutProperties$t(_ref10, _excluded10$1);
+    props = _objectWithoutProperties$v(_ref10, _excluded10$1);
   var _useContext11 = useContext(ThemeContext),
     currentTheme = _useContext11.currentTheme;
-  var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PANEL_3, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     direction: horizontal === true ? "row" : "col",
     scrollable: scrollable,
     padding: padding,
@@ -1041,7 +1247,7 @@ var Panel3 = function Panel3(_ref10) {
     height: height,
     grow: grow
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$t(_objectSpread$t({
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$v(_objectSpread$v({
     direction: horizontal === true ? "row" : "col",
     className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
@@ -1075,17 +1281,17 @@ var Modal = function Modal(_ref2) {
     onClose: function onClose() {
       return setIsOpen(false);
     },
-    className: "relative z-40 overflow-clip rounded",
+    className: "relative z-40 overflow-clip rounded-lg",
     children: [/*#__PURE__*/jsx("div", {
-      className: "fixed inset-0 bg-black/90",
+      className: "fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300",
       "aria-hidden": "true",
       onClick: function onClick() {
         return setIsOpen(false);
       }
     }), /*#__PURE__*/jsx("div", {
-      className: "fixed inset-0 flex items-center justify-center h-full w-full rounded overflow-clip",
+      className: "fixed inset-0 flex items-center justify-center h-full w-full rounded-lg overflow-clip",
       children: /*#__PURE__*/jsx("div", {
-        className: "mx-auto ".concat(width, " ").concat(height, " flex flex-col shadow overflow-clip rounded"),
+        className: "mx-auto ".concat(width, " ").concat(height, " flex flex-col shadow-xl overflow-clip rounded-lg"),
         children: children
       })
     })]
@@ -1093,17 +1299,17 @@ var Modal = function Modal(_ref2) {
 };
 Modal.Footer = ModalFooter;
 
-function _typeof$y(o) { "@babel/helpers - typeof"; return _typeof$y = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$y(o); }
-var _excluded$s = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width", "children", "debug"],
-  _excluded2$7 = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width"],
-  _excluded3$7 = ["text", "padding", "onClick", "scrollable", "grow", "space", "className", "height", "width"];
-function ownKeys$s(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$s(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$s(Object(t), !0).forEach(function (r) { _defineProperty$t(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$s(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$t(e, r, t) { return (r = _toPropertyKey$x(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$x(t) { var i = _toPrimitive$x(t, "string"); return "symbol" == _typeof$y(i) ? i : i + ""; }
-function _toPrimitive$x(t, r) { if ("object" != _typeof$y(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$y(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$s(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$s(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$s(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$A(o) { "@babel/helpers - typeof"; return _typeof$A = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$A(o); }
+var _excluded$u = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width", "children", "debug"],
+  _excluded2$a = ["text", "padding", "onClick", "scrollable", "className", "grow", "space", "height", "width"],
+  _excluded3$a = ["text", "padding", "onClick", "scrollable", "grow", "space", "className", "height", "width"];
+function ownKeys$u(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$u(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$u(Object(t), !0).forEach(function (r) { _defineProperty$v(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$u(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$v(e, r, t) { return (r = _toPropertyKey$z(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$z(t) { var i = _toPrimitive$z(t, "string"); return "symbol" == _typeof$A(i) ? i : i + ""; }
+function _toPrimitive$z(t, r) { if ("object" != _typeof$A(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$A(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$u(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$u(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$u(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function Paragraph(_ref) {
   var _ref$text = _ref.text,
     text = _ref$text === void 0 ? null : _ref$text,
@@ -1112,9 +1318,10 @@ function Paragraph(_ref) {
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$scrollable = _ref.scrollable,
-    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable;
-    _ref.className;
-    var _ref$grow = _ref.grow,
+    scrollable = _ref$scrollable === void 0 ? false : _ref$scrollable,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$space = _ref.space,
     space = _ref$space === void 0 ? false : _ref$space,
@@ -1125,10 +1332,10 @@ function Paragraph(_ref) {
     children = _ref.children,
     _ref$debug = _ref.debug,
     debug = _ref$debug === void 0 ? false : _ref$debug,
-    props = _objectWithoutProperties$s(_ref, _excluded$s);
+    props = _objectWithoutProperties$u(_ref, _excluded$u);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PARAGRAPH, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     space: space,
     grow: grow,
     padding: padding,
@@ -1137,7 +1344,7 @@ function Paragraph(_ref) {
     width: width
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "".concat(styles.string),
+    className: "".concat(styles.textSize || "text-base", " ").concat(styles.lineHeight || "leading-relaxed", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(styles.fontWeight || "font-normal", " ").concat(className),
     onClick: onClick,
     scrollable: scrollable,
     grow: grow,
@@ -1157,7 +1364,7 @@ function Paragraph2(_ref2) {
     _ref2$scrollable = _ref2.scrollable,
     scrollable = _ref2$scrollable === void 0 ? false : _ref2$scrollable,
     _ref2$className = _ref2.className,
-    className = _ref2$className === void 0 ? "text-sm xl:text-base font-normal p-2" : _ref2$className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$grow = _ref2.grow,
     grow = _ref2$grow === void 0 ? false : _ref2$grow,
     _ref2$space = _ref2.space,
@@ -1166,10 +1373,10 @@ function Paragraph2(_ref2) {
     height = _ref2$height === void 0 ? "" : _ref2$height,
     _ref2$width = _ref2.width,
     width = _ref2$width === void 0 ? "w-full" : _ref2$width,
-    props = _objectWithoutProperties$s(_ref2, _excluded2$7);
+    props = _objectWithoutProperties$u(_ref2, _excluded2$a);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     scrollable: scrollable,
     space: space,
     grow: grow,
@@ -1177,7 +1384,7 @@ function Paragraph2(_ref2) {
     width: width
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "".concat(className, " ").concat(styles.string),
+    className: "".concat(styles.textSize || "text-sm", " ").concat(styles.lineHeight || "leading-relaxed", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(styles.fontWeight || "font-normal", " ").concat(className),
     onClick: onClick,
     scrollable: scrollable,
     grow: grow,
@@ -1200,15 +1407,15 @@ function Paragraph3(_ref3) {
     _ref3$space = _ref3.space,
     space = _ref3$space === void 0 ? false : _ref3$space,
     _ref3$className = _ref3.className,
-    className = _ref3$className === void 0 ? "text-xs xl:text-sm font-normal p-2" : _ref3$className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$height = _ref3.height,
     height = _ref3$height === void 0 ? "" : _ref3$height,
     _ref3$width = _ref3.width,
     width = _ref3$width === void 0 ? "w-full" : _ref3$width,
-    props = _objectWithoutProperties$s(_ref3, _excluded3$7);
+    props = _objectWithoutProperties$u(_ref3, _excluded3$a);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.PARAGRAPH_3, currentTheme, _objectSpread$u(_objectSpread$u({}, props), {}, {
     scrollable: scrollable,
     grow: grow,
     space: space,
@@ -1217,7 +1424,7 @@ function Paragraph3(_ref3) {
     width: width
   }));
   return /*#__PURE__*/jsx(LayoutContainer, {
-    className: "".concat(styles.string, " ").concat(className),
+    className: "".concat(styles.textSize || "text-xs", " ").concat(styles.lineHeight || "leading-relaxed", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(styles.fontWeight || "font-normal", " ").concat(className),
     onClick: onClick,
     scrollable: scrollable,
     grow: grow,
@@ -1230,10 +1437,9 @@ function Paragraph3(_ref3) {
 
 var MenuItem = function MenuItem(_ref) {
   var _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$theme = _ref.theme,
-    theme = _ref$theme === void 0 ? true : _ref$theme,
-    _ref$border = _ref.border,
+    onClick = _ref$onClick === void 0 ? null : _ref$onClick;
+    _ref.theme;
+    var _ref$border = _ref.border,
     border = _ref$border === void 0 ? false : _ref$border,
     _ref$backgroundColor = _ref.backgroundColor,
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
@@ -1254,6 +1460,8 @@ var MenuItem = function MenuItem(_ref) {
     selected = _ref$selected === void 0 ? false : _ref$selected,
     _ref$grow = _ref.grow,
     grow = _ref$grow === void 0 ? false : _ref$grow,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
     id = _ref.id;
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -1268,18 +1476,11 @@ var MenuItem = function MenuItem(_ref) {
     selected: selected,
     grow: grow
   });
-
-  // since we do not have a layout container we can create an id like so
   var uuid = getUUID$1(id, "menu-item");
-  return theme === true ? /*#__PURE__*/jsx("div", {
+  return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row font-bold ".concat(styles.string, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
-    children: children
-  }) : /*#__PURE__*/jsx("div", {
-    id: uuid,
-    onClick: onClick,
-    className: "flex flex-row font-bold ".concat(backgroundColor, " ").concat(borderColor, " ").concat(textColor, " ").concat(border === true && "border-4", " p-4 rounded items-center space-x-2 cursor-pointer text-lg"),
+    className: "flex flex-row ".concat(styles.string, " ").concat(border === true && "border-4", " px-3 py-2 rounded-md items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ").concat(className),
     children: children
   });
 };
@@ -1323,15 +1524,13 @@ var MenuItem2 = function MenuItem2(_ref2) {
     selected: selected,
     grow: grow
   });
-  var baseStyles = "".concat(onClick && "cursor-pointer", " p-2 px-4 rounded items-center space-x-2 ").concat(border === true && "border-2", " ").concat(border === true && "border-2");
-  var baseTextStyles = "text-base font-medium";
-
-  // since we do not have a layout container we can create an id like so
+  var baseStyles = "".concat(onClick && "cursor-pointer", " px-3 py-1.5 rounded-md items-center space-x-2 ").concat(border === true && "border-2");
+  var baseTextStyles = "text-sm font-medium";
   var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " "),
+    className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " transition-colors duration-150"),
     children: children
   });
 };
@@ -1378,30 +1577,15 @@ var MenuItem3 = function MenuItem3(_ref3) {
     selected: selected,
     grow: grow
   });
-  var baseStyles = "".concat(onClick && "cursor-pointer", " p-2 px-4 rounded items-center space-x-2 ").concat(border === true && "border-2", " ").concat(border === true && "border-2");
+  var baseStyles = "".concat(onClick && "cursor-pointer", " px-2 py-1 rounded-md items-center space-x-2 ").concat(border === true && "border-2");
   var baseTextStyles = "text-sm font-normal";
-  // since we do not have a layout container we can create an id like so
   var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " "),
+    className: "flex flex-row ".concat(baseStyles, " ").concat(className !== "" ? className : baseTextStyles, " ").concat(styles.string, " transition-colors duration-150"),
     children: children
   });
-
-  // return (
-  //     <div
-  //         id={id}
-  //         type={type}
-  //         ref={innerRef}
-  //         onClick={onClick}
-  //         className={`flex flex-row font-normal ${styles.string} ${
-  //             border === true && "border"
-  //         } p-2 rounded items-center space-x-2 cursor-pointer text-sm`}
-  //     >
-  //         {children}
-  //     </div>
-  // );
 };
 
 function Heading(_ref) {
@@ -1415,7 +1599,9 @@ function Heading(_ref) {
     _ref$backgroundColor = _ref.backgroundColor,
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
     _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className;
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$as = _ref.as,
+    as = _ref$as === void 0 ? null : _ref$as;
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -1425,11 +1611,11 @@ function Heading(_ref) {
     width: "w-full",
     grow: false
   });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " text-6xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
+  var Tag = as || "div";
+  return /*#__PURE__*/createElement(Tag, {
+    className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-5xl", " ").concat(styles.fontWeight || "font-bold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-tight", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick
+  }, title);
 }
 function Heading2(_ref2) {
   var title = _ref2.title,
@@ -1442,7 +1628,9 @@ function Heading2(_ref2) {
     _ref2$backgroundColor = _ref2.backgroundColor,
     backgroundColor = _ref2$backgroundColor === void 0 ? null : _ref2$backgroundColor,
     _ref2$className = _ref2.className,
-    className = _ref2$className === void 0 ? "" : _ref2$className;
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$as = _ref2.as,
+    as = _ref2$as === void 0 ? null : _ref2$as;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -1452,11 +1640,11 @@ function Heading2(_ref2) {
     width: "w-full",
     grow: false
   });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " text-5xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
+  var Tag = as || "div";
+  return /*#__PURE__*/createElement(Tag, {
+    className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-4xl", " ").concat(styles.fontWeight || "font-bold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-tight", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick
+  }, title);
 }
 function Heading3(_ref3) {
   var title = _ref3.title,
@@ -1469,7 +1657,9 @@ function Heading3(_ref3) {
     _ref3$backgroundColor = _ref3.backgroundColor,
     backgroundColor = _ref3$backgroundColor === void 0 ? null : _ref3$backgroundColor,
     _ref3$className = _ref3.className,
-    className = _ref3$className === void 0 ? "" : _ref3$className;
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    _ref3$as = _ref3.as,
+    as = _ref3$as === void 0 ? null : _ref3$as;
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -1479,11 +1669,11 @@ function Heading3(_ref3) {
     width: "w-full",
     grow: false
   });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " text-4xl font-bold ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
+  var Tag = as || "div";
+  return /*#__PURE__*/createElement(Tag, {
+    className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-3xl", " ").concat(styles.fontWeight || "font-semibold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-tight", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick
+  }, title);
 }
 function SubHeading(_ref4) {
   var title = _ref4.title,
@@ -1496,7 +1686,9 @@ function SubHeading(_ref4) {
     _ref4$backgroundColor = _ref4.backgroundColor,
     backgroundColor = _ref4$backgroundColor === void 0 ? null : _ref4$backgroundColor,
     _ref4$className = _ref4.className,
-    className = _ref4$className === void 0 ? "" : _ref4$className;
+    className = _ref4$className === void 0 ? "" : _ref4$className,
+    _ref4$as = _ref4.as,
+    as = _ref4$as === void 0 ? null : _ref4$as;
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -1506,11 +1698,11 @@ function SubHeading(_ref4) {
     width: "w-full",
     grow: false
   });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-3xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
+  var Tag = as || "div";
+  return /*#__PURE__*/createElement(Tag, {
+    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-2xl", " ").concat(styles.fontWeight || "font-semibold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-snug", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick
+  }, title);
 }
 function SubHeading2(_ref5) {
   var title = _ref5.title,
@@ -1523,7 +1715,9 @@ function SubHeading2(_ref5) {
     _ref5$backgroundColor = _ref5.backgroundColor,
     backgroundColor = _ref5$backgroundColor === void 0 ? null : _ref5$backgroundColor,
     _ref5$className = _ref5.className,
-    className = _ref5$className === void 0 ? "" : _ref5$className;
+    className = _ref5$className === void 0 ? "" : _ref5$className,
+    _ref5$as = _ref5.as,
+    as = _ref5$as === void 0 ? null : _ref5$as;
   var _useContext5 = useContext(ThemeContext),
     currentTheme = _useContext5.currentTheme;
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -1533,11 +1727,11 @@ function SubHeading2(_ref5) {
     width: "w-full",
     grow: false
   });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-2xl font-medium ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
+  var Tag = as || "div";
+  return /*#__PURE__*/createElement(Tag, {
+    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-xl", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-snug", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick
+  }, title);
 }
 function SubHeading3(_ref6) {
   var title = _ref6.title,
@@ -1550,7 +1744,9 @@ function SubHeading3(_ref6) {
     _ref6$backgroundColor = _ref6.backgroundColor,
     backgroundColor = _ref6$backgroundColor === void 0 ? null : _ref6$backgroundColor,
     _ref6$className = _ref6.className,
-    className = _ref6$className === void 0 ? "" : _ref6$className;
+    className = _ref6$className === void 0 ? "" : _ref6$className,
+    _ref6$as = _ref6.as,
+    as = _ref6$as === void 0 ? null : _ref6$as;
   var _useContext6 = useContext(ThemeContext),
     currentTheme = _useContext6.currentTheme;
   var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
@@ -1560,60 +1756,55 @@ function SubHeading3(_ref6) {
     width: "w-full",
     grow: false
   });
-  return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " text-xl ").concat(styles.string, " ").concat(onClick !== null && "cursor-pointer"),
-    onClick: onClick,
-    children: title
-  });
+  var Tag = as || "div";
+  return /*#__PURE__*/createElement(Tag, {
+    className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-lg", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.letterSpacing || "tracking-normal", " ").concat(styles.lineHeight || "leading-snug", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
+    onClick: onClick
+  }, title);
 }
 
-function _typeof$x(o) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$x(o); }
-var _excluded$r = ["title", "onClick", "disabled", "padding", "textSize", "block"],
-  _excluded2$6 = ["title", "onClick", "disabled", "textSize", "padding", "block"],
-  _excluded3$6 = ["title", "onClick", "disabled", "textSize", "padding", "block"];
-function ownKeys$r(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$r(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$r(Object(t), !0).forEach(function (r) { _defineProperty$s(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$r(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$s(e, r, t) { return (r = _toPropertyKey$w(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$w(t) { var i = _toPrimitive$w(t, "string"); return "symbol" == _typeof$x(i) ? i : i + ""; }
-function _toPrimitive$w(t, r) { if ("object" != _typeof$x(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$x(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$r(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$r(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$r(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$z(o) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$z(o); }
+var _excluded$t = ["title", "onClick", "disabled", "padding", "textSize", "block", "size", "className"],
+  _excluded2$9 = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className"],
+  _excluded3$9 = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className"];
+function ownKeys$t(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$t(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$t(Object(t), !0).forEach(function (r) { _defineProperty$u(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$t(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$u(e, r, t) { return (r = _toPropertyKey$y(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$y(t) { var i = _toPrimitive$y(t, "string"); return "symbol" == _typeof$z(i) ? i : i + ""; }
+function _toPrimitive$y(t, r) { if ("object" != _typeof$z(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$z(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$t(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$t(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$t(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Button = function Button(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "Cancel" : _ref$title,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? undefined : _ref$onClick,
     _ref$disabled = _ref.disabled,
-    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? null : _ref$padding,
-    _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? null : _ref$textSize,
-    _ref$block = _ref.block,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
+    _ref.padding;
+    _ref.textSize;
+    var _ref$block = _ref.block,
     block = _ref$block === void 0 ? false : _ref$block,
-    props = _objectWithoutProperties$r(_ref, _excluded$r);
+    _ref$size = _ref.size,
+    size = _ref$size === void 0 ? "md" : _ref$size,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    props = _objectWithoutProperties$t(_ref, _excluded$t);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.BUTTON, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
     scrollable: false,
     grow: false,
     space: false
-  }));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
+  }), null, size);
   var width = block === true ? "w-full" : "";
-  var textSizeComputed = textSize !== null ? textSize : "text-lg lg:text-xl xl:text-xl 2xl:text-2xl";
-  var paddingComputed = padding !== null ? padding : "p-2 py-1 px-2 lg:px-4 lg:py-2 xl:px-6 xl:py-4";
-
-  // since we do not have a layout container we can create an id like so
   var uuid = getUUID$1("", "button");
-  return /*#__PURE__*/jsx("div", {
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
     id: uuid,
-    onClick: handleOnClick,
-    className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-bold"),
+    onClick: onClick,
+    disabled: disabled,
+    className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(className),
     children: title
   });
 };
@@ -1623,34 +1814,30 @@ var Button2 = function Button2(_ref2) {
     _ref2$onClick = _ref2.onClick,
     onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
     _ref2$disabled = _ref2.disabled,
-    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
-    _ref2$textSize = _ref2.textSize,
-    textSize = _ref2$textSize === void 0 ? null : _ref2$textSize,
-    _ref2$padding = _ref2.padding,
-    padding = _ref2$padding === void 0 ? null : _ref2$padding,
-    _ref2$block = _ref2.block,
+    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled;
+    _ref2.textSize;
+    _ref2.padding;
+    var _ref2$block = _ref2.block,
     block = _ref2$block === void 0 ? false : _ref2$block,
-    props = _objectWithoutProperties$r(_ref2, _excluded2$6);
+    _ref2$size = _ref2.size,
+    size = _ref2$size === void 0 ? "md" : _ref2$size,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    props = _objectWithoutProperties$t(_ref2, _excluded2$9);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
     height: "",
     grow: false
-  }));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
+  }), null, size);
   var width = block === true ? "w-full" : "";
-  var textSizeComputed = textSize !== null ? textSize : "text-base lg:text-lg 2xl:text-xl";
-  var paddingComputed = padding !== null ? padding : "p-1 lg:p-2 xl:p-4";
-  // since we do not have a layout container we can create an id like so
   var uuid = getUUID$1("", "button-2");
-  return /*#__PURE__*/jsx("div", {
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
     id: uuid,
-    onClick: handleOnClick,
-    className: "flex flex-row flex-shrink justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-medium"),
+    onClick: onClick,
+    disabled: disabled,
+    className: "flex flex-row flex-shrink justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
     children: title
   });
 };
@@ -1660,100 +1847,90 @@ var Button3 = function Button3(_ref3) {
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$disabled = _ref3.disabled,
-    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
-    _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? null : _ref3$textSize,
-    _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? null : _ref3$padding,
-    _ref3$block = _ref3.block,
+    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled;
+    _ref3.textSize;
+    _ref3.padding;
+    var _ref3$block = _ref3.block,
     block = _ref3$block === void 0 ? false : _ref3$block,
-    props = _objectWithoutProperties$r(_ref3, _excluded3$6);
+    _ref3$size = _ref3.size,
+    size = _ref3$size === void 0 ? "md" : _ref3$size,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    props = _objectWithoutProperties$t(_ref3, _excluded3$9);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
-    textSize: textSize,
-    padding: padding,
+  var styles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, _objectSpread$t(_objectSpread$t({}, props), {}, {
     grow: false
-  }));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
+  }), null, size);
   var width = block === true ? "w-full" : "";
-  var textSizeComputed = textSize !== null ? textSize : "text-sm xl:text-base 2xl:text-base";
-  var paddingComputed = padding !== null ? padding : "p-1 lg:p-1 xl:p-2";
-
-  // since we do not have a layout container we can create an id like so
   var uuid = getUUID$1("", "button-3");
-  return /*#__PURE__*/jsx("div", {
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
     id: uuid,
-    onClick: handleOnClick,
-    className: "flex flex-row justify-center items-center ".concat(paddingComputed, " ").concat(styles.string, " rounded ").concat(width, " cursor-pointer ").concat(textSizeComputed, " font-normal"),
+    onClick: onClick,
+    disabled: disabled,
+    className: "flex flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
     children: title
   });
 };
 
-function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
-var _excluded$q = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "disabled", "className"],
-  _excluded2$5 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className"],
-  _excluded3$5 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "disabled", "className"];
-function ownKeys$q(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$q(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$q(Object(t), !0).forEach(function (r) { _defineProperty$r(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$q(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$r(e, r, t) { return (r = _toPropertyKey$v(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$v(t) { var i = _toPrimitive$v(t, "string"); return "symbol" == _typeof$w(i) ? i : i + ""; }
-function _toPrimitive$v(t, r) { if ("object" != _typeof$w(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$w(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$q(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$q(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$q(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$y(o) { "@babel/helpers - typeof"; return _typeof$y = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$y(o); }
+var _excluded$s = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "disabled", "className", "size", "ariaLabel"],
+  _excluded2$8 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "disabled", "className", "size", "ariaLabel"],
+  _excluded3$8 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "disabled", "className", "size", "ariaLabel"];
+function ownKeys$s(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$s(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$s(Object(t), !0).forEach(function (r) { _defineProperty$t(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$s(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$t(e, r, t) { return (r = _toPropertyKey$x(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$x(t) { var i = _toPrimitive$x(t, "string"); return "symbol" == _typeof$y(i) ? i : i + ""; }
+function _toPrimitive$x(t, r) { if ("object" != _typeof$y(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$y(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$s(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$s(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$s(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var ButtonIcon = function ButtonIcon(_ref) {
   var _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$icon = _ref.icon,
     icon = _ref$icon === void 0 ? "" : _ref$icon,
     _ref$text = _ref.text,
-    text = _ref$text === void 0 ? "" : _ref$text;
-    _ref.block;
-    var _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs lg:text-base" : _ref$textSize;
+    text = _ref$text === void 0 ? "" : _ref$text,
+    _ref$block = _ref.block,
+    block = _ref$block === void 0 ? false : _ref$block;
+    _ref.textSize;
     _ref.textColor;
     var _ref$iconSize = _ref.iconSize,
-    iconSize = _ref$iconSize === void 0 ? "h-4 w-4" : _ref$iconSize,
+    iconSize = _ref$iconSize === void 0 ? null : _ref$iconSize,
     _ref$backgroundColor = _ref.backgroundColor,
     backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
     _ref$disabled = _ref.disabled,
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$q(_ref, _excluded$q);
+    _ref$size = _ref.size,
+    size = _ref$size === void 0 ? "md" : _ref$size,
+    _ref$ariaLabel = _ref.ariaLabel,
+    ariaLabel = _ref$ariaLabel === void 0 ? null : _ref$ariaLabel,
+    props = _objectWithoutProperties$s(_ref, _excluded$s);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, _objectSpread$q(_objectSpread$q({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.BUTTON_ICON, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
     backgroundColor: backgroundColor,
     scrollable: false,
     grow: false
-  }));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
-  var disabledStyles = onClick !== null && disabled === false && "cursor-pointer";
-  var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-4" : text === "" ? "space-x-0 px-0" : "space-x-0 px-4";
-
-  // since we do not have a layout container we can create an id like so
+  }), null, size);
   var uuid = getUUID$1("", "button-icon");
-  return /*#__PURE__*/jsxs("div", {
+  var computedIconSize = iconSize || styles.iconSize || "h-5 w-5";
+  var hasIcon = icon !== "";
+  var hasText = text !== "" && text !== null;
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
     id: uuid,
-    onClick: handleOnClick,
-    className: "flex flex-row ".concat(className, " ").concat(styles.string, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(textSize, " ").concat(disabledStyles, " whitespace-nowrap"),
-    children: [icon !== "" && /*#__PURE__*/jsx("span", {
-      className: "".concat(text === "" && "p-2"),
-      children: /*#__PURE__*/jsx(FontAwesomeIcon, {
-        icon: icon,
-        className: "".concat(iconSize, " justify-center items-center")
-      })
-    }), text !== null && /*#__PURE__*/jsx("span", {
-      className: icon === "" ? "mx-0" : "mx-0",
+    onClick: onClick,
+    disabled: disabled,
+    "aria-label": ariaLabel,
+    className: "inline-flex items-center justify-center ".concat(hasIcon && hasText ? "gap-2" : "", " ").concat(block ? "w-full" : "", " ").concat(styles.backgroundColor || "", " ").concat(styles.textColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.hoverBorderColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "px-3 py-2", " ").concat(styles.textSize || "text-base", " ").concat(styles.shadow || "", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.fontWeight || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(styles.disabledOpacity || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " whitespace-nowrap ").concat(className),
+    children: [hasIcon && /*#__PURE__*/jsx(FontAwesomeIcon, {
+      icon: icon,
+      className: computedIconSize
+    }), hasText && /*#__PURE__*/jsx("span", {
       children: text
     })]
   });
@@ -1766,47 +1943,43 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     _ref2$text = _ref2.text,
     text = _ref2$text === void 0 ? "" : _ref2$text,
     _ref2$block = _ref2.block,
-    block = _ref2$block === void 0 ? false : _ref2$block,
-    _ref2$textSize = _ref2.textSize,
-    textSize = _ref2$textSize === void 0 ? "text-xs lg:text-base 2xl:text-base" : _ref2$textSize,
-    _ref2$iconSize = _ref2.iconSize,
-    iconSize = _ref2$iconSize === void 0 ? "h-4 w-4" : _ref2$iconSize,
+    block = _ref2$block === void 0 ? false : _ref2$block;
+    _ref2.textSize;
+    var _ref2$iconSize = _ref2.iconSize,
+    iconSize = _ref2$iconSize === void 0 ? null : _ref2$iconSize,
     _ref2$backgroundColor = _ref2.backgroundColor,
     backgroundColor = _ref2$backgroundColor === void 0 ? null : _ref2$backgroundColor,
     _ref2$disabled = _ref2.disabled,
     disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
-    props = _objectWithoutProperties$q(_ref2, _excluded2$5);
+    _ref2$size = _ref2.size,
+    size = _ref2$size === void 0 ? "md" : _ref2$size,
+    _ref2$ariaLabel = _ref2.ariaLabel,
+    ariaLabel = _ref2$ariaLabel === void 0 ? null : _ref2$ariaLabel,
+    props = _objectWithoutProperties$s(_ref2, _excluded2$8);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_ICON_2, currentTheme, _objectSpread$q(_objectSpread$q({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.BUTTON_ICON_2, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
     backgroundColor: backgroundColor,
     scrollable: false,
     grow: false
-  }));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
-  var disabledStyles = onClick !== null && disabled === false && "cursor-pointer";
-  var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-4" : "space-x-0 px-0";
-
-  // since we do not have a layout container we can create an id like so
+  }), null, size);
   var uuid = getUUID$1("", "button-icon-2");
-  return /*#__PURE__*/jsxs("div", {
+  var computedIconSize = iconSize || styles.iconSize || "h-4 w-4";
+  var hasIcon = icon !== "";
+  var hasText = text !== "" && text !== null;
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
     id: uuid,
-    onClick: handleOnClick,
-    className: "flex flex-row  ".concat(styles.string, " ").concat(className, " rounded font-medium items-center justify-center ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " p-1 ").concat(textSize, " ").concat(block && "w-full", " whitespace-nowrap"),
-    children: [icon !== "" && /*#__PURE__*/jsx("span", {
-      className: "".concat(text === "" && "p-1"),
-      children: /*#__PURE__*/jsx(FontAwesomeIcon, {
-        icon: icon,
-        className: "".concat(iconSize, " justify-center items-center")
-      })
-    }), text !== null && /*#__PURE__*/jsx("span", {
-      className: text === "" ? "ml-0" : "ml-2",
+    onClick: onClick,
+    disabled: disabled,
+    "aria-label": ariaLabel,
+    className: "inline-flex items-center justify-center ".concat(hasIcon && hasText ? "gap-1.5" : "", " ").concat(block ? "w-full" : "", " ").concat(styles.backgroundColor || "", " ").concat(styles.textColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.hoverBorderColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "px-2.5 py-1.5", " ").concat(styles.textSize || "text-sm", " ").concat(styles.shadow || "", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.fontWeight || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(styles.disabledOpacity || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " whitespace-nowrap ").concat(className),
+    children: [hasIcon && /*#__PURE__*/jsx(FontAwesomeIcon, {
+      icon: icon,
+      className: computedIconSize
+    }), hasText && /*#__PURE__*/jsx("span", {
       children: text
     })]
   });
@@ -1819,63 +1992,56 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     _ref3$text = _ref3.text,
     text = _ref3$text === void 0 ? "" : _ref3$text,
     _ref3$block = _ref3.block,
-    block = _ref3$block === void 0 ? false : _ref3$block,
-    _ref3$textSize = _ref3.textSize,
-    textSize = _ref3$textSize === void 0 ? "text-xs lg:text-sm 2xl:text-sm" : _ref3$textSize,
-    _ref3$iconSize = _ref3.iconSize,
-    iconSize = _ref3$iconSize === void 0 ? "h-3 w-3" : _ref3$iconSize,
+    block = _ref3$block === void 0 ? false : _ref3$block;
+    _ref3.textSize;
+    var _ref3$iconSize = _ref3.iconSize,
+    iconSize = _ref3$iconSize === void 0 ? null : _ref3$iconSize,
     _ref3$disabled = _ref3.disabled,
     disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
-    props = _objectWithoutProperties$q(_ref3, _excluded3$5);
+    _ref3$size = _ref3.size,
+    size = _ref3$size === void 0 ? "md" : _ref3$size,
+    _ref3$ariaLabel = _ref3.ariaLabel,
+    ariaLabel = _ref3$ariaLabel === void 0 ? null : _ref3$ariaLabel,
+    props = _objectWithoutProperties$s(_ref3, _excluded3$8);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$q(_objectSpread$q({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.BUTTON_ICON_3, currentTheme, _objectSpread$s(_objectSpread$s({}, props), {}, {
     scrollable: false,
     grow: false
-  }));
-  function handleOnClick(e) {
-    if (disabled === false) {
-      onClick !== null && onClick(e);
-    }
-  }
-  var disabledStyles = onClick !== null && disabled === false && "cursor-pointer";
-  var spaceBetweenStyles = icon !== "" && text !== "" ? "space-x-1 px-1" : "space-x-0 px-0";
-
-  // center styles
-  var center = "justify-center items-center cursor-pointer";
-
-  // since we do not have a layout container we can create an id like so
+  }), null, size);
   var uuid = getUUID$1("", "button-icon-3");
-  return /*#__PURE__*/jsxs("div", {
+  var computedIconSize = iconSize || styles.iconSize || "h-3 w-3";
+  var hasIcon = icon !== "";
+  var hasText = text !== "" && text !== null;
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
     id: uuid,
-    onClick: handleOnClick,
-    className: "flex flex-row ".concat(className, " ").concat(styles.string, " rounded font-medium ").concat(center, " ").concat(spaceBetweenStyles, " ").concat(disabledStyles, " ").concat(textSize, " ").concat(block === true && "w-full", " ").concat(styles.string, " whitespace-nowrap"),
-    children: [icon !== "" && /*#__PURE__*/jsx("span", {
-      className: "".concat(text === "" && "p-1"),
-      children: /*#__PURE__*/jsx(FontAwesomeIcon, {
-        icon: icon,
-        className: "".concat(iconSize, " justify-center items-center")
-      })
-    }), text !== null && /*#__PURE__*/jsx("span", {
-      className: text === "" ? "ml-0" : "ml-2",
+    onClick: onClick,
+    disabled: disabled,
+    "aria-label": ariaLabel,
+    className: "inline-flex items-center justify-center ".concat(hasIcon && hasText ? "gap-1" : "", " ").concat(block ? "w-full" : "", " ").concat(styles.backgroundColor || "", " ").concat(styles.textColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.hoverBorderColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "px-2 py-1", " ").concat(styles.textSize || "text-xs", " ").concat(styles.shadow || "", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.fontWeight || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(styles.disabledOpacity || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " whitespace-nowrap ").concat(className),
+    children: [hasIcon && /*#__PURE__*/jsx(FontAwesomeIcon, {
+      icon: icon,
+      className: computedIconSize
+    }), hasText && /*#__PURE__*/jsx("span", {
       children: text
     })]
   });
 };
 
-function _typeof$v(o) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$v(o); }
-var _excluded$p = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"],
-  _excluded2$4 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"],
-  _excluded3$4 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"];
-function ownKeys$p(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$p(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$p(Object(t), !0).forEach(function (r) { _defineProperty$q(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$p(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$q(e, r, t) { return (r = _toPropertyKey$u(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$u(t) { var i = _toPrimitive$u(t, "string"); return "symbol" == _typeof$v(i) ? i : i + ""; }
-function _toPrimitive$u(t, r) { if ("object" != _typeof$v(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$v(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$p(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$p(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$p(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$x(o) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$x(o); }
+var _excluded$r = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"],
+  _excluded2$7 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"],
+  _excluded3$7 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"];
+function ownKeys$r(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$r(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$r(Object(t), !0).forEach(function (r) { _defineProperty$s(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$r(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$s(e, r, t) { return (r = _toPropertyKey$w(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$w(t) { var i = _toPrimitive$w(t, "string"); return "symbol" == _typeof$x(i) ? i : i + ""; }
+function _toPrimitive$w(t, r) { if ("object" != _typeof$x(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$x(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$r(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$r(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$r(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Card = function Card(_ref) {
   var children = _ref.children,
     _ref$onClick = _ref.onClick,
@@ -1883,27 +2049,27 @@ var Card = function Card(_ref) {
     _ref$padding = _ref.padding,
     padding = _ref$padding === void 0 ? "p-6" : _ref$padding,
     _ref$rounded = _ref.rounded,
-    rounded = _ref$rounded === void 0 ? "rounded-lg" : _ref$rounded,
+    rounded = _ref$rounded === void 0 ? "rounded-xl" : _ref$rounded,
     _ref$shadow = _ref.shadow,
-    shadow = _ref$shadow === void 0 ? "shadow-md" : _ref$shadow,
+    shadow = _ref$shadow === void 0 ? "shadow-sm" : _ref$shadow,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$hover = _ref.hover,
     hover = _ref$hover === void 0 ? false : _ref$hover,
-    props = _objectWithoutProperties$p(_ref, _excluded$p);
+    props = _objectWithoutProperties$r(_ref, _excluded$r);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.CARD, currentTheme, _objectSpread$p(_objectSpread$p({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.CARD, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
     scrollable: false,
     grow: false
   }));
   var uuid = getUUID$1("", "card");
-  var hoverStyles = hover ? "hover:shadow-lg transition-shadow duration-200" : "";
+  var hoverStyles = hover ? "hover:shadow-md" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 };
@@ -1914,27 +2080,27 @@ var Card2 = function Card2(_ref2) {
     _ref2$padding = _ref2.padding,
     padding = _ref2$padding === void 0 ? "p-4" : _ref2$padding,
     _ref2$rounded = _ref2.rounded,
-    rounded = _ref2$rounded === void 0 ? "rounded-md" : _ref2$rounded,
+    rounded = _ref2$rounded === void 0 ? "rounded-lg" : _ref2$rounded,
     _ref2$shadow = _ref2.shadow,
-    shadow = _ref2$shadow === void 0 ? "shadow" : _ref2$shadow,
+    shadow = _ref2$shadow === void 0 ? "shadow-sm" : _ref2$shadow,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$hover = _ref2.hover,
     hover = _ref2$hover === void 0 ? false : _ref2$hover,
-    props = _objectWithoutProperties$p(_ref2, _excluded2$4);
+    props = _objectWithoutProperties$r(_ref2, _excluded2$7);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.CARD_2, currentTheme, _objectSpread$p(_objectSpread$p({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.CARD_2, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
     scrollable: false,
     grow: false
   }));
   var uuid = getUUID$1("", "card-2");
-  var hoverStyles = hover ? "hover:shadow-lg transition-shadow duration-200" : "";
+  var hoverStyles = hover ? "hover:shadow-md" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 };
@@ -1945,27 +2111,27 @@ var Card3 = function Card3(_ref3) {
     _ref3$padding = _ref3.padding,
     padding = _ref3$padding === void 0 ? "p-2" : _ref3$padding,
     _ref3$rounded = _ref3.rounded,
-    rounded = _ref3$rounded === void 0 ? "rounded" : _ref3$rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded-md" : _ref3$rounded,
     _ref3$shadow = _ref3.shadow,
-    shadow = _ref3$shadow === void 0 ? "shadow-sm" : _ref3$shadow,
+    shadow = _ref3$shadow === void 0 ? "shadow-none" : _ref3$shadow,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$hover = _ref3.hover,
     hover = _ref3$hover === void 0 ? false : _ref3$hover,
-    props = _objectWithoutProperties$p(_ref3, _excluded3$4);
+    props = _objectWithoutProperties$r(_ref3, _excluded3$7);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.CARD_3, currentTheme, _objectSpread$p(_objectSpread$p({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.CARD_3, currentTheme, _objectSpread$r(_objectSpread$r({}, props), {}, {
     scrollable: false,
     grow: false
   }));
   var uuid = getUUID$1("", "card-3");
-  var hoverStyles = hover ? "hover:shadow-lg transition-shadow duration-200" : "";
+  var hoverStyles = hover ? "hover:shadow-sm" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 };
@@ -2007,21 +2173,21 @@ Card3.Header = Card.Header;
 Card3.Body = Card.Body;
 Card3.Footer = Card.Footer;
 
-function _typeof$u(o) { "@babel/helpers - typeof"; return _typeof$u = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$u(o); }
-var _excluded$o = ["items", "separator", "maxItems", "className", "onItemClick", "themeKey"];
-function _toConsumableArray$1(r) { return _arrayWithoutHoles$1(r) || _iterableToArray$1(r) || _unsupportedIterableToArray$3(r) || _nonIterableSpread$1(); }
-function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$3(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$3(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$3(r, a) : void 0; } }
-function _iterableToArray$1(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$1(r) { if (Array.isArray(r)) return _arrayLikeToArray$3(r); }
-function _arrayLikeToArray$3(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function ownKeys$o(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$o(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$o(Object(t), !0).forEach(function (r) { _defineProperty$p(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$o(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$p(e, r, t) { return (r = _toPropertyKey$t(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$t(t) { var i = _toPrimitive$t(t, "string"); return "symbol" == _typeof$u(i) ? i : i + ""; }
-function _toPrimitive$t(t, r) { if ("object" != _typeof$u(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$u(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$o(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$o(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$o(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
+var _excluded$q = ["items", "separator", "maxItems", "className", "onItemClick", "themeKey"];
+function _toConsumableArray$2(r) { return _arrayWithoutHoles$2(r) || _iterableToArray$2(r) || _unsupportedIterableToArray$9(r) || _nonIterableSpread$2(); }
+function _nonIterableSpread$2() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$9(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$9(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$9(r, a) : void 0; } }
+function _iterableToArray$2(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles$2(r) { if (Array.isArray(r)) return _arrayLikeToArray$9(r); }
+function _arrayLikeToArray$9(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function ownKeys$q(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$q(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$q(Object(t), !0).forEach(function (r) { _defineProperty$r(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$q(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$r(e, r, t) { return (r = _toPropertyKey$v(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$v(t) { var i = _toPrimitive$v(t, "string"); return "symbol" == _typeof$w(i) ? i : i + ""; }
+function _toPrimitive$v(t, r) { if ("object" != _typeof$w(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$w(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$q(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$q(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$q(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var BreadcrumbsBase = function BreadcrumbsBase(_ref) {
   var _ref$items = _ref.items,
     items = _ref$items === void 0 ? [] : _ref$items,
@@ -2034,10 +2200,10 @@ var BreadcrumbsBase = function BreadcrumbsBase(_ref) {
     _ref$onItemClick = _ref.onItemClick,
     onItemClick = _ref$onItemClick === void 0 ? null : _ref$onItemClick,
     themeKey = _ref.themeKey,
-    props = _objectWithoutProperties$o(_ref, _excluded$o);
+    props = _objectWithoutProperties$q(_ref, _excluded$q);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeKey, currentTheme, _objectSpread$o(_objectSpread$o({}, props), {}, {
+  var styles = getStylesForItem(themeKey, currentTheme, _objectSpread$q(_objectSpread$q({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2050,7 +2216,7 @@ var BreadcrumbsBase = function BreadcrumbsBase(_ref) {
     return [head, {
       label: "...",
       isEllipsis: true
-    }].concat(_toConsumableArray$1(tail));
+    }].concat(_toConsumableArray$2(tail));
   }, [items, maxItems]);
   var handleClick = function handleClick(item, event) {
     if (item.onClick) {
@@ -2083,14 +2249,14 @@ var BreadcrumbsBase = function BreadcrumbsBase(_ref) {
             onClick: function onClick(event) {
               return handleClick(item, event);
             },
-            className: "hover:underline",
+            className: "hover:underline transition-colors duration-150",
             children: item.label
           }) : item.onClick || onItemClick ? /*#__PURE__*/jsx("button", {
             type: "button",
             onClick: function onClick(event) {
               return handleClick(item, event);
             },
-            className: "hover:underline",
+            className: "hover:underline transition-colors duration-150",
             children: item.label
           }) : /*#__PURE__*/jsx("span", {
             children: item.label
@@ -2101,30 +2267,30 @@ var BreadcrumbsBase = function BreadcrumbsBase(_ref) {
   });
 };
 var Breadcrumbs = function Breadcrumbs(props) {
-  return /*#__PURE__*/jsx(BreadcrumbsBase, _objectSpread$o({
+  return /*#__PURE__*/jsx(BreadcrumbsBase, _objectSpread$q({
     themeKey: themeObjects.BREADCRUMBS
   }, props));
 };
 var Breadcrumbs2 = function Breadcrumbs2(props) {
-  return /*#__PURE__*/jsx(BreadcrumbsBase, _objectSpread$o({
+  return /*#__PURE__*/jsx(BreadcrumbsBase, _objectSpread$q({
     themeKey: themeObjects.BREADCRUMBS_2
   }, props));
 };
 var Breadcrumbs3 = function Breadcrumbs3(props) {
-  return /*#__PURE__*/jsx(BreadcrumbsBase, _objectSpread$o({
+  return /*#__PURE__*/jsx(BreadcrumbsBase, _objectSpread$q({
     themeKey: themeObjects.BREADCRUMBS_3
   }, props));
 };
 
-function _typeof$t(o) { "@babel/helpers - typeof"; return _typeof$t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$t(o); }
-var _excluded$n = ["title", "message", "children", "onClose", "className"];
-function ownKeys$n(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$n(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$n(Object(t), !0).forEach(function (r) { _defineProperty$o(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$n(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$o(e, r, t) { return (r = _toPropertyKey$s(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$s(t) { var i = _toPrimitive$s(t, "string"); return "symbol" == _typeof$t(i) ? i : i + ""; }
-function _toPrimitive$s(t, r) { if ("object" != _typeof$t(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$t(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$n(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$n(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$n(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$v(o) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$v(o); }
+var _excluded$p = ["title", "message", "children", "onClose", "className"];
+function ownKeys$p(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$p(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$p(Object(t), !0).forEach(function (r) { _defineProperty$q(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$p(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$q(e, r, t) { return (r = _toPropertyKey$u(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$u(t) { var i = _toPrimitive$u(t, "string"); return "symbol" == _typeof$v(i) ? i : i + ""; }
+function _toPrimitive$u(t, r) { if ("object" != _typeof$v(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$v(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$p(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$p(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$p(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Alert = function Alert(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "" : _ref$title,
@@ -2136,17 +2302,17 @@ var Alert = function Alert(_ref) {
     onClose = _ref$onClose === void 0 ? null : _ref$onClose,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$n(_ref, _excluded$n);
+    props = _objectWithoutProperties$p(_ref, _excluded$p);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.ALERT, currentTheme, _objectSpread$n(_objectSpread$n({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.ALERT, currentTheme, _objectSpread$p(_objectSpread$p({}, props), {}, {
     scrollable: false,
     grow: false
   }));
   var uuid = getUUID$1("", "alert");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 text-base ").concat(className),
+    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-lg p-4 text-base ").concat(className),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -2162,7 +2328,7 @@ var Alert = function Alert(_ref) {
       }), onClose && /*#__PURE__*/jsx("button", {
         type: "button",
         onClick: onClose,
-        className: "ml-4 text-lg leading-none opacity-70 hover:opacity-100",
+        className: "ml-4 text-lg leading-none opacity-70 hover:opacity-100 rounded-full hover:bg-black/10 p-1 transition-colors duration-150",
         "aria-label": "Close alert",
         children: "\xD7"
       })]
@@ -2172,14 +2338,14 @@ var Alert = function Alert(_ref) {
 var Alert2 = function Alert2(props) {
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.ALERT_2, currentTheme, _objectSpread$n(_objectSpread$n({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.ALERT_2, currentTheme, _objectSpread$p(_objectSpread$p({}, props), {}, {
     scrollable: false,
     grow: false
   }));
   var uuid = getUUID$1("", "alert-2");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-3 text-sm ").concat(props.className || ""),
+    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-lg p-3 text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -2195,7 +2361,7 @@ var Alert2 = function Alert2(props) {
       }), props.onClose && /*#__PURE__*/jsx("button", {
         type: "button",
         onClick: props.onClose,
-        className: "ml-4 text-lg leading-none opacity-70 hover:opacity-100",
+        className: "ml-4 text-lg leading-none opacity-70 hover:opacity-100 rounded-full hover:bg-black/10 p-1 transition-colors duration-150",
         "aria-label": "Close alert",
         children: "\xD7"
       })]
@@ -2205,14 +2371,14 @@ var Alert2 = function Alert2(props) {
 var Alert3 = function Alert3(props) {
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.ALERT_3, currentTheme, _objectSpread$n(_objectSpread$n({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.ALERT_3, currentTheme, _objectSpread$p(_objectSpread$p({}, props), {}, {
     scrollable: false,
     grow: false
   }));
   var uuid = getUUID$1("", "alert-3");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-2 text-sm ").concat(props.className || ""),
+    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-lg p-2 text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -2228,7 +2394,7 @@ var Alert3 = function Alert3(props) {
       }), props.onClose && /*#__PURE__*/jsx("button", {
         type: "button",
         onClick: props.onClose,
-        className: "ml-4 text-lg leading-none opacity-70 hover:opacity-100",
+        className: "ml-4 text-lg leading-none opacity-70 hover:opacity-100 rounded-full hover:bg-black/10 p-1 transition-colors duration-150",
         "aria-label": "Close alert",
         children: "\xD7"
       })]
@@ -2236,15 +2402,15 @@ var Alert3 = function Alert3(props) {
   });
 };
 
-function _typeof$s(o) { "@babel/helpers - typeof"; return _typeof$s = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$s(o); }
-var _excluded$m = ["variant", "title", "message", "children", "onClose", "showIcon", "className", "animate"];
-function ownKeys$m(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$m(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$m(Object(t), !0).forEach(function (r) { _defineProperty$n(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$m(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$n(e, r, t) { return (r = _toPropertyKey$r(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$r(t) { var i = _toPrimitive$r(t, "string"); return "symbol" == _typeof$s(i) ? i : i + ""; }
-function _toPrimitive$r(t, r) { if ("object" != _typeof$s(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$s(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$m(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$m(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$m(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$u(o) { "@babel/helpers - typeof"; return _typeof$u = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$u(o); }
+var _excluded$o = ["variant", "title", "message", "children", "onClose", "showIcon", "className", "animate"];
+function ownKeys$o(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$o(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$o(Object(t), !0).forEach(function (r) { _defineProperty$p(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$o(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$p(e, r, t) { return (r = _toPropertyKey$t(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$t(t) { var i = _toPrimitive$t(t, "string"); return "symbol" == _typeof$u(i) ? i : i + ""; }
+function _toPrimitive$t(t, r) { if ("object" != _typeof$u(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$u(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$o(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$o(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$o(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var VARIANT_STYLES = {
   info: {
     container: "bg-blue-50 border-l-4 border-blue-500",
@@ -2340,12 +2506,12 @@ var AlertBanner = function AlertBanner(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$animate = _ref.animate,
     animate = _ref$animate === void 0 ? true : _ref$animate,
-    props = _objectWithoutProperties$m(_ref, _excluded$m);
+    props = _objectWithoutProperties$o(_ref, _excluded$o);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
 
   // Get theme-aware styles while allowing variant overrides
-  getStylesForItem(themeObjects.ALERT_BANNER, currentTheme, _objectSpread$m({}, props));
+  getStylesForItem(themeObjects.ALERT_BANNER, currentTheme, _objectSpread$o({}, props));
   var uuid = getUUID$1("", "alert-banner");
   var variantStyle = VARIANT_STYLES[variant] || VARIANT_STYLES.info;
   var icon = Icons[variant] || Icons.info;
@@ -2397,15 +2563,15 @@ var AlertBanner = function AlertBanner(_ref) {
   });
 };
 
-function _typeof$r(o) { "@babel/helpers - typeof"; return _typeof$r = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$r(o); }
-var _excluded$l = ["value", "showLabel", "size", "striped", "animated", "fillColor", "className", "themeKey"];
-function ownKeys$l(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$l(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$l(Object(t), !0).forEach(function (r) { _defineProperty$m(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$l(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$m(e, r, t) { return (r = _toPropertyKey$q(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$q(t) { var i = _toPrimitive$q(t, "string"); return "symbol" == _typeof$r(i) ? i : i + ""; }
-function _toPrimitive$q(t, r) { if ("object" != _typeof$r(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$r(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$l(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$l(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$l(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$t(o) { "@babel/helpers - typeof"; return _typeof$t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$t(o); }
+var _excluded$n = ["value", "showLabel", "size", "striped", "animated", "fillColor", "className", "themeKey"];
+function ownKeys$n(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$n(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$n(Object(t), !0).forEach(function (r) { _defineProperty$o(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$n(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$o(e, r, t) { return (r = _toPropertyKey$s(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$s(t) { var i = _toPrimitive$s(t, "string"); return "symbol" == _typeof$t(i) ? i : i + ""; }
+function _toPrimitive$s(t, r) { if ("object" != _typeof$t(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$t(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$n(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$n(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$n(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var resolveThemeClass = function resolveThemeClass(theme, value) {
   if (!value) return "";
   if (theme && value in theme) return theme[value];
@@ -2427,10 +2593,10 @@ var ProgressBarBase = function ProgressBarBase(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     themeKey = _ref.themeKey,
-    props = _objectWithoutProperties$l(_ref, _excluded$l);
+    props = _objectWithoutProperties$n(_ref, _excluded$n);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeKey, currentTheme, _objectSpread$l(_objectSpread$l({}, props), {}, {
+  var styles = getStylesForItem(themeKey, currentTheme, _objectSpread$n(_objectSpread$n({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2443,7 +2609,7 @@ var ProgressBarBase = function ProgressBarBase(_ref) {
     children: [/*#__PURE__*/jsx("div", {
       className: "w-full ".concat(heightClass, " rounded-full overflow-hidden ").concat(styles.backgroundColor, " ").concat(styles.borderColor),
       children: /*#__PURE__*/jsx("div", {
-        className: "".concat(heightClass, " ").concat(fillClass, " ").concat(striped ? "bg-gradient-to-r from-transparent via-white/20 to-transparent" : "", " ").concat(animated ? "animate-pulse" : ""),
+        className: "".concat(heightClass, " ").concat(fillClass, " transition-all duration-500 ease-out ").concat(striped ? "bg-gradient-to-r from-transparent via-white/20 to-transparent" : "", " ").concat(animated ? "animate-pulse" : ""),
         style: {
           width: "".concat(Math.max(0, Math.min(100, value)), "%")
         }
@@ -2455,36 +2621,36 @@ var ProgressBarBase = function ProgressBarBase(_ref) {
   });
 };
 var ProgressBar = function ProgressBar(props) {
-  return /*#__PURE__*/jsx(ProgressBarBase, _objectSpread$l(_objectSpread$l({
+  return /*#__PURE__*/jsx(ProgressBarBase, _objectSpread$n(_objectSpread$n({
     themeKey: themeObjects.PROGRESS_BAR
   }, props), {}, {
     fillColor: props.fillColor || "bg-primary-medium"
   }));
 };
 var ProgressBar2 = function ProgressBar2(props) {
-  return /*#__PURE__*/jsx(ProgressBarBase, _objectSpread$l(_objectSpread$l({
+  return /*#__PURE__*/jsx(ProgressBarBase, _objectSpread$n(_objectSpread$n({
     themeKey: themeObjects.PROGRESS_BAR_2
   }, props), {}, {
     fillColor: props.fillColor || "bg-secondary-medium"
   }));
 };
 var ProgressBar3 = function ProgressBar3(props) {
-  return /*#__PURE__*/jsx(ProgressBarBase, _objectSpread$l(_objectSpread$l({
+  return /*#__PURE__*/jsx(ProgressBarBase, _objectSpread$n(_objectSpread$n({
     themeKey: themeObjects.PROGRESS_BAR_3
   }, props), {}, {
     fillColor: props.fillColor || "bg-tertiary-medium"
   }));
 };
 
-function _typeof$q(o) { "@babel/helpers - typeof"; return _typeof$q = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$q(o); }
-var _excluded$k = ["title", "message", "duration", "onClose", "className", "children"];
-function ownKeys$k(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$k(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$k(Object(t), !0).forEach(function (r) { _defineProperty$l(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$k(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$l(e, r, t) { return (r = _toPropertyKey$p(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$p(t) { var i = _toPrimitive$p(t, "string"); return "symbol" == _typeof$q(i) ? i : i + ""; }
-function _toPrimitive$p(t, r) { if ("object" != _typeof$q(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$q(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$k(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$k(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$k(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$s(o) { "@babel/helpers - typeof"; return _typeof$s = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$s(o); }
+var _excluded$m = ["title", "message", "duration", "onClose", "className", "children"];
+function ownKeys$m(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$m(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$m(Object(t), !0).forEach(function (r) { _defineProperty$n(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$m(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$n(e, r, t) { return (r = _toPropertyKey$r(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$r(t) { var i = _toPrimitive$r(t, "string"); return "symbol" == _typeof$s(i) ? i : i + ""; }
+function _toPrimitive$r(t, r) { if ("object" != _typeof$s(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$s(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$m(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$m(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$m(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Toast = function Toast(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "" : _ref$title,
@@ -2498,10 +2664,10 @@ var Toast = function Toast(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$children = _ref.children,
     children = _ref$children === void 0 ? null : _ref$children,
-    props = _objectWithoutProperties$k(_ref, _excluded$k);
+    props = _objectWithoutProperties$m(_ref, _excluded$m);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TOAST, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TOAST, currentTheme, _objectSpread$m(_objectSpread$m({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2543,7 +2709,7 @@ var Toast = function Toast(_ref) {
 var Toast2 = function Toast2(props) {
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.TOAST_2, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TOAST_2, currentTheme, _objectSpread$m(_objectSpread$m({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2585,7 +2751,7 @@ var Toast2 = function Toast2(props) {
 var Toast3 = function Toast3(props) {
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.TOAST_3, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TOAST_3, currentTheme, _objectSpread$m(_objectSpread$m({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2625,15 +2791,15 @@ var Toast3 = function Toast3(props) {
   });
 };
 
-function _typeof$p(o) { "@babel/helpers - typeof"; return _typeof$p = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$p(o); }
-var _excluded$j = ["title", "children", "footer", "actions", "onRemove", "onSettings", "onRefresh", "className"];
-function ownKeys$j(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$j(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$j(Object(t), !0).forEach(function (r) { _defineProperty$k(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$j(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$k(e, r, t) { return (r = _toPropertyKey$o(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$o(t) { var i = _toPrimitive$o(t, "string"); return "symbol" == _typeof$p(i) ? i : i + ""; }
-function _toPrimitive$o(t, r) { if ("object" != _typeof$p(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$p(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$j(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$j(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$j(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$r(o) { "@babel/helpers - typeof"; return _typeof$r = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$r(o); }
+var _excluded$l = ["title", "children", "footer", "actions", "onRemove", "onSettings", "onRefresh", "className"];
+function ownKeys$l(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$l(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$l(Object(t), !0).forEach(function (r) { _defineProperty$m(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$l(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$m(e, r, t) { return (r = _toPropertyKey$q(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$q(t) { var i = _toPrimitive$q(t, "string"); return "symbol" == _typeof$r(i) ? i : i + ""; }
+function _toPrimitive$q(t, r) { if ("object" != _typeof$r(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$r(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$l(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$l(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$l(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var WidgetChrome = function WidgetChrome(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "" : _ref$title,
@@ -2650,10 +2816,10 @@ var WidgetChrome = function WidgetChrome(_ref) {
     onRefresh = _ref$onRefresh === void 0 ? null : _ref$onRefresh,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$j(_ref, _excluded$j);
+    props = _objectWithoutProperties$l(_ref, _excluded$l);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.WIDGET_CHROME, currentTheme, _objectSpread$j(_objectSpread$j({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.WIDGET_CHROME, currentTheme, _objectSpread$l(_objectSpread$l({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2689,15 +2855,15 @@ var WidgetChrome = function WidgetChrome(_ref) {
   });
 };
 
-function _typeof$o(o) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$o(o); }
-var _excluded$i = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName"];
-function ownKeys$i(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$i(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$i(Object(t), !0).forEach(function (r) { _defineProperty$j(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$i(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$j(e, r, t) { return (r = _toPropertyKey$n(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$n(t) { var i = _toPrimitive$n(t, "string"); return "symbol" == _typeof$o(i) ? i : i + ""; }
-function _toPrimitive$n(t, r) { if ("object" != _typeof$o(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$o(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$i(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$i(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$i(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$q(o) { "@babel/helpers - typeof"; return _typeof$q = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$q(o); }
+var _excluded$k = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName"];
+function ownKeys$k(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$k(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$k(Object(t), !0).forEach(function (r) { _defineProperty$l(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$k(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$l(e, r, t) { return (r = _toPropertyKey$p(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$p(t) { var i = _toPrimitive$p(t, "string"); return "symbol" == _typeof$q(i) ? i : i + ""; }
+function _toPrimitive$p(t, r) { if ("object" != _typeof$q(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$q(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$k(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$k(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$k(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var InputText = function InputText(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -2715,14 +2881,14 @@ var InputText = function InputText(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    props = _objectWithoutProperties$i(_ref, _excluded$i);
+    props = _objectWithoutProperties$k(_ref, _excluded$k);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$i(_objectSpread$i({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$i(_objectSpread$i({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2741,20 +2907,21 @@ var InputText = function InputText(_ref) {
         return _onChange(event.target.value, event);
       },
       placeholder: placeholder,
-      className: "w-full rounded-md border px-3 py-2 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus:outline-none focus:ring-2 focus:ring-offset-0 ").concat(inputClassName)
+      disabled: props.disabled,
+      className: "w-full h-10 rounded-md border shadow-sm px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
     })]
   });
 };
 
-function _typeof$n(o) { "@babel/helpers - typeof"; return _typeof$n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$n(o); }
-var _excluded$h = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName"];
-function ownKeys$h(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$h(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) { _defineProperty$i(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$i(e, r, t) { return (r = _toPropertyKey$m(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$m(t) { var i = _toPrimitive$m(t, "string"); return "symbol" == _typeof$n(i) ? i : i + ""; }
-function _toPrimitive$m(t, r) { if ("object" != _typeof$n(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$n(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$h(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$h(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$h(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$p(o) { "@babel/helpers - typeof"; return _typeof$p = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$p(o); }
+var _excluded$j = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName"];
+function ownKeys$j(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$j(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$j(Object(t), !0).forEach(function (r) { _defineProperty$k(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$j(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$k(e, r, t) { return (r = _toPropertyKey$o(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$o(t) { var i = _toPrimitive$o(t, "string"); return "symbol" == _typeof$p(i) ? i : i + ""; }
+function _toPrimitive$o(t, r) { if ("object" != _typeof$p(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$p(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$j(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$j(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$j(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var TextArea = function TextArea(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -2772,14 +2939,14 @@ var TextArea = function TextArea(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    props = _objectWithoutProperties$h(_ref, _excluded$h);
+    props = _objectWithoutProperties$j(_ref, _excluded$j);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TEXTAREA, currentTheme, _objectSpread$h(_objectSpread$h({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TEXTAREA, currentTheme, _objectSpread$j(_objectSpread$j({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$h(_objectSpread$h({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$j(_objectSpread$j({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2798,20 +2965,21 @@ var TextArea = function TextArea(_ref) {
         return _onChange(event.target.value, event);
       },
       placeholder: placeholder,
-      className: "w-full rounded-md border px-3 py-2 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus:outline-none focus:ring-2 focus:ring-offset-0 ").concat(inputClassName)
+      disabled: props.disabled,
+      className: "w-full rounded-md border px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
     })]
   });
 };
 
-function _typeof$m(o) { "@babel/helpers - typeof"; return _typeof$m = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$m(o); }
-var _excluded$g = ["label", "value", "onChange", "options", "placeholder", "id", "className", "inputClassName"];
-function ownKeys$g(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$g(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$g(Object(t), !0).forEach(function (r) { _defineProperty$h(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$g(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$h(e, r, t) { return (r = _toPropertyKey$l(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$l(t) { var i = _toPrimitive$l(t, "string"); return "symbol" == _typeof$m(i) ? i : i + ""; }
-function _toPrimitive$l(t, r) { if ("object" != _typeof$m(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$m(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$g(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$g(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$g(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$o(o) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$o(o); }
+var _excluded$i = ["label", "value", "onChange", "options", "placeholder", "id", "className", "inputClassName"];
+function ownKeys$i(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$i(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$i(Object(t), !0).forEach(function (r) { _defineProperty$j(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$i(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$j(e, r, t) { return (r = _toPropertyKey$n(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$n(t) { var i = _toPrimitive$n(t, "string"); return "symbol" == _typeof$o(i) ? i : i + ""; }
+function _toPrimitive$n(t, r) { if ("object" != _typeof$o(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$o(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$i(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$i(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$i(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var SelectInput = function SelectInput(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -2829,14 +2997,14 @@ var SelectInput = function SelectInput(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    props = _objectWithoutProperties$g(_ref, _excluded$g);
+    props = _objectWithoutProperties$i(_ref, _excluded$i);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$g(_objectSpread$g({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$i(_objectSpread$i({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$g(_objectSpread$g({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$i(_objectSpread$i({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2853,7 +3021,8 @@ var SelectInput = function SelectInput(_ref) {
       onChange: function onChange(event) {
         return _onChange(event.target.value, event);
       },
-      className: "w-full rounded-md border px-3 py-2 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus:outline-none focus:ring-2 focus:ring-offset-0 ").concat(inputClassName),
+      disabled: props.disabled,
+      className: "w-full rounded-md border px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName),
       children: [/*#__PURE__*/jsx("option", {
         value: "",
         disabled: true,
@@ -2868,15 +3037,15 @@ var SelectInput = function SelectInput(_ref) {
   });
 };
 
-function _typeof$l(o) { "@babel/helpers - typeof"; return _typeof$l = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$l(o); }
-var _excluded$f = ["label", "checked", "onChange", "id", "className"];
-function ownKeys$f(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$f(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$f(Object(t), !0).forEach(function (r) { _defineProperty$g(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$f(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$g(e, r, t) { return (r = _toPropertyKey$k(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$k(t) { var i = _toPrimitive$k(t, "string"); return "symbol" == _typeof$l(i) ? i : i + ""; }
-function _toPrimitive$k(t, r) { if ("object" != _typeof$l(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$l(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$f(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$f(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$f(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$n(o) { "@babel/helpers - typeof"; return _typeof$n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$n(o); }
+var _excluded$h = ["label", "checked", "onChange", "id", "className"];
+function ownKeys$h(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$h(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) { _defineProperty$i(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$i(e, r, t) { return (r = _toPropertyKey$m(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$m(t) { var i = _toPrimitive$m(t, "string"); return "symbol" == _typeof$n(i) ? i : i + ""; }
+function _toPrimitive$m(t, r) { if ("object" != _typeof$n(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$n(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$h(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$h(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$h(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Checkbox = function Checkbox(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -2888,14 +3057,14 @@ var Checkbox = function Checkbox(_ref) {
     id = _ref$id === void 0 ? null : _ref$id,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$f(_ref, _excluded$f);
+    props = _objectWithoutProperties$h(_ref, _excluded$h);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.CHECKBOX, currentTheme, _objectSpread$f(_objectSpread$f({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.CHECKBOX, currentTheme, _objectSpread$h(_objectSpread$h({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$f(_objectSpread$f({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$h(_objectSpread$h({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2910,7 +3079,8 @@ var Checkbox = function Checkbox(_ref) {
       onChange: function onChange(event) {
         return _onChange(event.target.checked, event);
       },
-      className: "h-4 w-4 rounded border ".concat(styles.borderColor, " ").concat(styles.backgroundColor)
+      disabled: props.disabled,
+      className: "h-4 w-4 rounded border ".concat(styles.borderColor, " ").concat(styles.backgroundColor, " focus-visible:ring-2 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed")
     }), label && /*#__PURE__*/jsx("span", {
       className: "text-sm ".concat(labelStyles.textColor),
       children: label
@@ -2918,15 +3088,15 @@ var Checkbox = function Checkbox(_ref) {
   });
 };
 
-function _typeof$k(o) { "@babel/helpers - typeof"; return _typeof$k = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$k(o); }
-var _excluded$e = ["label", "name", "value", "onChange", "options", "className"];
-function ownKeys$e(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$e(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) { _defineProperty$f(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$f(e, r, t) { return (r = _toPropertyKey$j(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$j(t) { var i = _toPrimitive$j(t, "string"); return "symbol" == _typeof$k(i) ? i : i + ""; }
-function _toPrimitive$j(t, r) { if ("object" != _typeof$k(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$k(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$e(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$e(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$e(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$m(o) { "@babel/helpers - typeof"; return _typeof$m = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$m(o); }
+var _excluded$g = ["label", "name", "value", "onChange", "options", "className"];
+function ownKeys$g(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$g(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$g(Object(t), !0).forEach(function (r) { _defineProperty$h(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$g(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$h(e, r, t) { return (r = _toPropertyKey$l(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$l(t) { var i = _toPrimitive$l(t, "string"); return "symbol" == _typeof$m(i) ? i : i + ""; }
+function _toPrimitive$l(t, r) { if ("object" != _typeof$m(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$m(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$g(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$g(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$g(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var RadioGroup = function RadioGroup(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -2940,14 +3110,14 @@ var RadioGroup = function RadioGroup(_ref) {
     options = _ref$options === void 0 ? [] : _ref$options,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$e(_ref, _excluded$e);
+    props = _objectWithoutProperties$g(_ref, _excluded$g);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.RADIO, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.RADIO, currentTheme, _objectSpread$g(_objectSpread$g({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$g(_objectSpread$g({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -2969,7 +3139,7 @@ var RadioGroup = function RadioGroup(_ref) {
           onChange: function onChange(event) {
             return _onChange(event.target.value, event);
           },
-          className: "h-4 w-4 ".concat(styles.borderColor, " ").concat(styles.backgroundColor)
+          className: "h-4 w-4 ".concat(styles.borderColor, " ").concat(styles.backgroundColor, " focus-visible:ring-2 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed")
         }), /*#__PURE__*/jsx("span", {
           className: "text-sm ".concat(labelStyles.textColor),
           children: option.label
@@ -2979,15 +3149,15 @@ var RadioGroup = function RadioGroup(_ref) {
   });
 };
 
-function _typeof$j(o) { "@babel/helpers - typeof"; return _typeof$j = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$j(o); }
-var _excluded$d = ["label", "checked", "onChange", "id", "className"];
-function ownKeys$d(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$d(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$d(Object(t), !0).forEach(function (r) { _defineProperty$e(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$d(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$e(e, r, t) { return (r = _toPropertyKey$i(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$i(t) { var i = _toPrimitive$i(t, "string"); return "symbol" == _typeof$j(i) ? i : i + ""; }
-function _toPrimitive$i(t, r) { if ("object" != _typeof$j(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$j(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$d(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$d(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$d(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$l(o) { "@babel/helpers - typeof"; return _typeof$l = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$l(o); }
+var _excluded$f = ["label", "checked", "onChange", "id", "className"];
+function ownKeys$f(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$f(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$f(Object(t), !0).forEach(function (r) { _defineProperty$g(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$f(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$g(e, r, t) { return (r = _toPropertyKey$k(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$k(t) { var i = _toPrimitive$k(t, "string"); return "symbol" == _typeof$l(i) ? i : i + ""; }
+function _toPrimitive$k(t, r) { if ("object" != _typeof$l(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$l(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$f(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$f(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$f(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Switch = function Switch(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -2999,14 +3169,14 @@ var Switch = function Switch(_ref) {
     id = _ref$id === void 0 ? null : _ref$id,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$d(_ref, _excluded$d);
+    props = _objectWithoutProperties$f(_ref, _excluded$f);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SWITCH, currentTheme, _objectSpread$d(_objectSpread$d({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.SWITCH, currentTheme, _objectSpread$f(_objectSpread$f({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$d(_objectSpread$d({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$f(_objectSpread$f({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -3022,7 +3192,7 @@ var Switch = function Switch(_ref) {
       role: "switch",
       "aria-checked": checked,
       onClick: handleToggle,
-      className: "relative inline-flex h-6 w-11 items-center rounded-full transition ".concat(styles.backgroundColor, " ").concat(checked ? "opacity-100" : "opacity-60"),
+      className: "relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ".concat(styles.backgroundColor, " ").concat(checked ? "opacity-100" : "opacity-60", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed"),
       children: /*#__PURE__*/jsx("span", {
         className: "inline-block h-4 w-4 transform rounded-full bg-white transition ".concat(checked ? "translate-x-6" : "translate-x-1")
       })
@@ -3033,15 +3203,15 @@ var Switch = function Switch(_ref) {
   });
 };
 
-function _typeof$i(o) { "@babel/helpers - typeof"; return _typeof$i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$i(o); }
-var _excluded$c = ["label", "value", "min", "max", "step", "onChange", "id", "className"];
-function ownKeys$c(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$c(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$c(Object(t), !0).forEach(function (r) { _defineProperty$d(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$c(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$d(e, r, t) { return (r = _toPropertyKey$h(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$h(t) { var i = _toPrimitive$h(t, "string"); return "symbol" == _typeof$i(i) ? i : i + ""; }
-function _toPrimitive$h(t, r) { if ("object" != _typeof$i(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$i(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$c(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$c(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$c(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$k(o) { "@babel/helpers - typeof"; return _typeof$k = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$k(o); }
+var _excluded$e = ["label", "value", "min", "max", "step", "onChange", "id", "className"];
+function ownKeys$e(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$e(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) { _defineProperty$f(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$f(e, r, t) { return (r = _toPropertyKey$j(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$j(t) { var i = _toPrimitive$j(t, "string"); return "symbol" == _typeof$k(i) ? i : i + ""; }
+function _toPrimitive$j(t, r) { if ("object" != _typeof$k(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$k(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$e(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$e(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$e(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Slider = function Slider(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -3059,14 +3229,14 @@ var Slider = function Slider(_ref) {
     id = _ref$id === void 0 ? null : _ref$id,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$c(_ref, _excluded$c);
+    props = _objectWithoutProperties$e(_ref, _excluded$e);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SLIDER, currentTheme, _objectSpread$c(_objectSpread$c({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.SLIDER, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$c(_objectSpread$c({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -3092,15 +3262,15 @@ var Slider = function Slider(_ref) {
   });
 };
 
-function _typeof$h(o) { "@babel/helpers - typeof"; return _typeof$h = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$h(o); }
-var _excluded$b = ["label", "value", "onChange", "placeholder", "icon", "id", "className", "inputClassName"];
-function ownKeys$b(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$b(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$b(Object(t), !0).forEach(function (r) { _defineProperty$c(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$b(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$c(e, r, t) { return (r = _toPropertyKey$g(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$g(t) { var i = _toPrimitive$g(t, "string"); return "symbol" == _typeof$h(i) ? i : i + ""; }
-function _toPrimitive$g(t, r) { if ("object" != _typeof$h(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$h(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$b(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$b(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$b(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$j(o) { "@babel/helpers - typeof"; return _typeof$j = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$j(o); }
+var _excluded$d = ["label", "value", "onChange", "placeholder", "icon", "id", "className", "inputClassName"];
+function ownKeys$d(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$d(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$d(Object(t), !0).forEach(function (r) { _defineProperty$e(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$d(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$e(e, r, t) { return (r = _toPropertyKey$i(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$i(t) { var i = _toPrimitive$i(t, "string"); return "symbol" == _typeof$j(i) ? i : i + ""; }
+function _toPrimitive$i(t, r) { if ("object" != _typeof$j(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$j(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$d(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$d(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$d(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var SearchInput = function SearchInput(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -3118,14 +3288,14 @@ var SearchInput = function SearchInput(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    props = _objectWithoutProperties$b(_ref, _excluded$b);
+    props = _objectWithoutProperties$d(_ref, _excluded$d);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SEARCH_INPUT, currentTheme, _objectSpread$b(_objectSpread$b({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.SEARCH_INPUT, currentTheme, _objectSpread$d(_objectSpread$d({}, props), {}, {
     scrollable: false,
     grow: false
   }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$b(_objectSpread$b({}, props), {}, {
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$d(_objectSpread$d({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -3151,86 +3321,160 @@ var SearchInput = function SearchInput(_ref) {
           return _onChange(event.target.value, event);
         },
         placeholder: placeholder,
-        className: "w-full rounded-md border pl-10 pr-3 py-2 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus:outline-none focus:ring-2 focus:ring-offset-0 ").concat(inputClassName)
+        disabled: props.disabled,
+        className: "w-full rounded-md border pl-10 pr-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
       })]
     })]
   });
 };
 
-function _typeof$g(o) { "@babel/helpers - typeof"; return _typeof$g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$g(o); }
-var _excluded$a = ["text", "enabled", "setEnabled"];
-function ownKeys$a(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$a(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$a(Object(t), !0).forEach(function (r) { _defineProperty$b(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$a(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$b(e, r, t) { return (r = _toPropertyKey$f(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$f(t) { var i = _toPrimitive$f(t, "string"); return "symbol" == _typeof$g(i) ? i : i + ""; }
-function _toPrimitive$f(t, r) { if ("object" != _typeof$g(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$g(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$a(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$a(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$a(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$i(o) { "@babel/helpers - typeof"; return _typeof$i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$i(o); }
+var _excluded$c = ["text", "enabled", "setEnabled", "disabled", "className"],
+  _excluded2$6 = ["text", "enabled", "setEnabled", "disabled", "className"],
+  _excluded3$6 = ["text", "enabled", "setEnabled", "disabled", "className"];
+function ownKeys$c(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$c(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$c(Object(t), !0).forEach(function (r) { _defineProperty$d(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$c(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$d(e, r, t) { return (r = _toPropertyKey$h(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$h(t) { var i = _toPrimitive$h(t, "string"); return "symbol" == _typeof$i(i) ? i : i + ""; }
+function _toPrimitive$h(t, r) { if ("object" != _typeof$i(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$i(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$c(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$c(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$c(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function Toggle(_ref) {
-  _ref.text;
-    _ref.enabled;
-    _ref.setEnabled;
-    var props = _objectWithoutProperties$a(_ref, _excluded$a);
+  var _ref$text = _ref.text,
+    text = _ref$text === void 0 ? "" : _ref$text,
+    _ref$enabled = _ref.enabled,
+    enabled = _ref$enabled === void 0 ? false : _ref$enabled,
+    setEnabled = _ref.setEnabled,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    props = _objectWithoutProperties$c(_ref, _excluded$c);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  getStylesForItem(themeObjects.TOGGLE, currentTheme, _objectSpread$a({}, props));
-  return "toggle";
-  // return theme === true ? (
-  //   <div className="flex flex-row items-center">
-  //     <Switch
-  //       checked={enabled}
-  //       onChange={setEnabled}
-  //       className={`${enabled === true ? `${styles['backgroundColor']} ${styles['hoverBackgroundColor']}`: `${styles['hoverBackgroundColor']} ${styles['backgroundColor']}` }
-  //         relative inline-flex h-[28px] w-[64px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-  //     >
-  //       <span
-  //         aria-hidden="true"
-  //         className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
-  //           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-gray-200 shadow-lg ring-0 transition duration-200 ease-in-out`}
-  //       />
-  //     </Switch>
-  //     <span className={`sr-only ${styles['textColor']}`}>{text}TESTING</span>
-  //   </div>
-  // ): (
-  //   <div className="flex flex-row items-center">
-  //     <Switch
-  //       checked={enabled}
-  //       onChange={setEnabled}
-  //       className={`${enabled ? backgroundColor : hoverBackgroundColor }
-  //         relative inline-flex h-[28px] w-[64px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-  //     >
-  //       <span className={`sr-only ${textColor}`}>{text}</span>
-  //       <span
-  //         aria-hidden="true"
-  //         className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
-  //           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-  //       />
-  //     </Switch>
-  //   </div>
-  // )
+  var styles = getStylesForItem(themeObjects.TOGGLE, currentTheme, _objectSpread$c({}, props));
+  function handleToggle() {
+    if (!disabled && setEnabled) {
+      setEnabled(!enabled);
+    }
+  }
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-row items-center space-x-2 ".concat(className),
+    children: [/*#__PURE__*/jsx("button", {
+      type: "button",
+      role: "switch",
+      "aria-checked": enabled,
+      disabled: disabled,
+      onClick: handleToggle,
+      className: "".concat(enabled ? styles.backgroundColor || "" : styles.hoverBackgroundColor ? styles.hoverBackgroundColor.replace("hover:", "").replace("hover-", "") : "", " relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"),
+      children: /*#__PURE__*/jsx("span", {
+        "aria-hidden": "true",
+        className: "".concat(enabled ? "translate-x-5" : "translate-x-0", " pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out")
+      })
+    }), text && /*#__PURE__*/jsx("span", {
+      className: "text-sm ".concat(styles.textColor || ""),
+      children: text
+    })]
+  });
+}
+function Toggle2(_ref2) {
+  var _ref2$text = _ref2.text,
+    text = _ref2$text === void 0 ? "" : _ref2$text,
+    _ref2$enabled = _ref2.enabled,
+    enabled = _ref2$enabled === void 0 ? false : _ref2$enabled,
+    setEnabled = _ref2.setEnabled,
+    _ref2$disabled = _ref2.disabled,
+    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    props = _objectWithoutProperties$c(_ref2, _excluded2$6);
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.TOGGLE_2, currentTheme, _objectSpread$c({}, props));
+  function handleToggle() {
+    if (!disabled && setEnabled) {
+      setEnabled(!enabled);
+    }
+  }
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-row items-center space-x-2 ".concat(className),
+    children: [/*#__PURE__*/jsx("button", {
+      type: "button",
+      role: "switch",
+      "aria-checked": enabled,
+      disabled: disabled,
+      onClick: handleToggle,
+      className: "".concat(enabled ? styles.backgroundColor || "" : styles.hoverBackgroundColor ? styles.hoverBackgroundColor.replace("hover:", "").replace("hover-", "") : "", " relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"),
+      children: /*#__PURE__*/jsx("span", {
+        "aria-hidden": "true",
+        className: "".concat(enabled ? "translate-x-4" : "translate-x-0", " pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out")
+      })
+    }), text && /*#__PURE__*/jsx("span", {
+      className: "text-sm ".concat(styles.textColor || ""),
+      children: text
+    })]
+  });
+}
+function Toggle3(_ref3) {
+  var _ref3$text = _ref3.text,
+    text = _ref3$text === void 0 ? "" : _ref3$text,
+    _ref3$enabled = _ref3.enabled,
+    enabled = _ref3$enabled === void 0 ? false : _ref3$enabled,
+    setEnabled = _ref3.setEnabled,
+    _ref3$disabled = _ref3.disabled,
+    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    props = _objectWithoutProperties$c(_ref3, _excluded3$6);
+  var _useContext3 = useContext(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.TOGGLE_3, currentTheme, _objectSpread$c({}, props));
+  function handleToggle() {
+    if (!disabled && setEnabled) {
+      setEnabled(!enabled);
+    }
+  }
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-row items-center space-x-1.5 ".concat(className),
+    children: [/*#__PURE__*/jsx("button", {
+      type: "button",
+      role: "switch",
+      "aria-checked": enabled,
+      disabled: disabled,
+      onClick: handleToggle,
+      className: "".concat(enabled ? styles.backgroundColor || "" : styles.hoverBackgroundColor ? styles.hoverBackgroundColor.replace("hover:", "").replace("hover-", "") : "", " relative inline-flex h-4 w-7 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"),
+      children: /*#__PURE__*/jsx("span", {
+        "aria-hidden": "true",
+        className: "".concat(enabled ? "translate-x-3" : "translate-x-0", " pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out")
+      })
+    }), text && /*#__PURE__*/jsx("span", {
+      className: "text-xs ".concat(styles.textColor || ""),
+      children: text
+    })]
+  });
 }
 
-function _typeof$f(o) { "@babel/helpers - typeof"; return _typeof$f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$f(o); }
-var _excluded$9 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"],
-  _excluded2$3 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"],
-  _excluded3$3 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"];
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray$2(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray$2(r); }
-function _slicedToArray$2(r, e) { return _arrayWithHoles$2(r) || _iterableToArrayLimit$2(r, e) || _unsupportedIterableToArray$2(r, e) || _nonIterableRest$2(); }
-function _nonIterableRest$2() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$2(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$2(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$2(r, a) : void 0; } }
-function _arrayLikeToArray$2(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$2(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$2(r) { if (Array.isArray(r)) return r; }
-function ownKeys$9(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$9(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$9(Object(t), !0).forEach(function (r) { _defineProperty$a(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$9(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$a(e, r, t) { return (r = _toPropertyKey$e(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$e(t) { var i = _toPrimitive$e(t, "string"); return "symbol" == _typeof$f(i) ? i : i + ""; }
-function _toPrimitive$e(t, r) { if ("object" != _typeof$f(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$f(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$9(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$9(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$9(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$h(o) { "@babel/helpers - typeof"; return _typeof$h = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$h(o); }
+var _excluded$b = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"],
+  _excluded2$5 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"],
+  _excluded3$5 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"];
+function _toConsumableArray$1(r) { return _arrayWithoutHoles$1(r) || _iterableToArray$1(r) || _unsupportedIterableToArray$8(r) || _nonIterableSpread$1(); }
+function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray$1(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles$1(r) { if (Array.isArray(r)) return _arrayLikeToArray$8(r); }
+function _slicedToArray$8(r, e) { return _arrayWithHoles$8(r) || _iterableToArrayLimit$8(r, e) || _unsupportedIterableToArray$8(r, e) || _nonIterableRest$8(); }
+function _nonIterableRest$8() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$8(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$8(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$8(r, a) : void 0; } }
+function _arrayLikeToArray$8(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$8(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$8(r) { if (Array.isArray(r)) return r; }
+function ownKeys$b(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$b(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$b(Object(t), !0).forEach(function (r) { _defineProperty$c(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$b(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$c(e, r, t) { return (r = _toPropertyKey$g(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$g(t) { var i = _toPrimitive$g(t, "string"); return "symbol" == _typeof$h(i) ? i : i + ""; }
+function _toPrimitive$g(t, r) { if ("object" != _typeof$h(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$h(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$b(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$b(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$b(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Table = function Table(_ref) {
   var _ref$columns = _ref.columns,
     columns = _ref$columns === void 0 ? [] : _ref$columns,
@@ -3250,10 +3494,10 @@ var Table = function Table(_ref) {
     onRowClick = _ref$onRowClick === void 0 ? null : _ref$onRowClick,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$9(_ref, _excluded$9);
+    props = _objectWithoutProperties$b(_ref, _excluded$b);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TABLE, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TABLE, currentTheme, _objectSpread$b(_objectSpread$b({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -3261,7 +3505,7 @@ var Table = function Table(_ref) {
       key: null,
       direction: null
     }),
-    _useState2 = _slicedToArray$2(_useState, 2),
+    _useState2 = _slicedToArray$8(_useState, 2),
     sortConfig = _useState2[0],
     setSortConfig = _useState2[1];
   var uuid = getUUID$1("", "table");
@@ -3278,7 +3522,7 @@ var Table = function Table(_ref) {
   };
   var sortedData = useMemo(function () {
     if (!sortConfig.key) return data;
-    var sorted = _toConsumableArray(data).sort(function (a, b) {
+    var sorted = _toConsumableArray$1(data).sort(function (a, b) {
       var aValue = a[sortConfig.key];
       var bValue = b[sortConfig.key];
       if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
@@ -3364,10 +3608,10 @@ var Table2 = function Table2(_ref2) {
     onRowClick = _ref2$onRowClick === void 0 ? null : _ref2$onRowClick,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
-    props = _objectWithoutProperties$9(_ref2, _excluded2$3);
+    props = _objectWithoutProperties$b(_ref2, _excluded2$5);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.TABLE_2, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TABLE_2, currentTheme, _objectSpread$b(_objectSpread$b({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -3375,7 +3619,7 @@ var Table2 = function Table2(_ref2) {
       key: null,
       direction: null
     }),
-    _useState4 = _slicedToArray$2(_useState3, 2),
+    _useState4 = _slicedToArray$8(_useState3, 2),
     sortConfig = _useState4[0],
     setSortConfig = _useState4[1];
   var uuid = getUUID$1("", "table-2");
@@ -3392,7 +3636,7 @@ var Table2 = function Table2(_ref2) {
   };
   var sortedData = useMemo(function () {
     if (!sortConfig.key) return data;
-    var sorted = _toConsumableArray(data).sort(function (a, b) {
+    var sorted = _toConsumableArray$1(data).sort(function (a, b) {
       var aValue = a[sortConfig.key];
       var bValue = b[sortConfig.key];
       if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
@@ -3478,10 +3722,10 @@ var Table3 = function Table3(_ref3) {
     onRowClick = _ref3$onRowClick === void 0 ? null : _ref3$onRowClick,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
-    props = _objectWithoutProperties$9(_ref3, _excluded3$3);
+    props = _objectWithoutProperties$b(_ref3, _excluded3$5);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.TABLE_3, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TABLE_3, currentTheme, _objectSpread$b(_objectSpread$b({}, props), {}, {
     scrollable: false,
     grow: false
   }));
@@ -3489,7 +3733,7 @@ var Table3 = function Table3(_ref3) {
       key: null,
       direction: null
     }),
-    _useState6 = _slicedToArray$2(_useState5, 2),
+    _useState6 = _slicedToArray$8(_useState5, 2),
     sortConfig = _useState6[0],
     setSortConfig = _useState6[1];
   var uuid = getUUID$1("", "table-3");
@@ -3506,7 +3750,7 @@ var Table3 = function Table3(_ref3) {
   };
   var sortedData = useMemo(function () {
     if (!sortConfig.key) return data;
-    var sorted = _toConsumableArray(data).sort(function (a, b) {
+    var sorted = _toConsumableArray$1(data).sort(function (a, b) {
       var aValue = a[sortConfig.key];
       var bValue = b[sortConfig.key];
       if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
@@ -3574,14 +3818,14 @@ var Table3 = function Table3(_ref3) {
   });
 };
 
-function _typeof$e(o) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$e(o); }
+function _typeof$g(o) { "@babel/helpers - typeof"; return _typeof$g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$g(o); }
 function _classCallCheck$4(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties$4(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$d(o.key), o); } }
+function _defineProperties$4(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$f(o.key), o); } }
 function _createClass$4(e, r, t) { return r && _defineProperties$4(e.prototype, r), t && _defineProperties$4(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey$d(t) { var i = _toPrimitive$d(t, "string"); return "symbol" == _typeof$e(i) ? i : i + ""; }
-function _toPrimitive$d(t, r) { if ("object" != _typeof$e(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$e(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPropertyKey$f(t) { var i = _toPrimitive$f(t, "string"); return "symbol" == _typeof$g(i) ? i : i + ""; }
+function _toPrimitive$f(t, r) { if ("object" != _typeof$g(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$g(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _callSuper$4(t, o, e) { return o = _getPrototypeOf$4(o), _possibleConstructorReturn$4(t, _isNativeReflectConstruct$4() ? Reflect.construct(o, e || [], _getPrototypeOf$4(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn$4(t, e) { if (e && ("object" == _typeof$e(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$4(t); }
+function _possibleConstructorReturn$4(t, e) { if (e && ("object" == _typeof$g(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$4(t); }
 function _assertThisInitialized$4(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct$4() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$4 = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf$4(t) { return _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf$4(t); }
@@ -3623,15 +3867,15 @@ CodeEditorSimple.defaultProps = {
   code: ""
 };
 
-function _typeof$d(o) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$d(o); }
-var _excluded$8 = ["code", "setCode", "uniqueKey", "language", "placeholder", "scrollable", "padding"];
-function ownKeys$8(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$8(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$8(Object(t), !0).forEach(function (r) { _defineProperty$9(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$8(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$9(e, r, t) { return (r = _toPropertyKey$c(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$c(t) { var i = _toPrimitive$c(t, "string"); return "symbol" == _typeof$d(i) ? i : i + ""; }
-function _toPrimitive$c(t, r) { if ("object" != _typeof$d(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$d(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$8(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$8(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$8(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$f(o) { "@babel/helpers - typeof"; return _typeof$f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$f(o); }
+var _excluded$a = ["code", "setCode", "uniqueKey", "language", "placeholder", "scrollable", "padding"];
+function ownKeys$a(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$a(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$a(Object(t), !0).forEach(function (r) { _defineProperty$b(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$a(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$b(e, r, t) { return (r = _toPropertyKey$e(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$e(t) { var i = _toPrimitive$e(t, "string"); return "symbol" == _typeof$f(i) ? i : i + ""; }
+function _toPrimitive$e(t, r) { if ("object" != _typeof$f(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$f(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$a(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$a(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$a(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function CodeEditorInline(_ref) {
   var code = _ref.code,
     setCode = _ref.setCode,
@@ -3644,10 +3888,10 @@ function CodeEditorInline(_ref) {
     _ref$scrollable = _ref.scrollable,
     scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable;
     _ref.padding;
-    var props = _objectWithoutProperties$8(_ref, _excluded$8);
+    var props = _objectWithoutProperties$a(_ref, _excluded$a);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$a(_objectSpread$a({}, props), {}, {
     scrollable: scrollable
   }));
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");
@@ -3679,15 +3923,15 @@ function CodeEditorInline(_ref) {
   }, "code-editor-".concat(uniqueKey));
 }
 
-function _typeof$c(o) { "@babel/helpers - typeof"; return _typeof$c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$c(o); }
-var _excluded$7 = ["code", "onChange", "uniqueKey", "language", "placeholder", "scrollable", "padding", "themeName", "readOnly", "minimapEnabled", "wordWrap"];
-function ownKeys$7(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$7(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$7(Object(t), !0).forEach(function (r) { _defineProperty$8(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$7(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$8(e, r, t) { return (r = _toPropertyKey$b(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$b(t) { var i = _toPrimitive$b(t, "string"); return "symbol" == _typeof$c(i) ? i : i + ""; }
-function _toPrimitive$b(t, r) { if ("object" != _typeof$c(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$c(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$7(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$7(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$7(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$e(o) { "@babel/helpers - typeof"; return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$e(o); }
+var _excluded$9 = ["code", "onChange", "uniqueKey", "language", "placeholder", "scrollable", "padding", "themeName", "readOnly", "minimapEnabled", "wordWrap"];
+function ownKeys$9(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$9(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$9(Object(t), !0).forEach(function (r) { _defineProperty$a(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$9(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$a(e, r, t) { return (r = _toPropertyKey$d(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$d(t) { var i = _toPrimitive$d(t, "string"); return "symbol" == _typeof$e(i) ? i : i + ""; }
+function _toPrimitive$d(t, r) { if ("object" != _typeof$e(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$e(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$9(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$9(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$9(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 require("monaco-themes").parseTmTheme;
 
 // Save a reference to the original ResizeObserver
@@ -3732,10 +3976,10 @@ function CodeEditorVS(_ref) {
     minimapEnabled = _ref$minimapEnabled === void 0 ? false : _ref$minimapEnabled,
     _ref$wordWrap = _ref.wordWrap,
     wordWrap = _ref$wordWrap === void 0 ? "on" : _ref$wordWrap,
-    props = _objectWithoutProperties$7(_ref, _excluded$7);
+    props = _objectWithoutProperties$9(_ref, _excluded$9);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$7(_objectSpread$7({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$9(_objectSpread$9({}, props), {}, {
     scrollable: scrollable
   }));
   function handleEditorDidMount(editor, monaco) {
@@ -3820,40 +4064,37 @@ var CodeRenderer = function CodeRenderer(_ref) {
   return compileTemplate(parsedTemplate);
 };
 
-function _typeof$b(o) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$b(o); }
-var _excluded$6 = ["text", "textSize", "onClick", "className"],
-  _excluded2$2 = ["text", "textSize", "onClick", "className"],
-  _excluded3$2 = ["text", "textSize", "onClick", "className"];
-function ownKeys$6(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$6(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$6(Object(t), !0).forEach(function (r) { _defineProperty$7(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$6(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$7(e, r, t) { return (r = _toPropertyKey$a(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$a(t) { var i = _toPrimitive$a(t, "string"); return "symbol" == _typeof$b(i) ? i : i + ""; }
-function _toPrimitive$a(t, r) { if ("object" != _typeof$b(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$b(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$6(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$6(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$6(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$d(o) { "@babel/helpers - typeof"; return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$d(o); }
+var _excluded$8 = ["text", "textSize", "onClick", "className"],
+  _excluded2$4 = ["text", "textSize", "onClick", "className"],
+  _excluded3$4 = ["text", "textSize", "onClick", "className"];
+function ownKeys$8(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$8(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$8(Object(t), !0).forEach(function (r) { _defineProperty$9(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$8(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$9(e, r, t) { return (r = _toPropertyKey$c(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$c(t) { var i = _toPrimitive$c(t, "string"); return "symbol" == _typeof$d(i) ? i : i + ""; }
+function _toPrimitive$c(t, r) { if ("object" != _typeof$d(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$d(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$8(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$8(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$8(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Tag = function Tag(_ref) {
   var text = _ref.text,
     _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-sm" : _ref$textSize,
+    textSize = _ref$textSize === void 0 ? "text-xs" : _ref$textSize,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
-    props = _objectWithoutProperties$6(_ref, _excluded$6);
+    props = _objectWithoutProperties$8(_ref, _excluded$8);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     grow: false
   }));
-
-  // maybe we need to apply the className IF this exists?
-  // only allow the user to change the "style" not the structure
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded-full border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-3 py-1.5 whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: text
   });
 };
@@ -3865,23 +4106,18 @@ var Tag2 = function Tag2(_ref2) {
     onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
-    props = _objectWithoutProperties$6(_ref2, _excluded2$2);
+    props = _objectWithoutProperties$8(_ref2, _excluded2$4);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     grow: false
   }));
-
-  // maybe we need to apply the className IF this exists?
-  // only allow the user to change the "style" not the structure
-  // maybe we need to apply the className IF this exists?
-  // only allow the user to change the "style" not the structure
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded-full border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag-2");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: text
   });
 };
@@ -3893,21 +4129,18 @@ var Tag3 = function Tag3(_ref3) {
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
-    props = _objectWithoutProperties$6(_ref3, _excluded3$2);
+    props = _objectWithoutProperties$8(_ref3, _excluded3$4);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$6(_objectSpread$6({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     grow: false
   }));
-
-  // maybe we need to apply the className IF this exists?
-  // only allow the user to change the "style" not the structure
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-normal rounded ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded-full border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag-3");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-1.5 py-0.5 whitespace-nowrap items-center justify-center"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-1.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: text
   });
 };
@@ -3957,14 +4190,14 @@ function ErrorMessage(_ref) {
   });
 }
 
-function _typeof$a(o) { "@babel/helpers - typeof"; return _typeof$a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$a(o); }
+function _typeof$c(o) { "@babel/helpers - typeof"; return _typeof$c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$c(o); }
 function _classCallCheck$3(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties$3(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$9(o.key), o); } }
+function _defineProperties$3(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$b(o.key), o); } }
 function _createClass$3(e, r, t) { return r && _defineProperties$3(e.prototype, r), t && _defineProperties$3(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey$9(t) { var i = _toPrimitive$9(t, "string"); return "symbol" == _typeof$a(i) ? i : i + ""; }
-function _toPrimitive$9(t, r) { if ("object" != _typeof$a(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$a(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPropertyKey$b(t) { var i = _toPrimitive$b(t, "string"); return "symbol" == _typeof$c(i) ? i : i + ""; }
+function _toPrimitive$b(t, r) { if ("object" != _typeof$c(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$c(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _callSuper$3(t, o, e) { return o = _getPrototypeOf$3(o), _possibleConstructorReturn$3(t, _isNativeReflectConstruct$3() ? Reflect.construct(o, e || [], _getPrototypeOf$3(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn$3(t, e) { if (e && ("object" == _typeof$a(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$3(t); }
+function _possibleConstructorReturn$3(t, e) { if (e && ("object" == _typeof$c(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$3(t); }
 function _assertThisInitialized$3(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct$3() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$3 = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf$3(t) { return _getPrototypeOf$3 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf$3(t); }
@@ -3989,18 +4222,18 @@ function _setPrototypeOf$3(t, e) { return _setPrototypeOf$3 = Object.setPrototyp
   }]);
 })(React.Component);
 
-function _typeof$9(o) { "@babel/helpers - typeof"; return _typeof$9 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$9(o); }
-function ownKeys$5(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$5(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$5(Object(t), !0).forEach(function (r) { _defineProperty$6(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$5(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$6(e, r, t) { return (r = _toPropertyKey$8(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$8(t) { var i = _toPrimitive$8(t, "string"); return "symbol" == _typeof$9(i) ? i : i + ""; }
-function _toPrimitive$8(t, r) { if ("object" != _typeof$9(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$9(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _typeof$b(o) { "@babel/helpers - typeof"; return _typeof$b = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$b(o); }
+function ownKeys$7(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$7(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$7(Object(t), !0).forEach(function (r) { _defineProperty$8(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$7(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$8(e, r, t) { return (r = _toPropertyKey$a(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$a(t) { var i = _toPrimitive$a(t, "string"); return "symbol" == _typeof$b(i) ? i : i + ""; }
+function _toPrimitive$a(t, r) { if ("object" != _typeof$b(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$b(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var withRouter = function withRouter(Component) {
   var Wrapper = function Wrapper(props) {
     var navigate = useNavigate();
     var location = useLocation();
     var params = useParams();
-    return /*#__PURE__*/jsx(Component, _objectSpread$5({
+    return /*#__PURE__*/jsx(Component, _objectSpread$7({
       navigate: navigate,
       location: location,
       params: params
@@ -4009,20 +4242,20 @@ var withRouter = function withRouter(Component) {
   return Wrapper;
 };
 
-function _typeof$8(o) { "@babel/helpers - typeof"; return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$8(o); }
+function _typeof$a(o) { "@babel/helpers - typeof"; return _typeof$a = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$a(o); }
 function _classCallCheck$2(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties$2(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$7(o.key), o); } }
+function _defineProperties$2(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$9(o.key), o); } }
 function _createClass$2(e, r, t) { return r && _defineProperties$2(e.prototype, r), t && _defineProperties$2(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _callSuper$2(t, o, e) { return o = _getPrototypeOf$2(o), _possibleConstructorReturn$2(t, _isNativeReflectConstruct$2() ? Reflect.construct(o, e || [], _getPrototypeOf$2(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn$2(t, e) { if (e && ("object" == _typeof$8(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$2(t); }
+function _possibleConstructorReturn$2(t, e) { if (e && ("object" == _typeof$a(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$2(t); }
 function _assertThisInitialized$2(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct$2() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$2 = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf$2(t) { return _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf$2(t); }
 function _inherits$2(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf$2(t, e); }
 function _setPrototypeOf$2(t, e) { return _setPrototypeOf$2 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf$2(t, e); }
-function _defineProperty$5(e, r, t) { return (r = _toPropertyKey$7(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$7(t) { var i = _toPrimitive$7(t, "string"); return "symbol" == _typeof$8(i) ? i : i + ""; }
-function _toPrimitive$7(t, r) { if ("object" != _typeof$8(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$8(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _defineProperty$7(e, r, t) { return (r = _toPropertyKey$9(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$9(t) { var i = _toPrimitive$9(t, "string"); return "symbol" == _typeof$a(i) ? i : i + ""; }
+function _toPrimitive$9(t, r) { if ("object" != _typeof$a(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$a(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var mainApi = window.mainApi;
 /*#__PURE__*/(function (_React$Component) {
   function Header() {
@@ -4032,10 +4265,10 @@ var mainApi = window.mainApi;
       args[_key] = arguments[_key];
     }
     _this = _callSuper$2(this, Header, [].concat(args));
-    _defineProperty$5(_this, "handleClickHome", function () {
+    _defineProperty$7(_this, "handleClickHome", function () {
       _this.props.navigate("/applications");
     });
-    _defineProperty$5(_this, "handleClickApplications", function () {
+    _defineProperty$7(_this, "handleClickApplications", function () {
       _this.props.navigate("/applications");
     });
     return _this;
@@ -4166,14 +4399,14 @@ var MainSection = function MainSection(_ref) {
   });
 };
 
-function _typeof$7(o) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$7(o); }
+function _typeof$9(o) { "@babel/helpers - typeof"; return _typeof$9 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$9(o); }
 function _classCallCheck$1(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties$1(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$6(o.key), o); } }
+function _defineProperties$1(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$8(o.key), o); } }
 function _createClass$1(e, r, t) { return r && _defineProperties$1(e.prototype, r), t && _defineProperties$1(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey$6(t) { var i = _toPrimitive$6(t, "string"); return "symbol" == _typeof$7(i) ? i : i + ""; }
-function _toPrimitive$6(t, r) { if ("object" != _typeof$7(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$7(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPropertyKey$8(t) { var i = _toPrimitive$8(t, "string"); return "symbol" == _typeof$9(i) ? i : i + ""; }
+function _toPrimitive$8(t, r) { if ("object" != _typeof$9(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$9(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _callSuper$1(t, o, e) { return o = _getPrototypeOf$1(o), _possibleConstructorReturn$1(t, _isNativeReflectConstruct$1() ? Reflect.construct(o, e || [], _getPrototypeOf$1(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn$1(t, e) { if (e && ("object" == _typeof$7(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$1(t); }
+function _possibleConstructorReturn$1(t, e) { if (e && ("object" == _typeof$9(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized$1(t); }
 function _assertThisInitialized$1(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct$1() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct$1 = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf$1(t) { return _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf$1(t); }
@@ -4217,14 +4450,14 @@ SubHeader.defaultProps = {
   buttonTextColor: "text-gray-200"
 };
 
-function _typeof$6(o) { "@babel/helpers - typeof"; return _typeof$6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$6(o); }
+function _typeof$8(o) { "@babel/helpers - typeof"; return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$8(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$5(o.key), o); } }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey$7(o.key), o); } }
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey$5(t) { var i = _toPrimitive$5(t, "string"); return "symbol" == _typeof$6(i) ? i : i + ""; }
-function _toPrimitive$5(t, r) { if ("object" != _typeof$6(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$6(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPropertyKey$7(t) { var i = _toPrimitive$7(t, "string"); return "symbol" == _typeof$8(i) ? i : i + ""; }
+function _toPrimitive$7(t, r) { if ("object" != _typeof$8(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$8(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
-function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof$6(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof$8(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
 function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
@@ -4262,25 +4495,25 @@ MainContent.defaultProps = {
   padding: true
 };
 
-function _typeof$5(o) { "@babel/helpers - typeof"; return _typeof$5 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$5(o); }
-var _excluded$5 = ["title", "textSize", "fontWeight"];
-function ownKeys$4(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$4(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$4(Object(t), !0).forEach(function (r) { _defineProperty$4(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$4(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$4(e, r, t) { return (r = _toPropertyKey$4(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$4(t) { var i = _toPrimitive$4(t, "string"); return "symbol" == _typeof$5(i) ? i : i + ""; }
-function _toPrimitive$4(t, r) { if ("object" != _typeof$5(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$5(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$5(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$5(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$5(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$7(o) { "@babel/helpers - typeof"; return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$7(o); }
+var _excluded$7 = ["title", "textSize", "fontWeight"];
+function ownKeys$6(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$6(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$6(Object(t), !0).forEach(function (r) { _defineProperty$6(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$6(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$6(e, r, t) { return (r = _toPropertyKey$6(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$6(t) { var i = _toPrimitive$6(t, "string"); return "symbol" == _typeof$7(i) ? i : i + ""; }
+function _toPrimitive$6(t, r) { if ("object" != _typeof$7(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$7(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$7(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$7(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$7(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var FormLabel = function FormLabel(_ref) {
   var title = _ref.title,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? null : _ref$textSize,
     _ref$fontWeight = _ref.fontWeight,
     fontWeight = _ref$fontWeight === void 0 ? "font-medium" : _ref$fontWeight,
-    props = _objectWithoutProperties$5(_ref, _excluded$5);
+    props = _objectWithoutProperties$7(_ref, _excluded$7);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$4({}, props));
+  var styles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$6({}, props));
   var textSizeCalc = textSize !== null ? textSize : "text-base 2xl:text-lg";
   return /*#__PURE__*/jsx("label", {
     className: "".concat(fontWeight, " ").concat(textSizeCalc, " ").concat(styles.string),
@@ -4288,15 +4521,15 @@ var FormLabel = function FormLabel(_ref) {
   });
 };
 
-function _typeof$4(o) { "@babel/helpers - typeof"; return _typeof$4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$4(o); }
-var _excluded$4 = ["name", "onChange", "selectedValue", "children", "textSize"];
-function ownKeys$3(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$3(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$3(Object(t), !0).forEach(function (r) { _defineProperty$3(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$3(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$3(e, r, t) { return (r = _toPropertyKey$3(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$3(t) { var i = _toPrimitive$3(t, "string"); return "symbol" == _typeof$4(i) ? i : i + ""; }
-function _toPrimitive$3(t, r) { if ("object" != _typeof$4(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$4(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$4(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$4(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$4(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$6(o) { "@babel/helpers - typeof"; return _typeof$6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$6(o); }
+var _excluded$6 = ["name", "onChange", "selectedValue", "children", "textSize"];
+function ownKeys$5(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$5(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$5(Object(t), !0).forEach(function (r) { _defineProperty$5(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$5(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$5(e, r, t) { return (r = _toPropertyKey$5(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$5(t) { var i = _toPrimitive$5(t, "string"); return "symbol" == _typeof$6(i) ? i : i + ""; }
+function _toPrimitive$5(t, r) { if ("object" != _typeof$6(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$6(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$6(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$6(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$6(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var SelectMenu = function SelectMenu(_ref) {
   var name = _ref.name,
     onChange = _ref.onChange,
@@ -4304,10 +4537,10 @@ var SelectMenu = function SelectMenu(_ref) {
     children = _ref.children,
     _ref$textSize = _ref.textSize,
     textSize = _ref$textSize === void 0 ? "text-base" : _ref$textSize,
-    props = _objectWithoutProperties$4(_ref, _excluded$4);
+    props = _objectWithoutProperties$6(_ref, _excluded$6);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$5(_objectSpread$5({}, props), {}, {
     height: "",
     grow: false
   }));
@@ -4320,9 +4553,9 @@ var SelectMenu = function SelectMenu(_ref) {
   });
 };
 
-var _excluded$3 = ["id", "placeholder", "disabled", "onQueryChange"];
-function _objectWithoutProperties$3(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$3(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$3(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var _excluded$5 = ["id", "placeholder", "disabled", "onQueryChange"];
+function _objectWithoutProperties$5(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$5(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$5(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
   _ref.id;
     var _ref$placeholder = _ref.placeholder,
@@ -4331,7 +4564,7 @@ var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     _ref$onQueryChange = _ref.onQueryChange,
     onQueryChange = _ref$onQueryChange === void 0 ? null : _ref$onQueryChange,
-    props = _objectWithoutProperties$3(_ref, _excluded$3);
+    props = _objectWithoutProperties$5(_ref, _excluded$5);
   var _useSearchBox = useSearchBox(props),
     currentRefinement = _useSearchBox.currentRefinement,
     refine = _useSearchBox.refine;
@@ -4359,25 +4592,25 @@ var AlgoliaSearchBox = function AlgoliaSearchBox(_ref) {
   });
 };
 
-function _typeof$3(o) { "@babel/helpers - typeof"; return _typeof$3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$3(o); }
-var _excluded$2 = ["width", "height", "scrollable"];
-function ownKeys$2(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$2(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$2(Object(t), !0).forEach(function (r) { _defineProperty$2(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$2(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$2(e, r, t) { return (r = _toPropertyKey$2(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$2(t) { var i = _toPrimitive$2(t, "string"); return "symbol" == _typeof$3(i) ? i : i + ""; }
-function _toPrimitive$2(t, r) { if ("object" != _typeof$3(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$3(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$2(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$2(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$2(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$5(o) { "@babel/helpers - typeof"; return _typeof$5 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$5(o); }
+var _excluded$4 = ["width", "height", "scrollable"];
+function ownKeys$4(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$4(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$4(Object(t), !0).forEach(function (r) { _defineProperty$4(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$4(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$4(e, r, t) { return (r = _toPropertyKey$4(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$4(t) { var i = _toPrimitive$4(t, "string"); return "symbol" == _typeof$5(i) ? i : i + ""; }
+function _toPrimitive$4(t, r) { if ("object" != _typeof$5(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$5(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$4(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$4(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$4(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var AlgoliaRefinementList = function AlgoliaRefinementList(_ref) {
   var _ref$width = _ref.width,
     width = _ref$width === void 0 ? "w-auto" : _ref$width,
     _ref$height = _ref.height,
     height = _ref$height === void 0 ? "h-full" : _ref$height;
     _ref.scrollable;
-    var props = _objectWithoutProperties$2(_ref, _excluded$2);
+    var props = _objectWithoutProperties$4(_ref, _excluded$4);
   // return null;
   var attribute = props.attribute;
-  var _useRefinementList = useRefinementList(_objectSpread$2({
+  var _useRefinementList = useRefinementList(_objectSpread$4({
       attribute: "tags"
     }, props)),
     items = _useRefinementList.items,
@@ -4407,34 +4640,34 @@ var AlgoliaRefinementList = function AlgoliaRefinementList(_ref) {
   });
 };
 
-function _typeof$2(o) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$2(o); }
-var _excluded$1 = ["title", "ping"],
-  _excluded2$1 = ["children", "height", "width", "scrollable"],
-  _excluded3$1 = ["children"],
-  _excluded4 = ["children", "height", "width", "scrollable"],
-  _excluded5 = ["title", "ping"],
-  _excluded6 = ["children", "height", "width", "scrollable"],
-  _excluded7 = ["children"],
-  _excluded8 = ["children", "height", "width", "scrollable"],
-  _excluded9 = ["title", "ping"],
+function _typeof$4(o) { "@babel/helpers - typeof"; return _typeof$4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$4(o); }
+var _excluded$3 = ["title", "ping"],
+  _excluded2$3 = ["children", "height", "width", "scrollable"],
+  _excluded3$3 = ["children"],
+  _excluded4$2 = ["children", "height", "width", "scrollable"],
+  _excluded5$2 = ["title", "ping"],
+  _excluded6$2 = ["children", "height", "width", "scrollable"],
+  _excluded7$2 = ["children"],
+  _excluded8$2 = ["children", "height", "width", "scrollable"],
+  _excluded9$2 = ["title", "ping"],
   _excluded0 = ["children", "width", "height", "scrollable"],
   _excluded1 = ["children"],
   _excluded10 = ["children", "height", "width", "scrollable"];
-function ownKeys$1(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$1(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$1(Object(t), !0).forEach(function (r) { _defineProperty$1(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$1(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$1(e, r, t) { return (r = _toPropertyKey$1(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$1(t) { var i = _toPrimitive$1(t, "string"); return "symbol" == _typeof$2(i) ? i : i + ""; }
-function _toPrimitive$1(t, r) { if ("object" != _typeof$2(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$2(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties$1(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$1(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose$1(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function ownKeys$3(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$3(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$3(Object(t), !0).forEach(function (r) { _defineProperty$3(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$3(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$3(e, r, t) { return (r = _toPropertyKey$3(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$3(t) { var i = _toPrimitive$3(t, "string"); return "symbol" == _typeof$4(i) ? i : i + ""; }
+function _toPrimitive$3(t, r) { if ("object" != _typeof$4(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$4(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$3(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$3(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$3(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var DashPanelHeader = function DashPanelHeader(_ref) {
   var title = _ref.title,
     _ref$ping = _ref.ping,
     ping = _ref$ping === void 0 ? false : _ref$ping,
-    props = _objectWithoutProperties$1(_ref, _excluded$1);
+    props = _objectWithoutProperties$3(_ref, _excluded$3);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -4464,17 +4697,17 @@ var DashPanelBody = function DashPanelBody(_ref2) {
     width = _ref2$width === void 0 ? "w-full" : _ref2$width,
     _ref2$scrollable = _ref2.scrollable,
     scrollable = _ref2$scrollable === void 0 ? true : _ref2$scrollable,
-    props = _objectWithoutProperties$1(_ref2, _excluded2$1);
+    props = _objectWithoutProperties$3(_ref2, _excluded2$3);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     width: width,
     height: height,
     scrollable: scrollable,
     direction: "col",
     space: false
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$3(_objectSpread$3({}, props), {}, {
     prefix: "dash-panel-body",
     className: "".concat(styles.string, " p-4"),
     scrollable: scrollable,
@@ -4488,10 +4721,10 @@ var DashPanelBody = function DashPanelBody(_ref2) {
 };
 var DashPanelFooter = function DashPanelFooter(_ref3) {
   var children = _ref3.children,
-    props = _objectWithoutProperties$1(_ref3, _excluded3$1);
+    props = _objectWithoutProperties$3(_ref3, _excluded3$3);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -4511,10 +4744,10 @@ var DashPanel = function DashPanel(_ref4) {
     width = _ref4$width === void 0 ? "w-full" : _ref4$width,
     _ref4$scrollable = _ref4.scrollable,
     scrollable = _ref4$scrollable === void 0 ? false : _ref4$scrollable,
-    props = _objectWithoutProperties$1(_ref4, _excluded4);
+    props = _objectWithoutProperties$3(_ref4, _excluded4$2);
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
-  getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  getStylesForItem(themeObjects.DASH_PANEL, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     width: width,
     height: height,
     scrollable: scrollable
@@ -4534,10 +4767,10 @@ var DashPanelHeader2 = function DashPanelHeader2(_ref5) {
   var title = _ref5.title,
     _ref5$ping = _ref5.ping,
     ping = _ref5$ping === void 0 ? false : _ref5$ping,
-    props = _objectWithoutProperties$1(_ref5, _excluded5);
+    props = _objectWithoutProperties$3(_ref5, _excluded5$2);
   var _useContext5 = useContext(ThemeContext),
     currentTheme = _useContext5.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_2, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -4564,15 +4797,15 @@ var DashPanelBody2 = function DashPanelBody2(_ref6) {
     width = _ref6$width === void 0 ? "w-full" : _ref6$width,
     _ref6$scrollable = _ref6.scrollable,
     scrollable = _ref6$scrollable === void 0 ? false : _ref6$scrollable,
-    props = _objectWithoutProperties$1(_ref6, _excluded6);
+    props = _objectWithoutProperties$3(_ref6, _excluded6$2);
   var _useContext6 = useContext(ThemeContext),
     currentTheme = _useContext6.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     scrollable: scrollable,
     height: "h-full",
     width: width
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$3(_objectSpread$3({}, props), {}, {
     className: "".concat(styles.string, " p-4"),
     scrollable: scrollable,
     width: width,
@@ -4584,10 +4817,10 @@ var DashPanelBody2 = function DashPanelBody2(_ref6) {
 };
 var DashPanelFooter2 = function DashPanelFooter2(_ref7) {
   var children = _ref7.children,
-    props = _objectWithoutProperties$1(_ref7, _excluded7);
+    props = _objectWithoutProperties$3(_ref7, _excluded7$2);
   var _useContext7 = useContext(ThemeContext),
     currentTheme = _useContext7.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_2, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -4604,15 +4837,15 @@ var DashPanel2 = function DashPanel2(_ref8) {
     width = _ref8$width === void 0 ? "w-full" : _ref8$width,
     _ref8$scrollable = _ref8.scrollable,
     scrollable = _ref8$scrollable === void 0 ? false : _ref8$scrollable,
-    props = _objectWithoutProperties$1(_ref8, _excluded8);
+    props = _objectWithoutProperties$3(_ref8, _excluded8$2);
   var _useContext8 = useContext(ThemeContext),
     currentTheme = _useContext8.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_2, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: height,
     width: width,
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(Panel2, _objectSpread$1(_objectSpread$1({}, styles), {}, {
+  return /*#__PURE__*/jsx(Panel2, _objectSpread$3(_objectSpread$3({}, styles), {}, {
     padding: false,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col h-full",
@@ -4627,10 +4860,10 @@ var DashPanelHeader3 = function DashPanelHeader3(_ref9) {
   var title = _ref9.title,
     _ref9$ping = _ref9.ping,
     ping = _ref9$ping === void 0 ? false : _ref9$ping,
-    props = _objectWithoutProperties$1(_ref9, _excluded9);
+    props = _objectWithoutProperties$3(_ref9, _excluded9$2);
   var _useContext9 = useContext(ThemeContext),
     currentTheme = _useContext9.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_HEADER_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -4657,15 +4890,15 @@ var DashPanelBody3 = function DashPanelBody3(_ref0) {
     height = _ref0$height === void 0 ? "h-full" : _ref0$height,
     _ref0$scrollable = _ref0.scrollable,
     scrollable = _ref0$scrollable === void 0 ? false : _ref0$scrollable,
-    props = _objectWithoutProperties$1(_ref0, _excluded0);
+    props = _objectWithoutProperties$3(_ref0, _excluded0);
   var _useContext0 = useContext(ThemeContext),
     currentTheme = _useContext0.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     width: width,
     height: height,
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$3(_objectSpread$3({}, props), {}, {
     className: "".concat(styles.string, " p-4"),
     scrollable: scrollable,
     width: width,
@@ -4675,10 +4908,10 @@ var DashPanelBody3 = function DashPanelBody3(_ref0) {
 };
 var DashPanelFooter3 = function DashPanelFooter3(_ref1) {
   var children = _ref1.children,
-    props = _objectWithoutProperties$1(_ref1, _excluded1);
+    props = _objectWithoutProperties$3(_ref1, _excluded1);
   var _useContext1 = useContext(ThemeContext),
     currentTheme = _useContext1.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_FOOTER_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     height: "h-fit",
     grow: false
   }));
@@ -4695,15 +4928,15 @@ var DashPanel3 = function DashPanel3(_ref10) {
     width = _ref10$width === void 0 ? "w-full" : _ref10$width,
     _ref10$scrollable = _ref10.scrollable,
     scrollable = _ref10$scrollable === void 0 ? false : _ref10$scrollable,
-    props = _objectWithoutProperties$1(_ref10, _excluded10);
+    props = _objectWithoutProperties$3(_ref10, _excluded10);
   var _useContext10 = useContext(ThemeContext),
     currentTheme = _useContext10.currentTheme;
-  var styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.DASH_PANEL_3, currentTheme, _objectSpread$3(_objectSpread$3({}, props), {}, {
     width: width,
     height: height,
     scrollable: scrollable
   }));
-  return /*#__PURE__*/jsx(Panel3, _objectSpread$1(_objectSpread$1({}, styles), {}, {
+  return /*#__PURE__*/jsx(Panel3, _objectSpread$3(_objectSpread$3({}, styles), {}, {
     padding: false,
     children: /*#__PURE__*/jsx("div", {
       className: "flex flex-col h-full bg-inherit",
@@ -4715,12 +4948,12 @@ DashPanel3.Header = DashPanelHeader3;
 DashPanel3.Body = DashPanelBody3;
 DashPanel3.Footer = DashPanelFooter3;
 
-function _slicedToArray$1(r, e) { return _arrayWithHoles$1(r) || _iterableToArrayLimit$1(r, e) || _unsupportedIterableToArray$1(r, e) || _nonIterableRest$1(); }
-function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$1(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$1(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$1(r, a) : void 0; } }
-function _arrayLikeToArray$1(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$1(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$1(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$7(r, e) { return _arrayWithHoles$7(r) || _iterableToArrayLimit$7(r, e) || _unsupportedIterableToArray$7(r, e) || _nonIterableRest$7(); }
+function _nonIterableRest$7() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$7(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$7(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$7(r, a) : void 0; } }
+function _arrayLikeToArray$7(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$7(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$7(r) { if (Array.isArray(r)) return r; }
 function DragComponent(_ref) {
   var obj = _ref.obj,
     id = _ref.id,
@@ -4735,7 +4968,7 @@ function DragComponent(_ref) {
     onDropItem = _ref.onDropItem;
     _ref.onDragItem;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$1(_useState, 2);
+    _useState2 = _slicedToArray$7(_useState, 2);
     _useState2[0];
     _useState2[1];
   var _useDrag = useDrag(function () {
@@ -4775,7 +5008,7 @@ function DragComponent(_ref) {
         }
       };
     }),
-    _useDrag2 = _slicedToArray$1(_useDrag, 3),
+    _useDrag2 = _slicedToArray$7(_useDrag, 3),
     collected = _useDrag2[0],
     drag = _useDrag2[1],
     dragPreview = _useDrag2[2];
@@ -4796,12 +5029,12 @@ function DragComponent(_ref) {
   });
 }
 
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$6(r, e) { return _arrayWithHoles$6(r) || _iterableToArrayLimit$6(r, e) || _unsupportedIterableToArray$6(r, e) || _nonIterableRest$6(); }
+function _nonIterableRest$6() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$6(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$6(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$6(r, a) : void 0; } }
+function _arrayLikeToArray$6(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$6(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$6(r) { if (Array.isArray(r)) return r; }
 function DropComponent(_ref) {
   var item = _ref.item,
     id = _ref.id,
@@ -4813,11 +5046,11 @@ function DropComponent(_ref) {
     var width = _ref.width,
     height = _ref.height;
   var _useState = useState(false),
-    _useState2 = _slicedToArray(_useState, 2);
+    _useState2 = _slicedToArray$6(_useState, 2);
     _useState2[0];
     var setHasDropped = _useState2[1];
   var _useState3 = useState(false),
-    _useState4 = _slicedToArray(_useState3, 2);
+    _useState4 = _slicedToArray$6(_useState3, 2);
     _useState4[0];
     var setHasDroppedOnChild = _useState4[1];
   var _useDrop = useDrop({
@@ -4854,7 +5087,7 @@ function DropComponent(_ref) {
         };
       }
     }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray(_useDrop, 2),
+    _useDrop2 = _slicedToArray$6(_useDrop, 2),
     _useDrop2$ = _useDrop2[0],
     isOver = _useDrop2$.isOver,
     isOverCurrent = _useDrop2$.isOverCurrent,
@@ -4874,24 +5107,24 @@ function DropComponent(_ref) {
   });
 }
 
-function _typeof$1(o) { "@babel/helpers - typeof"; return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$1(o); }
-var _excluded = ["children", "border", "className"],
-  _excluded2 = ["children", "border", "className"],
-  _excluded3 = ["children", "border", "className"];
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof$1(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof$1(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$1(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _typeof$3(o) { "@babel/helpers - typeof"; return _typeof$3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$3(o); }
+var _excluded$2 = ["children", "border", "className"],
+  _excluded2$2 = ["children", "border", "className"],
+  _excluded3$2 = ["children", "border", "className"];
+function ownKeys$2(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$2(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$2(Object(t), !0).forEach(function (r) { _defineProperty$2(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$2(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$2(e, r, t) { return (r = _toPropertyKey$2(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$2(t) { var i = _toPrimitive$2(t, "string"); return "symbol" == _typeof$3(i) ? i : i + ""; }
+function _toPrimitive$2(t, r) { if ("object" != _typeof$3(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$3(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$2(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$2(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$2(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Menu = function Menu(_ref) {
   var children = _ref.children;
     _ref.border;
     var _ref$className = _ref.className,
     className = _ref$className === void 0 ? "space-y-2" : _ref$className,
-    props = _objectWithoutProperties(_ref, _excluded);
-  return /*#__PURE__*/jsx(Panel, _objectSpread(_objectSpread({}, props), {}, {
+    props = _objectWithoutProperties$2(_ref, _excluded$2);
+  return /*#__PURE__*/jsx(Panel, _objectSpread$2(_objectSpread$2({}, props), {}, {
     className: className,
     children: children
   }));
@@ -4901,8 +5134,8 @@ var Menu2 = function Menu2(_ref2) {
     _ref2.border;
     var _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "space-y-2" : _ref2$className,
-    props = _objectWithoutProperties(_ref2, _excluded2);
-  return /*#__PURE__*/jsx(Panel2, _objectSpread(_objectSpread({}, props), {}, {
+    props = _objectWithoutProperties$2(_ref2, _excluded2$2);
+  return /*#__PURE__*/jsx(Panel2, _objectSpread$2(_objectSpread$2({}, props), {}, {
     className: className,
     children: children
   }));
@@ -4912,11 +5145,2211 @@ var Menu3 = function Menu3(_ref3) {
     _ref3.border;
     var _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "space-y-2" : _ref3$className,
-    props = _objectWithoutProperties(_ref3, _excluded3);
-  return /*#__PURE__*/jsx(Panel3, _objectSpread(_objectSpread({}, props), {}, {
+    props = _objectWithoutProperties$2(_ref3, _excluded3$2);
+  return /*#__PURE__*/jsx(Panel3, _objectSpread$2(_objectSpread$2({}, props), {}, {
     className: className,
     children: children
   }));
+};
+
+function _typeof$2(o) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$2(o); }
+var _excluded$1 = ["children", "className"],
+  _excluded2$1 = ["value", "children", "className", "disabled"],
+  _excluded3$1 = ["value", "children", "className"],
+  _excluded4$1 = ["children", "className"],
+  _excluded5$1 = ["value", "children", "className", "disabled"],
+  _excluded6$1 = ["value", "children", "className"],
+  _excluded7$1 = ["children", "className"],
+  _excluded8$1 = ["value", "children", "className", "disabled"],
+  _excluded9$1 = ["value", "children", "className"];
+function ownKeys$1(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$1(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$1(Object(t), !0).forEach(function (r) { _defineProperty$1(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$1(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$1(e, r, t) { return (r = _toPropertyKey$1(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$1(t) { var i = _toPrimitive$1(t, "string"); return "symbol" == _typeof$2(i) ? i : i + ""; }
+function _toPrimitive$1(t, r) { if ("object" != _typeof$2(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$2(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties$1(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$1(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose$1(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _slicedToArray$5(r, e) { return _arrayWithHoles$5(r) || _iterableToArrayLimit$5(r, e) || _unsupportedIterableToArray$5(r, e) || _nonIterableRest$5(); }
+function _nonIterableRest$5() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$5(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$5(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$5(r, a) : void 0; } }
+function _arrayLikeToArray$5(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$5(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$5(r) { if (Array.isArray(r)) return r; }
+var TabsContext = /*#__PURE__*/createContext({
+  activeTab: "",
+  setActiveTab: function setActiveTab() {}
+});
+
+// --- Tabs (variant 1) ---
+
+var Tabs = function Tabs(_ref) {
+  var _ref$defaultValue = _ref.defaultValue,
+    defaultValue = _ref$defaultValue === void 0 ? "" : _ref$defaultValue,
+    _ref$value = _ref.value,
+    value = _ref$value === void 0 ? undefined : _ref$value,
+    _ref$onValueChange = _ref.onValueChange,
+    onValueChange = _ref$onValueChange === void 0 ? null : _ref$onValueChange,
+    children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useState = useState(defaultValue),
+    _useState2 = _slicedToArray$5(_useState, 2),
+    internalValue = _useState2[0],
+    setInternalValue = _useState2[1];
+  var activeTab = value !== undefined ? value : internalValue;
+  var setActiveTab = function setActiveTab(val) {
+    if (value === undefined) {
+      setInternalValue(val);
+    }
+    if (onValueChange) {
+      onValueChange(val);
+    }
+  };
+  return /*#__PURE__*/jsx(TabsContext.Provider, {
+    value: {
+      activeTab: activeTab,
+      setActiveTab: setActiveTab
+    },
+    children: /*#__PURE__*/jsx("div", {
+      className: className,
+      children: children
+    })
+  });
+};
+var TabsList = function TabsList(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    props = _objectWithoutProperties$1(_ref2, _excluded$1);
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_LIST, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  return /*#__PURE__*/jsx("div", {
+    className: "inline-flex items-center gap-1 ".concat(styles.backgroundColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "p-1", " ").concat(className),
+    role: "tablist",
+    children: children
+  });
+};
+var TabsTrigger = function TabsTrigger(_ref3) {
+  var value = _ref3.value,
+    children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    _ref3$disabled = _ref3.disabled,
+    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
+    props = _objectWithoutProperties$1(_ref3, _excluded2$1);
+  var _useCtx = useContext(TabsContext),
+    activeTab = _useCtx.activeTab,
+    setActiveTab = _useCtx.setActiveTab;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_TRIGGER, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isActive = activeTab === value;
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
+    role: "tab",
+    "aria-selected": isActive,
+    disabled: disabled,
+    onClick: function onClick() {
+      return !disabled && setActiveTab(value);
+    },
+    className: "inline-flex items-center justify-center whitespace-nowrap ".concat(styles.spacing || "px-3 py-1.5", " ").concat(styles.textSize || "text-sm", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.borderRadius || "rounded-sm", " ").concat(styles.transition || "transition-all duration-150", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(isActive ? "bg-white shadow-sm text-foreground" : "".concat(styles.textColor || "", " ").concat(styles.hoverTextColor || ""), " ").concat(disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer", " ").concat(className),
+    children: children
+  });
+};
+var TabsContent = function TabsContent(_ref4) {
+  var value = _ref4.value,
+    children = _ref4.children,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className,
+    props = _objectWithoutProperties$1(_ref4, _excluded3$1);
+  var _useCtx2 = useContext(TabsContext),
+    activeTab = _useCtx2.activeTab;
+  var _useContext3 = useContext(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_CONTENT, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  if (activeTab !== value) return null;
+  return /*#__PURE__*/jsx("div", {
+    role: "tabpanel",
+    className: "".concat(styles.spacing || "mt-2", " ").concat(styles.textColor || "", " focus-visible:outline-none ").concat(className),
+    children: children
+  });
+};
+Tabs.List = TabsList;
+Tabs.Trigger = TabsTrigger;
+Tabs.Content = TabsContent;
+
+// --- Tabs2 (variant 2) ---
+
+var Tabs2 = function Tabs2(_ref5) {
+  var _ref5$defaultValue = _ref5.defaultValue,
+    defaultValue = _ref5$defaultValue === void 0 ? "" : _ref5$defaultValue,
+    _ref5$value = _ref5.value,
+    value = _ref5$value === void 0 ? undefined : _ref5$value,
+    _ref5$onValueChange = _ref5.onValueChange,
+    onValueChange = _ref5$onValueChange === void 0 ? null : _ref5$onValueChange,
+    children = _ref5.children,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
+  var _useState3 = useState(defaultValue),
+    _useState4 = _slicedToArray$5(_useState3, 2),
+    internalValue = _useState4[0],
+    setInternalValue = _useState4[1];
+  var activeTab = value !== undefined ? value : internalValue;
+  var setActiveTab = function setActiveTab(val) {
+    if (value === undefined) {
+      setInternalValue(val);
+    }
+    if (onValueChange) {
+      onValueChange(val);
+    }
+  };
+  return /*#__PURE__*/jsx(TabsContext.Provider, {
+    value: {
+      activeTab: activeTab,
+      setActiveTab: setActiveTab
+    },
+    children: /*#__PURE__*/jsx("div", {
+      className: className,
+      children: children
+    })
+  });
+};
+var TabsList2 = function TabsList2(_ref6) {
+  var children = _ref6.children,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className,
+    props = _objectWithoutProperties$1(_ref6, _excluded4$1);
+  var _useContext4 = useContext(ThemeContext),
+    currentTheme = _useContext4.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_LIST_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  return /*#__PURE__*/jsx("div", {
+    className: "inline-flex items-center gap-1 ".concat(styles.backgroundColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "p-1", " ").concat(className),
+    role: "tablist",
+    children: children
+  });
+};
+var TabsTrigger2 = function TabsTrigger2(_ref7) {
+  var value = _ref7.value,
+    children = _ref7.children,
+    _ref7$className = _ref7.className,
+    className = _ref7$className === void 0 ? "" : _ref7$className,
+    _ref7$disabled = _ref7.disabled,
+    disabled = _ref7$disabled === void 0 ? false : _ref7$disabled,
+    props = _objectWithoutProperties$1(_ref7, _excluded5$1);
+  var _useCtx3 = useContext(TabsContext),
+    activeTab = _useCtx3.activeTab,
+    setActiveTab = _useCtx3.setActiveTab;
+  var _useContext5 = useContext(ThemeContext),
+    currentTheme = _useContext5.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_TRIGGER_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isActive = activeTab === value;
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
+    role: "tab",
+    "aria-selected": isActive,
+    disabled: disabled,
+    onClick: function onClick() {
+      return !disabled && setActiveTab(value);
+    },
+    className: "inline-flex items-center justify-center whitespace-nowrap ".concat(styles.spacing || "px-3 py-1.5", " ").concat(styles.textSize || "text-sm", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.borderRadius || "rounded-sm", " ").concat(styles.transition || "transition-all duration-150", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(isActive ? "bg-white shadow-sm text-foreground" : "".concat(styles.textColor || "", " ").concat(styles.hoverTextColor || ""), " ").concat(disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer", " ").concat(className),
+    children: children
+  });
+};
+var TabsContent2 = function TabsContent2(_ref8) {
+  var value = _ref8.value,
+    children = _ref8.children,
+    _ref8$className = _ref8.className,
+    className = _ref8$className === void 0 ? "" : _ref8$className,
+    props = _objectWithoutProperties$1(_ref8, _excluded6$1);
+  var _useCtx4 = useContext(TabsContext),
+    activeTab = _useCtx4.activeTab;
+  var _useContext6 = useContext(ThemeContext),
+    currentTheme = _useContext6.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_CONTENT_2, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  if (activeTab !== value) return null;
+  return /*#__PURE__*/jsx("div", {
+    role: "tabpanel",
+    className: "".concat(styles.spacing || "mt-2", " ").concat(styles.textColor || "", " focus-visible:outline-none ").concat(className),
+    children: children
+  });
+};
+Tabs2.List = TabsList2;
+Tabs2.Trigger = TabsTrigger2;
+Tabs2.Content = TabsContent2;
+
+// --- Tabs3 (variant 3) ---
+
+var Tabs3 = function Tabs3(_ref9) {
+  var _ref9$defaultValue = _ref9.defaultValue,
+    defaultValue = _ref9$defaultValue === void 0 ? "" : _ref9$defaultValue,
+    _ref9$value = _ref9.value,
+    value = _ref9$value === void 0 ? undefined : _ref9$value,
+    _ref9$onValueChange = _ref9.onValueChange,
+    onValueChange = _ref9$onValueChange === void 0 ? null : _ref9$onValueChange,
+    children = _ref9.children,
+    _ref9$className = _ref9.className,
+    className = _ref9$className === void 0 ? "" : _ref9$className;
+  var _useState5 = useState(defaultValue),
+    _useState6 = _slicedToArray$5(_useState5, 2),
+    internalValue = _useState6[0],
+    setInternalValue = _useState6[1];
+  var activeTab = value !== undefined ? value : internalValue;
+  var setActiveTab = function setActiveTab(val) {
+    if (value === undefined) {
+      setInternalValue(val);
+    }
+    if (onValueChange) {
+      onValueChange(val);
+    }
+  };
+  return /*#__PURE__*/jsx(TabsContext.Provider, {
+    value: {
+      activeTab: activeTab,
+      setActiveTab: setActiveTab
+    },
+    children: /*#__PURE__*/jsx("div", {
+      className: className,
+      children: children
+    })
+  });
+};
+var TabsList3 = function TabsList3(_ref0) {
+  var children = _ref0.children,
+    _ref0$className = _ref0.className,
+    className = _ref0$className === void 0 ? "" : _ref0$className,
+    props = _objectWithoutProperties$1(_ref0, _excluded7$1);
+  var _useContext7 = useContext(ThemeContext),
+    currentTheme = _useContext7.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_LIST_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  return /*#__PURE__*/jsx("div", {
+    className: "inline-flex items-center gap-1 ".concat(styles.backgroundColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "p-1", " ").concat(className),
+    role: "tablist",
+    children: children
+  });
+};
+var TabsTrigger3 = function TabsTrigger3(_ref1) {
+  var value = _ref1.value,
+    children = _ref1.children,
+    _ref1$className = _ref1.className,
+    className = _ref1$className === void 0 ? "" : _ref1$className,
+    _ref1$disabled = _ref1.disabled,
+    disabled = _ref1$disabled === void 0 ? false : _ref1$disabled,
+    props = _objectWithoutProperties$1(_ref1, _excluded8$1);
+  var _useCtx5 = useContext(TabsContext),
+    activeTab = _useCtx5.activeTab,
+    setActiveTab = _useCtx5.setActiveTab;
+  var _useContext8 = useContext(ThemeContext),
+    currentTheme = _useContext8.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_TRIGGER_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isActive = activeTab === value;
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
+    role: "tab",
+    "aria-selected": isActive,
+    disabled: disabled,
+    onClick: function onClick() {
+      return !disabled && setActiveTab(value);
+    },
+    className: "inline-flex items-center justify-center whitespace-nowrap ".concat(styles.spacing || "px-2 py-1", " ").concat(styles.textSize || "text-xs", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.borderRadius || "rounded-sm", " ").concat(styles.transition || "transition-all duration-150", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(isActive ? "bg-white shadow-sm text-foreground" : "".concat(styles.textColor || "", " ").concat(styles.hoverTextColor || ""), " ").concat(disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer", " ").concat(className),
+    children: children
+  });
+};
+var TabsContent3 = function TabsContent3(_ref10) {
+  var value = _ref10.value,
+    children = _ref10.children,
+    _ref10$className = _ref10.className,
+    className = _ref10$className === void 0 ? "" : _ref10$className,
+    props = _objectWithoutProperties$1(_ref10, _excluded9$1);
+  var _useCtx6 = useContext(TabsContext),
+    activeTab = _useCtx6.activeTab;
+  var _useContext9 = useContext(ThemeContext),
+    currentTheme = _useContext9.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABS_CONTENT_3, currentTheme, _objectSpread$1(_objectSpread$1({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  if (activeTab !== value) return null;
+  return /*#__PURE__*/jsx("div", {
+    role: "tabpanel",
+    className: "".concat(styles.spacing || "mt-2", " ").concat(styles.textColor || "", " focus-visible:outline-none ").concat(className),
+    children: children
+  });
+};
+Tabs3.List = TabsList3;
+Tabs3.Trigger = TabsTrigger3;
+Tabs3.Content = TabsContent3;
+
+function _typeof$1(o) { "@babel/helpers - typeof"; return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$1(o); }
+var _excluded = ["value", "children", "className"],
+  _excluded2 = ["value", "children", "className"],
+  _excluded3 = ["value", "children", "className"],
+  _excluded4 = ["value", "children", "className"],
+  _excluded5 = ["value", "children", "className"],
+  _excluded6 = ["value", "children", "className"],
+  _excluded7 = ["value", "children", "className"],
+  _excluded8 = ["value", "children", "className"],
+  _excluded9 = ["value", "children", "className"];
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof$1(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof$1(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$1(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray$4(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray$4(r); }
+function _slicedToArray$4(r, e) { return _arrayWithHoles$4(r) || _iterableToArrayLimit$4(r, e) || _unsupportedIterableToArray$4(r, e) || _nonIterableRest$4(); }
+function _nonIterableRest$4() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$4(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$4(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$4(r, a) : void 0; } }
+function _arrayLikeToArray$4(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$4(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$4(r) { if (Array.isArray(r)) return r; }
+var AccordionContext = /*#__PURE__*/createContext({
+  openItems: [],
+  toggleItem: function toggleItem() {},
+  type: "single"
+});
+
+// --- Accordion (variant 1) ---
+
+var Accordion = function Accordion(_ref) {
+  var _ref$type = _ref.type,
+    type = _ref$type === void 0 ? "single" : _ref$type,
+    _ref$defaultValue = _ref.defaultValue,
+    defaultValue = _ref$defaultValue === void 0 ? [] : _ref$defaultValue,
+    children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useState = useState(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
+    _useState2 = _slicedToArray$4(_useState, 2),
+    openItems = _useState2[0],
+    setOpenItems = _useState2[1];
+  var toggleItem = function toggleItem(value) {
+    setOpenItems(function (prev) {
+      if (type === "single") {
+        return prev.includes(value) ? [] : [value];
+      }
+      return prev.includes(value) ? prev.filter(function (v) {
+        return v !== value;
+      }) : [].concat(_toConsumableArray(prev), [value]);
+    });
+  };
+  return /*#__PURE__*/jsx(AccordionContext.Provider, {
+    value: {
+      openItems: openItems,
+      toggleItem: toggleItem,
+      type: type
+    },
+    children: /*#__PURE__*/jsx("div", {
+      className: className,
+      children: children
+    })
+  });
+};
+var AccordionItem = function AccordionItem(_ref2) {
+  var value = _ref2.value,
+    children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    props = _objectWithoutProperties(_ref2, _excluded);
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_ITEM, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  return /*#__PURE__*/jsx("div", {
+    className: "border-b ".concat(styles.borderColor || "", " ").concat(className),
+    "data-value": value,
+    children: typeof children === "function" ? children({
+      value: value
+    }) : children
+  });
+};
+var AccordionTrigger = function AccordionTrigger(_ref3) {
+  var value = _ref3.value,
+    children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    props = _objectWithoutProperties(_ref3, _excluded2);
+  var _useCtx = useContext(AccordionContext),
+    openItems = _useCtx.openItems,
+    toggleItem = _useCtx.toggleItem;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_TRIGGER, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isOpen = openItems.includes(value);
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
+    onClick: function onClick() {
+      return toggleItem(value);
+    },
+    "aria-expanded": isOpen,
+    className: "flex w-full items-center justify-between py-4 ".concat(styles.fontWeight || "font-medium", " ").concat(styles.textColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.transition || "transition-all duration-200", " hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(className),
+    children: [/*#__PURE__*/jsx("span", {
+      children: children
+    }), /*#__PURE__*/jsx("svg", {
+      className: "h-4 w-4 shrink-0 transition-transform duration-200 ".concat(isOpen ? "rotate-180" : ""),
+      fill: "none",
+      viewBox: "0 0 24 24",
+      stroke: "currentColor",
+      strokeWidth: 2,
+      children: /*#__PURE__*/jsx("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        d: "M19 9l-7 7-7-7"
+      })
+    })]
+  });
+};
+var AccordionContent = function AccordionContent(_ref4) {
+  var value = _ref4.value,
+    children = _ref4.children,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className,
+    props = _objectWithoutProperties(_ref4, _excluded3);
+  var _useCtx2 = useContext(AccordionContext),
+    openItems = _useCtx2.openItems;
+  var _useContext3 = useContext(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_CONTENT, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isOpen = openItems.includes(value);
+  var contentRef = useRef(null);
+  var _useState3 = useState(0),
+    _useState4 = _slicedToArray$4(_useState3, 2),
+    height = _useState4[0],
+    setHeight = _useState4[1];
+  useEffect(function () {
+    if (contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    }
+  }, [children, isOpen]);
+  return /*#__PURE__*/jsx("div", {
+    className: "overflow-hidden transition-all duration-200 ease-in-out",
+    style: {
+      height: isOpen ? height : 0
+    },
+    children: /*#__PURE__*/jsx("div", {
+      ref: contentRef,
+      className: "pb-4 ".concat(styles.textColor || "", " ").concat(className),
+      children: children
+    })
+  });
+};
+Accordion.Item = AccordionItem;
+Accordion.Trigger = AccordionTrigger;
+Accordion.Content = AccordionContent;
+
+// --- Accordion2 (variant 2) ---
+
+var Accordion2 = function Accordion2(_ref5) {
+  var _ref5$type = _ref5.type,
+    type = _ref5$type === void 0 ? "single" : _ref5$type,
+    _ref5$defaultValue = _ref5.defaultValue,
+    defaultValue = _ref5$defaultValue === void 0 ? [] : _ref5$defaultValue,
+    children = _ref5.children,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
+  var _useState5 = useState(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
+    _useState6 = _slicedToArray$4(_useState5, 2),
+    openItems = _useState6[0],
+    setOpenItems = _useState6[1];
+  var toggleItem = function toggleItem(value) {
+    setOpenItems(function (prev) {
+      if (type === "single") {
+        return prev.includes(value) ? [] : [value];
+      }
+      return prev.includes(value) ? prev.filter(function (v) {
+        return v !== value;
+      }) : [].concat(_toConsumableArray(prev), [value]);
+    });
+  };
+  return /*#__PURE__*/jsx(AccordionContext.Provider, {
+    value: {
+      openItems: openItems,
+      toggleItem: toggleItem,
+      type: type
+    },
+    children: /*#__PURE__*/jsx("div", {
+      className: className,
+      children: children
+    })
+  });
+};
+var AccordionItem2 = function AccordionItem2(_ref6) {
+  var value = _ref6.value,
+    children = _ref6.children,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className,
+    props = _objectWithoutProperties(_ref6, _excluded4);
+  var _useContext4 = useContext(ThemeContext),
+    currentTheme = _useContext4.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_ITEM_2, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  return /*#__PURE__*/jsx("div", {
+    className: "border-b ".concat(styles.borderColor || "", " ").concat(className),
+    "data-value": value,
+    children: typeof children === "function" ? children({
+      value: value
+    }) : children
+  });
+};
+var AccordionTrigger2 = function AccordionTrigger2(_ref7) {
+  var value = _ref7.value,
+    children = _ref7.children,
+    _ref7$className = _ref7.className,
+    className = _ref7$className === void 0 ? "" : _ref7$className,
+    props = _objectWithoutProperties(_ref7, _excluded5);
+  var _useCtx3 = useContext(AccordionContext),
+    openItems = _useCtx3.openItems,
+    toggleItem = _useCtx3.toggleItem;
+  var _useContext5 = useContext(ThemeContext),
+    currentTheme = _useContext5.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_TRIGGER_2, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isOpen = openItems.includes(value);
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
+    onClick: function onClick() {
+      return toggleItem(value);
+    },
+    "aria-expanded": isOpen,
+    className: "flex w-full items-center justify-between py-3 ".concat(styles.fontWeight || "font-medium", " ").concat(styles.textColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.transition || "transition-all duration-200", " hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-sm ").concat(styles.cursor || "cursor-pointer", " ").concat(className),
+    children: [/*#__PURE__*/jsx("span", {
+      children: children
+    }), /*#__PURE__*/jsx("svg", {
+      className: "h-4 w-4 shrink-0 transition-transform duration-200 ".concat(isOpen ? "rotate-180" : ""),
+      fill: "none",
+      viewBox: "0 0 24 24",
+      stroke: "currentColor",
+      strokeWidth: 2,
+      children: /*#__PURE__*/jsx("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        d: "M19 9l-7 7-7-7"
+      })
+    })]
+  });
+};
+var AccordionContent2 = function AccordionContent2(_ref8) {
+  var value = _ref8.value,
+    children = _ref8.children,
+    _ref8$className = _ref8.className,
+    className = _ref8$className === void 0 ? "" : _ref8$className,
+    props = _objectWithoutProperties(_ref8, _excluded6);
+  var _useCtx4 = useContext(AccordionContext),
+    openItems = _useCtx4.openItems;
+  var _useContext6 = useContext(ThemeContext),
+    currentTheme = _useContext6.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_CONTENT_2, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isOpen = openItems.includes(value);
+  var contentRef = useRef(null);
+  var _useState7 = useState(0),
+    _useState8 = _slicedToArray$4(_useState7, 2),
+    height = _useState8[0],
+    setHeight = _useState8[1];
+  useEffect(function () {
+    if (contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    }
+  }, [children, isOpen]);
+  return /*#__PURE__*/jsx("div", {
+    className: "overflow-hidden transition-all duration-200 ease-in-out",
+    style: {
+      height: isOpen ? height : 0
+    },
+    children: /*#__PURE__*/jsx("div", {
+      ref: contentRef,
+      className: "pb-3 text-sm ".concat(styles.textColor || "", " ").concat(className),
+      children: children
+    })
+  });
+};
+Accordion2.Item = AccordionItem2;
+Accordion2.Trigger = AccordionTrigger2;
+Accordion2.Content = AccordionContent2;
+
+// --- Accordion3 (variant 3) ---
+
+var Accordion3 = function Accordion3(_ref9) {
+  var _ref9$type = _ref9.type,
+    type = _ref9$type === void 0 ? "single" : _ref9$type,
+    _ref9$defaultValue = _ref9.defaultValue,
+    defaultValue = _ref9$defaultValue === void 0 ? [] : _ref9$defaultValue,
+    children = _ref9.children,
+    _ref9$className = _ref9.className,
+    className = _ref9$className === void 0 ? "" : _ref9$className;
+  var _useState9 = useState(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
+    _useState0 = _slicedToArray$4(_useState9, 2),
+    openItems = _useState0[0],
+    setOpenItems = _useState0[1];
+  var toggleItem = function toggleItem(value) {
+    setOpenItems(function (prev) {
+      if (type === "single") {
+        return prev.includes(value) ? [] : [value];
+      }
+      return prev.includes(value) ? prev.filter(function (v) {
+        return v !== value;
+      }) : [].concat(_toConsumableArray(prev), [value]);
+    });
+  };
+  return /*#__PURE__*/jsx(AccordionContext.Provider, {
+    value: {
+      openItems: openItems,
+      toggleItem: toggleItem,
+      type: type
+    },
+    children: /*#__PURE__*/jsx("div", {
+      className: className,
+      children: children
+    })
+  });
+};
+var AccordionItem3 = function AccordionItem3(_ref0) {
+  var value = _ref0.value,
+    children = _ref0.children,
+    _ref0$className = _ref0.className,
+    className = _ref0$className === void 0 ? "" : _ref0$className,
+    props = _objectWithoutProperties(_ref0, _excluded7);
+  var _useContext7 = useContext(ThemeContext),
+    currentTheme = _useContext7.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_ITEM_3, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  return /*#__PURE__*/jsx("div", {
+    className: "border-b ".concat(styles.borderColor || "", " ").concat(className),
+    "data-value": value,
+    children: typeof children === "function" ? children({
+      value: value
+    }) : children
+  });
+};
+var AccordionTrigger3 = function AccordionTrigger3(_ref1) {
+  var value = _ref1.value,
+    children = _ref1.children,
+    _ref1$className = _ref1.className,
+    className = _ref1$className === void 0 ? "" : _ref1$className,
+    props = _objectWithoutProperties(_ref1, _excluded8);
+  var _useCtx5 = useContext(AccordionContext),
+    openItems = _useCtx5.openItems,
+    toggleItem = _useCtx5.toggleItem;
+  var _useContext8 = useContext(ThemeContext),
+    currentTheme = _useContext8.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_TRIGGER_3, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isOpen = openItems.includes(value);
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
+    onClick: function onClick() {
+      return toggleItem(value);
+    },
+    "aria-expanded": isOpen,
+    className: "flex w-full items-center justify-between py-2 ".concat(styles.fontWeight || "font-normal", " ").concat(styles.textColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.transition || "transition-all duration-200", " hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-xs ").concat(styles.cursor || "cursor-pointer", " ").concat(className),
+    children: [/*#__PURE__*/jsx("span", {
+      children: children
+    }), /*#__PURE__*/jsx("svg", {
+      className: "h-3 w-3 shrink-0 transition-transform duration-200 ".concat(isOpen ? "rotate-180" : ""),
+      fill: "none",
+      viewBox: "0 0 24 24",
+      stroke: "currentColor",
+      strokeWidth: 2,
+      children: /*#__PURE__*/jsx("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        d: "M19 9l-7 7-7-7"
+      })
+    })]
+  });
+};
+var AccordionContent3 = function AccordionContent3(_ref10) {
+  var value = _ref10.value,
+    children = _ref10.children,
+    _ref10$className = _ref10.className,
+    className = _ref10$className === void 0 ? "" : _ref10$className,
+    props = _objectWithoutProperties(_ref10, _excluded9);
+  var _useCtx6 = useContext(AccordionContext),
+    openItems = _useCtx6.openItems;
+  var _useContext9 = useContext(ThemeContext),
+    currentTheme = _useContext9.currentTheme;
+  var styles = getStylesForItem(themeObjects.ACCORDION_CONTENT_3, currentTheme, _objectSpread(_objectSpread({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
+  var isOpen = openItems.includes(value);
+  var contentRef = useRef(null);
+  var _useState1 = useState(0),
+    _useState10 = _slicedToArray$4(_useState1, 2),
+    height = _useState10[0],
+    setHeight = _useState10[1];
+  useEffect(function () {
+    if (contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    }
+  }, [children, isOpen]);
+  return /*#__PURE__*/jsx("div", {
+    className: "overflow-hidden transition-all duration-200 ease-in-out",
+    style: {
+      height: isOpen ? height : 0
+    },
+    children: /*#__PURE__*/jsx("div", {
+      ref: contentRef,
+      className: "pb-2 text-xs ".concat(styles.textColor || "", " ").concat(className),
+      children: children
+    })
+  });
+};
+Accordion3.Item = AccordionItem3;
+Accordion3.Trigger = AccordionTrigger3;
+Accordion3.Content = AccordionContent3;
+
+var FormField = function FormField(_ref) {
+  var label = _ref.label,
+    _ref$description = _ref.description,
+    description = _ref$description === void 0 ? null : _ref$description,
+    _ref$required = _ref.required,
+    required = _ref$required === void 0 ? false : _ref$required,
+    _ref$error = _ref.error,
+    error = _ref$error === void 0 ? null : _ref$error,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    children = _ref.children;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col space-y-1.5 ".concat(className),
+    children: [label && /*#__PURE__*/jsxs("label", {
+      className: "text-sm font-medium ".concat(labelStyles.textColor || ""),
+      children: [label, required && /*#__PURE__*/jsx("span", {
+        className: "text-red-500 ml-1",
+        children: "*"
+      })]
+    }), description && /*#__PURE__*/jsx("p", {
+      className: "text-xs ".concat(labelStyles.textColor || "", " opacity-60"),
+      children: description
+    }), children, error && /*#__PURE__*/jsx("p", {
+      className: "text-xs text-red-500",
+      children: error
+    })]
+  });
+};
+
+var SettingsModalSidebar = function SettingsModalSidebar(_ref) {
+  var children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$width = _ref.width,
+    width = _ref$width === void 0 ? "w-56" : _ref$width;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.SETTINGS_MODAL_SIDEBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col flex-shrink-0 ".concat(width, " border-r ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " p-2 space-y-1 overflow-y-auto ").concat(className),
+    children: children
+  });
+};
+var SettingsModalHeader = function SettingsModalHeader(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$border = _ref2.border,
+    border = _ref2$border === void 0 ? true : _ref2$border,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? "p-4" : _ref2$padding;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row justify-between items-center flex-shrink-0 ".concat(padding, " ").concat(border ? "border-b" : "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(className),
+    children: children
+  });
+};
+var SettingsModalBody = function SettingsModalBody(_ref3) {
+  var children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? "p-4" : _ref3$padding,
+    _ref3$scrollable = _ref3.scrollable,
+    scrollable = _ref3$scrollable === void 0 ? true : _ref3$scrollable;
+  var scrollClasses = scrollable ? "overflow-y-auto scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800" : "";
+  return /*#__PURE__*/jsx("div", {
+    className: "flex-1 ".concat(padding, " ").concat(scrollClasses, " ").concat(className),
+    children: children
+  });
+};
+var SettingsModalFooter = function SettingsModalFooter(_ref4) {
+  var children = _ref4.children,
+    _ref4$leftContent = _ref4.leftContent,
+    leftContent = _ref4$leftContent === void 0 ? null : _ref4$leftContent,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className,
+    _ref4$padding = _ref4.padding,
+    padding = _ref4$padding === void 0 ? "px-4 py-3" : _ref4$padding;
+  var _useContext3 = useContext(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.SETTINGS_MODAL_FOOTER, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-row items-center flex-shrink-0 border-t ".concat(padding, " ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " rounded-b-lg ").concat(leftContent ? "justify-between" : "justify-end", " ").concat(className),
+    children: [leftContent && /*#__PURE__*/jsx("div", {
+      className: "flex items-center text-sm opacity-70",
+      children: leftContent
+    }), /*#__PURE__*/jsx("div", {
+      className: "flex flex-row items-center space-x-2",
+      children: children
+    })]
+  });
+};
+var SettingsModal = function SettingsModal(_ref5) {
+  var isOpen = _ref5.isOpen,
+    setIsOpen = _ref5.setIsOpen,
+    _ref5$width = _ref5.width,
+    width = _ref5$width === void 0 ? "w-11/12 xl:w-5/6" : _ref5$width,
+    _ref5$height = _ref5.height,
+    height = _ref5$height === void 0 ? "h-5/6" : _ref5$height,
+    children = _ref5.children,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
+  var _useContext4 = useContext(ThemeContext),
+    currentTheme = _useContext4.currentTheme;
+  var panelStyles = getStylesForItem(themeObjects.PANEL, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+
+  // Separate sidebar from other children
+  var sidebar = null;
+  var otherChildren = [];
+  Children.forEach(children, function (child) {
+    if (child && child.type === SettingsModalSidebar) {
+      sidebar = child;
+    } else {
+      otherChildren.push(child);
+    }
+  });
+  return /*#__PURE__*/jsx(Modal, {
+    isOpen: isOpen,
+    setIsOpen: setIsOpen,
+    width: width,
+    height: height,
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row h-full w-full rounded-lg overflow-clip ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " border ").concat(className),
+      children: [sidebar, /*#__PURE__*/jsx("div", {
+        className: "flex flex-col flex-1 min-w-0",
+        children: otherChildren
+      })]
+    })
+  });
+};
+SettingsModal.Sidebar = SettingsModalSidebar;
+SettingsModal.Header = SettingsModalHeader;
+SettingsModal.Body = SettingsModalBody;
+SettingsModal.Footer = SettingsModalFooter;
+
+var ConfirmationModal = function ConfirmationModal(_ref) {
+  var isOpen = _ref.isOpen,
+    setIsOpen = _ref.setIsOpen,
+    _ref$title = _ref.title,
+    title = _ref$title === void 0 ? "Confirm" : _ref$title,
+    _ref$message = _ref.message,
+    message = _ref$message === void 0 ? null : _ref$message,
+    _ref$confirmLabel = _ref.confirmLabel,
+    confirmLabel = _ref$confirmLabel === void 0 ? "Confirm" : _ref$confirmLabel,
+    _ref$cancelLabel = _ref.cancelLabel,
+    cancelLabel = _ref$cancelLabel === void 0 ? "Cancel" : _ref$cancelLabel,
+    _ref$onConfirm = _ref.onConfirm,
+    onConfirm = _ref$onConfirm === void 0 ? null : _ref$onConfirm,
+    _ref$onCancel = _ref.onCancel,
+    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel,
+    _ref$variant = _ref.variant,
+    variant = _ref$variant === void 0 ? "default" : _ref$variant,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var panelStyles = getStylesForItem(themeObjects.PANEL, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var headerStyles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
+    grow: false
+  });
+  var footerStyles = getStylesForItem(themeObjects.SETTINGS_MODAL_FOOTER, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var buttonPrimaryStyles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var buttonSecondaryStyles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var handleCancel = function handleCancel() {
+    if (onCancel) {
+      onCancel();
+    } else {
+      setIsOpen(false);
+    }
+  };
+  var handleConfirm = function handleConfirm() {
+    if (onConfirm) {
+      onConfirm();
+    }
+  };
+  var confirmButtonClasses = variant === "danger" ? "bg-red-600 hover:bg-red-700 text-white border-red-700" : "".concat(buttonPrimaryStyles.backgroundColor || "", " ").concat(buttonPrimaryStyles.hoverBackgroundColor || "", " ").concat(buttonPrimaryStyles.textColor || "", " ").concat(buttonPrimaryStyles.borderColor || "");
+  return /*#__PURE__*/jsx(Modal, {
+    isOpen: isOpen,
+    setIsOpen: setIsOpen,
+    width: "w-full max-w-md",
+    height: "h-auto",
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col rounded-lg overflow-clip border ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " ").concat(className),
+      children: [/*#__PURE__*/jsx("div", {
+        className: "flex flex-row items-center p-4 border-b ".concat(headerStyles.borderColor || "", " ").concat(headerStyles.textColor || ""),
+        children: /*#__PURE__*/jsx("span", {
+          className: "text-lg font-semibold",
+          children: title
+        })
+      }), /*#__PURE__*/jsx("div", {
+        className: "p-4",
+        children: children ? children : message ? /*#__PURE__*/jsx("p", {
+          className: "text-sm leading-relaxed ".concat(paragraphStyles.textColor || ""),
+          children: message
+        }) : null
+      }), /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row justify-end items-center space-x-2 px-4 py-3 border-t rounded-b-lg ".concat(footerStyles.backgroundColor || "", " ").concat(footerStyles.borderColor || ""),
+        children: [/*#__PURE__*/jsx("button", {
+          type: "button",
+          onClick: handleCancel,
+          className: "flex flex-row justify-center items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150 ".concat(buttonSecondaryStyles.backgroundColor || "", " ").concat(buttonSecondaryStyles.hoverBackgroundColor || "", " ").concat(buttonSecondaryStyles.textColor || "", " ").concat(buttonSecondaryStyles.borderColor || ""),
+          children: cancelLabel
+        }), /*#__PURE__*/jsx("button", {
+          type: "button",
+          onClick: handleConfirm,
+          className: "flex flex-row justify-center items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150 ".concat(confirmButtonClasses),
+          children: confirmLabel
+        })]
+      })]
+    })
+  });
+};
+
+function _slicedToArray$3(r, e) { return _arrayWithHoles$3(r) || _iterableToArrayLimit$3(r, e) || _unsupportedIterableToArray$3(r, e) || _nonIterableRest$3(); }
+function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$3(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$3(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$3(r, a) : void 0; } }
+function _arrayLikeToArray$3(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$3(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$3(r) { if (Array.isArray(r)) return r; }
+var SidebarContext = /*#__PURE__*/createContext({
+  collapsed: false,
+  setCollapsed: function setCollapsed() {},
+  toggleCollapsed: function toggleCollapsed() {}
+});
+var useSidebar = function useSidebar() {
+  return useContext(SidebarContext);
+};
+
+// ─── Sub-components ─────────────────────────────────────────────────────────────
+
+var SidebarHeader = function SidebarHeader(_ref) {
+  var children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col flex-shrink-0 p-3 ".concat(className),
+    children: children
+  });
+};
+var SidebarContent = function SidebarContent(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-1 scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent ".concat(className),
+    children: children
+  });
+};
+var SidebarGroup = function SidebarGroup(_ref3) {
+  var _ref3$label = _ref3.label,
+    label = _ref3$label === void 0 ? null : _ref3$label,
+    children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  var _useCtx = useContext(SidebarContext),
+    collapsed = _useCtx.collapsed;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.SIDEBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col space-y-1 ".concat(className),
+    children: [label && !collapsed && /*#__PURE__*/jsx("span", {
+      className: "px-2 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider ".concat(styles.textColor || "", " opacity-50"),
+      children: label
+    }), label && collapsed && /*#__PURE__*/jsx("div", {
+      className: "border-t border-current opacity-10 mx-2 mt-2 mb-1"
+    }), children]
+  });
+};
+var SidebarItem = function SidebarItem(_ref4) {
+  var children = _ref4.children,
+    _ref4$icon = _ref4.icon,
+    icon = _ref4$icon === void 0 ? null : _ref4$icon,
+    _ref4$active = _ref4.active,
+    active = _ref4$active === void 0 ? false : _ref4$active,
+    _ref4$onClick = _ref4.onClick,
+    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className,
+    _ref4$badge = _ref4.badge,
+    badge = _ref4$badge === void 0 ? null : _ref4$badge;
+  var _useCtx2 = useContext(SidebarContext),
+    collapsed = _useCtx2.collapsed;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.SIDEBAR_ITEM, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var activeClasses = active ? "".concat(styles.activeBackgroundColor || "", " ").concat(styles.activeTextColor || "") : "".concat(styles.textColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " opacity-80 hover:opacity-100");
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
+    onClick: onClick,
+    title: collapsed && typeof children === "string" ? children : undefined,
+    className: "flex items-center w-full ".concat(collapsed ? "justify-center px-2 py-2" : "px-3 py-2", " gap-2 ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.cursor || "cursor-pointer", " text-sm ").concat(activeClasses, " ").concat(className),
+    children: [icon && /*#__PURE__*/jsx("span", {
+      className: "flex-shrink-0 ".concat(collapsed ? "" : ""),
+      children: icon
+    }), !collapsed && /*#__PURE__*/jsx("span", {
+      className: "flex-1 text-left truncate",
+      children: children
+    }), !collapsed && badge && /*#__PURE__*/jsx("span", {
+      className: "flex-shrink-0 text-xs opacity-60",
+      children: badge
+    })]
+  });
+};
+var SidebarFooter = function SidebarFooter(_ref5) {
+  var children = _ref5.children,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
+  var _useContext3 = useContext(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.SIDEBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col flex-shrink-0 p-2 border-t ".concat(styles.borderColor || "", " ").concat(className),
+    children: children
+  });
+};
+var SidebarTrigger = function SidebarTrigger(_ref6) {
+  var _ref6$children = _ref6.children,
+    children = _ref6$children === void 0 ? null : _ref6$children,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className;
+  var _useCtx3 = useContext(SidebarContext),
+    collapsed = _useCtx3.collapsed,
+    toggleCollapsed = _useCtx3.toggleCollapsed;
+  var _useContext4 = useContext(ThemeContext),
+    currentTheme = _useContext4.currentTheme;
+  var styles = getStylesForItem(themeObjects.SIDEBAR_ITEM, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("button", {
+    type: "button",
+    onClick: toggleCollapsed,
+    "aria-label": collapsed ? "Expand sidebar" : "Collapse sidebar",
+    className: "flex items-center justify-center p-2 rounded-md ".concat(styles.textColor || "", " ").concat(styles.hoverBackgroundColor || "", " opacity-60 hover:opacity-100 ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.cursor || "cursor-pointer", " ").concat(className),
+    children: children || /*#__PURE__*/jsx("svg", {
+      className: "h-4 w-4",
+      fill: "none",
+      viewBox: "0 0 24 24",
+      stroke: "currentColor",
+      strokeWidth: 2,
+      children: collapsed ? /*#__PURE__*/jsx("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        d: "M13 5l7 7-7 7M5 5l7 7-7 7"
+      }) : /*#__PURE__*/jsx("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        d: "M11 19l-7-7 7-7M19 19l-7-7 7-7"
+      })
+    })
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var Sidebar = function Sidebar(_ref7) {
+  var children = _ref7.children,
+    _ref7$defaultCollapse = _ref7.defaultCollapsed,
+    defaultCollapsed = _ref7$defaultCollapse === void 0 ? false : _ref7$defaultCollapse,
+    _ref7$collapsed = _ref7.collapsed,
+    controlledCollapsed = _ref7$collapsed === void 0 ? undefined : _ref7$collapsed,
+    _ref7$onCollapsedChan = _ref7.onCollapsedChange,
+    onCollapsedChange = _ref7$onCollapsedChan === void 0 ? null : _ref7$onCollapsedChan,
+    _ref7$width = _ref7.width,
+    width = _ref7$width === void 0 ? "w-60" : _ref7$width,
+    _ref7$collapsedWidth = _ref7.collapsedWidth,
+    collapsedWidth = _ref7$collapsedWidth === void 0 ? "w-16" : _ref7$collapsedWidth,
+    _ref7$side = _ref7.side,
+    side = _ref7$side === void 0 ? "left" : _ref7$side,
+    _ref7$className = _ref7.className,
+    className = _ref7$className === void 0 ? "" : _ref7$className;
+  var _useState = useState(defaultCollapsed),
+    _useState2 = _slicedToArray$3(_useState, 2),
+    internalCollapsed = _useState2[0],
+    setInternalCollapsed = _useState2[1];
+  var isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
+  var setCollapsed = function setCollapsed(val) {
+    if (controlledCollapsed === undefined) {
+      setInternalCollapsed(val);
+    }
+    if (onCollapsedChange) {
+      onCollapsedChange(val);
+    }
+  };
+  var toggleCollapsed = function toggleCollapsed() {
+    return setCollapsed(!isCollapsed);
+  };
+  var _useContext5 = useContext(ThemeContext),
+    currentTheme = _useContext5.currentTheme;
+  var styles = getStylesForItem(themeObjects.SIDEBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var borderSide = side === "left" ? "border-r" : "border-l";
+  return /*#__PURE__*/jsx(SidebarContext.Provider, {
+    value: {
+      collapsed: isCollapsed,
+      setCollapsed: setCollapsed,
+      toggleCollapsed: toggleCollapsed
+    },
+    children: /*#__PURE__*/jsx("aside", {
+      className: "flex flex-col flex-shrink-0 h-full ".concat(isCollapsed ? collapsedWidth : width, " ").concat(borderSide, " ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(styles.transition || "transition-all duration-200", " overflow-hidden ").concat(className),
+      children: children
+    })
+  });
+};
+Sidebar.Header = SidebarHeader;
+Sidebar.Content = SidebarContent;
+Sidebar.Group = SidebarGroup;
+Sidebar.Item = SidebarItem;
+Sidebar.Footer = SidebarFooter;
+Sidebar.Trigger = SidebarTrigger;
+
+var NavbarBrand = function NavbarBrand(_ref) {
+  var children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex items-center flex-shrink-0 gap-2 ".concat(className),
+    children: children
+  });
+};
+var NavbarContent = function NavbarContent(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$align = _ref2.align,
+    align = _ref2$align === void 0 ? "center" : _ref2$align;
+  var alignClass = align === "start" ? "justify-start" : align === "end" ? "justify-end" : "justify-center";
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-1 items-center gap-1 ".concat(alignClass, " ").concat(className),
+    children: children
+  });
+};
+var NavbarActions = function NavbarActions(_ref3) {
+  var children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex items-center flex-shrink-0 gap-2 ".concat(className),
+    children: children
+  });
+};
+var NavbarDivider = function NavbarDivider(_ref4) {
+  var _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.NAVBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "w-px h-5 self-center ".concat(styles.borderColor || "", " bg-current opacity-20 ").concat(className)
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var Navbar = function Navbar(_ref5) {
+  var children = _ref5.children,
+    _ref5$border = _ref5.border,
+    border = _ref5$border === void 0 ? true : _ref5$border,
+    _ref5$padding = _ref5.padding,
+    padding = _ref5$padding === void 0 ? "px-4 py-2" : _ref5$padding,
+    _ref5$height = _ref5.height,
+    height = _ref5$height === void 0 ? "h-14" : _ref5$height,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className,
+    _ref5$position = _ref5.position,
+    position = _ref5$position === void 0 ? "top" : _ref5$position;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.NAVBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var borderClass = border ? position === "top" ? "border-b" : "border-t" : "";
+  return /*#__PURE__*/jsx("nav", {
+    className: "flex flex-row items-center flex-shrink-0 ".concat(height, " ").concat(padding, " ").concat(borderClass, " ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(className),
+    children: children
+  });
+};
+Navbar.Brand = NavbarBrand;
+Navbar.Content = NavbarContent;
+Navbar.Actions = NavbarActions;
+Navbar.Divider = NavbarDivider;
+
+function _slicedToArray$2(r, e) { return _arrayWithHoles$2(r) || _iterableToArrayLimit$2(r, e) || _unsupportedIterableToArray$2(r, e) || _nonIterableRest$2(); }
+function _nonIterableRest$2() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$2(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$2(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$2(r, a) : void 0; } }
+function _arrayLikeToArray$2(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$2(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$2(r) { if (Array.isArray(r)) return r; }
+var TabbedNavbarContext = /*#__PURE__*/createContext({
+  activeTab: "",
+  setActiveTab: function setActiveTab() {}
+});
+
+// ─── Sub-components ─────────────────────────────────────────────────────────────
+
+var TabbedNavbarBrand = function TabbedNavbarBrand(_ref) {
+  var children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex items-center flex-shrink-0 gap-2 ".concat(className),
+    children: children
+  });
+};
+var TabbedNavbarTab = function TabbedNavbarTab(_ref2) {
+  var value = _ref2.value,
+    children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$disabled = _ref2.disabled,
+    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled;
+  var _useCtx = useContext(TabbedNavbarContext),
+    activeTab = _useCtx.activeTab,
+    setActiveTab = _useCtx.setActiveTab;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABBED_NAVBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var isActive = activeTab === value;
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
+    role: "tab",
+    "aria-selected": isActive,
+    disabled: disabled,
+    onClick: function onClick() {
+      return !disabled && setActiveTab(value);
+    },
+    className: "relative flex items-center px-3 py-1 text-sm font-medium transition-colors duration-150 whitespace-nowrap ".concat(isActive ? "".concat(styles.textColor || "", " opacity-100") : "".concat(styles.textColor || "", " opacity-50 hover:opacity-80"), " ").concat(disabled ? "opacity-30 pointer-events-none" : "cursor-pointer", " ").concat(className),
+    children: [children, isActive && /*#__PURE__*/jsx("span", {
+      className: "absolute bottom-0 left-0 right-0 h-0.5 bg-current rounded-t"
+    })]
+  });
+};
+var TabbedNavbarActions = function TabbedNavbarActions(_ref3) {
+  var children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex items-center flex-shrink-0 gap-2 ml-auto ".concat(className),
+    children: children
+  });
+};
+var TabbedNavbarContent = function TabbedNavbarContent(_ref4) {
+  var value = _ref4.value,
+    children = _ref4.children,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className;
+  var _useCtx2 = useContext(TabbedNavbarContext),
+    activeTab = _useCtx2.activeTab;
+  if (activeTab !== value) return null;
+  return /*#__PURE__*/jsx("div", {
+    role: "tabpanel",
+    className: className,
+    children: children
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var TabbedNavbar = function TabbedNavbar(_ref5) {
+  var children = _ref5.children,
+    _ref5$defaultValue = _ref5.defaultValue,
+    defaultValue = _ref5$defaultValue === void 0 ? "" : _ref5$defaultValue,
+    _ref5$value = _ref5.value,
+    value = _ref5$value === void 0 ? undefined : _ref5$value,
+    _ref5$onValueChange = _ref5.onValueChange,
+    onValueChange = _ref5$onValueChange === void 0 ? null : _ref5$onValueChange,
+    _ref5$border = _ref5.border,
+    border = _ref5$border === void 0 ? true : _ref5$border,
+    _ref5$padding = _ref5.padding,
+    padding = _ref5$padding === void 0 ? "px-4" : _ref5$padding,
+    _ref5$height = _ref5.height,
+    height = _ref5$height === void 0 ? "h-12" : _ref5$height,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
+  var _useState = useState(defaultValue),
+    _useState2 = _slicedToArray$2(_useState, 2),
+    internalValue = _useState2[0],
+    setInternalValue = _useState2[1];
+  var activeTab = value !== undefined ? value : internalValue;
+  var setActiveTab = function setActiveTab(val) {
+    if (value === undefined) {
+      setInternalValue(val);
+    }
+    if (onValueChange) {
+      onValueChange(val);
+    }
+  };
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.TABBED_NAVBAR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+
+  // Separate bar children (Brand, Tab, Actions) from Content panels
+  var barChildren = [];
+  var contentChildren = [];
+  var childArray = Array.isArray(children) ? children : [children];
+  var flatChildren = childArray.flat().filter(Boolean);
+  flatChildren.forEach(function (child) {
+    if (child && child.type === TabbedNavbarContent) {
+      contentChildren.push(child);
+    } else {
+      barChildren.push(child);
+    }
+  });
+  return /*#__PURE__*/jsx(TabbedNavbarContext.Provider, {
+    value: {
+      activeTab: activeTab,
+      setActiveTab: setActiveTab
+    },
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col",
+      children: [/*#__PURE__*/jsx("nav", {
+        role: "tablist",
+        className: "flex flex-row items-end flex-shrink-0 ".concat(height, " ").concat(padding, " gap-1 ").concat(border ? "border-b" : "", " ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(className),
+        children: barChildren
+      }), contentChildren]
+    })
+  });
+};
+TabbedNavbar.Brand = TabbedNavbarBrand;
+TabbedNavbar.Tab = TabbedNavbarTab;
+TabbedNavbar.Actions = TabbedNavbarActions;
+TabbedNavbar.Content = TabbedNavbarContent;
+
+var EmptyState = function EmptyState(_ref) {
+  var _ref$icon = _ref.icon,
+    icon = _ref$icon === void 0 ? null : _ref$icon,
+    _ref$title = _ref.title,
+    title = _ref$title === void 0 ? null : _ref$title,
+    _ref$description = _ref.description,
+    description = _ref$description === void 0 ? null : _ref$description,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.EMPTY_STATE, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col items-center justify-center text-center ".concat(styles.spacing || "p-8", " ").concat(styles.borderRadius || "rounded-lg", " ").concat(className),
+    children: [icon && /*#__PURE__*/jsx("div", {
+      className: "".concat(styles.textColor || "", " opacity-40 mb-4"),
+      children: icon
+    }), title && /*#__PURE__*/jsx(SubHeading3, {
+      title: title,
+      padding: false,
+      className: "justify-center mb-1"
+    }), description && /*#__PURE__*/jsx(Paragraph2, {
+      text: description,
+      padding: false,
+      width: "max-w-sm",
+      className: "opacity-60 mb-4"
+    }), children && /*#__PURE__*/jsx("div", {
+      className: "mt-2",
+      children: children
+    })]
+  });
+};
+
+var StatCardLabel = function StatCardLabel(_ref) {
+  var children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  return /*#__PURE__*/jsx(Paragraph3, {
+    text: children,
+    padding: false,
+    fontWeight: "font-semibold",
+    width: "",
+    className: "uppercase tracking-wider opacity-60 ".concat(className)
+  });
+};
+var StatCardValue = function StatCardValue(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  return /*#__PURE__*/jsx(SubHeading, {
+    title: children,
+    padding: false,
+    className: className
+  });
+};
+var StatCardChange = function StatCardChange(_ref3) {
+  var children = _ref3.children,
+    _ref3$trend = _ref3.trend,
+    trend = _ref3$trend === void 0 ? "neutral" : _ref3$trend,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  var trendColor = trend === "up" ? "text-emerald-500" : trend === "down" ? "text-red-500" : "";
+  var trendIcon = trend === "up" ? "\u2191 " : trend === "down" ? "\u2193 " : "";
+  return /*#__PURE__*/jsxs("span", {
+    className: "text-sm font-medium ".concat(trendColor, " ").concat(className),
+    children: [trendIcon, children]
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var StatCard = function StatCard(_ref4) {
+  var _ref4$label = _ref4.label,
+    label = _ref4$label === void 0 ? null : _ref4$label,
+    _ref4$value = _ref4.value,
+    value = _ref4$value === void 0 ? null : _ref4$value,
+    _ref4$change = _ref4.change,
+    change = _ref4$change === void 0 ? null : _ref4$change,
+    _ref4$trend = _ref4.trend,
+    trend = _ref4$trend === void 0 ? "neutral" : _ref4$trend,
+    _ref4$helpText = _ref4.helpText,
+    helpText = _ref4$helpText === void 0 ? null : _ref4$helpText,
+    _ref4$badge = _ref4.badge,
+    badge = _ref4$badge === void 0 ? null : _ref4$badge,
+    _ref4$children = _ref4.children,
+    children = _ref4$children === void 0 ? null : _ref4$children,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.STAT_CARD, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col ".concat(styles.spacing || "p-4", " ").concat(styles.borderRadius || "rounded-lg", " border ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(className),
+    children: children ? children : /*#__PURE__*/jsxs(Fragment$1, {
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row justify-between items-start mb-2",
+        children: [label && /*#__PURE__*/jsx(StatCardLabel, {
+          children: label
+        }), badge && /*#__PURE__*/jsx("span", {
+          className: "flex-shrink-0",
+          children: badge
+        })]
+      }), value !== null && /*#__PURE__*/jsx(StatCardValue, {
+        children: value
+      }), /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row items-center gap-2 mt-1",
+        children: [change !== null && /*#__PURE__*/jsx(StatCardChange, {
+          trend: trend,
+          children: change
+        }), helpText && /*#__PURE__*/jsx("span", {
+          className: "text-xs ".concat(styles.textColor || "", " opacity-50"),
+          children: helpText
+        })]
+      })]
+    })
+  });
+};
+StatCard.Label = StatCardLabel;
+StatCard.Value = StatCardValue;
+StatCard.Change = StatCardChange;
+
+var SkeletonText = function SkeletonText(_ref) {
+  var _ref$lines = _ref.lines,
+    lines = _ref$lines === void 0 ? 3 : _ref$lines,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-col space-y-2 ".concat(className),
+    children: Array.from({
+      length: lines
+    }).map(function (_, i) {
+      return /*#__PURE__*/jsx(Skeleton, {
+        width: i === lines - 1 ? "w-3/4" : "w-full",
+        height: "h-3"
+      }, i);
+    })
+  });
+};
+var SkeletonCard = function SkeletonCard(_ref2) {
+  var _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col space-y-3 ".concat(className),
+    children: [/*#__PURE__*/jsx(Skeleton, {
+      width: "w-full",
+      height: "h-32"
+    }), /*#__PURE__*/jsx(Skeleton, {
+      width: "w-3/4",
+      height: "h-4"
+    }), /*#__PURE__*/jsx(Skeleton, {
+      width: "w-1/2",
+      height: "h-3"
+    })]
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var Skeleton = function Skeleton(_ref3) {
+  var _ref3$width = _ref3.width,
+    width = _ref3$width === void 0 ? "w-full" : _ref3$width,
+    _ref3$height = _ref3.height,
+    height = _ref3$height === void 0 ? "h-4" : _ref3$height,
+    _ref3$rounded = _ref3.rounded,
+    rounded = _ref3$rounded === void 0 ? null : _ref3$rounded,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.SKELETON, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var borderRadius = rounded || styles.borderRadius || "rounded-md";
+  return /*#__PURE__*/jsx("div", {
+    className: "animate-pulse ".concat(styles.backgroundColor || "", " opacity-30 ").concat(width, " ").concat(height, " ").concat(borderRadius, " ").concat(className)
+  });
+};
+Skeleton.Text = SkeletonText;
+Skeleton.Card = SkeletonCard;
+
+function _slicedToArray$1(r, e) { return _arrayWithHoles$1(r) || _iterableToArrayLimit$1(r, e) || _unsupportedIterableToArray$1(r, e) || _nonIterableRest$1(); }
+function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$1(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$1(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$1(r, a) : void 0; } }
+function _arrayLikeToArray$1(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$1(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$1(r) { if (Array.isArray(r)) return r; }
+var CommandPaletteGroup = function CommandPaletteGroup(_ref) {
+  var _ref$label = _ref.label,
+    label = _ref$label === void 0 ? null : _ref$label,
+    children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  return /*#__PURE__*/jsxs("div", {
+    className: "".concat(className),
+    children: [label && /*#__PURE__*/jsx(Paragraph3, {
+      text: label,
+      padding: false,
+      fontWeight: "font-semibold",
+      width: "",
+      className: "uppercase tracking-wider opacity-40 px-3 py-1.5"
+    }), /*#__PURE__*/jsx("div", {
+      className: "space-y-0.5",
+      children: children
+    })]
+  });
+};
+var CommandPaletteItem = function CommandPaletteItem(_ref2) {
+  var children = _ref2.children,
+    _ref2$icon = _ref2.icon,
+    icon = _ref2$icon === void 0 ? null : _ref2$icon,
+    _ref2$onSelect = _ref2.onSelect,
+    onSelect = _ref2$onSelect === void 0 ? null : _ref2$onSelect,
+    _ref2$shortcut = _ref2.shortcut,
+    shortcut = _ref2$shortcut === void 0 ? null : _ref2$shortcut,
+    _ref2$active = _ref2.active,
+    active = _ref2$active === void 0 ? false : _ref2$active,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.COMMAND_PALETTE_ITEM, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var activeClasses = active ? "".concat(styles.activeBackgroundColor || "", " ").concat(styles.activeTextColor || "") : "".concat(styles.textColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "");
+  return /*#__PURE__*/jsxs("button", {
+    type: "button",
+    onClick: onSelect,
+    className: "flex items-center w-full px-3 py-2 gap-3 text-sm ".concat(styles.borderRadius || "rounded-md", " ").concat(styles.transition || "transition-colors duration-100", " ").concat(styles.cursor || "cursor-pointer", " ").concat(activeClasses, " ").concat(className),
+    children: [icon && /*#__PURE__*/jsx("span", {
+      className: "flex-shrink-0 opacity-60",
+      children: icon
+    }), /*#__PURE__*/jsx("span", {
+      className: "flex-1 text-left truncate",
+      children: children
+    }), shortcut && /*#__PURE__*/jsx("kbd", {
+      className: "flex-shrink-0 text-xs opacity-40 font-mono",
+      children: shortcut
+    })]
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var CommandPalette = function CommandPalette(_ref3) {
+  var isOpen = _ref3.isOpen,
+    setIsOpen = _ref3.setIsOpen,
+    _ref3$placeholder = _ref3.placeholder,
+    placeholder = _ref3$placeholder === void 0 ? "Search commands..." : _ref3$placeholder,
+    _ref3$children = _ref3.children,
+    children = _ref3$children === void 0 ? null : _ref3$children,
+    _ref3$onQueryChange = _ref3.onQueryChange,
+    onQueryChange = _ref3$onQueryChange === void 0 ? null : _ref3$onQueryChange,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  var _useState = useState(""),
+    _useState2 = _slicedToArray$1(_useState, 2),
+    query = _useState2[0],
+    setQuery = _useState2[1];
+  var inputRef = useRef(null);
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.COMMAND_PALETTE, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var inputStyles = getStylesForItem(themeObjects.COMMAND_PALETTE_INPUT, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var handleQueryChange = useCallback(function (value) {
+    setQuery(value);
+    if (onQueryChange) {
+      onQueryChange(value);
+    }
+  }, [onQueryChange]);
+  useEffect(function () {
+    if (!isOpen) {
+      setQuery("");
+    }
+  }, [isOpen]);
+  useEffect(function () {
+    var handleKeyDown = function handleKeyDown(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setIsOpen(function (prev) {
+          return !prev;
+        });
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return function () {
+      return document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [setIsOpen]);
+  return /*#__PURE__*/jsxs(Dialog, {
+    open: isOpen,
+    onClose: function onClose() {
+      return setIsOpen(false);
+    },
+    className: "relative z-50",
+    initialFocus: inputRef,
+    children: [/*#__PURE__*/jsx("div", {
+      className: "fixed inset-0 bg-black/60 backdrop-blur-sm",
+      "aria-hidden": "true"
+    }), /*#__PURE__*/jsx("div", {
+      className: "fixed inset-0 flex items-start justify-center pt-[20vh]",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "w-full max-w-lg border overflow-clip ".concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.borderRadius || "rounded-xl", " ").concat(styles.shadow || "shadow-2xl", " ").concat(className),
+        children: [/*#__PURE__*/jsxs("div", {
+          className: "flex items-center px-4 border-b ".concat(inputStyles.borderColor || ""),
+          children: [/*#__PURE__*/jsx("svg", {
+            className: "h-4 w-4 flex-shrink-0 ".concat(inputStyles.textColor || "", " opacity-40"),
+            fill: "none",
+            viewBox: "0 0 24 24",
+            stroke: "currentColor",
+            strokeWidth: 2,
+            children: /*#__PURE__*/jsx("path", {
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            })
+          }), /*#__PURE__*/jsx("input", {
+            ref: inputRef,
+            type: "text",
+            value: query,
+            onChange: function onChange(e) {
+              return handleQueryChange(e.target.value);
+            },
+            placeholder: placeholder,
+            className: "w-full bg-transparent border-none outline-none px-3 py-3 ".concat(inputStyles.textSize || "text-base", " ").concat(inputStyles.textColor || "", " placeholder:opacity-40")
+          }), /*#__PURE__*/jsx("kbd", {
+            className: "flex-shrink-0 text-xs opacity-30 border px-1.5 py-0.5 rounded ".concat(styles.borderColor || "", " ").concat(styles.textColor || ""),
+            children: "esc"
+          })]
+        }), /*#__PURE__*/jsx("div", {
+          className: "max-h-72 overflow-y-auto p-2 space-y-2 scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent",
+          children: children
+        })]
+      })
+    })]
+  });
+};
+CommandPalette.Group = CommandPaletteGroup;
+CommandPalette.Item = CommandPaletteItem;
+
+var StepperStep = function StepperStep(_ref) {
+  _ref.label;
+    _ref.description;
+    _ref.children;
+    _ref._index;
+    _ref._active;
+    _ref._completed;
+  // children are rendered by root component, not here
+  return null;
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var Stepper = function Stepper(_ref2) {
+  var _ref2$activeStep = _ref2.activeStep,
+    activeStep = _ref2$activeStep === void 0 ? 0 : _ref2$activeStep,
+    _ref2$onStepChange = _ref2.onStepChange,
+    onStepChange = _ref2$onStepChange === void 0 ? null : _ref2$onStepChange,
+    children = _ref2.children,
+    _ref2$showNavigation = _ref2.showNavigation,
+    showNavigation = _ref2$showNavigation === void 0 ? true : _ref2$showNavigation,
+    _ref2$completeLabel = _ref2.completeLabel,
+    completeLabel = _ref2$completeLabel === void 0 ? "Complete" : _ref2$completeLabel,
+    _ref2$nextLabel = _ref2.nextLabel,
+    nextLabel = _ref2$nextLabel === void 0 ? "Next" : _ref2$nextLabel,
+    _ref2$backLabel = _ref2.backLabel,
+    backLabel = _ref2$backLabel === void 0 ? "Back" : _ref2$backLabel,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var stepStyles = getStylesForItem(themeObjects.STEPPER_STEP, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var connectorStyles = getStylesForItem(themeObjects.STEPPER_CONNECTOR, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var steps = Children.toArray(children).filter(function (child) {
+    return child.type === StepperStep;
+  });
+  var totalSteps = steps.length;
+  var goNext = function goNext() {
+    if (onStepChange && activeStep < totalSteps - 1) {
+      onStepChange(activeStep + 1);
+    }
+  };
+  var goBack = function goBack() {
+    if (onStepChange && activeStep > 0) {
+      onStepChange(activeStep - 1);
+    }
+  };
+  var goTo = function goTo(index) {
+    if (onStepChange && index <= activeStep) {
+      onStepChange(index);
+    }
+  };
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-col ".concat(className),
+    children: [/*#__PURE__*/jsx("div", {
+      className: "flex flex-row items-center mb-6",
+      children: steps.map(function (step, i) {
+        var isActive = i === activeStep;
+        var isCompleted = i < activeStep;
+        return /*#__PURE__*/jsxs("div", {
+          className: "flex flex-row items-center flex-1 last:flex-none",
+          children: [/*#__PURE__*/jsx("button", {
+            type: "button",
+            onClick: function onClick() {
+              return goTo(i);
+            },
+            disabled: i > activeStep,
+            className: "flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full text-sm font-medium ".concat(stepStyles.transition || "transition-colors duration-200", " ").concat(isCompleted ? "".concat(stepStyles.activeBackgroundColor || "", " ").concat(stepStyles.activeTextColor || "") : isActive ? "".concat(stepStyles.activeBackgroundColor || "", " ").concat(stepStyles.activeTextColor || "", " ring-2 ring-offset-2 ring-offset-transparent ").concat(stepStyles.activeBackgroundColor || "") : "".concat(stepStyles.backgroundColor || "", " ").concat(stepStyles.textColor || "", " opacity-50"), " ").concat(i <= activeStep ? "cursor-pointer" : "cursor-default"),
+            children: isCompleted ? /*#__PURE__*/jsx("svg", {
+              className: "h-4 w-4",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              stroke: "currentColor",
+              strokeWidth: 2.5,
+              children: /*#__PURE__*/jsx("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                d: "M5 13l4 4L19 7"
+              })
+            }) : i + 1
+          }), /*#__PURE__*/jsxs("div", {
+            className: "flex flex-col ml-2 min-w-0",
+            children: [/*#__PURE__*/jsx("span", {
+              className: "text-sm font-medium truncate ".concat(isActive || isCompleted ? stepStyles.activeTextColor || "" : "".concat(stepStyles.textColor || "", " opacity-50")),
+              children: step.props.label
+            }), step.props.description && /*#__PURE__*/jsx("span", {
+              className: "text-xs truncate ".concat(stepStyles.textColor || "", " opacity-40"),
+              children: step.props.description
+            })]
+          }), i < totalSteps - 1 && /*#__PURE__*/jsx("div", {
+            className: "flex-1 h-px mx-4 ".concat(i < activeStep ? connectorStyles.activeBackgroundColor || "" : "".concat(connectorStyles.backgroundColor || "", " opacity-30"))
+          })]
+        }, i);
+      })
+    }), /*#__PURE__*/jsx("div", {
+      className: "flex-1",
+      children: steps[activeStep] ? steps[activeStep].props.children : null
+    }), showNavigation && /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row justify-between items-center mt-6 pt-4 border-t border-current/10",
+      children: [/*#__PURE__*/jsx(Button3, {
+        title: backLabel,
+        onClick: goBack,
+        disabled: activeStep === 0
+      }), /*#__PURE__*/jsxs("span", {
+        className: "text-xs opacity-40",
+        children: ["Step ", activeStep + 1, " of ", totalSteps]
+      }), /*#__PURE__*/jsx(Button2, {
+        title: activeStep === totalSteps - 1 ? completeLabel : nextLabel,
+        onClick: goNext,
+        disabled: activeStep >= totalSteps - 1 && !onStepChange
+      })]
+    })]
+  });
+};
+Stepper.Step = StepperStep;
+
+var DataListItem = function DataListItem(_ref) {
+  var label = _ref.label,
+    _ref$value = _ref.value,
+    value = _ref$value === void 0 ? null : _ref$value,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? null : _ref$children,
+    _ref$divider = _ref.divider,
+    divider = _ref$divider === void 0 ? true : _ref$divider,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.DATA_LIST_ITEM, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsxs("div", {
+    className: "flex flex-row items-start justify-between gap-4 ".concat(styles.spacing || "py-2.5", " ").concat(divider ? "border-b ".concat(styles.borderColor || "") : "", " last:border-b-0 ").concat(className),
+    children: [/*#__PURE__*/jsx("dt", {
+      className: "flex-shrink-0 text-sm ".concat(styles.textColor || "", " opacity-60"),
+      children: label
+    }), /*#__PURE__*/jsx("dd", {
+      className: "text-sm text-right ".concat(styles.textColor || ""),
+      children: children || value
+    })]
+  });
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var DataList = function DataList(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.DATA_LIST, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("dl", {
+    className: "flex flex-col ".concat(styles.textColor || "", " ").concat(className),
+    children: children
+  });
+};
+DataList.Item = DataListItem;
+
+var DrawerHeader = function DrawerHeader(_ref) {
+  var children = _ref.children,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.DRAWER_HEADER, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row items-center justify-between flex-shrink-0 ".concat(styles.spacing || "px-4 py-3", " border-b ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(className),
+    children: children
+  });
+};
+var DrawerBody = function DrawerBody(_ref2) {
+  var children = _ref2.children,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className;
+  return /*#__PURE__*/jsx("div", {
+    className: "flex-1 overflow-y-auto p-4 scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent ".concat(className),
+    children: children
+  });
+};
+var DrawerFooter = function DrawerFooter(_ref3) {
+  var children = _ref3.children,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className;
+  var _useContext2 = useContext(ThemeContext),
+    currentTheme = _useContext2.currentTheme;
+  var styles = getStylesForItem(themeObjects.DRAWER_FOOTER, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row items-center justify-end flex-shrink-0 ".concat(styles.spacing || "px-4 py-3", " border-t ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " gap-2 ").concat(className),
+    children: children
+  });
+};
+var DrawerCloseButton = function DrawerCloseButton(_ref4) {
+  var onClick = _ref4.onClick,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className;
+  return /*#__PURE__*/jsx(ButtonIcon2, {
+    icon: "xmark",
+    onClick: onClick,
+    ariaLabel: "Close drawer",
+    className: "opacity-60 hover:opacity-100 ".concat(className)
+  });
+};
+
+// ─── Size Map ───────────────────────────────────────────────────────────────────
+
+var sizeMap = {
+  sm: "max-w-sm",
+  md: "max-w-md",
+  lg: "max-w-2xl",
+  xl: "max-w-4xl",
+  full: "max-w-full"
+};
+
+// ─── Root Component ─────────────────────────────────────────────────────────────
+
+var Drawer = function Drawer(_ref5) {
+  var isOpen = _ref5.isOpen,
+    setIsOpen = _ref5.setIsOpen,
+    _ref5$side = _ref5.side,
+    side = _ref5$side === void 0 ? "right" : _ref5$side,
+    _ref5$size = _ref5.size,
+    size = _ref5$size === void 0 ? "md" : _ref5$size,
+    children = _ref5.children,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
+  var _useContext3 = useContext(ThemeContext),
+    currentTheme = _useContext3.currentTheme;
+  var styles = getStylesForItem(themeObjects.DRAWER, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var sizeClass = sizeMap[size] || sizeMap.md;
+  var isLeft = side === "left";
+  var positionClass = isLeft ? "inset-y-0 left-0 flex" : "inset-y-0 right-0 flex justify-end";
+  var enterFrom = isLeft ? "-translate-x-full" : "translate-x-full";
+  var leaveTo = isLeft ? "-translate-x-full" : "translate-x-full";
+  return /*#__PURE__*/jsx(Transition.Root, {
+    show: isOpen,
+    as: Fragment,
+    children: /*#__PURE__*/jsxs(Dialog, {
+      as: "div",
+      className: "relative z-50",
+      onClose: function onClose() {
+        return setIsOpen(false);
+      },
+      children: [/*#__PURE__*/jsx(Transition.Child, {
+        as: Fragment,
+        enter: "ease-in-out duration-300",
+        enterFrom: "opacity-0",
+        enterTo: "opacity-100",
+        leave: "ease-in-out duration-300",
+        leaveFrom: "opacity-100",
+        leaveTo: "opacity-0",
+        children: /*#__PURE__*/jsx("div", {
+          className: "fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity",
+          "aria-hidden": "true"
+        })
+      }), /*#__PURE__*/jsx("div", {
+        className: "fixed ".concat(positionClass),
+        children: /*#__PURE__*/jsx(Transition.Child, {
+          as: Fragment,
+          enter: "transform transition ease-in-out duration-300",
+          enterFrom: enterFrom,
+          enterTo: "translate-x-0",
+          leave: "transform transition ease-in-out duration-300",
+          leaveFrom: "translate-x-0",
+          leaveTo: leaveTo,
+          children: /*#__PURE__*/jsx(Dialog.Panel, {
+            className: "w-screen ".concat(sizeClass, " ").concat(className),
+            children: /*#__PURE__*/jsx("div", {
+              className: "flex flex-col h-full ".concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(styles.shadow || "shadow-xl", " ").concat(isLeft ? "border-r" : "border-l"),
+              children: children
+            })
+          })
+        })
+      })]
+    })
+  });
+};
+Drawer.Header = DrawerHeader;
+Drawer.Body = DrawerBody;
+Drawer.Footer = DrawerFooter;
+Drawer.CloseButton = DrawerCloseButton;
+
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var Tooltip = function Tooltip(_ref) {
+  var content = _ref.content,
+    children = _ref.children,
+    _ref$side = _ref.side,
+    side = _ref$side === void 0 ? "top" : _ref$side,
+    _ref$delay = _ref.delay,
+    delay = _ref$delay === void 0 ? 200 : _ref$delay,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useState = useState(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    visible = _useState2[0],
+    setVisible = _useState2[1];
+  var timeoutRef = useRef(null);
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var styles = getStylesForItem(themeObjects.TOOLTIP, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var show = useCallback(function () {
+    timeoutRef.current = setTimeout(function () {
+      return setVisible(true);
+    }, delay);
+  }, [delay]);
+  var hide = useCallback(function () {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setVisible(false);
+  }, []);
+  var positionClasses = {
+    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
+    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
+    left: "right-full top-1/2 -translate-y-1/2 mr-2",
+    right: "left-full top-1/2 -translate-y-1/2 ml-2"
+  };
+  var arrowClasses = {
+    top: "top-full left-1/2 -translate-x-1/2 border-t-current border-x-transparent border-b-transparent",
+    bottom: "bottom-full left-1/2 -translate-x-1/2 border-b-current border-x-transparent border-t-transparent",
+    left: "left-full top-1/2 -translate-y-1/2 border-l-current border-y-transparent border-r-transparent",
+    right: "right-full top-1/2 -translate-y-1/2 border-r-current border-y-transparent border-l-transparent"
+  };
+  return /*#__PURE__*/jsxs("span", {
+    className: "relative inline-flex",
+    onMouseEnter: show,
+    onMouseLeave: hide,
+    onFocus: show,
+    onBlur: hide,
+    children: [children, visible && content && /*#__PURE__*/jsxs("span", {
+      role: "tooltip",
+      className: "absolute z-50 ".concat(positionClasses[side], " pointer-events-none whitespace-nowrap ").concat(styles.backgroundColor || "", " ").concat(styles.textColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.textSize || "text-xs", " ").concat(styles.shadow || "shadow-lg", " ").concat(styles.spacing || "px-2.5 py-1.5", " ").concat(className),
+      children: [content, /*#__PURE__*/jsx("span", {
+        className: "absolute w-0 h-0 border-4 ".concat(arrowClasses[side]),
+        style: {
+          borderColor: "inherit"
+        }
+      })]
+    })]
+  });
 };
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -5100,7 +7533,7 @@ var MockWrapper = function MockWrapper(_ref) {
     children: /*#__PURE__*/jsx("div", {
       style: {
         padding: "20px",
-        backgroundColor: "#f5f5f5"
+        backgroundColor: variant === "dark" ? "#0a0a0a" : "#fafafa"
       },
       children: children
     })
@@ -5116,5 +7549,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Card, Card2, Card3, Checkbox, CodeEditorInline, CodeEditorVS, CodeRenderer, Container, DashPanel, DashPanel2, DashPanel3, DragComponent, DropComponent, ErrorMessage, FormLabel, Heading, Heading2, Heading3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, SearchInput, SelectInput, SelectMenu, Slider, SubHeading, SubHeading2, SubHeading3, Switch, Table, Table2, Table3, Tag, Tag2, Tag3, TextArea, ThemeContext, Toast, Toast2, Toast3, Toggle, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Card, Card2, Card3, Checkbox, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, DragComponent, Drawer, DropComponent, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, SearchInput, SelectInput, SelectMenu, SettingsModal, Sidebar, Skeleton, Slider, StatCard, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useSidebar, withRouter };
 //# sourceMappingURL=index.js.map

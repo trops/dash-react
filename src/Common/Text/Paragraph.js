@@ -8,7 +8,7 @@ function Paragraph({
     padding = "p-6",
     onClick = null,
     scrollable = false,
-    className = "text-base xl:text-lg font-normal p-4",
+    className = "",
     grow = false,
     space = false,
     height = "",
@@ -30,7 +30,7 @@ function Paragraph({
 
     return (
         <LayoutContainer
-            className={`${styles.string}`}
+            className={`${styles.textSize || "text-base"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
@@ -50,7 +50,7 @@ function Paragraph2({
     padding = true,
     onClick = null,
     scrollable = false,
-    className = "text-sm xl:text-base font-normal p-2",
+    className = "",
     grow = false,
     space = false,
     height = "",
@@ -69,7 +69,7 @@ function Paragraph2({
 
     return (
         <LayoutContainer
-            className={`${className} ${styles.string}`}
+            className={`${styles.textSize || "text-sm"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
@@ -89,7 +89,7 @@ function Paragraph3({
     scrollable = false,
     grow = false,
     space = false,
-    className = "text-xs xl:text-sm font-normal p-2",
+    className = "",
     height = "",
     width = "w-full",
     ...props
@@ -107,7 +107,7 @@ function Paragraph3({
 
     return (
         <LayoutContainer
-            className={`${styles.string} ${className}`}
+            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}

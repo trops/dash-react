@@ -39,3 +39,8 @@ export * from "./DashPanel";
 export * from "./Draggable";
 
 export * from "./Menu";
+
+export * from "./Tabs";
+export * from "./Accordion";
+
+export * from "./Composites";

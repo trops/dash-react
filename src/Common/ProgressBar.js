@@ -37,7 +37,7 @@ const ProgressBarBase = ({
                 className={`w-full ${heightClass} rounded-full overflow-hidden ${styles.backgroundColor} ${styles.borderColor}`}
             >
                 <div
-                    className={`${heightClass} ${fillClass} ${
+                    className={`${heightClass} ${fillClass} transition-all duration-500 ease-out ${
                         striped
                             ? "bg-gradient-to-r from-transparent via-white/20 to-transparent"
                             : ""

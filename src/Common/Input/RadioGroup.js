@@ -51,7 +51,7 @@ const RadioGroup = ({
                         onChange={(event) =>
                             onChange(event.target.value, event)
                         }
-                        className={`h-4 w-4 ${styles.borderColor} ${styles.backgroundColor}`}
+                        className={`h-4 w-4 ${styles.borderColor} ${styles.backgroundColor} focus-visible:ring-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
                     />
                     <span className={`text-sm ${labelStyles.textColor}`}>
                         {option.label}
