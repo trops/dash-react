@@ -85,7 +85,7 @@ const TabsTrigger = ({
             onClick={() => !disabled && setActiveTab(value)}
             className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${
                 isActive
-                    ? "bg-white shadow-sm text-foreground"
+                    ? `${styles.activeBackgroundColor || "bg-white"} shadow-sm ${styles.activeTextColor || "text-foreground"}`
                     : `${styles.textColor || ""} ${styles.hoverTextColor || ""}`
             } ${disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer"} ${className}`}
         >
@@ -191,7 +191,7 @@ const TabsTrigger2 = ({
             onClick={() => !disabled && setActiveTab(value)}
             className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
-                    ? "bg-white shadow-sm text-foreground"
+                    ? `${styles.activeBackgroundColor || "bg-white"} shadow-sm ${styles.activeTextColor || "text-foreground"}`
                     : `${styles.textColor || ""} ${styles.hoverTextColor || ""}`
             } ${disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer"} ${className}`}
         >
@@ -297,7 +297,7 @@ const TabsTrigger3 = ({
             onClick={() => !disabled && setActiveTab(value)}
             className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
-                    ? "bg-white shadow-sm text-foreground"
+                    ? `${styles.activeBackgroundColor || "bg-white"} shadow-sm ${styles.activeTextColor || "text-foreground"}`
                     : `${styles.textColor || ""} ${styles.hoverTextColor || ""}`
             } ${disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer"} ${className}`}
         >

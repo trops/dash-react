@@ -714,6 +714,8 @@ const colorMap = {
         [styleClassNames.TRANSITION]: "transition-all duration-150",
         [styleClassNames.FONT_WEIGHT]: "font-medium",
         [styleClassNames.FOCUS_RING_COLOR]: "ring-primary-medium",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-primary-dark",
+        [styleClassNames.ACTIVE_TEXT_COLOR]: "text-primary-light",
         [styleClassNames.CURSOR]: "cursor-pointer",
     },
     [themeObjects.TABS_TRIGGER_2]: {
@@ -724,6 +726,8 @@ const colorMap = {
         [styleClassNames.TEXT_SIZE]: "text-sm",
         [styleClassNames.TRANSITION]: "transition-all duration-150",
         [styleClassNames.FONT_WEIGHT]: "font-medium",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-secondary-dark",
+        [styleClassNames.ACTIVE_TEXT_COLOR]: "text-secondary-light",
         [styleClassNames.CURSOR]: "cursor-pointer",
     },
     [themeObjects.TABS_TRIGGER_3]: {
@@ -734,6 +738,8 @@ const colorMap = {
         [styleClassNames.TEXT_SIZE]: "text-xs",
         [styleClassNames.TRANSITION]: "transition-all duration-150",
         [styleClassNames.FONT_WEIGHT]: "font-medium",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-tertiary-dark",
+        [styleClassNames.ACTIVE_TEXT_COLOR]: "text-tertiary-light",
         [styleClassNames.CURSOR]: "cursor-pointer",
     },
     [themeObjects.TABS_CONTENT]: {
