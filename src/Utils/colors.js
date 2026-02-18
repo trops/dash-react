@@ -944,6 +944,10 @@ const colorMap = {
         [styleClassNames.SHADOW]: "shadow-lg",
         [styleClassNames.SPACING]: "px-2.5 py-1.5",
     },
+    [themeObjects.SCROLLBAR]: {
+        scrollbarThumb: "scrollbar-thumb-gray-700",
+        scrollbarTrack: "scrollbar-track-transparent",
+    },
     [themeObjects.WIDGET]: {},
     [themeObjects.WORKSPACE]: {},
     [themeObjects.LAYOUT_CONTAINER]: {},
@@ -1191,10 +1195,21 @@ const getStylesForItem = (
                     ? "flex-shrink"
                     : "flex-grow";
 
+            // Resolve scrollbar colors from theme or defaults
+            const scrollbarDefaults = colorMap[themeObjects.SCROLLBAR] || {};
+            const scrollbarThemeOverrides =
+                (theme && theme[themeObjects.SCROLLBAR]) || {};
+            const scrollbarThumb =
+                scrollbarThemeOverrides.scrollbarThumb ||
+                scrollbarDefaults.scrollbarThumb;
+            const scrollbarTrack =
+                scrollbarThemeOverrides.scrollbarTrack ||
+                scrollbarDefaults.scrollbarTrack;
+
             const scrollbarStyles =
                 "scrollable" in prioritizedStyles &&
                 prioritizedStyles["scrollable"] === true
-                    ? `overflow-y-scroll scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800 ${grow}`
+                    ? `overflow-y-scroll scrollbar ${scrollbarThumb} scrollbar-thin ${scrollbarTrack} ${grow}`
                     : ` ${grow} mr-0`;
 
             const hasChildren =

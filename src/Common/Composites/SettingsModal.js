@@ -51,7 +51,7 @@ const SettingsModalBody = ({
     scrollable = true,
 }) => {
     const scrollClasses = scrollable
-        ? "overflow-y-auto scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-gray-800"
+        ? "overflow-y-auto scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent"
         : "";
 
     return (

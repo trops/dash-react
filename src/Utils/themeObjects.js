@@ -156,6 +156,7 @@ const DRAWER = "drawer";
 const DRAWER_HEADER = "drawer-header";
 const DRAWER_FOOTER = "drawer-footer";
 const TOOLTIP = "tooltip";
+const SCROLLBAR = "scrollbar";
 
 const WIDGET = "widget";
 const WORKSPACE = "workspace";
@@ -285,6 +286,7 @@ const themeObjects = {
     DRAWER_HEADER,
     DRAWER_FOOTER,
     TOOLTIP,
+    SCROLLBAR,
     WIDGET,
     WORKSPACE,
     LAYOUT_CONTAINER,

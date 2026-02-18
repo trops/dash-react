@@ -43,7 +43,7 @@ export default function SlidePanelOverlay({
                             leaveTo="translate-x-full"
                         >
                             <div className="pointer-events-auto w-screen max-w-2xl xl:max-w-3xl overflow-clip">
-                                <div className="flex h-full flex-col shadow-xl bg-gray-900 scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-900 overflow-clip">
+                                <div className="flex h-full flex-col shadow-xl bg-gray-900 scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent overflow-clip">
                                     {title !== null && (
                                         <div className="px-4 sm:px-6 py-6">
                                             <div className="flex items-start justify-between px-2">
