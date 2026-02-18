@@ -72,6 +72,7 @@ const CommandPalette = ({
 }) => {
     const [query, setQuery] = useState("");
     const inputRef = useRef(null);
+    const panelRef = useRef(null);
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(
         themeObjects.COMMAND_PALETTE,
@@ -122,8 +123,13 @@ const CommandPalette = ({
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm"
                 aria-hidden="true"
             />
-            <div className="fixed inset-0 flex items-start justify-center pt-[20vh]">
+            <div
+                className="fixed inset-0 flex items-start justify-center pt-[20vh]"
+                onMouseDown={() => setIsOpen(false)}
+            >
                 <div
+                    ref={panelRef}
+                    onMouseDown={(e) => e.stopPropagation()}
                     className={`w-full max-w-lg border overflow-clip ${styles.backgroundColor || ""} ${styles.borderColor || ""} ${styles.borderRadius || "rounded-xl"} ${styles.shadow || "shadow-2xl"} ${className}`}
                 >
                     {/* Search input */}
