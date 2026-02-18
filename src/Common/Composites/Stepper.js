@@ -143,7 +143,7 @@ const Stepper = ({
             </div>
 
             {/* Step content */}
-            <div className="flex-1">
+            <div className="flex-1 min-h-0">
                 {steps[activeStep] ? steps[activeStep].props.children : null}
             </div>
 
