@@ -24,6 +24,7 @@ const Tabs = ({
     backgroundColor = null,
     textColor = null,
     borderColor = null,
+    border = false,
     ...props
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
@@ -50,7 +51,11 @@ const Tabs = ({
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-            <div className={`${styles.string} ${className}`}>{children}</div>
+            <div
+                className={`${styles.string} ${border === true ? "border" : ""} ${className}`}
+            >
+                {children}
+            </div>
         </TabsContext.Provider>
     );
 };
@@ -144,6 +149,7 @@ const Tabs2 = ({
     backgroundColor = null,
     textColor = null,
     borderColor = null,
+    border = false,
     ...props
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
@@ -170,7 +176,11 @@ const Tabs2 = ({
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-            <div className={`${styles.string} ${className}`}>{children}</div>
+            <div
+                className={`${styles.string} ${border === true ? "border" : ""} ${className}`}
+            >
+                {children}
+            </div>
         </TabsContext.Provider>
     );
 };
@@ -264,6 +274,7 @@ const Tabs3 = ({
     backgroundColor = null,
     textColor = null,
     borderColor = null,
+    border = false,
     ...props
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
@@ -290,7 +301,11 @@ const Tabs3 = ({
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-            <div className={`${styles.string} ${className}`}>{children}</div>
+            <div
+                className={`${styles.string} ${border === true ? "border" : ""} ${className}`}
+            >
+                {children}
+            </div>
         </TabsContext.Provider>
     );
 };

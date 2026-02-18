@@ -488,7 +488,7 @@ var getStylesForItem = function getStylesForItem() {
       // get the colors from the theme by default
       // this is a MAP like "bg-primary-dark" which needs to
       // fetch its value from the actual theme based on this key mapping
-      var defaultStyles = itemName in colorMap ? colorMap[itemName] : null;
+      var defaultStyles = itemName in colorMap ? _objectSpread$w({}, colorMap[itemName]) : null;
 
       // Apply size-specific overrides if component supports sizing
       // This merges size-aware design tokens (spacing, text size, icon size)
@@ -5167,15 +5167,15 @@ var Menu3 = function Menu3(_ref3) {
 };
 
 function _typeof$2(o) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$2(o); }
-var _excluded$1 = ["defaultValue", "value", "onValueChange", "children", "className", "backgroundColor", "textColor", "borderColor"],
+var _excluded$1 = ["defaultValue", "value", "onValueChange", "children", "className", "backgroundColor", "textColor", "borderColor", "border"],
   _excluded2$1 = ["children", "className"],
   _excluded3$1 = ["value", "children", "className", "disabled"],
   _excluded4$1 = ["value", "children", "className"],
-  _excluded5$1 = ["defaultValue", "value", "onValueChange", "children", "className", "backgroundColor", "textColor", "borderColor"],
+  _excluded5$1 = ["defaultValue", "value", "onValueChange", "children", "className", "backgroundColor", "textColor", "borderColor", "border"],
   _excluded6$1 = ["children", "className"],
   _excluded7$1 = ["value", "children", "className", "disabled"],
   _excluded8$1 = ["value", "children", "className"],
-  _excluded9$1 = ["defaultValue", "value", "onValueChange", "children", "className", "backgroundColor", "textColor", "borderColor"],
+  _excluded9$1 = ["defaultValue", "value", "onValueChange", "children", "className", "backgroundColor", "textColor", "borderColor", "border"],
   _excluded0 = ["children", "className"],
   _excluded1 = ["value", "children", "className", "disabled"],
   _excluded10 = ["value", "children", "className"];
@@ -5215,6 +5215,8 @@ var Tabs = function Tabs(_ref) {
     textColor = _ref$textColor === void 0 ? null : _ref$textColor,
     _ref$borderColor = _ref.borderColor,
     borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
+    _ref$border = _ref.border,
+    border = _ref$border === void 0 ? false : _ref$border,
     props = _objectWithoutProperties$1(_ref, _excluded$1);
   var _useState = useState(defaultValue),
     _useState2 = _slicedToArray$5(_useState, 2),
@@ -5245,7 +5247,7 @@ var Tabs = function Tabs(_ref) {
       setActiveTab: setActiveTab
     },
     children: /*#__PURE__*/jsx("div", {
-      className: "".concat(styles.string, " ").concat(className),
+      className: "".concat(styles.string, " ").concat(border === true ? "border" : "", " ").concat(className),
       children: children
     })
   });
@@ -5340,6 +5342,8 @@ var Tabs2 = function Tabs2(_ref5) {
     textColor = _ref5$textColor === void 0 ? null : _ref5$textColor,
     _ref5$borderColor = _ref5.borderColor,
     borderColor = _ref5$borderColor === void 0 ? null : _ref5$borderColor,
+    _ref5$border = _ref5.border,
+    border = _ref5$border === void 0 ? false : _ref5$border,
     props = _objectWithoutProperties$1(_ref5, _excluded5$1);
   var _useState3 = useState(defaultValue),
     _useState4 = _slicedToArray$5(_useState3, 2),
@@ -5370,7 +5374,7 @@ var Tabs2 = function Tabs2(_ref5) {
       setActiveTab: setActiveTab
     },
     children: /*#__PURE__*/jsx("div", {
-      className: "".concat(styles.string, " ").concat(className),
+      className: "".concat(styles.string, " ").concat(border === true ? "border" : "", " ").concat(className),
       children: children
     })
   });
@@ -5465,6 +5469,8 @@ var Tabs3 = function Tabs3(_ref9) {
     textColor = _ref9$textColor === void 0 ? null : _ref9$textColor,
     _ref9$borderColor = _ref9.borderColor,
     borderColor = _ref9$borderColor === void 0 ? null : _ref9$borderColor,
+    _ref9$border = _ref9.border,
+    border = _ref9$border === void 0 ? false : _ref9$border,
     props = _objectWithoutProperties$1(_ref9, _excluded9$1);
   var _useState5 = useState(defaultValue),
     _useState6 = _slicedToArray$5(_useState5, 2),
@@ -5495,7 +5501,7 @@ var Tabs3 = function Tabs3(_ref9) {
       setActiveTab: setActiveTab
     },
     children: /*#__PURE__*/jsx("div", {
-      className: "".concat(styles.string, " ").concat(className),
+      className: "".concat(styles.string, " ").concat(border === true ? "border" : "", " ").concat(className),
       children: children
     })
   });

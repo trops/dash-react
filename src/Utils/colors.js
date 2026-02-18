@@ -1154,7 +1154,7 @@ const getStylesForItem = (
             // this is a MAP like "bg-primary-dark" which needs to
             // fetch its value from the actual theme based on this key mapping
             let defaultStyles =
-                itemName in colorMap ? colorMap[itemName] : null;
+                itemName in colorMap ? { ...colorMap[itemName] } : null;
 
             // Apply size-specific overrides if component supports sizing
             // This merges size-aware design tokens (spacing, text size, icon size)
