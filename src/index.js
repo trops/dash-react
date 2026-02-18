@@ -209,7 +209,7 @@ library.add(
     faShield,
     faClock,
     faCalendar,
-    faLink,
+    faLink
 );
 
 export * from "./Common";
