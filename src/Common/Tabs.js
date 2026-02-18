@@ -21,9 +21,23 @@ const Tabs = ({
     onValueChange = null,
     children,
     className = "",
+    backgroundColor = null,
+    textColor = null,
+    borderColor = null,
+    ...props
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
+    const { currentTheme } = useContext(ThemeContext);
     const activeTab = value !== undefined ? value : internalValue;
+
+    const styles = getStylesForItem(themeObjects.TABS, currentTheme, {
+        backgroundColor,
+        textColor,
+        borderColor,
+        ...props,
+        scrollable: false,
+        grow: false,
+    });
 
     const setActiveTab = (val) => {
         if (value === undefined) {
@@ -36,7 +50,7 @@ const Tabs = ({
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-            <div className={className}>{children}</div>
+            <div className={`${styles.string} ${className}`}>{children}</div>
         </TabsContext.Provider>
     );
 };
@@ -127,9 +141,23 @@ const Tabs2 = ({
     onValueChange = null,
     children,
     className = "",
+    backgroundColor = null,
+    textColor = null,
+    borderColor = null,
+    ...props
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
+    const { currentTheme } = useContext(ThemeContext);
     const activeTab = value !== undefined ? value : internalValue;
+
+    const styles = getStylesForItem(themeObjects.TABS_2, currentTheme, {
+        backgroundColor,
+        textColor,
+        borderColor,
+        ...props,
+        scrollable: false,
+        grow: false,
+    });
 
     const setActiveTab = (val) => {
         if (value === undefined) {
@@ -142,7 +170,7 @@ const Tabs2 = ({
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-            <div className={className}>{children}</div>
+            <div className={`${styles.string} ${className}`}>{children}</div>
         </TabsContext.Provider>
     );
 };
@@ -233,9 +261,23 @@ const Tabs3 = ({
     onValueChange = null,
     children,
     className = "",
+    backgroundColor = null,
+    textColor = null,
+    borderColor = null,
+    ...props
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
+    const { currentTheme } = useContext(ThemeContext);
     const activeTab = value !== undefined ? value : internalValue;
+
+    const styles = getStylesForItem(themeObjects.TABS_3, currentTheme, {
+        backgroundColor,
+        textColor,
+        borderColor,
+        ...props,
+        scrollable: false,
+        grow: false,
+    });
 
     const setActiveTab = (val) => {
         if (value === undefined) {
@@ -248,7 +290,7 @@ const Tabs3 = ({
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-            <div className={className}>{children}</div>
+            <div className={`${styles.string} ${className}`}>{children}</div>
         </TabsContext.Provider>
     );
 };

@@ -687,9 +687,27 @@ const colorMap = {
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
     },
     // Tabs (v0.3.0+)
-    [themeObjects.TABS]: {},
-    [themeObjects.TABS_2]: {},
-    [themeObjects.TABS_3]: {},
+    [themeObjects.TABS]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.BORDER_RADIUS]: "rounded-lg",
+        [styleClassNames.SPACING]: "p-4",
+    },
+    [themeObjects.TABS_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.BORDER_RADIUS]: "rounded-md",
+        [styleClassNames.SPACING]: "p-3",
+    },
+    [themeObjects.TABS_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.BORDER_RADIUS]: "rounded",
+        [styleClassNames.SPACING]: "p-2",
+    },
     [themeObjects.TABS_LIST]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-dark",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
