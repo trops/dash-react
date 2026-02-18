@@ -4,7 +4,7 @@ import { getStylesForItem, themeObjects, getUUID } from "@dash/Utils";
 
 const Tag = ({
     text,
-    textSize = "text-xs",
+    textSize = "text-sm",
     onClick = null,
     className = "",
     ...props
@@ -18,7 +18,7 @@ const Tag = ({
     const stylesCalculated =
         className !== ""
             ? className
-            : `${styles.string} font-medium rounded-full border ${
+            : `${styles.string} font-medium rounded border ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
 
@@ -27,7 +27,7 @@ const Tag = ({
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-2.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-3 py-1.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
             {text}
         </span>
@@ -50,7 +50,7 @@ const Tag2 = ({
     const stylesCalculated =
         className !== ""
             ? className
-            : `${styles.string} font-medium rounded-full border ${
+            : `${styles.string} font-medium rounded border ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
 
@@ -59,7 +59,7 @@ const Tag2 = ({
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
+            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
             {text}
         </span>
@@ -82,7 +82,7 @@ const Tag3 = ({
     const stylesCalculated =
         className !== ""
             ? className
-            : `${styles.string} font-medium rounded-full border ${
+            : `${styles.string} font-normal rounded border ${
                   onClick !== null && "cursor-pointer"
               } ${textSize}`;
     const uuid = getUUID("", "tag-3");

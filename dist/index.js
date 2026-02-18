@@ -2052,7 +2052,7 @@ var Card = function Card(_ref) {
     _ref$padding = _ref.padding,
     padding = _ref$padding === void 0 ? "p-6" : _ref$padding,
     _ref$rounded = _ref.rounded,
-    rounded = _ref$rounded === void 0 ? "rounded-xl" : _ref$rounded,
+    rounded = _ref$rounded === void 0 ? "rounded-lg" : _ref$rounded,
     _ref$shadow = _ref.shadow,
     shadow = _ref$shadow === void 0 ? "shadow-sm" : _ref$shadow,
     _ref$className = _ref.className,
@@ -2083,7 +2083,7 @@ var Card2 = function Card2(_ref2) {
     _ref2$padding = _ref2.padding,
     padding = _ref2$padding === void 0 ? "p-4" : _ref2$padding,
     _ref2$rounded = _ref2.rounded,
-    rounded = _ref2$rounded === void 0 ? "rounded-lg" : _ref2$rounded,
+    rounded = _ref2$rounded === void 0 ? "rounded-md" : _ref2$rounded,
     _ref2$shadow = _ref2.shadow,
     shadow = _ref2$shadow === void 0 ? "shadow-sm" : _ref2$shadow,
     _ref2$className = _ref2.className,
@@ -2114,7 +2114,7 @@ var Card3 = function Card3(_ref3) {
     _ref3$padding = _ref3.padding,
     padding = _ref3$padding === void 0 ? "p-2" : _ref3$padding,
     _ref3$rounded = _ref3.rounded,
-    rounded = _ref3$rounded === void 0 ? "rounded-md" : _ref3$rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded" : _ref3$rounded,
     _ref3$shadow = _ref3.shadow,
     shadow = _ref3$shadow === void 0 ? "shadow-none" : _ref3$shadow,
     _ref3$className = _ref3.className,
@@ -2315,7 +2315,7 @@ var Alert = function Alert(_ref) {
   var uuid = getUUID$1("", "alert");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-lg p-4 text-base ").concat(className),
+    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 text-base ").concat(className),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -2348,7 +2348,7 @@ var Alert2 = function Alert2(props) {
   var uuid = getUUID$1("", "alert-2");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-lg p-3 text-sm ").concat(props.className || ""),
+    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-3 text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -2381,7 +2381,7 @@ var Alert3 = function Alert3(props) {
   var uuid = getUUID$1("", "alert-3");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-lg p-2 text-sm ").concat(props.className || ""),
+    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-2 text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -4081,7 +4081,7 @@ function _objectWithoutPropertiesLoose$8(r, e) { if (null == r) return {}; var t
 var Tag = function Tag(_ref) {
   var text = _ref.text,
     _ref$textSize = _ref.textSize,
-    textSize = _ref$textSize === void 0 ? "text-xs" : _ref$textSize,
+    textSize = _ref$textSize === void 0 ? "text-sm" : _ref$textSize,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$className = _ref.className,
@@ -4092,12 +4092,12 @@ var Tag = function Tag(_ref) {
   var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     grow: false
   }));
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded-full border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-3 py-1.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: text
   });
 };
@@ -4115,12 +4115,12 @@ var Tag2 = function Tag2(_ref2) {
   var styles = getStylesForItem(themeObjects.TAG_2, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     grow: false
   }));
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded-full border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag-2");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: text
   });
 };
@@ -4138,7 +4138,7 @@ var Tag3 = function Tag3(_ref3) {
   var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$8(_objectSpread$8({}, props), {}, {
     grow: false
   }));
-  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-medium rounded-full border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
+  var stylesCalculated = className !== "" ? className : "".concat(styles.string, " font-normal rounded border ").concat(onClick !== null && "cursor-pointer", " ").concat(textSize);
   var uuid = getUUID$1("", "tag-3");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
