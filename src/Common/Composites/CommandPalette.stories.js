@@ -15,7 +15,10 @@ export const Default = () => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes}>
             <div>
-                <Button2 title="Open Command Palette" onClick={() => setIsOpen(true)} />
+                <Button2
+                    title="Open Command Palette"
+                    onClick={() => setIsOpen(true)}
+                />
                 <p className="text-sm opacity-50 mt-2">
                     Or press Cmd+K / Ctrl+K
                 </p>
@@ -39,21 +42,15 @@ export const Default = () => {
                     >
                         Save Dashboard
                     </CommandPalette.Item>
-                    <CommandPalette.Item
-                        onSelect={() => setIsOpen(false)}
-                    >
+                    <CommandPalette.Item onSelect={() => setIsOpen(false)}>
                         Toggle Theme
                     </CommandPalette.Item>
                 </CommandPalette.Group>
                 <CommandPalette.Group label="Navigation">
-                    <CommandPalette.Item
-                        onSelect={() => setIsOpen(false)}
-                    >
+                    <CommandPalette.Item onSelect={() => setIsOpen(false)}>
                         Go to Settings
                     </CommandPalette.Item>
-                    <CommandPalette.Item
-                        onSelect={() => setIsOpen(false)}
-                    >
+                    <CommandPalette.Item onSelect={() => setIsOpen(false)}>
                         Go to Providers
                     </CommandPalette.Item>
                 </CommandPalette.Group>

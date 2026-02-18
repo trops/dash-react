@@ -6911,6 +6911,7 @@ var CommandPalette = function CommandPalette(_ref3) {
     query = _useState2[0],
     setQuery = _useState2[1];
   var inputRef = useRef(null);
+  var panelRef = useRef(null);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.COMMAND_PALETTE, currentTheme, {
@@ -6958,7 +6959,14 @@ var CommandPalette = function CommandPalette(_ref3) {
       "aria-hidden": "true"
     }), /*#__PURE__*/jsx("div", {
       className: "fixed inset-0 flex items-start justify-center pt-[20vh]",
+      onMouseDown: function onMouseDown() {
+        return setIsOpen(false);
+      },
       children: /*#__PURE__*/jsxs("div", {
+        ref: panelRef,
+        onMouseDown: function onMouseDown(e) {
+          return e.stopPropagation();
+        },
         className: "w-full max-w-lg border overflow-clip ".concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.borderRadius || "rounded-xl", " ").concat(styles.shadow || "shadow-2xl", " ").concat(className),
         children: [/*#__PURE__*/jsxs("div", {
           className: "flex items-center px-4 border-b ".concat(inputStyles.borderColor || ""),
