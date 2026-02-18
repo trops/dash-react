@@ -314,6 +314,9 @@ const colorMap = {
         [styleClassNames.DISABLED_OPACITY]:
             "disabled:opacity-50 disabled:pointer-events-none",
         [styleClassNames.CURSOR]: "cursor-pointer",
+        // Selected States
+        [styleClassNames.SELECTED_BACKGROUND_COLOR]: "bg-primary-dark",
+        [styleClassNames.SELECTED_TEXT_COLOR]: "text-primary-light",
     },
     [themeObjects.BUTTON_ICON_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-medium",
@@ -334,6 +337,9 @@ const colorMap = {
         [styleClassNames.DISABLED_OPACITY]:
             "disabled:opacity-50 disabled:pointer-events-none",
         [styleClassNames.CURSOR]: "cursor-pointer",
+        // Selected States
+        [styleClassNames.SELECTED_BACKGROUND_COLOR]: "bg-secondary-dark",
+        [styleClassNames.SELECTED_TEXT_COLOR]: "text-secondary-light",
     },
     [themeObjects.BUTTON_ICON_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-medium",
@@ -354,6 +360,9 @@ const colorMap = {
         [styleClassNames.DISABLED_OPACITY]:
             "disabled:opacity-50 disabled:pointer-events-none",
         [styleClassNames.CURSOR]: "cursor-pointer",
+        // Selected States
+        [styleClassNames.SELECTED_BACKGROUND_COLOR]: "bg-tertiary-dark",
+        [styleClassNames.SELECTED_TEXT_COLOR]: "text-tertiary-light",
     },
     [themeObjects.HEADING]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",

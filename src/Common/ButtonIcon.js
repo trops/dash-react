@@ -13,6 +13,9 @@ const ButtonIcon = ({
     textColor = "",
     iconSize = null,
     backgroundColor = null,
+    selected = false,
+    selectedBackgroundColor = null,
+    selectedTextColor = null,
     disabled = false,
     className = "",
     size = "md",
@@ -26,6 +29,9 @@ const ButtonIcon = ({
         {
             ...props,
             backgroundColor,
+            textColor,
+            selectedBackgroundColor,
+            selectedTextColor,
             scrollable: false,
             grow: false,
         },
@@ -38,6 +44,13 @@ const ButtonIcon = ({
     const hasIcon = icon !== "";
     const hasText = text !== "" && text !== null;
 
+    const bgColor = selected
+        ? styles.selectedBackgroundColor || styles.backgroundColor || ""
+        : styles.backgroundColor || "";
+    const txtColor = selected
+        ? styles.selectedTextColor || styles.textColor || ""
+        : styles.textColor || "";
+
     return (
         <button
             type="button"
@@ -45,7 +58,7 @@ const ButtonIcon = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
-            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-2" : ""} ${block ? "w-full" : ""} ${styles.backgroundColor || ""} ${styles.textColor || ""} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-3 py-2"} ${styles.textSize || "text-base"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
+            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-2" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-3 py-2"} ${styles.textSize || "text-base"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
@@ -63,6 +76,9 @@ const ButtonIcon2 = ({
     textSize = null,
     iconSize = null,
     backgroundColor = null,
+    selected = false,
+    selectedBackgroundColor = null,
+    selectedTextColor = null,
     disabled = false,
     className = "",
     size = "md",
@@ -76,6 +92,8 @@ const ButtonIcon2 = ({
         {
             ...props,
             backgroundColor,
+            selectedBackgroundColor,
+            selectedTextColor,
             scrollable: false,
             grow: false,
         },
@@ -88,6 +106,13 @@ const ButtonIcon2 = ({
     const hasIcon = icon !== "";
     const hasText = text !== "" && text !== null;
 
+    const bgColor = selected
+        ? styles.selectedBackgroundColor || styles.backgroundColor || ""
+        : styles.backgroundColor || "";
+    const txtColor = selected
+        ? styles.selectedTextColor || styles.textColor || ""
+        : styles.textColor || "";
+
     return (
         <button
             type="button"
@@ -95,7 +120,7 @@ const ButtonIcon2 = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
-            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1.5" : ""} ${block ? "w-full" : ""} ${styles.backgroundColor || ""} ${styles.textColor || ""} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2.5 py-1.5"} ${styles.textSize || "text-sm"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
+            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1.5" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2.5 py-1.5"} ${styles.textSize || "text-sm"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
@@ -112,6 +137,10 @@ const ButtonIcon3 = ({
     block = false,
     textSize = null,
     iconSize = null,
+    backgroundColor = null,
+    selected = false,
+    selectedBackgroundColor = null,
+    selectedTextColor = null,
     disabled = false,
     className = "",
     size = "md",
@@ -124,6 +153,9 @@ const ButtonIcon3 = ({
         currentTheme,
         {
             ...props,
+            backgroundColor,
+            selectedBackgroundColor,
+            selectedTextColor,
             scrollable: false,
             grow: false,
         },
@@ -136,6 +168,13 @@ const ButtonIcon3 = ({
     const hasIcon = icon !== "";
     const hasText = text !== "" && text !== null;
 
+    const bgColor = selected
+        ? styles.selectedBackgroundColor || styles.backgroundColor || ""
+        : styles.backgroundColor || "";
+    const txtColor = selected
+        ? styles.selectedTextColor || styles.textColor || ""
+        : styles.textColor || "";
+
     return (
         <button
             type="button"
@@ -143,7 +182,7 @@ const ButtonIcon3 = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
-            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1" : ""} ${block ? "w-full" : ""} ${styles.backgroundColor || ""} ${styles.textColor || ""} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
+            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />

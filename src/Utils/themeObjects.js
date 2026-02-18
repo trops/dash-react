@@ -318,6 +318,8 @@ const FONT_WEIGHT = "fontWeight";
 const LETTER_SPACING = "letterSpacing";
 const LINE_HEIGHT = "lineHeight";
 const CURSOR = "cursor";
+const SELECTED_BACKGROUND_COLOR = "selectedBackgroundColor";
+const SELECTED_TEXT_COLOR = "selectedTextColor";
 
 const styleClassNames = {
     BACKGROUND_COLOR,
@@ -344,6 +346,8 @@ const styleClassNames = {
     LETTER_SPACING,
     LINE_HEIGHT,
     CURSOR,
+    SELECTED_BACKGROUND_COLOR,
+    SELECTED_TEXT_COLOR,
 };
 
 export { themeObjects, styleClassNames };
