@@ -7087,7 +7087,7 @@ var Stepper = function Stepper(_ref2) {
         }, i);
       })
     }), /*#__PURE__*/jsx("div", {
-      className: "flex-1",
+      className: "flex-1 min-h-0",
       children: steps[activeStep] ? steps[activeStep].props.children : null
     }), showNavigation && /*#__PURE__*/jsxs("div", {
       className: "flex flex-row justify-between items-center mt-6 pt-4 border-t border-current/10",
