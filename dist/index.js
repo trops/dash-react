@@ -1,7 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faPlug, faMagnifyingGlass, faDatabase, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faCheck, faTrash, faPlus, faMinus, faClone, faArrowsUpDown, faArrowsLeftRight, faCog, faXmark, faSquare, faEye, faPencil, faFolder, faEarListen, faBullhorn, faSquareCheck, faPhone, faSignal, faHammer, faSeedling, faTrophy, faRobot, faPuzzlePiece, faCode, faLeaf, faBaby, faBabyCarriage, faPalette, faComputer, faSun, faMoon, faFolderPlus, faBoltLightning, faArrowRightToBracket, faArrowRightFromBracket, faStar, faHeart, faBookmark, faTag, faFlag, faBell, faCircle, faCircleCheck, faThumbsUp, faEnvelope, faComment, faMessage, faPaperPlane, faImage, faCamera, faMusic, faVideo, faFilm, faHeadphones, faTerminal, faServer, faWifi, faMicrochip, faGlobe, faTree, faCloud, faBolt, faFire, faSnowflake, faWater, faWrench, faBriefcase, faCartShopping, faTruck, faCar, faPlane, faRocket, faUser, faUsers, faGamepad, faDumbbell, faGraduationCap, faChartBar, faChartLine, faChartPie, faTable, faList, faLayerGroup, faFile, faFileCode, faClipboard, faBook, faPen, faLock, faKey, faShield, faClock, faCalendar, faLink } from '@fortawesome/free-solid-svg-icons';
 export { faArrowDown, faArrowLeft, faArrowRight, faArrowRightFromBracket, faArrowRightToBracket, faArrowUp, faArrowsLeftRight, faArrowsUpDown, faBaby, faBabyCarriage, faBell, faBolt, faBook, faBookmark, faBriefcase, faBullhorn, faCalendar, faCamera, faCar, faCartShopping, faChartBar, faChartLine, faChartPie, faCheck, faCircle, faCircleCheck, faClipboard, faClock, faClone, faCloud, faCode, faCog, faComment, faComputer, faDatabase, faDumbbell, faEarListen, faEnvelope, faEye, faFile, faFileCode, faFilm, faFire, faFlag, faFolder, faGamepad, faGlobe, faGraduationCap, faHammer, faHeadphones, faHeart, faHome, faImage, faKey, faLayerGroup, faLeaf, faLink, faList, faLock, faMagnifyingGlass, faMessage, faMicrochip, faMinus, faMusic, faPalette, faPaperPlane, faPen, faPencil, faPhone, faPlane, faPlug, faPlus, faPuzzlePiece, faRobot, faRocket, faSeedling, faServer, faShield, faSignal, faSnowflake, faSquare, faSquareCheck, faStar, faTable, faTag, faTerminal, faThumbsUp, faTrash, faTree, faTrophy, faTruck, faUser, faUsers, faVideo, faWater, faWifi, faWrench, faXmark } from '@fortawesome/free-solid-svg-icons';
-import React, { createContext, useContext, createElement, useMemo, useEffect, useState, Fragment, useRef, Children, useCallback } from 'react';
+import React, { createContext, useContext, createElement, useMemo, useEffect, useState, useRef, Fragment, Children, useCallback } from 'react';
 import { jsxs, jsx, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -353,12 +353,12 @@ var styleClassNames = {
 
 var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$MENU_IT, _themeObjects$TABS_TR, _colorMap;
 function _typeof$D(o) { "@babel/helpers - typeof"; return _typeof$D = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$D(o); }
-function _toConsumableArray$3(r) { return _arrayWithoutHoles$3(r) || _iterableToArray$3(r) || _unsupportedIterableToArray$a(r) || _nonIterableSpread$3(); }
+function _toConsumableArray$3(r) { return _arrayWithoutHoles$3(r) || _iterableToArray$3(r) || _unsupportedIterableToArray$b(r) || _nonIterableSpread$3(); }
 function _nonIterableSpread$3() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
+function _unsupportedIterableToArray$b(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$b(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$b(r, a) : void 0; } }
 function _iterableToArray$3(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$3(r) { if (Array.isArray(r)) return _arrayLikeToArray$a(r); }
-function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles$3(r) { if (Array.isArray(r)) return _arrayLikeToArray$b(r); }
+function _arrayLikeToArray$b(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$w(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$w(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$w(Object(t), !0).forEach(function (r) { _defineProperty$x(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$w(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$x(e, r, t) { return (r = _toPropertyKey$B(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2228,12 +2228,12 @@ Card3.Footer = Card.Footer;
 
 function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
 var _excluded$q = ["items", "separator", "maxItems", "className", "onItemClick", "themeKey"];
-function _toConsumableArray$2(r) { return _arrayWithoutHoles$2(r) || _iterableToArray$2(r) || _unsupportedIterableToArray$9(r) || _nonIterableSpread$2(); }
+function _toConsumableArray$2(r) { return _arrayWithoutHoles$2(r) || _iterableToArray$2(r) || _unsupportedIterableToArray$a(r) || _nonIterableSpread$2(); }
 function _nonIterableSpread$2() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$9(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$9(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$9(r, a) : void 0; } }
+function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
 function _iterableToArray$2(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$2(r) { if (Array.isArray(r)) return _arrayLikeToArray$9(r); }
-function _arrayLikeToArray$9(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles$2(r) { if (Array.isArray(r)) return _arrayLikeToArray$a(r); }
+function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$q(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$q(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$q(Object(t), !0).forEach(function (r) { _defineProperty$r(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$q(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$r(e, r, t) { return (r = _toPropertyKey$v(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3026,6 +3026,12 @@ var TextArea = function TextArea(_ref) {
 
 function _typeof$o(o) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$o(o); }
 var _excluded$i = ["label", "value", "onChange", "options", "placeholder", "id", "className", "inputClassName"];
+function _slicedToArray$9(r, e) { return _arrayWithHoles$9(r) || _iterableToArrayLimit$9(r, e) || _unsupportedIterableToArray$9(r, e) || _nonIterableRest$9(); }
+function _nonIterableRest$9() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$9(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$9(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$9(r, a) : void 0; } }
+function _arrayLikeToArray$9(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$9(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$9(r) { if (Array.isArray(r)) return r; }
 function ownKeys$i(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$i(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$i(Object(t), !0).forEach(function (r) { _defineProperty$j(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$i(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$j(e, r, t) { return (r = _toPropertyKey$n(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3061,7 +3067,110 @@ var SelectInput = function SelectInput(_ref) {
     scrollable: false,
     grow: false
   }));
+  var itemStyles = getStylesForItem(themeObjects.MENU_ITEM, currentTheme, _objectSpread$i(_objectSpread$i({}, props), {}, {
+    scrollable: false,
+    grow: false
+  }));
   var inputId = id || getUUID$1("", "select-input");
+  var hasIcons = options.some(function (opt) {
+    return opt.icon;
+  });
+
+  // Custom dropdown state (only used when options have icons)
+  var _useState = useState(false),
+    _useState2 = _slicedToArray$9(_useState, 2),
+    isOpen = _useState2[0],
+    setIsOpen = _useState2[1];
+  var dropdownRef = useRef(null);
+  useEffect(function () {
+    if (!isOpen) return;
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return function () {
+      return document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+  useEffect(function () {
+    if (!isOpen) return;
+    function handleKeyDown(e) {
+      if (e.key === "Escape") setIsOpen(false);
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return function () {
+      return document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+  var selectedOption = options.find(function (opt) {
+    return String(opt.value) === String(value);
+  });
+
+  // Custom dropdown for options with icons
+  if (hasIcons) {
+    return /*#__PURE__*/jsxs("div", {
+      className: "flex flex-col space-y-1 ".concat(className),
+      ref: dropdownRef,
+      children: [label && /*#__PURE__*/jsx("label", {
+        className: "text-sm ".concat(labelStyles.textColor),
+        children: label
+      }), /*#__PURE__*/jsxs("div", {
+        className: "relative",
+        children: [/*#__PURE__*/jsxs("button", {
+          type: "button",
+          id: inputId,
+          disabled: props.disabled,
+          onClick: function onClick() {
+            return setIsOpen(!isOpen);
+          },
+          className: "w-full rounded-md border px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed text-left flex items-center justify-between gap-2 ").concat(inputClassName),
+          children: [/*#__PURE__*/jsxs("span", {
+            className: "flex items-center gap-2 truncate",
+            children: [(selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.icon) && /*#__PURE__*/jsx(FontAwesomeIcon, {
+              icon: selectedOption.icon,
+              className: "h-3.5 w-3.5 shrink-0 opacity-70"
+            }), /*#__PURE__*/jsx("span", {
+              className: "truncate",
+              children: selectedOption ? selectedOption.label : placeholder
+            })]
+          }), /*#__PURE__*/jsx(FontAwesomeIcon, {
+            icon: "chevron-down",
+            className: "h-3 w-3 shrink-0 opacity-50 transition-transform duration-150 ".concat(isOpen ? "rotate-180" : "")
+          })]
+        }), isOpen && /*#__PURE__*/jsx("div", {
+          className: "absolute z-50 mt-1 w-full rounded-md border shadow-lg ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " overflow-hidden"),
+          children: /*#__PURE__*/jsx("div", {
+            className: "max-h-60 overflow-y-auto py-1",
+            children: options.map(function (option) {
+              var isSelected = String(option.value) === String(value);
+              return /*#__PURE__*/jsxs("button", {
+                type: "button",
+                onClick: function onClick() {
+                  _onChange(option.value);
+                  setIsOpen(false);
+                },
+                className: "w-full text-left px-3 py-1.5 flex items-center gap-2 text-sm transition-colors duration-150 ".concat(isSelected ? "".concat(itemStyles.selectedBackgroundColor || itemStyles.hoverBackgroundColor, " ").concat(itemStyles.selectedTextColor || styles.textColor) : "".concat(styles.textColor, " ").concat(itemStyles.hoverBackgroundColor, " ").concat(itemStyles.hoverTextColor)),
+                children: [option.icon && /*#__PURE__*/jsx(FontAwesomeIcon, {
+                  icon: option.icon,
+                  className: "h-3.5 w-3.5 shrink-0 opacity-70"
+                }), /*#__PURE__*/jsx("span", {
+                  className: "truncate",
+                  children: option.label
+                }), isSelected && /*#__PURE__*/jsx(FontAwesomeIcon, {
+                  icon: "check",
+                  className: "h-3 w-3 shrink-0 ml-auto opacity-70"
+                })]
+              }, option.value);
+            })
+          })
+        })]
+      })]
+    });
+  }
+
+  // Native select for plain options (no icons)
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-col space-y-1 ".concat(className),
     children: [label && /*#__PURE__*/jsx("label", {
