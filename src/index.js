@@ -105,6 +105,15 @@ import {
     faClock,
     faCalendar,
     faLink,
+    // MCP provider icons
+    faCodeBranch,
+    faComments,
+    faClipboardList,
+    faBrain,
+    faHardDrive,
+    faCircleExclamation,
+    faCalendarDays,
+    faMagnifyingGlassPlus,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
     faHome,
@@ -209,7 +218,16 @@ library.add(
     faShield,
     faClock,
     faCalendar,
-    faLink
+    faLink,
+    // MCP provider icons
+    faCodeBranch,
+    faComments,
+    faClipboardList,
+    faBrain,
+    faHardDrive,
+    faCircleExclamation,
+    faCalendarDays,
+    faMagnifyingGlassPlus
 );
 
 export * from "./Common";
