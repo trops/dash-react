@@ -13,18 +13,17 @@ import { useSearchBox, useRefinementList } from 'react-instantsearch-hooks-web';
 import { useDrag, useDrop } from 'react-dnd';
 
 var ThemeContext = /*#__PURE__*/createContext({
-  // key: Date.now(),
-  currentTheme: null
-  // currentThemeKey: null,
-  // theme: null,
-  // themeKey: null,
-  // themeVariant: "dark",
-  // changeCurrentTheme: null,
-  // changeThemeVariant: null,
-  // changeThemesForApplication: null,
-  // loadThemes: null,
-  // themes: null,
-  // rawThemes: null,
+  currentTheme: null,
+  currentThemeKey: null,
+  theme: null,
+  themeKey: null,
+  themeVariant: "dark",
+  changeCurrentTheme: function changeCurrentTheme() {},
+  changeThemeVariant: function changeThemeVariant() {},
+  changeThemesForApplication: function changeThemesForApplication() {},
+  loadThemes: function loadThemes() {},
+  themes: null,
+  rawThemes: null
 });
 
 var WidgetContext = /*#__PURE__*/createContext({
