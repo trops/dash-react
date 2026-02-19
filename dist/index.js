@@ -2909,7 +2909,7 @@ var WidgetChrome = function WidgetChrome(_ref) {
 };
 
 function _typeof$q(o) { "@babel/helpers - typeof"; return _typeof$q = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$q(o); }
-var _excluded$k = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName"];
+var _excluded$k = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus"];
 function ownKeys$k(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$k(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$k(Object(t), !0).forEach(function (r) { _defineProperty$l(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$k(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$l(e, r, t) { return (r = _toPropertyKey$p(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2934,6 +2934,8 @@ var InputText = function InputText(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
+    _ref$autoFocus = _ref.autoFocus,
+    autoFocus = _ref$autoFocus === void 0 ? false : _ref$autoFocus,
     props = _objectWithoutProperties$k(_ref, _excluded$k);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -2961,6 +2963,7 @@ var InputText = function InputText(_ref) {
       },
       placeholder: placeholder,
       disabled: props.disabled,
+      autoFocus: autoFocus,
       className: "w-full h-10 rounded-md border shadow-sm px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
     })]
   });
@@ -7197,7 +7200,7 @@ var CommandPalette = function CommandPalette(_ref3) {
               return handleQueryChange(e.target.value);
             },
             placeholder: placeholder,
-            className: "w-full bg-transparent border-none outline-none px-3 py-3 ".concat(inputStyles.textSize || "text-base", " ").concat(inputStyles.textColor || "", " placeholder:opacity-40")
+            className: "w-full bg-transparent border-none outline-none focus:ring-0 focus:outline-none px-3 py-3 ".concat(inputStyles.textSize || "text-base", " ").concat(inputStyles.textColor || "", " placeholder:opacity-40")
           }), /*#__PURE__*/jsx("kbd", {
             className: "flex-shrink-0 text-xs opacity-30 border px-1.5 py-0.5 rounded ".concat(styles.borderColor || "", " ").concat(styles.textColor || ""),
             children: "esc"
