@@ -12,6 +12,7 @@ const InputText = ({
     id = null,
     className = "",
     inputClassName = "",
+    autoFocus = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -49,6 +50,7 @@ const InputText = ({
                 onChange={(event) => onChange(event.target.value, event)}
                 placeholder={placeholder}
                 disabled={props.disabled}
+                autoFocus={autoFocus}
                 className={`w-full h-10 rounded-md border shadow-sm px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
             />
         </div>

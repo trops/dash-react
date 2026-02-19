@@ -155,7 +155,7 @@ const CommandPalette = ({
                             value={query}
                             onChange={(e) => handleQueryChange(e.target.value)}
                             placeholder={placeholder}
-                            className={`w-full bg-transparent border-none outline-none px-3 py-3 ${inputStyles.textSize || "text-base"} ${inputStyles.textColor || ""} placeholder:opacity-40`}
+                            className={`w-full bg-transparent border-none outline-none focus:ring-0 focus:outline-none px-3 py-3 ${inputStyles.textSize || "text-base"} ${inputStyles.textColor || ""} placeholder:opacity-40`}
                         />
                         <kbd
                             className={`flex-shrink-0 text-xs opacity-30 border px-1.5 py-0.5 rounded ${styles.borderColor || ""} ${styles.textColor || ""}`}
