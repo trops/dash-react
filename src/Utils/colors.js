@@ -1265,10 +1265,7 @@ const getStylesForItem = (
                 } else if (theme) {
                     // Fallback: for prefixed tokens (e.g. placeholder-text-primary-light),
                     // resolve via the base token (text-primary-light)
-                    const baseKey = themeKey.replace(
-                        /^(placeholder-)/,
-                        ""
-                    );
+                    const baseKey = themeKey.replace(/^(placeholder-)/, "");
                     if (baseKey !== themeKey && baseKey in theme) {
                         prioritizeThemeValues[k] = theme[baseKey];
                     } else {
