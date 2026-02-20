@@ -543,6 +543,15 @@ var getStylesForItem = function getStylesForItem() {
         var themeKey = prioritizeThemeOverrides[k];
         if (theme && themeKey in theme) {
           prioritizeThemeValues[k] = theme[themeKey];
+        } else if (theme) {
+          // Fallback: for prefixed tokens (e.g. placeholder-text-primary-light),
+          // resolve via the base token (text-primary-light)
+          var baseKey = themeKey.replace(/^(placeholder-)/, "");
+          if (baseKey !== themeKey && baseKey in theme) {
+            prioritizeThemeValues[k] = theme[baseKey];
+          } else {
+            prioritizeThemeValues[k] = themeKey;
+          }
         } else {
           prioritizeThemeValues[k] = themeKey;
         }
