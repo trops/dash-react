@@ -37,12 +37,11 @@ export const Primary = () => {
                 >
                     Toggle Dropdown
                 </button>
-                <DropdownPanel
-                    isOpen={isOpen}
-                    onClose={() => setIsOpen(false)}
-                >
+                <DropdownPanel isOpen={isOpen} onClose={() => setIsOpen(false)}>
                     <DropdownPanel.Header>Select Provider</DropdownPanel.Header>
-                    <MenuItem onClick={() => {}}>REST API - Production</MenuItem>
+                    <MenuItem onClick={() => {}}>
+                        REST API - Production
+                    </MenuItem>
                     <MenuItem onClick={() => {}}>REST API - Staging</MenuItem>
                     <MenuItem onClick={() => {}} selected={true}>
                         GraphQL - Main
@@ -82,9 +81,7 @@ export const Secondary = () => {
                     <MenuItem2 onClick={() => {}}>
                         REST API - Production
                     </MenuItem2>
-                    <MenuItem2 onClick={() => {}}>
-                        REST API - Staging
-                    </MenuItem2>
+                    <MenuItem2 onClick={() => {}}>REST API - Staging</MenuItem2>
                     <MenuItem2 onClick={() => {}} selected={true}>
                         GraphQL - Main
                     </MenuItem2>
@@ -123,9 +120,7 @@ export const Tertiary = () => {
                     <MenuItem3 onClick={() => {}}>
                         REST API - Production
                     </MenuItem3>
-                    <MenuItem3 onClick={() => {}}>
-                        REST API - Staging
-                    </MenuItem3>
+                    <MenuItem3 onClick={() => {}}>REST API - Staging</MenuItem3>
                     <MenuItem3 onClick={() => {}} selected={true}>
                         GraphQL - Main
                     </MenuItem3>
@@ -155,10 +150,7 @@ export const WithDescriptions = () => {
                 >
                     Select Provider
                 </button>
-                <DropdownPanel
-                    isOpen={isOpen}
-                    onClose={() => setIsOpen(false)}
-                >
+                <DropdownPanel isOpen={isOpen} onClose={() => setIsOpen(false)}>
                     <DropdownPanel.Header>REST Providers</DropdownPanel.Header>
                     {sampleProviders.map((p) => (
                         <MenuItem2
@@ -201,10 +193,7 @@ export const EmptyState = () => {
                 >
                     Toggle Dropdown
                 </button>
-                <DropdownPanel
-                    isOpen={isOpen}
-                    onClose={() => setIsOpen(false)}
-                >
+                <DropdownPanel isOpen={isOpen} onClose={() => setIsOpen(false)}>
                     <div className="px-3 py-2 text-xs opacity-50 italic">
                         No providers configured
                     </div>
@@ -237,9 +226,7 @@ export const AllVariants = () => (
                         <DropdownPanel.Header>
                             Select Provider
                         </DropdownPanel.Header>
-                        <MenuItem onClick={() => {}}>
-                            Production API
-                        </MenuItem>
+                        <MenuItem onClick={() => {}}>Production API</MenuItem>
                         <MenuItem onClick={() => {}} selected={true}>
                             Staging API
                         </MenuItem>
@@ -274,9 +261,7 @@ export const AllVariants = () => (
                         <DropdownPanel2.Header>
                             Select Provider
                         </DropdownPanel2.Header>
-                        <MenuItem2 onClick={() => {}}>
-                            Production API
-                        </MenuItem2>
+                        <MenuItem2 onClick={() => {}}>Production API</MenuItem2>
                         <MenuItem2 onClick={() => {}} selected={true}>
                             Staging API
                         </MenuItem2>
@@ -311,9 +296,7 @@ export const AllVariants = () => (
                         <DropdownPanel3.Header>
                             Select Provider
                         </DropdownPanel3.Header>
-                        <MenuItem3 onClick={() => {}}>
-                            Production API
-                        </MenuItem3>
+                        <MenuItem3 onClick={() => {}}>Production API</MenuItem3>
                         <MenuItem3 onClick={() => {}} selected={true}>
                             Staging API
                         </MenuItem3>
