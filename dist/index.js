@@ -6429,7 +6429,8 @@ function _arrayWithHoles$3(r) { if (Array.isArray(r)) return r; }
 var SidebarContext = /*#__PURE__*/createContext({
   collapsed: false,
   setCollapsed: function setCollapsed() {},
-  toggleCollapsed: function toggleCollapsed() {}
+  toggleCollapsed: function toggleCollapsed() {},
+  side: "left"
 });
 var useSidebar = function useSidebar() {
   return useContext(SidebarContext);
@@ -6539,13 +6540,18 @@ var SidebarTrigger = function SidebarTrigger(_ref6) {
     className = _ref6$className === void 0 ? "" : _ref6$className;
   var _useCtx3 = useContext(SidebarContext),
     collapsed = _useCtx3.collapsed,
-    toggleCollapsed = _useCtx3.toggleCollapsed;
+    toggleCollapsed = _useCtx3.toggleCollapsed,
+    side = _useCtx3.side;
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var styles = getStylesForItem(themeObjects.SIDEBAR_ITEM, currentTheme, {
     scrollable: false,
     grow: false
   });
+
+  // For a left sidebar: collapsed → chevrons right (>>), expanded → chevrons left (<<)
+  // For a right sidebar: collapsed → chevrons left (<<), expanded → chevrons right (>>)
+  var showRightChevrons = side === "left" ? collapsed : !collapsed;
   return /*#__PURE__*/jsx("button", {
     type: "button",
     onClick: toggleCollapsed,
@@ -6557,7 +6563,7 @@ var SidebarTrigger = function SidebarTrigger(_ref6) {
       viewBox: "0 0 24 24",
       stroke: "currentColor",
       strokeWidth: 2,
-      children: collapsed ? /*#__PURE__*/jsx("path", {
+      children: showRightChevrons ? /*#__PURE__*/jsx("path", {
         strokeLinecap: "round",
         strokeLinejoin: "round",
         d: "M13 5l7 7-7 7M5 5l7 7-7 7"
@@ -6615,7 +6621,8 @@ var Sidebar = function Sidebar(_ref7) {
     value: {
       collapsed: isCollapsed,
       setCollapsed: setCollapsed,
-      toggleCollapsed: toggleCollapsed
+      toggleCollapsed: toggleCollapsed,
+      side: side
     },
     children: /*#__PURE__*/jsx("aside", {
       className: "flex flex-col flex-shrink-0 h-full ".concat(isCollapsed ? collapsedWidth : width, " ").concat(borderSide, " ").concat(styles.backgroundColor || "", " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(styles.transition || "transition-all duration-200", " overflow-hidden ").concat(className),

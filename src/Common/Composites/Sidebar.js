@@ -12,6 +12,7 @@ const SidebarContext = createContext({
     collapsed: false,
     setCollapsed: () => {},
     toggleCollapsed: () => {},
+    side: "left",
 });
 
 const useSidebar = () => useCtx(SidebarContext);
@@ -123,12 +124,16 @@ const SidebarFooter = ({ children, className = "" }) => {
 };
 
 const SidebarTrigger = ({ children = null, className = "" }) => {
-    const { collapsed, toggleCollapsed } = useCtx(SidebarContext);
+    const { collapsed, toggleCollapsed, side } = useCtx(SidebarContext);
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.SIDEBAR_ITEM, currentTheme, {
         scrollable: false,
         grow: false,
     });
+
+    // For a left sidebar: collapsed → chevrons right (>>), expanded → chevrons left (<<)
+    // For a right sidebar: collapsed → chevrons left (<<), expanded → chevrons right (>>)
+    const showRightChevrons = side === "left" ? collapsed : !collapsed;
 
     return (
         <button
@@ -145,7 +150,7 @@ const SidebarTrigger = ({ children = null, className = "" }) => {
                     stroke="currentColor"
                     strokeWidth={2}
                 >
-                    {collapsed ? (
+                    {showRightChevrons ? (
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -208,6 +213,7 @@ const Sidebar = ({
                 collapsed: isCollapsed,
                 setCollapsed,
                 toggleCollapsed,
+                side,
             }}
         >
             <aside

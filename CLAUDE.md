@@ -763,7 +763,7 @@ After rebuilding dash-react:
 
 ## Version Management
 
-**Current Version:** 0.1.169
+**Current Version:** 0.1.187
 
 **Versioning:**
 
