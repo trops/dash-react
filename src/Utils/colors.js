@@ -574,6 +574,8 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
         [styleClassNames.BORDER_COLOR]: "border-primary-medium",
         [styleClassNames.TEXT_COLOR]: "text-primary-dark",
+        [styleClassNames.PLACEHOLDER_TEXT_COLOR]:
+            "placeholder-text-primary-light",
         [styleClassNames.TRANSITION]: "transition-colors duration-150",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
         [styleClassNames.FOCUS_RING_COLOR]: "ring-primary-medium",
@@ -598,6 +600,8 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
         [styleClassNames.BORDER_COLOR]: "border-primary-medium",
         [styleClassNames.TEXT_COLOR]: "text-primary-dark",
+        [styleClassNames.PLACEHOLDER_TEXT_COLOR]:
+            "placeholder-text-primary-light",
         [styleClassNames.TRANSITION]: "transition-colors duration-150",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
         [styleClassNames.FOCUS_RING_COLOR]: "ring-primary-medium",
@@ -608,6 +612,8 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
         [styleClassNames.BORDER_COLOR]: "border-primary-medium",
         [styleClassNames.TEXT_COLOR]: "text-primary-dark",
+        [styleClassNames.PLACEHOLDER_TEXT_COLOR]:
+            "placeholder-text-primary-light",
         [styleClassNames.TRANSITION]: "transition-colors duration-150",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
         [styleClassNames.FOCUS_RING_COLOR]: "ring-primary-medium",
@@ -1509,6 +1515,10 @@ const getStyleValueVariant = (className, obj) => {
             case "activeTextColor": {
                 const val = obj[className].replaceAll("active:", "");
                 return "active:" + val;
+            }
+            case "placeholderTextColor": {
+                const val = obj[className].replaceAll("placeholder:", "");
+                return "placeholder:" + val;
             }
             case "textSize":
             case "fontWeight":

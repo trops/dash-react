@@ -338,6 +338,7 @@ const LINE_HEIGHT = "lineHeight";
 const CURSOR = "cursor";
 const SELECTED_BACKGROUND_COLOR = "selectedBackgroundColor";
 const SELECTED_TEXT_COLOR = "selectedTextColor";
+const PLACEHOLDER_TEXT_COLOR = "placeholderTextColor";
 
 const styleClassNames = {
     BACKGROUND_COLOR,
@@ -366,6 +367,7 @@ const styleClassNames = {
     CURSOR,
     SELECTED_BACKGROUND_COLOR,
     SELECTED_TEXT_COLOR,
+    PLACEHOLDER_TEXT_COLOR,
 };
 
 export { themeObjects, styleClassNames };
