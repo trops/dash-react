@@ -977,6 +977,57 @@ const colorMap = {
         [styleClassNames.SHADOW]: "shadow-lg",
         [styleClassNames.SPACING]: "px-2.5 py-1.5",
     },
+    [themeObjects.DROPDOWN_PANEL]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.SHADOW]: "shadow-xl",
+        [styleClassNames.BORDER_RADIUS]: "rounded-lg",
+        [styleClassNames.TRANSITION]: "transition-all duration-150",
+    },
+    [themeObjects.DROPDOWN_PANEL_HEADER]: {
+        [styleClassNames.TEXT_COLOR]: "text-primary-light",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+        [styleClassNames.FONT_WEIGHT]: "font-semibold",
+        [styleClassNames.SPACING]: "px-3 py-1.5",
+    },
+    [themeObjects.DROPDOWN_PANEL_DIVIDER]: {
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+    },
+    [themeObjects.DROPDOWN_PANEL_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.SHADOW]: "shadow-xl",
+        [styleClassNames.BORDER_RADIUS]: "rounded-lg",
+        [styleClassNames.TRANSITION]: "transition-all duration-150",
+    },
+    [themeObjects.DROPDOWN_PANEL_HEADER_2]: {
+        [styleClassNames.TEXT_COLOR]: "text-secondary-light",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+        [styleClassNames.FONT_WEIGHT]: "font-semibold",
+        [styleClassNames.SPACING]: "px-3 py-1.5",
+    },
+    [themeObjects.DROPDOWN_PANEL_DIVIDER_2]: {
+        [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
+    },
+    [themeObjects.DROPDOWN_PANEL_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.SHADOW]: "shadow-lg",
+        [styleClassNames.BORDER_RADIUS]: "rounded-md",
+        [styleClassNames.TRANSITION]: "transition-all duration-150",
+    },
+    [themeObjects.DROPDOWN_PANEL_HEADER_3]: {
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-light",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+        [styleClassNames.FONT_WEIGHT]: "font-medium",
+        [styleClassNames.SPACING]: "px-2.5 py-1",
+    },
+    [themeObjects.DROPDOWN_PANEL_DIVIDER_3]: {
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
+    },
     [themeObjects.SCROLLBAR]: {
         scrollbarThumb: "scrollbar-thumb-gray-700",
         scrollbarTrack: "scrollbar-track-transparent",

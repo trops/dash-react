@@ -43,4 +43,6 @@ export * from "./Menu";
 export * from "./Tabs";
 export * from "./Accordion";
 
+export * from "./DropdownPanel";
+
 export * from "./Composites";

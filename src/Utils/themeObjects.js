@@ -156,6 +156,15 @@ const DRAWER = "drawer";
 const DRAWER_HEADER = "drawer-header";
 const DRAWER_FOOTER = "drawer-footer";
 const TOOLTIP = "tooltip";
+const DROPDOWN_PANEL = "dropdown-panel";
+const DROPDOWN_PANEL_2 = "dropdown-panel-2";
+const DROPDOWN_PANEL_3 = "dropdown-panel-3";
+const DROPDOWN_PANEL_HEADER = "dropdown-panel-header";
+const DROPDOWN_PANEL_HEADER_2 = "dropdown-panel-header-2";
+const DROPDOWN_PANEL_HEADER_3 = "dropdown-panel-header-3";
+const DROPDOWN_PANEL_DIVIDER = "dropdown-panel-divider";
+const DROPDOWN_PANEL_DIVIDER_2 = "dropdown-panel-divider-2";
+const DROPDOWN_PANEL_DIVIDER_3 = "dropdown-panel-divider-3";
 const SCROLLBAR = "scrollbar";
 
 const WIDGET = "widget";
@@ -286,6 +295,15 @@ const themeObjects = {
     DRAWER_HEADER,
     DRAWER_FOOTER,
     TOOLTIP,
+    DROPDOWN_PANEL,
+    DROPDOWN_PANEL_2,
+    DROPDOWN_PANEL_3,
+    DROPDOWN_PANEL_HEADER,
+    DROPDOWN_PANEL_HEADER_2,
+    DROPDOWN_PANEL_HEADER_3,
+    DROPDOWN_PANEL_DIVIDER,
+    DROPDOWN_PANEL_DIVIDER_2,
+    DROPDOWN_PANEL_DIVIDER_3,
     SCROLLBAR,
     WIDGET,
     WORKSPACE,
