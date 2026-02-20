@@ -20,8 +20,9 @@ export * from "./window";
 
 export { DragComponent, DropComponent } from "./Common/Draggable";
 
-// Icons — re-export all solid icons for consuming apps
+// Icons — re-export all solid icons and FontAwesomeIcon for consuming apps
 export * from "@fortawesome/free-solid-svg-icons";
+export { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 if (process.env.NODE_ENV !== "development") {
     console.log = () => {};

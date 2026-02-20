@@ -6,6 +6,7 @@ import React, { createContext, useContext, createElement, useMemo, useEffect, us
 import { jsxs, jsx, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+export { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import Editor from '@monaco-editor/react';
 import Mustache from 'mustache';
