@@ -3003,7 +3003,7 @@ var InputText = function InputText(_ref) {
       placeholder: placeholder,
       disabled: props.disabled,
       autoFocus: autoFocus,
-      className: "w-full h-10 rounded-md border shadow-sm px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(styles.placeholderTextColor || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
+      className: "w-full h-10 border shadow-sm px-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
     })]
   });
 };
@@ -3061,7 +3061,7 @@ var TextArea = function TextArea(_ref) {
       },
       placeholder: placeholder,
       disabled: props.disabled,
-      className: "w-full rounded-md border px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(styles.placeholderTextColor || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
+      className: "w-full border px-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
     })]
   });
 };
@@ -3526,7 +3526,7 @@ var SearchInput = function SearchInput(_ref) {
         },
         placeholder: placeholder,
         disabled: props.disabled,
-        className: "w-full rounded-md border pl-10 pr-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(styles.placeholderTextColor || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName)
+        className: "w-full border pl-10 pr-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
       })]
     })]
   });
