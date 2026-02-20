@@ -1,4 +1,5 @@
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect, useCallback, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
@@ -53,6 +54,8 @@ const createDropdownPanel = (panelKey, headerKey, dividerKey) => {
         textColor = null,
         shadow = null,
         borderRadius = null,
+        portal = false,
+        align = "left",
     }) => {
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(panelKey, currentTheme, {
@@ -62,6 +65,9 @@ const createDropdownPanel = (panelKey, headerKey, dividerKey) => {
             shadow,
             borderRadius,
         });
+
+        const anchorRef = useRef(null);
+        const [portalStyle, setPortalStyle] = useState(null);
 
         const handleKeyDown = useCallback(
             (e) => {
@@ -80,6 +86,66 @@ const createDropdownPanel = (panelKey, headerKey, dividerKey) => {
             }
         }, [isOpen, handleKeyDown]);
 
+        // Measure anchor position for portal mode
+        useEffect(() => {
+            if (portal && isOpen && anchorRef.current) {
+                const parent = anchorRef.current.parentElement;
+                if (parent) {
+                    const rect = parent.getBoundingClientRect();
+                    const style = { top: rect.bottom + 4 };
+                    if (align === "right") {
+                        style.right = window.innerWidth - rect.right;
+                    } else {
+                        style.left = rect.left;
+                    }
+                    setPortalStyle(style);
+                }
+            } else if (!isOpen) {
+                setPortalStyle(null);
+            }
+        }, [portal, isOpen, align]);
+
+        // Portal mode: always render anchor span so ref is available
+        if (portal) {
+            const panelClasses = `${width} ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-lg"} ${styles.shadow || "shadow-xl"} border ${styles.borderColor || ""} ${styles.textColor || ""} ${styles.transition || ""} p-1 space-y-0.5 overflow-y-auto ${maxHeight} ${className}`;
+
+            return (
+                <>
+                    <span
+                        ref={anchorRef}
+                        style={{
+                            position: "absolute",
+                            width: 0,
+                            height: 0,
+                            overflow: "hidden",
+                        }}
+                    />
+                    {isOpen &&
+                        portalStyle &&
+                        createPortal(
+                            <>
+                                <div
+                                    className={`fixed inset-0 ${backdropZIndex}`}
+                                    onClick={onClose}
+                                />
+                                <div
+                                    className={panelClasses}
+                                    style={{
+                                        position: "fixed",
+                                        zIndex: 9999,
+                                        ...portalStyle,
+                                    }}
+                                >
+                                    {children}
+                                </div>
+                            </>,
+                            document.body
+                        )}
+                </>
+            );
+        }
+
+        // Default (non-portal) mode
         if (!isOpen) return null;
 
         return (
