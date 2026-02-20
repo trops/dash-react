@@ -12,6 +12,7 @@ const objectTypes = [
     "hover-text",
     "border",
     "hover-border",
+    "placeholder-text",
     // "p",
     // "m",
     // "textSize",
@@ -35,6 +36,9 @@ const objectTypeClasses = {
     },
     "hover-border": {
         class: "hoverBorderColor",
+    },
+    "placeholder-text": {
+        class: "placeholderTextColor",
     },
     // p: {
     //     class: "padding",

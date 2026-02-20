@@ -386,7 +386,7 @@ function _objectSpread$x(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$y(e, r, t) { return (r = _toPropertyKey$C(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$C(t) { var i = _toPrimitive$C(t, "string"); return "symbol" == _typeof$E(i) ? i : i + ""; }
 function _toPrimitive$C(t, r) { if ("object" != _typeof$E(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$E(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border"
+var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border", "placeholder-text"
 // "p",
 // "m",
 // "textSize",
@@ -409,6 +409,9 @@ var objectTypeClasses = {
   },
   "hover-border": {
     "class": "hoverBorderColor"
+  },
+  "placeholder-text": {
+    "class": "placeholderTextColor"
   }
   // p: {
   //     class: "padding",
