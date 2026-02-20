@@ -56,6 +56,7 @@ const createDropdownPanel = (panelKey, headerKey, dividerKey) => {
         borderRadius = null,
         portal = false,
         align = "left",
+        direction = "bottom",
     }) => {
         const { currentTheme } = useContext(ThemeContext);
         const styles = getStylesForItem(panelKey, currentTheme, {
@@ -92,18 +93,24 @@ const createDropdownPanel = (panelKey, headerKey, dividerKey) => {
                 const parent = anchorRef.current.parentElement;
                 if (parent) {
                     const rect = parent.getBoundingClientRect();
-                    const style = { top: rect.bottom + 4 };
-                    if (align === "right") {
-                        style.right = window.innerWidth - rect.right;
+                    const style = {};
+                    if (direction === "right") {
+                        style.left = rect.right + 4;
+                        style.top = rect.top;
                     } else {
-                        style.left = rect.left;
+                        style.top = rect.bottom + 4;
+                        if (align === "right") {
+                            style.right = window.innerWidth - rect.right;
+                        } else {
+                            style.left = rect.left;
+                        }
                     }
                     setPortalStyle(style);
                 }
             } else if (!isOpen) {
                 setPortalStyle(null);
             }
-        }, [portal, isOpen, align]);
+        }, [portal, isOpen, align, direction]);
 
         // Portal mode: always render anchor span so ref is available
         if (portal) {
