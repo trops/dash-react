@@ -25,6 +25,7 @@ for (const colorName in tailwindColors) {
             if (shade in pallette) {
                 colorSafeList.push(`text-${colorName}-${shade}`);
                 colorSafeList.push(`hover:text-${colorName}-${shade}`);
+                colorSafeList.push(`placeholder:text-${colorName}-${shade}`);
                 colorSafeList.push(`scrollbar-thumb-${colorName}-${shade}`);
                 colorSafeList.push(`scrollbar-track-${colorName}-${shade}`);
             }
