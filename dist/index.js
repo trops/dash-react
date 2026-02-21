@@ -2948,7 +2948,7 @@ var WidgetChrome = function WidgetChrome(_ref) {
 };
 
 function _typeof$r(o) { "@babel/helpers - typeof"; return _typeof$r = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$r(o); }
-var _excluded$k = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus"];
+var _excluded$k = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor"];
 function ownKeys$l(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$l(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$l(Object(t), !0).forEach(function (r) { _defineProperty$m(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$l(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$m(e, r, t) { return (r = _toPropertyKey$q(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2975,17 +2975,38 @@ var InputText = function InputText(_ref) {
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
     _ref$autoFocus = _ref.autoFocus,
     autoFocus = _ref$autoFocus === void 0 ? false : _ref$autoFocus,
-    props = _objectWithoutProperties$k(_ref, _excluded$k);
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
+    _ref$textColor = _ref.textColor,
+    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
+    _ref$borderColor = _ref.borderColor,
+    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
+    _ref$placeholderTextC = _ref.placeholderTextColor,
+    placeholderTextColor = _ref$placeholderTextC === void 0 ? null : _ref$placeholderTextC,
+    _ref$focusRingColor = _ref.focusRingColor,
+    focusRingColor = _ref$focusRingColor === void 0 ? null : _ref$focusRingColor,
+    _ref$focusBorderColor = _ref.focusBorderColor,
+    focusBorderColor = _ref$focusBorderColor === void 0 ? null : _ref$focusBorderColor,
+    htmlProps = _objectWithoutProperties$k(_ref, _excluded$k);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, _objectSpread$l(_objectSpread$l({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
+    backgroundColor: backgroundColor,
+    textColor: textColor,
+    borderColor: borderColor,
+    placeholderTextColor: placeholderTextColor,
+    focusRingColor: focusRingColor,
+    focusBorderColor: focusBorderColor,
     scrollable: false,
     grow: false
-  }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$l(_objectSpread$l({}, props), {}, {
+  });
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, {
+    textColor: textColor,
     scrollable: false,
     grow: false
-  }));
+  });
   var inputId = id || getUUID$1("", "input-text");
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-col space-y-1 ".concat(className),
@@ -2993,7 +3014,7 @@ var InputText = function InputText(_ref) {
       htmlFor: inputId,
       className: "text-sm ".concat(labelStyles.textColor),
       children: label
-    }), /*#__PURE__*/jsx("input", {
+    }), /*#__PURE__*/jsx("input", _objectSpread$l(_objectSpread$l({}, htmlProps), {}, {
       id: inputId,
       type: type,
       value: value,
@@ -3001,15 +3022,15 @@ var InputText = function InputText(_ref) {
         return _onChange(event.target.value, event);
       },
       placeholder: placeholder,
-      disabled: props.disabled,
+      disabled: disabled,
       autoFocus: autoFocus,
       className: "w-full h-10 border shadow-sm px-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
-    })]
+    }))]
   });
 };
 
 function _typeof$q(o) { "@babel/helpers - typeof"; return _typeof$q = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$q(o); }
-var _excluded$j = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName"];
+var _excluded$j = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor"];
 function ownKeys$k(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$k(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$k(Object(t), !0).forEach(function (r) { _defineProperty$l(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$k(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$l(e, r, t) { return (r = _toPropertyKey$p(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3034,17 +3055,38 @@ var TextArea = function TextArea(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    props = _objectWithoutProperties$j(_ref, _excluded$j);
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
+    _ref$textColor = _ref.textColor,
+    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
+    _ref$borderColor = _ref.borderColor,
+    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
+    _ref$placeholderTextC = _ref.placeholderTextColor,
+    placeholderTextColor = _ref$placeholderTextC === void 0 ? null : _ref$placeholderTextC,
+    _ref$focusRingColor = _ref.focusRingColor,
+    focusRingColor = _ref$focusRingColor === void 0 ? null : _ref$focusRingColor,
+    _ref$focusBorderColor = _ref.focusBorderColor,
+    focusBorderColor = _ref$focusBorderColor === void 0 ? null : _ref$focusBorderColor,
+    htmlProps = _objectWithoutProperties$j(_ref, _excluded$j);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.TEXTAREA, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.TEXTAREA, currentTheme, {
+    backgroundColor: backgroundColor,
+    textColor: textColor,
+    borderColor: borderColor,
+    placeholderTextColor: placeholderTextColor,
+    focusRingColor: focusRingColor,
+    focusBorderColor: focusBorderColor,
     scrollable: false,
     grow: false
-  }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$k(_objectSpread$k({}, props), {}, {
+  });
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, {
+    textColor: textColor,
     scrollable: false,
     grow: false
-  }));
+  });
   var inputId = id || getUUID$1("", "textarea");
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-col space-y-1 ".concat(className),
@@ -3052,7 +3094,7 @@ var TextArea = function TextArea(_ref) {
       htmlFor: inputId,
       className: "text-sm ".concat(labelStyles.textColor),
       children: label
-    }), /*#__PURE__*/jsx("textarea", {
+    }), /*#__PURE__*/jsx("textarea", _objectSpread$k(_objectSpread$k({}, htmlProps), {}, {
       id: inputId,
       rows: rows,
       value: value,
@@ -3060,9 +3102,9 @@ var TextArea = function TextArea(_ref) {
         return _onChange(event.target.value, event);
       },
       placeholder: placeholder,
-      disabled: props.disabled,
+      disabled: disabled,
       className: "w-full border px-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
-    })]
+    }))]
   });
 };
 
@@ -3467,7 +3509,7 @@ var Slider = function Slider(_ref) {
 };
 
 function _typeof$k(o) { "@babel/helpers - typeof"; return _typeof$k = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$k(o); }
-var _excluded$d = ["label", "value", "onChange", "placeholder", "icon", "id", "className", "inputClassName"];
+var _excluded$d = ["label", "value", "onChange", "placeholder", "icon", "id", "className", "inputClassName", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor"];
 function ownKeys$e(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$e(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) { _defineProperty$f(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$f(e, r, t) { return (r = _toPropertyKey$j(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3492,17 +3534,38 @@ var SearchInput = function SearchInput(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$inputClassName = _ref.inputClassName,
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
-    props = _objectWithoutProperties$d(_ref, _excluded$d);
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    _ref$backgroundColor = _ref.backgroundColor,
+    backgroundColor = _ref$backgroundColor === void 0 ? null : _ref$backgroundColor,
+    _ref$textColor = _ref.textColor,
+    textColor = _ref$textColor === void 0 ? null : _ref$textColor,
+    _ref$borderColor = _ref.borderColor,
+    borderColor = _ref$borderColor === void 0 ? null : _ref$borderColor,
+    _ref$placeholderTextC = _ref.placeholderTextColor,
+    placeholderTextColor = _ref$placeholderTextC === void 0 ? null : _ref$placeholderTextC,
+    _ref$focusRingColor = _ref.focusRingColor,
+    focusRingColor = _ref$focusRingColor === void 0 ? null : _ref$focusRingColor,
+    _ref$focusBorderColor = _ref.focusBorderColor,
+    focusBorderColor = _ref$focusBorderColor === void 0 ? null : _ref$focusBorderColor,
+    htmlProps = _objectWithoutProperties$d(_ref, _excluded$d);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var styles = getStylesForItem(themeObjects.SEARCH_INPUT, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
+  var styles = getStylesForItem(themeObjects.SEARCH_INPUT, currentTheme, {
+    backgroundColor: backgroundColor,
+    textColor: textColor,
+    borderColor: borderColor,
+    placeholderTextColor: placeholderTextColor,
+    focusRingColor: focusRingColor,
+    focusBorderColor: focusBorderColor,
     scrollable: false,
     grow: false
-  }));
-  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
+  });
+  var labelStyles = getStylesForItem(themeObjects.FORM_LABEL, currentTheme, {
+    textColor: textColor,
     scrollable: false,
     grow: false
-  }));
+  });
   var inputId = id || getUUID$1("", "search-input");
   return /*#__PURE__*/jsxs("div", {
     className: "flex flex-col space-y-1 ".concat(className),
@@ -3517,7 +3580,7 @@ var SearchInput = function SearchInput(_ref) {
         children: /*#__PURE__*/jsx(FontAwesomeIcon, {
           icon: icon
         })
-      }), /*#__PURE__*/jsx("input", {
+      }), /*#__PURE__*/jsx("input", _objectSpread$e(_objectSpread$e({}, htmlProps), {}, {
         id: inputId,
         type: "search",
         value: value,
@@ -3525,9 +3588,9 @@ var SearchInput = function SearchInput(_ref) {
           return _onChange(event.target.value, event);
         },
         placeholder: placeholder,
-        disabled: props.disabled,
+        disabled: disabled,
         className: "w-full border pl-10 pr-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
-      })]
+      }))]
     })]
   });
 };

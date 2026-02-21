@@ -12,11 +12,24 @@ const TextArea = ({
     id = null,
     className = "",
     inputClassName = "",
-    ...props
+    disabled = false,
+    // Style override props
+    backgroundColor = null,
+    textColor = null,
+    borderColor = null,
+    placeholderTextColor = null,
+    focusRingColor = null,
+    focusBorderColor = null,
+    ...htmlProps
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TEXTAREA, currentTheme, {
-        ...props,
+        backgroundColor,
+        textColor,
+        borderColor,
+        placeholderTextColor,
+        focusRingColor,
+        focusBorderColor,
         scrollable: false,
         grow: false,
     });
@@ -24,7 +37,7 @@ const TextArea = ({
         themeObjects.FORM_LABEL,
         currentTheme,
         {
-            ...props,
+            textColor,
             scrollable: false,
             grow: false,
         }
@@ -43,12 +56,13 @@ const TextArea = ({
                 </label>
             )}
             <textarea
+                {...htmlProps}
                 id={inputId}
                 rows={rows}
                 value={value}
                 onChange={(event) => onChange(event.target.value, event)}
                 placeholder={placeholder}
-                disabled={props.disabled}
+                disabled={disabled}
                 className={`w-full border px-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
             />
         </div>

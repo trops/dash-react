@@ -13,11 +13,24 @@ const SearchInput = ({
     id = null,
     className = "",
     inputClassName = "",
-    ...props
+    disabled = false,
+    // Style override props
+    backgroundColor = null,
+    textColor = null,
+    borderColor = null,
+    placeholderTextColor = null,
+    focusRingColor = null,
+    focusBorderColor = null,
+    ...htmlProps
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.SEARCH_INPUT, currentTheme, {
-        ...props,
+        backgroundColor,
+        textColor,
+        borderColor,
+        placeholderTextColor,
+        focusRingColor,
+        focusBorderColor,
         scrollable: false,
         grow: false,
     });
@@ -25,7 +38,7 @@ const SearchInput = ({
         themeObjects.FORM_LABEL,
         currentTheme,
         {
-            ...props,
+            textColor,
             scrollable: false,
             grow: false,
         }
@@ -50,12 +63,13 @@ const SearchInput = ({
                     <FontAwesomeIcon icon={icon} />
                 </span>
                 <input
+                    {...htmlProps}
                     id={inputId}
                     type="search"
                     value={value}
                     onChange={(event) => onChange(event.target.value, event)}
                     placeholder={placeholder}
-                    disabled={props.disabled}
+                    disabled={disabled}
                     className={`w-full border pl-10 pr-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
                 />
             </div>
