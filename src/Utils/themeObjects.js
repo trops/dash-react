@@ -165,6 +165,11 @@ const DROPDOWN_PANEL_HEADER_3 = "dropdown-panel-header-3";
 const DROPDOWN_PANEL_DIVIDER = "dropdown-panel-divider";
 const DROPDOWN_PANEL_DIVIDER_2 = "dropdown-panel-divider-2";
 const DROPDOWN_PANEL_DIVIDER_3 = "dropdown-panel-divider-3";
+
+const ICON = "icon";
+const ICON_2 = "icon-2";
+const ICON_3 = "icon-3";
+
 const SCROLLBAR = "scrollbar";
 
 const WIDGET = "widget";
@@ -304,6 +309,9 @@ const themeObjects = {
     DROPDOWN_PANEL_DIVIDER,
     DROPDOWN_PANEL_DIVIDER_2,
     DROPDOWN_PANEL_DIVIDER_3,
+    ICON,
+    ICON_2,
+    ICON_3,
     SCROLLBAR,
     WIDGET,
     WORKSPACE,

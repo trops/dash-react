@@ -1038,6 +1038,18 @@ const colorMap = {
     [themeObjects.DROPDOWN_PANEL_DIVIDER_3]: {
         [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
     },
+    [themeObjects.ICON]: {
+        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.ICON_SIZE]: "h-5 w-5",
+    },
+    [themeObjects.ICON_2]: {
+        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.ICON_SIZE]: "h-4 w-4",
+    },
+    [themeObjects.ICON_3]: {
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.ICON_SIZE]: "h-3.5 w-3.5",
+    },
     [themeObjects.SCROLLBAR]: {
         scrollbarThumb: "scrollbar-thumb-gray-700",
         scrollbarTrack: "scrollbar-track-transparent",

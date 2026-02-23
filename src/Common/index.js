@@ -19,6 +19,7 @@ export { CodeEditorInline } from "./CodeEditor";
 export { CodeRenderer } from "./CodeRenderer";
 export { CodeEditorVS } from "./CodeEditor";
 export * from "./Tag";
+export * from "./Icon";
 
 export * from "./Container";
 export * from "./ErrorMessage";
