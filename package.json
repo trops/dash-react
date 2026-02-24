@@ -5,7 +5,6 @@
     "main": "dist/index.js",
     "typescript": "^2.6.2",
     "publishConfig": {
-        "@trops:registry": "https://npm.pkg.github.com",
         "access": "public"
     },
     "files": [
