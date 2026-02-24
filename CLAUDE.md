@@ -13,7 +13,7 @@
 - Optimized for Dash Electron but usable in any React app
 - Published as npm package to GitHub Packages
 
-**Primary Consumer:** [@trops/dash](https://github.com/trops/dash) - Electron dashboard framework
+**Primary Consumers:** [@trops/dash-core](https://github.com/trops/dash-core) (framework) and [dash-electron](https://github.com/trops/dash-electron) (template)
 
 ## Product Requirements Documentation
 
@@ -54,7 +54,7 @@ See [docs/requirements/README.md](docs/requirements/README.md) for:
 - Library-specific PRD considerations
 - API design goals and success metrics
 
-**Note:** For application-level PRDs (features in Dash app), see the [dash project requirements](../../../dash/dash/docs/requirements/).
+**Note:** For application-level PRDs (features in Dash app), see the [dash-electron project requirements](../../dash-electron/dash-electron/docs/requirements/).
 
 ## Architecture
 
@@ -237,10 +237,10 @@ npm publish
 
 ### 6. Update Consuming Projects
 
-In the dash project:
+In the consuming project (e.g., dash-electron):
 
 ```bash
-cd /Users/johngiatropoulos/Development/dash/dash
+cd /Users/johngiatropoulos/Development/dash-electron/dash-electron
 # Update package.json version
 # "@trops/dash-react": "^0.1.XXX"
 npm install
@@ -789,13 +789,18 @@ git push origin main
 
 ## Related Projects
 
-### @trops/dash
+### @trops/dash-core
 
-**Location:** `/Users/johngiatropoulos/Development/dash/dash`
-**Purpose:** Electron dashboard application that consumes dash-react
+**Location:** `/Users/johngiatropoulos/Development/dash-core/dash-core`
+**Purpose:** Core dashboard framework that consumes dash-react
 **Relationship:** Primary consumer of this library
 
-**Critical:** dash MUST import `ThemeContext` from `@trops/dash-react` to avoid dual context issues.
+### dash-electron
+
+**Location:** `/Users/johngiatropoulos/Development/dash-electron/dash-electron`
+**Purpose:** Electron app template built on dash-core + dash-react
+
+**Critical:** `@trops/dash-core` MUST import `ThemeContext` from `@trops/dash-react` to avoid dual context issues.
 
 ## Validation and Testing
 
@@ -908,8 +913,8 @@ npm run storybook
 # In dash-react (this project)
 npm run prod
 
-# In dash
-cd /Users/johngiatropoulos/Development/dash/dash
+# In dash-electron
+cd /Users/johngiatropoulos/Development/dash-electron/dash-electron
 npm install ../dash-react/package/trops-dash-react.tgz
 npm run dev
 ```
@@ -1193,8 +1198,8 @@ npm run prettify && npm run build:css && npm run roll && npm run pack-local-esm
 cd /Users/johngiatropoulos/Development/dash-react/dash-react
 npm run prod
 
-# 2. Install in dash and quick check
-cd /Users/johngiatropoulos/Development/dash/dash
+# 2. Install in dash-electron and quick check
+cd /Users/johngiatropoulos/Development/dash-electron/dash-electron
 npm install ../dash-react/package/trops-dash-react.tgz
 npm run prettify && npm run build:css
 
