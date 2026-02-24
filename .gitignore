@@ -36,7 +36,7 @@ yarn.lock
 storybook-static/
 webpack.config.js
 ws.bak
-src/tailwind.css
+
 dist/.npmrc
 scripts/
 *storybook.log
