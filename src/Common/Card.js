@@ -11,6 +11,7 @@ const Card = ({
     shadow = "shadow-sm",
     className = "",
     hover = false,
+    selected = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -22,14 +23,23 @@ const Card = ({
 
     const uuid = getUUID("", "card");
 
-    const hoverStyles = hover ? "hover:shadow-md" : "";
+    const hoverBg = styles.hoverBackgroundColor || "";
+    const hoverBorder = styles.hoverBorderColor || "";
+    const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+    const selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
+    const hoverStyles =
+        hover && !selected
+            ? `hover:shadow-md ${hoverBg} ${hoverBorder}`
+            : hover
+              ? "hover:shadow-md"
+              : "";
     const clickableStyles = onClick ? "cursor-pointer" : "";
 
     return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
         >
             {children}
         </div>
@@ -44,6 +54,7 @@ const Card2 = ({
     shadow = "shadow-sm",
     className = "",
     hover = false,
+    selected = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -55,14 +66,23 @@ const Card2 = ({
 
     const uuid = getUUID("", "card-2");
 
-    const hoverStyles = hover ? "hover:shadow-md" : "";
+    const hoverBg = styles.hoverBackgroundColor || "";
+    const hoverBorder = styles.hoverBorderColor || "";
+    const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+    const selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
+    const hoverStyles =
+        hover && !selected
+            ? `hover:shadow-md ${hoverBg} ${hoverBorder}`
+            : hover
+              ? "hover:shadow-md"
+              : "";
     const clickableStyles = onClick ? "cursor-pointer" : "";
 
     return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
         >
             {children}
         </div>
@@ -77,6 +97,7 @@ const Card3 = ({
     shadow = "shadow-none",
     className = "",
     hover = false,
+    selected = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -88,14 +109,23 @@ const Card3 = ({
 
     const uuid = getUUID("", "card-3");
 
-    const hoverStyles = hover ? "hover:shadow-sm" : "";
+    const hoverBg = styles.hoverBackgroundColor || "";
+    const hoverBorder = styles.hoverBorderColor || "";
+    const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+    const selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
+    const hoverStyles =
+        hover && !selected
+            ? `hover:shadow-sm ${hoverBg} ${hoverBorder}`
+            : hover
+              ? "hover:shadow-sm"
+              : "";
     const clickableStyles = onClick ? "cursor-pointer" : "";
 
     return (
         <div
             id={uuid}
             onClick={onClick}
-            className={`${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
         >
             {children}
         </div>

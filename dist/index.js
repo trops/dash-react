@@ -2130,9 +2130,9 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
 };
 
 function _typeof$z(o) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$z(o); }
-var _excluded$s = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"],
-  _excluded2$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"],
-  _excluded3$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover"];
+var _excluded$s = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected"],
+  _excluded2$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected"],
+  _excluded3$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected"];
 function ownKeys$t(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$t(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$t(Object(t), !0).forEach(function (r) { _defineProperty$u(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$t(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$u(e, r, t) { return (r = _toPropertyKey$y(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2154,6 +2154,8 @@ var Card = function Card(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$hover = _ref.hover,
     hover = _ref$hover === void 0 ? false : _ref$hover,
+    _ref$selected = _ref.selected,
+    selected = _ref$selected === void 0 ? false : _ref$selected,
     props = _objectWithoutProperties$s(_ref, _excluded$s);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -2162,12 +2164,16 @@ var Card = function Card(_ref) {
     grow: false
   }));
   var uuid = getUUID$1("", "card");
-  var hoverStyles = hover ? "hover:shadow-md" : "";
+  var hoverBg = styles.hoverBackgroundColor || "";
+  var hoverBorder = styles.hoverBorderColor || "";
+  var selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+  var selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
+  var hoverStyles = hover && !selected ? "hover:shadow-md ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-md" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 };
@@ -2185,6 +2191,8 @@ var Card2 = function Card2(_ref2) {
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$hover = _ref2.hover,
     hover = _ref2$hover === void 0 ? false : _ref2$hover,
+    _ref2$selected = _ref2.selected,
+    selected = _ref2$selected === void 0 ? false : _ref2$selected,
     props = _objectWithoutProperties$s(_ref2, _excluded2$8);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -2193,12 +2201,16 @@ var Card2 = function Card2(_ref2) {
     grow: false
   }));
   var uuid = getUUID$1("", "card-2");
-  var hoverStyles = hover ? "hover:shadow-md" : "";
+  var hoverBg = styles.hoverBackgroundColor || "";
+  var hoverBorder = styles.hoverBorderColor || "";
+  var selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+  var selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
+  var hoverStyles = hover && !selected ? "hover:shadow-md ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-md" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 };
@@ -2216,6 +2228,8 @@ var Card3 = function Card3(_ref3) {
     className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$hover = _ref3.hover,
     hover = _ref3$hover === void 0 ? false : _ref3$hover,
+    _ref3$selected = _ref3.selected,
+    selected = _ref3$selected === void 0 ? false : _ref3$selected,
     props = _objectWithoutProperties$s(_ref3, _excluded3$8);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -2224,12 +2238,16 @@ var Card3 = function Card3(_ref3) {
     grow: false
   }));
   var uuid = getUUID$1("", "card-3");
-  var hoverStyles = hover ? "hover:shadow-sm" : "";
+  var hoverBg = styles.hoverBackgroundColor || "";
+  var hoverBorder = styles.hoverBorderColor || "";
+  var selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+  var selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
+  var hoverStyles = hover && !selected ? "hover:shadow-sm ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-sm" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 };
