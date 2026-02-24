@@ -1,12 +1,12 @@
 {
     "name": "@trops/dash-react",
-    "version": "0.1.200",
+    "version": "0.1.201",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "typescript": "^2.6.2",
     "publishConfig": {
         "@trops:registry": "https://npm.pkg.github.com",
-        "access": "restricted"
+        "access": "public"
     },
     "files": [
         "dist"
@@ -38,7 +38,7 @@
         "Dash"
     ],
     "author": "John P. Giatropoulos <john.giatropoulos@gmail.com>",
-    "license": "ISC",
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/trops/dash-react"
