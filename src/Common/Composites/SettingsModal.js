@@ -127,7 +127,7 @@ const SettingsModal = ({
             height={height}
         >
             <div
-                className={`flex flex-row h-full w-full rounded-lg overflow-clip ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} border ${className}`}
+                className={`flex flex-row h-full w-full rounded-lg overflow-clip ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${panelStyles.textColor || ""} border ${className}`}
             >
                 {sidebar}
                 <div className="flex flex-col flex-1 min-w-0">

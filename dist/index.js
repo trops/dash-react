@@ -6702,7 +6702,7 @@ var SettingsModal = function SettingsModal(_ref5) {
     width: width,
     height: height,
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row h-full w-full rounded-lg overflow-clip ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " border ").concat(className),
+      className: "flex flex-row h-full w-full rounded-lg overflow-clip ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " ").concat(panelStyles.textColor || "", " border ").concat(className),
       children: [sidebar, /*#__PURE__*/jsx("div", {
         className: "flex flex-col flex-1 min-w-0",
         children: otherChildren
