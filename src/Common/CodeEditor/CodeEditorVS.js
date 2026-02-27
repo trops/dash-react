@@ -32,6 +32,7 @@ for (let staticMethod in OriginalResizeObserver) {
 export function CodeEditorVS({
     code,
     onChange,
+    onMount,
     uniqueKey = "12345",
     language = "js",
     placeholder = null,
@@ -54,6 +55,7 @@ export function CodeEditorVS({
     function handleEditorDidMount(editor, monaco) {
         console.log("editor did mount", editor);
         editor.focus();
+        if (onMount) onMount(editor, monaco);
 
         if (monaco) {
             try {
