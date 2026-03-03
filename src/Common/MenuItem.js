@@ -134,7 +134,7 @@ const MenuItem3 = ({
 
     const baseStyles = `${
         onClick && "cursor-pointer"
-    } px-2 py-1 rounded-md items-center space-x-2 ${
+    } px-3 py-1.5 rounded-md items-center space-x-2 ${
         border === true && "border-2"
     }`;
 

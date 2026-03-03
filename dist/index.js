@@ -1640,7 +1640,7 @@ var MenuItem3 = function MenuItem3(_ref3) {
     selected: selected,
     grow: grow
   });
-  var baseStyles = "".concat(onClick && "cursor-pointer", " px-2 py-1 rounded-md items-center space-x-2 ").concat(border === true && "border-2");
+  var baseStyles = "".concat(onClick && "cursor-pointer", " px-3 py-1.5 rounded-md items-center space-x-2 ").concat(border === true && "border-2");
   var baseTextStyles = "text-sm font-normal";
   var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
@@ -4215,7 +4215,7 @@ function CodeEditorInline(_ref) {
 }
 
 function _typeof$g(o) { "@babel/helpers - typeof"; return _typeof$g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$g(o); }
-var _excluded$a = ["code", "onChange", "uniqueKey", "language", "placeholder", "scrollable", "padding", "themeName", "readOnly", "minimapEnabled", "wordWrap"];
+var _excluded$a = ["code", "onChange", "onMount", "uniqueKey", "language", "placeholder", "scrollable", "padding", "themeName", "readOnly", "minimapEnabled", "wordWrap"];
 function ownKeys$b(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$b(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$b(Object(t), !0).forEach(function (r) { _defineProperty$c(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$b(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$c(e, r, t) { return (r = _toPropertyKey$f(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -4250,6 +4250,7 @@ for (var staticMethod in OriginalResizeObserver) {
 function CodeEditorVS(_ref) {
   var code = _ref.code,
     onChange = _ref.onChange,
+    onMount = _ref.onMount,
     _ref$uniqueKey = _ref.uniqueKey,
     uniqueKey = _ref$uniqueKey === void 0 ? "12345" : _ref$uniqueKey,
     _ref$language = _ref.language,
@@ -4275,6 +4276,7 @@ function CodeEditorVS(_ref) {
   }));
   function handleEditorDidMount(editor, monaco) {
     editor.focus();
+    if (onMount) onMount(editor, monaco);
     if (monaco) {
       try {
         import("monaco-themes/themes/".concat(themeName, ".json")).then(function (data) {
