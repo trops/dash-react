@@ -35,7 +35,10 @@ const WidgetChrome = ({
                 <div className="flex items-center space-x-2">
                     {actions}
                     {onPopout && (
-                        <ButtonIcon icon="arrow-up-right-from-square" onClick={onPopout} />
+                        <ButtonIcon
+                            icon="arrow-up-right-from-square"
+                            onClick={onPopout}
+                        />
                     )}
                     {onRefresh && (
                         <ButtonIcon icon="arrows-up-down" onClick={onRefresh} />
