@@ -2908,7 +2908,7 @@ var Toast3 = function Toast3(props) {
 };
 
 function _typeof$t(o) { "@babel/helpers - typeof"; return _typeof$t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$t(o); }
-var _excluded$m = ["title", "children", "footer", "actions", "onRemove", "onSettings", "onRefresh", "className"];
+var _excluded$m = ["title", "children", "footer", "actions", "onRemove", "onSettings", "onRefresh", "onPopout", "className"];
 function ownKeys$n(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$n(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$n(Object(t), !0).forEach(function (r) { _defineProperty$o(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$n(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$o(e, r, t) { return (r = _toPropertyKey$s(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2930,6 +2930,8 @@ var WidgetChrome = function WidgetChrome(_ref) {
     onSettings = _ref$onSettings === void 0 ? null : _ref$onSettings,
     _ref$onRefresh = _ref.onRefresh,
     onRefresh = _ref$onRefresh === void 0 ? null : _ref$onRefresh,
+    _ref$onPopout = _ref.onPopout,
+    onPopout = _ref$onPopout === void 0 ? null : _ref$onPopout,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     props = _objectWithoutProperties$m(_ref, _excluded$m);
@@ -2950,7 +2952,10 @@ var WidgetChrome = function WidgetChrome(_ref) {
         children: title
       }), /*#__PURE__*/jsxs("div", {
         className: "flex items-center space-x-2",
-        children: [actions, onRefresh && /*#__PURE__*/jsx(ButtonIcon, {
+        children: [actions, onPopout && /*#__PURE__*/jsx(ButtonIcon, {
+          icon: "arrow-up-right-from-square",
+          onClick: onPopout
+        }), onRefresh && /*#__PURE__*/jsx(ButtonIcon, {
           icon: "arrows-up-down",
           onClick: onRefresh
         }), onSettings && /*#__PURE__*/jsx(ButtonIcon, {
@@ -7716,7 +7721,7 @@ var Stepper = function Stepper(_ref2) {
         }, i);
       })
     }), /*#__PURE__*/jsx("div", {
-      className: "flex-1 min-h-0",
+      className: "flex-1 min-h-0 flex flex-col",
       children: steps[activeStep] ? steps[activeStep].props.children : null
     }), showNavigation && /*#__PURE__*/jsxs("div", {
       className: "flex flex-row justify-between items-center mt-6 pt-4 border-t border-current/10",
