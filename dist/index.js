@@ -1377,7 +1377,7 @@ function Paragraph(_ref) {
   var _ref$text = _ref.text,
     text = _ref$text === void 0 ? null : _ref$text,
     _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? "p-6" : _ref$padding,
+    padding = _ref$padding === void 0 ? "py-2" : _ref$padding,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$scrollable = _ref.scrollable,
@@ -1460,7 +1460,7 @@ function Paragraph2(_ref2) {
 function Paragraph3(_ref3) {
   var text = _ref3.text,
     _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? true : _ref3$padding,
+    padding = _ref3$padding === void 0 ? "py-1" : _ref3$padding,
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$scrollable = _ref3.scrollable,
@@ -1667,7 +1667,7 @@ function Heading(_ref) {
     as = _ref$as === void 0 ? null : _ref$as;
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var paddingStyles = padding === true ? "py-3 2xl:py-4" : "p-0";
   var styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
@@ -1696,7 +1696,7 @@ function Heading2(_ref2) {
     as = _ref2$as === void 0 ? null : _ref2$as;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var paddingStyles = padding === true ? "py-2.5 2xl:py-3" : "p-0";
   var styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
@@ -1725,7 +1725,7 @@ function Heading3(_ref3) {
     as = _ref3$as === void 0 ? null : _ref3$as;
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
   var styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
@@ -1754,7 +1754,7 @@ function SubHeading(_ref4) {
     as = _ref4$as === void 0 ? null : _ref4$as;
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
   var styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
@@ -1783,7 +1783,7 @@ function SubHeading2(_ref5) {
     as = _ref5$as === void 0 ? null : _ref5$as;
   var _useContext5 = useContext(ThemeContext),
     currentTheme = _useContext5.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var paddingStyles = padding === true ? "py-1.5 2xl:py-2" : "p-0";
   var styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,
@@ -1812,7 +1812,7 @@ function SubHeading3(_ref6) {
     as = _ref6$as === void 0 ? null : _ref6$as;
   var _useContext6 = useContext(ThemeContext),
     currentTheme = _useContext6.currentTheme;
-  var paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+  var paddingStyles = padding === true ? "py-1 2xl:py-2" : "p-0";
   var styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
     textColor: textColor,
     backgroundColor: backgroundColor,

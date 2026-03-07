@@ -5,7 +5,7 @@ import { LayoutContainer } from "@dash/Layout";
 
 function Paragraph({
     text = null,
-    padding = "p-6",
+    padding = "py-2",
     onClick = null,
     scrollable = false,
     className = "",
@@ -47,7 +47,7 @@ function Paragraph({
 
 function Paragraph2({
     text,
-    padding = true,
+    padding = "py-1.5",
     onClick = null,
     scrollable = false,
     className = "",
@@ -84,7 +84,7 @@ function Paragraph2({
 
 function Paragraph3({
     text,
-    padding = true,
+    padding = "py-1",
     onClick = null,
     scrollable = false,
     grow = false,

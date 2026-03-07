@@ -13,7 +13,7 @@ function Heading({
     as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+    const paddingStyles = padding === true ? "py-3 2xl:py-4" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING, currentTheme, {
         textColor,
         backgroundColor,
@@ -43,7 +43,7 @@ function Heading2({
     as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+    const paddingStyles = padding === true ? "py-2.5 2xl:py-3" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING_2, currentTheme, {
         textColor,
         backgroundColor,
@@ -73,7 +73,7 @@ function Heading3({
     as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+    const paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
     const styles = getStylesForItem(themeObjects.HEADING_3, currentTheme, {
         textColor,
         backgroundColor,
@@ -103,7 +103,7 @@ function SubHeading({
     as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+    const paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
     const styles = getStylesForItem(themeObjects.SUBHEADING, currentTheme, {
         textColor,
         backgroundColor,
@@ -133,7 +133,7 @@ function SubHeading2({
     as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+    const paddingStyles = padding === true ? "py-1.5 2xl:py-2" : "p-0";
     const styles = getStylesForItem(themeObjects.SUBHEADING_2, currentTheme, {
         textColor,
         backgroundColor,
@@ -163,7 +163,7 @@ function SubHeading3({
     as = null,
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const paddingStyles = padding === true ? "p-4 2xl:px-6 2xl:py-4" : "p-0";
+    const paddingStyles = padding === true ? "py-1 2xl:py-2" : "p-0";
     const styles = getStylesForItem(themeObjects.SUBHEADING_3, currentTheme, {
         textColor,
         backgroundColor,
