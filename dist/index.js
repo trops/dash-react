@@ -6676,28 +6676,47 @@ var SettingsModalFooter = function SettingsModalFooter(_ref4) {
     })]
   });
 };
-var SettingsModal = function SettingsModal(_ref5) {
-  var isOpen = _ref5.isOpen,
-    setIsOpen = _ref5.setIsOpen,
-    _ref5$width = _ref5.width,
-    width = _ref5$width === void 0 ? "w-11/12 xl:w-5/6" : _ref5$width,
-    _ref5$height = _ref5.height,
-    height = _ref5$height === void 0 ? "h-5/6" : _ref5$height,
-    children = _ref5.children,
+var SettingsModalTitle = function SettingsModalTitle(_ref5) {
+  var children = _ref5.children,
     _ref5$className = _ref5.className,
-    className = _ref5$className === void 0 ? "" : _ref5$className;
+    className = _ref5$className === void 0 ? "" : _ref5$className,
+    _ref5$padding = _ref5.padding,
+    padding = _ref5$padding === void 0 ? "px-4 py-3" : _ref5$padding;
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
+  var styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
+    grow: false
+  });
+  return /*#__PURE__*/jsx("div", {
+    className: "flex flex-row items-center flex-shrink-0 border-b ".concat(padding, " ").concat(styles.borderColor || "", " ").concat(styles.textColor || "", " ").concat(className),
+    children: children
+  });
+};
+var SettingsModal = function SettingsModal(_ref6) {
+  var isOpen = _ref6.isOpen,
+    setIsOpen = _ref6.setIsOpen,
+    _ref6$width = _ref6.width,
+    width = _ref6$width === void 0 ? "w-11/12 xl:w-5/6" : _ref6$width,
+    _ref6$height = _ref6.height,
+    height = _ref6$height === void 0 ? "h-5/6" : _ref6$height,
+    children = _ref6.children,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className;
+  var _useContext5 = useContext(ThemeContext),
+    currentTheme = _useContext5.currentTheme;
   var panelStyles = getStylesForItem(themeObjects.PANEL, currentTheme, {
     scrollable: false,
     grow: false
   });
 
-  // Separate sidebar from other children
+  // Separate title, sidebar, and other children
+  var title = null;
   var sidebar = null;
   var otherChildren = [];
   Children.forEach(children, function (child) {
-    if (child && child.type === SettingsModalSidebar) {
+    if (child && child.type === SettingsModalTitle) {
+      title = child;
+    } else if (child && child.type === SettingsModalSidebar) {
       sidebar = child;
     } else {
       otherChildren.push(child);
@@ -6709,14 +6728,18 @@ var SettingsModal = function SettingsModal(_ref5) {
     width: width,
     height: height,
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row h-full w-full rounded-lg overflow-clip ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " ").concat(panelStyles.textColor || "", " border ").concat(className),
-      children: [sidebar, /*#__PURE__*/jsx("div", {
-        className: "flex flex-col flex-1 min-w-0",
-        children: otherChildren
+      className: "flex flex-col h-full w-full rounded-lg overflow-clip ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " ").concat(panelStyles.textColor || "", " border ").concat(className),
+      children: [title, /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row flex-1 min-h-0",
+        children: [sidebar, /*#__PURE__*/jsx("div", {
+          className: "flex flex-col flex-1 min-w-0",
+          children: otherChildren
+        })]
       })]
     })
   });
 };
+SettingsModal.Title = SettingsModalTitle;
 SettingsModal.Sidebar = SettingsModalSidebar;
 SettingsModal.Header = SettingsModalHeader;
 SettingsModal.Body = SettingsModalBody;
