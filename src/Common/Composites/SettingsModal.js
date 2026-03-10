@@ -93,6 +93,25 @@ const SettingsModalFooter = ({
     );
 };
 
+const SettingsModalTitle = ({
+    children,
+    className = "",
+    padding = "px-4 py-3",
+}) => {
+    const { currentTheme } = useContext(ThemeContext);
+    const styles = getStylesForItem(themeObjects.PANEL_HEADER, currentTheme, {
+        grow: false,
+    });
+
+    return (
+        <div
+            className={`flex flex-row items-center flex-shrink-0 border-b ${padding} ${styles.borderColor || ""} ${styles.textColor || ""} ${className}`}
+        >
+            {children}
+        </div>
+    );
+};
+
 const SettingsModal = ({
     isOpen,
     setIsOpen,
@@ -107,12 +126,15 @@ const SettingsModal = ({
         grow: false,
     });
 
-    // Separate sidebar from other children
+    // Separate title, sidebar, and other children
+    let title = null;
     let sidebar = null;
     const otherChildren = [];
 
     Children.forEach(children, (child) => {
-        if (child && child.type === SettingsModalSidebar) {
+        if (child && child.type === SettingsModalTitle) {
+            title = child;
+        } else if (child && child.type === SettingsModalSidebar) {
             sidebar = child;
         } else {
             otherChildren.push(child);
@@ -127,17 +149,21 @@ const SettingsModal = ({
             height={height}
         >
             <div
-                className={`flex flex-row h-full w-full rounded-lg overflow-clip ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${panelStyles.textColor || ""} border ${className}`}
+                className={`flex flex-col h-full w-full rounded-lg overflow-clip ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${panelStyles.textColor || ""} border ${className}`}
             >
-                {sidebar}
-                <div className="flex flex-col flex-1 min-w-0">
-                    {otherChildren}
+                {title}
+                <div className="flex flex-row flex-1 min-h-0">
+                    {sidebar}
+                    <div className="flex flex-col flex-1 min-w-0">
+                        {otherChildren}
+                    </div>
                 </div>
             </div>
         </Modal>
     );
 };
 
+SettingsModal.Title = SettingsModalTitle;
 SettingsModal.Sidebar = SettingsModalSidebar;
 SettingsModal.Header = SettingsModalHeader;
 SettingsModal.Body = SettingsModalBody;
