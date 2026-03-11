@@ -542,6 +542,7 @@ const colorMap = {
         [styleClassNames.DISABLED_OPACITY]:
             "disabled:opacity-50 disabled:pointer-events-none",
         [styleClassNames.CURSOR]: "cursor-pointer",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-tertiary-very-light",
     },
     [themeObjects.TOGGLE_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-medium",
@@ -549,6 +550,7 @@ const colorMap = {
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-secondary-medium",
         [styleClassNames.TRANSITION]: "transition-colors duration-200",
         [styleClassNames.CURSOR]: "cursor-pointer",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-secondary-very-light",
     },
     [themeObjects.TOGGLE_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
@@ -556,6 +558,7 @@ const colorMap = {
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-primary-medium",
         [styleClassNames.TRANSITION]: "transition-colors duration-200",
         [styleClassNames.CURSOR]: "cursor-pointer",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-primary-very-light",
     },
     [themeObjects.DASHBOARD_FOOTER]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
@@ -648,6 +651,7 @@ const colorMap = {
         [styleClassNames.FOCUS_RING_COLOR]: "ring-primary-medium",
         [styleClassNames.DISABLED_OPACITY]:
             "disabled:opacity-50 disabled:cursor-not-allowed",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-primary-very-light",
     },
     [themeObjects.SLIDER]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
