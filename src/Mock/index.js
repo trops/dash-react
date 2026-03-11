@@ -18,8 +18,8 @@ const generateMockTheme = () => {
             "very-light": 100,
             light: 200,
             medium: 300,
-            dark: 400,
-            "very-dark": 500,
+            dark: 200,
+            "very-dark": 100,
         },
         dark: {
             "very-light": 500,
