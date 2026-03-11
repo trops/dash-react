@@ -111,7 +111,7 @@ const SelectInput = ({
                     </button>
                     {isOpen && (
                         <div
-                            className={`absolute z-50 mt-1 w-full rounded-md border shadow-lg ${styles.backgroundColor} ${styles.borderColor} overflow-hidden`}
+                            className={`absolute z-50 mt-1 min-w-full w-max rounded-md border shadow-lg ${styles.backgroundColor} ${styles.borderColor} overflow-hidden`}
                         >
                             <div className="max-h-60 overflow-y-auto py-1">
                                 {options.map((option) => {
