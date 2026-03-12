@@ -715,6 +715,7 @@ const colorMap = {
         [styleClassNames.BORDER_COLOR]: "border-primary-dark",
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
         [styleClassNames.BORDER_RADIUS]: "rounded-lg",
+        [styleClassNames.BORDER_WIDTH]: "border",
         [styleClassNames.SPACING]: "p-4",
     },
     [themeObjects.TABS_2]: {
@@ -722,6 +723,7 @@ const colorMap = {
         [styleClassNames.BORDER_COLOR]: "border-secondary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
+        [styleClassNames.BORDER_WIDTH]: "border",
         [styleClassNames.SPACING]: "p-3",
     },
     [themeObjects.TABS_3]: {
@@ -729,6 +731,7 @@ const colorMap = {
         [styleClassNames.BORDER_COLOR]: "border-tertiary-very-dark",
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
         [styleClassNames.BORDER_RADIUS]: "rounded",
+        [styleClassNames.BORDER_WIDTH]: "border",
         [styleClassNames.SPACING]: "p-2",
     },
     [themeObjects.TABS_LIST]: {
