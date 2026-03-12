@@ -329,6 +329,7 @@ const PADDING = "padding";
 // Design Token Class Names (v0.2.0+)
 const SHADOW = "shadow";
 const BORDER_RADIUS = "borderRadius";
+const BORDER_WIDTH = "borderWidth";
 const SPACING = "spacing";
 const TEXT_SIZE = "textSize";
 const ICON_SIZE = "iconSize";
@@ -359,6 +360,7 @@ const styleClassNames = {
     // Design Tokens
     SHADOW,
     BORDER_RADIUS,
+    BORDER_WIDTH,
     SPACING,
     TEXT_SIZE,
     ICON_SIZE,

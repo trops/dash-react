@@ -52,7 +52,12 @@ const Tabs = ({
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
             <div
-                className={`${styles.string} ${border === true ? "border" : ""} ${className}`}
+                className={`${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
+                style={{
+                    ...styles.inlineStyle?.backgroundColor,
+                    ...styles.inlineStyle?.textColor,
+                    ...styles.inlineStyle?.borderColor,
+                }}
             >
                 {children}
             </div>
@@ -71,6 +76,7 @@ const TabsList = ({ children, className = "", ...props }) => {
     return (
         <div
             className={`inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
+            style={styles.inlineStyle?.backgroundColor}
             role="tablist"
         >
             {children}
@@ -188,7 +194,12 @@ const Tabs2 = ({
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
             <div
-                className={`${styles.string} ${border === true ? "border" : ""} ${className}`}
+                className={`${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
+                style={{
+                    ...styles.inlineStyle?.backgroundColor,
+                    ...styles.inlineStyle?.textColor,
+                    ...styles.inlineStyle?.borderColor,
+                }}
             >
                 {children}
             </div>
@@ -207,6 +218,7 @@ const TabsList2 = ({ children, className = "", ...props }) => {
     return (
         <div
             className={`inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
+            style={styles.inlineStyle?.backgroundColor}
             role="tablist"
         >
             {children}
@@ -324,7 +336,12 @@ const Tabs3 = ({
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
             <div
-                className={`${styles.string} ${border === true ? "border" : ""} ${className}`}
+                className={`${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
+                style={{
+                    ...styles.inlineStyle?.backgroundColor,
+                    ...styles.inlineStyle?.textColor,
+                    ...styles.inlineStyle?.borderColor,
+                }}
             >
                 {children}
             </div>
@@ -343,6 +360,7 @@ const TabsList3 = ({ children, className = "", ...props }) => {
     return (
         <div
             className={`inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
+            style={styles.inlineStyle?.backgroundColor}
             role="tablist"
         >
             {children}
