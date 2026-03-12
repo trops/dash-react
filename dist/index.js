@@ -652,6 +652,28 @@ var getStylesForItem = function getStylesForItem() {
           finalStyles[k] = styles[k].replaceAll("overflow-hidden", "overflow-clip");
         }
       });
+
+      // Detect hex color values and convert to inline style objects
+      var hexToCssProp = {
+        backgroundColor: "backgroundColor",
+        activeBackgroundColor: "backgroundColor",
+        hoverBackgroundColor: "backgroundColor",
+        textColor: "color",
+        activeTextColor: "color",
+        hoverTextColor: "color",
+        borderColor: "borderColor",
+        hoverBorderColor: "borderColor"
+      };
+      var isHex = function isHex(val) {
+        return typeof val === "string" && /^#[0-9A-Fa-f]{3,8}$/.test(val.trim());
+      };
+      var inlineStyle = {};
+      Object.keys(finalStyles).forEach(function (k) {
+        if (isHex(finalStyles[k]) && k in hexToCssProp) {
+          inlineStyle[k] = _defineProperty$z({}, hexToCssProp[k], finalStyles[k].trim());
+          finalStyles[k] = "";
+        }
+      });
       var styleSet = _toConsumableArray$4(new Set(additionalStyles.split(" ").filter(function (v) {
         return v !== " " && v !== false && v !== true;
       }))).join(" ");
@@ -671,6 +693,11 @@ var getStylesForItem = function getStylesForItem() {
           return v.trim().replaceAll("overflow-hidden", "overflow-clip");
         }).join(" ")
       }, finalStyles);
+      Object.defineProperty(stylesObject, "inlineStyle", {
+        value: inlineStyle,
+        enumerable: false,
+        configurable: true
+      });
       return stylesObject;
     }
   } catch (e) {
@@ -713,13 +740,12 @@ var getStyleValueVariant = function getStyleValueVariant(className, obj) {
       case "activeBackgroundColor":
       case "activeTextColor":
         {
-          var _val2 = obj[className].replaceAll("active:", "");
-          return "active:" + _val2;
+          return obj[className].replaceAll("active:", "");
         }
       case "placeholderTextColor":
         {
-          var _val3 = obj[className].replaceAll("placeholder:", "");
-          return "placeholder:" + _val3;
+          var _val2 = obj[className].replaceAll("placeholder:", "");
+          return "placeholder:" + _val2;
         }
       case "textSize":
       case "fontWeight":
@@ -3636,6 +3662,7 @@ function _toPrimitive$j(t, r) { if ("object" != _typeof$k(t) || !t) return t; va
 function _objectWithoutProperties$d(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$d(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$d(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 function Toggle(_ref) {
+  var _styles$inlineStyle, _styles$inlineStyle2, _styles$inlineStyle3, _styles$inlineStyle4, _styles$inlineStyle5;
   var _ref$text = _ref.text,
     text = _ref$text === void 0 ? "" : _ref$text,
     _ref$enabled = _ref.enabled,
@@ -3662,18 +3689,22 @@ function Toggle(_ref) {
       "aria-checked": enabled,
       disabled: disabled,
       onClick: handleToggle,
+      style: enabled ? (_styles$inlineStyle = styles.inlineStyle) === null || _styles$inlineStyle === void 0 ? void 0 : _styles$inlineStyle.backgroundColor : (_styles$inlineStyle2 = styles.inlineStyle) === null || _styles$inlineStyle2 === void 0 ? void 0 : _styles$inlineStyle2.hoverBackgroundColor,
       className: "".concat(enabled ? styles.backgroundColor || "" : styles.hoverBackgroundColor ? styles.hoverBackgroundColor.replace("hover:", "").replace("hover-", "") : "", " relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"),
       children: /*#__PURE__*/jsx("span", {
         "aria-hidden": "true",
-        className: "".concat(enabled ? "translate-x-5" : "translate-x-0", " pointer-events-none inline-block h-5 w-5 transform rounded-full ").concat(styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
+        style: (_styles$inlineStyle3 = styles.inlineStyle) === null || _styles$inlineStyle3 === void 0 ? void 0 : _styles$inlineStyle3.activeBackgroundColor,
+        className: "".concat(enabled ? "translate-x-5" : "translate-x-0", " pointer-events-none inline-block h-5 w-5 transform rounded-full ").concat((_styles$inlineStyle4 = styles.inlineStyle) !== null && _styles$inlineStyle4 !== void 0 && _styles$inlineStyle4.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
     }), text && /*#__PURE__*/jsx("span", {
+      style: (_styles$inlineStyle5 = styles.inlineStyle) === null || _styles$inlineStyle5 === void 0 ? void 0 : _styles$inlineStyle5.textColor,
       className: "text-sm ".concat(styles.textColor || ""),
       children: text
     })]
   });
 }
 function Toggle2(_ref2) {
+  var _styles$inlineStyle6, _styles$inlineStyle7, _styles$inlineStyle8, _styles$inlineStyle9, _styles$inlineStyle0;
   var _ref2$text = _ref2.text,
     text = _ref2$text === void 0 ? "" : _ref2$text,
     _ref2$enabled = _ref2.enabled,
@@ -3700,18 +3731,22 @@ function Toggle2(_ref2) {
       "aria-checked": enabled,
       disabled: disabled,
       onClick: handleToggle,
+      style: enabled ? (_styles$inlineStyle6 = styles.inlineStyle) === null || _styles$inlineStyle6 === void 0 ? void 0 : _styles$inlineStyle6.backgroundColor : (_styles$inlineStyle7 = styles.inlineStyle) === null || _styles$inlineStyle7 === void 0 ? void 0 : _styles$inlineStyle7.hoverBackgroundColor,
       className: "".concat(enabled ? styles.backgroundColor || "" : styles.hoverBackgroundColor ? styles.hoverBackgroundColor.replace("hover:", "").replace("hover-", "") : "", " relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"),
       children: /*#__PURE__*/jsx("span", {
         "aria-hidden": "true",
-        className: "".concat(enabled ? "translate-x-4" : "translate-x-0", " pointer-events-none inline-block h-4 w-4 transform rounded-full ").concat(styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
+        style: (_styles$inlineStyle8 = styles.inlineStyle) === null || _styles$inlineStyle8 === void 0 ? void 0 : _styles$inlineStyle8.activeBackgroundColor,
+        className: "".concat(enabled ? "translate-x-4" : "translate-x-0", " pointer-events-none inline-block h-4 w-4 transform rounded-full ").concat((_styles$inlineStyle9 = styles.inlineStyle) !== null && _styles$inlineStyle9 !== void 0 && _styles$inlineStyle9.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
     }), text && /*#__PURE__*/jsx("span", {
+      style: (_styles$inlineStyle0 = styles.inlineStyle) === null || _styles$inlineStyle0 === void 0 ? void 0 : _styles$inlineStyle0.textColor,
       className: "text-sm ".concat(styles.textColor || ""),
       children: text
     })]
   });
 }
 function Toggle3(_ref3) {
+  var _styles$inlineStyle1, _styles$inlineStyle10, _styles$inlineStyle11, _styles$inlineStyle12, _styles$inlineStyle13;
   var _ref3$text = _ref3.text,
     text = _ref3$text === void 0 ? "" : _ref3$text,
     _ref3$enabled = _ref3.enabled,
@@ -3738,12 +3773,15 @@ function Toggle3(_ref3) {
       "aria-checked": enabled,
       disabled: disabled,
       onClick: handleToggle,
+      style: enabled ? (_styles$inlineStyle1 = styles.inlineStyle) === null || _styles$inlineStyle1 === void 0 ? void 0 : _styles$inlineStyle1.backgroundColor : (_styles$inlineStyle10 = styles.inlineStyle) === null || _styles$inlineStyle10 === void 0 ? void 0 : _styles$inlineStyle10.hoverBackgroundColor,
       className: "".concat(enabled ? styles.backgroundColor || "" : styles.hoverBackgroundColor ? styles.hoverBackgroundColor.replace("hover:", "").replace("hover-", "") : "", " relative inline-flex h-4 w-7 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"),
       children: /*#__PURE__*/jsx("span", {
         "aria-hidden": "true",
-        className: "".concat(enabled ? "translate-x-3" : "translate-x-0", " pointer-events-none inline-block h-3 w-3 transform rounded-full ").concat(styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
+        style: (_styles$inlineStyle11 = styles.inlineStyle) === null || _styles$inlineStyle11 === void 0 ? void 0 : _styles$inlineStyle11.activeBackgroundColor,
+        className: "".concat(enabled ? "translate-x-3" : "translate-x-0", " pointer-events-none inline-block h-3 w-3 transform rounded-full ").concat((_styles$inlineStyle12 = styles.inlineStyle) !== null && _styles$inlineStyle12 !== void 0 && _styles$inlineStyle12.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
     }), text && /*#__PURE__*/jsx("span", {
+      style: (_styles$inlineStyle13 = styles.inlineStyle) === null || _styles$inlineStyle13 === void 0 ? void 0 : _styles$inlineStyle13.textColor,
       className: "text-xs ".concat(styles.textColor || ""),
       children: text
     })]
@@ -5638,6 +5676,7 @@ var TabsList = function TabsList(_ref2) {
   });
 };
 var TabsTrigger = function TabsTrigger(_ref3) {
+  var _styles$inlineStyle, _styles$inlineStyle2, _styles$inlineStyle3;
   var value = _ref3.value,
     children = _ref3.children,
     _ref3$className = _ref3.className,
@@ -5663,11 +5702,13 @@ var TabsTrigger = function TabsTrigger(_ref3) {
     onClick: function onClick() {
       return !disabled && setActiveTab(value);
     },
+    style: isActive ? _objectSpread$2(_objectSpread$2({}, (_styles$inlineStyle = styles.inlineStyle) === null || _styles$inlineStyle === void 0 ? void 0 : _styles$inlineStyle.activeBackgroundColor), (_styles$inlineStyle2 = styles.inlineStyle) === null || _styles$inlineStyle2 === void 0 ? void 0 : _styles$inlineStyle2.activeTextColor) : _objectSpread$2({}, (_styles$inlineStyle3 = styles.inlineStyle) === null || _styles$inlineStyle3 === void 0 ? void 0 : _styles$inlineStyle3.textColor),
     className: "inline-flex items-center justify-center whitespace-nowrap ".concat(styles.spacing || "px-3 py-1.5", " ").concat(styles.textSize || "text-sm", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.borderRadius || "rounded-sm", " ").concat(styles.transition || "transition-all duration-150", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(isActive ? "".concat(styles.activeBackgroundColor || "", " shadow-sm ").concat(styles.activeTextColor || "") : "".concat(styles.textColor || "", " ").concat(styles.hoverTextColor || ""), " ").concat(disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer", " ").concat(className),
     children: children
   });
 };
 var TabsContent = function TabsContent(_ref4) {
+  var _styles$inlineStyle4;
   var value = _ref4.value,
     children = _ref4.children,
     _ref4$className = _ref4.className,
@@ -5684,6 +5725,7 @@ var TabsContent = function TabsContent(_ref4) {
   if (activeTab !== value) return null;
   return /*#__PURE__*/jsx("div", {
     role: "tabpanel",
+    style: (_styles$inlineStyle4 = styles.inlineStyle) === null || _styles$inlineStyle4 === void 0 ? void 0 : _styles$inlineStyle4.textColor,
     className: "".concat(styles.spacing || "mt-2", " ").concat(styles.textColor || "", " focus-visible:outline-none ").concat(className),
     children: children
   });
@@ -5765,6 +5807,7 @@ var TabsList2 = function TabsList2(_ref6) {
   });
 };
 var TabsTrigger2 = function TabsTrigger2(_ref7) {
+  var _styles$inlineStyle5, _styles$inlineStyle6, _styles$inlineStyle7;
   var value = _ref7.value,
     children = _ref7.children,
     _ref7$className = _ref7.className,
@@ -5790,11 +5833,13 @@ var TabsTrigger2 = function TabsTrigger2(_ref7) {
     onClick: function onClick() {
       return !disabled && setActiveTab(value);
     },
+    style: isActive ? _objectSpread$2(_objectSpread$2({}, (_styles$inlineStyle5 = styles.inlineStyle) === null || _styles$inlineStyle5 === void 0 ? void 0 : _styles$inlineStyle5.activeBackgroundColor), (_styles$inlineStyle6 = styles.inlineStyle) === null || _styles$inlineStyle6 === void 0 ? void 0 : _styles$inlineStyle6.activeTextColor) : _objectSpread$2({}, (_styles$inlineStyle7 = styles.inlineStyle) === null || _styles$inlineStyle7 === void 0 ? void 0 : _styles$inlineStyle7.textColor),
     className: "inline-flex items-center justify-center whitespace-nowrap ".concat(styles.spacing || "px-3 py-1.5", " ").concat(styles.textSize || "text-sm", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.borderRadius || "rounded-sm", " ").concat(styles.transition || "transition-all duration-150", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(isActive ? "".concat(styles.activeBackgroundColor || "", " shadow-sm ").concat(styles.activeTextColor || "") : "".concat(styles.textColor || "", " ").concat(styles.hoverTextColor || ""), " ").concat(disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer", " ").concat(className),
     children: children
   });
 };
 var TabsContent2 = function TabsContent2(_ref8) {
+  var _styles$inlineStyle8;
   var value = _ref8.value,
     children = _ref8.children,
     _ref8$className = _ref8.className,
@@ -5811,6 +5856,7 @@ var TabsContent2 = function TabsContent2(_ref8) {
   if (activeTab !== value) return null;
   return /*#__PURE__*/jsx("div", {
     role: "tabpanel",
+    style: (_styles$inlineStyle8 = styles.inlineStyle) === null || _styles$inlineStyle8 === void 0 ? void 0 : _styles$inlineStyle8.textColor,
     className: "".concat(styles.spacing || "mt-2", " ").concat(styles.textColor || "", " focus-visible:outline-none ").concat(className),
     children: children
   });
@@ -5892,6 +5938,7 @@ var TabsList3 = function TabsList3(_ref0) {
   });
 };
 var TabsTrigger3 = function TabsTrigger3(_ref1) {
+  var _styles$inlineStyle9, _styles$inlineStyle0, _styles$inlineStyle1;
   var value = _ref1.value,
     children = _ref1.children,
     _ref1$className = _ref1.className,
@@ -5917,11 +5964,13 @@ var TabsTrigger3 = function TabsTrigger3(_ref1) {
     onClick: function onClick() {
       return !disabled && setActiveTab(value);
     },
+    style: isActive ? _objectSpread$2(_objectSpread$2({}, (_styles$inlineStyle9 = styles.inlineStyle) === null || _styles$inlineStyle9 === void 0 ? void 0 : _styles$inlineStyle9.activeBackgroundColor), (_styles$inlineStyle0 = styles.inlineStyle) === null || _styles$inlineStyle0 === void 0 ? void 0 : _styles$inlineStyle0.activeTextColor) : _objectSpread$2({}, (_styles$inlineStyle1 = styles.inlineStyle) === null || _styles$inlineStyle1 === void 0 ? void 0 : _styles$inlineStyle1.textColor),
     className: "inline-flex items-center justify-center whitespace-nowrap ".concat(styles.spacing || "px-2 py-1", " ").concat(styles.textSize || "text-xs", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.borderRadius || "rounded-sm", " ").concat(styles.transition || "transition-all duration-150", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(isActive ? "".concat(styles.activeBackgroundColor || "", " shadow-sm ").concat(styles.activeTextColor || "") : "".concat(styles.textColor || "", " ").concat(styles.hoverTextColor || ""), " ").concat(disabled ? "opacity-50 pointer-events-none" : styles.cursor || "cursor-pointer", " ").concat(className),
     children: children
   });
 };
 var TabsContent3 = function TabsContent3(_ref10) {
+  var _styles$inlineStyle10;
   var value = _ref10.value,
     children = _ref10.children,
     _ref10$className = _ref10.className,
@@ -5938,6 +5987,7 @@ var TabsContent3 = function TabsContent3(_ref10) {
   if (activeTab !== value) return null;
   return /*#__PURE__*/jsx("div", {
     role: "tabpanel",
+    style: (_styles$inlineStyle10 = styles.inlineStyle) === null || _styles$inlineStyle10 === void 0 ? void 0 : _styles$inlineStyle10.textColor,
     className: "".concat(styles.spacing || "mt-2", " ").concat(styles.textColor || "", " focus-visible:outline-none ").concat(className),
     children: children
   });

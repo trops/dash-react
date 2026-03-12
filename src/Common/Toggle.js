@@ -30,6 +30,11 @@ function Toggle({
                 aria-checked={enabled}
                 disabled={disabled}
                 onClick={handleToggle}
+                style={
+                    enabled
+                        ? styles.inlineStyle?.backgroundColor
+                        : styles.inlineStyle?.hoverBackgroundColor
+                }
                 className={`${
                     enabled
                         ? styles.backgroundColor || ""
@@ -42,13 +47,17 @@ function Toggle({
             >
                 <span
                     aria-hidden="true"
+                    style={styles.inlineStyle?.activeBackgroundColor}
                     className={`${
                         enabled ? "translate-x-5" : "translate-x-0"
-                    } pointer-events-none inline-block h-5 w-5 transform rounded-full ${styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    } pointer-events-none inline-block h-5 w-5 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
             {text && (
-                <span className={`text-sm ${styles.textColor || ""}`}>
+                <span
+                    style={styles.inlineStyle?.textColor}
+                    className={`text-sm ${styles.textColor || ""}`}
+                >
                     {text}
                 </span>
             )}
@@ -83,6 +92,11 @@ function Toggle2({
                 aria-checked={enabled}
                 disabled={disabled}
                 onClick={handleToggle}
+                style={
+                    enabled
+                        ? styles.inlineStyle?.backgroundColor
+                        : styles.inlineStyle?.hoverBackgroundColor
+                }
                 className={`${
                     enabled
                         ? styles.backgroundColor || ""
@@ -95,13 +109,17 @@ function Toggle2({
             >
                 <span
                     aria-hidden="true"
+                    style={styles.inlineStyle?.activeBackgroundColor}
                     className={`${
                         enabled ? "translate-x-4" : "translate-x-0"
-                    } pointer-events-none inline-block h-4 w-4 transform rounded-full ${styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    } pointer-events-none inline-block h-4 w-4 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
             {text && (
-                <span className={`text-sm ${styles.textColor || ""}`}>
+                <span
+                    style={styles.inlineStyle?.textColor}
+                    className={`text-sm ${styles.textColor || ""}`}
+                >
                     {text}
                 </span>
             )}
@@ -136,6 +154,11 @@ function Toggle3({
                 aria-checked={enabled}
                 disabled={disabled}
                 onClick={handleToggle}
+                style={
+                    enabled
+                        ? styles.inlineStyle?.backgroundColor
+                        : styles.inlineStyle?.hoverBackgroundColor
+                }
                 className={`${
                     enabled
                         ? styles.backgroundColor || ""
@@ -148,13 +171,17 @@ function Toggle3({
             >
                 <span
                     aria-hidden="true"
+                    style={styles.inlineStyle?.activeBackgroundColor}
                     className={`${
                         enabled ? "translate-x-3" : "translate-x-0"
-                    } pointer-events-none inline-block h-3 w-3 transform rounded-full ${styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    } pointer-events-none inline-block h-3 w-3 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
             {text && (
-                <span className={`text-xs ${styles.textColor || ""}`}>
+                <span
+                    style={styles.inlineStyle?.textColor}
+                    className={`text-xs ${styles.textColor || ""}`}
+                >
                     {text}
                 </span>
             )}

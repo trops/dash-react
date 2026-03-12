@@ -1450,6 +1450,32 @@ const getStylesForItem = (
                 }
             });
 
+            // Detect hex color values and convert to inline style objects
+            const hexToCssProp = {
+                backgroundColor: "backgroundColor",
+                activeBackgroundColor: "backgroundColor",
+                hoverBackgroundColor: "backgroundColor",
+                textColor: "color",
+                activeTextColor: "color",
+                hoverTextColor: "color",
+                borderColor: "borderColor",
+                hoverBorderColor: "borderColor",
+            };
+
+            const isHex = (val) =>
+                typeof val === "string" &&
+                /^#[0-9A-Fa-f]{3,8}$/.test(val.trim());
+
+            const inlineStyle = {};
+            Object.keys(finalStyles).forEach((k) => {
+                if (isHex(finalStyles[k]) && k in hexToCssProp) {
+                    inlineStyle[k] = {
+                        [hexToCssProp[k]]: finalStyles[k].trim(),
+                    };
+                    finalStyles[k] = "";
+                }
+            });
+
             const styleSet = [
                 ...new Set(
                     additionalStyles
@@ -1501,6 +1527,12 @@ const getStylesForItem = (
                 ...finalStyles,
             };
 
+            Object.defineProperty(stylesObject, "inlineStyle", {
+                value: inlineStyle,
+                enumerable: false,
+                configurable: true,
+            });
+
             return stylesObject;
         }
     } catch (e) {
@@ -1542,8 +1574,7 @@ const getStyleValueVariant = (className, obj) => {
             }
             case "activeBackgroundColor":
             case "activeTextColor": {
-                const val = obj[className].replaceAll("active:", "");
-                return "active:" + val;
+                return obj[className].replaceAll("active:", "");
             }
             case "placeholderTextColor": {
                 const val = obj[className].replaceAll("placeholder:", "");

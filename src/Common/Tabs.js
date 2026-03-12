@@ -102,6 +102,16 @@ const TabsTrigger = ({
             aria-selected={isActive}
             disabled={disabled}
             onClick={() => !disabled && setActiveTab(value)}
+            style={
+                isActive
+                    ? {
+                          ...styles.inlineStyle?.activeBackgroundColor,
+                          ...styles.inlineStyle?.activeTextColor,
+                      }
+                    : {
+                          ...styles.inlineStyle?.textColor,
+                      }
+            }
             className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${
                 isActive
                     ? `${styles.activeBackgroundColor || ""} shadow-sm ${styles.activeTextColor || ""}`
@@ -127,6 +137,7 @@ const TabsContent = ({ value, children, className = "", ...props }) => {
     return (
         <div
             role="tabpanel"
+            style={styles.inlineStyle?.textColor}
             className={`${styles.spacing || "mt-2"} ${styles.textColor || ""} focus-visible:outline-none ${className}`}
         >
             {children}
@@ -227,6 +238,16 @@ const TabsTrigger2 = ({
             aria-selected={isActive}
             disabled={disabled}
             onClick={() => !disabled && setActiveTab(value)}
+            style={
+                isActive
+                    ? {
+                          ...styles.inlineStyle?.activeBackgroundColor,
+                          ...styles.inlineStyle?.activeTextColor,
+                      }
+                    : {
+                          ...styles.inlineStyle?.textColor,
+                      }
+            }
             className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
                     ? `${styles.activeBackgroundColor || ""} shadow-sm ${styles.activeTextColor || ""}`
@@ -252,6 +273,7 @@ const TabsContent2 = ({ value, children, className = "", ...props }) => {
     return (
         <div
             role="tabpanel"
+            style={styles.inlineStyle?.textColor}
             className={`${styles.spacing || "mt-2"} ${styles.textColor || ""} focus-visible:outline-none ${className}`}
         >
             {children}
@@ -352,6 +374,16 @@ const TabsTrigger3 = ({
             aria-selected={isActive}
             disabled={disabled}
             onClick={() => !disabled && setActiveTab(value)}
+            style={
+                isActive
+                    ? {
+                          ...styles.inlineStyle?.activeBackgroundColor,
+                          ...styles.inlineStyle?.activeTextColor,
+                      }
+                    : {
+                          ...styles.inlineStyle?.textColor,
+                      }
+            }
             className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
                     ? `${styles.activeBackgroundColor || ""} shadow-sm ${styles.activeTextColor || ""}`
@@ -377,6 +409,7 @@ const TabsContent3 = ({ value, children, className = "", ...props }) => {
     return (
         <div
             role="tabpanel"
+            style={styles.inlineStyle?.textColor}
             className={`${styles.spacing || "mt-2"} ${styles.textColor || ""} focus-visible:outline-none ${className}`}
         >
             {children}
