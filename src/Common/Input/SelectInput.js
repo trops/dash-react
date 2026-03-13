@@ -104,6 +104,11 @@ const SelectInput = ({
                                     : placeholder}
                             </span>
                         </span>
+                        {selectedOption?.badge && (
+                            <span className="flex-shrink-0">
+                                {selectedOption.badge}
+                            </span>
+                        )}
                         <FontAwesomeIcon
                             icon="chevron-down"
                             className={`h-3 w-3 shrink-0 opacity-50 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
@@ -140,10 +145,15 @@ const SelectInput = ({
                                             <span className="truncate">
                                                 {option.label}
                                             </span>
+                                            {option.badge && (
+                                                <span className="flex-shrink-0 ml-auto">
+                                                    {option.badge}
+                                                </span>
+                                            )}
                                             {isSelected && (
                                                 <FontAwesomeIcon
                                                     icon="check"
-                                                    className="h-3 w-3 shrink-0 ml-auto opacity-70"
+                                                    className={`h-3 w-3 shrink-0 opacity-70${option.badge ? "" : " ml-auto"}`}
                                                 />
                                             )}
                                         </button>
