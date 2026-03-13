@@ -37,6 +37,5 @@ webpack.config.js
 ws.bak
 
 dist/.npmrc
-scripts/
 *storybook.log
 src/Widgets

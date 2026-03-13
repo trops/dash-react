@@ -1,6 +1,6 @@
 {
     "name": "@trops/dash-react",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "typescript": "^2.6.2",
@@ -31,7 +31,12 @@
         "bump-tag": "npm version -m patch",
         "prettify": "prettier --write . ",
         "test-jest": "NODE_OPTIONS=--experimental-vm-modules jest",
-        "test": "exit 0"
+        "test": "exit 0",
+        "ci": "./scripts/ci.sh",
+        "ci:commit": "./scripts/ci.sh --commit",
+        "ci:push": "./scripts/ci.sh --push",
+        "ci:pr": "./scripts/ci.sh --pr",
+        "ci:release": "./scripts/ci.sh --release"
     },
     "keywords": [
         "Dash"
