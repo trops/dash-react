@@ -814,6 +814,29 @@ git push origin main
 - Updating build configuration (rollup, tailwind)
 - Updating dependencies
 
+### Local CI Script (Recommended)
+
+The `scripts/ci.sh` script handles the full validation pipeline (Node 20 via nvm, Prettier, Rollup build, output verification, package creation) and optionally the git workflow:
+
+```bash
+# Validate only
+npm run ci
+
+# Validate + commit + version bump
+npm run ci:commit -- -m "Your commit message"
+
+# Above + push branch
+npm run ci:push -- -m "Your commit message"
+
+# Above + create PR
+npm run ci:pr -- -m "Your commit message"
+
+# Above + merge PR + tag + cleanup branches
+npm run ci:release -- -m "Your commit message"
+```
+
+Each flag is cumulative -- `--release` runs all prior steps. The script automatically switches to Node 20 using nvm.
+
 ### Pre-Commit Validation Checklist
 
 Before committing changes:
