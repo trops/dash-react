@@ -91,7 +91,7 @@ const SelectInput = ({
                         onClick={() => setIsOpen(!isOpen)}
                         className={`w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed text-left flex items-center justify-between gap-2 ${inputClassName}`}
                     >
-                        <span className="flex items-center gap-2 truncate">
+                        <span className="flex items-center gap-2 truncate flex-1 min-w-0">
                             {selectedOption?.icon && (
                                 <FontAwesomeIcon
                                     icon={selectedOption.icon}
@@ -138,7 +138,11 @@ const SelectInput = ({
                                         >
                                             {option.icon && (
                                                 <FontAwesomeIcon
-                                                    icon={option.icon}
+                                                    icon={
+                                                        isSelected
+                                                            ? "check"
+                                                            : option.icon
+                                                    }
                                                     className="h-3.5 w-3.5 shrink-0 opacity-70"
                                                 />
                                             )}
@@ -149,12 +153,6 @@ const SelectInput = ({
                                                 <span className="flex-shrink-0 ml-auto">
                                                     {option.badge}
                                                 </span>
-                                            )}
-                                            {isSelected && (
-                                                <FontAwesomeIcon
-                                                    icon="check"
-                                                    className={`h-3 w-3 shrink-0 opacity-70${option.badge ? "" : " ml-auto"}`}
-                                                />
                                             )}
                                         </button>
                                     );
