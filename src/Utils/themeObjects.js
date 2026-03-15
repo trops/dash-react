@@ -170,6 +170,9 @@ const ICON = "icon";
 const ICON_2 = "icon-2";
 const ICON_3 = "icon-3";
 
+const THEME_FROM_URL_PANE = "theme-from-url-pane";
+const PALETTE_PREVIEW_PANE = "palette-preview-pane";
+
 const SCROLLBAR = "scrollbar";
 
 const WIDGET = "widget";
@@ -312,6 +315,8 @@ const themeObjects = {
     ICON,
     ICON_2,
     ICON_3,
+    THEME_FROM_URL_PANE,
+    PALETTE_PREVIEW_PANE,
     SCROLLBAR,
     WIDGET,
     WORKSPACE,

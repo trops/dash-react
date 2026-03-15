@@ -814,6 +814,32 @@ git push origin main
 - Updating build configuration (rollup, tailwind)
 - Updating dependencies
 
+### Git Branching Workflow
+
+Always work on feature branches, never push directly to main.
+
+**Before starting any new feature or fix:**
+
+```bash
+git checkout main && git pull
+git checkout -b feat/<TICKET-KEY>-<slug>
+```
+
+**Branch naming:** `feat/<TICKET-KEY>-<slug>` for features, `fix/<TICKET-KEY>-<slug>` for bug fixes.
+
+**Steps:**
+
+1. **Pull latest** — `git checkout main && git pull origin main`
+2. **Branch** — `git checkout -b feat/<TICKET-KEY>-<slug>`
+3. **Code** — Make changes, follow existing patterns
+4. **Validate + Ship** — Use `scripts/ci.sh --release` (see below) to validate, commit, push, PR, merge, tag, and clean up
+
+**Things to avoid:**
+
+- Never push directly to main — always use feature branches and PRs
+- Never skip validation — always run `scripts/ci.sh` before shipping
+- Never use `git push --force` or `git reset --hard`
+
 ### Local CI Script (Recommended)
 
 The `scripts/ci.sh` script handles the full validation pipeline (Node 20 via nvm, Prettier, Rollup build, output verification, package creation) and optionally the git workflow:
