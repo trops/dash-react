@@ -114,6 +114,27 @@ const ThemeFromUrlPane = ({
         }
     }
 
+    function handleReorderRoles(sourceRole, targetRole) {
+        if (!palette || !roleAssignments) return;
+
+        // Swap the palette indices between the two roles
+        const newAssignments = {
+            ...roleAssignments,
+            [sourceRole]: roleAssignments[targetRole],
+            [targetRole]: roleAssignments[sourceRole],
+        };
+        setRoleAssignments(newAssignments);
+        setGeneratedTheme(null);
+
+        // Re-map theme with swapped assignments
+        if (onMapToTheme) {
+            onMapToTheme(palette, newAssignments).then((theme) => {
+                setGeneratedTheme(theme);
+                if (onPreview) onPreview(theme);
+            });
+        }
+    }
+
     function handleGenerate() {
         if (!onGenerate || !generatedTheme) return;
         const theme = {
@@ -230,6 +251,7 @@ const ThemeFromUrlPane = ({
                     palette={palette}
                     roleAssignments={roleAssignments}
                     onSwapRole={handleSwapRole}
+                    onReorderRoles={handleReorderRoles}
                 />
             )}
 
