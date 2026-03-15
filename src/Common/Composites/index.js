@@ -12,3 +12,5 @@ export { Stepper } from "./Stepper";
 export { DataList } from "./DataList";
 export { Drawer } from "./Drawer";
 export { Tooltip } from "./Tooltip";
+export { ThemeFromUrlPane } from "./ThemeFromUrlPane";
+export { PalettePreviewPane } from "./PalettePreviewPane";
