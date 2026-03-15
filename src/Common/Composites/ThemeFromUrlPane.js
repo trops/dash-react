@@ -17,6 +17,7 @@ const URL_REGEX = /^https?:\/\/.+\..+/i;
  * - onExtract: async (url) => { palette, roleAssignments, suggestedName }
  * - onGenerate: (theme) => void — called when user clicks Generate Theme
  * - onMapToTheme: async (palette, roleAssignments) => theme object
+ * - onPreview: (theme) => void — called with generated theme for live preview (optional)
  * - inline: boolean — if true, omits outer padding (for embedding in wizard)
  * - className: additional CSS classes
  */
@@ -24,6 +25,7 @@ const ThemeFromUrlPane = ({
     onExtract = null,
     onGenerate = null,
     onMapToTheme = null,
+    onPreview = null,
     inline = false,
     className = "",
 }) => {
@@ -81,6 +83,7 @@ const ThemeFromUrlPane = ({
                     result.roleAssignments || buildDefaultRoles(result.palette)
                 );
                 setGeneratedTheme(theme);
+                if (onPreview) onPreview(theme);
             }
         } catch (err) {
             const message =
@@ -106,6 +109,7 @@ const ThemeFromUrlPane = ({
         if (onMapToTheme) {
             onMapToTheme(palette, newAssignments).then((theme) => {
                 setGeneratedTheme(theme);
+                if (onPreview) onPreview(theme);
             });
         }
     }
