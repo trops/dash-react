@@ -1057,6 +1057,9 @@ const colorMap = {
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
         [styleClassNames.ICON_SIZE]: "h-3.5 w-3.5",
     },
+    [themeObjects.WS_STATUS]: {
+        [styleClassNames.TEXT_COLOR]: "text-primary-light",
+    },
     [themeObjects.SCROLLBAR]: {
         scrollbarThumb: "scrollbar-thumb-gray-700",
         scrollbarTrack: "scrollbar-track-transparent",

@@ -47,3 +47,5 @@ export * from "./Accordion";
 export * from "./DropdownPanel";
 
 export * from "./Composites";
+
+export * from "./WebSocketStatus";
