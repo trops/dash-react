@@ -173,6 +173,8 @@ const ICON_3 = "icon-3";
 const THEME_FROM_URL_PANE = "theme-from-url-pane";
 const PALETTE_PREVIEW_PANE = "palette-preview-pane";
 
+const WS_STATUS = "ws-status";
+
 const SCROLLBAR = "scrollbar";
 
 const WIDGET = "widget";
@@ -318,6 +320,7 @@ const themeObjects = {
     THEME_FROM_URL_PANE,
     PALETTE_PREVIEW_PANE,
     SCROLLBAR,
+    WS_STATUS,
     WIDGET,
     WORKSPACE,
     LAYOUT_CONTAINER,
