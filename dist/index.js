@@ -2,8 +2,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 export * from '@fortawesome/free-solid-svg-icons';
 import * as BrandIcons from '@fortawesome/free-brands-svg-icons';
-import React, { createContext, useContext, createElement, useMemo, useEffect, useState, useRef, Fragment, useCallback, Children } from 'react';
-import { jsxs, jsx, Fragment as Fragment$1 } from 'react/jsx-runtime';
+import React, { createContext, useContext, useState, useCallback, useMemo, createElement, useEffect, useRef, Fragment, Children } from 'react';
+import { jsx, jsxs, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,6 +28,93 @@ var ThemeContext = /*#__PURE__*/createContext({
   themes: null,
   rawThemes: null
 });
+
+function _typeof$H(o) { "@babel/helpers - typeof"; return _typeof$H = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$H(o); }
+function ownKeys$A(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$A(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$A(Object(t), !0).forEach(function (r) { _defineProperty$B(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$A(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$B(e, r, t) { return (r = _toPropertyKey$F(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$F(t) { var i = _toPrimitive$F(t, "string"); return "symbol" == _typeof$H(i) ? i : i + ""; }
+function _toPrimitive$F(t, r) { if ("object" != _typeof$H(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$H(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray$c(r, e) { return _arrayWithHoles$c(r) || _iterableToArrayLimit$c(r, e) || _unsupportedIterableToArray$f(r, e) || _nonIterableRest$c(); }
+function _nonIterableRest$c() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
+function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$c(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$c(r) { if (Array.isArray(r)) return r; }
+var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
+  var children = _ref.children;
+  var parentCtx = useContext(ThemeContext);
+  var _useState = useState(null),
+    _useState2 = _slicedToArray$c(_useState, 2),
+    previewTheme = _useState2[0],
+    setPreviewThemeState = _useState2[1];
+  var _useState3 = useState(true),
+    _useState4 = _slicedToArray$c(_useState3, 2),
+    showPreview = _useState4[0],
+    setShowPreview = _useState4[1];
+  var isPreview = previewTheme !== null && showPreview;
+  var setPreviewTheme = useCallback(function (theme) {
+    setPreviewThemeState(theme);
+    setShowPreview(true);
+  }, []);
+  var clearPreview = useCallback(function () {
+    setPreviewThemeState(null);
+    setShowPreview(true);
+  }, []);
+  var togglePreview = useCallback(function () {
+    setShowPreview(function (prev) {
+      return !prev;
+    });
+  }, []);
+
+  // Build the overridden context value
+  var ctxValue = useMemo(function () {
+    if (!isPreview) return parentCtx;
+    return _objectSpread$A(_objectSpread$A({}, parentCtx), {}, {
+      currentTheme: previewTheme
+    });
+  }, [parentCtx, isPreview, previewTheme]);
+
+  // Preview control bag — passed to render-prop children and available via useThemePreview
+  var previewControls = useMemo(function () {
+    return {
+      isPreview: isPreview,
+      showPreview: showPreview,
+      previewTheme: previewTheme,
+      setPreviewTheme: setPreviewTheme,
+      clearPreview: clearPreview,
+      togglePreview: togglePreview
+    };
+  }, [isPreview, showPreview, previewTheme, setPreviewTheme, clearPreview, togglePreview]);
+  var content = typeof children === "function" ? children(previewControls) : children;
+  return /*#__PURE__*/jsx(ThemePreviewContext.Provider, {
+    value: previewControls,
+    children: /*#__PURE__*/jsx(ThemeContext.Provider, {
+      value: ctxValue,
+      children: content
+    })
+  });
+};
+
+/**
+ * Separate context for preview controls so components can access
+ * preview state without re-creating the ThemeContext provider.
+ */
+var ThemePreviewContext = /*#__PURE__*/createContext({
+  isPreview: false,
+  showPreview: true,
+  previewTheme: null,
+  setPreviewTheme: function setPreviewTheme() {},
+  clearPreview: function clearPreview() {},
+  togglePreview: function togglePreview() {}
+});
+
+/**
+ * useThemePreview — access preview controls from any descendant.
+ */
+var useThemePreview = function useThemePreview() {
+  return useContext(ThemePreviewContext);
+};
 
 var WidgetContext = /*#__PURE__*/createContext({
   widgetData: null
@@ -8212,6 +8299,7 @@ var URL_REGEX = /^https?:\/\/.+\..+/i;
  * - onExtract: async (url) => { palette, roleAssignments, suggestedName }
  * - onGenerate: (theme) => void — called when user clicks Generate Theme
  * - onMapToTheme: async (palette, roleAssignments) => theme object
+ * - onPreview: (theme) => void — called with generated theme for live preview (optional)
  * - inline: boolean — if true, omits outer padding (for embedding in wizard)
  * - className: additional CSS classes
  */
@@ -8222,6 +8310,8 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
     onGenerate = _ref$onGenerate === void 0 ? null : _ref$onGenerate,
     _ref$onMapToTheme = _ref.onMapToTheme,
     onMapToTheme = _ref$onMapToTheme === void 0 ? null : _ref$onMapToTheme,
+    _ref$onPreview = _ref.onPreview,
+    onPreview = _ref$onPreview === void 0 ? null : _ref$onPreview,
     _ref$inline = _ref.inline,
     inline = _ref$inline === void 0 ? false : _ref$inline,
     _ref$className = _ref.className,
@@ -8302,7 +8392,7 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
 
             // Auto-generate theme if mapper is available
             if (!onMapToTheme) {
-              _context.next = 22;
+              _context.next = 23;
               break;
             }
             _context.next = 20;
@@ -8310,23 +8400,24 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
           case 20:
             theme = _context.sent;
             setGeneratedTheme(theme);
-          case 22:
-            _context.next = 28;
+            if (onPreview) onPreview(theme);
+          case 23:
+            _context.next = 29;
             break;
-          case 24:
-            _context.prev = 24;
+          case 25:
+            _context.prev = 25;
             _context.t0 = _context["catch"](7);
             message = (_context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message) || "Failed to extract colors. Check the URL and try again.";
             setError(message);
-          case 28:
-            _context.prev = 28;
+          case 29:
+            _context.prev = 29;
             setLoading(false);
-            return _context.finish(28);
-          case 31:
+            return _context.finish(29);
+          case 32:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[7, 24, 28, 31]]);
+      }, _callee, null, [[7, 25, 29, 32]]);
     }));
     return _handleExtract.apply(this, arguments);
   }
@@ -8343,6 +8434,7 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
     if (onMapToTheme) {
       onMapToTheme(palette, newAssignments).then(function (theme) {
         setGeneratedTheme(theme);
+        if (onPreview) onPreview(theme);
       });
     }
   }
@@ -8468,6 +8560,85 @@ function deriveNameFromUrl(url) {
     return "Website theme";
   }
 }
+
+var ThemePreviewBanner = function ThemePreviewBanner(_ref) {
+  var _ref$onSave = _ref.onSave,
+    onSave = _ref$onSave === void 0 ? null : _ref$onSave,
+    _ref$onCancel = _ref.onCancel,
+    onCancel = _ref$onCancel === void 0 ? null : _ref$onCancel,
+    _ref$position = _ref.position,
+    position = _ref$position === void 0 ? "bottom" : _ref$position,
+    _ref$className = _ref.className,
+    className = _ref$className === void 0 ? "" : _ref$className;
+  var _useContext = useContext(ThemeContext),
+    currentTheme = _useContext.currentTheme;
+  var _useThemePreview = useThemePreview(),
+    isPreview = _useThemePreview.isPreview,
+    showPreview = _useThemePreview.showPreview,
+    togglePreview = _useThemePreview.togglePreview,
+    clearPreview = _useThemePreview.clearPreview;
+  if (!isPreview && showPreview) return null;
+
+  // Only show when there's a preview theme loaded (even if toggled off)
+  var _useThemePreview2 = useThemePreview(),
+    previewTheme = _useThemePreview2.previewTheme;
+  if (!previewTheme) return null;
+  getStylesForItem(themeObjects.BUTTON, currentTheme, {
+    scrollable: false,
+    grow: false
+  });
+  var positionClasses = position === "top" ? "top-0 left-0 right-0" : "bottom-0 left-0 right-0";
+  function handleSave() {
+    if (onSave) onSave();
+  }
+  function handleCancel() {
+    if (onCancel) {
+      onCancel();
+    } else {
+      clearPreview();
+    }
+  }
+  return /*#__PURE__*/jsx("div", {
+    className: "fixed ".concat(positionClasses, " z-50 flex items-center justify-center p-3 ").concat(className),
+    children: /*#__PURE__*/jsxs("div", {
+      className: "flex flex-row items-center gap-3 px-4 py-2.5 rounded-lg bg-amber-500/90 text-black shadow-lg backdrop-blur-sm",
+      children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+        icon: "eye",
+        className: "h-3.5 w-3.5"
+      }), /*#__PURE__*/jsx("span", {
+        className: "text-sm font-semibold",
+        children: "Preview Mode"
+      }), /*#__PURE__*/jsx("div", {
+        className: "w-px h-5 bg-black/20"
+      }), /*#__PURE__*/jsxs("button", {
+        type: "button",
+        onClick: togglePreview,
+        className: "flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium bg-black/10 hover:bg-black/20 transition-colors",
+        title: showPreview ? "Show original theme" : "Show preview theme",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: showPreview ? "eye-slash" : "eye",
+          className: "h-3 w-3"
+        }), showPreview ? "Original" : "Preview"]
+      }), onSave && /*#__PURE__*/jsxs("button", {
+        type: "button",
+        onClick: handleSave,
+        className: "flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium bg-black/20 hover:bg-black/30 transition-colors",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: "check",
+          className: "h-3 w-3"
+        }), "Save"]
+      }), /*#__PURE__*/jsxs("button", {
+        type: "button",
+        onClick: handleCancel,
+        className: "flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium bg-black/10 hover:bg-black/20 transition-colors",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: "xmark",
+          className: "h-3 w-3"
+        }), "Cancel"]
+      })]
+    })
+  });
+};
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { var r = _regenerator(), e = r.m(_regeneratorRuntime), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield(r, e); }, AsyncIterator: _regeneratorAsyncIterator, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen : _regeneratorAsync)(a(r), e, t, o, u); }, keys: _regeneratorKeys, values: _regeneratorValues }; })(); }
@@ -8677,5 +8848,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Card, Card2, Card3, Checkbox, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, SearchInput, SelectInput, SelectMenu, SettingsModal, Sidebar, Skeleton, Slider, StatCard, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useSidebar, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Card, Card2, Card3, Checkbox, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, SearchInput, SelectInput, SelectMenu, SettingsModal, Sidebar, Skeleton, Slider, StatCard, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useSidebar, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
