@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useCallback } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
@@ -6,6 +6,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PalettePreviewPane, ROLES } from "./PalettePreviewPane";
 
 const URL_REGEX = /^https?:\/\/.+\..+/i;
+
+const EXTRACT_TIMEOUT_MS = 20000;
+
+const ERROR_MESSAGES = {
+    URL_TIMEOUT: "The site took too long to load. Try a simpler page.",
+    URL_UNREACHABLE: "Couldn't reach that URL. Check the address.",
+    NO_COLORS_FOUND: "No usable colors found. Try a more styled page.",
+    EXTRACTION_FAILED:
+        "Site blocks scanning. Colors extracted from favicon only.",
+};
+
+function getErrorMessage(err) {
+    if (err?.type && ERROR_MESSAGES[err.type]) {
+        return ERROR_MESSAGES[err.type];
+    }
+    if (err?.message) return err.message;
+    return "Something went wrong. Please try again.";
+}
 
 /**
  * ThemeFromUrlPane
@@ -47,77 +65,113 @@ const ThemeFromUrlPane = ({
     const [suggestedName, setSuggestedName] = useState("");
     const [generatedTheme, setGeneratedTheme] = useState(null);
 
+    const timeoutRef = useRef(null);
+
     const isValidUrl = URL_REGEX.test(url.trim());
     const canExtract = isValidUrl && !loading;
     const canGenerate = palette && roleAssignments && !loading;
 
     const inputId = getUUID("", "theme-url-input");
 
-    async function handleExtract() {
-        if (!onExtract || !canExtract) return;
+    const handleExtract = useCallback(
+        async function handleExtract() {
+            if (!onExtract || !isValidUrl || loading) return;
 
-        setLoading(true);
-        setError(null);
-        setPalette(null);
-        setRoleAssignments(null);
-        setGeneratedTheme(null);
+            setLoading(true);
+            setError(null);
+            setPalette(null);
+            setRoleAssignments(null);
+            setGeneratedTheme(null);
 
-        try {
-            const result = await onExtract(url.trim());
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-            if (!result || !result.palette || result.palette.length === 0) {
-                setError("No colors found on this page. Try a different URL.");
-                return;
-            }
+            let timedOut = false;
 
-            setPalette(result.palette);
-            setRoleAssignments(
-                result.roleAssignments || buildDefaultRoles(result.palette)
-            );
-            setSuggestedName(result.suggestedName || deriveNameFromUrl(url));
+            try {
+                const extractPromise = onExtract(url.trim());
 
-            // Auto-generate theme if mapper is available
-            if (onMapToTheme) {
-                const theme = await onMapToTheme(
-                    result.palette,
-                    result.roleAssignments || buildDefaultRoles(result.palette)
+                const timeoutPromise = new Promise((_, reject) => {
+                    timeoutRef.current = setTimeout(() => {
+                        timedOut = true;
+                        reject({ type: "URL_TIMEOUT" });
+                    }, EXTRACT_TIMEOUT_MS);
+                });
+
+                const result = await Promise.race([
+                    extractPromise,
+                    timeoutPromise,
+                ]);
+
+                clearTimeout(timeoutRef.current);
+                timeoutRef.current = null;
+
+                if (
+                    result &&
+                    !result.success &&
+                    result.error &&
+                    result.error.type
+                ) {
+                    setError(getErrorMessage(result.error));
+                    return;
+                }
+
+                const data =
+                    result && result.success && result.data
+                        ? result.data
+                        : result;
+
+                if (!data || !data.palette || data.palette.length === 0) {
+                    setError(getErrorMessage({ type: "NO_COLORS_FOUND" }));
+                    return;
+                }
+
+                setPalette(data.palette);
+                setRoleAssignments(
+                    data.roleAssignments || buildDefaultRoles(data.palette)
                 );
-                setGeneratedTheme(theme);
-                if (onPreview) onPreview(theme);
+                setSuggestedName(data.suggestedName || deriveNameFromUrl(url));
+
+                if (onMapToTheme) {
+                    const theme = await onMapToTheme(
+                        data.palette,
+                        data.roleAssignments || buildDefaultRoles(data.palette)
+                    );
+                    setGeneratedTheme(theme);
+                    if (onPreview) onPreview(theme);
+                }
+            } catch (err) {
+                clearTimeout(timeoutRef.current);
+                timeoutRef.current = null;
+                setError(getErrorMessage(err));
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            const message =
-                err?.message ||
-                "Failed to extract colors. Check the URL and try again.";
-            setError(message);
-        } finally {
-            setLoading(false);
-        }
-    }
+        },
+        [onExtract, onMapToTheme, onPreview, url, isValidUrl, loading]
+    );
 
     function handleSwapRole(role, currentIndex) {
         if (!palette || !roleAssignments) return;
 
-        // Cycle to the next palette color for this role
         const nextIndex = (currentIndex + 1) % palette.length;
 
         const newAssignments = { ...roleAssignments, [role]: nextIndex };
         setRoleAssignments(newAssignments);
-        setGeneratedTheme(null); // Invalidate generated theme
+        setGeneratedTheme(null);
 
-        // Re-map theme with new assignments
         if (onMapToTheme) {
-            onMapToTheme(palette, newAssignments).then((theme) => {
-                setGeneratedTheme(theme);
-                if (onPreview) onPreview(theme);
-            });
+            onMapToTheme(palette, newAssignments)
+                .then((theme) => {
+                    setGeneratedTheme(theme);
+                    if (onPreview) onPreview(theme);
+                })
+                .catch(() => {});
         }
     }
 
     function handleReorderRoles(sourceRole, targetRole) {
         if (!palette || !roleAssignments) return;
 
-        // Swap the palette indices between the two roles
         const newAssignments = {
             ...roleAssignments,
             [sourceRole]: roleAssignments[targetRole],
@@ -126,12 +180,13 @@ const ThemeFromUrlPane = ({
         setRoleAssignments(newAssignments);
         setGeneratedTheme(null);
 
-        // Re-map theme with swapped assignments
         if (onMapToTheme) {
-            onMapToTheme(palette, newAssignments).then((theme) => {
-                setGeneratedTheme(theme);
-                if (onPreview) onPreview(theme);
-            });
+            onMapToTheme(palette, newAssignments)
+                .then((theme) => {
+                    setGeneratedTheme(theme);
+                    if (onPreview) onPreview(theme);
+                })
+                .catch(() => {});
         }
     }
 
@@ -236,12 +291,26 @@ const ThemeFromUrlPane = ({
 
             {/* Error State */}
             {error && (
-                <div className="flex flex-row items-center gap-2 py-2 text-red-400">
-                    <FontAwesomeIcon
-                        icon="circle-exclamation"
-                        className="h-4 w-4"
-                    />
-                    <span className="text-sm">{error}</span>
+                <div className="flex flex-col gap-2 py-2">
+                    <div className="flex flex-row items-center gap-2 text-red-400">
+                        <FontAwesomeIcon
+                            icon="circle-exclamation"
+                            className="h-4 w-4"
+                        />
+                        <span className="text-sm">{error}</span>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={handleExtract}
+                        disabled={!isValidUrl || loading}
+                        className={`flex flex-row items-center gap-2 px-3 py-1.5 w-fit ${buttonStyles.string} text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${buttonStyles.focusRingColor || ""} disabled:opacity-40 disabled:cursor-not-allowed`}
+                    >
+                        <FontAwesomeIcon
+                            icon="rotate-right"
+                            className="h-3 w-3"
+                        />
+                        <span>Try Again</span>
+                    </button>
                 </div>
             )}
 
