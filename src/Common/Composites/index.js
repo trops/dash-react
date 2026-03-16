@@ -15,3 +15,4 @@ export { Tooltip } from "./Tooltip";
 export { ThemeFromUrlPane } from "./ThemeFromUrlPane";
 export { PalettePreviewPane } from "./PalettePreviewPane";
 export { ThemePreviewBanner } from "./ThemePreviewBanner";
+export { SelectableCard } from "./SelectableCard";
