@@ -8437,6 +8437,11 @@ var PalettePreviewPane = function PalettePreviewPane(_ref2) {
 };
 
 function _typeof$2(o) { "@babel/helpers - typeof"; return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$2(o); }
+function ownKeys$1(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread$1(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$1(Object(t), !0).forEach(function (r) { _defineProperty$1(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$1(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty$1(e, r, t) { return (r = _toPropertyKey$1(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey$1(t) { var i = _toPrimitive$1(t, "string"); return "symbol" == _typeof$2(i) ? i : i + ""; }
+function _toPrimitive$1(t, r) { if ("object" != _typeof$2(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$2(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime$1() { var r = _regenerator$1(), e = r.m(_regeneratorRuntime$1), t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor; function n(r) { var e = "function" == typeof r && r.constructor; return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name)); } var o = { "throw": 1, "return": 2, "break": 3, "continue": 3 }; function a(r) { var e, t; return function (n) { e || (e = { stop: function stop() { return t(n.a, 2); }, "catch": function _catch() { return n.v; }, abrupt: function abrupt(r, e) { return t(n.a, o[r], e); }, delegateYield: function delegateYield(r, o, a) { return e.resultName = o, t(n.d, _regeneratorValues$1(r), a); }, finish: function finish(r) { return t(n.f, r); } }, t = function t(r, _t, o) { n.p = e.prev, n.n = e.next; try { return r(_t, o); } finally { e.next = n.n; } }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n; try { return r.call(this, e); } finally { n.p = e.prev, n.n = e.next; } }; } return (_regeneratorRuntime$1 = function _regeneratorRuntime() { return { wrap: function wrap(e, t, n, o) { return r.w(a(e), t, n, o && o.reverse()); }, isGeneratorFunction: n, mark: r.m, awrap: function awrap(r, e) { return new _OverloadYield$1(r, e); }, AsyncIterator: _regeneratorAsyncIterator$1, async: function async(r, e, t, o, u) { return (n(e) ? _regeneratorAsyncGen$1 : _regeneratorAsync$1)(a(r), e, t, o, u); }, keys: _regeneratorKeys$1, values: _regeneratorValues$1 }; })(); }
 function _regeneratorValues$1(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof$2(e) + " is not iterable"); }
 function _regeneratorKeys$1(e) { var n = Object(e), r = []; for (var t in n) r.unshift(t); return function e() { for (; r.length;) if ((t = r.pop()) in n) return e.value = t, e.done = !1, e; return e.done = !0, e; }; }
@@ -8446,11 +8451,6 @@ function _regeneratorAsyncIterator$1(t, e) { function n(r, o, i, f) { try { var 
 function _regenerator$1() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2$1(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2$1(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2$1(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2$1(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2$1(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2$1(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2$1(u), _regeneratorDefine2$1(u, o, "Generator"), _regeneratorDefine2$1(u, n, function () { return this; }), _regeneratorDefine2$1(u, "toString", function () { return "[object Generator]"; }), (_regenerator$1 = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2$1(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2$1 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2$1(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2$1(e, r, n, t); }
 function _OverloadYield$1(e, d) { this.v = e, this.k = d; }
-function ownKeys$1(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread$1(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$1(Object(t), !0).forEach(function (r) { _defineProperty$1(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$1(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty$1(e, r, t) { return (r = _toPropertyKey$1(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$1(t) { var i = _toPrimitive$1(t, "string"); return "symbol" == _typeof$2(i) ? i : i + ""; }
-function _toPrimitive$1(t, r) { if ("object" != _typeof$2(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$2(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function asyncGeneratorStep$1(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator$1(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep$1(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep$1(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray$1(r, e) || _nonIterableRest(); }
@@ -8460,6 +8460,20 @@ function _arrayLikeToArray$1(r, a) { (null == a || a > r.length) && (a = r.lengt
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var URL_REGEX = /^https?:\/\/.+\..+/i;
+var EXTRACT_TIMEOUT_MS = 20000;
+var ERROR_MESSAGES = {
+  URL_TIMEOUT: "The site took too long to load. Try a simpler page.",
+  URL_UNREACHABLE: "Couldn't reach that URL. Check the address.",
+  NO_COLORS_FOUND: "No usable colors found. Try a more styled page.",
+  EXTRACTION_FAILED: "Site blocks scanning. Colors extracted from favicon only."
+};
+function getErrorMessage(err) {
+  if (err !== null && err !== void 0 && err.type && ERROR_MESSAGES[err.type]) {
+    return ERROR_MESSAGES[err.type];
+  }
+  if (err !== null && err !== void 0 && err.message) return err.message;
+  return "Something went wrong. Please try again.";
+}
 
 /**
  * ThemeFromUrlPane
@@ -8522,20 +8536,18 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
     _useState12 = _slicedToArray(_useState11, 2),
     generatedTheme = _useState12[0],
     setGeneratedTheme = _useState12[1];
+  var timeoutRef = useRef(null);
   var isValidUrl = URL_REGEX.test(url.trim());
   var canExtract = isValidUrl && !loading;
   var canGenerate = palette && roleAssignments && !loading;
   var inputId = getUUID$1("", "theme-url-input");
-  function handleExtract() {
-    return _handleExtract.apply(this, arguments);
-  }
-  function _handleExtract() {
-    _handleExtract = _asyncToGenerator$1(/*#__PURE__*/_regeneratorRuntime$1().mark(function _callee() {
-      var result, theme, message;
+  var handleExtract = useCallback(/*#__PURE__*/function () {
+    var _handleExtract = _asyncToGenerator$1(/*#__PURE__*/_regeneratorRuntime$1().mark(function _callee() {
+      var extractPromise, timeoutPromise, result, data, theme;
       return _regeneratorRuntime$1().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            if (!(!onExtract || !canExtract)) {
+            if (!(!onExtract || !isValidUrl || loading)) {
               _context.next = 2;
               break;
             }
@@ -8546,84 +8558,99 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
             setPalette(null);
             setRoleAssignments(null);
             setGeneratedTheme(null);
-            _context.prev = 7;
-            _context.next = 10;
-            return onExtract(url.trim());
-          case 10:
-            result = _context.sent;
-            if (!(!result || !result.palette || result.palette.length === 0)) {
-              _context.next = 14;
-              break;
-            }
-            setError("No colors found on this page. Try a different URL.");
-            return _context.abrupt("return");
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            _context.prev = 9;
+            extractPromise = onExtract(url.trim());
+            timeoutPromise = new Promise(function (_, reject) {
+              timeoutRef.current = setTimeout(function () {
+                reject({
+                  type: "URL_TIMEOUT"
+                });
+              }, EXTRACT_TIMEOUT_MS);
+            });
+            _context.next = 14;
+            return Promise.race([extractPromise, timeoutPromise]);
           case 14:
-            setPalette(result.palette);
-            setRoleAssignments(result.roleAssignments || buildDefaultRoles(result.palette));
-            setSuggestedName(result.suggestedName || deriveNameFromUrl(url));
-
-            // Auto-generate theme if mapper is available
-            if (!onMapToTheme) {
-              _context.next = 23;
+            result = _context.sent;
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+            if (!(result && !result.success && result.error && result.error.type)) {
+              _context.next = 20;
               break;
             }
-            _context.next = 20;
-            return onMapToTheme(result.palette, result.roleAssignments || buildDefaultRoles(result.palette));
+            setError(getErrorMessage(result.error));
+            return _context.abrupt("return");
           case 20:
+            data = result && result.success && result.data ? result.data : result;
+            if (!(!data || !data.palette || data.palette.length === 0)) {
+              _context.next = 24;
+              break;
+            }
+            setError(getErrorMessage({
+              type: "NO_COLORS_FOUND"
+            }));
+            return _context.abrupt("return");
+          case 24:
+            setPalette(data.palette);
+            setRoleAssignments(data.roleAssignments || buildDefaultRoles(data.palette));
+            setSuggestedName(data.suggestedName || deriveNameFromUrl(url));
+            if (!onMapToTheme) {
+              _context.next = 33;
+              break;
+            }
+            _context.next = 30;
+            return onMapToTheme(data.palette, data.roleAssignments || buildDefaultRoles(data.palette));
+          case 30:
             theme = _context.sent;
             setGeneratedTheme(theme);
             if (onPreview) onPreview(theme);
-          case 23:
-            _context.next = 29;
+          case 33:
+            _context.next = 40;
             break;
-          case 25:
-            _context.prev = 25;
-            _context.t0 = _context["catch"](7);
-            message = (_context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message) || "Failed to extract colors. Check the URL and try again.";
-            setError(message);
-          case 29:
-            _context.prev = 29;
+          case 35:
+            _context.prev = 35;
+            _context.t0 = _context["catch"](9);
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+            setError(getErrorMessage(_context.t0));
+          case 40:
+            _context.prev = 40;
             setLoading(false);
-            return _context.finish(29);
-          case 32:
+            return _context.finish(40);
+          case 43:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[7, 25, 29, 32]]);
+      }, _callee, null, [[9, 35, 40, 43]]);
     }));
-    return _handleExtract.apply(this, arguments);
-  }
+    function handleExtract() {
+      return _handleExtract.apply(this, arguments);
+    }
+    return handleExtract;
+  }(), [onExtract, onMapToTheme, onPreview, url, isValidUrl, loading]);
   function handleSwapRole(role, currentIndex) {
     if (!palette || !roleAssignments) return;
-
-    // Cycle to the next palette color for this role
     var nextIndex = (currentIndex + 1) % palette.length;
     var newAssignments = _objectSpread$1(_objectSpread$1({}, roleAssignments), {}, _defineProperty$1({}, role, nextIndex));
     setRoleAssignments(newAssignments);
-    setGeneratedTheme(null); // Invalidate generated theme
-
-    // Re-map theme with new assignments
+    setGeneratedTheme(null);
     if (onMapToTheme) {
       onMapToTheme(palette, newAssignments).then(function (theme) {
         setGeneratedTheme(theme);
         if (onPreview) onPreview(theme);
-      });
+      })["catch"](function () {});
     }
   }
   function handleReorderRoles(sourceRole, targetRole) {
     if (!palette || !roleAssignments) return;
-
-    // Swap the palette indices between the two roles
     var newAssignments = _objectSpread$1(_objectSpread$1({}, roleAssignments), {}, _defineProperty$1(_defineProperty$1({}, sourceRole, roleAssignments[targetRole]), targetRole, roleAssignments[sourceRole]));
     setRoleAssignments(newAssignments);
     setGeneratedTheme(null);
-
-    // Re-map theme with swapped assignments
     if (onMapToTheme) {
       onMapToTheme(palette, newAssignments).then(function (theme) {
         setGeneratedTheme(theme);
         if (onPreview) onPreview(theme);
-      });
+      })["catch"](function () {});
     }
   }
   function handleGenerate() {
@@ -8697,13 +8724,27 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
         children: "Scanning page for colors..."
       })]
     }), error && /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row items-center gap-2 py-2 text-red-400",
-      children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-        icon: "circle-exclamation",
-        className: "h-4 w-4"
-      }), /*#__PURE__*/jsx("span", {
-        className: "text-sm",
-        children: error
+      className: "flex flex-col gap-2 py-2",
+      children: [/*#__PURE__*/jsxs("div", {
+        className: "flex flex-row items-center gap-2 text-red-400",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: "circle-exclamation",
+          className: "h-4 w-4"
+        }), /*#__PURE__*/jsx("span", {
+          className: "text-sm",
+          children: error
+        })]
+      }), /*#__PURE__*/jsxs("button", {
+        type: "button",
+        onClick: handleExtract,
+        disabled: !isValidUrl || loading,
+        className: "flex flex-row items-center gap-2 px-3 py-1.5 w-fit ".concat(buttonStyles.string, " text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(buttonStyles.focusRingColor || "", " disabled:opacity-40 disabled:cursor-not-allowed"),
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: "rotate-right",
+          className: "h-3 w-3"
+        }), /*#__PURE__*/jsx("span", {
+          children: "Try Again"
+        })]
       })]
     }), palette && roleAssignments && /*#__PURE__*/jsx(PalettePreviewPane, {
       palette: palette,
