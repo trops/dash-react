@@ -30,7 +30,7 @@ const SidebarHeader = ({ children, className = "" }) => {
 const SidebarContent = ({ children, className = "" }) => {
     return (
         <div
-            className={`flex flex-col flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-1 scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent ${className}`}
+            className={`flex flex-col flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-2 space-y-1 scrollbar scrollbar-thumb-gray-700 scrollbar-thin scrollbar-track-transparent ${className}`}
         >
             {children}
         </div>
@@ -49,7 +49,7 @@ const SidebarGroup = ({ label = null, children, className = "" }) => {
         <div className={`flex flex-col space-y-1 ${className}`}>
             {label && !collapsed && (
                 <span
-                    className={`px-2 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider ${styles.textColor || ""} opacity-50`}
+                    className={`px-2 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider whitespace-nowrap ${styles.textColor || ""} opacity-50`}
                 >
                     {label}
                 </span>
@@ -217,7 +217,7 @@ const Sidebar = ({
             }}
         >
             <aside
-                className={`flex flex-col flex-shrink-0 h-full ${isCollapsed ? collapsedWidth : width} ${borderSide} ${styles.backgroundColor || ""} ${styles.borderColor || ""} ${styles.textColor || ""} ${styles.transition || "transition-all duration-200"} overflow-hidden ${className}`}
+                className={`flex flex-col flex-shrink-0 h-full ${isCollapsed ? collapsedWidth : width} ${borderSide} ${styles.backgroundColor || ""} ${styles.borderColor || ""} ${styles.textColor || ""} ${styles.transition || "transition-[width] duration-200"} overflow-hidden ${className}`}
             >
                 {children}
             </aside>
