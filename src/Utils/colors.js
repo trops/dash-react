@@ -509,6 +509,8 @@ const colorMap = {
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-secondary-medium",
         [styleClassNames.HOVER_TEXT_COLOR]: "hover-text-secondary-dark",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
+        [styleClassNames.ACTIVE_BACKGROUND_COLOR]: "bg-primary-dark",
+        [styleClassNames.ACTIVE_TEXT_COLOR]: "text-primary-light",
     },
     [themeObjects.TAG_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-medium",
