@@ -15,12 +15,9 @@ const Tag = ({
         grow: false,
     });
 
-    const stylesCalculated =
-        className !== ""
-            ? className
-            : `${styles.string} font-medium rounded border ${
-                  onClick !== null && "cursor-pointer"
-              } ${textSize}`;
+    const stylesCalculated = `${styles.string} font-medium rounded border ${
+        onClick !== null ? "cursor-pointer" : ""
+    } ${textSize} ${className}`;
 
     const uuid = getUUID("", "tag");
     return (
@@ -39,6 +36,7 @@ const Tag2 = ({
     textSize = "text-xs",
     onClick = null,
     className = "",
+    active = false,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -47,12 +45,13 @@ const Tag2 = ({
         grow: false,
     });
 
-    const stylesCalculated =
-        className !== ""
-            ? className
-            : `${styles.string} font-medium rounded border ${
-                  onClick !== null && "cursor-pointer"
-              } ${textSize}`;
+    const colorClasses = active
+        ? `${styles.activeBackgroundColor || styles.backgroundColor || ""} ${styles.activeTextColor || styles.textColor || ""}`
+        : `${styles.backgroundColor || ""} ${styles.textColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""}`;
+
+    const stylesCalculated = `${colorClasses} ${styles.borderColor || ""} font-medium rounded border ${
+        onClick !== null ? "cursor-pointer" : ""
+    } ${textSize} ${className}`;
 
     const uuid = getUUID("", "tag-2");
     return (
@@ -79,12 +78,9 @@ const Tag3 = ({
         grow: false,
     });
 
-    const stylesCalculated =
-        className !== ""
-            ? className
-            : `${styles.string} font-normal rounded border ${
-                  onClick !== null && "cursor-pointer"
-              } ${textSize}`;
+    const stylesCalculated = `${styles.string} font-normal rounded border ${
+        onClick !== null ? "cursor-pointer" : ""
+    } ${textSize} ${className}`;
     const uuid = getUUID("", "tag-3");
     return (
         <span
