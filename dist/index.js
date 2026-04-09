@@ -2881,7 +2881,7 @@ var ProgressBar3 = function ProgressBar3(props) {
 };
 
 function _typeof$x(o) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$x(o); }
-var _excluded$p = ["title", "message", "duration", "onClose", "className", "children"];
+var _excluded$p = ["title", "message", "duration", "onClose", "className", "children", "type"];
 function ownKeys$r(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$r(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$r(Object(t), !0).forEach(function (r) { _defineProperty$s(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$r(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$s(e, r, t) { return (r = _toPropertyKey$w(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2889,6 +2889,32 @@ function _toPropertyKey$w(t) { var i = _toPrimitive$w(t, "string"); return "symb
 function _toPrimitive$w(t, r) { if ("object" != _typeof$x(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$x(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$p(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$p(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$p(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var TOAST_TYPE_STYLES = {
+  success: {
+    bg: "bg-emerald-950/95",
+    border: "border-emerald-500",
+    accent: "text-emerald-400",
+    icon: "circle-check"
+  },
+  error: {
+    bg: "bg-rose-950/95",
+    border: "border-rose-500",
+    accent: "text-rose-400",
+    icon: "circle-xmark"
+  },
+  warning: {
+    bg: "bg-amber-950/95",
+    border: "border-amber-500",
+    accent: "text-amber-400",
+    icon: "triangle-exclamation"
+  },
+  info: {
+    bg: "bg-sky-950/95",
+    border: "border-sky-500",
+    accent: "text-sky-400",
+    icon: "circle-info"
+  }
+};
 var Toast = function Toast(_ref) {
   var _ref$title = _ref.title,
     title = _ref$title === void 0 ? "" : _ref$title,
@@ -2902,6 +2928,8 @@ var Toast = function Toast(_ref) {
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$children = _ref.children,
     children = _ref$children === void 0 ? null : _ref$children,
+    _ref$type = _ref.type,
+    type = _ref$type === void 0 ? null : _ref$type,
     props = _objectWithoutProperties$p(_ref, _excluded$p);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -2919,6 +2947,40 @@ var Toast = function Toast(_ref) {
       return clearTimeout(timer);
     };
   }, [duration, onClose]);
+
+  // Type-specific rendering: colored border, icon, and accent text
+  if (type && TOAST_TYPE_STYLES[type]) {
+    var t = TOAST_TYPE_STYLES[type];
+    return /*#__PURE__*/jsx("div", {
+      id: uuid,
+      className: "rounded-md border-l-4 ".concat(t.border, " ").concat(t.bg, " shadow-lg p-3 text-white ").concat(className),
+      role: "status",
+      children: /*#__PURE__*/jsxs("div", {
+        className: "flex items-start gap-3",
+        children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: t.icon,
+          className: "h-4 w-4 mt-0.5 flex-shrink-0 ".concat(t.accent)
+        }), /*#__PURE__*/jsxs("div", {
+          className: "flex-1 min-w-0",
+          children: [title && /*#__PURE__*/jsx("div", {
+            className: "font-semibold text-sm ".concat(t.accent),
+            children: title
+          }), message && /*#__PURE__*/jsx("div", {
+            className: "text-sm text-white/90 break-words",
+            children: message
+          }), children]
+        }), onClose && /*#__PURE__*/jsx("button", {
+          type: "button",
+          onClick: onClose,
+          className: "text-white/60 hover:text-white text-lg leading-none flex-shrink-0",
+          "aria-label": "Close toast",
+          children: "\xD7"
+        })]
+      })
+    });
+  }
+
+  // Default theme-driven rendering (backward compatible)
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     className: "border ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 shadow-lg ").concat(className),
