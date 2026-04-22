@@ -9,6 +9,7 @@ function Toggle({
     setEnabled,
     disabled = false,
     className = "",
+    children,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -53,12 +54,12 @@ function Toggle({
                     } pointer-events-none inline-block h-5 w-5 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
-            {text && (
+            {(text || children !== undefined) && (
                 <span
                     style={styles.inlineStyle?.textColor}
                     className={`text-sm ${styles.textColor || ""}`}
                 >
-                    {text}
+                    {children !== undefined ? children : text}
                 </span>
             )}
         </div>
@@ -71,6 +72,7 @@ function Toggle2({
     setEnabled,
     disabled = false,
     className = "",
+    children,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -115,12 +117,12 @@ function Toggle2({
                     } pointer-events-none inline-block h-4 w-4 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
-            {text && (
+            {(text || children !== undefined) && (
                 <span
                     style={styles.inlineStyle?.textColor}
                     className={`text-sm ${styles.textColor || ""}`}
                 >
-                    {text}
+                    {children !== undefined ? children : text}
                 </span>
             )}
         </div>
@@ -133,6 +135,7 @@ function Toggle3({
     setEnabled,
     disabled = false,
     className = "",
+    children,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
@@ -177,12 +180,12 @@ function Toggle3({
                     } pointer-events-none inline-block h-3 w-3 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
-            {text && (
+            {(text || children !== undefined) && (
                 <span
                     style={styles.inlineStyle?.textColor}
                     className={`text-xs ${styles.textColor || ""}`}
                 >
-                    {text}
+                    {children !== undefined ? children : text}
                 </span>
             )}
         </div>

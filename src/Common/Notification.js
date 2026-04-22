@@ -10,6 +10,7 @@ export default function Notification({
     message = "",
     onClick = null,
     loading = false,
+    children,
 }) {
     return (
         <Fragment>
@@ -42,7 +43,9 @@ export default function Notification({
                                         </div>
                                         <div className="ml-3 w-0 flex-1">
                                             <p className="text-sm font-medium text-gray-900">
-                                                {title}
+                                                {children !== undefined
+                                                    ? children
+                                                    : title}
                                             </p>
                                             <p className="mt-1 text-sm text-gray-500">
                                                 {message}

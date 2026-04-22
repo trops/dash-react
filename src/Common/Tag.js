@@ -7,6 +7,7 @@ const Tag = ({
     textSize = "text-sm",
     onClick = null,
     className = "",
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -26,7 +27,7 @@ const Tag = ({
             onClick={onClick}
             className={`flex flex-row w-fit ${stylesCalculated} px-3 py-1.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
-            {text}
+            {children !== undefined ? children : text}
         </span>
     );
 };
@@ -37,6 +38,7 @@ const Tag2 = ({
     onClick = null,
     className = "",
     active = false,
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -60,7 +62,7 @@ const Tag2 = ({
             onClick={onClick}
             className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
-            {text}
+            {children !== undefined ? children : text}
         </span>
     );
 };
@@ -70,6 +72,7 @@ const Tag3 = ({
     textSize = "text-xs",
     onClick = null,
     className = "",
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -88,7 +91,7 @@ const Tag3 = ({
             onClick={onClick}
             className={`flex flex-row w-fit ${stylesCalculated} px-1.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
-            {text}
+            {children !== undefined ? children : text}
         </span>
     );
 };

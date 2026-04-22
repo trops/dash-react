@@ -20,6 +20,7 @@ const ButtonIcon = ({
     className = "",
     size = "md",
     ariaLabel = null,
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -42,7 +43,13 @@ const ButtonIcon = ({
     const uuid = getUUID("", "button-icon");
     const computedIconSize = iconSize || styles.iconSize || "h-5 w-5";
     const hasIcon = icon !== "";
-    const hasText = text !== "" && text !== null;
+    // Accept the button label via `text` prop (canonical) OR children
+    // (LLM-friendly shorthand). Prop wins when both are provided.
+    const effectiveText = text !== "" && text !== null ? text : children;
+    const hasText =
+        effectiveText !== undefined &&
+        effectiveText !== null &&
+        effectiveText !== "";
 
     const bgColor = selected
         ? styles.selectedBackgroundColor || styles.backgroundColor || ""
@@ -63,7 +70,7 @@ const ButtonIcon = ({
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
             )}
-            {hasText && <span>{text}</span>}
+            {hasText && <span>{effectiveText}</span>}
         </button>
     );
 };
@@ -83,6 +90,7 @@ const ButtonIcon2 = ({
     className = "",
     size = "md",
     ariaLabel = null,
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -104,7 +112,13 @@ const ButtonIcon2 = ({
     const uuid = getUUID("", "button-icon-2");
     const computedIconSize = iconSize || styles.iconSize || "h-4 w-4";
     const hasIcon = icon !== "";
-    const hasText = text !== "" && text !== null;
+    // Accept the button label via `text` prop (canonical) OR children
+    // (LLM-friendly shorthand). Prop wins when both are provided.
+    const effectiveText = text !== "" && text !== null ? text : children;
+    const hasText =
+        effectiveText !== undefined &&
+        effectiveText !== null &&
+        effectiveText !== "";
 
     const bgColor = selected
         ? styles.selectedBackgroundColor || styles.backgroundColor || ""
@@ -125,7 +139,7 @@ const ButtonIcon2 = ({
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
             )}
-            {hasText && <span>{text}</span>}
+            {hasText && <span>{effectiveText}</span>}
         </button>
     );
 };
@@ -145,6 +159,7 @@ const ButtonIcon3 = ({
     className = "",
     size = "md",
     ariaLabel = null,
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -166,7 +181,13 @@ const ButtonIcon3 = ({
     const uuid = getUUID("", "button-icon-3");
     const computedIconSize = iconSize || styles.iconSize || "h-3 w-3";
     const hasIcon = icon !== "";
-    const hasText = text !== "" && text !== null;
+    // Accept the button label via `text` prop (canonical) OR children
+    // (LLM-friendly shorthand). Prop wins when both are provided.
+    const effectiveText = text !== "" && text !== null ? text : children;
+    const hasText =
+        effectiveText !== undefined &&
+        effectiveText !== null &&
+        effectiveText !== "";
 
     const bgColor = selected
         ? styles.selectedBackgroundColor || styles.backgroundColor || ""
@@ -187,7 +208,7 @@ const ButtonIcon3 = ({
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
             )}
-            {hasText && <span>{text}</span>}
+            {hasText && <span>{effectiveText}</span>}
         </button>
     );
 };
