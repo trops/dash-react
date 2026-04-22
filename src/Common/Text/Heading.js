@@ -11,6 +11,7 @@ function Heading({
     backgroundColor = null,
     className = "",
     as = null,
+    children,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "py-3 2xl:py-4" : "p-0";
@@ -29,7 +30,7 @@ function Heading({
             className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-5xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
-        title
+        children !== undefined ? children : title
     );
 }
 
@@ -41,6 +42,7 @@ function Heading2({
     backgroundColor = null,
     className = "",
     as = null,
+    children,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "py-2.5 2xl:py-3" : "p-0";
@@ -59,7 +61,7 @@ function Heading2({
             className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-4xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
-        title
+        children !== undefined ? children : title
     );
 }
 
@@ -71,6 +73,7 @@ function Heading3({
     backgroundColor = null,
     className = "",
     as = null,
+    children,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
@@ -89,7 +92,7 @@ function Heading3({
             className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-3xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
-        title
+        children !== undefined ? children : title
     );
 }
 
@@ -101,6 +104,7 @@ function SubHeading({
     backgroundColor = null,
     className = "",
     as = null,
+    children,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
@@ -119,7 +123,7 @@ function SubHeading({
             className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-2xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
-        title
+        children !== undefined ? children : title
     );
 }
 
@@ -131,6 +135,7 @@ function SubHeading2({
     backgroundColor = null,
     className = "",
     as = null,
+    children,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "py-1.5 2xl:py-2" : "p-0";
@@ -149,7 +154,7 @@ function SubHeading2({
             className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-xl"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
-        title
+        children !== undefined ? children : title
     );
 }
 
@@ -161,6 +166,7 @@ function SubHeading3({
     backgroundColor = null,
     className = "",
     as = null,
+    children,
 }) {
     const { currentTheme } = useContext(ThemeContext);
     const paddingStyles = padding === true ? "py-1 2xl:py-2" : "p-0";
@@ -179,7 +185,7 @@ function SubHeading3({
             className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-lg"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-normal"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
-        title
+        children !== undefined ? children : title
     );
 }
 

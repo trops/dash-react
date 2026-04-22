@@ -12,6 +12,7 @@ const Button = ({
     block = false,
     size = "md",
     className = "",
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -40,7 +41,7 @@ const Button = ({
             disabled={disabled}
             className={`flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${className}`}
         >
-            {title}
+            {children !== undefined ? children : title}
         </button>
     );
 };
@@ -54,6 +55,7 @@ const Button2 = ({
     block = false,
     size = "md",
     className = "",
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -81,7 +83,7 @@ const Button2 = ({
             disabled={disabled}
             className={`flex flex-row flex-shrink justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
-            {title}
+            {children !== undefined ? children : title}
         </button>
     );
 };
@@ -95,6 +97,7 @@ const Button3 = ({
     block = false,
     size = "md",
     className = "",
+    children,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -121,7 +124,7 @@ const Button3 = ({
             disabled={disabled}
             className={`flex flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
-            {title}
+            {children !== undefined ? children : title}
         </button>
     );
 };
