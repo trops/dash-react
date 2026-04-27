@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { dispatchInputChange } from "./dispatchInputChange";
 
 const TextArea = ({
     label = "",
@@ -60,7 +61,7 @@ const TextArea = ({
                 id={inputId}
                 rows={rows}
                 value={value}
-                onChange={(event) => onChange(event.target.value, event)}
+                onChange={(event) => dispatchInputChange(onChange, event)}
                 placeholder={placeholder}
                 disabled={disabled}
                 className={`w-full border px-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
