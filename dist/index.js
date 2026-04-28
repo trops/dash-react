@@ -1786,7 +1786,8 @@ function Heading(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$as = _ref.as,
-    as = _ref$as === void 0 ? null : _ref$as;
+    as = _ref$as === void 0 ? null : _ref$as,
+    children = _ref.children;
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var paddingStyles = padding === true ? "py-3 2xl:py-4" : "p-0";
@@ -1800,7 +1801,7 @@ function Heading(_ref) {
   return /*#__PURE__*/createElement(Tag, {
     className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-5xl", " ").concat(styles.fontWeight || "font-bold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-tight", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick
-  }, title);
+  }, children !== undefined ? children : title);
 }
 function Heading2(_ref2) {
   var title = _ref2.title,
@@ -1815,7 +1816,8 @@ function Heading2(_ref2) {
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$as = _ref2.as,
-    as = _ref2$as === void 0 ? null : _ref2$as;
+    as = _ref2$as === void 0 ? null : _ref2$as,
+    children = _ref2.children;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var paddingStyles = padding === true ? "py-2.5 2xl:py-3" : "p-0";
@@ -1829,7 +1831,7 @@ function Heading2(_ref2) {
   return /*#__PURE__*/createElement(Tag, {
     className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-4xl", " ").concat(styles.fontWeight || "font-bold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-tight", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick
-  }, title);
+  }, children !== undefined ? children : title);
 }
 function Heading3(_ref3) {
   var title = _ref3.title,
@@ -1844,7 +1846,8 @@ function Heading3(_ref3) {
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$as = _ref3.as,
-    as = _ref3$as === void 0 ? null : _ref3$as;
+    as = _ref3$as === void 0 ? null : _ref3$as,
+    children = _ref3.children;
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
@@ -1858,7 +1861,7 @@ function Heading3(_ref3) {
   return /*#__PURE__*/createElement(Tag, {
     className: "flex flex-row ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-3xl", " ").concat(styles.fontWeight || "font-semibold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-tight", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick
-  }, title);
+  }, children !== undefined ? children : title);
 }
 function SubHeading(_ref4) {
   var title = _ref4.title,
@@ -1873,7 +1876,8 @@ function SubHeading(_ref4) {
     _ref4$className = _ref4.className,
     className = _ref4$className === void 0 ? "" : _ref4$className,
     _ref4$as = _ref4.as,
-    as = _ref4$as === void 0 ? null : _ref4$as;
+    as = _ref4$as === void 0 ? null : _ref4$as,
+    children = _ref4.children;
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
   var paddingStyles = padding === true ? "py-2 2xl:py-3" : "p-0";
@@ -1887,7 +1891,7 @@ function SubHeading(_ref4) {
   return /*#__PURE__*/createElement(Tag, {
     className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-2xl", " ").concat(styles.fontWeight || "font-semibold", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-snug", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick
-  }, title);
+  }, children !== undefined ? children : title);
 }
 function SubHeading2(_ref5) {
   var title = _ref5.title,
@@ -1902,7 +1906,8 @@ function SubHeading2(_ref5) {
     _ref5$className = _ref5.className,
     className = _ref5$className === void 0 ? "" : _ref5$className,
     _ref5$as = _ref5.as,
-    as = _ref5$as === void 0 ? null : _ref5$as;
+    as = _ref5$as === void 0 ? null : _ref5$as,
+    children = _ref5.children;
   var _useContext5 = useContext(ThemeContext),
     currentTheme = _useContext5.currentTheme;
   var paddingStyles = padding === true ? "py-1.5 2xl:py-2" : "p-0";
@@ -1916,7 +1921,7 @@ function SubHeading2(_ref5) {
   return /*#__PURE__*/createElement(Tag, {
     className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-xl", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.letterSpacing || "tracking-tight", " ").concat(styles.lineHeight || "leading-snug", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick
-  }, title);
+  }, children !== undefined ? children : title);
 }
 function SubHeading3(_ref6) {
   var title = _ref6.title,
@@ -1931,7 +1936,8 @@ function SubHeading3(_ref6) {
     _ref6$className = _ref6.className,
     className = _ref6$className === void 0 ? "" : _ref6$className,
     _ref6$as = _ref6.as,
-    as = _ref6$as === void 0 ? null : _ref6$as;
+    as = _ref6$as === void 0 ? null : _ref6$as,
+    children = _ref6.children;
   var _useContext6 = useContext(ThemeContext),
     currentTheme = _useContext6.currentTheme;
   var paddingStyles = padding === true ? "py-1 2xl:py-2" : "p-0";
@@ -1945,13 +1951,13 @@ function SubHeading3(_ref6) {
   return /*#__PURE__*/createElement(Tag, {
     className: "flex flex-row w-full ".concat(className, " ").concat(paddingStyles, " ").concat(styles.textSize || "text-lg", " ").concat(styles.fontWeight || "font-medium", " ").concat(styles.letterSpacing || "tracking-normal", " ").concat(styles.lineHeight || "leading-snug", " ").concat(styles.textColor || "", " ").concat(styles.backgroundColor || "", " ").concat(onClick !== null && "cursor-pointer"),
     onClick: onClick
-  }, title);
+  }, children !== undefined ? children : title);
 }
 
 function _typeof$E(o) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$E(o); }
-var _excluded$w = ["title", "onClick", "disabled", "padding", "textSize", "block", "size", "className"],
-  _excluded2$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className"],
-  _excluded3$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className"];
+var _excluded$w = ["title", "onClick", "disabled", "padding", "textSize", "block", "size", "className", "children"],
+  _excluded2$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className", "children"],
+  _excluded3$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className", "children"];
 function ownKeys$y(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$y(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$y(Object(t), !0).forEach(function (r) { _defineProperty$z(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$y(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$z(e, r, t) { return (r = _toPropertyKey$D(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -1974,6 +1980,7 @@ var Button = function Button(_ref) {
     size = _ref$size === void 0 ? "md" : _ref$size,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    children = _ref.children,
     props = _objectWithoutProperties$w(_ref, _excluded$w);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -1990,7 +1997,7 @@ var Button = function Button(_ref) {
     onClick: onClick,
     disabled: disabled,
     className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(className),
-    children: title
+    children: children !== undefined ? children : title
   });
 };
 var Button2 = function Button2(_ref2) {
@@ -2008,6 +2015,7 @@ var Button2 = function Button2(_ref2) {
     size = _ref2$size === void 0 ? "md" : _ref2$size,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
+    children = _ref2.children,
     props = _objectWithoutProperties$w(_ref2, _excluded2$a);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -2023,7 +2031,7 @@ var Button2 = function Button2(_ref2) {
     onClick: onClick,
     disabled: disabled,
     className: "flex flex-row flex-shrink justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
-    children: title
+    children: children !== undefined ? children : title
   });
 };
 var Button3 = function Button3(_ref3) {
@@ -2041,6 +2049,7 @@ var Button3 = function Button3(_ref3) {
     size = _ref3$size === void 0 ? "md" : _ref3$size,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
+    children = _ref3.children,
     props = _objectWithoutProperties$w(_ref3, _excluded3$a);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -2055,14 +2064,14 @@ var Button3 = function Button3(_ref3) {
     onClick: onClick,
     disabled: disabled,
     className: "flex flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
-    children: title
+    children: children !== undefined ? children : title
   });
 };
 
 function _typeof$D(o) { "@babel/helpers - typeof"; return _typeof$D = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$D(o); }
-var _excluded$v = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel"],
-  _excluded2$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel"],
-  _excluded3$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel"];
+var _excluded$v = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "children"],
+  _excluded2$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "children"],
+  _excluded3$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "children"];
 function ownKeys$x(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$x(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$x(Object(t), !0).forEach(function (r) { _defineProperty$y(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$x(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$y(e, r, t) { return (r = _toPropertyKey$C(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -2100,6 +2109,7 @@ var ButtonIcon = function ButtonIcon(_ref) {
     size = _ref$size === void 0 ? "md" : _ref$size,
     _ref$ariaLabel = _ref.ariaLabel,
     ariaLabel = _ref$ariaLabel === void 0 ? null : _ref$ariaLabel,
+    children = _ref.children,
     props = _objectWithoutProperties$v(_ref, _excluded$v);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -2114,7 +2124,10 @@ var ButtonIcon = function ButtonIcon(_ref) {
   var uuid = getUUID$1("", "button-icon");
   var computedIconSize = iconSize || styles.iconSize || "h-5 w-5";
   var hasIcon = icon !== "";
-  var hasText = text !== "" && text !== null;
+  // Accept the button label via `text` prop (canonical) OR children
+  // (LLM-friendly shorthand). Prop wins when both are provided.
+  var effectiveText = text !== "" && text !== null ? text : children;
+  var hasText = effectiveText !== undefined && effectiveText !== null && effectiveText !== "";
   var bgColor = selected ? styles.selectedBackgroundColor || styles.backgroundColor || "" : styles.backgroundColor || "";
   var txtColor = selected ? styles.selectedTextColor || styles.textColor || "" : styles.textColor || "";
   return /*#__PURE__*/jsxs("button", {
@@ -2128,7 +2141,7 @@ var ButtonIcon = function ButtonIcon(_ref) {
       icon: icon,
       className: computedIconSize
     }), hasText && /*#__PURE__*/jsx("span", {
-      children: text
+      children: effectiveText
     })]
   });
 };
@@ -2160,6 +2173,7 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     size = _ref2$size === void 0 ? "md" : _ref2$size,
     _ref2$ariaLabel = _ref2.ariaLabel,
     ariaLabel = _ref2$ariaLabel === void 0 ? null : _ref2$ariaLabel,
+    children = _ref2.children,
     props = _objectWithoutProperties$v(_ref2, _excluded2$9);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -2173,7 +2187,10 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
   var uuid = getUUID$1("", "button-icon-2");
   var computedIconSize = iconSize || styles.iconSize || "h-4 w-4";
   var hasIcon = icon !== "";
-  var hasText = text !== "" && text !== null;
+  // Accept the button label via `text` prop (canonical) OR children
+  // (LLM-friendly shorthand). Prop wins when both are provided.
+  var effectiveText = text !== "" && text !== null ? text : children;
+  var hasText = effectiveText !== undefined && effectiveText !== null && effectiveText !== "";
   var bgColor = selected ? styles.selectedBackgroundColor || styles.backgroundColor || "" : styles.backgroundColor || "";
   var txtColor = selected ? styles.selectedTextColor || styles.textColor || "" : styles.textColor || "";
   return /*#__PURE__*/jsxs("button", {
@@ -2187,7 +2204,7 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
       icon: icon,
       className: computedIconSize
     }), hasText && /*#__PURE__*/jsx("span", {
-      children: text
+      children: effectiveText
     })]
   });
 };
@@ -2219,6 +2236,7 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     size = _ref3$size === void 0 ? "md" : _ref3$size,
     _ref3$ariaLabel = _ref3.ariaLabel,
     ariaLabel = _ref3$ariaLabel === void 0 ? null : _ref3$ariaLabel,
+    children = _ref3.children,
     props = _objectWithoutProperties$v(_ref3, _excluded3$9);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -2232,7 +2250,10 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
   var uuid = getUUID$1("", "button-icon-3");
   var computedIconSize = iconSize || styles.iconSize || "h-3 w-3";
   var hasIcon = icon !== "";
-  var hasText = text !== "" && text !== null;
+  // Accept the button label via `text` prop (canonical) OR children
+  // (LLM-friendly shorthand). Prop wins when both are provided.
+  var effectiveText = text !== "" && text !== null ? text : children;
+  var hasText = effectiveText !== undefined && effectiveText !== null && effectiveText !== "";
   var bgColor = selected ? styles.selectedBackgroundColor || styles.backgroundColor || "" : styles.backgroundColor || "";
   var txtColor = selected ? styles.selectedTextColor || styles.textColor || "" : styles.textColor || "";
   return /*#__PURE__*/jsxs("button", {
@@ -2246,7 +2267,7 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
       icon: icon,
       className: computedIconSize
     }), hasText && /*#__PURE__*/jsx("span", {
-      children: text
+      children: effectiveText
     })]
   });
 };
@@ -3160,6 +3181,39 @@ var WidgetChrome = function WidgetChrome(_ref) {
   });
 };
 
+/**
+ * Dispatch an onChange callback in a way that supports both signatures:
+ *
+ *   - dash-style:        (value, event) => ...
+ *   - React-idiomatic:   (event) => event.target.value
+ *
+ * The dash inputs (InputText / TextArea / SearchInput) historically passed
+ * the unwrapped string value as the first arg. AI-generated widget code,
+ * trained on plain React, almost always writes `(e) => e.target.value`
+ * instead — which throws "Cannot read properties of undefined (reading
+ * 'value')" because `e` is the string and `e.target` is undefined.
+ *
+ * To support both without a breaking change we inspect the handler's
+ * source once per call: if it accesses `.target`, route the raw event
+ * (React-idiomatic); otherwise pass `(value, event)` (legacy dash style).
+ * Property names survive minification, so the check works on bundled
+ * code too.
+ */
+function dispatchInputChange(handler, event) {
+  if (typeof handler !== "function") return;
+  var source = "";
+  try {
+    source = handler.toString();
+  } catch (_unused) {
+    // Bound or native functions throw — fall through as value-style.
+  }
+  if (/\.target\b/.test(source)) {
+    handler(event);
+  } else {
+    handler(event.target.value, event);
+  }
+}
+
 function _typeof$v(o) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$v(o); }
 var _excluded$n = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor"];
 function ownKeys$p(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -3232,7 +3286,7 @@ var InputText = function InputText(_ref) {
       type: type,
       value: value,
       onChange: function onChange(event) {
-        return _onChange(event.target.value, event);
+        return dispatchInputChange(_onChange, event);
       },
       placeholder: placeholder,
       disabled: disabled,
@@ -3312,7 +3366,7 @@ var TextArea = function TextArea(_ref) {
       rows: rows,
       value: value,
       onChange: function onChange(event) {
-        return _onChange(event.target.value, event);
+        return dispatchInputChange(_onChange, event);
       },
       placeholder: placeholder,
       disabled: disabled,
@@ -3801,7 +3855,7 @@ var SearchInput = function SearchInput(_ref) {
         type: "search",
         value: value,
         onChange: function onChange(event) {
-          return _onChange(event.target.value, event);
+          return dispatchInputChange(_onChange, event);
         },
         placeholder: placeholder,
         disabled: disabled,
@@ -3812,9 +3866,9 @@ var SearchInput = function SearchInput(_ref) {
 };
 
 function _typeof$n(o) { "@babel/helpers - typeof"; return _typeof$n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$n(o); }
-var _excluded$f = ["text", "enabled", "setEnabled", "disabled", "className"],
-  _excluded2$7 = ["text", "enabled", "setEnabled", "disabled", "className"],
-  _excluded3$7 = ["text", "enabled", "setEnabled", "disabled", "className"];
+var _excluded$f = ["text", "enabled", "setEnabled", "disabled", "className", "children"],
+  _excluded2$7 = ["text", "enabled", "setEnabled", "disabled", "className", "children"],
+  _excluded3$7 = ["text", "enabled", "setEnabled", "disabled", "className", "children"];
 function ownKeys$h(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$h(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) { _defineProperty$i(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$i(e, r, t) { return (r = _toPropertyKey$m(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3833,6 +3887,7 @@ function Toggle(_ref) {
     disabled = _ref$disabled === void 0 ? false : _ref$disabled,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    children = _ref.children,
     props = _objectWithoutProperties$f(_ref, _excluded$f);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -3857,10 +3912,10 @@ function Toggle(_ref) {
         style: (_styles$inlineStyle3 = styles.inlineStyle) === null || _styles$inlineStyle3 === void 0 ? void 0 : _styles$inlineStyle3.activeBackgroundColor,
         className: "".concat(enabled ? "translate-x-5" : "translate-x-0", " pointer-events-none inline-block h-5 w-5 transform rounded-full ").concat((_styles$inlineStyle4 = styles.inlineStyle) !== null && _styles$inlineStyle4 !== void 0 && _styles$inlineStyle4.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
-    }), text && /*#__PURE__*/jsx("span", {
+    }), (text || children !== undefined) && /*#__PURE__*/jsx("span", {
       style: (_styles$inlineStyle5 = styles.inlineStyle) === null || _styles$inlineStyle5 === void 0 ? void 0 : _styles$inlineStyle5.textColor,
       className: "text-sm ".concat(styles.textColor || ""),
-      children: text
+      children: children !== undefined ? children : text
     })]
   });
 }
@@ -3875,6 +3930,7 @@ function Toggle2(_ref2) {
     disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
+    children = _ref2.children,
     props = _objectWithoutProperties$f(_ref2, _excluded2$7);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -3899,10 +3955,10 @@ function Toggle2(_ref2) {
         style: (_styles$inlineStyle8 = styles.inlineStyle) === null || _styles$inlineStyle8 === void 0 ? void 0 : _styles$inlineStyle8.activeBackgroundColor,
         className: "".concat(enabled ? "translate-x-4" : "translate-x-0", " pointer-events-none inline-block h-4 w-4 transform rounded-full ").concat((_styles$inlineStyle9 = styles.inlineStyle) !== null && _styles$inlineStyle9 !== void 0 && _styles$inlineStyle9.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
-    }), text && /*#__PURE__*/jsx("span", {
+    }), (text || children !== undefined) && /*#__PURE__*/jsx("span", {
       style: (_styles$inlineStyle0 = styles.inlineStyle) === null || _styles$inlineStyle0 === void 0 ? void 0 : _styles$inlineStyle0.textColor,
       className: "text-sm ".concat(styles.textColor || ""),
-      children: text
+      children: children !== undefined ? children : text
     })]
   });
 }
@@ -3917,6 +3973,7 @@ function Toggle3(_ref3) {
     disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
+    children = _ref3.children,
     props = _objectWithoutProperties$f(_ref3, _excluded3$7);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -3941,10 +3998,10 @@ function Toggle3(_ref3) {
         style: (_styles$inlineStyle11 = styles.inlineStyle) === null || _styles$inlineStyle11 === void 0 ? void 0 : _styles$inlineStyle11.activeBackgroundColor,
         className: "".concat(enabled ? "translate-x-3" : "translate-x-0", " pointer-events-none inline-block h-3 w-3 transform rounded-full ").concat((_styles$inlineStyle12 = styles.inlineStyle) !== null && _styles$inlineStyle12 !== void 0 && _styles$inlineStyle12.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
-    }), text && /*#__PURE__*/jsx("span", {
+    }), (text || children !== undefined) && /*#__PURE__*/jsx("span", {
       style: (_styles$inlineStyle13 = styles.inlineStyle) === null || _styles$inlineStyle13 === void 0 ? void 0 : _styles$inlineStyle13.textColor,
       className: "text-xs ".concat(styles.textColor || ""),
-      children: text
+      children: children !== undefined ? children : text
     })]
   });
 }
@@ -4562,9 +4619,9 @@ var CodeRenderer = function CodeRenderer(_ref) {
 };
 
 function _typeof$i(o) { "@babel/helpers - typeof"; return _typeof$i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$i(o); }
-var _excluded$b = ["text", "textSize", "onClick", "className"],
-  _excluded2$5 = ["text", "textSize", "onClick", "className", "active"],
-  _excluded3$5 = ["text", "textSize", "onClick", "className"];
+var _excluded$b = ["text", "textSize", "onClick", "className", "children"],
+  _excluded2$5 = ["text", "textSize", "onClick", "className", "active", "children"],
+  _excluded3$5 = ["text", "textSize", "onClick", "className", "children"];
 function ownKeys$d(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$d(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$d(Object(t), !0).forEach(function (r) { _defineProperty$e(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$d(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$e(e, r, t) { return (r = _toPropertyKey$h(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -4580,6 +4637,7 @@ var Tag = function Tag(_ref) {
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    children = _ref.children,
     props = _objectWithoutProperties$b(_ref, _excluded$b);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -4592,7 +4650,7 @@ var Tag = function Tag(_ref) {
     id: uuid,
     onClick: onClick,
     className: "flex flex-row w-fit ".concat(stylesCalculated, " px-3 py-1.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
-    children: text
+    children: children !== undefined ? children : text
   });
 };
 var Tag2 = function Tag2(_ref2) {
@@ -4605,6 +4663,7 @@ var Tag2 = function Tag2(_ref2) {
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$active = _ref2.active,
     active = _ref2$active === void 0 ? false : _ref2$active,
+    children = _ref2.children,
     props = _objectWithoutProperties$b(_ref2, _excluded2$5);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -4618,7 +4677,7 @@ var Tag2 = function Tag2(_ref2) {
     id: uuid,
     onClick: onClick,
     className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center transition-colors duration-150"),
-    children: text
+    children: children !== undefined ? children : text
   });
 };
 var Tag3 = function Tag3(_ref3) {
@@ -4629,6 +4688,7 @@ var Tag3 = function Tag3(_ref3) {
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
+    children = _ref3.children,
     props = _objectWithoutProperties$b(_ref3, _excluded3$5);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
@@ -4641,7 +4701,7 @@ var Tag3 = function Tag3(_ref3) {
     id: uuid,
     onClick: onClick,
     className: "flex flex-row w-fit ".concat(stylesCalculated, " px-1.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
-    children: text
+    children: children !== undefined ? children : text
   });
 };
 

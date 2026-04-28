@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { dispatchInputChange } from "./dispatchInputChange";
 
 const InputText = ({
     label = "",
@@ -61,7 +62,7 @@ const InputText = ({
                 id={inputId}
                 type={type}
                 value={value}
-                onChange={(event) => onChange(event.target.value, event)}
+                onChange={(event) => dispatchInputChange(onChange, event)}
                 placeholder={placeholder}
                 disabled={disabled}
                 autoFocus={autoFocus}

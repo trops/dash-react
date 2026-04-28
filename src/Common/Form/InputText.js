@@ -1,6 +1,7 @@
 import { ThemeContext } from "@dash/Context";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
 import { useContext } from "react";
+import { dispatchInputChange } from "../Input/dispatchInputChange";
 
 export const InputText = ({
     key = "inputText",
@@ -29,7 +30,7 @@ export const InputText = ({
                 type={type}
                 name={name}
                 value={value !== null ? value : ""}
-                onChange={onChange}
+                onChange={(event) => dispatchInputChange(onChange, event)}
                 onKeyDown={onKeyDown}
                 onClick={onClick}
                 placeholder={placeholder}
