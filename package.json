@@ -1,6 +1,6 @@
 {
     "name": "@trops/dash-react",
-    "version": "1.0.41",
+    "version": "1.0.42",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "typescript": "^2.6.2",
@@ -32,6 +32,7 @@
         "prettify": "prettier --write . ",
         "test-jest": "NODE_OPTIONS=--experimental-vm-modules jest",
         "test": "exit 0",
+        "test:dist-pure-esm": "node --test scripts/test-no-cjs-require-in-dist.js",
         "ci": "./scripts/ci.sh",
         "ci:commit": "./scripts/ci.sh --commit",
         "ci:push": "./scripts/ci.sh --push",
