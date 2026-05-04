@@ -3,8 +3,6 @@ import Editor, { useMonaco } from "@monaco-editor/react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
 
-const parseTmTheme = require("monaco-themes").parseTmTheme;
-
 // Save a reference to the original ResizeObserver
 const OriginalResizeObserver = window.ResizeObserver;
 

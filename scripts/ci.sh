@@ -84,7 +84,13 @@ if [[ ! -s "dist/index.js" ]]; then
 fi
 echo "OK: dist/index.js ($(ls -lh dist/index.js | awk '{print $5}'))"
 
-# 5. Create package
+# 5. Pin: dist must be pure ESM (no inline require()).
+# Node 22+/24's syntax-detected ESM rejects inline require() in modules
+# with top-level import syntax. Catch at build time.
+step "Verifying dist is pure ESM"
+node --test scripts/test-no-cjs-require-in-dist.js
+
+# 6. Create package
 step "Creating npm package"
 npm run pack-local-esm
 
