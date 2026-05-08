@@ -1,12 +1,16 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
-import { LayoutContainer } from "@dash/Layout";
 
 /**
  * Caption — extra-small de-emphasized text for badges, IDs,
  * metadata, secondary descriptions. Smaller and more muted than
  * Paragraph_3.
+ *
+ * Renders a <span> so it composes inline with surrounding flex /
+ * inline-block content (which is the dominant use case for
+ * "small label next to a control"). Use the `block` prop or
+ * className overrides if you need block-level layout.
  *
  * Why this exists: scattered across the app, secondary metadata
  * was rendered with raw `text-[10px] opacity-50` classes which
@@ -23,120 +27,76 @@ import { LayoutContainer } from "@dash/Layout";
  *   <Caption>{packageId}</Caption>
  *   <Caption text="v1.2.0" />
  *   <Caption2 className="font-mono">{scopedId}</Caption2>
+ *   <Caption3 block>Block-level secondary description</Caption3>
  */
 function Caption({
     text = null,
-    padding = "",
-    onClick = null,
-    scrollable = false,
     className = "",
-    grow = false,
-    space = false,
-    height = "",
-    width = "",
+    block = false,
+    onClick = null,
     children,
-    debug = false,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CAPTION, currentTheme, {
-        ...props,
-        space,
-        grow,
-        padding,
-        scrollable,
-        height,
-        width,
-    });
-
+    const styles = getStylesForItem(themeObjects.CAPTION, currentTheme, props);
+    const Tag = block ? "div" : "span";
     return (
-        <LayoutContainer
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+        <Tag
             onClick={onClick}
-            scrollable={scrollable}
-            grow={grow}
-            space={space}
-            height={height}
-            width={width}
-            padding={padding}
-            debug={debug}
+            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
             {text !== null ? text : children}
-        </LayoutContainer>
+        </Tag>
     );
 }
 
 function Caption2({
     text = null,
-    padding = "",
-    onClick = null,
     className = "",
-    grow = false,
-    space = false,
-    height = "",
-    width = "",
+    block = false,
+    onClick = null,
     children,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CAPTION_2, currentTheme, {
-        ...props,
-        space,
-        grow,
-        padding,
-        height,
-        width,
-    });
-
+    const styles = getStylesForItem(
+        themeObjects.CAPTION_2,
+        currentTheme,
+        props
+    );
+    const Tag = block ? "div" : "span";
     return (
-        <LayoutContainer
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+        <Tag
             onClick={onClick}
-            grow={grow}
-            space={space}
-            height={height}
-            width={width}
-            padding={padding}
+            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
             {text !== null ? text : children}
-        </LayoutContainer>
+        </Tag>
     );
 }
 
 function Caption3({
     text = null,
-    padding = "",
-    onClick = null,
     className = "",
-    grow = false,
-    space = false,
-    height = "",
-    width = "",
+    block = false,
+    onClick = null,
     children,
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CAPTION_3, currentTheme, {
-        ...props,
-        space,
-        grow,
-        padding,
-        height,
-        width,
-    });
-
+    const styles = getStylesForItem(
+        themeObjects.CAPTION_3,
+        currentTheme,
+        props
+    );
+    const Tag = block ? "div" : "span";
     return (
-        <LayoutContainer
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+        <Tag
             onClick={onClick}
-            grow={grow}
-            space={space}
-            height={height}
-            width={width}
-            padding={padding}
+            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
             {text !== null ? text : children}
-        </LayoutContainer>
+        </Tag>
     );
 }
 

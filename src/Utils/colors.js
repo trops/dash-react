@@ -491,6 +491,24 @@ const colorMap = {
         [styleClassNames.LINE_HEIGHT]: "leading-tight",
         [styleClassNames.FONT_WEIGHT]: "font-normal",
     },
+    [themeObjects.CODE]: {
+        // Inline code highlight: monospace span with a subtle
+        // background lift. Theme-driven so a light theme's code
+        // chips don't collide with dark theme's.
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-primary-light",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+    },
+    [themeObjects.CODE_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-light",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+    },
+    [themeObjects.CODE_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-light",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+    },
     [themeObjects.DIVIDER]: {
         // Backed by a border color so themes can swap to whatever
         // separator hue they want without per-call overrides.
