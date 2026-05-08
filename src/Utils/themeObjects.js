@@ -51,6 +51,12 @@ const CAPTION = "caption";
 const CAPTION_2 = "caption-2";
 const CAPTION_3 = "caption-3";
 
+// Code — inline monospace span with subtle background highlight.
+// Used for ids, scoped names, command snippets, etc. inline in prose.
+const CODE = "code";
+const CODE_2 = "code-2";
+const CODE_3 = "code-3";
+
 const TAG = "tag";
 const TAG_2 = "tag-2";
 const TAG_3 = "tag-3";
@@ -232,6 +238,9 @@ const themeObjects = {
     CAPTION,
     CAPTION_2,
     CAPTION_3,
+    CODE,
+    CODE_2,
+    CODE_3,
     DIVIDER,
     DIVIDER_2,
     DIVIDER_3,

@@ -2,6 +2,7 @@ export * from "./Panel";
 export * from "./Modal";
 export * from "./Text/Paragraph";
 export * from "./Text/Caption";
+export * from "./Code";
 export * from "./Divider";
 export * from "./MenuItem";
 export * from "./Text/Heading";
