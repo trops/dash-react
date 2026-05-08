@@ -38,10 +38,11 @@ function Caption({
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CAPTION, currentTheme, props);
+    const styles = getStylesForItem(themeObjects.CAPTION, currentTheme, {});
     const Tag = block ? "div" : "span";
     return (
         <Tag
+            {...props}
             onClick={onClick}
             className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
@@ -59,14 +60,11 @@ function Caption2({
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(
-        themeObjects.CAPTION_2,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.CAPTION_2, currentTheme, {});
     const Tag = block ? "div" : "span";
     return (
         <Tag
+            {...props}
             onClick={onClick}
             className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
@@ -84,14 +82,11 @@ function Caption3({
     ...props
 }) {
     const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(
-        themeObjects.CAPTION_3,
-        currentTheme,
-        props
-    );
+    const styles = getStylesForItem(themeObjects.CAPTION_3, currentTheme, {});
     const Tag = block ? "div" : "span";
     return (
         <Tag
+            {...props}
             onClick={onClick}
             className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
