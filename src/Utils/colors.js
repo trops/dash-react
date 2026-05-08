@@ -461,6 +461,47 @@ const colorMap = {
         [styleClassNames.TEXT_SIZE]: "text-xs",
         [styleClassNames.LINE_HEIGHT]: "leading-relaxed",
     },
+    [themeObjects.CAPTION]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-none",
+        [styleClassNames.BORDER_COLOR]: "border-none",
+        [styleClassNames.TEXT_COLOR]: "text-primary-light",
+        [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
+        [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+        [styleClassNames.LINE_HEIGHT]: "leading-tight",
+        [styleClassNames.FONT_WEIGHT]: "font-normal",
+    },
+    [themeObjects.CAPTION_2]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-none",
+        [styleClassNames.BORDER_COLOR]: "border-none",
+        [styleClassNames.TEXT_COLOR]: "text-secondary-light",
+        [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
+        [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+        [styleClassNames.LINE_HEIGHT]: "leading-tight",
+        [styleClassNames.FONT_WEIGHT]: "font-normal",
+    },
+    [themeObjects.CAPTION_3]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-none",
+        [styleClassNames.BORDER_COLOR]: "border-none",
+        [styleClassNames.TEXT_COLOR]: "text-tertiary-light",
+        [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
+        [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
+        [styleClassNames.TEXT_SIZE]: "text-xs",
+        [styleClassNames.LINE_HEIGHT]: "leading-tight",
+        [styleClassNames.FONT_WEIGHT]: "font-normal",
+    },
+    [themeObjects.DIVIDER]: {
+        // Backed by a border color so themes can swap to whatever
+        // separator hue they want without per-call overrides.
+        [styleClassNames.BORDER_COLOR]: "border-primary-medium",
+    },
+    [themeObjects.DIVIDER_2]: {
+        [styleClassNames.BORDER_COLOR]: "border-secondary-medium",
+    },
+    [themeObjects.DIVIDER_3]: {
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-medium",
+    },
     [themeObjects.MENU_ITEM]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
         [styleClassNames.BORDER_COLOR]: "border-primary-dark",

@@ -45,6 +45,12 @@ const PARAGRAPH = "paragraph";
 const PARAGRAPH_2 = "paragraph-2";
 const PARAGRAPH_3 = "paragraph-3";
 
+// Caption — extra-small de-emphasized text for badges, IDs, metadata,
+// secondary labels. Smaller and more muted than Paragraph_3.
+const CAPTION = "caption";
+const CAPTION_2 = "caption-2";
+const CAPTION_3 = "caption-3";
+
 const TAG = "tag";
 const TAG_2 = "tag-2";
 const TAG_3 = "tag-3";
@@ -156,6 +162,15 @@ const DRAWER = "drawer";
 const DRAWER_HEADER = "drawer-header";
 const DRAWER_FOOTER = "drawer-footer";
 const TOOLTIP = "tooltip";
+
+// Generic horizontal/vertical separator. The DROPDOWN_PANEL_DIVIDER
+// variants exist for that specific component; this is the standalone
+// primitive used everywhere else (modal section dividers, between
+// list groups, vertical separators between columns).
+const DIVIDER = "divider";
+const DIVIDER_2 = "divider-2";
+const DIVIDER_3 = "divider-3";
+
 const DROPDOWN_PANEL = "dropdown-panel";
 const DROPDOWN_PANEL_2 = "dropdown-panel-2";
 const DROPDOWN_PANEL_3 = "dropdown-panel-3";
@@ -214,6 +229,12 @@ const themeObjects = {
     PARAGRAPH,
     PARAGRAPH_2,
     PARAGRAPH_3,
+    CAPTION,
+    CAPTION_2,
+    CAPTION_3,
+    DIVIDER,
+    DIVIDER_2,
+    DIVIDER_3,
     TAG,
     TAG_2,
     TAG_3,
