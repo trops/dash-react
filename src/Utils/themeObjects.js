@@ -156,6 +156,7 @@ const STAT_CARD_LABEL = "stat-card-label";
 const STAT_CARD_VALUE = "stat-card-value";
 const STAT_CARD_CHANGE = "stat-card-change";
 const SKELETON = "skeleton";
+const STATUS_BADGE = "status-badge";
 const COMMAND_PALETTE = "command-palette";
 const COMMAND_PALETTE_INPUT = "command-palette-input";
 const COMMAND_PALETTE_ITEM = "command-palette-item";
@@ -323,6 +324,7 @@ const themeObjects = {
     STAT_CARD_VALUE,
     STAT_CARD_CHANGE,
     SKELETON,
+    STATUS_BADGE,
     COMMAND_PALETTE,
     COMMAND_PALETTE_INPUT,
     COMMAND_PALETTE_ITEM,

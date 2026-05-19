@@ -7,6 +7,7 @@ export { TabbedNavbar } from "./TabbedNavbar";
 export { EmptyState } from "./EmptyState";
 export { StatCard } from "./StatCard";
 export { Skeleton } from "./Skeleton";
+export { StatusBadge } from "./StatusBadge";
 export { CommandPalette } from "./CommandPalette";
 export { Stepper } from "./Stepper";
 export { DataList } from "./DataList";
