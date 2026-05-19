@@ -978,6 +978,15 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
         [styleClassNames.BORDER_RADIUS]: "rounded-md",
     },
+    // StatusBadge — neutral default (semantic state colors are applied
+    // by the StatusBadge component itself, deliberately hardcoded so
+    // "success = green / error = red" stays intelligible across themes).
+    [themeObjects.STATUS_BADGE]: {
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-medium",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.TEXT_COLOR]: "text-primary-light",
+        [styleClassNames.BORDER_RADIUS]: "rounded-full",
+    },
     // CommandPalette (v0.5.0+)
     [themeObjects.COMMAND_PALETTE]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
