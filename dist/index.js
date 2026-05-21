@@ -36,10 +36,10 @@ function _objectSpread$E(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$F(e, r, t) { return (r = _toPropertyKey$J(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$J(t) { var i = _toPrimitive$J(t, "string"); return "symbol" == _typeof$K(i) ? i : i + ""; }
 function _toPrimitive$J(t, r) { if ("object" != _typeof$K(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$K(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _slicedToArray$d(r, e) { return _arrayWithHoles$d(r) || _iterableToArrayLimit$d(r, e) || _unsupportedIterableToArray$g(r, e) || _nonIterableRest$d(); }
+function _slicedToArray$d(r, e) { return _arrayWithHoles$d(r) || _iterableToArrayLimit$d(r, e) || _unsupportedIterableToArray$h(r, e) || _nonIterableRest$d(); }
 function _nonIterableRest$d() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$g(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$g(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$g(r, a) : void 0; } }
-function _arrayLikeToArray$g(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
+function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit$d(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles$d(r) { if (Array.isArray(r)) return r; }
 var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
@@ -508,12 +508,12 @@ var styleClassNames = {
 
 var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$MENU_IT, _themeObjects$TABS_TR, _colorMap;
 function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
-function _toConsumableArray$4(r) { return _arrayWithoutHoles$4(r) || _iterableToArray$4(r) || _unsupportedIterableToArray$f(r) || _nonIterableSpread$4(); }
-function _nonIterableSpread$4() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
-function _iterableToArray$4(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$4(r) { if (Array.isArray(r)) return _arrayLikeToArray$f(r); }
-function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _toConsumableArray$5(r) { return _arrayWithoutHoles$5(r) || _iterableToArray$5(r) || _unsupportedIterableToArray$g(r) || _nonIterableSpread$5(); }
+function _nonIterableSpread$5() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$g(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$g(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$g(r, a) : void 0; } }
+function _iterableToArray$5(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles$5(r) { if (Array.isArray(r)) return _arrayLikeToArray$g(r); }
+function _arrayLikeToArray$g(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$D(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$D(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$D(Object(t), !0).forEach(function (r) { _defineProperty$E(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$D(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$E(e, r, t) { return (r = _toPropertyKey$I(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -801,7 +801,7 @@ var getStylesForItem = function getStylesForItem() {
           finalStyles[k] = "";
         }
       });
-      var styleSet = _toConsumableArray$4(new Set(additionalStyles.split(" ").filter(function (v) {
+      var styleSet = _toConsumableArray$5(new Set(additionalStyles.split(" ").filter(function (v) {
         return v !== " " && v !== false && v !== true;
       }))).join(" ");
 
@@ -812,7 +812,7 @@ var getStylesForItem = function getStylesForItem() {
       }).join(" ").concat(" ", styleSet) : styleSet;
       var removeValues = [true, false, "col", "row", " ", "false", "true", 1, "1"];
       var stylesObject = _objectSpread$D({
-        string: _toConsumableArray$4(new Set(finalString.split(" ").filter(function (v) {
+        string: _toConsumableArray$5(new Set(finalString.split(" ").filter(function (v) {
           return removeValues.includes(v) === false && v !== " ";
         }).map(function (v) {
           return v.replaceAll("overflow-hidden", "overflow-clip");
@@ -1770,6 +1770,343 @@ function Code3(_ref3) {
     children: children
   });
 }
+
+function _toConsumableArray$4(r) { return _arrayWithoutHoles$4(r) || _iterableToArray$4(r) || _unsupportedIterableToArray$f(r) || _nonIterableSpread$4(); }
+function _nonIterableSpread$4() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray$4(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles$4(r) { if (Array.isArray(r)) return _arrayLikeToArray$f(r); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$f(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
+function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+var SLACK_EMOJI = {
+  thumbsup: "👍",
+  "+1": "👍",
+  thumbsdown: "👎",
+  "-1": "👎",
+  raised_hands: "🙌",
+  clap: "👏",
+  pray: "🙏",
+  muscle: "💪",
+  ok_hand: "👌",
+  point_up: "👆",
+  point_down: "👇",
+  point_left: "👈",
+  point_right: "👉",
+  wave: "👋",
+  heart: "❤️",
+  red_heart: "❤️",
+  blue_heart: "💙",
+  green_heart: "💚",
+  yellow_heart: "💛",
+  purple_heart: "💜",
+  orange_heart: "🧡",
+  black_heart: "🖤",
+  tada: "🎉",
+  confetti_ball: "🎊",
+  sparkles: "✨",
+  star: "⭐",
+  star2: "🌟",
+  fire: "🔥",
+  rocket: "🚀",
+  zap: "⚡",
+  boom: "💥",
+  white_check_mark: "✅",
+  check: "✅",
+  heavy_check_mark: "✔️",
+  x: "❌",
+  no_entry: "⛔",
+  warning: "⚠️",
+  bulb: "💡",
+  eyes: "👀",
+  thinking_face: "🤔",
+  thinking: "🤔",
+  shrug: "🤷",
+  smile: "😄",
+  smiley: "😃",
+  grin: "😁",
+  laughing: "😆",
+  joy: "😂",
+  rofl: "🤣",
+  wink: "😉",
+  blush: "😊",
+  sunglasses: "😎",
+  cool: "😎",
+  cry: "😢",
+  sob: "😭",
+  confused: "😕",
+  expressionless: "😑",
+  neutral_face: "😐",
+  upside_down_face: "🙃",
+  angry: "😠",
+  rage: "😡",
+  sleeping: "😴",
+  clipboard: "📋",
+  computer: "💻",
+  bug: "🐛",
+  ship: "🚢",
+  tools: "🛠️",
+  hammer: "🔨",
+  wrench: "🔧",
+  gear: "⚙️",
+  "package": "📦",
+  email: "📧",
+  envelope: "✉️",
+  bell: "🔔",
+  mega: "📣",
+  speech_balloon: "💬",
+  loudspeaker: "📢",
+  coffee: "☕",
+  pizza: "🍕",
+  cake: "🍰",
+  beer: "🍺",
+  bookmark: "🔖",
+  book: "📖",
+  chart_with_upwards_trend: "📈",
+  chart_with_downwards_trend: "📉",
+  moneybag: "💰",
+  lock: "🔒",
+  unlock: "🔓",
+  key: "🔑",
+  calendar: "📅",
+  clock: "🕐",
+  100: "💯"
+};
+function decodeEntitiesAndEmoji(text, emojiTable) {
+  if (typeof text !== "string") return "";
+  return text.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#x27;/g, "'").replace(/:([a-z0-9_+\-]+):/gi, function (match, name) {
+    return emojiTable[name.toLowerCase()] || match;
+  });
+}
+
+// Two-pass tokenizer. Angle-bracket Slack escapes (mentions, channels,
+// URLs) come out of Slack as literal `<@U123>` / `<#C123>` /
+// `<https://…>` and we resolve them first so the inline pass below
+// doesn't accidentally treat the angle brackets as anything else.
+// Then inline formatting (`*bold*` etc) runs on the remaining text
+// segments. Nested formatting (`*bold _italic_ bold*`) renders as the
+// outer formatting only — matches Slack's actual mrkdwn behavior.
+
+var INLINE_PATTERNS = [{
+  type: "bold",
+  regex: /\*([^*\n]+)\*/
+}, {
+  type: "italic",
+  regex: /(?<![\w])_([^_\n]+)_(?![\w])/
+}, {
+  type: "code",
+  regex: /`([^`\n]+)`/
+}, {
+  type: "strike",
+  regex: /~([^~\n]+)~/
+}];
+var ANGLE_PATTERN = /<([@#!])?([^|>]+?)(?:\|([^>]+))?>/g;
+function tokenizeAngles(text) {
+  var tokens = [];
+  var last = 0;
+  var _iterator = _createForOfIteratorHelper(text.matchAll(ANGLE_PATTERN)),
+    _step;
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var match = _step.value;
+      var whole = match[0];
+      var prefix = match[1];
+      var target = match[2];
+      var label = match[3];
+      if (match.index > last) {
+        tokens.push({
+          type: "text",
+          value: text.slice(last, match.index)
+        });
+      }
+      if (prefix === "@") {
+        tokens.push({
+          type: "mention",
+          value: label ? "@".concat(label) : "@".concat(target)
+        });
+      } else if (prefix === "#") {
+        tokens.push({
+          type: "channel",
+          value: label ? "#".concat(label) : "#".concat(target)
+        });
+      } else if (prefix === "!") {
+        tokens.push({
+          type: "mention",
+          value: "@".concat(target)
+        });
+      } else {
+        tokens.push({
+          type: "link",
+          value: label || target,
+          href: target
+        });
+      }
+      last = match.index + whole.length;
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+  if (last < text.length) {
+    tokens.push({
+      type: "text",
+      value: text.slice(last)
+    });
+  }
+  return tokens.length > 0 ? tokens : [{
+    type: "text",
+    value: text
+  }];
+}
+function tokenizeInline(text) {
+  var earliest = null;
+  var _iterator2 = _createForOfIteratorHelper(INLINE_PATTERNS),
+    _step2;
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var _step2$value = _step2.value,
+        _type = _step2$value.type,
+        regex = _step2$value.regex;
+      var m = text.match(regex);
+      if (m && (earliest === null || m.index < earliest.match.index)) {
+        earliest = {
+          type: _type,
+          match: m
+        };
+      }
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+  if (!earliest) return [{
+    type: "text",
+    value: text
+  }];
+  var _earliest = earliest,
+    type = _earliest.type,
+    match = _earliest.match;
+  var before = text.slice(0, match.index);
+  var after = text.slice(match.index + match[0].length);
+  return [].concat(_toConsumableArray$4(before ? tokenizeInline(before) : []), [{
+    type: type,
+    value: match[1]
+  }], _toConsumableArray$4(after ? tokenizeInline(after) : []));
+}
+function tokenize(text) {
+  var angles = tokenizeAngles(text);
+  var flat = [];
+  var _iterator3 = _createForOfIteratorHelper(angles),
+    _step3;
+  try {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      var tok = _step3.value;
+      if (tok.type === "text") {
+        flat.push.apply(flat, _toConsumableArray$4(tokenizeInline(tok.value)));
+      } else {
+        flat.push(tok);
+      }
+    }
+  } catch (err) {
+    _iterator3.e(err);
+  } finally {
+    _iterator3.f();
+  }
+  return flat;
+}
+function renderToken(tok, i) {
+  switch (tok.type) {
+    case "bold":
+      return /*#__PURE__*/jsx("strong", {
+        className: "font-semibold",
+        children: tok.value
+      }, i);
+    case "italic":
+      return /*#__PURE__*/jsx("em", {
+        className: "italic",
+        children: tok.value
+      }, i);
+    case "strike":
+      return /*#__PURE__*/jsx("span", {
+        className: "line-through",
+        children: tok.value
+      }, i);
+    case "code":
+      return /*#__PURE__*/jsx("code", {
+        className: "font-mono text-xs px-1 py-0.5 rounded",
+        children: tok.value
+      }, i);
+    case "mention":
+    case "channel":
+      return /*#__PURE__*/jsx("span", {
+        className: "font-medium",
+        children: tok.value
+      }, i);
+    case "link":
+      return /*#__PURE__*/jsx("a", {
+        href: tok.href || tok.value,
+        className: "underline",
+        children: tok.value
+      }, i);
+    default:
+      return /*#__PURE__*/jsx("span", {
+        children: tok.value
+      }, i);
+  }
+}
+
+/**
+ * Render formatted text.
+ *
+ * @param {string} text — the raw text to render
+ * @param {"slack"} [format="slack"] — flavor; only "slack" ships in v1
+ * @param {string} [className] — passed through to the wrapping `<span>`
+ *
+ * Returns a `<span>` so the rendered text inlines into surrounding
+ * prose rather than starting a block.
+ */
+function RichText(_ref) {
+  var text = _ref.text,
+    _ref$format = _ref.format,
+    format = _ref$format === void 0 ? "slack" : _ref$format,
+    className = _ref.className;
+  if (format !== "slack") {
+    // Reserved for future flavors. Pass through as-is until those
+    // exist so callers don't blow up if they preemptively set the
+    // prop in anticipation.
+    return /*#__PURE__*/jsx("span", {
+      className: className,
+      children: text
+    });
+  }
+  var decoded = decodeEntitiesAndEmoji(text || "", SLACK_EMOJI);
+  var tokens = tokenize(decoded);
+  return /*#__PURE__*/jsx("span", {
+    className: className,
+    children: tokens.map(function (tok, i) {
+      return renderToken(tok, i);
+    })
+  });
+}
+
+/**
+ * Resolve a Slack emoji shortcode to its Unicode glyph, or null if the
+ * shortcode isn't in our table. Useful for picker UIs (e.g. reaction
+ * palettes) that render the glyph at button size with the name as a
+ * label or aria-label.
+ */
+function slackEmojiForName(name) {
+  if (typeof name !== "string") return null;
+  return SLACK_EMOJI[name.toLowerCase()] || null;
+}
+
+/**
+ * The default set of Slack emoji shortcodes for quick-reaction
+ * pickers. Tuned to the set people actually use as Slack reactions —
+ * not a random sample of the emoji table.
+ */
+var SLACK_QUICK_REACTION_SHORTCODES = ["thumbsup", "heart", "tada", "rocket", "eyes", "thinking_face", "fire", "white_check_mark"];
 
 var _excluded$y = ["orientation", "className"],
   _excluded2$b = ["orientation", "className"],
@@ -9670,5 +10007,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useSidebar, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useSidebar, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
