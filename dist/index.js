@@ -30,7 +30,7 @@ var ThemeContext = /*#__PURE__*/createContext({
   rawThemes: null
 });
 
-function _createForOfIteratorHelper$2(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$k(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _createForOfIteratorHelper$3(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$k(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
 function ownKeys$E(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$E(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$E(Object(t), !0).forEach(function (r) { _defineProperty$F(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$E(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -101,7 +101,7 @@ var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
       }
     }
     // Remove any vars from a prior theme that aren't in the new set.
-    var _iterator = _createForOfIteratorHelper$2(writtenVarsRef.current),
+    var _iterator = _createForOfIteratorHelper$3(writtenVarsRef.current),
       _step;
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -125,7 +125,7 @@ var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
     return function () {
       var root = typeof document !== "undefined" ? document.documentElement : null;
       if (!root) return;
-      var _iterator2 = _createForOfIteratorHelper$2(writtenVarsRef.current),
+      var _iterator2 = _createForOfIteratorHelper$3(writtenVarsRef.current),
         _step2;
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
@@ -984,6 +984,7 @@ var getDefaultStylesForItem = function getDefaultStylesForItem(itemName) {
   return itemName in colorMap ? _objectSpread$D({}, colorMap[itemName]) : {};
 };
 
+function _createForOfIteratorHelper$2(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$i(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _slicedToArray$f(r, e) { return _arrayWithHoles$f(r) || _iterableToArrayLimit$f(r, e) || _unsupportedIterableToArray$i(r, e) || _nonIterableRest$f(); }
 function _nonIterableRest$f() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$i(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$i(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$i(r, a) : void 0; } }
@@ -1228,6 +1229,143 @@ function contrastRatio(hexA, hexB) {
   var lighter = Math.max(lA, lB);
   var darker = Math.min(lA, lB);
   return (lighter + 0.05) / (darker + 0.05);
+}
+
+/**
+ * Color families for the categorized picker grid. Each chromatic
+ * family declares a hue range (inclusive, may wrap through 0/360);
+ * Neutrals has `hueRange: null` and is handled specially.
+ *
+ * Used by `getCuratedColorGrid(familyName)` to derive a curated set
+ * of ~36 swatches per family — varied lightness + saturation across
+ * the family's hue range. Discoverable for users who don't think in
+ * hex but want more colors than Tailwind's 22 named families.
+ *
+ * The grid is generated, not hand-curated, so it stays consistent
+ * if we tune the lightness/saturation curve later.
+ */
+var COLOR_FAMILIES = [{
+  name: "Reds & Pinks",
+  hueRange: [340, 20]
+},
+// wraps through 0
+{
+  name: "Oranges & Yellows",
+  hueRange: [20, 65]
+}, {
+  name: "Greens",
+  hueRange: [80, 170]
+}, {
+  name: "Blues & Cyans",
+  hueRange: [180, 250]
+}, {
+  name: "Purples & Magentas",
+  hueRange: [260, 320]
+}, {
+  name: "Neutrals",
+  hueRange: null
+}];
+function getColorFamilies() {
+  return COLOR_FAMILIES.map(function (f) {
+    return f.name;
+  });
+}
+
+/**
+ * Return a curated array of hex colors for the given family name.
+ * Chromatic families produce 6 hues × 6 lightnesses (36 swatches),
+ * with saturation lowered at the extremes for legibility.
+ * Neutrals produce 3 tints (pure, warm, cool) × 6 lightnesses
+ * (18 swatches).
+ *
+ * Returns [] if the family name isn't recognized.
+ */
+function getCuratedColorGrid(familyName) {
+  var family = COLOR_FAMILIES.find(function (f) {
+    return f.name === familyName;
+  });
+  if (!family) return [];
+  if (family.hueRange === null) {
+    // Neutrals: vary the tint × lightness. Pure / warm / cool
+    // mirror the bands designers tend to reach for.
+    var tints = [{
+      h: 0,
+      s: 0
+    },
+    // pure gray
+    {
+      h: 30,
+      s: 0.08
+    },
+    // warm
+    {
+      h: 215,
+      s: 0.08
+    } // cool
+    ];
+    var _lightnesses = [0.1, 0.25, 0.4, 0.55, 0.7, 0.88];
+    var _out = [];
+    for (var _i2 = 0, _lightnesses2 = _lightnesses; _i2 < _lightnesses2.length; _i2++) {
+      var l = _lightnesses2[_i2];
+      var _iterator = _createForOfIteratorHelper$2(tints),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var tint = _step.value;
+          _out.push(rgbToHex(hslToRgb({
+            h: tint.h,
+            s: tint.s,
+            l: l
+          })));
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+    return _out;
+  }
+  var _family$hueRange = _slicedToArray$f(family.hueRange, 2),
+    hMin = _family$hueRange[0],
+    hMax = _family$hueRange[1];
+  var hues = [];
+  if (hMin > hMax) {
+    // Wraps through 0/360.
+    var span = 360 - hMin + hMax;
+    for (var i = 0; i < 6; i++) {
+      hues.push((hMin + i * span / 5) % 360);
+    }
+  } else {
+    var _span = hMax - hMin;
+    for (var _i3 = 0; _i3 < 6; _i3++) {
+      hues.push(hMin + _i3 * _span / 5);
+    }
+  }
+  var lightnesses = [0.2, 0.35, 0.5, 0.65, 0.8, 0.9];
+  var out = [];
+  for (var _i4 = 0, _lightnesses3 = lightnesses; _i4 < _lightnesses3.length; _i4++) {
+    var _l = _lightnesses3[_i4];
+    var _iterator2 = _createForOfIteratorHelper$2(hues),
+      _step2;
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var h = _step2.value;
+        // Saturation curve: full at mid-lightness, lower at extremes.
+        var s = _l < 0.3 || _l > 0.85 ? 0.5 : 0.85;
+        out.push(rgbToHex(hslToRgb({
+          h: h,
+          s: s,
+          l: _l
+        })));
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+  }
+  return out;
 }
 
 function _slicedToArray$e(r, e) { return _arrayWithHoles$e(r) || _iterableToArrayLimit$e(r, e) || _unsupportedIterableToArray$h(r, e) || _nonIterableRest$e(); }
@@ -11020,5 +11158,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
