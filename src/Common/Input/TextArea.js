@@ -21,6 +21,9 @@ const TextArea = ({
     placeholderTextColor = null,
     focusRingColor = null,
     focusBorderColor = null,
+    // Density override — pass alternate Tailwind class string for
+    // compact composer contexts.
+    padding = "px-3 py-2",
     ...htmlProps
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -64,7 +67,7 @@ const TextArea = ({
                 onChange={(event) => dispatchInputChange(onChange, event)}
                 placeholder={placeholder}
                 disabled={disabled}
-                className={`w-full border px-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
+                className={`w-full border ${padding} ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
             />
         </div>
     );

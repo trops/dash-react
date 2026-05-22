@@ -18,6 +18,11 @@ const MenuItem = ({
     selected = false,
     grow = false,
     className = "",
+    // Density overrides — pass alternate Tailwind class strings (e.g.
+    // `padding="px-2 py-0.5"`, `rounded=""`) to opt out of the default
+    // roomy chrome for sidebar-rail / dense-list use cases.
+    padding = "px-3 py-2",
+    rounded = "rounded-md",
     id,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -41,7 +46,7 @@ const MenuItem = ({
             onClick={onClick}
             className={`flex flex-row ${styles.string} ${
                 border === true && "border-4"
-            } px-3 py-2 rounded-md items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ${className}`}
+            } ${padding} ${rounded} items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ${className}`}
         >
             {children}
         </div>
@@ -62,6 +67,8 @@ const MenuItem2 = ({
     selected = false,
     className = "",
     grow = false,
+    padding = "px-3 py-1.5",
+    rounded = "rounded-md",
     id,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -79,7 +86,7 @@ const MenuItem2 = ({
 
     const baseStyles = `${
         onClick && "cursor-pointer"
-    } px-3 py-1.5 rounded-md items-center space-x-2 ${
+    } ${padding} ${rounded} items-center space-x-2 ${
         border === true && "border-2"
     }`;
 
@@ -116,6 +123,8 @@ const MenuItem3 = ({
     selected = false,
     className = "",
     grow = false,
+    padding = "px-3 py-1.5",
+    rounded = "rounded-md",
     id,
     type,
 }) => {
@@ -134,7 +143,7 @@ const MenuItem3 = ({
 
     const baseStyles = `${
         onClick && "cursor-pointer"
-    } px-3 py-1.5 rounded-md items-center space-x-2 ${
+    } ${padding} ${rounded} items-center space-x-2 ${
         border === true && "border-2"
     }`;
 
