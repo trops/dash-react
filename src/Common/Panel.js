@@ -13,6 +13,7 @@ const PanelHeader = ({
     className = "",
     padding = true,
     defaultPadding = "p-6",
+    rounded = "rounded-t",
     direction = "horizontal",
     ...props
 }) => {
@@ -27,7 +28,7 @@ const PanelHeader = ({
     return (
         <div
             id={id}
-            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -79,6 +80,7 @@ const PanelFooter = ({
     className = "",
     defaultPadding = "p-6",
     padding = true,
+    rounded = "rounded-b",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -89,7 +91,7 @@ const PanelFooter = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-b justify-between items-center ${className} ${
+            className={`flex flex-row ${rounded} justify-between items-center ${className} ${
                 styles.string
             } ${padding === true ? defaultPadding : "p-0"}`}
         >
@@ -111,6 +113,7 @@ const Panel = ({
     direction = "col",
     defaultPadding = "p-6",
     border = true,
+    rounded = "rounded-lg",
     ...props
 }) => {
     // Fetch the Styles from the utility
@@ -130,7 +133,7 @@ const Panel = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} ${width} rounded-lg ${border === true ? "border" : ""} ${
+            } ${height} ${width} ${rounded} ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}
@@ -159,6 +162,7 @@ const PanelHeader2 = ({
     className = "",
     padding = true,
     defaultPadding = "p-4",
+    rounded = "rounded-t",
     direction = "horizontal",
     ...props
 }) => {
@@ -170,7 +174,7 @@ const PanelHeader2 = ({
     });
     return (
         <div
-            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -225,6 +229,7 @@ const PanelFooter2 = ({
     className = "",
     defaultPadding = "p-4",
     padding = true,
+    rounded = "rounded-b",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -235,7 +240,7 @@ const PanelFooter2 = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-b justify-between items-center ${className} ${
+            className={`flex flex-row ${rounded} justify-between items-center ${className} ${
                 styles.string
             } ${padding === true ? defaultPadding : "p-0"}`}
         >
@@ -257,6 +262,7 @@ const Panel2 = ({
     grow = true,
     defaultPadding = "p-4",
     border = true,
+    rounded = "rounded-md",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -274,7 +280,7 @@ const Panel2 = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} ${width} rounded-md ${border === true ? "border" : ""} ${
+            } ${height} ${width} ${rounded} ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}
@@ -303,6 +309,7 @@ const PanelHeader3 = ({
     className = "",
     padding = true,
     defaultPadding = "p-2",
+    rounded = "rounded-t",
     direction = "horizontal",
     ...props
 }) => {
@@ -315,7 +322,7 @@ const PanelHeader3 = ({
 
     return (
         <div
-            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} rounded-t ${
+            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -375,6 +382,7 @@ const PanelFooter3 = ({
     className = "",
     padding = true,
     defaultPadding = "p-2",
+    rounded = "rounded-b",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -385,7 +393,7 @@ const PanelFooter3 = ({
     });
     return (
         <div
-            className={`flex flex-row rounded-b justify-between items-center ${
+            className={`flex flex-row ${rounded} justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
             } ${className} ${styles.string}`}
         >
@@ -406,6 +414,7 @@ const Panel3 = ({
     grow = true,
     defaultPadding = "p-2",
     border = true,
+    rounded = "rounded",
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -424,7 +433,7 @@ const Panel3 = ({
             direction={horizontal === true ? "row" : "col"}
             className={`${className} ${
                 styles.string
-            } ${height} ${width} rounded ${border === true ? "border" : ""} ${
+            } ${height} ${width} ${rounded} ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             onClick={onClick}

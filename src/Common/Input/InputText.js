@@ -22,6 +22,10 @@ const InputText = ({
     placeholderTextColor = null,
     focusRingColor = null,
     focusBorderColor = null,
+    // Density overrides — pass alternate Tailwind class strings for
+    // compact form contexts (e.g. inline filter inputs in a sidebar).
+    height = "h-10",
+    padding = "px-3 py-2",
     ...htmlProps
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -66,7 +70,7 @@ const InputText = ({
                 placeholder={placeholder}
                 disabled={disabled}
                 autoFocus={autoFocus}
-                className={`w-full h-10 border shadow-sm px-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
+                className={`w-full ${height} border shadow-sm ${padding} ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
             />
         </div>
     );

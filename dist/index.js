@@ -1062,18 +1062,18 @@ var LayoutContainer = function LayoutContainer(_ref) {
 };
 
 function _typeof$H(o) { "@babel/helpers - typeof"; return _typeof$H = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$H(o); }
-var _excluded$C = ["children", "border", "className", "padding", "defaultPadding", "direction"],
+var _excluded$C = ["children", "border", "className", "padding", "defaultPadding", "rounded", "direction"],
   _excluded2$f = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
-  _excluded3$f = ["children", "className", "defaultPadding", "padding"],
-  _excluded4$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border"],
-  _excluded5$3 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
+  _excluded3$f = ["children", "className", "defaultPadding", "padding", "rounded"],
+  _excluded4$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border", "rounded"],
+  _excluded5$3 = ["children", "border", "className", "padding", "defaultPadding", "rounded", "direction"],
   _excluded6$3 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding", "height", "width"],
-  _excluded7$3 = ["children", "className", "defaultPadding", "padding"],
-  _excluded8$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding", "border"],
-  _excluded9$3 = ["children", "border", "className", "padding", "defaultPadding", "direction"],
+  _excluded7$3 = ["children", "className", "defaultPadding", "padding", "rounded"],
+  _excluded8$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "direction", "grow", "defaultPadding", "border", "rounded"],
+  _excluded9$3 = ["children", "border", "className", "padding", "defaultPadding", "rounded", "direction"],
   _excluded0$2 = ["children", "scrollable", "className", "space", "onClick", "defaultPadding", "padding", "height", "width"],
-  _excluded1$2 = ["children", "className", "padding", "defaultPadding"],
-  _excluded10$2 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "grow", "defaultPadding", "border"];
+  _excluded1$2 = ["children", "className", "padding", "defaultPadding", "rounded"],
+  _excluded10$2 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "className", "grow", "defaultPadding", "border", "rounded"];
 function ownKeys$C(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$C(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$C(Object(t), !0).forEach(function (r) { _defineProperty$D(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$C(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$D(e, r, t) { return (r = _toPropertyKey$H(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -1091,6 +1091,8 @@ var PanelHeader = function PanelHeader(_ref) {
     padding = _ref$padding === void 0 ? true : _ref$padding,
     _ref$defaultPadding = _ref.defaultPadding,
     defaultPadding = _ref$defaultPadding === void 0 ? "p-6" : _ref$defaultPadding,
+    _ref$rounded = _ref.rounded,
+    rounded = _ref$rounded === void 0 ? "rounded-t" : _ref$rounded,
     _ref$direction = _ref.direction,
     direction = _ref$direction === void 0 ? "horizontal" : _ref$direction,
     props = _objectWithoutProperties$C(_ref, _excluded$C);
@@ -1105,7 +1107,7 @@ var PanelHeader = function PanelHeader(_ref) {
   var id = getUUID$1("", "panel-header");
   return /*#__PURE__*/jsx("div", {
     id: id,
-    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " rounded-t ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -1150,6 +1152,8 @@ var PanelFooter = function PanelFooter(_ref3) {
     defaultPadding = _ref3$defaultPadding === void 0 ? "p-6" : _ref3$defaultPadding,
     _ref3$padding = _ref3.padding,
     padding = _ref3$padding === void 0 ? true : _ref3$padding,
+    _ref3$rounded = _ref3.rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded-b" : _ref3$rounded,
     props = _objectWithoutProperties$C(_ref3, _excluded3$f);
   var _useContext4 = useContext(ThemeContext),
     currentTheme = _useContext4.currentTheme;
@@ -1158,7 +1162,7 @@ var PanelFooter = function PanelFooter(_ref3) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b justify-between items-center ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "flex flex-row ".concat(rounded, " justify-between items-center ").concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     children: children
   });
 };
@@ -1185,6 +1189,8 @@ var Panel = function Panel(_ref4) {
     defaultPadding = _ref4$defaultPadding === void 0 ? "p-6" : _ref4$defaultPadding,
     _ref4$border = _ref4.border,
     border = _ref4$border === void 0 ? true : _ref4$border,
+    _ref4$rounded = _ref4.rounded,
+    rounded = _ref4$rounded === void 0 ? "rounded-lg" : _ref4$rounded,
     props = _objectWithoutProperties$C(_ref4, _excluded4$3);
   // Fetch the Styles from the utility
   var _useContext5 = useContext(ThemeContext),
@@ -1199,7 +1205,7 @@ var Panel = function Panel(_ref4) {
   return /*#__PURE__*/jsx(LayoutContainer, {
     prefix: "panel",
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-lg ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -1228,6 +1234,8 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     padding = _ref5$padding === void 0 ? true : _ref5$padding,
     _ref5$defaultPadding = _ref5.defaultPadding,
     defaultPadding = _ref5$defaultPadding === void 0 ? "p-4" : _ref5$defaultPadding,
+    _ref5$rounded = _ref5.rounded,
+    rounded = _ref5$rounded === void 0 ? "rounded-t" : _ref5$rounded,
     _ref5$direction = _ref5.direction,
     direction = _ref5$direction === void 0 ? "horizontal" : _ref5$direction,
     props = _objectWithoutProperties$C(_ref5, _excluded5$3);
@@ -1238,7 +1246,7 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " rounded-t ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -1282,6 +1290,8 @@ var PanelFooter2 = function PanelFooter2(_ref7) {
     defaultPadding = _ref7$defaultPadding === void 0 ? "p-4" : _ref7$defaultPadding,
     _ref7$padding = _ref7.padding,
     padding = _ref7$padding === void 0 ? true : _ref7$padding,
+    _ref7$rounded = _ref7.rounded,
+    rounded = _ref7$rounded === void 0 ? "rounded-b" : _ref7$rounded,
     props = _objectWithoutProperties$C(_ref7, _excluded7$3);
   var _useContext8 = useContext(ThemeContext),
     currentTheme = _useContext8.currentTheme;
@@ -1290,7 +1300,7 @@ var PanelFooter2 = function PanelFooter2(_ref7) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b justify-between items-center ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "flex flex-row ".concat(rounded, " justify-between items-center ").concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     children: children
   });
 };
@@ -1316,6 +1326,8 @@ var Panel2 = function Panel2(_ref8) {
     defaultPadding = _ref8$defaultPadding === void 0 ? "p-4" : _ref8$defaultPadding,
     _ref8$border = _ref8.border,
     border = _ref8$border === void 0 ? true : _ref8$border,
+    _ref8$rounded = _ref8.rounded,
+    rounded = _ref8$rounded === void 0 ? "rounded-md" : _ref8$rounded,
     props = _objectWithoutProperties$C(_ref8, _excluded8$3);
   var _useContext9 = useContext(ThemeContext),
     currentTheme = _useContext9.currentTheme;
@@ -1328,7 +1340,7 @@ var Panel2 = function Panel2(_ref8) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded-md ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -1356,6 +1368,8 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     padding = _ref9$padding === void 0 ? true : _ref9$padding,
     _ref9$defaultPadding = _ref9.defaultPadding,
     defaultPadding = _ref9$defaultPadding === void 0 ? "p-2" : _ref9$defaultPadding,
+    _ref9$rounded = _ref9.rounded,
+    rounded = _ref9$rounded === void 0 ? "rounded-t" : _ref9$rounded,
     _ref9$direction = _ref9.direction,
     direction = _ref9$direction === void 0 ? "horizontal" : _ref9$direction,
     props = _objectWithoutProperties$C(_ref9, _excluded9$3);
@@ -1366,7 +1380,7 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " rounded-t ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -1419,6 +1433,8 @@ var PanelFooter3 = function PanelFooter3(_ref1) {
     padding = _ref1$padding === void 0 ? true : _ref1$padding,
     _ref1$defaultPadding = _ref1.defaultPadding,
     defaultPadding = _ref1$defaultPadding === void 0 ? "p-2" : _ref1$defaultPadding,
+    _ref1$rounded = _ref1.rounded,
+    rounded = _ref1$rounded === void 0 ? "rounded-b" : _ref1$rounded,
     props = _objectWithoutProperties$C(_ref1, _excluded1$2);
   var _useContext10 = useContext(ThemeContext),
     currentTheme = _useContext10.currentTheme;
@@ -1427,7 +1443,7 @@ var PanelFooter3 = function PanelFooter3(_ref1) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row rounded-b justify-between items-center ".concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "flex flex-row ".concat(rounded, " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -1452,6 +1468,8 @@ var Panel3 = function Panel3(_ref10) {
     defaultPadding = _ref10$defaultPadding === void 0 ? "p-2" : _ref10$defaultPadding,
     _ref10$border = _ref10.border,
     border = _ref10$border === void 0 ? true : _ref10$border,
+    _ref10$rounded = _ref10.rounded,
+    rounded = _ref10$rounded === void 0 ? "rounded" : _ref10$rounded,
     props = _objectWithoutProperties$C(_ref10, _excluded10$2);
   var _useContext11 = useContext(ThemeContext),
     currentTheme = _useContext11.currentTheme;
@@ -1465,7 +1483,7 @@ var Panel3 = function Panel3(_ref10) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " rounded ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -2192,6 +2210,10 @@ var MenuItem = function MenuItem(_ref) {
     grow = _ref$grow === void 0 ? false : _ref$grow,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "px-3 py-2" : _ref$padding,
+    _ref$rounded = _ref.rounded,
+    rounded = _ref$rounded === void 0 ? "rounded-md" : _ref$rounded,
     id = _ref.id;
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -2210,7 +2232,7 @@ var MenuItem = function MenuItem(_ref) {
   return /*#__PURE__*/jsx("div", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row ".concat(styles.string, " ").concat(border === true && "border-4", " px-3 py-2 rounded-md items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ").concat(className),
+    className: "flex flex-row ".concat(styles.string, " ").concat(border === true && "border-4", " ").concat(padding, " ").concat(rounded, " items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ").concat(className),
     children: children
   });
 };
@@ -2240,6 +2262,10 @@ var MenuItem2 = function MenuItem2(_ref2) {
     className = _ref2$className === void 0 ? "" : _ref2$className,
     _ref2$grow = _ref2.grow,
     grow = _ref2$grow === void 0 ? false : _ref2$grow,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? "px-3 py-1.5" : _ref2$padding,
+    _ref2$rounded = _ref2.rounded,
+    rounded = _ref2$rounded === void 0 ? "rounded-md" : _ref2$rounded,
     id = _ref2.id;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -2254,7 +2280,7 @@ var MenuItem2 = function MenuItem2(_ref2) {
     selected: selected,
     grow: grow
   });
-  var baseStyles = "".concat(onClick && "cursor-pointer", " px-3 py-1.5 rounded-md items-center space-x-2 ").concat(border === true && "border-2");
+  var baseStyles = "".concat(onClick && "cursor-pointer", " ").concat(padding, " ").concat(rounded, " items-center space-x-2 ").concat(border === true && "border-2");
   var baseTextStyles = "text-sm font-medium";
   var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
@@ -2292,6 +2318,10 @@ var MenuItem3 = function MenuItem3(_ref3) {
     className = _ref3$className === void 0 ? "" : _ref3$className,
     _ref3$grow = _ref3.grow,
     grow = _ref3$grow === void 0 ? false : _ref3$grow,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? "px-3 py-1.5" : _ref3$padding,
+    _ref3$rounded = _ref3.rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded-md" : _ref3$rounded,
     id = _ref3.id;
     _ref3.type;
   var _useContext3 = useContext(ThemeContext),
@@ -2307,7 +2337,7 @@ var MenuItem3 = function MenuItem3(_ref3) {
     selected: selected,
     grow: grow
   });
-  var baseStyles = "".concat(onClick && "cursor-pointer", " px-3 py-1.5 rounded-md items-center space-x-2 ").concat(border === true && "border-2");
+  var baseStyles = "".concat(onClick && "cursor-pointer", " ").concat(padding, " ").concat(rounded, " items-center space-x-2 ").concat(border === true && "border-2");
   var baseTextStyles = "text-sm font-normal";
   var uuid = getUUID$1(id, "menu-item");
   return /*#__PURE__*/jsx("div", {
@@ -3087,7 +3117,7 @@ var Breadcrumbs3 = function Breadcrumbs3(props) {
 };
 
 function _typeof$A(o) { "@babel/helpers - typeof"; return _typeof$A = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$A(o); }
-var _excluded$t = ["title", "message", "children", "onClose", "className"];
+var _excluded$t = ["title", "message", "children", "onClose", "className", "padding", "rounded", "divider"];
 function ownKeys$v(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$v(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$v(Object(t), !0).forEach(function (r) { _defineProperty$w(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$v(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$w(e, r, t) { return (r = _toPropertyKey$A(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3106,6 +3136,12 @@ var Alert = function Alert(_ref) {
     onClose = _ref$onClose === void 0 ? null : _ref$onClose,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "p-4" : _ref$padding,
+    _ref$rounded = _ref.rounded,
+    rounded = _ref$rounded === void 0 ? "rounded-md" : _ref$rounded,
+    _ref$divider = _ref.divider,
+    divider = _ref$divider === void 0 ? true : _ref$divider,
     props = _objectWithoutProperties$t(_ref, _excluded$t);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -3116,7 +3152,7 @@ var Alert = function Alert(_ref) {
   var uuid = getUUID$1("", "alert");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-4 text-base ").concat(className),
+    className: "border ".concat(divider ? "border-l-4" : "", " ").concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(rounded, " ").concat(padding, " text-base ").concat(className),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -3140,16 +3176,20 @@ var Alert = function Alert(_ref) {
   });
 };
 var Alert2 = function Alert2(props) {
+  var _props$padding, _props$rounded;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.ALERT_2, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     scrollable: false,
     grow: false
   }));
+  var padding = (_props$padding = props.padding) !== null && _props$padding !== void 0 ? _props$padding : "p-3";
+  var rounded = (_props$rounded = props.rounded) !== null && _props$rounded !== void 0 ? _props$rounded : "rounded-md";
+  var divider = props.divider !== false;
   var uuid = getUUID$1("", "alert-2");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-3 text-sm ").concat(props.className || ""),
+    className: "border ".concat(divider ? "border-l-4" : "", " ").concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(rounded, " ").concat(padding, " text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -3173,16 +3213,20 @@ var Alert2 = function Alert2(props) {
   });
 };
 var Alert3 = function Alert3(props) {
+  var _props$padding2, _props$rounded2;
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.ALERT_3, currentTheme, _objectSpread$v(_objectSpread$v({}, props), {}, {
     scrollable: false,
     grow: false
   }));
+  var padding = (_props$padding2 = props.padding) !== null && _props$padding2 !== void 0 ? _props$padding2 : "p-2";
+  var rounded = (_props$rounded2 = props.rounded) !== null && _props$rounded2 !== void 0 ? _props$rounded2 : "rounded-md";
+  var divider = props.divider !== false;
   var uuid = getUUID$1("", "alert-3");
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "border border-l-4 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " rounded-md p-2 text-sm ").concat(props.className || ""),
+    className: "border ".concat(divider ? "border-l-4" : "", " ").concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " ").concat(rounded, " ").concat(padding, " text-sm ").concat(props.className || ""),
     role: "alert",
     children: /*#__PURE__*/jsxs("div", {
       className: "flex items-start justify-between",
@@ -3760,7 +3804,7 @@ function dispatchInputChange(handler, event) {
 }
 
 function _typeof$v(o) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$v(o); }
-var _excluded$o = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor"];
+var _excluded$o = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor", "height", "padding"];
 function ownKeys$q(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$q(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$q(Object(t), !0).forEach(function (r) { _defineProperty$r(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$q(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$r(e, r, t) { return (r = _toPropertyKey$v(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3801,6 +3845,10 @@ var InputText = function InputText(_ref) {
     focusRingColor = _ref$focusRingColor === void 0 ? null : _ref$focusRingColor,
     _ref$focusBorderColor = _ref.focusBorderColor,
     focusBorderColor = _ref$focusBorderColor === void 0 ? null : _ref$focusBorderColor,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? "h-10" : _ref$height,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "px-3 py-2" : _ref$padding,
     htmlProps = _objectWithoutProperties$o(_ref, _excluded$o);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -3836,13 +3884,13 @@ var InputText = function InputText(_ref) {
       placeholder: placeholder,
       disabled: disabled,
       autoFocus: autoFocus,
-      className: "w-full h-10 border shadow-sm px-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
+      className: "w-full ".concat(height, " border shadow-sm ").concat(padding, " ").concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
     }))]
   });
 };
 
 function _typeof$u(o) { "@babel/helpers - typeof"; return _typeof$u = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$u(o); }
-var _excluded$n = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor"];
+var _excluded$n = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor", "padding"];
 function ownKeys$p(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$p(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$p(Object(t), !0).forEach(function (r) { _defineProperty$q(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$p(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$q(e, r, t) { return (r = _toPropertyKey$u(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3881,6 +3929,8 @@ var TextArea = function TextArea(_ref) {
     focusRingColor = _ref$focusRingColor === void 0 ? null : _ref$focusRingColor,
     _ref$focusBorderColor = _ref.focusBorderColor,
     focusBorderColor = _ref$focusBorderColor === void 0 ? null : _ref$focusBorderColor,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "px-3 py-2" : _ref$padding,
     htmlProps = _objectWithoutProperties$n(_ref, _excluded$n);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -3915,7 +3965,7 @@ var TextArea = function TextArea(_ref) {
       },
       placeholder: placeholder,
       disabled: disabled,
-      className: "w-full border px-3 py-2 ".concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
+      className: "w-full border ".concat(padding, " ").concat(styles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " ").concat(inputClassName)
     }))]
   });
 };
@@ -5161,9 +5211,9 @@ var CodeRenderer = function CodeRenderer(_ref) {
 };
 
 function _typeof$i(o) { "@babel/helpers - typeof"; return _typeof$i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$i(o); }
-var _excluded$c = ["text", "textSize", "onClick", "className", "children"],
-  _excluded2$5 = ["text", "textSize", "onClick", "className", "active", "children"],
-  _excluded3$5 = ["text", "textSize", "onClick", "className", "children"];
+var _excluded$c = ["text", "textSize", "onClick", "className", "children", "padding", "rounded", "border"],
+  _excluded2$5 = ["text", "textSize", "onClick", "className", "active", "children", "padding", "rounded", "border"],
+  _excluded3$5 = ["text", "textSize", "onClick", "className", "children", "padding", "rounded", "border"];
 function ownKeys$e(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$e(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) { _defineProperty$f(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$f(e, r, t) { return (r = _toPropertyKey$i(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -5180,18 +5230,24 @@ var Tag = function Tag(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     children = _ref.children,
+    _ref$padding = _ref.padding,
+    padding = _ref$padding === void 0 ? "px-3 py-1.5" : _ref$padding,
+    _ref$rounded = _ref.rounded,
+    rounded = _ref$rounded === void 0 ? "rounded" : _ref$rounded,
+    _ref$border = _ref.border,
+    border = _ref$border === void 0 ? true : _ref$border,
     props = _objectWithoutProperties$c(_ref, _excluded$c);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
     grow: false
   }));
-  var stylesCalculated = "".concat(styles.string, " font-medium rounded border ").concat(onClick !== null ? "cursor-pointer" : "", " ").concat(textSize, " ").concat(className);
+  var stylesCalculated = "".concat(styles.string, " font-medium ").concat(rounded, " ").concat(border ? "border" : "", " ").concat(onClick !== null ? "cursor-pointer" : "", " ").concat(textSize, " ").concat(className);
   var uuid = getUUID$1("", "tag");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-3 py-1.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " ").concat(padding, " whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: children !== undefined ? children : text
   });
 };
@@ -5206,6 +5262,12 @@ var Tag2 = function Tag2(_ref2) {
     _ref2$active = _ref2.active,
     active = _ref2$active === void 0 ? false : _ref2$active,
     children = _ref2.children,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? "px-2 py-1" : _ref2$padding,
+    _ref2$rounded = _ref2.rounded,
+    rounded = _ref2$rounded === void 0 ? "rounded" : _ref2$rounded,
+    _ref2$border = _ref2.border,
+    border = _ref2$border === void 0 ? true : _ref2$border,
     props = _objectWithoutProperties$c(_ref2, _excluded2$5);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
@@ -5213,12 +5275,12 @@ var Tag2 = function Tag2(_ref2) {
     grow: false
   }));
   var colorClasses = active ? "".concat(styles.activeBackgroundColor || styles.backgroundColor || "", " ").concat(styles.activeTextColor || styles.textColor || "") : "".concat(styles.backgroundColor || "", " ").concat(styles.textColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "");
-  var stylesCalculated = "".concat(colorClasses, " ").concat(styles.borderColor || "", " font-medium rounded border ").concat(onClick !== null ? "cursor-pointer" : "", " ").concat(textSize, " ").concat(className);
+  var stylesCalculated = "".concat(colorClasses, " ").concat(styles.borderColor || "", " font-medium ").concat(rounded, " ").concat(border ? "border" : "", " ").concat(onClick !== null ? "cursor-pointer" : "", " ").concat(textSize, " ").concat(className);
   var uuid = getUUID$1("", "tag-2");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-2 py-1 whitespace-nowrap items-center justify-center transition-colors duration-150"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " ").concat(padding, " whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: children !== undefined ? children : text
   });
 };
@@ -5231,18 +5293,24 @@ var Tag3 = function Tag3(_ref3) {
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
     children = _ref3.children,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? "px-1.5 py-0.5" : _ref3$padding,
+    _ref3$rounded = _ref3.rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded" : _ref3$rounded,
+    _ref3$border = _ref3.border,
+    border = _ref3$border === void 0 ? true : _ref3$border,
     props = _objectWithoutProperties$c(_ref3, _excluded3$5);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.TAG_3, currentTheme, _objectSpread$e(_objectSpread$e({}, props), {}, {
     grow: false
   }));
-  var stylesCalculated = "".concat(styles.string, " font-normal rounded border ").concat(onClick !== null ? "cursor-pointer" : "", " ").concat(textSize, " ").concat(className);
+  var stylesCalculated = "".concat(styles.string, " font-normal ").concat(rounded, " ").concat(border ? "border" : "", " ").concat(onClick !== null ? "cursor-pointer" : "", " ").concat(textSize, " ").concat(className);
   var uuid = getUUID$1("", "tag-3");
   return /*#__PURE__*/jsx("span", {
     id: uuid,
     onClick: onClick,
-    className: "flex flex-row w-fit ".concat(stylesCalculated, " px-1.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150"),
+    className: "flex flex-row w-fit ".concat(stylesCalculated, " ").concat(padding, " whitespace-nowrap items-center justify-center transition-colors duration-150"),
     children: children !== undefined ? children : text
   });
 };

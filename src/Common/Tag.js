@@ -8,6 +8,12 @@ const Tag = ({
     onClick = null,
     className = "",
     children,
+    // Density overrides — pass alternate Tailwind class strings to opt
+    // out of the default chrome (e.g. `padding="px-1.5 py-0"`,
+    // `rounded="rounded-full"`, `border={false}` for a fillless chip).
+    padding = "px-3 py-1.5",
+    rounded = "rounded",
+    border = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -16,16 +22,16 @@ const Tag = ({
         grow: false,
     });
 
-    const stylesCalculated = `${styles.string} font-medium rounded border ${
-        onClick !== null ? "cursor-pointer" : ""
-    } ${textSize} ${className}`;
+    const stylesCalculated = `${styles.string} font-medium ${rounded} ${
+        border ? "border" : ""
+    } ${onClick !== null ? "cursor-pointer" : ""} ${textSize} ${className}`;
 
     const uuid = getUUID("", "tag");
     return (
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-3 py-1.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
+            className={`flex flex-row w-fit ${stylesCalculated} ${padding} whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
             {children !== undefined ? children : text}
         </span>
@@ -39,6 +45,9 @@ const Tag2 = ({
     className = "",
     active = false,
     children,
+    padding = "px-2 py-1",
+    rounded = "rounded",
+    border = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -51,16 +60,16 @@ const Tag2 = ({
         ? `${styles.activeBackgroundColor || styles.backgroundColor || ""} ${styles.activeTextColor || styles.textColor || ""}`
         : `${styles.backgroundColor || ""} ${styles.textColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""}`;
 
-    const stylesCalculated = `${colorClasses} ${styles.borderColor || ""} font-medium rounded border ${
-        onClick !== null ? "cursor-pointer" : ""
-    } ${textSize} ${className}`;
+    const stylesCalculated = `${colorClasses} ${styles.borderColor || ""} font-medium ${rounded} ${
+        border ? "border" : ""
+    } ${onClick !== null ? "cursor-pointer" : ""} ${textSize} ${className}`;
 
     const uuid = getUUID("", "tag-2");
     return (
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-2 py-1 whitespace-nowrap items-center justify-center transition-colors duration-150`}
+            className={`flex flex-row w-fit ${stylesCalculated} ${padding} whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
             {children !== undefined ? children : text}
         </span>
@@ -73,6 +82,9 @@ const Tag3 = ({
     onClick = null,
     className = "",
     children,
+    padding = "px-1.5 py-0.5",
+    rounded = "rounded",
+    border = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -81,15 +93,15 @@ const Tag3 = ({
         grow: false,
     });
 
-    const stylesCalculated = `${styles.string} font-normal rounded border ${
-        onClick !== null ? "cursor-pointer" : ""
-    } ${textSize} ${className}`;
+    const stylesCalculated = `${styles.string} font-normal ${rounded} ${
+        border ? "border" : ""
+    } ${onClick !== null ? "cursor-pointer" : ""} ${textSize} ${className}`;
     const uuid = getUUID("", "tag-3");
     return (
         <span
             id={uuid}
             onClick={onClick}
-            className={`flex flex-row w-fit ${stylesCalculated} px-1.5 py-0.5 whitespace-nowrap items-center justify-center transition-colors duration-150`}
+            className={`flex flex-row w-fit ${stylesCalculated} ${padding} whitespace-nowrap items-center justify-center transition-colors duration-150`}
         >
             {children !== undefined ? children : text}
         </span>

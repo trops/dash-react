@@ -9,6 +9,13 @@ const Alert = ({
     children = null,
     onClose = null,
     className = "",
+    // Density / chrome overrides — pass alternate Tailwind class
+    // strings or booleans to opt out of the default chrome (e.g.
+    // `padding="p-2"`, `divider={false}` for an inline borderless
+    // message, `rounded="rounded-none"` for flush-mounted toasts).
+    padding = "p-4",
+    rounded = "rounded-md",
+    divider = true,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -23,7 +30,9 @@ const Alert = ({
     return (
         <div
             id={uuid}
-            className={`border border-l-4 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-4 text-base ${className}`}
+            className={`border ${
+                divider ? "border-l-4" : ""
+            } ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${rounded} ${padding} text-base ${className}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
@@ -57,12 +66,18 @@ const Alert2 = (props) => {
         grow: false,
     });
 
+    const padding = props.padding ?? "p-3";
+    const rounded = props.rounded ?? "rounded-md";
+    const divider = props.divider !== false;
+
     const uuid = getUUID("", "alert-2");
 
     return (
         <div
             id={uuid}
-            className={`border border-l-4 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-3 text-sm ${props.className || ""}`}
+            className={`border ${
+                divider ? "border-l-4" : ""
+            } ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${rounded} ${padding} text-sm ${props.className || ""}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
@@ -98,12 +113,18 @@ const Alert3 = (props) => {
         grow: false,
     });
 
+    const padding = props.padding ?? "p-2";
+    const rounded = props.rounded ?? "rounded-md";
+    const divider = props.divider !== false;
+
     const uuid = getUUID("", "alert-3");
 
     return (
         <div
             id={uuid}
-            className={`border border-l-4 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-md p-2 text-sm ${props.className || ""}`}
+            className={`border ${
+                divider ? "border-l-4" : ""
+            } ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} ${rounded} ${padding} text-sm ${props.className || ""}`}
             role="alert"
         >
             <div className="flex items-start justify-between">
