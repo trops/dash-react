@@ -16,6 +16,8 @@ import {
     hslToRgb,
     deriveShades,
     contrastRatio,
+    getColorFamilies,
+    getCuratedColorGrid,
 } from "./colorMath";
 
 describe("isHexColor", () => {
@@ -169,6 +171,55 @@ describe("deriveShades", () => {
         expect(Math.abs(derived700.r - tailwind700.r)).toBeLessThan(50);
         expect(Math.abs(derived700.g - tailwind700.g)).toBeLessThan(50);
         expect(Math.abs(derived700.b - tailwind700.b)).toBeLessThan(50);
+    });
+});
+
+describe("getColorFamilies / getCuratedColorGrid", () => {
+    test("returns 6 color families", () => {
+        const families = getColorFamilies();
+        expect(families.length).toBe(6);
+        expect(families).toContain("Reds & Pinks");
+        expect(families).toContain("Neutrals");
+    });
+
+    test("each chromatic family produces 36 valid hex swatches", () => {
+        const chromatic = [
+            "Reds & Pinks",
+            "Oranges & Yellows",
+            "Greens",
+            "Blues & Cyans",
+            "Purples & Magentas",
+        ];
+        for (const name of chromatic) {
+            const grid = getCuratedColorGrid(name);
+            expect(grid.length).toBe(36);
+            for (const hex of grid) {
+                expect(isHexColor(hex)).toBe(true);
+            }
+        }
+    });
+
+    test("Neutrals produces 18 swatches (3 tints × 6 lightnesses)", () => {
+        const grid = getCuratedColorGrid("Neutrals");
+        expect(grid.length).toBe(18);
+        for (const hex of grid) {
+            expect(isHexColor(hex)).toBe(true);
+        }
+    });
+
+    test("unknown family returns empty array", () => {
+        expect(getCuratedColorGrid("Unobtainium")).toEqual([]);
+    });
+
+    test("Reds & Pinks family contains a recognizable red and a recognizable pink", () => {
+        const grid = getCuratedColorGrid("Reds & Pinks");
+        // Convert each swatch to HSL; at least one should be near red (hue ~0)
+        // and at least one near pink (hue ~350).
+        const hues = grid.map((hex) => rgbToHsl(hexToRgb(hex)).h);
+        const hasRed = hues.some((h) => h < 30 || h > 350);
+        const hasPink = hues.some((h) => h > 320 && h < 360);
+        expect(hasRed).toBe(true);
+        expect(hasPink).toBe(true);
     });
 });
 
