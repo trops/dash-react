@@ -11,7 +11,7 @@ const Menu = ({
     ...props
 }) => {
     return (
-        <Panel {...props} className={className}>
+        <Panel {...props} border={border} className={className}>
             {children}
         </Panel>
     );
@@ -24,7 +24,7 @@ const Menu2 = ({
     ...props
 }) => {
     return (
-        <Panel2 {...props} className={className}>
+        <Panel2 {...props} border={border} className={className}>
             {children}
         </Panel2>
     );
@@ -37,7 +37,7 @@ const Menu3 = ({
     ...props
 }) => {
     return (
-        <Panel3 {...props} className={className}>
+        <Panel3 {...props} border={border} className={className}>
             {children}
         </Panel3>
     );
