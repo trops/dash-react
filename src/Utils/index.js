@@ -4,6 +4,7 @@
 // From dash-react utilities
 export * from "./themeObjects";
 export * from "./colors";
+export * from "./colorMath";
 export * from "./objects";
 export * from "./strings";
 export * from "./css";

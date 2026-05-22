@@ -3,7 +3,7 @@ import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 export * from '@fortawesome/free-solid-svg-icons';
 import * as BrandIcons from '@fortawesome/free-brands-svg-icons';
-import React, { createContext, useContext, useState, useCallback, useMemo, createElement, useEffect, useRef, Fragment, Children } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect, createElement, Fragment, Children } from 'react';
 import { jsx, jsxs, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,27 +30,28 @@ var ThemeContext = /*#__PURE__*/createContext({
   rawThemes: null
 });
 
+function _createForOfIteratorHelper$2(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$j(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
 function ownKeys$E(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$E(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$E(Object(t), !0).forEach(function (r) { _defineProperty$F(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$E(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$F(e, r, t) { return (r = _toPropertyKey$J(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$J(t) { var i = _toPrimitive$J(t, "string"); return "symbol" == _typeof$K(i) ? i : i + ""; }
 function _toPrimitive$J(t, r) { if ("object" != _typeof$K(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$K(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _slicedToArray$e(r, e) { return _arrayWithHoles$e(r) || _iterableToArrayLimit$e(r, e) || _unsupportedIterableToArray$i(r, e) || _nonIterableRest$e(); }
-function _nonIterableRest$e() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$i(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$i(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$i(r, a) : void 0; } }
-function _arrayLikeToArray$i(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$e(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$e(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$f(r, e) { return _arrayWithHoles$f(r) || _iterableToArrayLimit$f(r, e) || _unsupportedIterableToArray$j(r, e) || _nonIterableRest$f(); }
+function _nonIterableRest$f() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$j(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$j(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$j(r, a) : void 0; } }
+function _arrayLikeToArray$j(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$f(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$f(r) { if (Array.isArray(r)) return r; }
 var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
   var children = _ref.children;
   var parentCtx = useContext(ThemeContext);
   var _useState = useState(null),
-    _useState2 = _slicedToArray$e(_useState, 2),
+    _useState2 = _slicedToArray$f(_useState, 2),
     previewTheme = _useState2[0],
     setPreviewThemeState = _useState2[1];
   var _useState3 = useState(true),
-    _useState4 = _slicedToArray$e(_useState3, 2),
+    _useState4 = _slicedToArray$f(_useState3, 2),
     showPreview = _useState4[0],
     setShowPreview = _useState4[1];
   var isPreview = previewTheme !== null && showPreview;
@@ -75,6 +76,70 @@ var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
       currentTheme: previewTheme
     });
   }, [parentCtx, isPreview, previewTheme]);
+
+  // Inject CSS custom properties when the active theme has a
+  // `cssVars` map. ThemeModel emits this for themes with
+  // arbitrary-color (hex) channels — see PRD
+  // `arbitrary-color-themes.md`, FR-003. Tracks which variables we
+  // wrote so a transition theme-with-cssVars → theme-without
+  // cleanly removes them (no flash: we set the new set before
+  // removing the stale ones).
+  var writtenVarsRef = useRef(new Set());
+  useEffect(function () {
+    var _ctxValue$currentThem;
+    var cssVars = ctxValue === null || ctxValue === void 0 || (_ctxValue$currentThem = ctxValue.currentTheme) === null || _ctxValue$currentThem === void 0 ? void 0 : _ctxValue$currentThem.cssVars;
+    var root = typeof document !== "undefined" ? document.documentElement : null;
+    if (!root) return undefined;
+    var newSet = new Set();
+    if (cssVars && _typeof$K(cssVars) === "object") {
+      for (var _i = 0, _Object$entries = Object.entries(cssVars); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _slicedToArray$f(_Object$entries[_i], 2),
+          varName = _Object$entries$_i[0],
+          value = _Object$entries$_i[1];
+        root.style.setProperty(varName, value);
+        newSet.add(varName);
+      }
+    }
+    // Remove any vars from a prior theme that aren't in the new set.
+    var _iterator = _createForOfIteratorHelper$2(writtenVarsRef.current),
+      _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var _varName = _step.value;
+        if (!newSet.has(_varName)) {
+          root.style.removeProperty(_varName);
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    writtenVarsRef.current = newSet;
+    return undefined;
+  }, [ctxValue]);
+
+  // Final cleanup on unmount — remove any vars still attached to
+  // :root so the theme system leaves no stylesheet residue.
+  useEffect(function () {
+    return function () {
+      var root = typeof document !== "undefined" ? document.documentElement : null;
+      if (!root) return;
+      var _iterator2 = _createForOfIteratorHelper$2(writtenVarsRef.current),
+        _step2;
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var varName = _step2.value;
+          root.style.removeProperty(varName);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+      writtenVarsRef.current = new Set();
+    };
+  }, []);
 
   // Preview control bag — passed to render-prop children and available via useThemePreview
   var previewControls = useMemo(function () {
@@ -508,12 +573,12 @@ var styleClassNames = {
 
 var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$MENU_IT, _themeObjects$TABS_TR, _colorMap;
 function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
-function _toConsumableArray$5(r) { return _arrayWithoutHoles$5(r) || _iterableToArray$5(r) || _unsupportedIterableToArray$h(r) || _nonIterableSpread$5(); }
+function _toConsumableArray$5(r) { return _arrayWithoutHoles$5(r) || _iterableToArray$5(r) || _unsupportedIterableToArray$i(r) || _nonIterableSpread$5(); }
 function _nonIterableSpread$5() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
+function _unsupportedIterableToArray$i(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$i(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$i(r, a) : void 0; } }
 function _iterableToArray$5(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$5(r) { if (Array.isArray(r)) return _arrayLikeToArray$h(r); }
-function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles$5(r) { if (Array.isArray(r)) return _arrayLikeToArray$i(r); }
+function _arrayLikeToArray$i(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$D(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$D(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$D(Object(t), !0).forEach(function (r) { _defineProperty$E(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$D(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$E(e, r, t) { return (r = _toPropertyKey$I(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -918,6 +983,252 @@ function getStyleName(objectType) {
 var getDefaultStylesForItem = function getDefaultStylesForItem(itemName) {
   return itemName in colorMap ? _objectSpread$D({}, colorMap[itemName]) : {};
 };
+
+function _slicedToArray$e(r, e) { return _arrayWithHoles$e(r) || _iterableToArrayLimit$e(r, e) || _unsupportedIterableToArray$h(r, e) || _nonIterableRest$e(); }
+function _nonIterableRest$e() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
+function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$e(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$e(r) { if (Array.isArray(r)) return r; }
+/**
+ * colorMath — pure-function helpers for working with hex colors.
+ *
+ * Used by the theme system to support arbitrary-color themes (PRD:
+ * `dash-electron/docs/requirements/prd/arbitrary-color-themes.md`).
+ * Standalone — no React, no dependencies beyond JavaScript primitives.
+ *
+ * Exports:
+ *   - isHexColor(value)         → boolean
+ *   - normalizeHex(input)       → "#rrggbb" or null
+ *   - hexToRgb(hex)             → { r, g, b } or null
+ *   - rgbToHex({r,g,b})         → "#rrggbb"
+ *   - rgbToHsl({r,g,b})         → { h, s, l }  (h 0..360, s/l 0..1)
+ *   - hslToRgb({h,s,l})         → { r, g, b }  (0..255)
+ *   - deriveShades(hex)         → { 50, 100, 200, ..., 950 } hex map
+ *   - contrastRatio(hexA, hexB) → 1..21
+ */
+
+var HEX_REGEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+function isHexColor(value) {
+  return typeof value === "string" && HEX_REGEX.test(value.trim());
+}
+
+/**
+ * Normalize a user-supplied hex string. Accepts `4A154B`, `#4A154B`,
+ * `#abc`, `#abcd`, `#aabbccdd`. Returns lowercase `#rrggbb` (alpha
+ * dropped) or null if invalid.
+ */
+function normalizeHex(input) {
+  if (typeof input !== "string") return null;
+  var s = input.trim().toLowerCase();
+  if (!s.startsWith("#")) s = "#".concat(s);
+  if (!HEX_REGEX.test(s)) return null;
+  if (s.length === 4) {
+    // #rgb → #rrggbb
+    s = "#".concat(s[1]).concat(s[1]).concat(s[2]).concat(s[2]).concat(s[3]).concat(s[3]);
+  } else if (s.length === 5) {
+    // #rgba → #rrggbb (drop alpha)
+    s = "#".concat(s[1]).concat(s[1]).concat(s[2]).concat(s[2]).concat(s[3]).concat(s[3]);
+  } else if (s.length === 9) {
+    // #rrggbbaa → #rrggbb
+    s = s.slice(0, 7);
+  }
+  return s;
+}
+function hexToRgb(hex) {
+  var normalized = normalizeHex(hex);
+  if (!normalized) return null;
+  var n = parseInt(normalized.slice(1), 16);
+  return {
+    r: n >> 16 & 0xff,
+    g: n >> 8 & 0xff,
+    b: n & 0xff
+  };
+}
+function rgbToHex(_ref) {
+  var r = _ref.r,
+    g = _ref.g,
+    b = _ref.b;
+  var clamp = function clamp(v) {
+    return Math.max(0, Math.min(255, Math.round(v)));
+  };
+  var toHex = function toHex(v) {
+    return clamp(v).toString(16).padStart(2, "0");
+  };
+  return "#".concat(toHex(r)).concat(toHex(g)).concat(toHex(b));
+}
+function rgbToHsl(_ref2) {
+  var r = _ref2.r,
+    g = _ref2.g,
+    b = _ref2.b;
+  var R = r / 255;
+  var G = g / 255;
+  var B = b / 255;
+  var max = Math.max(R, G, B);
+  var min = Math.min(R, G, B);
+  var l = (max + min) / 2;
+  var h = 0;
+  var s = 0;
+  if (max !== min) {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case R:
+        h = (G - B) / d + (G < B ? 6 : 0);
+        break;
+      case G:
+        h = (B - R) / d + 2;
+        break;
+      default:
+        h = (R - G) / d + 4;
+        break;
+    }
+    h *= 60;
+  }
+  return {
+    h: h,
+    s: s,
+    l: l
+  };
+}
+function hslToRgb(_ref3) {
+  var h = _ref3.h,
+    s = _ref3.s,
+    l = _ref3.l;
+  if (s === 0) {
+    var v = l * 255;
+    return {
+      r: v,
+      g: v,
+      b: v
+    };
+  }
+  var c = (1 - Math.abs(2 * l - 1)) * s;
+  var x = c * (1 - Math.abs(h / 60 % 2 - 1));
+  var m = l - c / 2;
+  var rp;
+  var gp;
+  var bp;
+  if (h < 60) {
+    rp = c;
+    gp = x;
+    bp = 0;
+  } else if (h < 120) {
+    rp = x;
+    gp = c;
+    bp = 0;
+  } else if (h < 180) {
+    rp = 0;
+    gp = c;
+    bp = x;
+  } else if (h < 240) {
+    rp = 0;
+    gp = x;
+    bp = c;
+  } else if (h < 300) {
+    rp = x;
+    gp = 0;
+    bp = c;
+  } else {
+    rp = c;
+    gp = 0;
+    bp = x;
+  }
+  return {
+    r: (rp + m) * 255,
+    g: (gp + m) * 255,
+    b: (bp + m) * 255
+  };
+}
+
+/**
+ * Derive an 11-shade Tailwind-like palette from a base hex.
+ *
+ * Returns `{ "50": "#…", "100": "#…", …, "900": "#…", "950": "#…" }`.
+ *
+ * Strategy: keep the input's hue + saturation; vary lightness across
+ * fixed targets that approximate Tailwind's stock palette structure.
+ * Shade `500` preserves the user's lightness (so picking a known
+ * Tailwind hex like `#3b82f6` produces a `500` close to Tailwind
+ * `blue-500`). Lighter shades approach white; darker approach black.
+ *
+ * For very dark (`l < 0.20`) or very light (`l > 0.80`) inputs we
+ * snap shade `500` to `0.50` so the ramp stays balanced — otherwise
+ * the input might land at e.g. shade `900` and produce no visible
+ * darker steps.
+ */
+function deriveShades(hex) {
+  var rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  var _rgbToHsl = rgbToHsl(rgb),
+    h = _rgbToHsl.h,
+    s = _rgbToHsl.s,
+    l = _rgbToHsl.l;
+  var baseL = l < 0.2 || l > 0.8 ? 0.5 : l;
+  var targets = {
+    50: 0.96,
+    100: 0.9,
+    200: 0.8,
+    300: 0.68,
+    400: 0.55,
+    500: baseL,
+    600: 0.42,
+    700: 0.32,
+    800: 0.22,
+    900: 0.13,
+    950: 0.08
+  };
+  // Slight saturation curve: lighter shades fade saturation toward
+  // white-ish; darker shades fade toward black-ish. Mirrors how
+  // Tailwind's stock palette feels.
+  var satFor = function satFor(targetL) {
+    if (targetL > 0.85) return s * 0.4;
+    if (targetL < 0.15) return s * 0.7;
+    return s;
+  };
+  var out = {};
+  for (var _i = 0, _Object$entries = Object.entries(targets); _i < _Object$entries.length; _i++) {
+    var _Object$entries$_i = _slicedToArray$e(_Object$entries[_i], 2),
+      shade = _Object$entries$_i[0],
+      targetL = _Object$entries$_i[1];
+    var rgbOut = hslToRgb({
+      h: h,
+      s: satFor(targetL),
+      l: targetL
+    });
+    out[shade] = rgbToHex(rgbOut);
+  }
+  return out;
+}
+
+/**
+ * WCAG-relative luminance (0..1). Used by `contrastRatio`.
+ */
+function relativeLuminance(_ref4) {
+  var r = _ref4.r,
+    g = _ref4.g,
+    b = _ref4.b;
+  var channel = function channel(v) {
+    var sRGB = v / 255;
+    return sRGB <= 0.03928 ? sRGB / 12.92 : Math.pow((sRGB + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+}
+
+/**
+ * WCAG contrast ratio between two hex colors. Returns a value in
+ * [1, 21]. WCAG AA target is 4.5 for normal text; AAA is 7.
+ */
+function contrastRatio(hexA, hexB) {
+  var rgbA = hexToRgb(hexA);
+  var rgbB = hexToRgb(hexB);
+  if (!rgbA || !rgbB) return null;
+  var lA = relativeLuminance(rgbA);
+  var lB = relativeLuminance(rgbB);
+  var lighter = Math.max(lA, lB);
+  var darker = Math.min(lA, lB);
+  return (lighter + 0.05) / (darker + 0.05);
+}
 
 function _typeof$I(o) { "@babel/helpers - typeof"; return _typeof$I = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$I(o); }
 /**
@@ -10380,5 +10691,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map

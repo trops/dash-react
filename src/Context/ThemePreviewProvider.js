@@ -3,7 +3,9 @@ import {
     useState,
     useCallback,
     useContext,
+    useEffect,
     useMemo,
+    useRef,
 } from "react";
 import { ThemeContext } from "./ThemeContext";
 
@@ -64,6 +66,52 @@ const ThemePreviewProvider = ({ children }) => {
             currentTheme: previewTheme,
         };
     }, [parentCtx, isPreview, previewTheme]);
+
+    // Inject CSS custom properties when the active theme has a
+    // `cssVars` map. ThemeModel emits this for themes with
+    // arbitrary-color (hex) channels — see PRD
+    // `arbitrary-color-themes.md`, FR-003. Tracks which variables we
+    // wrote so a transition theme-with-cssVars → theme-without
+    // cleanly removes them (no flash: we set the new set before
+    // removing the stale ones).
+    const writtenVarsRef = useRef(new Set());
+    useEffect(() => {
+        const cssVars = ctxValue?.currentTheme?.cssVars;
+        const root =
+            typeof document !== "undefined" ? document.documentElement : null;
+        if (!root) return undefined;
+        const newSet = new Set();
+        if (cssVars && typeof cssVars === "object") {
+            for (const [varName, value] of Object.entries(cssVars)) {
+                root.style.setProperty(varName, value);
+                newSet.add(varName);
+            }
+        }
+        // Remove any vars from a prior theme that aren't in the new set.
+        for (const varName of writtenVarsRef.current) {
+            if (!newSet.has(varName)) {
+                root.style.removeProperty(varName);
+            }
+        }
+        writtenVarsRef.current = newSet;
+        return undefined;
+    }, [ctxValue]);
+
+    // Final cleanup on unmount — remove any vars still attached to
+    // :root so the theme system leaves no stylesheet residue.
+    useEffect(() => {
+        return () => {
+            const root =
+                typeof document !== "undefined"
+                    ? document.documentElement
+                    : null;
+            if (!root) return;
+            for (const varName of writtenVarsRef.current) {
+                root.style.removeProperty(varName);
+            }
+            writtenVarsRef.current = new Set();
+        };
+    }, []);
 
     // Preview control bag — passed to render-prop children and available via useThemePreview
     const previewControls = useMemo(
