@@ -36,21 +36,21 @@ function _objectSpread$E(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$F(e, r, t) { return (r = _toPropertyKey$J(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$J(t) { var i = _toPrimitive$J(t, "string"); return "symbol" == _typeof$K(i) ? i : i + ""; }
 function _toPrimitive$J(t, r) { if ("object" != _typeof$K(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$K(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _slicedToArray$d(r, e) { return _arrayWithHoles$d(r) || _iterableToArrayLimit$d(r, e) || _unsupportedIterableToArray$h(r, e) || _nonIterableRest$d(); }
-function _nonIterableRest$d() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
-function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$d(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$d(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$e(r, e) { return _arrayWithHoles$e(r) || _iterableToArrayLimit$e(r, e) || _unsupportedIterableToArray$i(r, e) || _nonIterableRest$e(); }
+function _nonIterableRest$e() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$i(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$i(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$i(r, a) : void 0; } }
+function _arrayLikeToArray$i(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$e(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$e(r) { if (Array.isArray(r)) return r; }
 var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
   var children = _ref.children;
   var parentCtx = useContext(ThemeContext);
   var _useState = useState(null),
-    _useState2 = _slicedToArray$d(_useState, 2),
+    _useState2 = _slicedToArray$e(_useState, 2),
     previewTheme = _useState2[0],
     setPreviewThemeState = _useState2[1];
   var _useState3 = useState(true),
-    _useState4 = _slicedToArray$d(_useState3, 2),
+    _useState4 = _slicedToArray$e(_useState3, 2),
     showPreview = _useState4[0],
     setShowPreview = _useState4[1];
   var isPreview = previewTheme !== null && showPreview;
@@ -508,12 +508,12 @@ var styleClassNames = {
 
 var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$MENU_IT, _themeObjects$TABS_TR, _colorMap;
 function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
-function _toConsumableArray$5(r) { return _arrayWithoutHoles$5(r) || _iterableToArray$5(r) || _unsupportedIterableToArray$g(r) || _nonIterableSpread$5(); }
+function _toConsumableArray$5(r) { return _arrayWithoutHoles$5(r) || _iterableToArray$5(r) || _unsupportedIterableToArray$h(r) || _nonIterableSpread$5(); }
 function _nonIterableSpread$5() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$g(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$g(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$g(r, a) : void 0; } }
+function _unsupportedIterableToArray$h(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$h(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$h(r, a) : void 0; } }
 function _iterableToArray$5(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$5(r) { if (Array.isArray(r)) return _arrayLikeToArray$g(r); }
-function _arrayLikeToArray$g(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles$5(r) { if (Array.isArray(r)) return _arrayLikeToArray$h(r); }
+function _arrayLikeToArray$h(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$D(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$D(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$D(Object(t), !0).forEach(function (r) { _defineProperty$E(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$D(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$E(e, r, t) { return (r = _toPropertyKey$I(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -1771,13 +1771,13 @@ function Code3(_ref3) {
   });
 }
 
-function _toConsumableArray$4(r) { return _arrayWithoutHoles$4(r) || _iterableToArray$4(r) || _unsupportedIterableToArray$f(r) || _nonIterableSpread$4(); }
+function _toConsumableArray$4(r) { return _arrayWithoutHoles$4(r) || _iterableToArray$4(r) || _unsupportedIterableToArray$g(r) || _nonIterableSpread$4(); }
 function _nonIterableSpread$4() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray$4(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$4(r) { if (Array.isArray(r)) return _arrayLikeToArray$f(r); }
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$f(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
-function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
-function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles$4(r) { if (Array.isArray(r)) return _arrayLikeToArray$g(r); }
+function _createForOfIteratorHelper$1(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$g(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _unsupportedIterableToArray$g(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$g(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$g(r, a) : void 0; } }
+function _arrayLikeToArray$g(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 var SLACK_EMOJI = {
   thumbsup: "👍",
   "+1": "👍",
@@ -1903,7 +1903,7 @@ var ANGLE_PATTERN = /<([@#!])?([^|>]+?)(?:\|([^>]+))?>/g;
 function tokenizeAngles(text) {
   var tokens = [];
   var last = 0;
-  var _iterator = _createForOfIteratorHelper(text.matchAll(ANGLE_PATTERN)),
+  var _iterator = _createForOfIteratorHelper$1(text.matchAll(ANGLE_PATTERN)),
     _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -1960,7 +1960,7 @@ function tokenizeAngles(text) {
 }
 function tokenizeInline(text) {
   var earliest = null;
-  var _iterator2 = _createForOfIteratorHelper(INLINE_PATTERNS),
+  var _iterator2 = _createForOfIteratorHelper$1(INLINE_PATTERNS),
     _step2;
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
@@ -1997,7 +1997,7 @@ function tokenizeInline(text) {
 function tokenize(text) {
   var angles = tokenizeAngles(text);
   var flat = [];
-  var _iterator3 = _createForOfIteratorHelper(angles),
+  var _iterator3 = _createForOfIteratorHelper$1(angles),
     _step3;
   try {
     for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
@@ -2979,12 +2979,12 @@ Card3.Footer = Card.Footer;
 
 function _typeof$B(o) { "@babel/helpers - typeof"; return _typeof$B = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$B(o); }
 var _excluded$u = ["items", "separator", "maxItems", "className", "onItemClick", "themeKey"];
-function _toConsumableArray$3(r) { return _arrayWithoutHoles$3(r) || _iterableToArray$3(r) || _unsupportedIterableToArray$e(r) || _nonIterableSpread$3(); }
+function _toConsumableArray$3(r) { return _arrayWithoutHoles$3(r) || _iterableToArray$3(r) || _unsupportedIterableToArray$f(r) || _nonIterableSpread$3(); }
 function _nonIterableSpread$3() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$e(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$e(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$e(r, a) : void 0; } }
+function _unsupportedIterableToArray$f(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$f(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$f(r, a) : void 0; } }
 function _iterableToArray$3(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$3(r) { if (Array.isArray(r)) return _arrayLikeToArray$e(r); }
-function _arrayLikeToArray$e(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _arrayWithoutHoles$3(r) { if (Array.isArray(r)) return _arrayLikeToArray$f(r); }
+function _arrayLikeToArray$f(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys$w(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$w(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$w(Object(t), !0).forEach(function (r) { _defineProperty$x(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$w(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$x(e, r, t) { return (r = _toPropertyKey$B(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3922,12 +3922,12 @@ var TextArea = function TextArea(_ref) {
 
 function _typeof$t(o) { "@babel/helpers - typeof"; return _typeof$t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$t(o); }
 var _excluded$m = ["label", "value", "onChange", "options", "placeholder", "id", "className", "inputClassName"];
-function _slicedToArray$c(r, e) { return _arrayWithHoles$c(r) || _iterableToArrayLimit$c(r, e) || _unsupportedIterableToArray$d(r, e) || _nonIterableRest$c(); }
-function _nonIterableRest$c() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$d(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$d(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$d(r, a) : void 0; } }
-function _arrayLikeToArray$d(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$c(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$c(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$d(r, e) { return _arrayWithHoles$d(r) || _iterableToArrayLimit$d(r, e) || _unsupportedIterableToArray$e(r, e) || _nonIterableRest$d(); }
+function _nonIterableRest$d() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$e(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$e(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$e(r, a) : void 0; } }
+function _arrayLikeToArray$e(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$d(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$d(r) { if (Array.isArray(r)) return r; }
 function ownKeys$o(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$o(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$o(Object(t), !0).forEach(function (r) { _defineProperty$p(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$o(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$p(e, r, t) { return (r = _toPropertyKey$t(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3974,7 +3974,7 @@ var SelectInput = function SelectInput(_ref) {
 
   // Custom dropdown state (only used when options have icons)
   var _useState = useState(false),
-    _useState2 = _slicedToArray$c(_useState, 2),
+    _useState2 = _slicedToArray$d(_useState, 2),
     isOpen = _useState2[0],
     setIsOpen = _useState2[1];
   var dropdownRef = useRef(null);
@@ -4555,16 +4555,16 @@ function _typeof$m(o) { "@babel/helpers - typeof"; return _typeof$m = "function"
 var _excluded$f = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"],
   _excluded2$6 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"],
   _excluded3$6 = ["columns", "data", "sortable", "hoverable", "striped", "bordered", "compact", "onRowClick", "className"];
-function _toConsumableArray$2(r) { return _arrayWithoutHoles$2(r) || _iterableToArray$2(r) || _unsupportedIterableToArray$c(r) || _nonIterableSpread$2(); }
+function _toConsumableArray$2(r) { return _arrayWithoutHoles$2(r) || _iterableToArray$2(r) || _unsupportedIterableToArray$d(r) || _nonIterableSpread$2(); }
 function _nonIterableSpread$2() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray$2(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$2(r) { if (Array.isArray(r)) return _arrayLikeToArray$c(r); }
-function _slicedToArray$b(r, e) { return _arrayWithHoles$b(r) || _iterableToArrayLimit$b(r, e) || _unsupportedIterableToArray$c(r, e) || _nonIterableRest$b(); }
-function _nonIterableRest$b() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$c(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$c(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$c(r, a) : void 0; } }
-function _arrayLikeToArray$c(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$b(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$b(r) { if (Array.isArray(r)) return r; }
+function _arrayWithoutHoles$2(r) { if (Array.isArray(r)) return _arrayLikeToArray$d(r); }
+function _slicedToArray$c(r, e) { return _arrayWithHoles$c(r) || _iterableToArrayLimit$c(r, e) || _unsupportedIterableToArray$d(r, e) || _nonIterableRest$c(); }
+function _nonIterableRest$c() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$d(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$d(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$d(r, a) : void 0; } }
+function _arrayLikeToArray$d(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$c(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$c(r) { if (Array.isArray(r)) return r; }
 function ownKeys$h(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$h(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) { _defineProperty$i(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$i(e, r, t) { return (r = _toPropertyKey$m(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -4602,7 +4602,7 @@ var Table = function Table(_ref) {
       key: null,
       direction: null
     }),
-    _useState2 = _slicedToArray$b(_useState, 2),
+    _useState2 = _slicedToArray$c(_useState, 2),
     sortConfig = _useState2[0],
     setSortConfig = _useState2[1];
   var uuid = getUUID$1("", "table");
@@ -4716,7 +4716,7 @@ var Table2 = function Table2(_ref2) {
       key: null,
       direction: null
     }),
-    _useState4 = _slicedToArray$b(_useState3, 2),
+    _useState4 = _slicedToArray$c(_useState3, 2),
     sortConfig = _useState4[0],
     setSortConfig = _useState4[1];
   var uuid = getUUID$1("", "table-2");
@@ -4830,7 +4830,7 @@ var Table3 = function Table3(_ref3) {
       key: null,
       direction: null
     }),
-    _useState6 = _slicedToArray$b(_useState5, 2),
+    _useState6 = _slicedToArray$c(_useState5, 2),
     sortConfig = _useState6[0],
     setSortConfig = _useState6[1];
   var uuid = getUUID$1("", "table-3");
@@ -6134,12 +6134,12 @@ DashPanel3.Header = DashPanelHeader3;
 DashPanel3.Body = DashPanelBody3;
 DashPanel3.Footer = DashPanelFooter3;
 
-function _slicedToArray$a(r, e) { return _arrayWithHoles$a(r) || _iterableToArrayLimit$a(r, e) || _unsupportedIterableToArray$b(r, e) || _nonIterableRest$a(); }
-function _nonIterableRest$a() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$b(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$b(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$b(r, a) : void 0; } }
-function _arrayLikeToArray$b(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$a(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$a(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$b(r, e) { return _arrayWithHoles$b(r) || _iterableToArrayLimit$b(r, e) || _unsupportedIterableToArray$c(r, e) || _nonIterableRest$b(); }
+function _nonIterableRest$b() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$c(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$c(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$c(r, a) : void 0; } }
+function _arrayLikeToArray$c(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$b(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$b(r) { if (Array.isArray(r)) return r; }
 function DragComponent(_ref) {
   var obj = _ref.obj,
     id = _ref.id,
@@ -6154,7 +6154,7 @@ function DragComponent(_ref) {
     onDropItem = _ref.onDropItem;
     _ref.onDragItem;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$a(_useState, 2);
+    _useState2 = _slicedToArray$b(_useState, 2);
     _useState2[0];
     _useState2[1];
   var _useDrag = useDrag(function () {
@@ -6194,7 +6194,7 @@ function DragComponent(_ref) {
         }
       };
     }),
-    _useDrag2 = _slicedToArray$a(_useDrag, 3),
+    _useDrag2 = _slicedToArray$b(_useDrag, 3),
     collected = _useDrag2[0],
     drag = _useDrag2[1],
     dragPreview = _useDrag2[2];
@@ -6215,12 +6215,12 @@ function DragComponent(_ref) {
   });
 }
 
-function _slicedToArray$9(r, e) { return _arrayWithHoles$9(r) || _iterableToArrayLimit$9(r, e) || _unsupportedIterableToArray$a(r, e) || _nonIterableRest$9(); }
-function _nonIterableRest$9() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
-function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$9(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$9(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$a(r, e) { return _arrayWithHoles$a(r) || _iterableToArrayLimit$a(r, e) || _unsupportedIterableToArray$b(r, e) || _nonIterableRest$a(); }
+function _nonIterableRest$a() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$b(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$b(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$b(r, a) : void 0; } }
+function _arrayLikeToArray$b(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$a(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$a(r) { if (Array.isArray(r)) return r; }
 function DropComponent(_ref) {
   var item = _ref.item,
     id = _ref.id,
@@ -6232,11 +6232,11 @@ function DropComponent(_ref) {
     var width = _ref.width,
     height = _ref.height;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$9(_useState, 2);
+    _useState2 = _slicedToArray$a(_useState, 2);
     _useState2[0];
     var setHasDropped = _useState2[1];
   var _useState3 = useState(false),
-    _useState4 = _slicedToArray$9(_useState3, 2);
+    _useState4 = _slicedToArray$a(_useState3, 2);
     _useState4[0];
     var setHasDroppedOnChild = _useState4[1];
   var _useDrop = useDrop({
@@ -6273,7 +6273,7 @@ function DropComponent(_ref) {
         };
       }
     }, [setHasDropped, setHasDroppedOnChild]),
-    _useDrop2 = _slicedToArray$9(_useDrop, 2),
+    _useDrop2 = _slicedToArray$a(_useDrop, 2),
     _useDrop2$ = _useDrop2[0],
     isOver = _useDrop2$.isOver,
     isOverCurrent = _useDrop2$.isOverCurrent,
@@ -6305,34 +6305,40 @@ function _toPrimitive$7(t, r) { if ("object" != _typeof$7(t) || !t) return t; va
 function _objectWithoutProperties$5(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$5(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$5(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var Menu = function Menu(_ref) {
-  var children = _ref.children;
-    _ref.border;
-    var _ref$className = _ref.className,
+  var children = _ref.children,
+    _ref$border = _ref.border,
+    border = _ref$border === void 0 ? false : _ref$border,
+    _ref$className = _ref.className,
     className = _ref$className === void 0 ? "space-y-2" : _ref$className,
     props = _objectWithoutProperties$5(_ref, _excluded$5);
   return /*#__PURE__*/jsx(Panel, _objectSpread$7(_objectSpread$7({}, props), {}, {
+    border: border,
     className: className,
     children: children
   }));
 };
 var Menu2 = function Menu2(_ref2) {
-  var children = _ref2.children;
-    _ref2.border;
-    var _ref2$className = _ref2.className,
+  var children = _ref2.children,
+    _ref2$border = _ref2.border,
+    border = _ref2$border === void 0 ? false : _ref2$border,
+    _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "space-y-2" : _ref2$className,
     props = _objectWithoutProperties$5(_ref2, _excluded2$2);
   return /*#__PURE__*/jsx(Panel2, _objectSpread$7(_objectSpread$7({}, props), {}, {
+    border: border,
     className: className,
     children: children
   }));
 };
 var Menu3 = function Menu3(_ref3) {
-  var children = _ref3.children;
-    _ref3.border;
-    var _ref3$className = _ref3.className,
+  var children = _ref3.children,
+    _ref3$border = _ref3.border,
+    border = _ref3$border === void 0 ? false : _ref3$border,
+    _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "space-y-2" : _ref3$className,
     props = _objectWithoutProperties$5(_ref3, _excluded3$2);
   return /*#__PURE__*/jsx(Panel3, _objectSpread$7(_objectSpread$7({}, props), {}, {
+    border: border,
     className: className,
     children: children
   }));
@@ -6356,12 +6362,12 @@ function _objectSpread$6(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$6(e, r, t) { return (r = _toPropertyKey$6(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$6(t) { var i = _toPrimitive$6(t, "string"); return "symbol" == _typeof$6(i) ? i : i + ""; }
 function _toPrimitive$6(t, r) { if ("object" != _typeof$6(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$6(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _slicedToArray$8(r, e) { return _arrayWithHoles$8(r) || _iterableToArrayLimit$8(r, e) || _unsupportedIterableToArray$9(r, e) || _nonIterableRest$8(); }
-function _nonIterableRest$8() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$9(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$9(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$9(r, a) : void 0; } }
-function _arrayLikeToArray$9(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$8(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$8(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$9(r, e) { return _arrayWithHoles$9(r) || _iterableToArrayLimit$9(r, e) || _unsupportedIterableToArray$a(r, e) || _nonIterableRest$9(); }
+function _nonIterableRest$9() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$a(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$a(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$a(r, a) : void 0; } }
+function _arrayLikeToArray$a(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$9(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$9(r) { if (Array.isArray(r)) return r; }
 function _objectWithoutProperties$4(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$4(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$4(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var TabsContext = /*#__PURE__*/createContext({
@@ -6392,7 +6398,7 @@ var Tabs = function Tabs(_ref) {
     border = _ref$border === void 0 ? false : _ref$border,
     props = _objectWithoutProperties$4(_ref, _excluded$4);
   var _useState = useState(defaultValue),
-    _useState2 = _slicedToArray$8(_useState, 2),
+    _useState2 = _slicedToArray$9(_useState, 2),
     internalValue = _useState2[0],
     setInternalValue = _useState2[1];
   var _useContext = useContext(ThemeContext),
@@ -6527,7 +6533,7 @@ var Tabs2 = function Tabs2(_ref5) {
     border = _ref5$border === void 0 ? false : _ref5$border,
     props = _objectWithoutProperties$4(_ref5, _excluded5$1);
   var _useState3 = useState(defaultValue),
-    _useState4 = _slicedToArray$8(_useState3, 2),
+    _useState4 = _slicedToArray$9(_useState3, 2),
     internalValue = _useState4[0],
     setInternalValue = _useState4[1];
   var _useContext5 = useContext(ThemeContext),
@@ -6662,7 +6668,7 @@ var Tabs3 = function Tabs3(_ref9) {
     border = _ref9$border === void 0 ? false : _ref9$border,
     props = _objectWithoutProperties$4(_ref9, _excluded9$1);
   var _useState5 = useState(defaultValue),
-    _useState6 = _slicedToArray$8(_useState5, 2),
+    _useState6 = _slicedToArray$9(_useState5, 2),
     internalValue = _useState6[0],
     setInternalValue = _useState6[1];
   var _useContext9 = useContext(ThemeContext),
@@ -6791,16 +6797,16 @@ function _toPropertyKey$5(t) { var i = _toPrimitive$5(t, "string"); return "symb
 function _toPrimitive$5(t, r) { if ("object" != _typeof$5(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$5(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$3(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$3(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$3(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-function _toConsumableArray$1(r) { return _arrayWithoutHoles$1(r) || _iterableToArray$1(r) || _unsupportedIterableToArray$8(r) || _nonIterableSpread$1(); }
+function _toConsumableArray$1(r) { return _arrayWithoutHoles$1(r) || _iterableToArray$1(r) || _unsupportedIterableToArray$9(r) || _nonIterableSpread$1(); }
 function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray$1(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles$1(r) { if (Array.isArray(r)) return _arrayLikeToArray$8(r); }
-function _slicedToArray$7(r, e) { return _arrayWithHoles$7(r) || _iterableToArrayLimit$7(r, e) || _unsupportedIterableToArray$8(r, e) || _nonIterableRest$7(); }
-function _nonIterableRest$7() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$8(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$8(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$8(r, a) : void 0; } }
-function _arrayLikeToArray$8(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$7(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$7(r) { if (Array.isArray(r)) return r; }
+function _arrayWithoutHoles$1(r) { if (Array.isArray(r)) return _arrayLikeToArray$9(r); }
+function _slicedToArray$8(r, e) { return _arrayWithHoles$8(r) || _iterableToArrayLimit$8(r, e) || _unsupportedIterableToArray$9(r, e) || _nonIterableRest$8(); }
+function _nonIterableRest$8() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$9(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$9(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$9(r, a) : void 0; } }
+function _arrayLikeToArray$9(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$8(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$8(r) { if (Array.isArray(r)) return r; }
 var AccordionContext = /*#__PURE__*/createContext({
   openItems: [],
   toggleItem: function toggleItem() {},
@@ -6818,7 +6824,7 @@ var Accordion = function Accordion(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className;
   var _useState = useState(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
-    _useState2 = _slicedToArray$7(_useState, 2),
+    _useState2 = _slicedToArray$8(_useState, 2),
     openItems = _useState2[0],
     setOpenItems = _useState2[1];
   var toggleItem = function toggleItem(value) {
@@ -6919,7 +6925,7 @@ var AccordionContent = function AccordionContent(_ref4) {
   var isOpen = openItems.includes(value);
   var contentRef = useRef(null);
   var _useState3 = useState(0),
-    _useState4 = _slicedToArray$7(_useState3, 2),
+    _useState4 = _slicedToArray$8(_useState3, 2),
     height = _useState4[0],
     setHeight = _useState4[1];
   useEffect(function () {
@@ -6954,7 +6960,7 @@ var Accordion2 = function Accordion2(_ref5) {
     _ref5$className = _ref5.className,
     className = _ref5$className === void 0 ? "" : _ref5$className;
   var _useState5 = useState(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
-    _useState6 = _slicedToArray$7(_useState5, 2),
+    _useState6 = _slicedToArray$8(_useState5, 2),
     openItems = _useState6[0],
     setOpenItems = _useState6[1];
   var toggleItem = function toggleItem(value) {
@@ -7055,7 +7061,7 @@ var AccordionContent2 = function AccordionContent2(_ref8) {
   var isOpen = openItems.includes(value);
   var contentRef = useRef(null);
   var _useState7 = useState(0),
-    _useState8 = _slicedToArray$7(_useState7, 2),
+    _useState8 = _slicedToArray$8(_useState7, 2),
     height = _useState8[0],
     setHeight = _useState8[1];
   useEffect(function () {
@@ -7090,7 +7096,7 @@ var Accordion3 = function Accordion3(_ref9) {
     _ref9$className = _ref9.className,
     className = _ref9$className === void 0 ? "" : _ref9$className;
   var _useState9 = useState(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
-    _useState0 = _slicedToArray$7(_useState9, 2),
+    _useState0 = _slicedToArray$8(_useState9, 2),
     openItems = _useState0[0],
     setOpenItems = _useState0[1];
   var toggleItem = function toggleItem(value) {
@@ -7191,7 +7197,7 @@ var AccordionContent3 = function AccordionContent3(_ref10) {
   var isOpen = openItems.includes(value);
   var contentRef = useRef(null);
   var _useState1 = useState(0),
-    _useState10 = _slicedToArray$7(_useState1, 2),
+    _useState10 = _slicedToArray$8(_useState1, 2),
     height = _useState10[0],
     setHeight = _useState10[1];
   useEffect(function () {
@@ -7221,12 +7227,12 @@ function _objectSpread$4(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$4(e, r, t) { return (r = _toPropertyKey$4(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$4(t) { var i = _toPrimitive$4(t, "string"); return "symbol" == _typeof$4(i) ? i : i + ""; }
 function _toPrimitive$4(t, r) { if ("object" != _typeof$4(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$4(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _slicedToArray$6(r, e) { return _arrayWithHoles$6(r) || _iterableToArrayLimit$6(r, e) || _unsupportedIterableToArray$7(r, e) || _nonIterableRest$6(); }
-function _nonIterableRest$6() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$7(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$7(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$7(r, a) : void 0; } }
-function _arrayLikeToArray$7(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$6(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$6(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$7(r, e) { return _arrayWithHoles$7(r) || _iterableToArrayLimit$7(r, e) || _unsupportedIterableToArray$8(r, e) || _nonIterableRest$7(); }
+function _nonIterableRest$7() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$8(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$8(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$8(r, a) : void 0; } }
+function _arrayLikeToArray$8(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$7(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$7(r) { if (Array.isArray(r)) return r; }
 var createHeader = function createHeader(themeKey) {
   var Header = function Header(_ref) {
     var children = _ref.children,
@@ -7302,7 +7308,7 @@ var createDropdownPanel = function createDropdownPanel(panelKey, headerKey, divi
     });
     var anchorRef = useRef(null);
     var _useState = useState(null),
-      _useState2 = _slicedToArray$6(_useState, 2),
+      _useState2 = _slicedToArray$7(_useState, 2),
       portalStyle = _useState2[0],
       setPortalStyle = _useState2[1];
     var handleKeyDown = useCallback(function (e) {
@@ -7669,12 +7675,12 @@ var ConfirmationModal = function ConfirmationModal(_ref) {
   });
 };
 
-function _slicedToArray$5(r, e) { return _arrayWithHoles$5(r) || _iterableToArrayLimit$5(r, e) || _unsupportedIterableToArray$6(r, e) || _nonIterableRest$5(); }
-function _nonIterableRest$5() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$6(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$6(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$6(r, a) : void 0; } }
-function _arrayLikeToArray$6(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$5(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$5(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$6(r, e) { return _arrayWithHoles$6(r) || _iterableToArrayLimit$6(r, e) || _unsupportedIterableToArray$7(r, e) || _nonIterableRest$6(); }
+function _nonIterableRest$6() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$7(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$7(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$7(r, a) : void 0; } }
+function _arrayLikeToArray$7(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$6(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$6(r) { if (Array.isArray(r)) return r; }
 var SidebarContext = /*#__PURE__*/createContext({
   collapsed: false,
   setCollapsed: function setCollapsed() {},
@@ -7844,7 +7850,7 @@ var Sidebar = function Sidebar(_ref7) {
     _ref7$className = _ref7.className,
     className = _ref7$className === void 0 ? "" : _ref7$className;
   var _useState = useState(defaultCollapsed),
-    _useState2 = _slicedToArray$5(_useState, 2),
+    _useState2 = _slicedToArray$6(_useState, 2),
     internalCollapsed = _useState2[0],
     setInternalCollapsed = _useState2[1];
   var isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
@@ -7961,12 +7967,12 @@ Navbar.Content = NavbarContent;
 Navbar.Actions = NavbarActions;
 Navbar.Divider = NavbarDivider;
 
-function _slicedToArray$4(r, e) { return _arrayWithHoles$4(r) || _iterableToArrayLimit$4(r, e) || _unsupportedIterableToArray$5(r, e) || _nonIterableRest$4(); }
-function _nonIterableRest$4() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$5(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$5(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$5(r, a) : void 0; } }
-function _arrayLikeToArray$5(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$4(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$4(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$5(r, e) { return _arrayWithHoles$5(r) || _iterableToArrayLimit$5(r, e) || _unsupportedIterableToArray$6(r, e) || _nonIterableRest$5(); }
+function _nonIterableRest$5() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$6(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$6(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$6(r, a) : void 0; } }
+function _arrayLikeToArray$6(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$5(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$5(r) { if (Array.isArray(r)) return r; }
 var TabbedNavbarContext = /*#__PURE__*/createContext({
   activeTab: "",
   setActiveTab: function setActiveTab() {}
@@ -8057,7 +8063,7 @@ var TabbedNavbar = function TabbedNavbar(_ref5) {
     _ref5$className = _ref5.className,
     className = _ref5$className === void 0 ? "" : _ref5$className;
   var _useState = useState(defaultValue),
-    _useState2 = _slicedToArray$4(_useState, 2),
+    _useState2 = _slicedToArray$5(_useState, 2),
     internalValue = _useState2[0],
     setInternalValue = _useState2[1];
   var activeTab = value !== undefined ? value : internalValue;
@@ -8397,12 +8403,12 @@ var StatusBadge = function StatusBadge(_ref) {
   });
 };
 
-function _slicedToArray$3(r, e) { return _arrayWithHoles$3(r) || _iterableToArrayLimit$3(r, e) || _unsupportedIterableToArray$4(r, e) || _nonIterableRest$3(); }
-function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$4(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$4(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$4(r, a) : void 0; } }
-function _arrayLikeToArray$4(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$3(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$3(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$4(r, e) { return _arrayWithHoles$4(r) || _iterableToArrayLimit$4(r, e) || _unsupportedIterableToArray$5(r, e) || _nonIterableRest$4(); }
+function _nonIterableRest$4() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$5(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$5(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$5(r, a) : void 0; } }
+function _arrayLikeToArray$5(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$4(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$4(r) { if (Array.isArray(r)) return r; }
 var CommandPaletteGroup = function CommandPaletteGroup(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? null : _ref$label,
@@ -8473,7 +8479,7 @@ var CommandPalette = function CommandPalette(_ref3) {
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className;
   var _useState = useState(""),
-    _useState2 = _slicedToArray$3(_useState, 2),
+    _useState2 = _slicedToArray$4(_useState, 2),
     query = _useState2[0],
     setQuery = _useState2[1];
   var inputRef = useRef(null);
@@ -8872,12 +8878,12 @@ Drawer.Body = DrawerBody;
 Drawer.Footer = DrawerFooter;
 Drawer.CloseButton = DrawerCloseButton;
 
-function _slicedToArray$2(r, e) { return _arrayWithHoles$2(r) || _iterableToArrayLimit$2(r, e) || _unsupportedIterableToArray$3(r, e) || _nonIterableRest$2(); }
-function _nonIterableRest$2() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$3(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$3(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$3(r, a) : void 0; } }
-function _arrayLikeToArray$3(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$2(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$2(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$3(r, e) { return _arrayWithHoles$3(r) || _iterableToArrayLimit$3(r, e) || _unsupportedIterableToArray$4(r, e) || _nonIterableRest$3(); }
+function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$4(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$4(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$4(r, a) : void 0; } }
+function _arrayLikeToArray$4(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$3(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$3(r) { if (Array.isArray(r)) return r; }
 var Tooltip = function Tooltip(_ref) {
   var content = _ref.content,
     children = _ref.children,
@@ -8888,7 +8894,7 @@ var Tooltip = function Tooltip(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className;
   var _useState = useState(false),
-    _useState2 = _slicedToArray$2(_useState, 2),
+    _useState2 = _slicedToArray$3(_useState, 2),
     visible = _useState2[0],
     setVisible = _useState2[1];
   var timeoutRef = useRef(null);
@@ -8940,12 +8946,12 @@ var Tooltip = function Tooltip(_ref) {
   });
 };
 
-function _slicedToArray$1(r, e) { return _arrayWithHoles$1(r) || _iterableToArrayLimit$1(r, e) || _unsupportedIterableToArray$2(r, e) || _nonIterableRest$1(); }
-function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$2(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$2(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$2(r, a) : void 0; } }
-function _arrayLikeToArray$2(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit$1(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles$1(r) { if (Array.isArray(r)) return r; }
+function _slicedToArray$2(r, e) { return _arrayWithHoles$2(r) || _iterableToArrayLimit$2(r, e) || _unsupportedIterableToArray$3(r, e) || _nonIterableRest$2(); }
+function _nonIterableRest$2() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$3(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$3(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$3(r, a) : void 0; } }
+function _arrayLikeToArray$3(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$2(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$2(r) { if (Array.isArray(r)) return r; }
 var ROLES = ["primary", "secondary", "tertiary", "neutral"];
 var ROLE_LABELS = {
   primary: "Primary",
@@ -9037,19 +9043,19 @@ var PalettePreviewPane = function PalettePreviewPane(_ref2) {
     grow: false
   });
   var _useState = useState(null),
-    _useState2 = _slicedToArray$1(_useState, 2),
+    _useState2 = _slicedToArray$2(_useState, 2),
     dragSourceRole = _useState2[0],
     setDragSourceRole = _useState2[1];
   var _useState3 = useState(null),
-    _useState4 = _slicedToArray$1(_useState3, 2),
+    _useState4 = _slicedToArray$2(_useState3, 2),
     dragOverRole = _useState4[0],
     setDragOverRole = _useState4[1];
   var _useState5 = useState(-1),
-    _useState6 = _slicedToArray$1(_useState5, 2);
+    _useState6 = _slicedToArray$2(_useState5, 2);
     _useState6[0];
     var setFocusedIndex = _useState6[1];
   var _useState7 = useState(null),
-    _useState8 = _slicedToArray$1(_useState7, 2),
+    _useState8 = _slicedToArray$2(_useState7, 2),
     keyboardSelectedRole = _useState8[0],
     setKeyboardSelectedRole = _useState8[1];
   var swatchRefs = useRef({});
@@ -9210,16 +9216,16 @@ function _objectSpread$2(e) { for (var r = 1; r < arguments.length; r++) { var t
 function _defineProperty$2(e, r, t) { return (r = _toPropertyKey$2(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$2(t) { var i = _toPrimitive$2(t, "string"); return "symbol" == _typeof$2(i) ? i : i + ""; }
 function _toPrimitive$2(t, r) { if ("object" != _typeof$2(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$2(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _regenerator$1() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2$1(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2$1(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2$1(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2$1(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2$1(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2$1(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2$1(u), _regeneratorDefine2$1(u, o, "Generator"), _regeneratorDefine2$1(u, n, function () { return this; }), _regeneratorDefine2$1(u, "toString", function () { return "[object Generator]"; }), (_regenerator$1 = function _regenerator() { return { w: i, m: f }; })(); }
-function _regeneratorDefine2$1(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2$1 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2$1(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2$1(e, r, n, t); }
-function asyncGeneratorStep$1(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator$1(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep$1(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep$1(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray$1(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray$1(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$1(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$1(r, a) : void 0; } }
-function _arrayLikeToArray$1(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _regenerator$2() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2$2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2$2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2$2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2$2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2$2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2$2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2$2(u), _regeneratorDefine2$2(u, o, "Generator"), _regeneratorDefine2$2(u, n, function () { return this; }), _regeneratorDefine2$2(u, "toString", function () { return "[object Generator]"; }), (_regenerator$2 = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2$2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2$2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2$2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2$2(e, r, n, t); }
+function asyncGeneratorStep$2(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator$2(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep$2(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep$2(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray$1(r, e) { return _arrayWithHoles$1(r) || _iterableToArrayLimit$1(r, e) || _unsupportedIterableToArray$2(r, e) || _nonIterableRest$1(); }
+function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$2(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$2(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$2(r, a) : void 0; } }
+function _arrayLikeToArray$2(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit$1(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles$1(r) { if (Array.isArray(r)) return r; }
 var URL_REGEX = /^https?:\/\/.+\..+/i;
 var EXTRACT_TIMEOUT_MS = 20000;
 var ERROR_MESSAGES = {
@@ -9270,31 +9276,31 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
     grow: false
   });
   var _useState = useState(""),
-    _useState2 = _slicedToArray(_useState, 2),
+    _useState2 = _slicedToArray$1(_useState, 2),
     url = _useState2[0],
     setUrl = _useState2[1];
   var _useState3 = useState(false),
-    _useState4 = _slicedToArray(_useState3, 2),
+    _useState4 = _slicedToArray$1(_useState3, 2),
     loading = _useState4[0],
     setLoading = _useState4[1];
   var _useState5 = useState(null),
-    _useState6 = _slicedToArray(_useState5, 2),
+    _useState6 = _slicedToArray$1(_useState5, 2),
     error = _useState6[0],
     setError = _useState6[1];
   var _useState7 = useState(null),
-    _useState8 = _slicedToArray(_useState7, 2),
+    _useState8 = _slicedToArray$1(_useState7, 2),
     palette = _useState8[0],
     setPalette = _useState8[1];
   var _useState9 = useState(null),
-    _useState0 = _slicedToArray(_useState9, 2),
+    _useState0 = _slicedToArray$1(_useState9, 2),
     roleAssignments = _useState0[0],
     setRoleAssignments = _useState0[1];
   var _useState1 = useState(""),
-    _useState10 = _slicedToArray(_useState1, 2),
+    _useState10 = _slicedToArray$1(_useState1, 2),
     suggestedName = _useState10[0],
     setSuggestedName = _useState10[1];
   var _useState11 = useState(null),
-    _useState12 = _slicedToArray(_useState11, 2),
+    _useState12 = _slicedToArray$1(_useState11, 2),
     generatedTheme = _useState12[0],
     setGeneratedTheme = _useState12[1];
   var timeoutRef = useRef(null);
@@ -9303,9 +9309,9 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
   var canGenerate = palette && roleAssignments && !loading;
   var inputId = getUUID$1("", "theme-url-input");
   var handleExtract = useCallback(/*#__PURE__*/function () {
-    var _handleExtract = _asyncToGenerator$1(/*#__PURE__*/_regenerator$1().m(function _callee() {
+    var _handleExtract = _asyncToGenerator$2(/*#__PURE__*/_regenerator$2().m(function _callee() {
       var extractPromise, timeoutPromise, result, data, theme, _t;
-      return _regenerator$1().w(function (_context) {
+      return _regenerator$2().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
             if (!(!onExtract || !isValidUrl || loading)) {
@@ -9819,6 +9825,305 @@ var WebSocketStatus = function WebSocketStatus(_ref) {
   });
 };
 
+function _regenerator$1() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2$1(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2$1(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2$1(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2$1(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2$1(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2$1(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2$1(u), _regeneratorDefine2$1(u, o, "Generator"), _regeneratorDefine2$1(u, n, function () { return this; }), _regeneratorDefine2$1(u, "toString", function () { return "[object Generator]"; }), (_regenerator$1 = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2$1(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2$1 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2$1(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2$1(e, r, n, t); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$1(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray$1(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray$1(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$1(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$1(r, a) : void 0; } }
+function _arrayLikeToArray$1(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function asyncGeneratorStep$1(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator$1(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep$1(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep$1(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function runWithConcurrency(_x, _x2, _x3) {
+  return _runWithConcurrency.apply(this, arguments);
+}
+function _runWithConcurrency() {
+  _runWithConcurrency = _asyncToGenerator$1(/*#__PURE__*/_regenerator$1().m(function _callee3(items, worker, concurrency) {
+    var out, next, run, _run, workerCount, workers;
+    return _regenerator$1().w(function (_context3) {
+      while (1) switch (_context3.n) {
+        case 0:
+          _run = function _run3() {
+            _run = _asyncToGenerator$1(/*#__PURE__*/_regenerator$1().m(function _callee2() {
+              var idx, _t2, _t3;
+              return _regenerator$1().w(function (_context2) {
+                while (1) switch (_context2.p = _context2.n) {
+                  case 0:
+                    if (!(next < items.length)) {
+                      _context2.n = 5;
+                      break;
+                    }
+                    idx = next++;
+                    _context2.p = 1;
+                    _context2.n = 2;
+                    return worker(items[idx]);
+                  case 2:
+                    _t2 = _context2.v;
+                    out[idx] = {
+                      status: "fulfilled",
+                      value: _t2
+                    };
+                    _context2.n = 4;
+                    break;
+                  case 3:
+                    _context2.p = 3;
+                    _t3 = _context2.v;
+                    out[idx] = {
+                      status: "rejected",
+                      reason: _t3
+                    };
+                  case 4:
+                    _context2.n = 0;
+                    break;
+                  case 5:
+                    return _context2.a(2);
+                }
+              }, _callee2, null, [[1, 3]]);
+            }));
+            return _run.apply(this, arguments);
+          };
+          run = function _run2() {
+            return _run.apply(this, arguments);
+          };
+          out = new Array(items.length);
+          next = 0;
+          workerCount = Math.max(1, Math.min(concurrency, items.length));
+          workers = Array.from({
+            length: workerCount
+          }, run);
+          _context3.n = 1;
+          return Promise.all(workers);
+        case 1:
+          return _context3.a(2, out);
+      }
+    }, _callee3);
+  }));
+  return _runWithConcurrency.apply(this, arguments);
+}
+function useLazyEnrichment(_ref) {
+  var items = _ref.items,
+    keyOf = _ref.keyOf,
+    shouldEnrich = _ref.shouldEnrich,
+    fetcher = _ref.fetcher,
+    _ref$concurrency = _ref.concurrency,
+    concurrency = _ref$concurrency === void 0 ? 6 : _ref$concurrency,
+    _ref$deps = _ref.deps,
+    deps = _ref$deps === void 0 ? [] : _ref$deps;
+  var _useState = useState(function () {
+      return new Map();
+    }),
+    _useState2 = _slicedToArray(_useState, 2),
+    enrichments = _useState2[0],
+    setEnrichments = _useState2[1];
+  var _useState3 = useState(function () {
+      return new Map();
+    }),
+    _useState4 = _slicedToArray(_useState3, 2),
+    errors = _useState4[0],
+    setErrors = _useState4[1];
+  var _useState5 = useState(function () {
+      return new Set();
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
+
+  // Callback refs — callers don't need to useCallback.
+  var keyOfRef = useRef(keyOf);
+  keyOfRef.current = keyOf;
+  var shouldEnrichRef = useRef(shouldEnrich);
+  shouldEnrichRef.current = shouldEnrich;
+  var fetcherRef = useRef(fetcher);
+  fetcherRef.current = fetcher;
+
+  // Stringify deps so the comparison is a single primitive. Callers
+  // who pass complex objects in deps should expect JSON-stringify
+  // semantics — primitives + plain objects compare fine, functions
+  // and class instances don't.
+  var depsKey = JSON.stringify(deps);
+  var depsRef = useRef(depsKey);
+
+  // Reset everything when deps change.
+  useEffect(function () {
+    depsRef.current = depsKey;
+    setEnrichments(new Map());
+    setErrors(new Map());
+    setLoading(new Set());
+  }, [depsKey]);
+  useEffect(function () {
+    if (!Array.isArray(items) || items.length === 0) return undefined;
+    if (typeof keyOfRef.current !== "function") return undefined;
+    if (typeof fetcherRef.current !== "function") return undefined;
+    var filter = typeof shouldEnrichRef.current === "function" ? shouldEnrichRef.current : function () {
+      return true;
+    };
+    var myDeps = depsRef.current;
+    var toFetch = items.filter(function (item) {
+      try {
+        if (!filter(item)) return false;
+      } catch (_unused) {
+        return false;
+      }
+      var k;
+      try {
+        k = keyOfRef.current(item);
+      } catch (_unused2) {
+        return false;
+      }
+      if (k === null || k === undefined) return false;
+      if (enrichments.has(k)) return false;
+      if (loading.has(k)) return false;
+      return true;
+    });
+    if (toFetch.length === 0) return undefined;
+    setLoading(function (prev) {
+      var next = new Set(prev);
+      var _iterator = _createForOfIteratorHelper(toFetch),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var item = _step.value;
+          try {
+            next.add(keyOfRef.current(item));
+          } catch (_unused3) {
+            /* skip */
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return next;
+    });
+    var cancelled = false;
+    _asyncToGenerator$1(/*#__PURE__*/_regenerator$1().m(function _callee() {
+      var results, okMap, errMap, i, k, r;
+      return _regenerator$1().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            _context.n = 1;
+            return runWithConcurrency(toFetch, function (item) {
+              return fetcherRef.current(item);
+            }, concurrency);
+          case 1:
+            results = _context.v;
+            if (!cancelled) {
+              _context.n = 2;
+              break;
+            }
+            return _context.a(2);
+          case 2:
+            if (!(depsRef.current !== myDeps)) {
+              _context.n = 3;
+              break;
+            }
+            return _context.a(2);
+          case 3:
+            okMap = new Map();
+            errMap = new Map();
+            i = 0;
+          case 4:
+            if (!(i < toFetch.length)) {
+              _context.n = 9;
+              break;
+            }
+            k = void 0;
+            _context.p = 5;
+            k = keyOfRef.current(toFetch[i]);
+            _context.n = 7;
+            break;
+          case 6:
+            _context.p = 6;
+            _context.v;
+            return _context.a(3, 8);
+          case 7:
+            r = results[i];
+            if (r.status === "fulfilled") okMap.set(k, r.value);else errMap.set(k, r.reason);
+          case 8:
+            i++;
+            _context.n = 4;
+            break;
+          case 9:
+            if (okMap.size > 0) {
+              setEnrichments(function (prev) {
+                var next = new Map(prev);
+                var _iterator2 = _createForOfIteratorHelper(okMap),
+                  _step2;
+                try {
+                  for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                    var _step2$value = _slicedToArray(_step2.value, 2),
+                      _k = _step2$value[0],
+                      v = _step2$value[1];
+                    next.set(_k, v);
+                  }
+                } catch (err) {
+                  _iterator2.e(err);
+                } finally {
+                  _iterator2.f();
+                }
+                return next;
+              });
+            }
+            if (errMap.size > 0) {
+              setErrors(function (prev) {
+                var next = new Map(prev);
+                var _iterator3 = _createForOfIteratorHelper(errMap),
+                  _step3;
+                try {
+                  for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                    var _step3$value = _slicedToArray(_step3.value, 2),
+                      _k2 = _step3$value[0],
+                      v = _step3$value[1];
+                    next.set(_k2, v);
+                  }
+                } catch (err) {
+                  _iterator3.e(err);
+                } finally {
+                  _iterator3.f();
+                }
+                return next;
+              });
+            }
+            setLoading(function (prev) {
+              var next = new Set(prev);
+              var _iterator4 = _createForOfIteratorHelper(toFetch),
+                _step4;
+              try {
+                for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                  var item = _step4.value;
+                  try {
+                    next["delete"](keyOfRef.current(item));
+                  } catch (_unused5) {
+                    /* skip */
+                  }
+                }
+              } catch (err) {
+                _iterator4.e(err);
+              } finally {
+                _iterator4.f();
+              }
+              return next;
+            });
+          case 10:
+            return _context.a(2);
+        }
+      }, _callee, null, [[5, 6]]);
+    }))();
+    return function () {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, depsKey, concurrency]);
+  return {
+    enrichments: enrichments,
+    loading: loading,
+    errors: errors
+  };
+}
+
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -10007,5 +10312,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useSidebar, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, deepCopy, getCSSStyleForClassname, getClassForObjectType, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, isObject, mock, mockText, objectTypes, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
