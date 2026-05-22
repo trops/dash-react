@@ -5,6 +5,7 @@
 export * from "./themeObjects";
 export * from "./colors";
 export * from "./colorMath";
+export * from "./tailwindPalette";
 export * from "./objects";
 export * from "./strings";
 export * from "./css";
