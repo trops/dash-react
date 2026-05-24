@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import { withRouter } from "./WrappedComponent";
 
-const mainApi = window.mainApi;
+// Guarded so the module is safe to import in a Node context
+// (Electron main loads dash-react via dash-core for shared exports).
+const mainApi = typeof window !== "undefined" ? window.mainApi : undefined;
 
 class Header extends React.Component {
     handleClickHome = () => {

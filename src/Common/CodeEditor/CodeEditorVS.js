@@ -3,27 +3,28 @@ import Editor, { useMonaco } from "@monaco-editor/react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
 
-// Save a reference to the original ResizeObserver
-const OriginalResizeObserver = window.ResizeObserver;
-
-// Create a new ResizeObserver constructor
-window.ResizeObserver = function (callback) {
-    const wrappedCallback = (entries, observer) => {
-        window.requestAnimationFrame(() => {
-            callback(entries, observer);
-        });
+// Wrap window.ResizeObserver so callbacks fire on the next animation
+// frame — avoids "ResizeObserver loop limit exceeded" warnings in
+// Monaco. Guarded so this module is safe to import from a Node
+// context (Electron's main process pulls dash-react via dash-core
+// for shared utility exports; without the guard the top-level
+// `window.ResizeObserver` reference would throw at module-load
+// before any consumer actually mounts the editor).
+if (typeof window !== "undefined" && window.ResizeObserver) {
+    const OriginalResizeObserver = window.ResizeObserver;
+    window.ResizeObserver = function (callback) {
+        const wrappedCallback = (entries, observer) => {
+            window.requestAnimationFrame(() => {
+                callback(entries, observer);
+            });
+        };
+        return new OriginalResizeObserver(wrappedCallback);
     };
-
-    // Create an instance of the original ResizeObserver
-    // with the wrapped callback
-    return new OriginalResizeObserver(wrappedCallback);
-};
-
-// Copy over static methods, if any
-for (let staticMethod in OriginalResizeObserver) {
-    if (OriginalResizeObserver.hasOwnProperty(staticMethod)) {
-        window.ResizeObserver[staticMethod] =
-            OriginalResizeObserver[staticMethod];
+    for (let staticMethod in OriginalResizeObserver) {
+        if (OriginalResizeObserver.hasOwnProperty(staticMethod)) {
+            window.ResizeObserver[staticMethod] =
+                OriginalResizeObserver[staticMethod];
+        }
     }
 }
 

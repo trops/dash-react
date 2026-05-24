@@ -32,7 +32,7 @@ const ColorSwatch = ({
 
     return (
         <div
-            className={`flex flex-col items-center gap-1.5 flex-1 cursor-pointer group transition-all ${
+            className={`flex flex-col items-center gap-1.5 flex-1 min-h-0 min-w-0 cursor-pointer group transition-all ${
                 isDragOver ? "scale-110 ring-2 ring-blue-400 rounded-lg" : ""
             } ${isDragging ? "opacity-40 scale-95" : ""} ${
                 focused ? "ring-2 ring-white/50 rounded-lg" : ""
@@ -52,7 +52,7 @@ const ColorSwatch = ({
             aria-grabbed={isDragging}
         >
             <div
-                className={`h-12 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ring-1 ring-white/10 ${
+                className={`flex-1 min-h-0 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ring-1 ring-white/10 ${
                     isDragOver ? "shadow-lg shadow-blue-400/30" : ""
                 }`}
                 style={{ backgroundColor: hex }}
@@ -219,14 +219,11 @@ const PalettePreviewPane = ({
 
     return (
         <div
-            className={`flex flex-col gap-3 ${styles.string || ""} ${className}`}
+            className={`flex flex-col gap-3 flex-1 min-h-0 ${styles.string || ""} ${className}`}
             role="group"
             aria-label="Color role assignments"
         >
-            <span className="text-sm font-semibold opacity-50">
-                Color Roles
-            </span>
-            <div className="flex flex-row gap-3" role="listbox">
+            <div className="flex flex-row gap-3 flex-1 min-h-0" role="listbox">
                 {activeRoles.map((role, index) => {
                     const colorIndex = roleAssignments[role];
                     const color = palette[colorIndex];

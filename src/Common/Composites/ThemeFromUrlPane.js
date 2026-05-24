@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useCallback } from "react";
+import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
@@ -190,14 +190,19 @@ const ThemeFromUrlPane = ({
         }
     }
 
-    function handleGenerate() {
+    // Auto-commit: whenever the derived theme changes (after extract
+    // or a role swap), push it up to the parent wizard. Drops the
+    // explicit "Generate Theme" button — the parent's Create Theme
+    // is the single commit action.
+    useEffect(() => {
         if (!onGenerate || !generatedTheme) return;
         const theme = {
             ...generatedTheme,
             name: suggestedName || deriveNameFromUrl(url),
         };
         onGenerate(theme);
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [generatedTheme, suggestedName]);
 
     function handleKeyDown(e) {
         if (e.key === "Enter" && canExtract) {
@@ -223,16 +228,14 @@ const ThemeFromUrlPane = ({
         <div
             className={
                 inline
-                    ? `flex flex-col gap-4 ${styles.string || ""} ${className}`
-                    : `flex flex-col gap-4 p-6 overflow-y-auto flex-1 min-h-0 ${styles.string || ""} ${className}`
+                    ? `flex flex-col gap-4 flex-1 min-h-0 ${styles.string || ""} ${className}`
+                    : `flex flex-col gap-4 p-6 flex-1 min-h-0 ${styles.string || ""} ${className}`
             }
         >
-            <span className="text-sm font-semibold opacity-50">
-                Generate from Website
-            </span>
-
-            {/* URL Input */}
-            <div className="flex flex-col gap-2">
+            {/* URL Input (label removed — input + Extract button are
+                self-explanatory; matches the polish on the other
+                wizard panes in dash-core) */}
+            <div className="flex flex-col gap-2 shrink-0">
                 <div className="flex flex-row gap-2">
                     <input
                         id={inputId}
@@ -314,29 +317,20 @@ const ThemeFromUrlPane = ({
                 </div>
             )}
 
-            {/* Palette Preview */}
+            {/* Palette Preview — grows to fill the remaining height.
+                Auto-commits the generated theme via the effect below
+                so there's no separate "Generate Theme" button. The
+                parent wizard's "Create Theme" is the single commit
+                action. */}
             {palette && roleAssignments && (
-                <PalettePreviewPane
-                    palette={palette}
-                    roleAssignments={roleAssignments}
-                    onSwapRole={handleSwapRole}
-                    onReorderRoles={handleReorderRoles}
-                />
-            )}
-
-            {/* Generate Button */}
-            {canGenerate && generatedTheme && (
-                <button
-                    type="button"
-                    onClick={handleGenerate}
-                    className={`flex flex-row items-center justify-center gap-2 h-10 w-full ${buttonStyles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${buttonStyles.focusRingColor || ""}`}
-                >
-                    <FontAwesomeIcon
-                        icon="wand-magic-sparkles"
-                        className="h-3.5 w-3.5"
+                <div className="flex-1 min-h-0 flex flex-col">
+                    <PalettePreviewPane
+                        palette={palette}
+                        roleAssignments={roleAssignments}
+                        onSwapRole={handleSwapRole}
+                        onReorderRoles={handleReorderRoles}
                     />
-                    <span className="text-sm">Generate Theme</span>
-                </button>
+                </div>
             )}
         </div>
     );
