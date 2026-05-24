@@ -212,6 +212,91 @@ export function contrastRatio(hexA, hexB) {
 }
 
 /**
+ * Color harmony helpers — emit hex partners for a base hex using
+ * classic hue-rotation rules. Saturation + lightness are preserved
+ * from the base, so the generated palette has consistent intensity.
+ * `null` is returned when the input hex is invalid.
+ */
+function rotateHex(hex, deltaH) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return null;
+    const { h, s, l } = rgbToHsl(rgb);
+    const newH = (((h + deltaH) % 360) + 360) % 360;
+    return rgbToHex(hslToRgb({ h: newH, s, l }));
+}
+
+export function complementHex(hex) {
+    return rotateHex(hex, 180);
+}
+
+export function analogousHexes(hex) {
+    const a = rotateHex(hex, -30);
+    const b = rotateHex(hex, 30);
+    if (!a || !b) return null;
+    return [a, b];
+}
+
+export function triadicHexes(hex) {
+    const a = rotateHex(hex, 120);
+    const b = rotateHex(hex, 240);
+    if (!a || !b) return null;
+    return [a, b];
+}
+
+export function splitComplementaryHexes(hex) {
+    const a = rotateHex(hex, 150);
+    const b = rotateHex(hex, 210);
+    if (!a || !b) return null;
+    return [a, b];
+}
+
+export function tetradicHexes(hex) {
+    const a = rotateHex(hex, 90);
+    const b = rotateHex(hex, 180);
+    const c = rotateHex(hex, 270);
+    if (!a || !b || !c) return null;
+    return [a, b, c];
+}
+
+/**
+ * Monochromatic palette: same hue as the base, varied saturation +
+ * lightness. Returns `count` hexes evenly distributed across the
+ * lightness band (0.15..0.85) with mild saturation variation.
+ * Useful for single-hue brand palettes.
+ */
+export function monochromaticHexes(hex, count = 3) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return null;
+    const { h, s } = rgbToHsl(rgb);
+    const out = [];
+    for (let i = 0; i < count; i++) {
+        const t = count === 1 ? 0.5 : i / (count - 1);
+        const l = 0.15 + t * 0.7;
+        // Slightly dampen saturation at the extremes so the lightest
+        // and darkest mono shades don't feel oversaturated.
+        const sAdj = s * (1 - 0.3 * Math.abs(t - 0.5) * 2);
+        out.push(rgbToHex(hslToRgb({ h, s: sAdj, l })));
+    }
+    return out;
+}
+
+/**
+ * Apply an HSL nudge to a hex color. Accepts deltas in:
+ *   - dH: degrees [-360..360], wraps through 0/360
+ *   - dS: fraction [-1..1], clamped to [0..1] after add
+ *   - dL: fraction [-1..1], clamped to [0..1] after add
+ */
+export function adjustHsl(hex, dH = 0, dS = 0, dL = 0) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return null;
+    const hsl = rgbToHsl(rgb);
+    const h = (((hsl.h + dH) % 360) + 360) % 360;
+    const s = Math.max(0, Math.min(1, hsl.s + dS));
+    const l = Math.max(0, Math.min(1, hsl.l + dL));
+    return rgbToHex(hslToRgb({ h, s, l }));
+}
+
+/**
  * Color families for the categorized picker grid. Each chromatic
  * family declares a hue range (inclusive, may wrap through 0/360);
  * Neutrals has `hueRange: null` and is handled specially.

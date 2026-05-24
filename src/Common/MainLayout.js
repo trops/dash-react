@@ -5,7 +5,8 @@ import { withRouter } from "./WrappedComponent";
 import { ButtonIcon } from ".";
 import { SelectMenu } from "./Form";
 
-const mainApi = window.mainApi;
+// Guarded — see comment in Header.js. Safe to import in Node context.
+const mainApi = typeof window !== "undefined" ? window.mainApi : undefined;
 
 class MainLayout extends React.Component {
     constructor(props) {

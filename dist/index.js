@@ -1232,6 +1232,107 @@ function contrastRatio(hexA, hexB) {
 }
 
 /**
+ * Color harmony helpers — emit hex partners for a base hex using
+ * classic hue-rotation rules. Saturation + lightness are preserved
+ * from the base, so the generated palette has consistent intensity.
+ * `null` is returned when the input hex is invalid.
+ */
+function rotateHex(hex, deltaH) {
+  var rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  var _rgbToHsl2 = rgbToHsl(rgb),
+    h = _rgbToHsl2.h,
+    s = _rgbToHsl2.s,
+    l = _rgbToHsl2.l;
+  var newH = ((h + deltaH) % 360 + 360) % 360;
+  return rgbToHex(hslToRgb({
+    h: newH,
+    s: s,
+    l: l
+  }));
+}
+function complementHex(hex) {
+  return rotateHex(hex, 180);
+}
+function analogousHexes(hex) {
+  var a = rotateHex(hex, -30);
+  var b = rotateHex(hex, 30);
+  if (!a || !b) return null;
+  return [a, b];
+}
+function triadicHexes(hex) {
+  var a = rotateHex(hex, 120);
+  var b = rotateHex(hex, 240);
+  if (!a || !b) return null;
+  return [a, b];
+}
+function splitComplementaryHexes(hex) {
+  var a = rotateHex(hex, 150);
+  var b = rotateHex(hex, 210);
+  if (!a || !b) return null;
+  return [a, b];
+}
+function tetradicHexes(hex) {
+  var a = rotateHex(hex, 90);
+  var b = rotateHex(hex, 180);
+  var c = rotateHex(hex, 270);
+  if (!a || !b || !c) return null;
+  return [a, b, c];
+}
+
+/**
+ * Monochromatic palette: same hue as the base, varied saturation +
+ * lightness. Returns `count` hexes evenly distributed across the
+ * lightness band (0.15..0.85) with mild saturation variation.
+ * Useful for single-hue brand palettes.
+ */
+function monochromaticHexes(hex) {
+  var count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
+  var rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  var _rgbToHsl3 = rgbToHsl(rgb),
+    h = _rgbToHsl3.h,
+    s = _rgbToHsl3.s;
+  var out = [];
+  for (var i = 0; i < count; i++) {
+    var t = count === 1 ? 0.5 : i / (count - 1);
+    var l = 0.15 + t * 0.7;
+    // Slightly dampen saturation at the extremes so the lightest
+    // and darkest mono shades don't feel oversaturated.
+    var sAdj = s * (1 - 0.3 * Math.abs(t - 0.5) * 2);
+    out.push(rgbToHex(hslToRgb({
+      h: h,
+      s: sAdj,
+      l: l
+    })));
+  }
+  return out;
+}
+
+/**
+ * Apply an HSL nudge to a hex color. Accepts deltas in:
+ *   - dH: degrees [-360..360], wraps through 0/360
+ *   - dS: fraction [-1..1], clamped to [0..1] after add
+ *   - dL: fraction [-1..1], clamped to [0..1] after add
+ */
+function adjustHsl(hex) {
+  var dH = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var dS = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var dL = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  var rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  var hsl = rgbToHsl(rgb);
+  var h = ((hsl.h + dH) % 360 + 360) % 360;
+  var s = Math.max(0, Math.min(1, hsl.s + dS));
+  var l = Math.max(0, Math.min(1, hsl.l + dL));
+  return rgbToHex(hslToRgb({
+    h: h,
+    s: s,
+    l: l
+  }));
+}
+
+/**
  * Color families for the categorized picker grid. Each chromatic
  * family declares a hue range (inclusive, may wrap through 0/360);
  * Neutrals has `hueRange: null` and is handled specially.
@@ -5857,25 +5958,20 @@ function _toPropertyKey$j(t) { var i = _toPrimitive$j(t, "string"); return "symb
 function _toPrimitive$j(t, r) { if ("object" != _typeof$j(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$j(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$d(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$d(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$d(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var OriginalResizeObserver = window.ResizeObserver;
-
-// Create a new ResizeObserver constructor
-window.ResizeObserver = function (callback) {
-  var wrappedCallback = function wrappedCallback(entries, observer) {
-    window.requestAnimationFrame(function () {
-      callback(entries, observer);
-    });
+if (typeof window !== "undefined" && window.ResizeObserver) {
+  var OriginalResizeObserver = window.ResizeObserver;
+  window.ResizeObserver = function (callback) {
+    var wrappedCallback = function wrappedCallback(entries, observer) {
+      window.requestAnimationFrame(function () {
+        callback(entries, observer);
+      });
+    };
+    return new OriginalResizeObserver(wrappedCallback);
   };
-
-  // Create an instance of the original ResizeObserver
-  // with the wrapped callback
-  return new OriginalResizeObserver(wrappedCallback);
-};
-
-// Copy over static methods, if any
-for (var staticMethod in OriginalResizeObserver) {
-  if (OriginalResizeObserver.hasOwnProperty(staticMethod)) {
-    window.ResizeObserver[staticMethod] = OriginalResizeObserver[staticMethod];
+  for (var staticMethod in OriginalResizeObserver) {
+    if (OriginalResizeObserver.hasOwnProperty(staticMethod)) {
+      window.ResizeObserver[staticMethod] = OriginalResizeObserver[staticMethod];
+    }
   }
 }
 function CodeEditorVS(_ref) {
@@ -6288,7 +6384,7 @@ function _setPrototypeOf$2(t, e) { return _setPrototypeOf$2 = Object.setPrototyp
 function _defineProperty$c(e, r, t) { return (r = _toPropertyKey$e(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey$e(t) { var i = _toPrimitive$e(t, "string"); return "symbol" == _typeof$e(i) ? i : i + ""; }
 function _toPrimitive$e(t, r) { if ("object" != _typeof$e(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$e(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var mainApi = window.mainApi;
+var mainApi = typeof window !== "undefined" ? window.mainApi : undefined;
 /*#__PURE__*/(function (_React$Component) {
   function Header() {
     var _this;
@@ -9826,7 +9922,7 @@ var ColorSwatch = function ColorSwatch(_ref) {
   var hex = (color === null || color === void 0 ? void 0 : color.hex) || (color === null || color === void 0 ? void 0 : color.value) || "#888";
   var label = (color === null || color === void 0 ? void 0 : color.family) || (color === null || color === void 0 ? void 0 : color.name) || hex;
   return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col items-center gap-1.5 flex-1 cursor-pointer group transition-all ".concat(isDragOver ? "scale-110 ring-2 ring-blue-400 rounded-lg" : "", " ").concat(isDragging ? "opacity-40 scale-95" : "", " ").concat(focused ? "ring-2 ring-white/50 rounded-lg" : "", " ").concat(className),
+    className: "flex flex-col items-center gap-1.5 flex-1 min-h-0 min-w-0 cursor-pointer group transition-all ".concat(isDragOver ? "scale-110 ring-2 ring-blue-400 rounded-lg" : "", " ").concat(isDragging ? "opacity-40 scale-95" : "", " ").concat(focused ? "ring-2 ring-white/50 rounded-lg" : "", " ").concat(className),
     onClick: onClick,
     title: "".concat(ROLE_LABELS[role] || role, " \u2014 drag to reorder or click to cycle"),
     draggable: true,
@@ -9841,7 +9937,7 @@ var ColorSwatch = function ColorSwatch(_ref) {
     "aria-label": "".concat(ROLE_LABELS[role], " color: ").concat(label, ". Drag to reorder or use arrow keys."),
     "aria-grabbed": isDragging,
     children: [/*#__PURE__*/jsx("div", {
-      className: "h-12 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ring-1 ring-white/10 ".concat(isDragOver ? "shadow-lg shadow-blue-400/30" : ""),
+      className: "flex-1 min-h-0 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ring-1 ring-white/10 ".concat(isDragOver ? "shadow-lg shadow-blue-400/30" : ""),
       style: {
         backgroundColor: hex
       }
@@ -10005,14 +10101,11 @@ var PalettePreviewPane = function PalettePreviewPane(_ref2) {
   var hasReorder = onReorderRoles != null;
   var helpText = hasReorder ? "Drag colors to swap roles, or use arrow keys + Enter" : "Click a color to cycle its role assignment";
   return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col gap-3 ".concat(styles.string || "", " ").concat(className),
+    className: "flex flex-col gap-3 flex-1 min-h-0 ".concat(styles.string || "", " ").concat(className),
     role: "group",
     "aria-label": "Color role assignments",
-    children: [/*#__PURE__*/jsx("span", {
-      className: "text-sm font-semibold opacity-50",
-      children: "Color Roles"
-    }), /*#__PURE__*/jsx("div", {
-      className: "flex flex-row gap-3",
+    children: [/*#__PURE__*/jsx("div", {
+      className: "flex flex-row gap-3 flex-1 min-h-0",
       role: "listbox",
       children: activeRoles.map(function (role, index) {
         var colorIndex = roleAssignments[role];
@@ -10152,7 +10245,6 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
   var timeoutRef = useRef(null);
   var isValidUrl = URL_REGEX.test(url.trim());
   var canExtract = isValidUrl && !loading;
-  var canGenerate = palette && roleAssignments && !loading;
   var inputId = getUUID$1("", "theme-url-input");
   var handleExtract = useCallback(/*#__PURE__*/function () {
     var _handleExtract = _asyncToGenerator$2(/*#__PURE__*/_regenerator$2().m(function _callee() {
@@ -10265,13 +10357,19 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
       })["catch"](function () {});
     }
   }
-  function handleGenerate() {
+
+  // Auto-commit: whenever the derived theme changes (after extract
+  // or a role swap), push it up to the parent wizard. Drops the
+  // explicit "Generate Theme" button — the parent's Create Theme
+  // is the single commit action.
+  useEffect(function () {
     if (!onGenerate || !generatedTheme) return;
     var theme = _objectSpread$2(_objectSpread$2({}, generatedTheme), {}, {
       name: suggestedName || deriveNameFromUrl(url)
     });
     onGenerate(theme);
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generatedTheme, suggestedName]);
   function handleKeyDown(e) {
     if (e.key === "Enter" && canExtract) {
       handleExtract();
@@ -10286,12 +10384,9 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
     grow: false
   });
   return /*#__PURE__*/jsxs("div", {
-    className: inline ? "flex flex-col gap-4 ".concat(styles.string || "", " ").concat(className) : "flex flex-col gap-4 p-6 overflow-y-auto flex-1 min-h-0 ".concat(styles.string || "", " ").concat(className),
-    children: [/*#__PURE__*/jsx("span", {
-      className: "text-sm font-semibold opacity-50",
-      children: "Generate from Website"
-    }), /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col gap-2",
+    className: inline ? "flex flex-col gap-4 flex-1 min-h-0 ".concat(styles.string || "", " ").concat(className) : "flex flex-col gap-4 p-6 flex-1 min-h-0 ".concat(styles.string || "", " ").concat(className),
+    children: [/*#__PURE__*/jsxs("div", {
+      className: "flex flex-col gap-2 shrink-0",
       children: [/*#__PURE__*/jsxs("div", {
         className: "flex flex-row gap-2",
         children: [/*#__PURE__*/jsx("input", {
@@ -10358,22 +10453,14 @@ var ThemeFromUrlPane = function ThemeFromUrlPane(_ref) {
           children: "Try Again"
         })]
       })]
-    }), palette && roleAssignments && /*#__PURE__*/jsx(PalettePreviewPane, {
-      palette: palette,
-      roleAssignments: roleAssignments,
-      onSwapRole: handleSwapRole,
-      onReorderRoles: handleReorderRoles
-    }), canGenerate && generatedTheme && /*#__PURE__*/jsxs("button", {
-      type: "button",
-      onClick: handleGenerate,
-      className: "flex flex-row items-center justify-center gap-2 h-10 w-full ".concat(buttonStyles.string, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(buttonStyles.focusRingColor || ""),
-      children: [/*#__PURE__*/jsx(FontAwesomeIcon, {
-        icon: "wand-magic-sparkles",
-        className: "h-3.5 w-3.5"
-      }), /*#__PURE__*/jsx("span", {
-        className: "text-sm",
-        children: "Generate Theme"
-      })]
+    }), palette && roleAssignments && /*#__PURE__*/jsx("div", {
+      className: "flex-1 min-h-0 flex flex-col",
+      children: /*#__PURE__*/jsx(PalettePreviewPane, {
+        palette: palette,
+        roleAssignments: roleAssignments,
+        onSwapRole: handleSwapRole,
+        onReorderRoles: handleReorderRoles
+      })
     })]
   });
 };
@@ -11158,5 +11245,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, capitalizeFirstLetter, colorNames, colorTypes, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, styleClassNames, tailwindHeightFractions, themeObjects, themeVariants, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, adjustHsl, analogousHexes, capitalizeFirstLetter, colorNames, colorTypes, complementHex, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, monochromaticHexes, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, splitComplementaryHexes, styleClassNames, tailwindHeightFractions, tetradicHexes, themeObjects, themeVariants, triadicHexes, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
