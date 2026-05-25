@@ -1,136 +1,160 @@
-import { useContext } from "react";
+import { forwardRef, useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
-const Card = ({
-    children,
-    onClick = null,
-    padding = "p-6",
-    rounded = "rounded-lg",
-    shadow = "shadow-sm",
-    className = "",
-    hover = false,
-    selected = false,
-    ...props
-}) => {
-    const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CARD, currentTheme, {
-        ...props,
-        scrollable: false,
-        grow: false,
-    });
+const Card = forwardRef(
+    (
+        {
+            children,
+            onClick = null,
+            padding = "p-6",
+            rounded = "rounded-lg",
+            shadow = "shadow-sm",
+            className = "",
+            hover = false,
+            selected = false,
+            ...props
+        },
+        ref
+    ) => {
+        const { currentTheme } = useContext(ThemeContext);
+        const styles = getStylesForItem(themeObjects.CARD, currentTheme, {
+            ...props,
+            scrollable: false,
+            grow: false,
+        });
 
-    const uuid = getUUID("", "card");
+        const uuid = getUUID("", "card");
 
-    const hoverBg = styles.hoverBackgroundColor || "";
-    const hoverBorder = styles.hoverBorderColor || "";
-    const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
-    const selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
-    const hoverStyles =
-        hover && !selected
-            ? `hover:shadow-md ${hoverBg} ${hoverBorder}`
-            : hover
-              ? "hover:shadow-md"
-              : "";
-    const clickableStyles = onClick ? "cursor-pointer" : "";
+        const hoverBg = styles.hoverBackgroundColor || "";
+        const hoverBorder = styles.hoverBorderColor || "";
+        const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+        const selectedBorder = selected
+            ? hoverBorder.replace(/^hover:/, "")
+            : "";
+        const hoverStyles =
+            hover && !selected
+                ? `hover:shadow-md ${hoverBg} ${hoverBorder}`
+                : hover
+                  ? "hover:shadow-md"
+                  : "";
+        const clickableStyles = onClick ? "cursor-pointer" : "";
 
-    return (
-        <div
-            id={uuid}
-            onClick={onClick}
-            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
-        >
-            {children}
-        </div>
-    );
-};
+        return (
+            <div
+                ref={ref}
+                id={uuid}
+                onClick={onClick}
+                className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+            >
+                {children}
+            </div>
+        );
+    }
+);
 
-const Card2 = ({
-    children,
-    onClick = null,
-    padding = "p-4",
-    rounded = "rounded-md",
-    shadow = "shadow-sm",
-    className = "",
-    hover = false,
-    selected = false,
-    ...props
-}) => {
-    const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CARD_2, currentTheme, {
-        ...props,
-        scrollable: false,
-        grow: false,
-    });
+const Card2 = forwardRef(
+    (
+        {
+            children,
+            onClick = null,
+            padding = "p-4",
+            rounded = "rounded-md",
+            shadow = "shadow-sm",
+            className = "",
+            hover = false,
+            selected = false,
+            ...props
+        },
+        ref
+    ) => {
+        const { currentTheme } = useContext(ThemeContext);
+        const styles = getStylesForItem(themeObjects.CARD_2, currentTheme, {
+            ...props,
+            scrollable: false,
+            grow: false,
+        });
 
-    const uuid = getUUID("", "card-2");
+        const uuid = getUUID("", "card-2");
 
-    const hoverBg = styles.hoverBackgroundColor || "";
-    const hoverBorder = styles.hoverBorderColor || "";
-    const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
-    const selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
-    const hoverStyles =
-        hover && !selected
-            ? `hover:shadow-md ${hoverBg} ${hoverBorder}`
-            : hover
-              ? "hover:shadow-md"
-              : "";
-    const clickableStyles = onClick ? "cursor-pointer" : "";
+        const hoverBg = styles.hoverBackgroundColor || "";
+        const hoverBorder = styles.hoverBorderColor || "";
+        const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+        const selectedBorder = selected
+            ? hoverBorder.replace(/^hover:/, "")
+            : "";
+        const hoverStyles =
+            hover && !selected
+                ? `hover:shadow-md ${hoverBg} ${hoverBorder}`
+                : hover
+                  ? "hover:shadow-md"
+                  : "";
+        const clickableStyles = onClick ? "cursor-pointer" : "";
 
-    return (
-        <div
-            id={uuid}
-            onClick={onClick}
-            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
-        >
-            {children}
-        </div>
-    );
-};
+        return (
+            <div
+                ref={ref}
+                id={uuid}
+                onClick={onClick}
+                className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+            >
+                {children}
+            </div>
+        );
+    }
+);
 
-const Card3 = ({
-    children,
-    onClick = null,
-    padding = "p-2",
-    rounded = "rounded",
-    shadow = "shadow-none",
-    className = "",
-    hover = false,
-    selected = false,
-    ...props
-}) => {
-    const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.CARD_3, currentTheme, {
-        ...props,
-        scrollable: false,
-        grow: false,
-    });
+const Card3 = forwardRef(
+    (
+        {
+            children,
+            onClick = null,
+            padding = "p-2",
+            rounded = "rounded",
+            shadow = "shadow-none",
+            className = "",
+            hover = false,
+            selected = false,
+            ...props
+        },
+        ref
+    ) => {
+        const { currentTheme } = useContext(ThemeContext);
+        const styles = getStylesForItem(themeObjects.CARD_3, currentTheme, {
+            ...props,
+            scrollable: false,
+            grow: false,
+        });
 
-    const uuid = getUUID("", "card-3");
+        const uuid = getUUID("", "card-3");
 
-    const hoverBg = styles.hoverBackgroundColor || "";
-    const hoverBorder = styles.hoverBorderColor || "";
-    const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
-    const selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
-    const hoverStyles =
-        hover && !selected
-            ? `hover:shadow-sm ${hoverBg} ${hoverBorder}`
-            : hover
-              ? "hover:shadow-sm"
-              : "";
-    const clickableStyles = onClick ? "cursor-pointer" : "";
+        const hoverBg = styles.hoverBackgroundColor || "";
+        const hoverBorder = styles.hoverBorderColor || "";
+        const selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
+        const selectedBorder = selected
+            ? hoverBorder.replace(/^hover:/, "")
+            : "";
+        const hoverStyles =
+            hover && !selected
+                ? `hover:shadow-sm ${hoverBg} ${hoverBorder}`
+                : hover
+                  ? "hover:shadow-sm"
+                  : "";
+        const clickableStyles = onClick ? "cursor-pointer" : "";
 
-    return (
-        <div
-            id={uuid}
-            onClick={onClick}
-            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
-        >
-            {children}
-        </div>
-    );
-};
+        return (
+            <div
+                ref={ref}
+                id={uuid}
+                onClick={onClick}
+                className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+            >
+                {children}
+            </div>
+        );
+    }
+);
 
 // Subcomponents for Card structure
 Card.Header = ({ children, className = "" }) => (
