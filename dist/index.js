@@ -3,7 +3,7 @@ import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 export * from '@fortawesome/free-solid-svg-icons';
 import * as BrandIcons from '@fortawesome/free-brands-svg-icons';
-import React, { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect, createElement, Fragment, Children } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect, createElement, forwardRef, Fragment, Children } from 'react';
 import { jsx, jsxs, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -3737,7 +3737,7 @@ function _toPropertyKey$C(t) { var i = _toPrimitive$C(t, "string"); return "symb
 function _toPrimitive$C(t, r) { if ("object" != _typeof$C(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$C(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$v(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$v(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$v(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var Card = function Card(_ref) {
+var Card = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var children = _ref.children,
     _ref$onClick = _ref.onClick,
     onClick = _ref$onClick === void 0 ? null : _ref$onClick,
@@ -3768,13 +3768,14 @@ var Card = function Card(_ref) {
   var hoverStyles = hover && !selected ? "hover:shadow-md ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-md" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
+    ref: ref,
     id: uuid,
     onClick: onClick,
     className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
-};
-var Card2 = function Card2(_ref2) {
+});
+var Card2 = /*#__PURE__*/forwardRef(function (_ref2, ref) {
   var children = _ref2.children,
     _ref2$onClick = _ref2.onClick,
     onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
@@ -3805,13 +3806,14 @@ var Card2 = function Card2(_ref2) {
   var hoverStyles = hover && !selected ? "hover:shadow-md ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-md" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
+    ref: ref,
     id: uuid,
     onClick: onClick,
     className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
-};
-var Card3 = function Card3(_ref3) {
+});
+var Card3 = /*#__PURE__*/forwardRef(function (_ref3, ref) {
   var children = _ref3.children,
     _ref3$onClick = _ref3.onClick,
     onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
@@ -3842,12 +3844,13 @@ var Card3 = function Card3(_ref3) {
   var hoverStyles = hover && !selected ? "hover:shadow-sm ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-sm" : "";
   var clickableStyles = onClick ? "cursor-pointer" : "";
   return /*#__PURE__*/jsx("div", {
+    ref: ref,
     id: uuid,
     onClick: onClick,
     className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
-};
+});
 
 // Subcomponents for Card structure
 Card.Header = function (_ref4) {
@@ -9937,7 +9940,7 @@ var ColorSwatch = function ColorSwatch(_ref) {
     "aria-label": "".concat(ROLE_LABELS[role], " color: ").concat(label, ". Drag to reorder or use arrow keys."),
     "aria-grabbed": isDragging,
     children: [/*#__PURE__*/jsx("div", {
-      className: "flex-1 min-h-0 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ring-1 ring-white/10 ".concat(isDragOver ? "shadow-lg shadow-blue-400/30" : ""),
+      className: "flex-1 min-h-0 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ".concat(isDragOver ? "shadow-lg shadow-blue-400/30" : ""),
       style: {
         backgroundColor: hex
       }
@@ -10110,10 +10113,14 @@ var PalettePreviewPane = function PalettePreviewPane(_ref2) {
       children: activeRoles.map(function (role, index) {
         var colorIndex = roleAssignments[role];
         var color = palette[colorIndex];
-        return /*#__PURE__*/jsx("div", {
+        return /*#__PURE__*/jsx(Card3, {
           ref: function ref(el) {
             return swatchRefs.current[role] = el;
           },
+          padding: "p-0",
+          shadow: "shadow-none",
+          rounded: "rounded-lg",
+          className: "flex flex-1 min-h-0 min-w-0",
           children: /*#__PURE__*/jsx(ColorSwatch, {
             color: color,
             role: role,

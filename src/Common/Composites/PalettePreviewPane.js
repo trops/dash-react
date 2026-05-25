@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { Card3 } from "../Card";
 
 const ROLES = ["primary", "secondary", "tertiary", "neutral"];
 
@@ -52,7 +53,7 @@ const ColorSwatch = ({
             aria-grabbed={isDragging}
         >
             <div
-                className={`flex-1 min-h-0 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ring-1 ring-white/10 ${
+                className={`flex-1 min-h-0 w-full rounded-lg transition-all group-hover:scale-105 group-hover:shadow-lg ${
                     isDragOver ? "shadow-lg shadow-blue-400/30" : ""
                 }`}
                 style={{ backgroundColor: hex }}
@@ -228,9 +229,13 @@ const PalettePreviewPane = ({
                     const colorIndex = roleAssignments[role];
                     const color = palette[colorIndex];
                     return (
-                        <div
+                        <Card3
                             key={role}
                             ref={(el) => (swatchRefs.current[role] = el)}
+                            padding="p-0"
+                            shadow="shadow-none"
+                            rounded="rounded-lg"
+                            className="flex flex-1 min-h-0 min-w-0"
                         >
                             <ColorSwatch
                                 color={color}
@@ -246,7 +251,7 @@ const PalettePreviewPane = ({
                                 onKeyDown={(e) => handleKeyDown(e, role, index)}
                                 focused={keyboardSelectedRole === role}
                             />
-                        </div>
+                        </Card3>
                     );
                 })}
             </div>
