@@ -28,7 +28,7 @@ const PanelHeader = ({
     return (
         <div
             id={id}
-            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
+            className={`dr-panel-header flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -60,7 +60,7 @@ const PanelBody = ({
         <LayoutContainer
             {...props}
             prefix="panel-body"
-            className={`${className} ${styles.string} ${
+            className={`dr-panel-body ${className} ${styles.string} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             scrollable={scrollable}
@@ -91,7 +91,7 @@ const PanelFooter = ({
     });
     return (
         <div
-            className={`flex flex-row ${rounded} justify-between items-center ${className} ${
+            className={`dr-panel-footer flex flex-row ${rounded} justify-between items-center ${className} ${
                 styles.string
             } ${padding === true ? defaultPadding : "p-0"}`}
         >
@@ -114,6 +114,7 @@ const Panel = ({
     defaultPadding = "p-6",
     border = true,
     rounded = "rounded-lg",
+    brand = undefined, // optional provider brand hex → Aurora brand treatment
     ...props
 }) => {
     // Fetch the Styles from the utility
@@ -131,11 +132,12 @@ const Panel = ({
         <LayoutContainer
             prefix="panel"
             direction={horizontal === true ? "row" : "col"}
-            className={`${className} ${
+            className={`dr-panel ${brand ? "dr-brand" : ""} ${className} ${
                 styles.string
             } ${height} ${width} ${rounded} ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
+            style={brand ? { "--brand": brand } : undefined}
             onClick={onClick}
             scrollable={scrollable} // must include this here as we separated props
             space={false}
@@ -174,7 +176,7 @@ const PanelHeader2 = ({
     });
     return (
         <div
-            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
+            className={`dr-panel-header flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -209,7 +211,7 @@ const PanelBody2 = ({
     return (
         <LayoutContainer
             {...props}
-            className={`${className} ${styles.string} ${
+            className={`dr-panel-body ${className} ${styles.string} ${
                 padding === true ? defaultPadding : "p-0"
             }`}
             scrollable={scrollable}
@@ -240,7 +242,7 @@ const PanelFooter2 = ({
     });
     return (
         <div
-            className={`flex flex-row ${rounded} justify-between items-center ${className} ${
+            className={`dr-panel-footer flex flex-row ${rounded} justify-between items-center ${className} ${
                 styles.string
             } ${padding === true ? defaultPadding : "p-0"}`}
         >
@@ -278,7 +280,7 @@ const Panel2 = ({
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
-            className={`${className} ${
+            className={`dr-panel ${className} ${
                 styles.string
             } ${height} ${width} ${rounded} ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"
@@ -322,7 +324,7 @@ const PanelHeader3 = ({
 
     return (
         <div
-            className={`flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
+            className={`dr-panel-header flex ${direction === "horizontal" ? "flex-row" : "flex-col"} ${rounded} ${
                 border === true ? "border-b" : ""
             } justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
@@ -359,7 +361,7 @@ const PanelBody3 = ({
         return (
             <LayoutContainer
                 {...props}
-                className={`${className} ${styles.string} ${
+                className={`dr-panel-body ${className} ${styles.string} ${
                     padding === true ? defaultPadding : "p-0"
                 }`}
                 scrollable={scrollable}
@@ -393,7 +395,7 @@ const PanelFooter3 = ({
     });
     return (
         <div
-            className={`flex flex-row ${rounded} justify-between items-center ${
+            className={`dr-panel-footer flex flex-row ${rounded} justify-between items-center ${
                 padding === true ? defaultPadding : "p-0"
             } ${className} ${styles.string}`}
         >
@@ -431,7 +433,7 @@ const Panel3 = ({
     return (
         <LayoutContainer
             direction={horizontal === true ? "row" : "col"}
-            className={`${className} ${
+            className={`dr-panel ${className} ${
                 styles.string
             } ${height} ${width} ${rounded} ${border === true ? "border" : ""} ${
                 padding === true ? defaultPadding : "p-0"

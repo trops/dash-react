@@ -1871,7 +1871,7 @@ var tailwindHeightFractions = function tailwindHeightFractions() {
   return fractions;
 };
 
-var _excluded$D = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix"];
+var _excluded$D = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix", "style"];
 function _objectWithoutProperties$D(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$D(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$D(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var LayoutContainer = function LayoutContainer(_ref) {
@@ -1899,6 +1899,8 @@ var LayoutContainer = function LayoutContainer(_ref) {
     padding = _ref$padding === void 0 ? "" : _ref$padding,
     _ref$prefix = _ref.prefix,
     prefix = _ref$prefix === void 0 ? "layout-container" : _ref$prefix,
+    _ref$style = _ref.style,
+    style = _ref$style === void 0 ? undefined : _ref$style,
     props = _objectWithoutProperties$D(_ref, _excluded$D);
   var containerId = "uuid" in props ? props["uuid"] : getUUID$1(id, prefix);
 
@@ -1936,6 +1938,7 @@ var LayoutContainer = function LayoutContainer(_ref) {
     id: containerId,
     className: "flex ".concat(classString, " ").concat(className),
     onClick: onClick,
+    style: style,
     children: [debug === false && children, debug === true && renderDebugger(children, styles.string)]
   });
 };
@@ -1944,7 +1947,7 @@ function _typeof$H(o) { "@babel/helpers - typeof"; return _typeof$H = "function"
 var _excluded$C = ["children", "border", "className", "padding", "defaultPadding", "rounded", "direction"],
   _excluded2$f = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding"],
   _excluded3$f = ["children", "className", "defaultPadding", "padding", "rounded"],
-  _excluded4$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border", "rounded"],
+  _excluded4$3 = ["horizontal", "children", "onClick", "width", "height", "padding", "scrollable", "grow", "className", "direction", "defaultPadding", "border", "rounded", "brand"],
   _excluded5$3 = ["children", "border", "className", "padding", "defaultPadding", "rounded", "direction"],
   _excluded6$3 = ["children", "scrollable", "className", "onClick", "defaultPadding", "padding", "height", "width"],
   _excluded7$3 = ["children", "className", "defaultPadding", "padding", "rounded"],
@@ -1986,7 +1989,7 @@ var PanelHeader = function PanelHeader(_ref) {
   var id = getUUID$1("", "panel-header");
   return /*#__PURE__*/jsx("div", {
     id: id,
-    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "dr-panel-header flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -2013,7 +2016,7 @@ var PanelBody = function PanelBody(_ref2) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({}, props), {}, {
     prefix: "panel-body",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel-body ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     scrollable: scrollable,
     width: "w-full",
     height: "h-full",
@@ -2041,7 +2044,7 @@ var PanelFooter = function PanelFooter(_ref3) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row ".concat(rounded, " justify-between items-center ").concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel-footer flex flex-row ".concat(rounded, " justify-between items-center ").concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     children: children
   });
 };
@@ -2070,6 +2073,8 @@ var Panel = function Panel(_ref4) {
     border = _ref4$border === void 0 ? true : _ref4$border,
     _ref4$rounded = _ref4.rounded,
     rounded = _ref4$rounded === void 0 ? "rounded-lg" : _ref4$rounded,
+    _ref4$brand = _ref4.brand,
+    brand = _ref4$brand === void 0 ? undefined : _ref4$brand,
     props = _objectWithoutProperties$C(_ref4, _excluded4$3);
   // Fetch the Styles from the utility
   var _useContext5 = useContext(ThemeContext),
@@ -2084,7 +2089,10 @@ var Panel = function Panel(_ref4) {
   return /*#__PURE__*/jsx(LayoutContainer, {
     prefix: "panel",
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel ".concat(brand ? "dr-brand" : "", " ").concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    style: brand ? {
+      "--brand": brand
+    } : undefined,
     onClick: onClick,
     scrollable: scrollable // must include this here as we separated props
     ,
@@ -2125,7 +2133,7 @@ var PanelHeader2 = function PanelHeader2(_ref5) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "dr-panel-header flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -2151,7 +2159,7 @@ var PanelBody2 = function PanelBody2(_ref6) {
     scrollable: false
   }, "scrollable", scrollable), "padding", padding), "width", "w-full"), "height", height)));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({}, props), {}, {
-    className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel-body ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     scrollable: scrollable,
     width: "w-full",
     height: "h-full",
@@ -2179,7 +2187,7 @@ var PanelFooter2 = function PanelFooter2(_ref7) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row ".concat(rounded, " justify-between items-center ").concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel-footer flex flex-row ".concat(rounded, " justify-between items-center ").concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
     children: children
   });
 };
@@ -2219,7 +2227,7 @@ var Panel2 = function Panel2(_ref8) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel ".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -2259,7 +2267,7 @@ var PanelHeader3 = function PanelHeader3(_ref9) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "dr-panel-header flex ".concat(direction === "horizontal" ? "flex-row" : "flex-col", " ").concat(rounded, " ").concat(border === true ? "border-b" : "", " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -2291,7 +2299,7 @@ var PanelBody3 = function PanelBody3(_ref0) {
       height: height
     }));
     return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({}, props), {}, {
-      className: "".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
+      className: "dr-panel-body ".concat(className, " ").concat(styles.string, " ").concat(padding === true ? defaultPadding : "p-0"),
       scrollable: scrollable,
       width: "w-full",
       height: height,
@@ -2322,7 +2330,7 @@ var PanelFooter3 = function PanelFooter3(_ref1) {
     grow: false
   }));
   return /*#__PURE__*/jsx("div", {
-    className: "flex flex-row ".concat(rounded, " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
+    className: "dr-panel-footer flex flex-row ".concat(rounded, " justify-between items-center ").concat(padding === true ? defaultPadding : "p-0", " ").concat(className, " ").concat(styles.string),
     children: children
   });
 };
@@ -2362,7 +2370,7 @@ var Panel3 = function Panel3(_ref10) {
   }));
   return /*#__PURE__*/jsx(LayoutContainer, _objectSpread$C(_objectSpread$C({
     direction: horizontal === true ? "row" : "col",
-    className: "".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
+    className: "dr-panel ".concat(className, " ").concat(styles.string, " ").concat(height, " ").concat(width, " ").concat(rounded, " ").concat(border === true ? "border" : "", " ").concat(padding === true ? defaultPadding : "p-0"),
     onClick: onClick,
     scrollable: scrollable,
     space: false
@@ -3450,7 +3458,7 @@ var Button = function Button(_ref) {
     id: uuid,
     onClick: onClick,
     disabled: disabled,
-    className: "flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(className),
+    className: "dr-btn dr-btn-primary flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(className),
     children: children !== undefined ? children : title
   });
 };
@@ -3484,7 +3492,7 @@ var Button2 = function Button2(_ref2) {
     id: uuid,
     onClick: onClick,
     disabled: disabled,
-    className: "flex flex-row flex-shrink justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
+    className: "dr-btn dr-btn-secondary flex flex-row flex-shrink justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
     children: children !== undefined ? children : title
   });
 };
@@ -3517,7 +3525,7 @@ var Button3 = function Button3(_ref3) {
     id: uuid,
     onClick: onClick,
     disabled: disabled,
-    className: "flex flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
+    className: "dr-btn dr-btn-ghost flex flex-row justify-center items-center ".concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
     children: children !== undefined ? children : title
   });
 };
@@ -3771,7 +3779,7 @@ var Card = /*#__PURE__*/forwardRef(function (_ref, ref) {
     ref: ref,
     id: uuid,
     onClick: onClick,
-    className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "dr-card ".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 });
@@ -3809,7 +3817,7 @@ var Card2 = /*#__PURE__*/forwardRef(function (_ref2, ref) {
     ref: ref,
     id: uuid,
     onClick: onClick,
-    className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "dr-card ".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 });
@@ -3847,7 +3855,7 @@ var Card3 = /*#__PURE__*/forwardRef(function (_ref3, ref) {
     ref: ref,
     id: uuid,
     onClick: onClick,
-    className: "".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
+    className: "dr-card ".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
   });
 });
