@@ -46,7 +46,7 @@ const Card = forwardRef(
                 ref={ref}
                 id={uuid}
                 onClick={onClick}
-                className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+                className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
             >
                 {children}
             </div>
@@ -97,7 +97,7 @@ const Card2 = forwardRef(
                 ref={ref}
                 id={uuid}
                 onClick={onClick}
-                className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+                className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
             >
                 {children}
             </div>
@@ -148,7 +148,7 @@ const Card3 = forwardRef(
                 ref={ref}
                 id={uuid}
                 onClick={onClick}
-                className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
+                className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
             >
                 {children}
             </div>

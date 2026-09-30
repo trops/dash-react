@@ -39,7 +39,7 @@ const Button = ({
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            className={`flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${className}`}
+            className={`dr-btn dr-btn-primary flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${className}`}
         >
             {children !== undefined ? children : title}
         </button>
@@ -81,7 +81,7 @@ const Button2 = ({
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            className={`flex flex-row flex-shrink justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
+            className={`dr-btn dr-btn-secondary flex flex-row flex-shrink justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
             {children !== undefined ? children : title}
         </button>
@@ -122,7 +122,7 @@ const Button3 = ({
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            className={`flex flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
+            className={`dr-btn dr-btn-ghost flex flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
             {children !== undefined ? children : title}
         </button>

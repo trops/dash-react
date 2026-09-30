@@ -1,3 +1,7 @@
+/* Aurora design system (tokens + gated .dr-* component treatment).
+   Source of truth for both Storybook and the app. */
+@import "./designSystem.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

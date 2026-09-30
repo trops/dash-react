@@ -1,0 +1,239 @@
+/* ============================================================================
+   Dash Design System — "Aurora"  ·  SOURCE OF TRUTH (dash-react)
+   -----------------------------------------------------------------------------
+   This file is the shared design language for the whole Dash ecosystem:
+   Storybook (imported via src/index.css → src/tailwind.css) AND the app
+   (dash-electron imports dist/designSystem.css into its bundle). dash-core
+   chrome inherits it because it renders through these same dash-react
+   components.
+
+   THREE layers:
+     1. Tokens (:root)            — surfaces, accent, semantic, shape, type, mesh.
+     2. [data-mode="light"]       — inverts surfaces/text for light variant.
+     3. [data-design="aurora"] .dr-*  — the component treatment, GATED.
+
+   Why gated: components always emit the `.dr-*` class, but the Aurora styling
+   only applies when the app opts in via `data-design="aurora"` on <html>.
+   One attribute turns the whole redesign on/off — fully reversible, and later
+   can be a user setting. The gate also gives these rules higher specificity
+   than a single Tailwind class, which — together with `!important` — lets them
+   win over the colorMap classes (both dash-react and dash-electron build
+   Tailwind with `important: true`).
+
+   Accent binding: dash-core's ThemeWrapper writes the active theme's shade-500
+   hex as inline --primary-500/--secondary-500 on :root (every theme) + sets
+   data-mode. So --accent/--accent-2 track the user's theme in the app; the
+   hex fallbacks below only apply in Storybook / before-mount.
+   ============================================================================ */
+
+/* ---- 1. TOKENS ------------------------------------------------------------- */
+:root {
+    /* Surfaces */
+    --bg: #0a0b10;
+    --raised: rgba(23, 25, 34, 0.55); /* glass cards / panels */
+    --raised-2: rgba(0, 0, 0, 0.25); /* inputs / wells */
+    --solid: #16181d; /* opaque fallback where blur can't be used */
+    --hairline: rgba(255, 255, 255, 0.08);
+    --hairline-strong: rgba(255, 255, 255, 0.14);
+
+    /* Text */
+    --text: #f0f1f5;
+    --text-2: #a4a9b8;
+    --text-3: #676d7e;
+
+    /* Accent — binds to the theme's primary/secondary (fallback = Aurora). */
+    --accent: var(--primary-500, #8f82f9);
+    --accent-2: var(--secondary-500, #45c8e0);
+    --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+    --accent-grad: linear-gradient(
+        135deg,
+        var(--accent),
+        color-mix(in srgb, var(--accent) 80%, black)
+    );
+    --brand-grad: linear-gradient(140deg, var(--accent), var(--accent-2));
+    --accent-glow: 0 4px 18px color-mix(in srgb, var(--accent) 35%, transparent);
+
+    /* Semantic */
+    --green: #52d59a;
+    --green-soft: rgba(82, 213, 154, 0.15);
+    --amber: #e6b25a;
+    --amber-soft: rgba(230, 178, 90, 0.15);
+    --red: #f47076;
+    --red-soft: rgba(244, 112, 118, 0.15);
+
+    /* Shape / depth */
+    --r-sm: 9px;
+    --r-md: 12px;
+    --r-lg: 18px;
+    --r-pill: 999px;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+    --shadow-lg: 0 16px 44px rgba(0, 0, 0, 0.45);
+    --card-shadow: 0 10px 34px rgba(0, 0, 0, 0.32);
+    --blur: blur(20px) saturate(1.3);
+
+    /* Type */
+    --font:
+        "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, -apple-system,
+        sans-serif;
+    --mono:
+        "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono",
+        Menlo, monospace;
+
+    /* Atmosphere — tight gradient-mesh from the two accents (subtle, cornered) */
+    --mesh:
+        radial-gradient(
+            520px 380px at 2% -12%,
+            color-mix(in srgb, var(--accent) 18%, transparent),
+            transparent 62%
+        ),
+        radial-gradient(
+            560px 400px at 98% 4%,
+            color-mix(in srgb, var(--accent-2) 13%, transparent),
+            transparent 60%
+        ),
+        radial-gradient(
+            600px 520px at 60% 115%,
+            color-mix(in srgb, var(--accent) 9%, transparent),
+            transparent 60%
+        );
+}
+
+/* ---- 2. LIGHT MODE — inverted surfaces/text (dash-core sets data-mode) ----- */
+[data-mode="light"] {
+    --bg: #f6f7fb;
+    --raised: rgba(255, 255, 255, 0.7);
+    --raised-2: rgba(16, 18, 24, 0.04);
+    --solid: #ffffff;
+    --hairline: rgba(16, 18, 24, 0.09);
+    --hairline-strong: rgba(16, 18, 24, 0.16);
+    --text: #1a1d23;
+    --text-2: #5b616e;
+    --text-3: #8a909c;
+    --shadow: 0 6px 20px rgba(16, 18, 24, 0.08);
+    --shadow-lg: 0 16px 44px rgba(16, 18, 24, 0.16);
+    --card-shadow: 0 8px 26px rgba(16, 18, 24, 0.08);
+}
+
+/* ============================================================================
+   3. COMPONENT TREATMENT — gated under [data-design="aurora"].
+   `!important` is required to beat the colorMap's Tailwind classes (both repos
+   build with important:true); the attribute gate supplies the extra specificity
+   so these win among !important declarations. Only SURFACE properties are
+   overridden (bg/border/radius/shadow/blur) — text color is left to the theme,
+   which stays readable because surfaces flip with data-mode.
+   ============================================================================ */
+
+/* ---- Buttons --------------------------------------------------------------- */
+[data-design="aurora"] .dr-btn {
+    border-radius: var(--r-sm) !important;
+    border: 1px solid transparent !important;
+    font-weight: 600 !important;
+    gap: 7px !important;
+    transition:
+        filter 0.14s,
+        background 0.14s,
+        border-color 0.14s !important;
+}
+/* Primary — accent gradient + glow (Button) */
+[data-design="aurora"] .dr-btn-primary {
+    background: var(--accent-grad) !important;
+    color: #fff !important;
+    box-shadow: var(--accent-glow) !important;
+}
+[data-design="aurora"] .dr-btn-primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+/* Secondary — glass (Button2) */
+[data-design="aurora"] .dr-btn-secondary {
+    background: var(--raised) !important;
+    color: var(--text) !important;
+    border-color: var(--hairline) !important;
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+}
+[data-design="aurora"] .dr-btn-secondary:hover:not(:disabled) {
+    border-color: var(--hairline-strong) !important;
+}
+/* Ghost — quiet (Button3) */
+[data-design="aurora"] .dr-btn-ghost {
+    background: transparent !important;
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-btn-ghost:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text) !important;
+}
+
+/* ---- Card (glass) ---------------------------------------------------------- */
+[data-design="aurora"] .dr-card {
+    background: var(--raised) !important;
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--hairline) !important;
+    border-radius: var(--r-lg) !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: border-color 0.15s !important;
+}
+[data-design="aurora"] .dr-card:hover {
+    border-color: var(--hairline-strong) !important;
+}
+
+/* ---- Panel (glass) --------------------------------------------------------- */
+[data-design="aurora"] .dr-panel {
+    background: var(--raised) !important;
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--hairline) !important;
+    border-radius: var(--r-lg) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+[data-design="aurora"] .dr-panel-header {
+    border-bottom: 1px solid var(--hairline) !important;
+    border-radius: var(--r-lg) var(--r-lg) 0 0 !important;
+}
+[data-design="aurora"] .dr-panel-footer {
+    border-top: 1px solid var(--hairline) !important;
+    border-radius: 0 0 var(--r-lg) var(--r-lg) !important;
+}
+
+/* ---- Brand accent (Panel `brand` prop) ------------------------------------
+   A widget carries a provider's identity: set --brand (via the `brand` prop)
+   and the frame derives a tint + border + subtle lift from that one color.
+   Recognizable at a glance, never a saturated fill. Works light + dark. */
+[data-design="aurora"] .dr-brand {
+    background: color-mix(
+        in srgb,
+        var(--brand, var(--accent)) 9%,
+        var(--solid)
+    ) !important;
+    border-color: color-mix(
+        in srgb,
+        var(--brand, var(--accent)) 26%,
+        transparent
+    ) !important;
+    box-shadow:
+        inset 0 1px 0
+            color-mix(in srgb, var(--brand, var(--accent)) 35%, transparent),
+        0 2px 10px
+            color-mix(in srgb, var(--brand, var(--accent)) 9%, transparent),
+        var(--card-shadow) !important;
+}
+[data-design="aurora"] .dr-brand:hover {
+    border-color: color-mix(
+        in srgb,
+        var(--brand, var(--accent)) 42%,
+        transparent
+    ) !important;
+}
+/* Optional brand icon chip — tinted from --brand. */
+[data-design="aurora"] .dr-brand-icon {
+    color: var(--brand, var(--accent)) !important;
+    background: color-mix(
+        in srgb,
+        var(--brand, var(--accent)) 20%,
+        transparent
+    ) !important;
+    border: 1px solid
+        color-mix(in srgb, var(--brand, var(--accent)) 38%, transparent) !important;
+    border-radius: 9px !important;
+}

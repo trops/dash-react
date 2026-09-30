@@ -18,7 +18,7 @@
         "dry": "npm run prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && npm run roll && yarn copy && yarn pack-local-esm && yarn copy-package",
         "clean-dist": "rm -r ./dist/* || exit 0",
         "clean-package": "rm -r ./package/* || exit 0",
-        "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css && \\cp .npmrc dist/.npmrc",
+        "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css && cp src/designSystem.css dist/designSystem.css && \\cp .npmrc dist/.npmrc",
         "copy-package": "cd ./package && cp trops-dash-react-*.tgz trops-dash-react.tgz || exit 0",
         "pack-local-esm": "mkdir -p ./package && cd ./dist && npm pack --pack-destination ../package",
         "link-package-1": "cd ./dist && npm link",
