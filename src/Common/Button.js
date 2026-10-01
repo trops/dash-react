@@ -3,6 +3,17 @@ import { ThemeContext } from "../Context/ThemeContext";
 import { getStylesForItem, getUUID } from "../Utils";
 import { themeObjects } from "../Utils";
 
+/**
+ * Button (primary) / Button2 (secondary) / Button3 (ghost).
+ *
+ * Shared DOM props:
+ *   type     — "button" (default) | "submit" | "reset"
+ *   tooltip  — native hover tooltip (the `title` attribute; `title` itself is
+ *              the button label for backwards compatibility)
+ *   ariaLabel — accessible name for icon-only buttons
+ *   danger   — destructive action (delete / stop / disconnect): renders the
+ *              soft-red treatment regardless of tier
+ */
 const Button = ({
     title = "Cancel",
     onClick = undefined,
@@ -12,6 +23,10 @@ const Button = ({
     block = false,
     size = "md",
     className = "",
+    type = "button",
+    tooltip = undefined,
+    ariaLabel = undefined,
+    danger = false,
     children,
     ...props
 }) => {
@@ -35,11 +50,13 @@ const Button = ({
 
     return (
         <button
-            type="button"
+            type={type}
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            className={`dr-btn dr-btn-primary flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${className}`}
+            title={tooltip}
+            aria-label={ariaLabel}
+            className={`dr-btn dr-btn-primary ${danger ? "dr-btn-danger" : ""} flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${className}`}
         >
             {children !== undefined ? children : title}
         </button>
@@ -55,6 +72,10 @@ const Button2 = ({
     block = false,
     size = "md",
     className = "",
+    type = "button",
+    tooltip = undefined,
+    ariaLabel = undefined,
+    danger = false,
     children,
     ...props
 }) => {
@@ -77,11 +98,13 @@ const Button2 = ({
 
     return (
         <button
-            type="button"
+            type={type}
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            className={`dr-btn dr-btn-secondary flex flex-row flex-shrink justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
+            title={tooltip}
+            aria-label={ariaLabel}
+            className={`dr-btn dr-btn-secondary ${danger ? "dr-btn-danger" : ""} flex flex-row flex-shrink whitespace-nowrap justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
             {children !== undefined ? children : title}
         </button>
@@ -97,6 +120,10 @@ const Button3 = ({
     block = false,
     size = "md",
     className = "",
+    type = "button",
+    tooltip = undefined,
+    ariaLabel = undefined,
+    danger = false,
     children,
     ...props
 }) => {
@@ -118,11 +145,13 @@ const Button3 = ({
 
     return (
         <button
-            type="button"
+            type={type}
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            className={`dr-btn dr-btn-ghost flex flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
+            title={tooltip}
+            aria-label={ariaLabel}
+            className={`dr-btn dr-btn-ghost ${danger ? "dr-btn-danger" : ""} flex flex-row whitespace-nowrap justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
             {children !== undefined ? children : title}
         </button>

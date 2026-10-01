@@ -67,7 +67,7 @@ const TextArea = ({
                 onChange={(event) => dispatchInputChange(onChange, event)}
                 placeholder={placeholder}
                 disabled={disabled}
-                className={`w-full border ${padding} ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
+                className={`dr-input w-full border ${padding} ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
             />
         </div>
     );

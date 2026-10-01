@@ -65,7 +65,7 @@ const ButtonIcon = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
-            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-2" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-3 py-2"} ${styles.textSize || "text-base"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
+            className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-2" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-3 py-2"} ${styles.textSize || "text-base"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
@@ -134,7 +134,7 @@ const ButtonIcon2 = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
-            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1.5" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2.5 py-1.5"} ${styles.textSize || "text-sm"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
+            className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1.5" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2.5 py-1.5"} ${styles.textSize || "text-sm"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />
@@ -203,7 +203,7 @@ const ButtonIcon3 = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
-            className={`inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
+            className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
                 <FontAwesomeIcon icon={icon} className={computedIconSize} />

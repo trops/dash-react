@@ -70,7 +70,7 @@ const InputText = ({
                 placeholder={placeholder}
                 disabled={disabled}
                 autoFocus={autoFocus}
-                className={`w-full ${height} border shadow-sm ${padding} ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
+                className={`dr-input w-full ${height} border shadow-sm ${padding} ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
             />
         </div>
     );

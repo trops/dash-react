@@ -28,7 +28,7 @@ const WidgetChrome = ({
     return (
         <div
             id={uuid}
-            className={`border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-lg ${className}`}
+            className={`dr-card border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-lg ${className}`}
         >
             <div className="flex items-center justify-between px-4 py-2 border-b">
                 <div className="font-semibold truncate">{title}</div>

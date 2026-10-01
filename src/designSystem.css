@@ -41,9 +41,12 @@
     --text-2: #a4a9b8;
     --text-3: #676d7e;
 
-    /* Accent — binds to the theme's primary/secondary (fallback = Aurora). */
-    --accent: var(--primary-500, #8f82f9);
-    --accent-2: var(--secondary-500, #45c8e0);
+    /* Accent — FIXED Aurora violet→cyan signature (the mockup look), so the
+       mesh/glow/buttons/active-pill pop regardless of the theme's primary.
+       (Swap these back to var(--primary-500)/var(--secondary-500) to re-bind
+       the accent to the active theme.) */
+    --accent: #8f82f9;
+    --accent-2: #45c8e0;
     --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
     --accent-grad: linear-gradient(
         135deg,
@@ -164,6 +167,24 @@
     color: var(--text) !important;
 }
 
+/* Danger — destructive action (`danger` prop on any tier). Soft red, never a
+   saturated fill. Declared after the tiers so it wins. */
+[data-design="aurora"] .dr-btn.dr-btn-danger {
+    background: var(--red-soft) !important;
+    color: var(--red) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+[data-design="aurora"] .dr-btn.dr-btn-danger:hover:not(:disabled) {
+    background: rgba(244, 112, 118, 0.24) !important;
+}
+/* Disabled — any tier */
+[data-design="aurora"] .dr-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: none;
+}
+
 /* ---- Card (glass) ---------------------------------------------------------- */
 [data-design="aurora"] .dr-card {
     background: var(--raised) !important;
@@ -176,6 +197,195 @@
 }
 [data-design="aurora"] .dr-card:hover {
     border-color: var(--hairline-strong) !important;
+}
+
+/* ---- Heading --------------------------------------------------------------
+   Titles read as primary text (white on dark), not a theme mid-tone. Only
+   emitted when the caller didn't pass an explicit textColor. !important
+   because the theme's resolved color classes are generated with !important. */
+[data-design="aurora"] .dr-heading {
+    color: var(--text) !important;
+}
+
+/* ---- Dashboard grid (stage) ------------------------------------------------
+   Stage breathing room + card rhythm. The gap only applies when the layout
+   didn't set its own (dr-grid-gap is emitted only for the default gap). */
+[data-design="aurora"] .dr-grid {
+    padding: 24px 28px !important;
+}
+[data-design="aurora"] .dr-grid-gap {
+    gap: 18px !important;
+}
+/* Widget cards on the stage: tighter inner padding, compact card titles. */
+[data-design="aurora"] .dr-grid .dr-panel {
+    padding: 18px !important;
+}
+[data-design="aurora"] .dr-panel .dr-subheading {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* ---- Workspace header ------------------------------------------------------
+   Title = primary text, 17px semibold. Icon actions are quiet ghost buttons
+   (no resting fill) that only light up on hover. */
+[data-design="aurora"] .dr-header {
+    padding: 15px 28px !important;
+    background: transparent !important;
+}
+[data-design="aurora"] .dr-header .dr-subheading {
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+}
+[data-design="aurora"] .dr-header .dr-btn-icon {
+    background: transparent !important;
+    color: var(--text-2) !important;
+    border-color: transparent !important;
+    border-radius: var(--r-sm) !important;
+    padding: 8px !important;
+}
+[data-design="aurora"] .dr-header .dr-btn-icon:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: var(--text) !important;
+}
+
+/* ---- Bottom tab strip (open workspaces) ------------------------------------
+   Same canvas as everything else (no opaque bar) — just a hairline above.
+   Tabs are quiet pills; the active one is a glass chip. */
+[data-design="aurora"] .dr-tabstrip {
+    background: transparent !important;
+    border-top: 1px solid var(--hairline) !important;
+    padding: 8px 20px !important;
+}
+[data-design="aurora"] .dr-pill {
+    font-size: 13px !important;
+    font-weight: 500;
+    padding: 6px 11px !important;
+    border-radius: var(--r-sm) !important;
+    color: var(--text-2) !important;
+    background: transparent !important;
+    border: 1px solid transparent;
+}
+[data-design="aurora"] .dr-pill:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: var(--text) !important;
+}
+[data-design="aurora"] .dr-pill-active,
+[data-design="aurora"] .dr-pill-active:hover {
+    color: var(--text) !important;
+    background: var(--raised) !important;
+    border-color: var(--hairline-strong);
+}
+
+/* ---- Inputs (recessed well) ------------------------------------------------
+   Text fields read as a dark well with a hairline, accent ring on focus.
+   `.dr-input` is the dash-react hook; the second group catches raw fields
+   widgets render inside a card (restyling a field never changes its meaning).
+   Padding is left alone — widget layouts size their own fields. */
+[data-design="aurora"] .dr-input,
+[data-design="aurora"]
+    .dr-panel
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
+        [type="color"]
+    ):not([type="file"]),
+[data-design="aurora"] .dr-panel textarea,
+[data-design="aurora"] .dr-panel select {
+    background-color: var(--raised-2) !important;
+    border: 1px solid var(--hairline) !important;
+    border-radius: var(--r-sm) !important;
+    color: var(--text) !important;
+    box-shadow: none !important;
+    transition:
+        border-color 0.14s,
+        box-shadow 0.14s;
+}
+[data-design="aurora"] .dr-input::placeholder,
+[data-design="aurora"] .dr-panel input::placeholder,
+[data-design="aurora"] .dr-panel textarea::placeholder {
+    color: var(--text-3) !important;
+}
+[data-design="aurora"] .dr-input:focus,
+[data-design="aurora"] .dr-panel input:focus,
+[data-design="aurora"] .dr-panel textarea:focus,
+[data-design="aurora"] .dr-panel select:focus {
+    outline: none !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-soft) !important;
+}
+
+/* ---- Segmented control -------------------------------------------------------
+   One-of-N picker: a recessed well; the selected segment is a glass chip
+   (selection is state, not an action — so no accent fill). */
+[data-design="aurora"] .dr-segmented {
+    background: var(--raised-2) !important;
+    border: 1px solid var(--hairline) !important;
+    border-radius: var(--r-sm) !important;
+    padding: 3px !important;
+    gap: 2px !important;
+}
+[data-design="aurora"] .dr-segment {
+    background: transparent !important;
+    color: var(--text-3) !important;
+    border: 1px solid transparent;
+    border-radius: 7px !important;
+    font-weight: 500;
+}
+[data-design="aurora"] .dr-segment:hover:not(:disabled) {
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-segment-active,
+[data-design="aurora"] .dr-segment-active:hover:not(:disabled) {
+    background: var(--raised) !important;
+    color: var(--text) !important;
+    border-color: var(--hairline-strong);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ---- Section label (caption) -----------------------------------------------
+   Small mono uppercase micro-label above a group of content. `.dr-caption` is
+   the explicit hook; the second selector catches the hand-rolled label idiom
+   widgets already use (`uppercase tracking-wide` inside a card) so existing
+   widgets read the same without a code change. */
+[data-design="aurora"] .dr-caption,
+[data-design="aurora"] .dr-section-label,
+[data-design="aurora"] .dr-panel .uppercase.tracking-wide {
+    font-family: var(--mono) !important;
+    font-size: 10.5px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: var(--text-3) !important;
+}
+
+/* ---- Tabs (underline) ------------------------------------------------------
+   Page/section tabs: quiet text, active = primary text + accent underline that
+   sits on the bar's hairline. No pill fill. */
+[data-design="aurora"] .dr-tabs {
+    gap: 4px !important;
+    padding: 0 20px !important;
+    background: transparent !important;
+    border-bottom: 1px solid var(--hairline) !important;
+}
+[data-design="aurora"] .dr-tab {
+    padding: 11px 12px !important;
+    font-size: 13px !important;
+    font-weight: 500;
+    color: var(--text-3) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+[data-design="aurora"] .dr-tab:hover {
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-tab-active,
+[data-design="aurora"] .dr-tab-active:hover {
+    color: var(--text) !important;
+    border-bottom-color: var(--accent);
 }
 
 /* ---- Panel (glass) --------------------------------------------------------- */

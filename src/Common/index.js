@@ -2,6 +2,8 @@ export * from "./Panel";
 export * from "./Modal";
 export * from "./Text/Paragraph";
 export * from "./Text/Caption";
+export * from "./Text/SectionLabel";
+export * from "./SegmentedControl";
 export * from "./Code";
 export * from "./RichText";
 export * from "./Divider";
