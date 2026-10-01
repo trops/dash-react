@@ -148,6 +148,47 @@ describe("deriveShades", () => {
         }
     });
 
+    // The full scale — INCLUDING the input at 500 — must darken strictly from
+    // 50 → 950 for any input lightness. Regression: fixed lightness targets
+    // put a light input (blue-500 L≈0.6, violet L≈0.66) lighter than 400, and
+    // a dark one (emerald L≈0.39) darker than 600, so "lighter"/"darker"
+    // theme states could come out inverted.
+    test.each([
+        ["blue", "#3b82f6"],
+        ["violet", "#8b5cf6"],
+        ["emerald", "#10b981"],
+        ["red", "#ef4444"],
+        ["slate", "#64748b"],
+        ["aubergine", "#4a154b"],
+        ["amber", "#f59e0b"],
+    ])(
+        "%s (%s): lightness strictly decreases across all 11 shades",
+        (_name, hex) => {
+            const shades = deriveShades(hex);
+            const order = [
+                "50",
+                "100",
+                "200",
+                "300",
+                "400",
+                "500",
+                "600",
+                "700",
+                "800",
+                "900",
+                "950",
+            ];
+            const ls = order.map((k) => rgbToHsl(hexToRgb(shades[k])).l);
+            for (let i = 1; i < ls.length; i++) {
+                expect(ls[i]).toBeLessThan(ls[i - 1]);
+            }
+        }
+    );
+
+    test("shade 500 is the input color (for mid-lightness inputs)", () => {
+        expect(deriveShades("#3b82f6")["500"]).toBe("#3b82f6");
+    });
+
     test("very dark input (#000) still produces a visible shade-50", () => {
         const shades = deriveShades("#000000");
         const rgb50 = hexToRgb(shades["50"]);

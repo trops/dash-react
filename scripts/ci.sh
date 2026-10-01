@@ -72,6 +72,11 @@ echo "npm version: $(npm -v)"
 step "Running Prettier"
 npx prettier --write .
 
+# 2b. Unit tests. `npm test` is a no-op ("exit 0"), so call the jest script
+# directly — without this step, failing jest suites shipped unnoticed.
+step "Running Jest tests"
+npm run test-jest
+
 # 3. Build with Rollup
 step "Building library with Rollup"
 NODE_ENV=prod npx rollup -c
