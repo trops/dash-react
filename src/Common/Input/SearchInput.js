@@ -71,7 +71,7 @@ const SearchInput = ({
                     onChange={(event) => dispatchInputChange(onChange, event)}
                     placeholder={placeholder}
                     disabled={disabled}
-                    className={`w-full border pl-10 pr-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
+                    className={`dr-input w-full border pl-10 pr-3 py-2 ${styles.string} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} ${inputClassName}`}
                 />
             </div>
         </div>

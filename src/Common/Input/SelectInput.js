@@ -89,7 +89,7 @@ const SelectInput = ({
                         id={inputId}
                         disabled={props.disabled}
                         onClick={() => setIsOpen(!isOpen)}
-                        className={`w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed text-left flex items-center justify-between gap-2 ${inputClassName}`}
+                        className={`dr-input w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed text-left flex items-center justify-between gap-2 ${inputClassName}`}
                     >
                         <span className="flex items-center gap-2 truncate flex-1 min-w-0">
                             {selectedOption?.icon && (
@@ -181,7 +181,7 @@ const SelectInput = ({
                 value={value}
                 onChange={(event) => onChange(event.target.value, event)}
                 disabled={props.disabled}
-                className={`w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
+                className={`dr-input w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
             >
                 <option value="" disabled>
                     {placeholder}

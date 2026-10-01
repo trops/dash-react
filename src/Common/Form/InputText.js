@@ -34,7 +34,7 @@ export const InputText = ({
                 onKeyDown={onKeyDown}
                 onClick={onClick}
                 placeholder={placeholder}
-                className={`${padding} rounded focus:outline-0 outline-0 border-0 focus:border-0 ${
+                className={`dr-input ${padding} rounded focus:outline-0 outline-0 border-0 focus:border-0 ${
                     styles.string
                 } font-bold ${textSize} w-full ${
                     hasBorder === false && "border-0"

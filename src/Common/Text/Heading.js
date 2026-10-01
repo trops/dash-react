@@ -27,7 +27,7 @@ function Heading({
     return createElement(
         Tag,
         {
-            className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-5xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            className: `${textColor ? "" : "dr-heading "}flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-5xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
         children !== undefined ? children : title
@@ -58,7 +58,7 @@ function Heading2({
     return createElement(
         Tag,
         {
-            className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-4xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            className: `${textColor ? "" : "dr-heading "}flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-4xl"} ${styles.fontWeight || "font-bold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
         children !== undefined ? children : title
@@ -89,7 +89,7 @@ function Heading3({
     return createElement(
         Tag,
         {
-            className: `flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-3xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            className: `${textColor ? "" : "dr-heading "}flex flex-row ${className} ${paddingStyles} ${styles.textSize || "text-3xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
         children !== undefined ? children : title
@@ -120,7 +120,7 @@ function SubHeading({
     return createElement(
         Tag,
         {
-            className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-2xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            className: `${textColor ? "" : "dr-heading "}dr-subheading flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-2xl"} ${styles.fontWeight || "font-semibold"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
         children !== undefined ? children : title
@@ -151,7 +151,7 @@ function SubHeading2({
     return createElement(
         Tag,
         {
-            className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-xl"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            className: `${textColor ? "" : "dr-heading "}dr-subheading flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-xl"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-tight"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
         children !== undefined ? children : title
@@ -182,7 +182,7 @@ function SubHeading3({
     return createElement(
         Tag,
         {
-            className: `flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-lg"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-normal"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
+            className: `${textColor ? "" : "dr-heading "}dr-subheading flex flex-row w-full ${className} ${paddingStyles} ${styles.textSize || "text-lg"} ${styles.fontWeight || "font-medium"} ${styles.letterSpacing || "tracking-normal"} ${styles.lineHeight || "leading-snug"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${onClick !== null && "cursor-pointer"}`,
             onClick,
         },
         children !== undefined ? children : title

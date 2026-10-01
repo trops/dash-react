@@ -371,7 +371,7 @@ const colorMap = {
     [themeObjects.HEADING]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",
         [styleClassNames.BORDER_COLOR]: "border-none",
-        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-neutral-very-light",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
         [styleClassNames.TEXT_SIZE]: "text-5xl",
@@ -382,7 +382,7 @@ const colorMap = {
     [themeObjects.HEADING_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",
         [styleClassNames.BORDER_COLOR]: "border-none",
-        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-neutral-very-light",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
         [styleClassNames.TEXT_SIZE]: "text-4xl",
@@ -393,7 +393,7 @@ const colorMap = {
     [themeObjects.HEADING_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",
         [styleClassNames.BORDER_COLOR]: "border-none",
-        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-neutral-very-light",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
         [styleClassNames.TEXT_SIZE]: "text-3xl",
@@ -404,7 +404,7 @@ const colorMap = {
     [themeObjects.SUBHEADING]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",
         [styleClassNames.BORDER_COLOR]: "border-none",
-        [styleClassNames.TEXT_COLOR]: "text-primary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-neutral-very-light",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
         [styleClassNames.TEXT_SIZE]: "text-2xl",
@@ -415,7 +415,7 @@ const colorMap = {
     [themeObjects.SUBHEADING_2]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",
         [styleClassNames.BORDER_COLOR]: "border-none",
-        [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-neutral-very-light",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
         [styleClassNames.TEXT_SIZE]: "text-xl",
@@ -426,7 +426,7 @@ const colorMap = {
     [themeObjects.SUBHEADING_3]: {
         [styleClassNames.BACKGROUND_COLOR]: "bg-none",
         [styleClassNames.BORDER_COLOR]: "border-none",
-        [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
+        [styleClassNames.TEXT_COLOR]: "text-neutral-very-light",
         [styleClassNames.HOVER_BACKGROUND_COLOR]: "hover-bg-none",
         [styleClassNames.HOVER_BORDER_COLOR]: "hover-border-none",
         [styleClassNames.TEXT_SIZE]: "text-lg",
@@ -905,8 +905,8 @@ const colorMap = {
     },
     // Composite Components (v0.4.0+)
     [themeObjects.SIDEBAR]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
-        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-none",
+        [styleClassNames.BORDER_COLOR]: "border-none",
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
         [styleClassNames.TRANSITION]: "transition-all duration-200",
     },
