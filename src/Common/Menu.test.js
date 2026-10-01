@@ -16,6 +16,9 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 jest.mock("@dash/Utils", () => ({
     getStylesForItem: () => ({ string: "" }),
     getUUID: (uuid, prefix) => `${prefix}-test-id`,
+    // Menu → Panel renders LayoutContainer, which reads themeObjects from
+    // @dash/Utils (not @dash/Utils/themeObjects).
+    themeObjects: { LAYOUT_CONTAINER: "layout-container" },
 }));
 jest.mock("@dash/Utils/themeObjects", () => ({
     themeObjects: { PANEL: "panel", PANEL_2: "panel-2", PANEL_3: "panel-3" },

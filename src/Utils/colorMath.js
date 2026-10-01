@@ -154,18 +154,28 @@ export function deriveShades(hex) {
     if (!rgb) return null;
     const { h, s, l } = rgbToHsl(rgb);
     const baseL = l < 0.2 || l > 0.8 ? 0.5 : l;
+    // Anchor every stop to the input's lightness so the scale always darkens
+    // 50 → 950 with the input at 500. Lighter stops sit a fixed fraction of
+    // the way from the input up to near-white; darker stops a fixed fraction
+    // of the way down to near-black. (Fixed absolute targets put light inputs
+    // above 400 and dark inputs below 600 — an inverted scale.) For a
+    // mid-lightness input (0.5) these land close to the previous curve.
+    const LIGHTEST = 0.975;
+    const DARKEST = 0.03;
+    const lighter = (f) => baseL + (LIGHTEST - baseL) * f;
+    const darker = (f) => baseL - (baseL - DARKEST) * f;
     const targets = {
-        50: 0.96,
-        100: 0.9,
-        200: 0.8,
-        300: 0.68,
-        400: 0.55,
+        50: lighter(0.96),
+        100: lighter(0.85),
+        200: lighter(0.66),
+        300: lighter(0.45),
+        400: lighter(0.22),
         500: baseL,
-        600: 0.42,
-        700: 0.32,
-        800: 0.22,
-        900: 0.13,
-        950: 0.08,
+        600: darker(0.14),
+        700: darker(0.28),
+        800: darker(0.48),
+        900: darker(0.7),
+        950: darker(0.9),
     };
     // Slight saturation curve: lighter shades fade saturation toward
     // white-ish; darker shades fade toward black-ish. Mirrors how
