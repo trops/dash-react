@@ -5181,6 +5181,22 @@ function _toPropertyKey$t(t) { var i = _toPrimitive$t(t, "string"); return "symb
 function _toPrimitive$t(t, r) { if ("object" != _typeof$t(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$t(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$m(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$m(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$m(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function groupOptions(options) {
+  var out = [];
+  options.forEach(function (option, i) {
+    var last = out[out.length - 1];
+    if (option.group && last && last.group === option.group) {
+      last.options.push(option);
+    } else {
+      out.push({
+        group: option.group || null,
+        key: i,
+        options: [option]
+      });
+    }
+  });
+  return out;
+}
 var SelectInput = function SelectInput(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? "" : _ref$label,
@@ -5334,11 +5350,19 @@ var SelectInput = function SelectInput(_ref) {
         value: "",
         disabled: true,
         children: placeholder
-      }), options.map(function (option) {
-        return /*#__PURE__*/jsx("option", {
-          value: option.value,
-          children: option.label
-        }, option.value);
+      }), groupOptions(options).map(function (entry) {
+        return entry.group ? /*#__PURE__*/jsx("optgroup", {
+          label: entry.group,
+          children: entry.options.map(function (option) {
+            return /*#__PURE__*/jsx("option", {
+              value: option.value,
+              children: option.label
+            }, option.value);
+          })
+        }, "group-".concat(entry.key)) : /*#__PURE__*/jsx("option", {
+          value: entry.options[0].value,
+          children: entry.options[0].label
+        }, entry.options[0].value);
       })]
     })]
   });

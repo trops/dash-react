@@ -4,6 +4,28 @@ import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * Consecutive options with the same `group` become one <optgroup>; options
+ * without a group stay top-level. Order is preserved. Groups apply to the
+ * plain <select>; the icon dropdown (options with `icon`) ignores them.
+ */
+function groupOptions(options) {
+    const out = [];
+    options.forEach((option, i) => {
+        const last = out[out.length - 1];
+        if (option.group && last && last.group === option.group) {
+            last.options.push(option);
+        } else {
+            out.push({
+                group: option.group || null,
+                key: i,
+                options: [option],
+            });
+        }
+    });
+    return out;
+}
+
 const SelectInput = ({
     label = "",
     value = "",
@@ -186,11 +208,27 @@ const SelectInput = ({
                 <option value="" disabled>
                     {placeholder}
                 </option>
-                {options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
+                {groupOptions(options).map((entry) =>
+                    entry.group ? (
+                        <optgroup
+                            key={`group-${entry.key}`}
+                            label={entry.group}
+                        >
+                            {entry.options.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </optgroup>
+                    ) : (
+                        <option
+                            key={entry.options[0].value}
+                            value={entry.options[0].value}
+                        >
+                            {entry.options[0].label}
+                        </option>
+                    )
+                )}
             </select>
         </div>
     );
