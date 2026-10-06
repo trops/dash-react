@@ -94,6 +94,40 @@ describe("StatusBadge", () => {
         expect(badge.textContent).toBe("");
     });
 
+    // --- Light / dark theme variant ---
+
+    function renderInVariant(themeVariant, props) {
+        return render(
+            <ThemeContext.Provider value={{ currentTheme: {}, themeVariant }}>
+                <StatusBadge state="success" label="OK" {...props} />
+            </ThemeContext.Provider>
+        );
+    }
+
+    test("dark theme keeps the saturated pill (900 bg, 300 text)", () => {
+        renderInVariant("dark", {});
+        const badge = screen.getByRole("status");
+        expect(badge.className).toMatch(/bg-emerald-900/);
+        expect(badge.className).toMatch(/text-emerald-300/);
+    });
+
+    test("light theme uses a pale pill with dark text", () => {
+        renderInVariant("light", {});
+        const badge = screen.getByRole("status");
+        expect(badge.className).toMatch(/bg-emerald-100/);
+        expect(badge.className).toMatch(/text-emerald-800/);
+    });
+
+    test("light theme compact label uses a dark readable shade", () => {
+        renderInVariant("light", { compact: true });
+        expect(screen.getByText("OK").className).toMatch(/text-emerald-700/);
+    });
+
+    test("light theme unknown state falls back to neutral", () => {
+        renderInVariant("light", { state: "made-up-state" });
+        expect(screen.getByRole("status").className).toMatch(/text-slate-800/);
+    });
+
     // --- Theme integration ---
 
     test("reads STATUS_BADGE theme entry via getStylesForItem", () => {

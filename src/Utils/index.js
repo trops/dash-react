@@ -9,6 +9,7 @@ export * from "./tailwindPalette";
 export * from "./objects";
 export * from "./strings";
 export * from "./css";
+export * from "./statusColors";
 
 // Dash-specific utilities
 // Note: DynamicWidgetLoader and WidgetRegistry are Electron-only

@@ -1,5 +1,6 @@
 import React from "react";
 import { AlertBanner } from "./AlertBanner";
+import { ThemeContext } from "@dash/Context/ThemeContext";
 
 export default {
     title: "Common/AlertBanner",
@@ -161,6 +162,52 @@ AllVariants.parameters = {
     docs: {
         description: {
             story: "A showcase of all AlertBanner variants side by side.",
+        },
+    },
+};
+
+// Compact size for small widgets
+export const Compact = Template.bind({});
+Compact.args = {
+    variant: "error",
+    size: "compact",
+    message:
+        "This API key does not have the analytics ACL. Add it in the Algolia dashboard.",
+    showIcon: true,
+    animate: false,
+};
+
+// Light vs dark theme variant, side by side
+const VariantColumn = ({ themeVariant }) => (
+    <ThemeContext.Provider value={{ currentTheme: {}, themeVariant }}>
+        <div
+            className={`space-y-2 p-4 rounded ${
+                themeVariant === "light" ? "bg-white" : "bg-gray-900"
+            }`}
+        >
+            {["info", "success", "warning", "error"].map((v) => (
+                <AlertBanner
+                    key={v}
+                    variant={v}
+                    size="compact"
+                    title={v}
+                    message={`${themeVariant} theme ${v} message.`}
+                    animate={false}
+                />
+            ))}
+        </div>
+    </ThemeContext.Provider>
+);
+export const LightAndDark = () => (
+    <div className="grid grid-cols-2 gap-4">
+        <VariantColumn themeVariant="light" />
+        <VariantColumn themeVariant="dark" />
+    </div>
+);
+LightAndDark.parameters = {
+    docs: {
+        description: {
+            story: "Colors follow ThemeContext.themeVariant so text stays readable on light and dark themes.",
         },
     },
 };
