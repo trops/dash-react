@@ -3,6 +3,7 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { colorSchemeFor } from "../CodeEditor/editorTheme";
 
 /**
  * Consecutive options with the same `group` become one <optgroup>; options
@@ -37,7 +38,7 @@ const SelectInput = ({
     inputClassName = "",
     ...props
 }) => {
-    const { currentTheme } = useContext(ThemeContext);
+    const { currentTheme, themeVariant } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, {
         ...props,
         scrollable: false,
@@ -200,6 +201,8 @@ const SelectInput = ({
             )}
             <select
                 id={inputId}
+                // Native dropdown list follows the light/dark variant.
+                style={{ colorScheme: colorSchemeFor(themeVariant) }}
                 value={value}
                 onChange={(event) => onChange(event.target.value, event)}
                 disabled={props.disabled}

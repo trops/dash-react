@@ -51,3 +51,32 @@ describe("InputText override props", () => {
         expect(input.className).not.toMatch(/px-3 py-2/);
     });
 });
+
+describe("color-scheme follows the theme variant", () => {
+    test.each([
+        ["light", "light"],
+        ["dark", "dark"],
+    ])("%s variant sets color-scheme: %s", (variant, scheme) => {
+        const { container } = render(
+            <ThemeContext.Provider
+                value={{ currentTheme: {}, themeVariant: variant }}
+            >
+                <InputText type="date" style={{ width: "10rem" }} />
+            </ThemeContext.Provider>
+        );
+        expect(container.querySelector("input").style.colorScheme).toBe(scheme);
+    });
+});
+
+test("caller style is merged with color-scheme", () => {
+    const { container } = render(
+        <ThemeContext.Provider
+            value={{ currentTheme: {}, themeVariant: "light" }}
+        >
+            <InputText style={{ width: "10rem" }} />
+        </ThemeContext.Provider>
+    );
+    const input = container.querySelector("input");
+    expect(input.style.width).toBe("10rem");
+    expect(input.style.colorScheme).toBe("light");
+});

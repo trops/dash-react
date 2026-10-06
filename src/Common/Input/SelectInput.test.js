@@ -105,3 +105,21 @@ describe("SelectInput option groups", () => {
         expect(container.querySelectorAll("option")).toHaveLength(2);
     });
 });
+
+describe("color-scheme follows the theme variant", () => {
+    test.each([
+        ["light", "light"],
+        ["dark", "dark"],
+    ])("%s variant sets color-scheme: %s", (variant, scheme) => {
+        const { container } = render(
+            <ThemeContext.Provider
+                value={{ currentTheme: {}, themeVariant: variant }}
+            >
+                <SelectInput options={[{ value: "a", label: "A" }]} />
+            </ThemeContext.Provider>
+        );
+        expect(container.querySelector("select").style.colorScheme).toBe(
+            scheme
+        );
+    });
+});
