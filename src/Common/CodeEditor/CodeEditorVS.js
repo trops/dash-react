@@ -1,7 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
+import { resolveEditorTheme } from "./editorTheme";
+
+// Load a monaco-themes JSON theme and apply it to the editor.
+function applyEditorTheme(monaco, name) {
+    if (!monaco) return;
+    try {
+        import(`monaco-themes/themes/${name}.json`)
+            .then((data) => {
+                monaco.editor.defineTheme("code-theme", data);
+            })
+            .then((_) => monaco.editor.setTheme("code-theme"))
+            .catch((e) => console.log("error setting theme", e.message));
+    } catch (e) {
+        console.log("error making my theme", e.message);
+    }
+}
 
 // Wrap window.ResizeObserver so callbacks fire on the next animation
 // frame — avoids "ResizeObserver loop limit exceeded" warnings in
@@ -37,13 +53,23 @@ export function CodeEditorVS({
     placeholder = null,
     scrollable = true,
     padding = "p-2",
-    themeName = "GitHub Dark",
+    themeName = null, // null → follow the light/dark theme variant
     readOnly = false,
     minimapEnabled = false,
     wordWrap = "on",
     ...props
 }) {
-    const { currentTheme } = useContext(ThemeContext);
+    const { currentTheme, themeVariant } = useContext(ThemeContext);
+    const editorTheme = resolveEditorTheme(themeName, themeVariant);
+    // Monaco instance captured from onMount (not useMonaco(), whose
+    // loader rejects with a cancelation object on early unmount).
+    const monacoRef = useRef(null);
+
+    // Re-apply when the theme variant (or explicit themeName) changes
+    // after mount — e.g. the user toggles light/dark.
+    useEffect(() => {
+        applyEditorTheme(monacoRef.current, editorTheme);
+    }, [editorTheme]);
     const styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, {
         ...props,
         scrollable,
@@ -57,19 +83,8 @@ export function CodeEditorVS({
         if (onMount) onMount(editor, monaco);
 
         if (monaco) {
-            try {
-                console.log("trying to load this theme");
-                import(`monaco-themes/themes/${themeName}.json`)
-                    .then((data) => {
-                        monaco.editor.defineTheme("code-theme", data);
-                    })
-                    .then((_) => monaco.editor.setTheme("code-theme"))
-                    .catch((e) =>
-                        console.log("error setting theme", e.message)
-                    );
-            } catch (e) {
-                console.log("error making my theme", e.message);
-            }
+            monacoRef.current = monaco;
+            applyEditorTheme(monaco, editorTheme);
         } else {
             console.log("monaco not loaded");
         }

@@ -5088,6 +5088,28 @@ function dispatchInputChange(handler, event) {
   }
 }
 
+/**
+ * Light/dark helpers for native and embedded editors.
+ *
+ * Monaco and native form controls (date picker icon, <select> popup,
+ * scrollbars) don't read Tailwind classes, so they need the active
+ * theme variant translated into their own terms.
+ */
+
+/**
+ * Monaco color theme for CodeEditorVS. An explicit themeName wins;
+ * otherwise follow the light/dark variant (anything but "light" gets
+ * the dark theme, matching ThemeContext's "dark" default).
+ */
+var resolveEditorTheme = function resolveEditorTheme(themeName, themeVariant) {
+  return themeName || (themeVariant === "light" ? "GitHub Light" : "GitHub Dark");
+};
+
+/** CSS `color-scheme` value for native controls. */
+var colorSchemeFor = function colorSchemeFor(themeVariant) {
+  return themeVariant === "light" ? "light" : "dark";
+};
+
 function _typeof$v(o) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$v(o); }
 var _excluded$o = ["label", "value", "onChange", "placeholder", "type", "id", "className", "inputClassName", "autoFocus", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor", "height", "padding"];
 function ownKeys$q(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -5136,7 +5158,8 @@ var InputText = function InputText(_ref) {
     padding = _ref$padding === void 0 ? "px-3 py-2" : _ref$padding,
     htmlProps = _objectWithoutProperties$o(_ref, _excluded$o);
   var _useContext = useContext(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    currentTheme = _useContext.currentTheme,
+    themeVariant = _useContext.themeVariant;
   var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
     backgroundColor: backgroundColor,
     textColor: textColor,
@@ -5160,6 +5183,11 @@ var InputText = function InputText(_ref) {
       className: "text-sm ".concat(labelStyles.textColor),
       children: label
     }), /*#__PURE__*/jsx("input", _objectSpread$q(_objectSpread$q({}, htmlProps), {}, {
+      // Native picker icons/popups (date, time, color) follow
+      // the light/dark variant instead of the OS default.
+      style: _objectSpread$q({
+        colorScheme: colorSchemeFor(themeVariant)
+      }, htmlProps.style),
       id: inputId,
       type: type,
       value: value,
@@ -5305,7 +5333,8 @@ var SelectInput = function SelectInput(_ref) {
     inputClassName = _ref$inputClassName === void 0 ? "" : _ref$inputClassName,
     props = _objectWithoutProperties$m(_ref, _excluded$m);
   var _useContext = useContext(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    currentTheme = _useContext.currentTheme,
+    themeVariant = _useContext.themeVariant;
   var styles = getStylesForItem(themeObjects.SELECT_MENU, currentTheme, _objectSpread$o(_objectSpread$o({}, props), {}, {
     scrollable: false,
     grow: false
@@ -5428,7 +5457,12 @@ var SelectInput = function SelectInput(_ref) {
       className: "text-sm ".concat(labelStyles.textColor),
       children: label
     }), /*#__PURE__*/jsxs("select", {
-      id: inputId,
+      id: inputId
+      // Native dropdown list follows the light/dark variant.
+      ,
+      style: {
+        colorScheme: colorSchemeFor(themeVariant)
+      },
       value: value,
       onChange: function onChange(event) {
         return _onChange(event.target.value, event);
@@ -6388,6 +6422,27 @@ function _toPropertyKey$j(t) { var i = _toPrimitive$j(t, "string"); return "symb
 function _toPrimitive$j(t, r) { if ("object" != _typeof$j(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$j(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$d(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$d(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$d(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function applyEditorTheme(monaco, name) {
+  if (!monaco) return;
+  try {
+    import("monaco-themes/themes/".concat(name, ".json")).then(function (data) {
+      monaco.editor.defineTheme("code-theme", data);
+    }).then(function (_) {
+      return monaco.editor.setTheme("code-theme");
+    })["catch"](function (e) {
+      return (void 0);
+    });
+  } catch (e) {
+  }
+}
+
+// Wrap window.ResizeObserver so callbacks fire on the next animation
+// frame — avoids "ResizeObserver loop limit exceeded" warnings in
+// Monaco. Guarded so this module is safe to import from a Node
+// context (Electron's main process pulls dash-react via dash-core
+// for shared utility exports; without the guard the top-level
+// `window.ResizeObserver` reference would throw at module-load
+// before any consumer actually mounts the editor).
 if (typeof window !== "undefined" && window.ResizeObserver) {
   var OriginalResizeObserver = window.ResizeObserver;
   window.ResizeObserver = function (callback) {
@@ -6418,7 +6473,7 @@ function CodeEditorVS(_ref) {
     scrollable = _ref$scrollable === void 0 ? true : _ref$scrollable;
     _ref.padding;
     var _ref$themeName = _ref.themeName,
-    themeName = _ref$themeName === void 0 ? "GitHub Dark" : _ref$themeName,
+    themeName = _ref$themeName === void 0 ? null : _ref$themeName,
     _ref$readOnly = _ref.readOnly,
     readOnly = _ref$readOnly === void 0 ? false : _ref$readOnly,
     _ref$minimapEnabled = _ref.minimapEnabled,
@@ -6427,7 +6482,18 @@ function CodeEditorVS(_ref) {
     wordWrap = _ref$wordWrap === void 0 ? "on" : _ref$wordWrap,
     props = _objectWithoutProperties$d(_ref, _excluded$d);
   var _useContext = useContext(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    currentTheme = _useContext.currentTheme,
+    themeVariant = _useContext.themeVariant;
+  var editorTheme = resolveEditorTheme(themeName, themeVariant);
+  // Monaco instance captured from onMount (not useMonaco(), whose
+  // loader rejects with a cancelation object on early unmount).
+  var monacoRef = useRef(null);
+
+  // Re-apply when the theme variant (or explicit themeName) changes
+  // after mount — e.g. the user toggles light/dark.
+  useEffect(function () {
+    applyEditorTheme(monacoRef.current, editorTheme);
+  }, [editorTheme]);
   var styles = getStylesForItem(themeObjects.CODE_EDITOR, currentTheme, _objectSpread$f(_objectSpread$f({}, props), {}, {
     scrollable: scrollable
   }));
@@ -6435,16 +6501,8 @@ function CodeEditorVS(_ref) {
     editor.focus();
     if (onMount) onMount(editor, monaco);
     if (monaco) {
-      try {
-        import("monaco-themes/themes/".concat(themeName, ".json")).then(function (data) {
-          monaco.editor.defineTheme("code-theme", data);
-        }).then(function (_) {
-          return monaco.editor.setTheme("code-theme");
-        })["catch"](function (e) {
-          return (void 0);
-        });
-      } catch (e) {
-      }
+      monacoRef.current = monaco;
+      applyEditorTheme(monaco, editorTheme);
     }
   }
   var placeholderValue = placeholder !== null ? placeholder : "Enter ".concat(language, " code");

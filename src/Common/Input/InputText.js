@@ -3,6 +3,7 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { dispatchInputChange } from "./dispatchInputChange";
+import { colorSchemeFor } from "../CodeEditor/editorTheme";
 
 const InputText = ({
     label = "",
@@ -28,7 +29,7 @@ const InputText = ({
     padding = "px-3 py-2",
     ...htmlProps
 }) => {
-    const { currentTheme } = useContext(ThemeContext);
+    const { currentTheme, themeVariant } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
         backgroundColor,
         textColor,
@@ -63,6 +64,12 @@ const InputText = ({
             )}
             <input
                 {...htmlProps}
+                // Native picker icons/popups (date, time, color) follow
+                // the light/dark variant instead of the OS default.
+                style={{
+                    colorScheme: colorSchemeFor(themeVariant),
+                    ...htmlProps.style,
+                }}
                 id={inputId}
                 type={type}
                 value={value}
