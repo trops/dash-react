@@ -1885,6 +1885,132 @@ var tailwindHeightFractions = function tailwindHeightFractions() {
   return fractions;
 };
 
+/**
+ * Status colors (error / success / warning / info) per theme variant.
+ *
+ * Theme tokens only cover the primary/secondary/tertiary/neutral
+ * channels, so status colors are fixed Tailwind shades chosen per
+ * light/dark variant. Every class is a solid shade — the prebuilt CSS
+ * bundle doesn't reliably carry opacity modifiers (`bg-red-900/30`)
+ * or arbitrary values. Class strings are written out literally so
+ * Tailwind's content scan picks them up.
+ *
+ * Keys:
+ *   bg           subtle surface for banners / callouts
+ *   text         body text on `bg`
+ *   strongText   titles / emphasis on `bg`
+ *   border       subtle border around `bg`
+ *   accentBorder saturated border (e.g. left accent bar)
+ *   icon         icon / standalone status text on the theme surface
+ *   solidBg      saturated fill (status dots, progress)
+ *   hoverBg      hover surface for controls on `bg`
+ *   hoverText    hover text for controls on `bg`
+ */
+
+var STATUS_VARIANTS = ["error", "success", "warning", "info"];
+var STATUS_COLORS = {
+  light: {
+    error: {
+      bg: "bg-red-50",
+      text: "text-red-800",
+      strongText: "text-red-900",
+      border: "border-red-200",
+      accentBorder: "border-red-500",
+      icon: "text-red-600",
+      solidBg: "bg-red-500",
+      hoverBg: "hover:bg-red-100",
+      hoverText: "hover:text-red-900"
+    },
+    success: {
+      bg: "bg-green-50",
+      text: "text-green-800",
+      strongText: "text-green-900",
+      border: "border-green-200",
+      accentBorder: "border-green-500",
+      icon: "text-green-600",
+      solidBg: "bg-green-500",
+      hoverBg: "hover:bg-green-100",
+      hoverText: "hover:text-green-900"
+    },
+    warning: {
+      bg: "bg-amber-50",
+      text: "text-amber-800",
+      strongText: "text-amber-900",
+      border: "border-amber-200",
+      accentBorder: "border-amber-500",
+      icon: "text-amber-600",
+      solidBg: "bg-amber-500",
+      hoverBg: "hover:bg-amber-100",
+      hoverText: "hover:text-amber-900"
+    },
+    info: {
+      bg: "bg-blue-50",
+      text: "text-blue-800",
+      strongText: "text-blue-900",
+      border: "border-blue-200",
+      accentBorder: "border-blue-500",
+      icon: "text-blue-600",
+      solidBg: "bg-blue-500",
+      hoverBg: "hover:bg-blue-100",
+      hoverText: "hover:text-blue-900"
+    }
+  },
+  dark: {
+    error: {
+      bg: "bg-red-950",
+      text: "text-red-200",
+      strongText: "text-red-100",
+      border: "border-red-800",
+      accentBorder: "border-red-500",
+      icon: "text-red-400",
+      solidBg: "bg-red-500",
+      hoverBg: "hover:bg-red-900",
+      hoverText: "hover:text-red-100"
+    },
+    success: {
+      bg: "bg-green-950",
+      text: "text-green-200",
+      strongText: "text-green-100",
+      border: "border-green-800",
+      accentBorder: "border-green-500",
+      icon: "text-green-400",
+      solidBg: "bg-green-500",
+      hoverBg: "hover:bg-green-900",
+      hoverText: "hover:text-green-100"
+    },
+    warning: {
+      bg: "bg-amber-950",
+      text: "text-amber-200",
+      strongText: "text-amber-100",
+      border: "border-amber-800",
+      accentBorder: "border-amber-500",
+      icon: "text-amber-400",
+      solidBg: "bg-amber-500",
+      hoverBg: "hover:bg-amber-900",
+      hoverText: "hover:text-amber-100"
+    },
+    info: {
+      bg: "bg-blue-950",
+      text: "text-blue-200",
+      strongText: "text-blue-100",
+      border: "border-blue-800",
+      accentBorder: "border-blue-500",
+      icon: "text-blue-400",
+      solidBg: "bg-blue-500",
+      hoverBg: "hover:bg-blue-900",
+      hoverText: "hover:text-blue-100"
+    }
+  }
+};
+
+/**
+ * Status palette for a theme variant. Anything other than "light"
+ * gets the dark palette, matching ThemeContext's "dark" default.
+ */
+var getStatusColors = function getStatusColors(themeVariant) {
+  return themeVariant === "light" ? STATUS_COLORS.light : STATUS_COLORS.dark;
+};
+
 var _excluded$D = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix", "style"];
 function _objectWithoutProperties$D(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$D(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$D(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
@@ -4447,7 +4573,7 @@ var Alert3 = function Alert3(props) {
 };
 
 function _typeof$z(o) { "@babel/helpers - typeof"; return _typeof$z = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$z(o); }
-var _excluded$s = ["variant", "title", "message", "children", "onClose", "showIcon", "className", "animate"];
+var _excluded$s = ["variant", "size", "title", "message", "children", "onClose", "showIcon", "className", "animate"];
 function ownKeys$u(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$u(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$u(Object(t), !0).forEach(function (r) { _defineProperty$v(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$u(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$v(e, r, t) { return (r = _toPropertyKey$z(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -4455,87 +4581,37 @@ function _toPropertyKey$z(t) { var i = _toPrimitive$z(t, "string"); return "symb
 function _toPrimitive$z(t, r) { if ("object" != _typeof$z(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$z(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$s(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$s(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$s(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var VARIANT_STYLES = {
-  info: {
-    container: "bg-blue-50 border-l-4 border-blue-500",
-    title: "text-blue-900",
-    message: "text-blue-800",
-    icon: "text-blue-600",
-    closeButton: "text-blue-600 hover:text-blue-900 hover:bg-blue-100"
+var SIZE_STYLES = {
+  "default": {
+    container: "rounded-md p-4 shadow-sm",
+    gap: "gap-3",
+    icon: "w-6 h-6",
+    text: "text-sm",
+    closeIcon: "w-4 h-4",
+    closePadding: "p-1.5"
   },
-  success: {
-    container: "bg-green-50 border-l-4 border-green-500",
-    title: "text-green-900",
-    message: "text-green-800",
-    icon: "text-green-600",
-    closeButton: "text-green-600 hover:text-green-900 hover:bg-green-100"
-  },
-  warning: {
-    container: "bg-amber-50 border-l-4 border-amber-500",
-    title: "text-amber-900",
-    message: "text-amber-800",
-    icon: "text-amber-600",
-    closeButton: "text-amber-600 hover:text-amber-900 hover:bg-amber-100"
-  },
-  error: {
-    container: "bg-red-50 border-l-4 border-red-500",
-    title: "text-red-900",
-    message: "text-red-800",
-    icon: "text-red-600",
-    closeButton: "text-red-600 hover:text-red-900 hover:bg-red-100"
+  compact: {
+    container: "rounded p-2",
+    gap: "gap-2",
+    icon: "w-4 h-4",
+    text: "text-xs",
+    closeIcon: "w-3 h-3",
+    closePadding: "p-1"
   }
 };
 
-// SVG Icons for each variant
-var Icons = {
-  info: /*#__PURE__*/jsx("svg", {
-    className: "w-6 h-6",
-    fill: "currentColor",
-    viewBox: "0 0 20 20",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /*#__PURE__*/jsx("path", {
-      fillRule: "evenodd",
-      d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z",
-      clipRule: "evenodd"
-    })
-  }),
-  success: /*#__PURE__*/jsx("svg", {
-    className: "w-6 h-6",
-    fill: "currentColor",
-    viewBox: "0 0 20 20",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /*#__PURE__*/jsx("path", {
-      fillRule: "evenodd",
-      d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
-      clipRule: "evenodd"
-    })
-  }),
-  warning: /*#__PURE__*/jsx("svg", {
-    className: "w-6 h-6",
-    fill: "currentColor",
-    viewBox: "0 0 20 20",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /*#__PURE__*/jsx("path", {
-      fillRule: "evenodd",
-      d: "M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z",
-      clipRule: "evenodd"
-    })
-  }),
-  error: /*#__PURE__*/jsx("svg", {
-    className: "w-6 h-6",
-    fill: "currentColor",
-    viewBox: "0 0 20 20",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /*#__PURE__*/jsx("path", {
-      fillRule: "evenodd",
-      d: "M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z",
-      clipRule: "evenodd"
-    })
-  })
+// SVG icon paths for each variant (20x20 viewBox)
+var ICON_PATHS = {
+  info: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z",
+  success: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
+  warning: "M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z",
+  error: "M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
 };
 var AlertBanner = function AlertBanner(_ref) {
   var _ref$variant = _ref.variant,
     variant = _ref$variant === void 0 ? "info" : _ref$variant,
+    _ref$size = _ref.size,
+    size = _ref$size === void 0 ? "default" : _ref$size,
     _ref$title = _ref.title,
     title = _ref$title === void 0 ? "" : _ref$title,
     _ref$message = _ref.message,
@@ -4552,47 +4628,60 @@ var AlertBanner = function AlertBanner(_ref) {
     animate = _ref$animate === void 0 ? true : _ref$animate,
     props = _objectWithoutProperties$s(_ref, _excluded$s);
   var _useContext = useContext(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    currentTheme = _useContext.currentTheme,
+    themeVariant = _useContext.themeVariant;
 
   // Get theme-aware styles while allowing variant overrides
   getStylesForItem(themeObjects.ALERT_BANNER, currentTheme, _objectSpread$u({}, props));
   var uuid = getUUID$1("", "alert-banner");
-  var variantStyle = VARIANT_STYLES[variant] || VARIANT_STYLES.info;
-  var icon = Icons[variant] || Icons.info;
+  var statusColors = getStatusColors(themeVariant);
+  var key = variant in statusColors ? variant : "info";
+  var colors = statusColors[key];
+  var sizeStyle = SIZE_STYLES[size] || SIZE_STYLES["default"];
 
   // Animation classes
   var animationClass = animate ? "animate-in slide-in-from-top-2 fade-in duration-300" : "";
   return /*#__PURE__*/jsx("div", {
     id: uuid,
-    className: "\n                ".concat(variantStyle.container, "\n                rounded-md p-4 shadow-sm\n                ").concat(animationClass, "\n                ").concat(className, "\n            "),
+    className: "\n                ".concat(colors.bg, " border-l-4 ").concat(colors.accentBorder, "\n                ").concat(sizeStyle.container, "\n                ").concat(animationClass, "\n                ").concat(className, "\n            "),
     role: "alert",
     "aria-live": "polite",
     "aria-atomic": "true",
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex items-start gap-3",
+      className: "flex items-start ".concat(sizeStyle.gap),
       children: [showIcon && /*#__PURE__*/jsx("div", {
-        className: "\n                            ".concat(variantStyle.icon, "\n                            flex-shrink-0\n                            mt-0.5\n                        "),
+        className: "\n                            ".concat(colors.icon, "\n                            flex-shrink-0\n                            mt-0.5\n                        "),
         "aria-hidden": "true",
-        children: icon
+        children: /*#__PURE__*/jsx("svg", {
+          className: sizeStyle.icon,
+          fill: "currentColor",
+          viewBox: "0 0 20 20",
+          xmlns: "http://www.w3.org/2000/svg",
+          children: /*#__PURE__*/jsx("path", {
+            fillRule: "evenodd",
+            d: ICON_PATHS[key],
+            clipRule: "evenodd"
+          })
+        })
       }), /*#__PURE__*/jsxs("div", {
         className: "flex-1 min-w-0",
         children: [title && /*#__PURE__*/jsx("h3", {
-          className: "\n                                ".concat(variantStyle.title, "\n                                text-sm font-bold mb-1\n                            "),
+          className: "\n                                ".concat(colors.strongText, "\n                                ").concat(sizeStyle.text, " font-bold mb-1\n                            "),
           children: title
         }), message && /*#__PURE__*/jsx("p", {
-          className: "\n                                ".concat(variantStyle.message, "\n                                text-sm leading-relaxed\n                            "),
+          className: "\n                                ".concat(colors.text, "\n                                ").concat(sizeStyle.text, " leading-relaxed break-words\n                            "),
           children: message
         }), children && /*#__PURE__*/jsx("div", {
-          className: "\n                                ".concat(variantStyle.message, "\n                                text-sm\n                                ").concat(title || message ? "mt-2" : "", "\n                            "),
+          className: "\n                                ".concat(colors.text, "\n                                ").concat(sizeStyle.text, "\n                                ").concat(title || message ? "mt-2" : "", "\n                            "),
           children: children
         })]
       }), onClose && /*#__PURE__*/jsx("button", {
         type: "button",
         onClick: onClose,
-        className: "\n                            ".concat(variantStyle.closeButton, "\n                            flex-shrink-0\n                            rounded-md p-1.5\n                            transition-colors duration-200\n                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent\n                        "),
+        className: "\n                            ".concat(colors.icon, " ").concat(colors.hoverText, " ").concat(colors.hoverBg, "\n                            flex-shrink-0\n                            rounded-md ").concat(sizeStyle.closePadding, "\n                            transition-colors duration-200\n                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent\n                        "),
         "aria-label": "Dismiss alert",
         children: /*#__PURE__*/jsx("svg", {
-          className: "w-4 h-4",
+          className: sizeStyle.closeIcon,
           fill: "currentColor",
           viewBox: "0 0 20 20",
           xmlns: "http://www.w3.org/2000/svg",
@@ -9596,46 +9685,107 @@ function _toPrimitive$3(t, r) { if ("object" != _typeof$3(t) || !t) return t; va
 function _objectWithoutProperties$2(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$2(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$2(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 var STATE_STYLES = {
-  success: {
-    bg: "bg-emerald-900",
-    text: "text-emerald-300",
-    dot: "bg-emerald-500"
+  dark: {
+    success: {
+      bg: "bg-emerald-900",
+      text: "text-emerald-300",
+      dot: "bg-emerald-500",
+      compactText: "text-emerald-300"
+    },
+    open: {
+      bg: "bg-emerald-900",
+      text: "text-emerald-300",
+      dot: "bg-emerald-500",
+      compactText: "text-emerald-300"
+    },
+    pending: {
+      bg: "bg-amber-900",
+      text: "text-amber-300",
+      dot: "bg-amber-500",
+      compactText: "text-amber-300",
+      dotAnimation: "animate-pulse"
+    },
+    warning: {
+      bg: "bg-amber-900",
+      text: "text-amber-300",
+      dot: "bg-amber-500",
+      compactText: "text-amber-300"
+    },
+    error: {
+      bg: "bg-rose-900",
+      text: "text-rose-300",
+      dot: "bg-rose-500",
+      compactText: "text-rose-300"
+    },
+    closed: {
+      bg: "bg-violet-900",
+      text: "text-violet-300",
+      dot: "bg-violet-500",
+      compactText: "text-violet-300"
+    },
+    info: {
+      bg: "bg-sky-900",
+      text: "text-sky-300",
+      dot: "bg-sky-500",
+      compactText: "text-sky-300"
+    },
+    neutral: {
+      bg: "bg-slate-800",
+      text: "text-slate-300",
+      dot: "bg-slate-500",
+      compactText: "text-slate-300"
+    }
   },
-  open: {
-    bg: "bg-emerald-900",
-    text: "text-emerald-300",
-    dot: "bg-emerald-500"
-  },
-  pending: {
-    bg: "bg-amber-900",
-    text: "text-amber-300",
-    dot: "bg-amber-500",
-    dotAnimation: "animate-pulse"
-  },
-  warning: {
-    bg: "bg-amber-900",
-    text: "text-amber-300",
-    dot: "bg-amber-500"
-  },
-  error: {
-    bg: "bg-rose-900",
-    text: "text-rose-300",
-    dot: "bg-rose-500"
-  },
-  closed: {
-    bg: "bg-violet-900",
-    text: "text-violet-300",
-    dot: "bg-violet-500"
-  },
-  info: {
-    bg: "bg-sky-900",
-    text: "text-sky-300",
-    dot: "bg-sky-500"
-  },
-  neutral: {
-    bg: "bg-slate-800",
-    text: "text-slate-300",
-    dot: "bg-slate-500"
+  light: {
+    success: {
+      bg: "bg-emerald-100",
+      text: "text-emerald-800",
+      dot: "bg-emerald-500",
+      compactText: "text-emerald-700"
+    },
+    open: {
+      bg: "bg-emerald-100",
+      text: "text-emerald-800",
+      dot: "bg-emerald-500",
+      compactText: "text-emerald-700"
+    },
+    pending: {
+      bg: "bg-amber-100",
+      text: "text-amber-800",
+      dot: "bg-amber-500",
+      compactText: "text-amber-700",
+      dotAnimation: "animate-pulse"
+    },
+    warning: {
+      bg: "bg-amber-100",
+      text: "text-amber-800",
+      dot: "bg-amber-500",
+      compactText: "text-amber-700"
+    },
+    error: {
+      bg: "bg-rose-100",
+      text: "text-rose-800",
+      dot: "bg-rose-500",
+      compactText: "text-rose-700"
+    },
+    closed: {
+      bg: "bg-violet-100",
+      text: "text-violet-800",
+      dot: "bg-violet-500",
+      compactText: "text-violet-700"
+    },
+    info: {
+      bg: "bg-sky-100",
+      text: "text-sky-800",
+      dot: "bg-sky-500",
+      compactText: "text-sky-700"
+    },
+    neutral: {
+      bg: "bg-slate-200",
+      text: "text-slate-800",
+      dot: "bg-slate-500",
+      compactText: "text-slate-700"
+    }
   }
 };
 var StatusBadge = function StatusBadge(_ref) {
@@ -9651,7 +9801,8 @@ var StatusBadge = function StatusBadge(_ref) {
     children = _ref$children === void 0 ? null : _ref$children,
     props = _objectWithoutProperties$2(_ref, _excluded$2);
   var _useContext = useContext(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    currentTheme = _useContext.currentTheme,
+    themeVariant = _useContext.themeVariant;
   // Pull spacing + border-radius defaults from the theme so the
   // badge respects the same shape language as siblings (Tag,
   // EmptyState). Color is overridden by STATE_STYLES below — see
@@ -9660,7 +9811,8 @@ var StatusBadge = function StatusBadge(_ref) {
     scrollable: false,
     grow: false
   }));
-  var stateStyle = STATE_STYLES[state] || STATE_STYLES.neutral;
+  var palette = themeVariant === "light" ? STATE_STYLES.light : STATE_STYLES.dark;
+  var stateStyle = palette[state] || palette.neutral;
   var borderRadius = styles.borderRadius || "rounded-full";
   if (compact) {
     return /*#__PURE__*/jsxs("span", {
@@ -9671,7 +9823,7 @@ var StatusBadge = function StatusBadge(_ref) {
         className: "inline-block w-2 h-2 rounded-full ".concat(stateStyle.dot, " ").concat(stateStyle.dotAnimation || ""),
         "aria-hidden": "true"
       }), (label || children) && /*#__PURE__*/jsx("span", {
-        className: "text-xs ".concat(stateStyle.text),
+        className: "text-xs ".concat(stateStyle.compactText),
         children: children !== null ? children : label
       })]
     });
@@ -11402,6 +11554,22 @@ function useLazyEnrichment(_ref) {
   };
 }
 
+/**
+ * useStatusTokens — status colors for the active light/dark variant.
+ *
+ *   const status = useStatusTokens();
+ *   <span className={status.error.icon}>Failed</span>
+ *   <span className={`w-2 h-2 rounded-full ${status.success.solidBg}`} />
+ *
+ * Returns { error, success, warning, info }; see statusColors.js for
+ * the per-status keys.
+ */
+var useStatusTokens = function useStatusTokens() {
+  var _useContext = useContext(ThemeContext),
+    themeVariant = _useContext.themeVariant;
+  return getStatusColors(themeVariant);
+};
+
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -11590,5 +11758,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FilterMenu, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, SearchInput, SectionLabel, SegmentedControl, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, adjustHsl, analogousHexes, capitalizeFirstLetter, colorNames, colorTypes, complementHex, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, monochromaticHexes, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, splitComplementaryHexes, styleClassNames, tailwindHeightFractions, tetradicHexes, themeObjects, themeVariants, triadicHexes, useLazyEnrichment, useSidebar, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FilterMenu, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, RichText, SLACK_QUICK_REACTION_SHORTCODES, STATUS_VARIANTS, SearchInput, SectionLabel, SegmentedControl, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, adjustHsl, analogousHexes, capitalizeFirstLetter, colorNames, colorTypes, complementHex, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStatusColors, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, monochromaticHexes, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, splitComplementaryHexes, styleClassNames, tailwindHeightFractions, tetradicHexes, themeObjects, themeVariants, triadicHexes, useLazyEnrichment, useSidebar, useStatusTokens, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
