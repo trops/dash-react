@@ -3,7 +3,7 @@ import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 export * from '@fortawesome/free-solid-svg-icons';
 import * as BrandIcons from '@fortawesome/free-brands-svg-icons';
-import React, { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect, createElement, forwardRef, Fragment, Children } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect, createElement, forwardRef, useLayoutEffect, Fragment, Children } from 'react';
 import { jsx, jsxs, Fragment as Fragment$1 } from 'react/jsx-runtime';
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -5203,7 +5203,7 @@ var InputText = function InputText(_ref) {
 };
 
 function _typeof$u(o) { "@babel/helpers - typeof"; return _typeof$u = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$u(o); }
-var _excluded$n = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor", "padding"];
+var _excluded$n = ["label", "value", "onChange", "placeholder", "rows", "id", "className", "inputClassName", "disabled", "backgroundColor", "textColor", "borderColor", "placeholderTextColor", "focusRingColor", "focusBorderColor", "padding", "autoGrow"];
 function ownKeys$p(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$p(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$p(Object(t), !0).forEach(function (r) { _defineProperty$q(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$p(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$q(e, r, t) { return (r = _toPropertyKey$u(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -5244,9 +5244,35 @@ var TextArea = function TextArea(_ref) {
     focusBorderColor = _ref$focusBorderColor === void 0 ? null : _ref$focusBorderColor,
     _ref$padding = _ref.padding,
     padding = _ref$padding === void 0 ? "px-3 py-2" : _ref$padding,
+    _ref$autoGrow = _ref.autoGrow,
+    autoGrow = _ref$autoGrow === void 0 ? false : _ref$autoGrow,
     htmlProps = _objectWithoutProperties$n(_ref, _excluded$n);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
+  var textareaRef = useRef(null);
+
+  // Size the box to its content: reset to the rows-based height, then
+  // take the content height plus the borders (box-sizing: border-box).
+  var fitToContent = useCallback(function () {
+    var el = textareaRef.current;
+    if (!autoGrow || !el) return;
+    el.style.height = "auto";
+    var borders = el.offsetHeight - el.clientHeight;
+    el.style.height = "".concat(el.scrollHeight + Math.max(0, borders), "px");
+  }, [autoGrow]);
+
+  // Re-fit when the value changes (typing or set from outside) and when
+  // the width changes (lines re-wrap).
+  useLayoutEffect(function () {
+    fitToContent();
+  }, [fitToContent, value]);
+  useLayoutEffect(function () {
+    if (!autoGrow) return undefined;
+    window.addEventListener("resize", fitToContent);
+    return function () {
+      return window.removeEventListener("resize", fitToContent);
+    };
+  }, [autoGrow, fitToContent]);
   var styles = getStylesForItem(themeObjects.TEXTAREA, currentTheme, {
     backgroundColor: backgroundColor,
     textColor: textColor,
@@ -5270,6 +5296,11 @@ var TextArea = function TextArea(_ref) {
       className: "text-sm ".concat(labelStyles.textColor),
       children: label
     }), /*#__PURE__*/jsx("textarea", _objectSpread$p(_objectSpread$p({}, htmlProps), {}, {
+      ref: textareaRef,
+      style: autoGrow ? _objectSpread$p(_objectSpread$p({}, htmlProps.style || {}), {}, {
+        overflowY: "hidden",
+        resize: "none"
+      }) : htmlProps.style,
       id: inputId,
       rows: rows,
       value: value,
