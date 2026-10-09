@@ -2028,7 +2028,7 @@ function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function"
 
 var STATUS_REASONS = {
   400: "the request wasn't accepted",
-  401: "not signed in, or the key is invalid",
+  401: "check the key and its permissions",
   403: "this key doesn't have permission",
   404: "not found",
   408: "the request timed out",
