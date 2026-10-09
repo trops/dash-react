@@ -8,6 +8,7 @@ export * from "./FilterMenu";
 export * from "./Code";
 export * from "./RichText";
 export * from "./Divider";
+export * from "./ResizeHandle";
 export * from "./MenuItem";
 export * from "./Text/Heading";
 export * from "./Button";
