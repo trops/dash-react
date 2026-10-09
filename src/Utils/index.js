@@ -10,6 +10,7 @@ export * from "./objects";
 export * from "./strings";
 export * from "./css";
 export * from "./statusColors";
+export * from "./readableError";
 
 // Dash-specific utilities
 // Note: DynamicWidgetLoader and WidgetRegistry are Electron-only

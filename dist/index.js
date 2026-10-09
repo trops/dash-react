@@ -31,12 +31,12 @@ var ThemeContext = /*#__PURE__*/createContext({
 });
 
 function _createForOfIteratorHelper$3(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$n(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
-function _typeof$M(o) { "@babel/helpers - typeof"; return _typeof$M = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$M(o); }
+function _typeof$N(o) { "@babel/helpers - typeof"; return _typeof$N = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$N(o); }
 function ownKeys$G(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$G(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$G(Object(t), !0).forEach(function (r) { _defineProperty$H(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$G(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$H(e, r, t) { return (r = _toPropertyKey$L(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$L(t) { var i = _toPrimitive$L(t, "string"); return "symbol" == _typeof$M(i) ? i : i + ""; }
-function _toPrimitive$L(t, r) { if ("object" != _typeof$M(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$M(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPropertyKey$L(t) { var i = _toPrimitive$L(t, "string"); return "symbol" == _typeof$N(i) ? i : i + ""; }
+function _toPrimitive$L(t, r) { if ("object" != _typeof$N(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$N(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray$j(r, e) { return _arrayWithHoles$j(r) || _iterableToArrayLimit$j(r, e) || _unsupportedIterableToArray$n(r, e) || _nonIterableRest$j(); }
 function _nonIterableRest$j() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$n(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$n(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$n(r, a) : void 0; } }
@@ -91,7 +91,7 @@ var ThemePreviewProvider = function ThemePreviewProvider(_ref) {
     var root = typeof document !== "undefined" ? document.documentElement : null;
     if (!root) return undefined;
     var newSet = new Set();
-    if (cssVars && _typeof$M(cssVars) === "object") {
+    if (cssVars && _typeof$N(cssVars) === "object") {
       for (var _i = 0, _Object$entries = Object.entries(cssVars); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _slicedToArray$j(_Object$entries[_i], 2),
           varName = _Object$entries$_i[0],
@@ -572,7 +572,7 @@ var styleClassNames = {
 };
 
 var _themeObjects$BUTTON, _themeObjects$BUTTON_, _themeObjects$BUTTON_2, _themeObjects$BUTTON_3, _themeObjects$BUTTON_4, _themeObjects$BUTTON_5, _themeObjects$MENU_IT, _themeObjects$TABS_TR, _colorMap;
-function _typeof$L(o) { "@babel/helpers - typeof"; return _typeof$L = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$L(o); }
+function _typeof$M(o) { "@babel/helpers - typeof"; return _typeof$M = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$M(o); }
 function _toConsumableArray$6(r) { return _arrayWithoutHoles$6(r) || _iterableToArray$6(r) || _unsupportedIterableToArray$m(r) || _nonIterableSpread$6(); }
 function _nonIterableSpread$6() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray$m(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$m(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$m(r, a) : void 0; } }
@@ -582,8 +582,8 @@ function _arrayLikeToArray$m(r, a) { (null == a || a > r.length) && (a = r.lengt
 function ownKeys$F(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$F(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$F(Object(t), !0).forEach(function (r) { _defineProperty$G(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$F(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$G(e, r, t) { return (r = _toPropertyKey$K(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey$K(t) { var i = _toPrimitive$K(t, "string"); return "symbol" == _typeof$L(i) ? i : i + ""; }
-function _toPrimitive$K(t, r) { if ("object" != _typeof$L(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$L(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toPropertyKey$K(t) { var i = _toPrimitive$K(t, "string"); return "symbol" == _typeof$M(i) ? i : i + ""; }
+function _toPrimitive$K(t, r) { if ("object" != _typeof$M(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$M(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var objectTypes = ["bg", "text", "hover-bg", "hover-text", "border", "hover-border", "placeholder-text"
 // "p",
 // "m",
@@ -1812,7 +1812,7 @@ function hexForTailwindClass(className) {
   return TAILWIND_PALETTE[name] && TAILWIND_PALETTE[name][shade] || null;
 }
 
-function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
+function _typeof$L(o) { "@babel/helpers - typeof"; return _typeof$L = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$L(o); }
 /**
  * deepCopy
  * @param {object} obj the object to deep copy
@@ -1826,7 +1826,7 @@ var deepCopy = function deepCopy(obj) {
   }
 };
 var isObject = function isObject(objValue) {
-  return objValue && _typeof$K(objValue) === "object" && objValue.constructor === Object;
+  return objValue && _typeof$L(objValue) === "object" && objValue.constructor === Object;
 };
 
 /**
@@ -2010,6 +2010,128 @@ var STATUS_COLORS = {
 var getStatusColors = function getStatusColors(themeVariant) {
   return themeVariant === "light" ? STATUS_COLORS.light : STATUS_COLORS.dark;
 };
+
+function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
+/**
+ * readableError — turn whatever a failed call produced into one plain
+ * sentence for the user.
+ *
+ *   setError(readableError(err, "Search failed"));
+ *
+ * Accepts an Error, a string (a raw JSON response body is parsed), an
+ * `{ error: true, status, message }` result, an MCP tool error
+ * (`{ isError, content: [{ text }] }`), or a nested API error object
+ * (`message`, `error`, `error_description`, `detail`, `errors[0]`). Common
+ * HTTP statuses get a short reason: "… — this key doesn't have permission
+ * (403)".
+ */
+
+var STATUS_REASONS = {
+  400: "the request wasn't accepted",
+  401: "not signed in, or the key is invalid",
+  403: "this key doesn't have permission",
+  404: "not found",
+  408: "the request timed out",
+  409: "it conflicts with the current state",
+  413: "the request is too large",
+  422: "the request wasn't accepted",
+  429: "too many requests, try again shortly"
+};
+var MAX_LENGTH = 300;
+function parseJson(text) {
+  var t = text.trim();
+  if (!(t.startsWith("{") || t.startsWith("["))) return undefined;
+  try {
+    return JSON.parse(t);
+  } catch (_unused) {
+    return undefined;
+  }
+}
+function statusOf(value) {
+  var _ref, _value$status;
+  if (!value || _typeof$K(value) !== "object") return null;
+  var s = (_ref = (_value$status = value.status) !== null && _value$status !== void 0 ? _value$status : value.statusCode) !== null && _ref !== void 0 ? _ref : value.code;
+  var n = Number(s);
+  return Number.isInteger(n) && n >= 100 && n < 600 ? n : null;
+}
+
+// Find the most specific message and status in a value (depth-limited).
+function extract(value) {
+  var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  if (value == null || depth > 4) return {
+    message: null,
+    status: null
+  };
+  if (typeof value === "string") {
+    var parsed = parseJson(value);
+    if (parsed !== undefined) return extract(parsed, depth + 1);
+    return {
+      message: value.trim() || null,
+      status: null
+    };
+  }
+  if (value instanceof Error) {
+    var _inner$status;
+    var inner = extract(value.message, depth + 1);
+    return {
+      message: inner.message,
+      status: (_inner$status = inner.status) !== null && _inner$status !== void 0 ? _inner$status : statusOf(value)
+    };
+  }
+  if (Array.isArray(value)) {
+    return value.length ? extract(value[0], depth + 1) : {
+      message: null,
+      status: null
+    };
+  }
+  if (_typeof$K(value) !== "object") return {
+    message: String(value),
+    status: null
+  };
+  var status = statusOf(value);
+  // MCP tool error: { isError, content: [{ type: "text", text }] }
+  if (Array.isArray(value.content)) {
+    var text = value.content.filter(function (c) {
+      return c && typeof c.text === "string";
+    }).map(function (c) {
+      return c.text;
+    }).join(" ");
+    if (text) {
+      var _inner$status2;
+      var _inner = extract(text, depth + 1);
+      return {
+        message: _inner.message,
+        status: (_inner$status2 = _inner.status) !== null && _inner$status2 !== void 0 ? _inner$status2 : status
+      };
+    }
+  }
+  var candidates = [value.error_description, _typeof$K(value.error) === "object" ? value.error : null, value.message, value.detail, value.errors, typeof value.error === "string" ? value.error : null];
+  for (var _i = 0, _candidates = candidates; _i < _candidates.length; _i++) {
+    var _inner2$status;
+    var c = _candidates[_i];
+    if (c == null || c === "") continue;
+    var _inner2 = extract(c, depth + 1);
+    if (_inner2.message) return {
+      message: _inner2.message,
+      status: (_inner2$status = _inner2.status) !== null && _inner2$status !== void 0 ? _inner2$status : status
+    };
+  }
+  return {
+    message: null,
+    status: status
+  };
+}
+function readableError(error) {
+  var fallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Something went wrong";
+  var _extract = extract(error),
+    message = _extract.message,
+    status = _extract.status;
+  var reason = status == null ? null : STATUS_REASONS[status] || (status >= 500 ? "the service had an error — try again later" : null);
+  var text;
+  if (message && reason) text = "".concat(message, " \u2014 ").concat(reason);else if (message) text = message;else if (reason) text = reason.charAt(0).toUpperCase() + reason.slice(1);else return fallback;
+  if (status != null && reason) text = "".concat(text, " (").concat(status, ")");
+  return text.length > MAX_LENGTH ? "".concat(text.slice(0, MAX_LENGTH), "\u2026") : text;
+}
 
 var _excluded$D = ["id", "children", "direction", "className", "scrollable", "width", "height", "space", "grow", "debug", "onClick", "padding", "prefix", "style"];
 function _objectWithoutProperties$D(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$D(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
@@ -12059,5 +12181,5 @@ if (process.env.NODE_ENV !== "development") {
   console.log = function () {};
 }
 
-export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FilterMenu, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, ResizeHandle, RichText, SLACK_QUICK_REACTION_SHORTCODES, STATUS_VARIANTS, SearchInput, SectionLabel, SegmentedControl, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, adjustHsl, analogousHexes, capitalizeFirstLetter, colorNames, colorTypes, complementHex, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStatusColors, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, monochromaticHexes, normalizeHex, objectTypes, rgbToHex, rgbToHsl, shades, slackEmojiForName, splitComplementaryHexes, styleClassNames, tailwindHeightFractions, tetradicHexes, themeObjects, themeVariants, triadicHexes, useLazyEnrichment, useResizableWidth, useSidebar, useStatusTokens, useThemePreview, withRouter };
+export { Accordion, Accordion2, Accordion3, Alert, Alert2, Alert3, AlertBanner, AlgoliaRefinementList, AlgoliaSearchBox, Breadcrumbs, Breadcrumbs2, Breadcrumbs3, Button, Button2, Button3, ButtonIcon, ButtonIcon2, ButtonIcon3, Caption, Caption2, Caption3, Card, Card2, Card3, Checkbox, Code, Code2, Code3, CodeEditorInline, CodeEditorVS, CodeRenderer, CommandPalette, ConfirmationModal, Container, DashPanel, DashPanel2, DashPanel3, DataList, Divider, Divider2, Divider3, DragComponent, Drawer, DropComponent, DropdownPanel, DropdownPanel2, DropdownPanel3, EmptyState, ErrorMessage, FilterMenu, FormField, FormLabel, Heading, Heading2, Heading3, Icon, Icon2, Icon3, InputText, LayoutContainer, MainSection, Menu, Menu2, Menu3, MenuItem, MenuItem2, MenuItem3, MockAlgolia, MockLayout, MockWrapper, Modal, Navbar, PalettePreviewPane, Panel, Panel2, Panel3, Paragraph, Paragraph2, Paragraph3, ProgressBar, ProgressBar2, ProgressBar3, RadioGroup, ResizeHandle, RichText, SLACK_QUICK_REACTION_SHORTCODES, STATUS_VARIANTS, SearchInput, SectionLabel, SegmentedControl, SelectInput, SelectMenu, SelectableCard, SettingsModal, Sidebar, Skeleton, Slider, StatCard, StatusBadge, Stepper, SubHeading, SubHeading2, SubHeading3, Switch, TAILWIND_PALETTE, TabbedNavbar, Table, Table2, Table3, Tabs, Tabs2, Tabs3, Tag, Tag2, Tag3, TextArea, ThemeContext, ThemeFromUrlPane, ThemePreviewBanner, ThemePreviewContext, ThemePreviewProvider, Toast, Toast2, Toast3, Toggle, Toggle2, Toggle3, Tooltip, WS_STATES, WebSocketStatus, WidgetChrome, WidgetContext, adjustHsl, analogousHexes, capitalizeFirstLetter, colorNames, colorTypes, complementHex, contrastRatio, deepCopy, deriveShades, getCSSStyleForClassname, getClassForObjectType, getColorFamilies, getCuratedColorGrid, getDefaultStylesForItem, getRandomInt, getStatusColors, getStyleName, getStylesForItem, getUUID$1 as getUUID, hexForTailwindClass, hexToRgb, hslToRgb, isHexColor, isObject, mock, mockText, monochromaticHexes, normalizeHex, objectTypes, readableError, rgbToHex, rgbToHsl, shades, slackEmojiForName, splitComplementaryHexes, styleClassNames, tailwindHeightFractions, tetradicHexes, themeObjects, themeVariants, triadicHexes, useLazyEnrichment, useResizableWidth, useSidebar, useStatusTokens, useThemePreview, withRouter };
 //# sourceMappingURL=index.js.map
