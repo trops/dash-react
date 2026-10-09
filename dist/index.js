@@ -3923,9 +3923,9 @@ function SubHeading3(_ref6) {
 }
 
 function _typeof$E(o) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$E(o); }
-var _excluded$x = ["title", "onClick", "disabled", "padding", "textSize", "block", "size", "className", "type", "tooltip", "ariaLabel", "danger", "children"],
-  _excluded2$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className", "type", "tooltip", "ariaLabel", "danger", "children"],
-  _excluded3$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className", "type", "tooltip", "ariaLabel", "danger", "children"];
+var _excluded$x = ["title", "onClick", "disabled", "padding", "textSize", "block", "size", "className", "type", "tooltip", "ariaLabel", "aria-label", "danger", "children"],
+  _excluded2$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className", "type", "tooltip", "ariaLabel", "aria-label", "danger", "children"],
+  _excluded3$a = ["title", "onClick", "disabled", "textSize", "padding", "block", "size", "className", "type", "tooltip", "ariaLabel", "aria-label", "danger", "children"];
 function ownKeys$z(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$z(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$z(Object(t), !0).forEach(function (r) { _defineProperty$A(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$z(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$A(e, r, t) { return (r = _toPropertyKey$E(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -3954,6 +3954,8 @@ var Button = function Button(_ref) {
     tooltip = _ref$tooltip === void 0 ? undefined : _ref$tooltip,
     _ref$ariaLabel = _ref.ariaLabel,
     ariaLabel = _ref$ariaLabel === void 0 ? undefined : _ref$ariaLabel,
+    _ref$ariaLabel2 = _ref["aria-label"],
+    ariaLabelAttr = _ref$ariaLabel2 === void 0 ? undefined : _ref$ariaLabel2,
     _ref$danger = _ref.danger,
     danger = _ref$danger === void 0 ? false : _ref$danger,
     children = _ref.children,
@@ -3973,7 +3975,7 @@ var Button = function Button(_ref) {
     onClick: onClick,
     disabled: disabled,
     title: tooltip,
-    "aria-label": ariaLabel,
+    "aria-label": ariaLabel !== null && ariaLabel !== void 0 ? ariaLabel : ariaLabelAttr,
     className: "dr-btn dr-btn-primary ".concat(danger ? "dr-btn-danger" : "", " flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ").concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " ").concat(className),
     children: children !== undefined ? children : title
   });
@@ -3999,6 +4001,8 @@ var Button2 = function Button2(_ref2) {
     tooltip = _ref2$tooltip === void 0 ? undefined : _ref2$tooltip,
     _ref2$ariaLabel = _ref2.ariaLabel,
     ariaLabel = _ref2$ariaLabel === void 0 ? undefined : _ref2$ariaLabel,
+    _ref2$ariaLabel2 = _ref2["aria-label"],
+    ariaLabelAttr = _ref2$ariaLabel2 === void 0 ? undefined : _ref2$ariaLabel2,
     _ref2$danger = _ref2.danger,
     danger = _ref2$danger === void 0 ? false : _ref2$danger,
     children = _ref2.children,
@@ -4017,7 +4021,7 @@ var Button2 = function Button2(_ref2) {
     onClick: onClick,
     disabled: disabled,
     title: tooltip,
-    "aria-label": ariaLabel,
+    "aria-label": ariaLabel !== null && ariaLabel !== void 0 ? ariaLabel : ariaLabelAttr,
     className: "dr-btn dr-btn-secondary ".concat(danger ? "dr-btn-danger" : "", " flex flex-row flex-shrink whitespace-nowrap justify-center items-center ").concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
     children: children !== undefined ? children : title
   });
@@ -4043,6 +4047,8 @@ var Button3 = function Button3(_ref3) {
     tooltip = _ref3$tooltip === void 0 ? undefined : _ref3$tooltip,
     _ref3$ariaLabel = _ref3.ariaLabel,
     ariaLabel = _ref3$ariaLabel === void 0 ? undefined : _ref3$ariaLabel,
+    _ref3$ariaLabel2 = _ref3["aria-label"],
+    ariaLabelAttr = _ref3$ariaLabel2 === void 0 ? undefined : _ref3$ariaLabel2,
     _ref3$danger = _ref3.danger,
     danger = _ref3$danger === void 0 ? false : _ref3$danger,
     children = _ref3.children,
@@ -4060,7 +4066,7 @@ var Button3 = function Button3(_ref3) {
     onClick: onClick,
     disabled: disabled,
     title: tooltip,
-    "aria-label": ariaLabel,
+    "aria-label": ariaLabel !== null && ariaLabel !== void 0 ? ariaLabel : ariaLabelAttr,
     className: "dr-btn dr-btn-ghost ".concat(danger ? "dr-btn-danger" : "", " flex flex-row whitespace-nowrap justify-center items-center ").concat(styles.string, " ").concat(width, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(className),
     children: children !== undefined ? children : title
   });
