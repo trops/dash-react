@@ -52,7 +52,15 @@ describe("readableError", () => {
             "Field missing"
         );
         expect(readableError({ error: { message: "Nope", code: 401 } })).toBe(
-            "Nope — not signed in, or the key is invalid (401)"
+            "Nope — check the key and its permissions (401)"
+        );
+        // Algolia sends 401 for a key missing an ACL, not just a bad key.
+        expect(
+            readableError(
+                '{"message":"The provided API key is missing the \\"analytics\\" ACL","status":401}'
+            )
+        ).toBe(
+            'The provided API key is missing the "analytics" ACL — check the key and its permissions (401)'
         );
     });
 
