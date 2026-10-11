@@ -5,6 +5,7 @@ export * from "./Text/Caption";
 export * from "./Text/SectionLabel";
 export * from "./SegmentedControl";
 export * from "./FilterMenu";
+export * from "./ChoiceMenu";
 export * from "./Code";
 export * from "./RichText";
 export * from "./Divider";
