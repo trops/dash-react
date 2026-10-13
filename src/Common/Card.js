@@ -3,6 +3,32 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
+/**
+ * A card with `onClick` is a button (WCAG 2.1.1 / 4.1.2): it takes focus,
+ * Enter and Space activate it, `ariaLabel` names it, and `disabled` makes it
+ * inert and says so. Without `onClick` a card is plain content.
+ */
+function clickableProps(onClick, { disabled = false, ariaLabel } = {}) {
+    if (!onClick) return {};
+    return {
+        role: "button",
+        tabIndex: disabled ? -1 : 0,
+        "aria-disabled": disabled || undefined,
+        "aria-label": ariaLabel || undefined,
+        "data-clickable": "true",
+        onClick: disabled ? undefined : onClick,
+        onKeyDown: disabled
+            ? undefined
+            : (e) => {
+                  if (e.target !== e.currentTarget) return;
+                  if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onClick(e);
+                  }
+              },
+    };
+}
+
 const Card = forwardRef(
     (
         {
@@ -14,6 +40,9 @@ const Card = forwardRef(
             className = "",
             hover = false,
             selected = false,
+            disabled = false,
+            ariaLabel = null,
+            testId,
             ...props
         },
         ref
@@ -39,13 +68,18 @@ const Card = forwardRef(
                 : hover
                   ? "hover:shadow-md"
                   : "";
-        const clickableStyles = onClick ? "cursor-pointer" : "";
+        const clickableStyles = onClick
+            ? disabled
+                ? "cursor-not-allowed"
+                : "cursor-pointer"
+            : "";
 
         return (
             <div
                 ref={ref}
                 id={uuid}
-                onClick={onClick}
+                data-testid={testId}
+                {...clickableProps(onClick, { disabled, ariaLabel })}
                 className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
             >
                 {children}
@@ -65,6 +99,9 @@ const Card2 = forwardRef(
             className = "",
             hover = false,
             selected = false,
+            disabled = false,
+            ariaLabel = null,
+            testId,
             ...props
         },
         ref
@@ -90,13 +127,18 @@ const Card2 = forwardRef(
                 : hover
                   ? "hover:shadow-md"
                   : "";
-        const clickableStyles = onClick ? "cursor-pointer" : "";
+        const clickableStyles = onClick
+            ? disabled
+                ? "cursor-not-allowed"
+                : "cursor-pointer"
+            : "";
 
         return (
             <div
                 ref={ref}
                 id={uuid}
-                onClick={onClick}
+                data-testid={testId}
+                {...clickableProps(onClick, { disabled, ariaLabel })}
                 className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
             >
                 {children}
@@ -116,6 +158,9 @@ const Card3 = forwardRef(
             className = "",
             hover = false,
             selected = false,
+            disabled = false,
+            ariaLabel = null,
+            testId,
             ...props
         },
         ref
@@ -141,13 +186,18 @@ const Card3 = forwardRef(
                 : hover
                   ? "hover:shadow-sm"
                   : "";
-        const clickableStyles = onClick ? "cursor-pointer" : "";
+        const clickableStyles = onClick
+            ? disabled
+                ? "cursor-not-allowed"
+                : "cursor-pointer"
+            : "";
 
         return (
             <div
                 ref={ref}
                 id={uuid}
-                onClick={onClick}
+                data-testid={testId}
+                {...clickableProps(onClick, { disabled, ariaLabel })}
                 className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} ${padding} ${rounded} ${shadow} transition-all duration-200 ${hoverStyles} ${clickableStyles} border ${className}`}
             >
                 {children}

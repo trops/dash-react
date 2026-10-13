@@ -3295,8 +3295,11 @@ var ChoiceMenu = function ChoiceMenu(_ref) {
           e.preventDefault();
           setOpen(true);
         }
-      },
-      className: "dr-choice-menu inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 ".concat(border, " ").concat(strongText),
+      }
+      // 32px tall, 14px label: a real control, not a tag (design
+      // guide rules 10–11: hit areas ≥28px, labels 13–14px).
+      ,
+      className: "dr-choice-menu inline-flex items-center gap-1.5 h-8 px-3 rounded-full border text-sm font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 ".concat(border, " ").concat(strongText),
       children: [/*#__PURE__*/jsx("span", {
         children: text
       }), /*#__PURE__*/jsx("span", {
@@ -4631,9 +4634,9 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
 };
 
 function _typeof$E(o) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$E(o); }
-var _excluded$v = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected"],
-  _excluded2$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected"],
-  _excluded3$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected"];
+var _excluded$v = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected", "disabled", "ariaLabel", "testId"],
+  _excluded2$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected", "disabled", "ariaLabel", "testId"],
+  _excluded3$8 = ["children", "onClick", "padding", "rounded", "shadow", "className", "hover", "selected", "disabled", "ariaLabel", "testId"];
 function ownKeys$z(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$z(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$z(Object(t), !0).forEach(function (r) { _defineProperty$A(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$z(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$A(e, r, t) { return (r = _toPropertyKey$E(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -4641,23 +4644,50 @@ function _toPropertyKey$E(t) { var i = _toPrimitive$E(t, "string"); return "symb
 function _toPrimitive$E(t, r) { if ("object" != _typeof$E(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof$E(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _objectWithoutProperties$v(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose$v(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose$v(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var Card = /*#__PURE__*/forwardRef(function (_ref, ref) {
-  var children = _ref.children,
-    _ref$onClick = _ref.onClick,
-    onClick = _ref$onClick === void 0 ? null : _ref$onClick,
-    _ref$padding = _ref.padding,
-    padding = _ref$padding === void 0 ? "p-6" : _ref$padding,
-    _ref$rounded = _ref.rounded,
-    rounded = _ref$rounded === void 0 ? "rounded-lg" : _ref$rounded,
-    _ref$shadow = _ref.shadow,
-    shadow = _ref$shadow === void 0 ? "shadow-sm" : _ref$shadow,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
-    _ref$hover = _ref.hover,
-    hover = _ref$hover === void 0 ? false : _ref$hover,
-    _ref$selected = _ref.selected,
-    selected = _ref$selected === void 0 ? false : _ref$selected,
-    props = _objectWithoutProperties$v(_ref, _excluded$v);
+function clickableProps(onClick) {
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+    ariaLabel = _ref.ariaLabel;
+  if (!onClick) return {};
+  return {
+    role: "button",
+    tabIndex: disabled ? -1 : 0,
+    "aria-disabled": disabled || undefined,
+    "aria-label": ariaLabel || undefined,
+    "data-clickable": "true",
+    onClick: disabled ? undefined : onClick,
+    onKeyDown: disabled ? undefined : function (e) {
+      if (e.target !== e.currentTarget) return;
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClick(e);
+      }
+    }
+  };
+}
+var Card = /*#__PURE__*/forwardRef(function (_ref2, ref) {
+  var children = _ref2.children,
+    _ref2$onClick = _ref2.onClick,
+    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
+    _ref2$padding = _ref2.padding,
+    padding = _ref2$padding === void 0 ? "p-6" : _ref2$padding,
+    _ref2$rounded = _ref2.rounded,
+    rounded = _ref2$rounded === void 0 ? "rounded-lg" : _ref2$rounded,
+    _ref2$shadow = _ref2.shadow,
+    shadow = _ref2$shadow === void 0 ? "shadow-sm" : _ref2$shadow,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$hover = _ref2.hover,
+    hover = _ref2$hover === void 0 ? false : _ref2$hover,
+    _ref2$selected = _ref2.selected,
+    selected = _ref2$selected === void 0 ? false : _ref2$selected,
+    _ref2$disabled = _ref2.disabled,
+    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
+    _ref2$ariaLabel = _ref2.ariaLabel,
+    ariaLabel = _ref2$ariaLabel === void 0 ? null : _ref2$ariaLabel,
+    testId = _ref2.testId,
+    props = _objectWithoutProperties$v(_ref2, _excluded$v);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.CARD, currentTheme, _objectSpread$z(_objectSpread$z({}, props), {}, {
@@ -4670,32 +4700,41 @@ var Card = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
   var selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
   var hoverStyles = hover && !selected ? "hover:shadow-md ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-md" : "";
-  var clickableStyles = onClick ? "cursor-pointer" : "";
-  return /*#__PURE__*/jsx("div", {
+  var clickableStyles = onClick ? disabled ? "cursor-not-allowed" : "cursor-pointer" : "";
+  return /*#__PURE__*/jsx("div", _objectSpread$z(_objectSpread$z({
     ref: ref,
     id: uuid,
-    onClick: onClick,
+    "data-testid": testId
+  }, clickableProps(onClick, {
+    disabled: disabled,
+    ariaLabel: ariaLabel
+  })), {}, {
     className: "dr-card ".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
-  });
+  }));
 });
-var Card2 = /*#__PURE__*/forwardRef(function (_ref2, ref) {
-  var children = _ref2.children,
-    _ref2$onClick = _ref2.onClick,
-    onClick = _ref2$onClick === void 0 ? null : _ref2$onClick,
-    _ref2$padding = _ref2.padding,
-    padding = _ref2$padding === void 0 ? "p-4" : _ref2$padding,
-    _ref2$rounded = _ref2.rounded,
-    rounded = _ref2$rounded === void 0 ? "rounded-md" : _ref2$rounded,
-    _ref2$shadow = _ref2.shadow,
-    shadow = _ref2$shadow === void 0 ? "shadow-sm" : _ref2$shadow,
-    _ref2$className = _ref2.className,
-    className = _ref2$className === void 0 ? "" : _ref2$className,
-    _ref2$hover = _ref2.hover,
-    hover = _ref2$hover === void 0 ? false : _ref2$hover,
-    _ref2$selected = _ref2.selected,
-    selected = _ref2$selected === void 0 ? false : _ref2$selected,
-    props = _objectWithoutProperties$v(_ref2, _excluded2$8);
+var Card2 = /*#__PURE__*/forwardRef(function (_ref3, ref) {
+  var children = _ref3.children,
+    _ref3$onClick = _ref3.onClick,
+    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
+    _ref3$padding = _ref3.padding,
+    padding = _ref3$padding === void 0 ? "p-4" : _ref3$padding,
+    _ref3$rounded = _ref3.rounded,
+    rounded = _ref3$rounded === void 0 ? "rounded-md" : _ref3$rounded,
+    _ref3$shadow = _ref3.shadow,
+    shadow = _ref3$shadow === void 0 ? "shadow-sm" : _ref3$shadow,
+    _ref3$className = _ref3.className,
+    className = _ref3$className === void 0 ? "" : _ref3$className,
+    _ref3$hover = _ref3.hover,
+    hover = _ref3$hover === void 0 ? false : _ref3$hover,
+    _ref3$selected = _ref3.selected,
+    selected = _ref3$selected === void 0 ? false : _ref3$selected,
+    _ref3$disabled = _ref3.disabled,
+    disabled = _ref3$disabled === void 0 ? false : _ref3$disabled,
+    _ref3$ariaLabel = _ref3.ariaLabel,
+    ariaLabel = _ref3$ariaLabel === void 0 ? null : _ref3$ariaLabel,
+    testId = _ref3.testId,
+    props = _objectWithoutProperties$v(_ref3, _excluded2$8);
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.CARD_2, currentTheme, _objectSpread$z(_objectSpread$z({}, props), {}, {
@@ -4708,32 +4747,41 @@ var Card2 = /*#__PURE__*/forwardRef(function (_ref2, ref) {
   var selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
   var selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
   var hoverStyles = hover && !selected ? "hover:shadow-md ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-md" : "";
-  var clickableStyles = onClick ? "cursor-pointer" : "";
-  return /*#__PURE__*/jsx("div", {
+  var clickableStyles = onClick ? disabled ? "cursor-not-allowed" : "cursor-pointer" : "";
+  return /*#__PURE__*/jsx("div", _objectSpread$z(_objectSpread$z({
     ref: ref,
     id: uuid,
-    onClick: onClick,
+    "data-testid": testId
+  }, clickableProps(onClick, {
+    disabled: disabled,
+    ariaLabel: ariaLabel
+  })), {}, {
     className: "dr-card ".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
-  });
+  }));
 });
-var Card3 = /*#__PURE__*/forwardRef(function (_ref3, ref) {
-  var children = _ref3.children,
-    _ref3$onClick = _ref3.onClick,
-    onClick = _ref3$onClick === void 0 ? null : _ref3$onClick,
-    _ref3$padding = _ref3.padding,
-    padding = _ref3$padding === void 0 ? "p-2" : _ref3$padding,
-    _ref3$rounded = _ref3.rounded,
-    rounded = _ref3$rounded === void 0 ? "rounded" : _ref3$rounded,
-    _ref3$shadow = _ref3.shadow,
-    shadow = _ref3$shadow === void 0 ? "shadow-none" : _ref3$shadow,
-    _ref3$className = _ref3.className,
-    className = _ref3$className === void 0 ? "" : _ref3$className,
-    _ref3$hover = _ref3.hover,
-    hover = _ref3$hover === void 0 ? false : _ref3$hover,
-    _ref3$selected = _ref3.selected,
-    selected = _ref3$selected === void 0 ? false : _ref3$selected,
-    props = _objectWithoutProperties$v(_ref3, _excluded3$8);
+var Card3 = /*#__PURE__*/forwardRef(function (_ref4, ref) {
+  var children = _ref4.children,
+    _ref4$onClick = _ref4.onClick,
+    onClick = _ref4$onClick === void 0 ? null : _ref4$onClick,
+    _ref4$padding = _ref4.padding,
+    padding = _ref4$padding === void 0 ? "p-2" : _ref4$padding,
+    _ref4$rounded = _ref4.rounded,
+    rounded = _ref4$rounded === void 0 ? "rounded" : _ref4$rounded,
+    _ref4$shadow = _ref4.shadow,
+    shadow = _ref4$shadow === void 0 ? "shadow-none" : _ref4$shadow,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className,
+    _ref4$hover = _ref4.hover,
+    hover = _ref4$hover === void 0 ? false : _ref4$hover,
+    _ref4$selected = _ref4.selected,
+    selected = _ref4$selected === void 0 ? false : _ref4$selected,
+    _ref4$disabled = _ref4.disabled,
+    disabled = _ref4$disabled === void 0 ? false : _ref4$disabled,
+    _ref4$ariaLabel = _ref4.ariaLabel,
+    ariaLabel = _ref4$ariaLabel === void 0 ? null : _ref4$ariaLabel,
+    testId = _ref4.testId,
+    props = _objectWithoutProperties$v(_ref4, _excluded3$8);
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.CARD_3, currentTheme, _objectSpread$z(_objectSpread$z({}, props), {}, {
@@ -4746,39 +4794,43 @@ var Card3 = /*#__PURE__*/forwardRef(function (_ref3, ref) {
   var selectedBg = selected ? hoverBg.replace(/^hover:/, "") : "";
   var selectedBorder = selected ? hoverBorder.replace(/^hover:/, "") : "";
   var hoverStyles = hover && !selected ? "hover:shadow-sm ".concat(hoverBg, " ").concat(hoverBorder) : hover ? "hover:shadow-sm" : "";
-  var clickableStyles = onClick ? "cursor-pointer" : "";
-  return /*#__PURE__*/jsx("div", {
+  var clickableStyles = onClick ? disabled ? "cursor-not-allowed" : "cursor-pointer" : "";
+  return /*#__PURE__*/jsx("div", _objectSpread$z(_objectSpread$z({
     ref: ref,
     id: uuid,
-    onClick: onClick,
+    "data-testid": testId
+  }, clickableProps(onClick, {
+    disabled: disabled,
+    ariaLabel: ariaLabel
+  })), {}, {
     className: "dr-card ".concat(selected ? selectedBg : styles.backgroundColor, " ").concat(selected ? selectedBorder : styles.borderColor, " ").concat(styles.textColor, " ").concat(padding, " ").concat(rounded, " ").concat(shadow, " transition-all duration-200 ").concat(hoverStyles, " ").concat(clickableStyles, " border ").concat(className),
     children: children
-  });
+  }));
 });
 
 // Subcomponents for Card structure
-Card.Header = function (_ref4) {
-  var children = _ref4.children,
-    _ref4$className = _ref4.className,
-    className = _ref4$className === void 0 ? "" : _ref4$className;
+Card.Header = function (_ref5) {
+  var children = _ref5.children,
+    _ref5$className = _ref5.className,
+    className = _ref5$className === void 0 ? "" : _ref5$className;
   return /*#__PURE__*/jsx("div", {
     className: "border-b pb-2 mb-3 ".concat(className),
     children: children
   });
 };
-Card.Body = function (_ref5) {
-  var children = _ref5.children,
-    _ref5$className = _ref5.className,
-    className = _ref5$className === void 0 ? "" : _ref5$className;
+Card.Body = function (_ref6) {
+  var children = _ref6.children,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className;
   return /*#__PURE__*/jsx("div", {
     className: className,
     children: children
   });
 };
-Card.Footer = function (_ref6) {
-  var children = _ref6.children,
-    _ref6$className = _ref6.className,
-    className = _ref6$className === void 0 ? "" : _ref6$className;
+Card.Footer = function (_ref7) {
+  var children = _ref7.children,
+    _ref7$className = _ref7.className,
+    className = _ref7$className === void 0 ? "" : _ref7$className;
   return /*#__PURE__*/jsx("div", {
     className: "border-t pt-2 mt-3 ".concat(className),
     children: children
@@ -9622,14 +9674,6 @@ var ConfirmationModal = function ConfirmationModal(_ref) {
     scrollable: false,
     grow: false
   });
-  var buttonPrimaryStyles = getStylesForItem(themeObjects.BUTTON_2, currentTheme, {
-    scrollable: false,
-    grow: false
-  });
-  var buttonSecondaryStyles = getStylesForItem(themeObjects.BUTTON_3, currentTheme, {
-    scrollable: false,
-    grow: false
-  });
   var paragraphStyles = getStylesForItem(themeObjects.PARAGRAPH_2, currentTheme, {
     scrollable: false,
     grow: false
@@ -9646,14 +9690,14 @@ var ConfirmationModal = function ConfirmationModal(_ref) {
       onConfirm();
     }
   };
-  var confirmButtonClasses = variant === "danger" ? "bg-red-600 hover:bg-red-700 text-white border-red-700" : "".concat(buttonPrimaryStyles.backgroundColor || "", " ").concat(buttonPrimaryStyles.hoverBackgroundColor || "", " ").concat(buttonPrimaryStyles.textColor || "", " ").concat(buttonPrimaryStyles.borderColor || "");
   return /*#__PURE__*/jsx(Modal, {
     isOpen: isOpen,
     setIsOpen: setIsOpen,
     width: "w-full max-w-md",
     height: "h-auto",
     children: /*#__PURE__*/jsxs("div", {
-      className: "flex flex-col rounded-lg overflow-clip border ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " ").concat(className),
+      // Raised above the dimmed page (design guide rule 2).
+      className: "dr-modal-surface flex flex-col rounded-lg overflow-clip border ".concat(panelStyles.backgroundColor || "", " ").concat(panelStyles.borderColor || "", " ").concat(className),
       children: [/*#__PURE__*/jsx("div", {
         className: "flex flex-row items-center p-4 border-b ".concat(headerStyles.borderColor || "", " ").concat(headerStyles.textColor || ""),
         children: /*#__PURE__*/jsx("span", {
@@ -9663,21 +9707,19 @@ var ConfirmationModal = function ConfirmationModal(_ref) {
       }), /*#__PURE__*/jsx("div", {
         className: "p-4",
         children: children ? children : message ? /*#__PURE__*/jsx("p", {
-          className: "text-sm leading-relaxed ".concat(paragraphStyles.textColor || ""),
+          className: "dr-confirm-message text-sm leading-relaxed ".concat(paragraphStyles.textColor || ""),
           children: message
         }) : null
       }), /*#__PURE__*/jsxs("div", {
-        className: "flex flex-row justify-end items-center space-x-2 px-4 py-3 border-t rounded-b-lg ".concat(footerStyles.backgroundColor || "", " ").concat(footerStyles.borderColor || ""),
-        children: [/*#__PURE__*/jsx("button", {
-          type: "button",
-          onClick: handleCancel,
-          className: "flex flex-row justify-center items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150 ".concat(buttonSecondaryStyles.backgroundColor || "", " ").concat(buttonSecondaryStyles.hoverBackgroundColor || "", " ").concat(buttonSecondaryStyles.textColor || "", " ").concat(buttonSecondaryStyles.borderColor || ""),
-          children: cancelLabel
-        }), /*#__PURE__*/jsx("button", {
-          type: "button",
+        // The footer shares the dialog's surface (no separate fill).
+        className: "flex flex-row justify-end items-center gap-2 px-4 py-3 border-t ".concat(footerStyles.borderColor || ""),
+        children: [/*#__PURE__*/jsx(Button2, {
+          title: cancelLabel,
+          onClick: handleCancel
+        }), /*#__PURE__*/jsx(Button, {
+          title: confirmLabel,
           onClick: handleConfirm,
-          className: "flex flex-row justify-center items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150 ".concat(confirmButtonClasses),
-          children: confirmLabel
+          danger: variant === "danger"
         })]
       })]
     })

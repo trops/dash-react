@@ -112,6 +112,14 @@
     --text: #1a1d23;
     --text-2: #4f5562; /* stays darker than --text-3 */
     --text-3: #575d69; /* ≥4.5:1 on light surfaces incl. inputs (was #626876, 4.2:1 there) */
+    /* Status colors deep enough to read as text on light surfaces (the dark
+       mode shades are ~2:1 on white). */
+    --green: #137a52;
+    --green-soft: rgba(19, 122, 82, 0.12);
+    --amber: #8a5b10;
+    --amber-soft: rgba(138, 91, 16, 0.12);
+    --red: #b42323;
+    --red-soft: rgba(180, 35, 35, 0.1);
     --focus-ring: #5b4fe0; /* 5.4:1 on the light surfaces */
     --shadow: 0 6px 20px rgba(16, 18, 24, 0.08);
     --shadow-lg: 0 16px 44px rgba(16, 18, 24, 0.16);
@@ -211,6 +219,37 @@
 }
 [data-design="aurora"] .dr-card:hover {
     border-color: var(--hairline-strong) !important;
+}
+/* A clickable card is a button: it lifts on hover and shows focus. */
+[data-design="aurora"] .dr-card[data-clickable="true"]:hover {
+    background: color-mix(in srgb, var(--accent) 7%, var(--solid)) !important;
+}
+[data-design="aurora"] .dr-card[data-clickable="true"]:focus-visible {
+    outline: 2px solid var(--focus-ring) !important;
+    outline-offset: 2px !important;
+}
+[data-design="aurora"] .dr-card[aria-disabled="true"] {
+    opacity: 0.6;
+}
+
+/* ---- Modal surface ---------------------------------------------------------
+   A modal is raised above what it covers (design guide rule 2): an opaque
+   surface lighter than the dimmed page, a visible edge and a deep shadow. */
+[data-design="aurora"] .dr-modal-surface {
+    background: var(--solid) !important;
+    border: 1px solid var(--hairline-strong) !important;
+    border-radius: var(--r-lg) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+/* Cards on a modal sit one step up from it — the glass --raised would
+   vanish against the opaque modal surface. */
+[data-design="aurora"] .dr-modal-surface .dr-card {
+    background: color-mix(in srgb, var(--text) 4%, var(--solid)) !important;
+    border-color: var(--hairline-strong) !important;
+    box-shadow: none !important;
+}
+[data-design="aurora"] .dr-modal-surface .dr-card[data-clickable="true"]:hover {
+    background: color-mix(in srgb, var(--accent) 9%, var(--solid)) !important;
 }
 
 /* ---- Heading --------------------------------------------------------------
@@ -547,9 +586,11 @@
     outline-offset: -2px !important;
     border-radius: var(--r-sm) !important;
 }
-/* Icon actions in headers and rows are quiet until hovered. */
+/* Icon actions in headers and rows are quiet until hovered. `.dr-row-actions`
+   marks any other row's action group (e.g. a plan's pieces). */
 [data-design="aurora"] .dr-panel-head .dr-btn-icon,
-[data-design="aurora"] .dr-list-row-trail .dr-btn-icon {
+[data-design="aurora"] .dr-list-row-trail .dr-btn-icon,
+[data-design="aurora"] .dr-row-actions .dr-btn-icon {
     min-width: 28px;
     min-height: 28px;
     background: transparent !important;
@@ -558,7 +599,8 @@
     box-shadow: none !important;
 }
 [data-design="aurora"] .dr-panel-head .dr-btn-icon:hover,
-[data-design="aurora"] .dr-list-row-trail .dr-btn-icon:hover {
+[data-design="aurora"] .dr-list-row-trail .dr-btn-icon:hover,
+[data-design="aurora"] .dr-row-actions .dr-btn-icon:hover {
     background: var(--raised) !important;
     color: var(--text) !important;
 }
@@ -578,24 +620,45 @@
     border-color: transparent !important;
     color: var(--text) !important;
 }
-/* Icon toggles (rails, toolbars) are 32px squares, the icon centred with
-   room around it. */
-[data-design="aurora"] .dr-btn-icon[aria-pressed] {
+/* Icon-only toggles (rails, toolbars) are 32px squares, the icon centred
+   with room around it. A toggle with a text label (a chip) keeps its width. */
+[data-design="aurora"] .dr-btn-icon[aria-pressed]:not(:has(> span)) {
     width: 32px;
     height: 32px;
     padding: 0 !important;
     border-radius: var(--r-sm) !important;
 }
-/* An unpressed toggle is quiet until hovered, so the pressed one stands out. */
-[data-design="aurora"] .dr-btn-icon[aria-pressed="false"] {
+/* An unpressed icon toggle is quiet until hovered, so the pressed one stands
+   out. */
+[data-design="aurora"] .dr-btn-icon[aria-pressed="false"]:not(:has(> span)) {
     background: transparent !important;
     border-color: transparent !important;
     color: var(--text-3) !important;
     box-shadow: none !important;
 }
-[data-design="aurora"] .dr-btn-icon[aria-pressed="false"]:hover {
+[data-design="aurora"]
+    .dr-btn-icon[aria-pressed="false"]:not(:has(> span)):hover {
     background: var(--raised) !important;
     color: var(--text) !important;
+}
+/* A toggle with a text label is a choice chip: it looks tappable (faint
+   tinted fill and an edge) and the chosen one is filled with the accent. */
+[data-design="aurora"] .dr-btn-icon[aria-pressed]:has(> span) {
+    background: color-mix(in srgb, var(--accent) 7%, var(--solid)) !important;
+    border: 1px solid var(--hairline-strong) !important;
+    color: var(--text) !important;
+    border-radius: 999px !important;
+}
+[data-design="aurora"] .dr-btn-icon[aria-pressed]:has(> span):hover {
+    border-color: var(--accent) !important;
+}
+[data-design="aurora"] .dr-btn-icon[aria-pressed="true"]:has(> span) {
+    background: var(--accent-soft) !important;
+    border-color: var(--accent) !important;
+}
+/* A confirm's message is body text, not an accent. */
+[data-design="aurora"] .dr-confirm-message {
+    color: var(--text-2) !important;
 }
 /* Empty states: muted by token, never by opacity. */
 [data-design="aurora"] .dr-empty-title {

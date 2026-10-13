@@ -155,7 +155,9 @@ const ChoiceMenu = ({
                         setOpen(true);
                     }
                 }}
-                className={`dr-choice-menu inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 ${border} ${strongText}`}
+                // 32px tall, 14px label: a real control, not a tag (design
+                // guide rules 10–11: hit areas ≥28px, labels 13–14px).
+                className={`dr-choice-menu inline-flex items-center gap-1.5 h-8 px-3 rounded-full border text-sm font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 ${border} ${strongText}`}
             >
                 <span>{text}</span>
                 <span aria-hidden="true">▾</span>

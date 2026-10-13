@@ -3,6 +3,7 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { Modal } from "../Modal";
+import { Button, Button2 } from "../Button";
 
 const ConfirmationModal = ({
     isOpen,
@@ -32,16 +33,6 @@ const ConfirmationModal = ({
         currentTheme,
         { scrollable: false, grow: false }
     );
-    const buttonPrimaryStyles = getStylesForItem(
-        themeObjects.BUTTON_2,
-        currentTheme,
-        { scrollable: false, grow: false }
-    );
-    const buttonSecondaryStyles = getStylesForItem(
-        themeObjects.BUTTON_3,
-        currentTheme,
-        { scrollable: false, grow: false }
-    );
     const paragraphStyles = getStylesForItem(
         themeObjects.PARAGRAPH_2,
         currentTheme,
@@ -62,11 +53,6 @@ const ConfirmationModal = ({
         }
     };
 
-    const confirmButtonClasses =
-        variant === "danger"
-            ? "bg-red-600 hover:bg-red-700 text-white border-red-700"
-            : `${buttonPrimaryStyles.backgroundColor || ""} ${buttonPrimaryStyles.hoverBackgroundColor || ""} ${buttonPrimaryStyles.textColor || ""} ${buttonPrimaryStyles.borderColor || ""}`;
-
     return (
         <Modal
             isOpen={isOpen}
@@ -75,7 +61,8 @@ const ConfirmationModal = ({
             height="h-auto"
         >
             <div
-                className={`flex flex-col rounded-lg overflow-clip border ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${className}`}
+                // Raised above the dimmed page (design guide rule 2).
+                className={`dr-modal-surface flex flex-col rounded-lg overflow-clip border ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${className}`}
             >
                 {/* Header */}
                 <div
@@ -90,7 +77,7 @@ const ConfirmationModal = ({
                         children
                     ) : message ? (
                         <p
-                            className={`text-sm leading-relaxed ${paragraphStyles.textColor || ""}`}
+                            className={`dr-confirm-message text-sm leading-relaxed ${paragraphStyles.textColor || ""}`}
                         >
                             {message}
                         </p>
@@ -99,22 +86,17 @@ const ConfirmationModal = ({
 
                 {/* Footer */}
                 <div
-                    className={`flex flex-row justify-end items-center space-x-2 px-4 py-3 border-t rounded-b-lg ${footerStyles.backgroundColor || ""} ${footerStyles.borderColor || ""}`}
+                    // The footer shares the dialog's surface (no separate fill).
+                    className={`flex flex-row justify-end items-center gap-2 px-4 py-3 border-t ${footerStyles.borderColor || ""}`}
                 >
-                    <button
-                        type="button"
-                        onClick={handleCancel}
-                        className={`flex flex-row justify-center items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150 ${buttonSecondaryStyles.backgroundColor || ""} ${buttonSecondaryStyles.hoverBackgroundColor || ""} ${buttonSecondaryStyles.textColor || ""} ${buttonSecondaryStyles.borderColor || ""}`}
-                    >
-                        {cancelLabel}
-                    </button>
-                    <button
-                        type="button"
+                    {/* One primary per pane: cancel is secondary; confirm is the
+                        primary, red when it destroys something. */}
+                    <Button2 title={cancelLabel} onClick={handleCancel} />
+                    <Button
+                        title={confirmLabel}
                         onClick={handleConfirm}
-                        className={`flex flex-row justify-center items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150 ${confirmButtonClasses}`}
-                    >
-                        {confirmLabel}
-                    </button>
+                        danger={variant === "danger"}
+                    />
                 </div>
             </div>
         </Modal>
