@@ -3,6 +3,23 @@ import { ThemeContext } from "@dash/Context";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
+// A clickable item is a menu item for keyboard and screen readers too:
+// focusable, Enter or Space picks it.
+function menuItemProps(onClick) {
+    if (!onClick) return {};
+    return {
+        onClick,
+        role: "menuitem",
+        tabIndex: 0,
+        onKeyDown: (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick(e);
+            }
+        },
+    };
+}
+
 const MenuItem = ({
     onClick = null,
     theme = true,
@@ -43,7 +60,7 @@ const MenuItem = ({
     return (
         <div
             id={uuid}
-            onClick={onClick}
+            {...menuItemProps(onClick)}
             className={`flex flex-row ${styles.string} ${
                 border === true && "border-4"
             } ${padding} ${rounded} items-center space-x-2 text-sm transition-colors duration-150 focus-visible:outline-none ${className}`}
@@ -97,7 +114,7 @@ const MenuItem2 = ({
     return (
         <div
             id={uuid}
-            onClick={onClick}
+            {...menuItemProps(onClick)}
             className={`flex flex-row ${baseStyles} ${
                 className !== "" ? className : baseTextStyles
             } ${styles.string} transition-colors duration-150`}
@@ -153,7 +170,7 @@ const MenuItem3 = ({
     return (
         <div
             id={uuid}
-            onClick={onClick}
+            {...menuItemProps(onClick)}
             className={`flex flex-row ${baseStyles} ${
                 className !== "" ? className : baseTextStyles
             } ${styles.string} transition-colors duration-150`}

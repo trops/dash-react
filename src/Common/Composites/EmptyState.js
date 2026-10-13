@@ -20,7 +20,8 @@ const EmptyState = ({
     className = "",
     testId,
 }) => {
-    const { currentTheme = {} } = useContext(ThemeContext) || {};
+    // The default context carries currentTheme: null — fall back to {}.
+    const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     const styles = getStylesForItem(themeObjects.EMPTY_STATE, currentTheme, {
         scrollable: false,
         grow: false,

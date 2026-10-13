@@ -23,7 +23,7 @@ const DataListItem = ({
             className={`flex flex-row items-start justify-between gap-4 ${styles.spacing || "py-2.5"} ${divider ? `border-b ${styles.borderColor || ""}` : ""} last:border-b-0 ${className}`}
         >
             <dt
-                className={`flex-shrink-0 text-sm ${styles.textColor || ""} opacity-60`}
+                className={`dr-datalist-label flex-shrink-0 text-sm ${styles.textColor || ""}`}
             >
                 {label}
             </dt>

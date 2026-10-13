@@ -16,7 +16,8 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
  *   <SectionLabel text="Event Log" className="mb-1" />
  */
 function SectionLabel({ text = null, as = null, className = "", children }) {
-    const { currentTheme = {} } = useContext(ThemeContext) || {};
+    // The default context carries currentTheme: null — fall back to {}.
+    const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     const color = currentTheme["text-neutral-medium"] || "text-gray-500";
     return createElement(
         as || "div",

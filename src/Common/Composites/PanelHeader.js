@@ -21,7 +21,8 @@ export const PanelHeader = ({
     testId,
     className = "",
 }) => {
-    const { currentTheme = {} } = useContext(ThemeContext) || {};
+    // The default context carries currentTheme: null — fall back to {}.
+    const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     const hairline = currentTheme["border-neutral-dark"] || "";
     const strong = currentTheme["text-neutral-light"] || "";
     const muted = currentTheme["text-neutral-medium"] || "";

@@ -49,7 +49,7 @@ const SidebarGroup = ({ label = null, children, className = "" }) => {
         <div className={`flex flex-col space-y-1 ${className}`}>
             {label && !collapsed && (
                 <span
-                    className={`px-2 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider whitespace-nowrap ${styles.textColor || ""} opacity-50`}
+                    className={`dr-section-label px-2 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider whitespace-nowrap ${styles.textColor || ""}`}
                 >
                     {label}
                 </span>

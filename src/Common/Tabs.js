@@ -52,7 +52,7 @@ const Tabs = ({
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
             <div
-                className={`${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
+                className={`dr-tabs-root ${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
                 style={{
                     ...styles.inlineStyle?.backgroundColor,
                     ...styles.inlineStyle?.textColor,
@@ -75,7 +75,7 @@ const TabsList = ({ children, className = "", ...props }) => {
 
     return (
         <div
-            className={`inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
+            className={`dr-tabs-list inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
             style={styles.inlineStyle?.backgroundColor}
             role="tablist"
         >
@@ -118,7 +118,7 @@ const TabsTrigger = ({
                           ...styles.inlineStyle?.textColor,
                       }
             }
-            className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${
+            className={`dr-tabs-trigger ${isActive ? "dr-tabs-trigger-active" : ""} inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${
                 isActive
                     ? `${styles.activeBackgroundColor || ""} shadow-sm ${styles.activeTextColor || ""}`
                     : `${styles.textColor || ""} ${styles.hoverTextColor || ""}`
@@ -194,7 +194,7 @@ const Tabs2 = ({
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
             <div
-                className={`${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
+                className={`dr-tabs-root ${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
                 style={{
                     ...styles.inlineStyle?.backgroundColor,
                     ...styles.inlineStyle?.textColor,
@@ -217,7 +217,7 @@ const TabsList2 = ({ children, className = "", ...props }) => {
 
     return (
         <div
-            className={`inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
+            className={`dr-tabs-list inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
             style={styles.inlineStyle?.backgroundColor}
             role="tablist"
         >
@@ -260,7 +260,7 @@ const TabsTrigger2 = ({
                           ...styles.inlineStyle?.textColor,
                       }
             }
-            className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            className={`dr-tabs-trigger ${isActive ? "dr-tabs-trigger-active" : ""} inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-3 py-1.5"} ${styles.textSize || "text-sm"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
                     ? `${styles.activeBackgroundColor || ""} shadow-sm ${styles.activeTextColor || ""}`
                     : `${styles.textColor || ""} ${styles.hoverTextColor || ""}`
@@ -336,7 +336,7 @@ const Tabs3 = ({
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
             <div
-                className={`${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
+                className={`dr-tabs-root ${styles.string} ${!styles.borderWidth && border === true ? "border" : ""} ${className}`}
                 style={{
                     ...styles.inlineStyle?.backgroundColor,
                     ...styles.inlineStyle?.textColor,
@@ -359,7 +359,7 @@ const TabsList3 = ({ children, className = "", ...props }) => {
 
     return (
         <div
-            className={`inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
+            className={`dr-tabs-list inline-flex items-center gap-1 ${styles.backgroundColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "p-1"} ${className}`}
             style={styles.inlineStyle?.backgroundColor}
             role="tablist"
         >
@@ -402,7 +402,7 @@ const TabsTrigger3 = ({
                           ...styles.inlineStyle?.textColor,
                       }
             }
-            className={`inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            className={`dr-tabs-trigger ${isActive ? "dr-tabs-trigger-active" : ""} inline-flex items-center justify-center whitespace-nowrap ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.fontWeight || "font-medium"} ${styles.borderRadius || "rounded-sm"} ${styles.transition || "transition-all duration-150"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
                     ? `${styles.activeBackgroundColor || ""} shadow-sm ${styles.activeTextColor || ""}`
                     : `${styles.textColor || ""} ${styles.hoverTextColor || ""}`

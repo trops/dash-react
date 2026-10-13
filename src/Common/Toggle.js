@@ -35,6 +35,7 @@ function Toggle({
                 id={toggleId}
                 role="switch"
                 aria-checked={enabled}
+                data-checked={enabled ? "true" : "false"}
                 aria-labelledby={hasText ? `${toggleId}-label` : undefined}
                 aria-label={hasText ? undefined : ariaLabel || undefined}
                 disabled={disabled}
@@ -52,14 +53,14 @@ function Toggle({
                                 .replace("hover:", "")
                                 .replace("hover-", "")
                           : ""
-                } relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                } dr-switch relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             >
                 <span
                     aria-hidden="true"
                     style={styles.inlineStyle?.activeBackgroundColor}
                     className={`${
                         enabled ? "translate-x-5" : "translate-x-0"
-                    } pointer-events-none inline-block h-5 w-5 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    } dr-switch-knob pointer-events-none inline-block h-5 w-5 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
             {(text || children !== undefined) && (
@@ -107,6 +108,7 @@ function Toggle2({
                 id={toggleId}
                 role="switch"
                 aria-checked={enabled}
+                data-checked={enabled ? "true" : "false"}
                 aria-labelledby={hasText ? `${toggleId}-label` : undefined}
                 aria-label={hasText ? undefined : ariaLabel || undefined}
                 disabled={disabled}
@@ -124,14 +126,14 @@ function Toggle2({
                                 .replace("hover:", "")
                                 .replace("hover-", "")
                           : ""
-                } relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                } dr-switch relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             >
                 <span
                     aria-hidden="true"
                     style={styles.inlineStyle?.activeBackgroundColor}
                     className={`${
                         enabled ? "translate-x-4" : "translate-x-0"
-                    } pointer-events-none inline-block h-4 w-4 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    } dr-switch-knob pointer-events-none inline-block h-4 w-4 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
             {(text || children !== undefined) && (
@@ -179,6 +181,7 @@ function Toggle3({
                 id={toggleId}
                 role="switch"
                 aria-checked={enabled}
+                data-checked={enabled ? "true" : "false"}
                 aria-labelledby={hasText ? `${toggleId}-label` : undefined}
                 aria-label={hasText ? undefined : ariaLabel || undefined}
                 disabled={disabled}
@@ -196,14 +199,14 @@ function Toggle3({
                                 .replace("hover:", "")
                                 .replace("hover-", "")
                           : ""
-                } relative inline-flex h-4 w-7 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                } dr-switch relative inline-flex h-4 w-7 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             >
                 <span
                     aria-hidden="true"
                     style={styles.inlineStyle?.activeBackgroundColor}
                     className={`${
                         enabled ? "translate-x-3" : "translate-x-0"
-                    } pointer-events-none inline-block h-3 w-3 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
+                    } dr-switch-knob pointer-events-none inline-block h-3 w-3 transform rounded-full ${styles.inlineStyle?.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white"} shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </button>
             {(text || children !== undefined) && (
