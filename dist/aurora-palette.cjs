@@ -1,0 +1,275 @@
+/**
+ * The Dash palette for Tailwind (design guide: "Colors in widgets").
+ *
+ * Every Tailwind color family and shade has a Dash hex, so palette classes in
+ * widgets and app code (`bg-red-300`, `text-gray-400`) match the design system
+ * by default.
+ *
+ * - Each shade keeps Tailwind's luminance (within a few percent), so contrast
+ *   between shades — and the light/dark pairings the theme system picks
+ *   (e.g. text-600 on bg-300) — is unchanged.
+ * - Hue and saturation are tuned to Aurora: gray, slate, zinc, neutral and
+ *   stone are one Aurora cool neutral; violet is anchored on --accent with
+ *   indigo and purple as neighbours; red/rose, green/emerald, amber/yellow and
+ *   cyan/sky are anchored on Aurora's red, green, amber and cyan; the rest are
+ *   softened to Aurora's calmer saturation.
+ * - The same values apply in both modes: the theme system already picks
+ *   different shades for light mode, so flipping here would flip twice.
+ *
+ * Generated (luminance-matched at Aurora hues). Used by tailwind.config.js here
+ * and in dash-electron (copied to dist/ on build).
+ */
+const neutral = {
+    50: "#f9f9fb",
+    100: "#f3f4f6",
+    200: "#e5e6ec",
+    300: "#d2d4dd",
+    400: "#9ea2b3",
+    500: "#6c7186",
+    600: "#4f5366",
+    700: "#3b3f53",
+    800: "#242736",
+    900: "#151821",
+    950: "#06070b",
+};
+
+const palette = {
+    red: {
+        50: "#fdf2f3",
+        100: "#fce2e4",
+        200: "#facbce",
+        300: "#f5a8ab",
+        400: "#ed787e",
+        500: "#e25258",
+        600: "#d03940",
+        700: "#b2292f",
+        800: "#92252a",
+        900: "#782528",
+        950: "#410e11",
+    },
+    orange: {
+        50: "#fef7f0",
+        100: "#fbeedb",
+        200: "#f7d9b5",
+        300: "#f1be87",
+        400: "#eb9957",
+        500: "#e67f38",
+        600: "#de6222",
+        700: "#b84b1d",
+        800: "#913c1f",
+        900: "#74331c",
+        950: "#3f180d",
+    },
+    amber: {
+        50: "#fefbf4",
+        100: "#fcf1e0",
+        200: "#f9e3bf",
+        300: "#f5d398",
+        400: "#f1c06f",
+        500: "#e6a435",
+        600: "#c38315",
+        700: "#966514",
+        800: "#755215",
+        900: "#604314",
+        950: "#352407",
+    },
+    yellow: {
+        50: "#fdfcf4",
+        100: "#fcf7e3",
+        200: "#f9eec3",
+        300: "#f4e096",
+        400: "#eccf61",
+        500: "#dfb81e",
+        600: "#b49415",
+        700: "#866f13",
+        800: "#6a5916",
+        900: "#584b16",
+        950: "#312809",
+    },
+    lime: {
+        50: "#f9fdf0",
+        100: "#f0f9df",
+        200: "#e3f4c3",
+        300: "#d0eba0",
+        400: "#badf7c",
+        500: "#8dca2e",
+        600: "#6ca121",
+        700: "#527b1e",
+        800: "#43611d",
+        900: "#3a521d",
+        950: "#1c2e0a",
+    },
+    green: {
+        50: "#f2fcf8",
+        100: "#e3faef",
+        200: "#c8f3df",
+        300: "#a1e9c8",
+        400: "#74d7ab",
+        500: "#36c283",
+        600: "#27a06a",
+        700: "#227f55",
+        800: "#206445",
+        900: "#1c5239",
+        950: "#0a2d1d",
+    },
+    emerald: {
+        50: "#effcf7",
+        100: "#daf7ec",
+        200: "#bbefdb",
+        300: "#92e1c3",
+        400: "#64cea5",
+        500: "#24b980",
+        600: "#169664",
+        700: "#117851",
+        800: "#105f41",
+        900: "#0f4e35",
+        950: "#072b1d",
+    },
+    teal: {
+        50: "#f4fcfa",
+        100: "#d8f8f1",
+        200: "#b6f1e5",
+        300: "#8ce4d6",
+        400: "#65cfc2",
+        500: "#28b7a8",
+        600: "#1d9389",
+        700: "#1c766f",
+        800: "#1b5e59",
+        900: "#1b4d4a",
+        950: "#092f2e",
+    },
+    cyan: {
+        50: "#f4fcfe",
+        100: "#def7fb",
+        200: "#c0eef7",
+        300: "#96e3f1",
+        400: "#62cfe4",
+        500: "#1bb5d2",
+        600: "#1892a8",
+        700: "#1a7485",
+        800: "#1d5e6a",
+        900: "#1c4e58",
+        950: "#0d333b",
+    },
+    sky: {
+        50: "#f1f9fe",
+        100: "#e1f3fb",
+        200: "#c1e5f7",
+        300: "#8ed2f1",
+        400: "#5bbce9",
+        500: "#2ea6de",
+        600: "#1485bb",
+        700: "#116a95",
+        800: "#135a7b",
+        900: "#154a64",
+        950: "#0d3040",
+    },
+    blue: {
+        50: "#eff6fd",
+        100: "#dde9fb",
+        200: "#c3dbf8",
+        300: "#9bc4f3",
+        400: "#6ca5ec",
+        500: "#4884e5",
+        600: "#3367d8",
+        700: "#2c54c1",
+        800: "#2a449c",
+        900: "#263c7c",
+        950: "#1b264c",
+    },
+    indigo: {
+        50: "#f0f2fe",
+        100: "#e3e6fe",
+        200: "#ccd1fb",
+        300: "#aab3f8",
+        400: "#7f8ef1",
+        500: "#596be8",
+        600: "#3c4fda",
+        700: "#3746af",
+        800: "#2f3b8b",
+        900: "#2c346e",
+        950: "#1a1f40",
+    },
+    violet: {
+        50: "#f4f3ff",
+        100: "#ece9fd",
+        200: "#dbd6fd",
+        300: "#bfb7fb",
+        400: "#9b8ff7",
+        500: "#7666f3",
+        600: "#5d4cea",
+        700: "#4d3dd8",
+        800: "#3b29c9",
+        900: "#3224a4",
+        950: "#1e146d",
+    },
+    purple: {
+        50: "#faf6fe",
+        100: "#f2e9fd",
+        200: "#e8d5fc",
+        300: "#d6b6f8",
+        400: "#bb89f3",
+        500: "#a15eea",
+        600: "#8b42dc",
+        700: "#7730c4",
+        800: "#632ca1",
+        900: "#512581",
+        950: "#360f62",
+    },
+    fuchsia: {
+        50: "#fcf5fe",
+        100: "#f8e8fc",
+        200: "#f2d2f9",
+        300: "#e9b0f3",
+        400: "#de82ec",
+        500: "#cd59de",
+        600: "#b73bc7",
+        700: "#9b2ca6",
+        800: "#802688",
+        900: "#6a246e",
+        950: "#460c4a",
+    },
+    pink: {
+        50: "#fcf3f8",
+        100: "#fae8f2",
+        200: "#f6d2e6",
+        300: "#f0acd1",
+        400: "#e77cb4",
+        500: "#dc599a",
+        600: "#cb407d",
+        700: "#b52a64",
+        800: "#942652",
+        900: "#7b2347",
+        950: "#4b0f27",
+    },
+    rose: {
+        50: "#fef1f4",
+        100: "#fce4e9",
+        200: "#f9cfd6",
+        300: "#f4a8b5",
+        400: "#ee7a8e",
+        500: "#e4526c",
+        600: "#d33955",
+        700: "#b8233e",
+        800: "#9a2036",
+        900: "#831f31",
+        950: "#480c17",
+    },
+};
+
+/** Tailwind `colors` overrides: every palette name → its Dash scale. */
+function auroraColors() {
+    return {
+        gray: neutral,
+        slate: neutral,
+        zinc: neutral,
+        neutral,
+        stone: neutral,
+        ...palette,
+    };
+}
+
+// The accent scale is violet's.
+const accent = palette.violet;
+
+module.exports = { neutral, accent, palette, auroraColors };

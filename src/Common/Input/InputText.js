@@ -12,6 +12,8 @@ const InputText = ({
     placeholder = "",
     type = "text",
     id = null,
+    // Accessible name when there's no visible `label` (falls back to the placeholder).
+    ariaLabel = null,
     className = "",
     inputClassName = "",
     autoFocus = false,
@@ -51,6 +53,9 @@ const InputText = ({
     );
 
     const inputId = id || getUUID("", "input-text");
+    const unlabeledName = label
+        ? undefined
+        : ariaLabel || placeholder || undefined;
 
     return (
         <div className={`flex flex-col space-y-1 ${className}`}>
@@ -71,6 +76,7 @@ const InputText = ({
                     ...htmlProps.style,
                 }}
                 id={inputId}
+                aria-label={unlabeledName}
                 type={type}
                 value={value}
                 onChange={(event) => dispatchInputChange(onChange, event)}

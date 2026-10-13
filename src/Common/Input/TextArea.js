@@ -11,6 +11,8 @@ const TextArea = ({
     placeholder = "",
     rows = 4,
     id = null,
+    // Accessible name when there's no visible `label` (falls back to the placeholder).
+    ariaLabel = null,
     className = "",
     inputClassName = "",
     disabled = false,
@@ -73,6 +75,9 @@ const TextArea = ({
     );
 
     const inputId = id || getUUID("", "textarea");
+    const unlabeledName = label
+        ? undefined
+        : ariaLabel || placeholder || undefined;
 
     return (
         <div className={`flex flex-col space-y-1 ${className}`}>
@@ -97,6 +102,7 @@ const TextArea = ({
                         : htmlProps.style
                 }
                 id={inputId}
+                aria-label={unlabeledName}
                 rows={rows}
                 value={value}
                 onChange={(event) => dispatchInputChange(onChange, event)}
