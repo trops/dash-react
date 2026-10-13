@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
 import { LayoutContainer } from "@dash/Layout";
+import { hasOwnTextColor } from "./textTone";
 
 function Paragraph({
     text = null,
@@ -30,7 +31,7 @@ function Paragraph({
 
     return (
         <LayoutContainer
-            className={`${styles.textSize || "text-base"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+            className={`${hasOwnTextColor(className, props.textColor) ? "" : "dr-paragraph"} ${styles.textSize || "text-base"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
@@ -69,7 +70,7 @@ function Paragraph2({
 
     return (
         <LayoutContainer
-            className={`${styles.textSize || "text-sm"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+            className={`${hasOwnTextColor(className, props.textColor) ? "" : "dr-paragraph"} ${styles.textSize || "text-sm"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}
@@ -107,7 +108,7 @@ function Paragraph3({
 
     return (
         <LayoutContainer
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+            className={`${hasOwnTextColor(className, props.textColor) ? "" : "dr-paragraph"} ${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-relaxed"} ${styles.textColor || ""} ${styles.backgroundColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
             onClick={onClick}
             scrollable={scrollable}
             grow={grow}

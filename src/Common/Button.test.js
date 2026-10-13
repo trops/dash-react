@@ -36,4 +36,13 @@ describe.each([
             screen.getByRole("button", { name: "Decrement" })
         ).toBeInTheDocument();
     });
+
+    it("puts testId on the button itself (so tests can check it is enabled)", () => {
+        renderWithTheme(<Component testId="go" title="Go" disabled />);
+        expect(screen.getByTestId("go")).toBe(
+            screen.getByRole("button", { name: "Go" })
+        );
+        expect(screen.getByTestId("go")).toBeDisabled();
+        expect(screen.getByTestId("go").className).not.toMatch(/\bgo\b/);
+    });
 });

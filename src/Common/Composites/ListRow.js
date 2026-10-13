@@ -24,7 +24,8 @@ export const ListRow = ({
     testId,
     className = "",
 }) => {
-    const { currentTheme = {} } = useContext(ThemeContext) || {};
+    // The default context carries currentTheme: null — fall back to {}.
+    const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     const muted = currentTheme["text-neutral-medium"] || "";
     const strong = currentTheme["text-neutral-light"] || "";
     const selectedBg = currentTheme["bg-neutral-very-dark"] || "";

@@ -149,7 +149,7 @@ const SettingsModal = ({
             height={height}
         >
             <div
-                className={`flex flex-col h-full w-full rounded-lg overflow-clip ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${panelStyles.textColor || ""} border ${className}`}
+                className={`dr-modal-surface flex flex-col h-full w-full rounded-lg overflow-clip ${panelStyles.backgroundColor || ""} ${panelStyles.borderColor || ""} ${panelStyles.textColor || ""} border ${className}`}
             >
                 {title}
                 <div className="flex flex-row flex-1 min-h-0">

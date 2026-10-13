@@ -40,7 +40,8 @@ const SegmentedControl = ({
     ariaLabel = undefined,
     className = "",
 }) => {
-    const { currentTheme = {} } = useContext(ThemeContext) || {};
+    // The default context carries currentTheme: null — fall back to {}.
+    const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     const trackBg = currentTheme["bg-neutral-very-dark"] || "bg-gray-900";
     const trackBorder =
         currentTheme["border-neutral-dark"] || "border-gray-700";

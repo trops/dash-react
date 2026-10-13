@@ -27,6 +27,7 @@ const Button = ({
     type = "button",
     tooltip = undefined,
     ariaLabel = undefined,
+    testId = undefined,
     "aria-label": ariaLabelAttr = undefined,
     danger = false,
     children,
@@ -58,6 +59,7 @@ const Button = ({
             disabled={disabled}
             title={tooltip}
             aria-label={ariaLabel ?? ariaLabelAttr}
+            data-testid={testId}
             className={`dr-btn dr-btn-primary ${danger ? "dr-btn-danger" : ""} flex flex-nowrap whitespace-nowrap flex-row justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} ${className}`}
         >
             {children !== undefined ? children : title}
@@ -77,6 +79,7 @@ const Button2 = ({
     type = "button",
     tooltip = undefined,
     ariaLabel = undefined,
+    testId = undefined,
     "aria-label": ariaLabelAttr = undefined,
     danger = false,
     children,
@@ -107,6 +110,7 @@ const Button2 = ({
             disabled={disabled}
             title={tooltip}
             aria-label={ariaLabel ?? ariaLabelAttr}
+            data-testid={testId}
             className={`dr-btn dr-btn-secondary ${danger ? "dr-btn-danger" : ""} flex flex-row flex-shrink whitespace-nowrap justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
             {children !== undefined ? children : title}
@@ -126,6 +130,7 @@ const Button3 = ({
     type = "button",
     tooltip = undefined,
     ariaLabel = undefined,
+    testId = undefined,
     "aria-label": ariaLabelAttr = undefined,
     danger = false,
     children,
@@ -155,6 +160,7 @@ const Button3 = ({
             disabled={disabled}
             title={tooltip}
             aria-label={ariaLabel ?? ariaLabelAttr}
+            data-testid={testId}
             className={`dr-btn dr-btn-ghost ${danger ? "dr-btn-danger" : ""} flex flex-row whitespace-nowrap justify-center items-center ${styles.string} ${width} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${className}`}
         >
             {children !== undefined ? children : title}

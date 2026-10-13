@@ -31,7 +31,7 @@ const WidgetChrome = ({
             className={`dr-card border ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} rounded-lg ${className}`}
         >
             <div className="flex items-center justify-between px-4 py-2 border-b">
-                <div className="font-semibold truncate">{title}</div>
+                <div className="text-sm font-semibold truncate">{title}</div>
                 <div className="flex items-center space-x-2">
                     {actions}
                     {onPopout && (

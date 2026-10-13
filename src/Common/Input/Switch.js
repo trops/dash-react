@@ -45,10 +45,11 @@ const Switch = ({
                 aria-labelledby={label ? `${switchId}-label` : undefined}
                 aria-label={label ? undefined : ariaLabel || undefined}
                 onClick={handleToggle}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${styles.backgroundColor} ${checked ? "opacity-100" : "opacity-60"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
+                data-checked={checked ? "true" : "false"}
+                className={`dr-switch relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${styles.backgroundColor} ${checked ? "opacity-100" : "opacity-60"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
             >
                 <span
-                    className={`inline-block h-4 w-4 transform rounded-full ${styles.activeBackgroundColor || "bg-white"} transition ${
+                    className={`dr-switch-knob inline-block h-4 w-4 transform rounded-full ${styles.activeBackgroundColor || "bg-white"} transition ${
                         checked ? "translate-x-6" : "translate-x-1"
                     }`}
                 />

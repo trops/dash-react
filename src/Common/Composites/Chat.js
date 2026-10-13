@@ -12,7 +12,8 @@ import { Button } from "../Button";
  */
 
 function useChatTokens() {
-    const { currentTheme = {} } = useContext(ThemeContext) || {};
+    // The default context carries currentTheme: null — fall back to {}.
+    const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     return {
         you: currentTheme["bg-primary-medium"] || "",
         reply:

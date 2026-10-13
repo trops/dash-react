@@ -8,7 +8,7 @@
  * override them without dropping to a raw div.
  */
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MenuItem, MenuItem2, MenuItem3 } from "./MenuItem";
 import { ThemeContext } from "@dash/Context/ThemeContext";
@@ -61,5 +61,25 @@ describe.each([
             <Component rounded="">row</Component>
         );
         expect(container.firstChild.className).not.toMatch(/rounded-md/);
+    });
+});
+
+describe.each([
+    ["MenuItem", MenuItem],
+    ["MenuItem2", MenuItem2],
+    ["MenuItem3", MenuItem3],
+])("%s keyboard", (_n, Item) => {
+    test("a clickable item is a focusable menuitem that Enter and Space pick", () => {
+        const onClick = jest.fn();
+        renderWithTheme(<Item onClick={onClick}>Rename</Item>);
+        const item = screen.getByRole("menuitem", { name: "Rename" });
+        expect(item).toHaveAttribute("tabindex", "0");
+        fireEvent.keyDown(item, { key: "Enter" });
+        fireEvent.keyDown(item, { key: " " });
+        expect(onClick).toHaveBeenCalledTimes(2);
+    });
+    test("without onClick it is plain content", () => {
+        renderWithTheme(<Item>Label</Item>);
+        expect(screen.queryByRole("menuitem")).toBeNull();
     });
 });

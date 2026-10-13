@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, themeObjects } from "@dash/Utils";
+import { hasOwnTextColor } from "./textTone";
 
 /**
  * Caption — extra-small de-emphasized text for badges, IDs,
@@ -44,7 +45,7 @@ function Caption({
         <Tag
             {...props}
             onClick={onClick}
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+            className={`${hasOwnTextColor(className, props.textColor) ? "" : "dr-caption-text"} ${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
             {text !== null ? text : children}
         </Tag>
@@ -66,7 +67,7 @@ function Caption2({
         <Tag
             {...props}
             onClick={onClick}
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+            className={`${hasOwnTextColor(className, props.textColor) ? "" : "dr-caption-text"} ${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
             {text !== null ? text : children}
         </Tag>
@@ -88,7 +89,7 @@ function Caption3({
         <Tag
             {...props}
             onClick={onClick}
-            className={`${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
+            className={`${hasOwnTextColor(className, props.textColor) ? "" : "dr-caption-text"} ${styles.textSize || "text-xs"} ${styles.lineHeight || "leading-tight"} ${styles.textColor || ""} ${styles.fontWeight || "font-normal"} ${className}`}
         >
             {text !== null ? text : children}
         </Tag>

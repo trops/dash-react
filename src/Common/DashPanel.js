@@ -22,7 +22,7 @@ const DashPanelHeader = ({ title, ping = false, ...props }) => {
             id={uuid}
             className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
         >
-            <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
+            <span className={`text-sm font-semibold ${styles.textColor}`}>
                 {title}
             </span>
             {ping && (
@@ -85,7 +85,7 @@ const DashPanelFooter = ({ children, ...props }) => {
     return (
         <div
             id={uuid}
-            className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ${styles.string}`}
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs font-medium ${styles.string}`}
         >
             {children}
         </div>
@@ -138,7 +138,7 @@ const DashPanelHeader2 = ({ title, ping = false, ...props }) => {
         <div
             className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
         >
-            <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
+            <span className={`text-sm font-semibold ${styles.textColor}`}>
                 {title}
             </span>
             {ping && (
@@ -237,7 +237,7 @@ const DashPanelHeader3 = ({ title, ping = false, ...props }) => {
         <div
             className={`flex flex-row rounded-t p-2 border-b justify-between items-center ${styles.string}`}
         >
-            <span className={`uppercase text-xs font-bold ${styles.textColor}`}>
+            <span className={`text-sm font-semibold ${styles.textColor}`}>
                 {title}
             </span>
             {ping && (
@@ -290,7 +290,7 @@ const DashPanelFooter3 = ({ children, ...props }) => {
     );
     return (
         <div
-            className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs uppercase font-bold ${styles.string}`}
+            className={`flex flex-row rounded-b p-2 border-t justify-between items-center text-xs font-medium ${styles.string}`}
         >
             {children}
         </div>
