@@ -1,0 +1,2898 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>Dash Design Guide</title>
+        <meta
+            name="description"
+            content="How Dash screens are built: dash-react components, Aurora tokens, one spacing scale, one chat, one list row, and the review checklist."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        />
+        <link rel="stylesheet" href="gallery/dist/gallery.css" />
+        <link rel="stylesheet" href="design-guide.css" />
+    </head>
+    <body>
+        <a class="skip" href="#principles">Skip to the guide</a>
+        <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+            <defs>
+                <symbol id="i-plus" viewBox="0 0 16 16">
+                    <path
+                        d="M8 2v12M2 8h12"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-x" viewBox="0 0 16 16">
+                    <path
+                        d="M3.5 3.5l9 9M12.5 3.5l-9 9"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-back" viewBox="0 0 16 16">
+                    <path
+                        d="M10 3L5 8l5 5"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-expand" viewBox="0 0 16 16">
+                    <path
+                        d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5l-4.5 4.5M2.5 13.5L7 9"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-chat" viewBox="0 0 16 16">
+                    <path
+                        d="M2.5 4.5a2 2 0 012-2h7a2 2 0 012 2v5a2 2 0 01-2 2H7l-3 2.5v-2.5h0a2 2 0 01-1.5-2z"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        stroke-linejoin="round"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-grid" viewBox="0 0 16 16">
+                    <rect
+                        x="2.5"
+                        y="2.5"
+                        width="4.5"
+                        height="4.5"
+                        rx="1"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        fill="none"
+                    />
+                    <rect
+                        x="9"
+                        y="2.5"
+                        width="4.5"
+                        height="4.5"
+                        rx="1"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        fill="none"
+                    />
+                    <rect
+                        x="2.5"
+                        y="9"
+                        width="4.5"
+                        height="4.5"
+                        rx="1"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        fill="none"
+                    />
+                    <rect
+                        x="9"
+                        y="9"
+                        width="4.5"
+                        height="4.5"
+                        rx="1"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-pen" viewBox="0 0 16 16">
+                    <path
+                        d="M10.5 2.5l3 3-7.5 7.5H3v-3z"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        stroke-linejoin="round"
+                        fill="none"
+                    />
+                </symbol>
+                <symbol id="i-check" viewBox="0 0 16 16">
+                    <path
+                        d="M3 8.5l3 3 7-7"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        fill="none"
+                    />
+                </symbol>
+            </defs>
+        </svg>
+
+        <div class="shell">
+            <nav class="toc" aria-label="Contents">
+                <span class="eyebrow">Dash design guide</span>
+                <div class="theme-toggle" role="group" aria-label="Page theme">
+                    <button type="button" data-set-theme="" aria-pressed="true">
+                        System
+                    </button>
+                    <button
+                        type="button"
+                        data-set-theme="light"
+                        aria-pressed="false"
+                    >
+                        Light
+                    </button>
+                    <button
+                        type="button"
+                        data-set-theme="dark"
+                        aria-pressed="false"
+                    >
+                        Dark
+                    </button>
+                </div>
+                <span class="toc-group">Foundations</span>
+                <a href="#principles">Principles</a>
+                <a href="#color">Color roles</a>
+                <a href="#widget-colors">Colors in widgets</a>
+                <a href="#type">Type</a>
+                <a href="#spacing">Spacing &amp; shape</a>
+                <span class="toc-group">Components</span>
+                <a href="#components">Which component</a>
+                <a href="component-gallery.html">Component gallery ↗</a>
+                <a href="#buttons">Buttons</a>
+                <span class="toc-group">Patterns</span>
+                <a href="#headers"
+                    >Panel header <span class="tag-proposed">Proposed</span></a
+                >
+                <a href="#rows"
+                    >List rows <span class="tag-proposed">Proposed</span></a
+                >
+                <a href="#chat"
+                    >Chat <span class="tag-proposed">Proposed</span></a
+                >
+                <a href="#empty">Empty states</a>
+                <a href="#words">Words</a>
+                <span class="toc-group">Process</span>
+                <a href="#checklist">Review checklist</a>
+                <a href="#review">Reviewed against</a>
+                <a href="#rollout">Rollout</a>
+            </nav>
+
+            <main>
+                <header>
+                    <span class="status">Version 1 · October 2026</span>
+                    <h1>Dash Design Guide</h1>
+                    <p class="lede">
+                        How every Dash screen is built, in dash-electron,
+                        dash-core and widgets: which dash-react component to
+                        reach for, which theme token colors it, how far apart
+                        things sit, and what gets checked before a screen ships.
+                    </p>
+                    <p>
+                        It describes what the app <strong>ships today</strong> —
+                        the Aurora treatment in
+                        <code>src/designSystem.css</code> — and replaces
+                        <code>dash-electron/docs/design/DESIGN.md</code>, a 2025
+                        proposal that was never built as written. Every
+                        component below is drawn twice, in Aurora dark and
+                        light, and most sit next to a real bug it replaces.
+                    </p>
+                </header>
+
+                <section id="principles">
+                    <h2>Five rules that settle most arguments</h2>
+                    <div class="rules">
+                        <div class="rule">
+                            <h3>dash-react or nothing</h3>
+                            <p>
+                                Every control, row, bubble and header comes from
+                                dash-react. If the piece doesn't exist, add it
+                                there first with a story, then use it. No local
+                                look-alikes in dash-core or dash-electron.
+                            </p>
+                        </div>
+                        <div class="rule">
+                            <h3>Tokens, never shades</h3>
+                            <p>
+                                Color comes from a role (text, muted, surface,
+                                hairline, accent) that maps to a theme token. No
+                                <code>gray-400</code>, <code>indigo-400</code>,
+                                <code>amber-300</code>, and no
+                                <code>opacity-50</code> for muting. That's for
+                                screens built in dash-react, dash-core and
+                                dash-electron; widget markup may use the
+                                Tailwind palette, which follows Dash colors (see
+                                Colors in widgets).
+                            </p>
+                        </div>
+                        <div class="rule">
+                            <h3>One scale</h3>
+                            <p>
+                                Spacing comes from six steps (4–24px). Radii
+                                from three. Text from five sizes. If a value
+                                isn't in the scale, the design is wrong, not the
+                                scale.
+                            </p>
+                        </div>
+                        <div class="rule">
+                            <h3>Left-aligned, scannable</h3>
+                            <p>
+                                Lists, rows and replies read from the left edge.
+                                Titles first, status underneath. Centered text
+                                is for empty states and nothing else.
+                            </p>
+                        </div>
+                        <div class="rule">
+                            <h3>Both themes, every time</h3>
+                            <p>
+                                A screen isn't done until it has been looked at
+                                in dark and light. Most of the bugs below were
+                                readable in one mode and broken in the other.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="color">
+                    <h2>Seven roles, mapped to tokens</h2>
+                    <p>
+                        Screens ask for a <strong>role</strong>; the role
+                        decides the token. Under Aurora the CSS variable wins;
+                        elsewhere the ThemeContext key applies. The accent is
+                        fixed Aurora violet; a theme's primary color only colors
+                        things through the accent role, never a raw
+                        <code>bg-primary-*</code> chosen per screen.
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Role</th>
+                                    <th>Aurora dark</th>
+                                    <th>Aurora light</th>
+                                    <th>Theme key</th>
+                                    <th>Use for</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>text</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #f0f1f5"
+                                        ></span
+                                        ><code>--text</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #1a1d23"
+                                        ></span
+                                        ><code>--text</code>
+                                    </td>
+                                    <td><code>text-neutral-light</code></td>
+                                    <td>Titles, body, bubble text</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>muted</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #a4a9b8"
+                                        ></span
+                                        ><code>--text-2</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #5b616e"
+                                        ></span
+                                        ><code>--text-2</code>
+                                    </td>
+                                    <td><code>text-neutral-medium</code></td>
+                                    <td>Status lines, descriptions, meta</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>faint</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #868c9d"
+                                        ></span
+                                        ><code>--text-3</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #626876"
+                                        ></span
+                                        ><code>--text-3</code>
+                                    </td>
+                                    <td><code>text-neutral-dark</code>*</td>
+                                    <td>
+                                        Section labels, icons, hints,
+                                        placeholders
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>surface</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #191c26"
+                                        ></span
+                                        ><code>--raised</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #f1f2f7"
+                                        ></span
+                                        ><code>--raised</code>
+                                    </td>
+                                    <td><code>bg-neutral-very-dark</code></td>
+                                    <td>
+                                        Reply bubbles, hover fills, cards on a
+                                        panel
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>well</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #08090c"
+                                        ></span
+                                        ><code>--raised-2</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #ececf1"
+                                        ></span
+                                        ><code>--raised-2</code>
+                                    </td>
+                                    <td><code>bg-neutral-very-dark</code>*</td>
+                                    <td>Inputs, text areas, code</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>hairline</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #23252c"
+                                        ></span
+                                        ><code>--hairline</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #e5e6ea"
+                                        ></span
+                                        ><code>--hairline</code>
+                                    </td>
+                                    <td><code>border-neutral-dark</code></td>
+                                    <td>
+                                        Dividers, row and bubble edges, panel
+                                        borders
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>accent</strong></td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #8f82f9"
+                                        ></span
+                                        ><code>--accent</code>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="sw"
+                                            style="background: #6a5cf0"
+                                        ></span
+                                        ><code>--accent</code>
+                                    </td>
+                                    <td>
+                                        <code>--accent-soft</code> for fills
+                                    </td>
+                                    <td>
+                                        Primary button, focus, active tab, your
+                                        chat bubble (soft)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        <strong>Contrast:</strong> text up to 17px needs 4.5:1
+                        against what's behind it; 18px and up, or bold, needs
+                        3:1 (WCAG AA, Apple HIG). Check both modes and with
+                        Increase Contrast on. Faint text was raised to pass on
+                        every surface: <code>#868c9d</code> dark,
+                        <code>#626876</code> light.
+                    </p>
+                    <p>
+                        Keys marked * are proposed, not yet used anywhere; the
+                        <code>useDashTokens</code> stories confirm them in both
+                        modes before any screen relies on them.
+                    </p>
+                    <p>
+                        Status colors (<code>--green</code>,
+                        <code>--amber</code>, <code>--red</code> and their
+                        <code>-soft</code> fills) come only from
+                        <code>useStatusTokens()</code>. One hook —
+                        <code>useDashTokens()</code>, added in dash-react,
+                        replacing <code>useConfigTokens</code>,
+                        <code>useBubbleTokens</code> and
+                        <code>builderTheme</code> — returns these roles so no
+                        screen picks keys itself.
+                    </p>
+                </section>
+
+                <section id="widget-colors">
+                    <span class="proposed-flag"
+                        >Shipped in dash-react 1.0.70 — dash-electron picks it
+                        up in its next release</span
+                    >
+                    <h2>Colors in widgets</h2>
+                    <p>
+                        Widget authors write ordinary Tailwind and get Dash's
+                        colors. Every Tailwind palette name has a
+                        <strong>Dash hex</strong> — the full table is below — in
+                        the Tailwind config of dash-react and dash-electron (one
+                        source: <code>aurora-palette.cjs</code> in dash-react),
+                        so <code>bg-gray-800</code>,
+                        <code>text-indigo-400</code> or
+                        <code>border-slate-700</code>
+                        come out in Dash colors — in existing widgets and app
+                        code too, with no edits and no new class names.
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tailwind family</th>
+                                    <th>Dash scale</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <code
+                                            >gray · slate · zinc · neutral ·
+                                            stone</code
+                                        >
+                                    </td>
+                                    <td>
+                                        One Aurora cool neutral — Dash has one
+                                        gray
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <code>violet</code> (with
+                                        <code>indigo</code>,
+                                        <code>purple</code> as neighbours)
+                                    </td>
+                                    <td>
+                                        Anchored on Aurora's accent
+                                        <code>#8f82f9</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <code>red · rose</code>,
+                                        <code>green · emerald</code>,
+                                        <code>amber · yellow</code>,
+                                        <code>cyan · sky</code>
+                                    </td>
+                                    <td>
+                                        Anchored on Aurora's red, green, amber
+                                        and cyan
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <code
+                                            >blue · teal · lime · orange · pink
+                                            · fuchsia</code
+                                        >
+                                    </td>
+                                    <td>
+                                        Tailwind's hue, softened to Aurora's
+                                        saturation
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>white · black</code></td>
+                                    <td>Unchanged</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="ramps">
+                        <div class="ramp">
+                            <span class="ramp-name"
+                                >gray · slate · zinc · neutral · stone</span
+                            >
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f9f9fb; color: #111318"
+                                    title="gray-50 #f9f9fb"
+                                    ><b>50</b>#f9f9fb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f3f4f6; color: #111318"
+                                    title="gray-100 #f3f4f6"
+                                    ><b>100</b>#f3f4f6</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e5e6ec; color: #111318"
+                                    title="gray-200 #e5e6ec"
+                                    ><b>200</b>#e5e6ec</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #d2d4dd; color: #111318"
+                                    title="gray-300 #d2d4dd"
+                                    ><b>300</b>#d2d4dd</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #9ea2b3; color: #111318"
+                                    title="gray-400 #9ea2b3"
+                                    ><b>400</b>#9ea2b3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #6c7186; color: #ffffff"
+                                    title="gray-500 #6c7186"
+                                    ><b>500</b>#6c7186</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #4f5366; color: #ffffff"
+                                    title="gray-600 #4f5366"
+                                    ><b>600</b>#4f5366</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3b3f53; color: #ffffff"
+                                    title="gray-700 #3b3f53"
+                                    ><b>700</b>#3b3f53</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #242736; color: #ffffff"
+                                    title="gray-800 #242736"
+                                    ><b>800</b>#242736</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #151821; color: #ffffff"
+                                    title="gray-900 #151821"
+                                    ><b>900</b>#151821</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #06070b; color: #ffffff"
+                                    title="gray-950 #06070b"
+                                    ><b>950</b>#06070b</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">red</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fdf2f3; color: #111318"
+                                    title="red-50 #fdf2f3"
+                                    ><b>50</b>#fdf2f3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #fce2e4; color: #111318"
+                                    title="red-100 #fce2e4"
+                                    ><b>100</b>#fce2e4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #facbce; color: #111318"
+                                    title="red-200 #facbce"
+                                    ><b>200</b>#facbce</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f5a8ab; color: #111318"
+                                    title="red-300 #f5a8ab"
+                                    ><b>300</b>#f5a8ab</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #ed787e; color: #111318"
+                                    title="red-400 #ed787e"
+                                    ><b>400</b>#ed787e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e25258; color: #111318"
+                                    title="red-500 #e25258"
+                                    ><b>500</b>#e25258</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #d03940; color: #ffffff"
+                                    title="red-600 #d03940"
+                                    ><b>600</b>#d03940</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b2292f; color: #ffffff"
+                                    title="red-700 #b2292f"
+                                    ><b>700</b>#b2292f</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #92252a; color: #ffffff"
+                                    title="red-800 #92252a"
+                                    ><b>800</b>#92252a</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #782528; color: #ffffff"
+                                    title="red-900 #782528"
+                                    ><b>900</b>#782528</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #410e11; color: #ffffff"
+                                    title="red-950 #410e11"
+                                    ><b>950</b>#410e11</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">orange</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fef7f0; color: #111318"
+                                    title="orange-50 #fef7f0"
+                                    ><b>50</b>#fef7f0</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #fbeedb; color: #111318"
+                                    title="orange-100 #fbeedb"
+                                    ><b>100</b>#fbeedb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f7d9b5; color: #111318"
+                                    title="orange-200 #f7d9b5"
+                                    ><b>200</b>#f7d9b5</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f1be87; color: #111318"
+                                    title="orange-300 #f1be87"
+                                    ><b>300</b>#f1be87</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #eb9957; color: #111318"
+                                    title="orange-400 #eb9957"
+                                    ><b>400</b>#eb9957</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e67f38; color: #111318"
+                                    title="orange-500 #e67f38"
+                                    ><b>500</b>#e67f38</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #de6222; color: #111318"
+                                    title="orange-600 #de6222"
+                                    ><b>600</b>#de6222</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b84b1d; color: #ffffff"
+                                    title="orange-700 #b84b1d"
+                                    ><b>700</b>#b84b1d</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #913c1f; color: #ffffff"
+                                    title="orange-800 #913c1f"
+                                    ><b>800</b>#913c1f</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #74331c; color: #ffffff"
+                                    title="orange-900 #74331c"
+                                    ><b>900</b>#74331c</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3f180d; color: #ffffff"
+                                    title="orange-950 #3f180d"
+                                    ><b>950</b>#3f180d</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">amber</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fefbf4; color: #111318"
+                                    title="amber-50 #fefbf4"
+                                    ><b>50</b>#fefbf4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #fcf1e0; color: #111318"
+                                    title="amber-100 #fcf1e0"
+                                    ><b>100</b>#fcf1e0</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f9e3bf; color: #111318"
+                                    title="amber-200 #f9e3bf"
+                                    ><b>200</b>#f9e3bf</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f5d398; color: #111318"
+                                    title="amber-300 #f5d398"
+                                    ><b>300</b>#f5d398</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f1c06f; color: #111318"
+                                    title="amber-400 #f1c06f"
+                                    ><b>400</b>#f1c06f</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e6a435; color: #111318"
+                                    title="amber-500 #e6a435"
+                                    ><b>500</b>#e6a435</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #c38315; color: #111318"
+                                    title="amber-600 #c38315"
+                                    ><b>600</b>#c38315</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #966514; color: #ffffff"
+                                    title="amber-700 #966514"
+                                    ><b>700</b>#966514</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #755215; color: #ffffff"
+                                    title="amber-800 #755215"
+                                    ><b>800</b>#755215</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #604314; color: #ffffff"
+                                    title="amber-900 #604314"
+                                    ><b>900</b>#604314</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #352407; color: #ffffff"
+                                    title="amber-950 #352407"
+                                    ><b>950</b>#352407</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">yellow</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fdfcf4; color: #111318"
+                                    title="yellow-50 #fdfcf4"
+                                    ><b>50</b>#fdfcf4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #fcf7e3; color: #111318"
+                                    title="yellow-100 #fcf7e3"
+                                    ><b>100</b>#fcf7e3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f9eec3; color: #111318"
+                                    title="yellow-200 #f9eec3"
+                                    ><b>200</b>#f9eec3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f4e096; color: #111318"
+                                    title="yellow-300 #f4e096"
+                                    ><b>300</b>#f4e096</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #eccf61; color: #111318"
+                                    title="yellow-400 #eccf61"
+                                    ><b>400</b>#eccf61</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #dfb81e; color: #111318"
+                                    title="yellow-500 #dfb81e"
+                                    ><b>500</b>#dfb81e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b49415; color: #111318"
+                                    title="yellow-600 #b49415"
+                                    ><b>600</b>#b49415</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #866f13; color: #ffffff"
+                                    title="yellow-700 #866f13"
+                                    ><b>700</b>#866f13</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #6a5916; color: #ffffff"
+                                    title="yellow-800 #6a5916"
+                                    ><b>800</b>#6a5916</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #584b16; color: #ffffff"
+                                    title="yellow-900 #584b16"
+                                    ><b>900</b>#584b16</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #312809; color: #ffffff"
+                                    title="yellow-950 #312809"
+                                    ><b>950</b>#312809</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">lime</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f9fdf0; color: #111318"
+                                    title="lime-50 #f9fdf0"
+                                    ><b>50</b>#f9fdf0</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f0f9df; color: #111318"
+                                    title="lime-100 #f0f9df"
+                                    ><b>100</b>#f0f9df</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e3f4c3; color: #111318"
+                                    title="lime-200 #e3f4c3"
+                                    ><b>200</b>#e3f4c3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #d0eba0; color: #111318"
+                                    title="lime-300 #d0eba0"
+                                    ><b>300</b>#d0eba0</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #badf7c; color: #111318"
+                                    title="lime-400 #badf7c"
+                                    ><b>400</b>#badf7c</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #8dca2e; color: #111318"
+                                    title="lime-500 #8dca2e"
+                                    ><b>500</b>#8dca2e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #6ca121; color: #111318"
+                                    title="lime-600 #6ca121"
+                                    ><b>600</b>#6ca121</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #527b1e; color: #ffffff"
+                                    title="lime-700 #527b1e"
+                                    ><b>700</b>#527b1e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #43611d; color: #ffffff"
+                                    title="lime-800 #43611d"
+                                    ><b>800</b>#43611d</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3a521d; color: #ffffff"
+                                    title="lime-900 #3a521d"
+                                    ><b>900</b>#3a521d</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1c2e0a; color: #ffffff"
+                                    title="lime-950 #1c2e0a"
+                                    ><b>950</b>#1c2e0a</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">green</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f2fcf8; color: #111318"
+                                    title="green-50 #f2fcf8"
+                                    ><b>50</b>#f2fcf8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e3faef; color: #111318"
+                                    title="green-100 #e3faef"
+                                    ><b>100</b>#e3faef</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #c8f3df; color: #111318"
+                                    title="green-200 #c8f3df"
+                                    ><b>200</b>#c8f3df</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #a1e9c8; color: #111318"
+                                    title="green-300 #a1e9c8"
+                                    ><b>300</b>#a1e9c8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #74d7ab; color: #111318"
+                                    title="green-400 #74d7ab"
+                                    ><b>400</b>#74d7ab</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #36c283; color: #111318"
+                                    title="green-500 #36c283"
+                                    ><b>500</b>#36c283</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #27a06a; color: #111318"
+                                    title="green-600 #27a06a"
+                                    ><b>600</b>#27a06a</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #227f55; color: #ffffff"
+                                    title="green-700 #227f55"
+                                    ><b>700</b>#227f55</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #206445; color: #ffffff"
+                                    title="green-800 #206445"
+                                    ><b>800</b>#206445</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1c5239; color: #ffffff"
+                                    title="green-900 #1c5239"
+                                    ><b>900</b>#1c5239</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #0a2d1d; color: #ffffff"
+                                    title="green-950 #0a2d1d"
+                                    ><b>950</b>#0a2d1d</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">emerald</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #effcf7; color: #111318"
+                                    title="emerald-50 #effcf7"
+                                    ><b>50</b>#effcf7</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #daf7ec; color: #111318"
+                                    title="emerald-100 #daf7ec"
+                                    ><b>100</b>#daf7ec</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #bbefdb; color: #111318"
+                                    title="emerald-200 #bbefdb"
+                                    ><b>200</b>#bbefdb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #92e1c3; color: #111318"
+                                    title="emerald-300 #92e1c3"
+                                    ><b>300</b>#92e1c3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #64cea5; color: #111318"
+                                    title="emerald-400 #64cea5"
+                                    ><b>400</b>#64cea5</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #24b980; color: #111318"
+                                    title="emerald-500 #24b980"
+                                    ><b>500</b>#24b980</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #169664; color: #111318"
+                                    title="emerald-600 #169664"
+                                    ><b>600</b>#169664</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #117851; color: #ffffff"
+                                    title="emerald-700 #117851"
+                                    ><b>700</b>#117851</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #105f41; color: #ffffff"
+                                    title="emerald-800 #105f41"
+                                    ><b>800</b>#105f41</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #0f4e35; color: #ffffff"
+                                    title="emerald-900 #0f4e35"
+                                    ><b>900</b>#0f4e35</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #072b1d; color: #ffffff"
+                                    title="emerald-950 #072b1d"
+                                    ><b>950</b>#072b1d</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">teal</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f4fcfa; color: #111318"
+                                    title="teal-50 #f4fcfa"
+                                    ><b>50</b>#f4fcfa</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #d8f8f1; color: #111318"
+                                    title="teal-100 #d8f8f1"
+                                    ><b>100</b>#d8f8f1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b6f1e5; color: #111318"
+                                    title="teal-200 #b6f1e5"
+                                    ><b>200</b>#b6f1e5</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #8ce4d6; color: #111318"
+                                    title="teal-300 #8ce4d6"
+                                    ><b>300</b>#8ce4d6</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #65cfc2; color: #111318"
+                                    title="teal-400 #65cfc2"
+                                    ><b>400</b>#65cfc2</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #28b7a8; color: #111318"
+                                    title="teal-500 #28b7a8"
+                                    ><b>500</b>#28b7a8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1d9389; color: #111318"
+                                    title="teal-600 #1d9389"
+                                    ><b>600</b>#1d9389</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1c766f; color: #ffffff"
+                                    title="teal-700 #1c766f"
+                                    ><b>700</b>#1c766f</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1b5e59; color: #ffffff"
+                                    title="teal-800 #1b5e59"
+                                    ><b>800</b>#1b5e59</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1b4d4a; color: #ffffff"
+                                    title="teal-900 #1b4d4a"
+                                    ><b>900</b>#1b4d4a</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #092f2e; color: #ffffff"
+                                    title="teal-950 #092f2e"
+                                    ><b>950</b>#092f2e</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">cyan</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f4fcfe; color: #111318"
+                                    title="cyan-50 #f4fcfe"
+                                    ><b>50</b>#f4fcfe</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #def7fb; color: #111318"
+                                    title="cyan-100 #def7fb"
+                                    ><b>100</b>#def7fb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #c0eef7; color: #111318"
+                                    title="cyan-200 #c0eef7"
+                                    ><b>200</b>#c0eef7</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #96e3f1; color: #111318"
+                                    title="cyan-300 #96e3f1"
+                                    ><b>300</b>#96e3f1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #62cfe4; color: #111318"
+                                    title="cyan-400 #62cfe4"
+                                    ><b>400</b>#62cfe4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1bb5d2; color: #111318"
+                                    title="cyan-500 #1bb5d2"
+                                    ><b>500</b>#1bb5d2</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1892a8; color: #111318"
+                                    title="cyan-600 #1892a8"
+                                    ><b>600</b>#1892a8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1a7485; color: #ffffff"
+                                    title="cyan-700 #1a7485"
+                                    ><b>700</b>#1a7485</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1d5e6a; color: #ffffff"
+                                    title="cyan-800 #1d5e6a"
+                                    ><b>800</b>#1d5e6a</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1c4e58; color: #ffffff"
+                                    title="cyan-900 #1c4e58"
+                                    ><b>900</b>#1c4e58</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #0d333b; color: #ffffff"
+                                    title="cyan-950 #0d333b"
+                                    ><b>950</b>#0d333b</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">sky</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f1f9fe; color: #111318"
+                                    title="sky-50 #f1f9fe"
+                                    ><b>50</b>#f1f9fe</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e1f3fb; color: #111318"
+                                    title="sky-100 #e1f3fb"
+                                    ><b>100</b>#e1f3fb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #c1e5f7; color: #111318"
+                                    title="sky-200 #c1e5f7"
+                                    ><b>200</b>#c1e5f7</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #8ed2f1; color: #111318"
+                                    title="sky-300 #8ed2f1"
+                                    ><b>300</b>#8ed2f1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #5bbce9; color: #111318"
+                                    title="sky-400 #5bbce9"
+                                    ><b>400</b>#5bbce9</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #2ea6de; color: #111318"
+                                    title="sky-500 #2ea6de"
+                                    ><b>500</b>#2ea6de</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1485bb; color: #111318"
+                                    title="sky-600 #1485bb"
+                                    ><b>600</b>#1485bb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #116a95; color: #ffffff"
+                                    title="sky-700 #116a95"
+                                    ><b>700</b>#116a95</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #135a7b; color: #ffffff"
+                                    title="sky-800 #135a7b"
+                                    ><b>800</b>#135a7b</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #154a64; color: #ffffff"
+                                    title="sky-900 #154a64"
+                                    ><b>900</b>#154a64</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #0d3040; color: #ffffff"
+                                    title="sky-950 #0d3040"
+                                    ><b>950</b>#0d3040</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">blue</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #eff6fd; color: #111318"
+                                    title="blue-50 #eff6fd"
+                                    ><b>50</b>#eff6fd</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #dde9fb; color: #111318"
+                                    title="blue-100 #dde9fb"
+                                    ><b>100</b>#dde9fb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #c3dbf8; color: #111318"
+                                    title="blue-200 #c3dbf8"
+                                    ><b>200</b>#c3dbf8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #9bc4f3; color: #111318"
+                                    title="blue-300 #9bc4f3"
+                                    ><b>300</b>#9bc4f3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #6ca5ec; color: #111318"
+                                    title="blue-400 #6ca5ec"
+                                    ><b>400</b>#6ca5ec</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #4884e5; color: #111318"
+                                    title="blue-500 #4884e5"
+                                    ><b>500</b>#4884e5</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3367d8; color: #ffffff"
+                                    title="blue-600 #3367d8"
+                                    ><b>600</b>#3367d8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #2c54c1; color: #ffffff"
+                                    title="blue-700 #2c54c1"
+                                    ><b>700</b>#2c54c1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #2a449c; color: #ffffff"
+                                    title="blue-800 #2a449c"
+                                    ><b>800</b>#2a449c</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #263c7c; color: #ffffff"
+                                    title="blue-900 #263c7c"
+                                    ><b>900</b>#263c7c</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1b264c; color: #ffffff"
+                                    title="blue-950 #1b264c"
+                                    ><b>950</b>#1b264c</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">indigo</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f0f2fe; color: #111318"
+                                    title="indigo-50 #f0f2fe"
+                                    ><b>50</b>#f0f2fe</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e3e6fe; color: #111318"
+                                    title="indigo-100 #e3e6fe"
+                                    ><b>100</b>#e3e6fe</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #ccd1fb; color: #111318"
+                                    title="indigo-200 #ccd1fb"
+                                    ><b>200</b>#ccd1fb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #aab3f8; color: #111318"
+                                    title="indigo-300 #aab3f8"
+                                    ><b>300</b>#aab3f8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #7f8ef1; color: #111318"
+                                    title="indigo-400 #7f8ef1"
+                                    ><b>400</b>#7f8ef1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #596be8; color: #ffffff"
+                                    title="indigo-500 #596be8"
+                                    ><b>500</b>#596be8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3c4fda; color: #ffffff"
+                                    title="indigo-600 #3c4fda"
+                                    ><b>600</b>#3c4fda</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3746af; color: #ffffff"
+                                    title="indigo-700 #3746af"
+                                    ><b>700</b>#3746af</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #2f3b8b; color: #ffffff"
+                                    title="indigo-800 #2f3b8b"
+                                    ><b>800</b>#2f3b8b</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #2c346e; color: #ffffff"
+                                    title="indigo-900 #2c346e"
+                                    ><b>900</b>#2c346e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1a1f40; color: #ffffff"
+                                    title="indigo-950 #1a1f40"
+                                    ><b>950</b>#1a1f40</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">violet</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #f4f3ff; color: #111318"
+                                    title="violet-50 #f4f3ff"
+                                    ><b>50</b>#f4f3ff</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #ece9fd; color: #111318"
+                                    title="violet-100 #ece9fd"
+                                    ><b>100</b>#ece9fd</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #dbd6fd; color: #111318"
+                                    title="violet-200 #dbd6fd"
+                                    ><b>200</b>#dbd6fd</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #bfb7fb; color: #111318"
+                                    title="violet-300 #bfb7fb"
+                                    ><b>300</b>#bfb7fb</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #9b8ff7; color: #111318"
+                                    title="violet-400 #9b8ff7"
+                                    ><b>400</b>#9b8ff7</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #7666f3; color: #111318"
+                                    title="violet-500 #7666f3"
+                                    ><b>500</b>#7666f3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #5d4cea; color: #ffffff"
+                                    title="violet-600 #5d4cea"
+                                    ><b>600</b>#5d4cea</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #4d3dd8; color: #ffffff"
+                                    title="violet-700 #4d3dd8"
+                                    ><b>700</b>#4d3dd8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3b29c9; color: #ffffff"
+                                    title="violet-800 #3b29c9"
+                                    ><b>800</b>#3b29c9</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #3224a4; color: #ffffff"
+                                    title="violet-900 #3224a4"
+                                    ><b>900</b>#3224a4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #1e146d; color: #ffffff"
+                                    title="violet-950 #1e146d"
+                                    ><b>950</b>#1e146d</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">purple</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #faf6fe; color: #111318"
+                                    title="purple-50 #faf6fe"
+                                    ><b>50</b>#faf6fe</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f2e9fd; color: #111318"
+                                    title="purple-100 #f2e9fd"
+                                    ><b>100</b>#f2e9fd</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e8d5fc; color: #111318"
+                                    title="purple-200 #e8d5fc"
+                                    ><b>200</b>#e8d5fc</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #d6b6f8; color: #111318"
+                                    title="purple-300 #d6b6f8"
+                                    ><b>300</b>#d6b6f8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #bb89f3; color: #111318"
+                                    title="purple-400 #bb89f3"
+                                    ><b>400</b>#bb89f3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #a15eea; color: #111318"
+                                    title="purple-500 #a15eea"
+                                    ><b>500</b>#a15eea</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #8b42dc; color: #ffffff"
+                                    title="purple-600 #8b42dc"
+                                    ><b>600</b>#8b42dc</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #7730c4; color: #ffffff"
+                                    title="purple-700 #7730c4"
+                                    ><b>700</b>#7730c4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #632ca1; color: #ffffff"
+                                    title="purple-800 #632ca1"
+                                    ><b>800</b>#632ca1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #512581; color: #ffffff"
+                                    title="purple-900 #512581"
+                                    ><b>900</b>#512581</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #360f62; color: #ffffff"
+                                    title="purple-950 #360f62"
+                                    ><b>950</b>#360f62</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">fuchsia</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fcf5fe; color: #111318"
+                                    title="fuchsia-50 #fcf5fe"
+                                    ><b>50</b>#fcf5fe</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f8e8fc; color: #111318"
+                                    title="fuchsia-100 #f8e8fc"
+                                    ><b>100</b>#f8e8fc</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f2d2f9; color: #111318"
+                                    title="fuchsia-200 #f2d2f9"
+                                    ><b>200</b>#f2d2f9</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e9b0f3; color: #111318"
+                                    title="fuchsia-300 #e9b0f3"
+                                    ><b>300</b>#e9b0f3</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #de82ec; color: #111318"
+                                    title="fuchsia-400 #de82ec"
+                                    ><b>400</b>#de82ec</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #cd59de; color: #111318"
+                                    title="fuchsia-500 #cd59de"
+                                    ><b>500</b>#cd59de</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b73bc7; color: #ffffff"
+                                    title="fuchsia-600 #b73bc7"
+                                    ><b>600</b>#b73bc7</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #9b2ca6; color: #ffffff"
+                                    title="fuchsia-700 #9b2ca6"
+                                    ><b>700</b>#9b2ca6</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #802688; color: #ffffff"
+                                    title="fuchsia-800 #802688"
+                                    ><b>800</b>#802688</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #6a246e; color: #ffffff"
+                                    title="fuchsia-900 #6a246e"
+                                    ><b>900</b>#6a246e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #460c4a; color: #ffffff"
+                                    title="fuchsia-950 #460c4a"
+                                    ><b>950</b>#460c4a</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">pink</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fcf3f8; color: #111318"
+                                    title="pink-50 #fcf3f8"
+                                    ><b>50</b>#fcf3f8</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #fae8f2; color: #111318"
+                                    title="pink-100 #fae8f2"
+                                    ><b>100</b>#fae8f2</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f6d2e6; color: #111318"
+                                    title="pink-200 #f6d2e6"
+                                    ><b>200</b>#f6d2e6</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f0acd1; color: #111318"
+                                    title="pink-300 #f0acd1"
+                                    ><b>300</b>#f0acd1</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e77cb4; color: #111318"
+                                    title="pink-400 #e77cb4"
+                                    ><b>400</b>#e77cb4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #dc599a; color: #111318"
+                                    title="pink-500 #dc599a"
+                                    ><b>500</b>#dc599a</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #cb407d; color: #ffffff"
+                                    title="pink-600 #cb407d"
+                                    ><b>600</b>#cb407d</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b52a64; color: #ffffff"
+                                    title="pink-700 #b52a64"
+                                    ><b>700</b>#b52a64</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #942652; color: #ffffff"
+                                    title="pink-800 #942652"
+                                    ><b>800</b>#942652</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #7b2347; color: #ffffff"
+                                    title="pink-900 #7b2347"
+                                    ><b>900</b>#7b2347</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #4b0f27; color: #ffffff"
+                                    title="pink-950 #4b0f27"
+                                    ><b>950</b>#4b0f27</span
+                                >
+                            </div>
+                        </div>
+                        <div class="ramp">
+                            <span class="ramp-name">rose</span>
+                            <div class="ramp-row">
+                                <span
+                                    class="ramp-cell"
+                                    style="background: #fef1f4; color: #111318"
+                                    title="rose-50 #fef1f4"
+                                    ><b>50</b>#fef1f4</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #fce4e9; color: #111318"
+                                    title="rose-100 #fce4e9"
+                                    ><b>100</b>#fce4e9</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f9cfd6; color: #111318"
+                                    title="rose-200 #f9cfd6"
+                                    ><b>200</b>#f9cfd6</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #f4a8b5; color: #111318"
+                                    title="rose-300 #f4a8b5"
+                                    ><b>300</b>#f4a8b5</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #ee7a8e; color: #111318"
+                                    title="rose-400 #ee7a8e"
+                                    ><b>400</b>#ee7a8e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #e4526c; color: #111318"
+                                    title="rose-500 #e4526c"
+                                    ><b>500</b>#e4526c</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #d33955; color: #ffffff"
+                                    title="rose-600 #d33955"
+                                    ><b>600</b>#d33955</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #b8233e; color: #ffffff"
+                                    title="rose-700 #b8233e"
+                                    ><b>700</b>#b8233e</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #9a2036; color: #ffffff"
+                                    title="rose-800 #9a2036"
+                                    ><b>800</b>#9a2036</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #831f31; color: #ffffff"
+                                    title="rose-900 #831f31"
+                                    ><b>900</b>#831f31</span
+                                ><span
+                                    class="ramp-cell"
+                                    style="background: #480c17; color: #ffffff"
+                                    title="rose-950 #480c17"
+                                    ><b>950</b>#480c17</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        <strong>Same contrast as Tailwind.</strong> Each shade
+                        keeps Tailwind's brightness at Aurora's hue, so every
+                        pairing keeps its contrast (text-600 on bg-300 stays
+                        5.1:1, text-200 on bg-700 stays 8.3:1). That matters
+                        because user themes are stored as palette shades: a
+                        theme's light and dark variants pick different shades,
+                        and those picks still read correctly.
+                    </p>
+                    <p>
+                        <strong>Same values in both modes.</strong> The theme
+                        system already switches shades for light mode, so the
+                        palette itself doesn't flip — flipping too would undo
+                        it. A widget that hard-codes
+                        <code>bg-gray-900</code> stays dark in light mode, as it
+                        does today; for light mode, build from dash-react
+                        components and theme tokens. Making raw palette classes
+                        flip inside widget markup only is a possible follow-up.
+                    </p>
+                    <p>
+                        Semantic names (<code>bg-surface</code>,
+                        <code>text-muted</code>, <code>border-hairline</code>,
+                        <code>bg-accent</code>) may come later as clearer,
+                        mode-aware options. The widget validator will flag only
+                        colors the palette can't reach: hex values in inline
+                        styles and arbitrary values like
+                        <code>bg-[#123456]</code>.
+                    </p>
+                </section>
+
+                <section id="type">
+                    <h2>
+                        Hanken Grotesk for words, JetBrains Mono for machine
+                        words
+                    </h2>
+                    <div class="specimen">
+                        <div>
+                            <span class="k">text-xl · 20 / 600</span
+                            ><span style="font-size: 20px; font-weight: 600"
+                                >Bots</span
+                            >
+                        </div>
+                        <div>
+                            <span class="k">text-lg · 18 / 600</span
+                            ><span style="font-size: 18px; font-weight: 600"
+                                >Morning Briefer</span
+                            >
+                        </div>
+                        <div>
+                            <span class="k">text-sm · 14 / 400–500</span
+                            ><span style="font-size: 14px"
+                                >Body, row titles (500), bubble text, buttons
+                                (600)</span
+                            >
+                        </div>
+                        <div>
+                            <span class="k">text-xs · 12 / 400</span
+                            ><span style="font-size: 12px; color: var(--ink-2)"
+                                >Answered · 2m ago</span
+                            >
+                        </div>
+                        <div>
+                            <span class="k">SectionLabel · mono 11</span
+                            ><span class="eyebrow">Questions &amp; plans</span>
+                        </div>
+                        <div>
+                            <span class="k">mono · 12</span
+                            ><span class="mono" style="color: var(--ink-2)"
+                                >bot_results · trops/morning-brief ·
+                                plan_k3x9</span
+                            >
+                        </div>
+                    </div>
+                    <p>
+                        Nothing functional is smaller than 11px (labels, pills,
+                        captions); small body text is 12px. For reference, macOS
+                        body text is 13pt and its floor is 10pt. Page titles are
+                        <code>text-xl</code>; detail titles
+                        <code>text-lg</code>; everything else is
+                        <code>text-sm</code> or <code>text-xs</code>. Mono is
+                        for ids, tool names, package names and keyboard keys —
+                        never for prose. Group labels are always
+                        <code>SectionLabel</code>; meta lines always
+                        <code>Caption2</code>.
+                    </p>
+                </section>
+
+                <section id="spacing">
+                    <h2>Six steps, three radii</h2>
+                    <div class="ruler">
+                        <div class="ruler-row">
+                            <span class="bar" style="width: 4px"></span
+                            ><span
+                                ><span class="px">4px</span>
+                                <span class="tw">gap-1</span></span
+                            ><span class="use"
+                                >Label to its content; title to status
+                                line</span
+                            >
+                        </div>
+                        <div class="ruler-row">
+                            <span class="bar" style="width: 8px"></span
+                            ><span
+                                ><span class="px">8px</span>
+                                <span class="tw">gap-2 · p-2</span></span
+                            ><span class="use"
+                                >Inside a row; icon to text; label to its
+                                field</span
+                            >
+                        </div>
+                        <div class="ruler-row">
+                            <span class="bar" style="width: 12px"></span
+                            ><span
+                                ><span class="px">12px</span>
+                                <span class="tw">gap-3 · px-3</span></span
+                            ><span class="use"
+                                >Between controls (button to button); between
+                                rows, cards and chat messages; row and bubble
+                                side padding</span
+                            >
+                        </div>
+                        <div class="ruler-row">
+                            <span class="bar" style="width: 16px"></span
+                            ><span
+                                ><span class="px">16px</span>
+                                <span class="tw">gap-4 · p-4</span></span
+                            ><span class="use"
+                                >Side panel padding (dock, drawers); between
+                                groups in a panel</span
+                            >
+                        </div>
+                        <div class="ruler-row">
+                            <span class="bar" style="width: 20px"></span
+                            ><span
+                                ><span class="px">20px</span>
+                                <span class="tw">p-5</span></span
+                            ><span class="use"
+                                >Modal body and detail panes</span
+                            >
+                        </div>
+                        <div class="ruler-row">
+                            <span class="bar" style="width: 24px"></span
+                            ><span
+                                ><span class="px">24px</span>
+                                <span class="tw">gap-6 · px-6</span></span
+                            ><span class="use"
+                                >Page padding (Manage pages, Settings); between
+                                page sections</span
+                            >
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Radius</th>
+                                    <th>Value</th>
+                                    <th>Use for</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>--r-sm</code></td>
+                                    <td>9px</td>
+                                    <td>
+                                        Buttons, inputs, list rows, tool rows,
+                                        chips
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>--r-md</code></td>
+                                    <td>12px</td>
+                                    <td>Chat bubbles, cards, popovers</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--r-lg</code></td>
+                                    <td>18px</td>
+                                    <td>Panels, modals, the dock</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        <strong>Hit areas:</strong> every clickable thing is at
+                        least 28×28px, and never under 20×20px, even when it
+                        looks smaller (Apple's macOS default and minimum).
+                        Controls sit 12px apart; unframed ones (icons, text
+                        links) get 24px of clear space. Borders are 1px
+                        hairline. Shadows belong to things that float (modals,
+                        menus, popovers), never to rows or bubbles. Sibling
+                        groups use <code>gap</code> on a flex or grid parent,
+                        not per-item margins.
+                    </p>
+                </section>
+
+                <section id="components">
+                    <h2>One answer per pattern</h2>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Use</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Primary / secondary / quiet action</td>
+                                    <td>
+                                        <code>Button</code> /
+                                        <code>Button2</code> /
+                                        <code>Button3</code>
+                                    </td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Icon-only action</td>
+                                    <td>
+                                        <code>ButtonIcon3</code> with
+                                        <code>ariaLabel</code>
+                                    </td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Group label</td>
+                                    <td><code>SectionLabel</code></td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Meta / status line</td>
+                                    <td><code>Caption2</code></td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Text input / multi-line</td>
+                                    <td>
+                                        <code>InputText</code> /
+                                        <code>TextArea</code>
+                                    </td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Tabs</td>
+                                    <td><code>Tabs</code> (compound)</td>
+                                    <td>
+                                        Exists — active tab must use accent, not
+                                        <code>border-indigo-400</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nothing here yet</td>
+                                    <td><code>EmptyState</code></td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Status pill</td>
+                                    <td><code>StatusBadge</code></td>
+                                    <td>Exists</td>
+                                </tr>
+                                <tr>
+                                    <td>Panel / dock / drawer header</td>
+                                    <td>
+                                        <code>PanelHeader</code> (title, back,
+                                        actions)
+                                    </td>
+                                    <td><strong>To add</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Clickable list item</td>
+                                    <td>
+                                        <code>ListRow</code> (icon, title, meta,
+                                        trailing actions)
+                                    </td>
+                                    <td>
+                                        <strong>To add</strong> — from dash-core
+                                        <code>ConfigListRow</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Chat message</td>
+                                    <td>
+                                        <code>ChatMessage</code> (you, reply,
+                                        note)
+                                    </td>
+                                    <td>
+                                        <strong>To add</strong> — lifted from
+                                        ChatCore's <code>MessageBubble</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tool call in a chat</td>
+                                    <td><code>ChatToolCall</code></td>
+                                    <td>
+                                        <strong>To add</strong> — from
+                                        <code>ToolCallBlock</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Chat input</td>
+                                    <td>
+                                        <code>ChatComposer</code> (TextArea,
+                                        Send, hint)
+                                    </td>
+                                    <td>
+                                        <strong>To add</strong> — from
+                                        ChatCore's <code>ChatInput</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="catalog">
+                    <h2>Every component, live</h2>
+                    <p>
+                        The full catalog — every dash-react export, rendered
+                        live in Aurora dark and light, with what it's for and
+                        whether to use it — is on its own page so this guide
+                        stays short enough to read end to end.
+                    </p>
+                    <a class="gallery-link" href="component-gallery.html"
+                        >Open the component gallery →</a
+                    >
+                </section>
+
+                <section id="buttons">
+                    <h2>One primary per pane</h2>
+                    <p>
+                        A pane has at most one <code>Button</code>. Everything
+                        else is <code>Button2</code> or <code>Button3</code>.
+                        Destructive actions are <code>danger</code> and only
+                        appear in a confirmation, not as a resting button.
+                        Icon-only buttons are quiet, 28px square, with a
+                        tooltip; a filled square X is never a row action. The
+                        primary fill is deep violet so its white label reads at
+                        4.5:1 or better; buttons have no glow. Secondary buttons
+                        get a faint tinted fill — never white with black text,
+                        which Apple reserves for a toggled-on state. The
+                        violet-to-cyan gradient is for brand moments (logo mark,
+                        onboarding), never controls.
+                    </p>
+                    <a
+                        class="gallery-link"
+                        href="component-gallery.html#comp-Button"
+                        >See Button, Button2 and Button3 live →</a
+                    >
+                </section>
+
+                <section id="headers">
+                    <span class="proposed-flag"
+                        >Proposed component — drawn here, not built yet</span
+                    >
+                    <h2>Title says where you are; buttons say what happens</h2>
+                    <p>
+                        Dock panels, drawers and modals share one header: an
+                        optional back arrow, a glyph, the title (truncates),
+                        then quiet icon actions with tooltips. A nested view's
+                        title is the thing you opened, not the panel's name.
+                    </p>
+                    <div class="frames">
+                        <div class="frame aurora-dark">
+                            <div class="frame-cap">Top level</div>
+                            <div class="p-head">
+                                <span class="glyph"
+                                    ><svg><use href="#i-plus" /></svg></span
+                                ><span class="t">Create</span
+                                ><button class="p-icon-btn" aria-label="Close">
+                                    <svg><use href="#i-x" /></svg>
+                                </button>
+                            </div>
+                            <div
+                                class="frame-cap"
+                                style="border-top: 1px solid var(--hairline)"
+                            >
+                                Nested
+                            </div>
+                            <div class="p-head">
+                                <button class="p-icon-btn" aria-label="Back">
+                                    <svg><use href="#i-back" /></svg></button
+                                ><span class="t"
+                                    >What did my bots find today?</span
+                                ><button
+                                    class="p-icon-btn"
+                                    aria-label="Open full size"
+                                >
+                                    <svg><use href="#i-expand" /></svg></button
+                                ><button class="p-icon-btn" aria-label="Close">
+                                    <svg><use href="#i-x" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="frame aurora-light" data-mode="light">
+                            <div class="frame-cap">Top level</div>
+                            <div class="p-head">
+                                <span class="glyph"
+                                    ><svg><use href="#i-plus" /></svg></span
+                                ><span class="t">Create</span
+                                ><button class="p-icon-btn" aria-label="Close">
+                                    <svg><use href="#i-x" /></svg>
+                                </button>
+                            </div>
+                            <div
+                                class="frame-cap"
+                                style="border-top: 1px solid var(--hairline)"
+                            >
+                                Nested
+                            </div>
+                            <div class="p-head">
+                                <button class="p-icon-btn" aria-label="Back">
+                                    <svg><use href="#i-back" /></svg></button
+                                ><span class="t"
+                                    >What did my bots find today?</span
+                                ><button
+                                    class="p-icon-btn"
+                                    aria-label="Open full size"
+                                >
+                                    <svg><use href="#i-expand" /></svg></button
+                                ><button class="p-icon-btn" aria-label="Close">
+                                    <svg><use href="#i-x" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="rows">
+                    <span class="proposed-flag"
+                        >Proposed component — drawn here, not built yet</span
+                    >
+                    <h2>Icon, title, then what it is and when</h2>
+                    <p>
+                        Rows are full width and left-aligned. The second line
+                        says what the item is or what clicking does (<em
+                            >Continue in Widget Builder</em
+                        >), then the age. Rows are grouped under a
+                        <code>SectionLabel</code>; a group with nothing in it is
+                        hidden. Row actions are quiet icon buttons that appear
+                        on hover and focus.
+                    </p>
+                    <div class="pair">
+                        <div class="verdict do">
+                            <span class="tag">Do</span>
+                            <div class="frames">
+                                <div class="frame aurora-dark">
+                                    <div class="p-pad" style="gap: 16px">
+                                        <div class="p-group">
+                                            <span class="p-label"
+                                                >Questions &amp; plans</span
+                                            >
+                                            <div class="p-row" tabindex="0">
+                                                <span class="ic"
+                                                    ><svg>
+                                                        <use
+                                                            href="#i-chat"
+                                                        /></svg></span
+                                                ><span class="body"
+                                                    ><span class="title"
+                                                        >What did my bots find
+                                                        today?</span
+                                                    ><span class="meta"
+                                                        >Answered · 2m ago</span
+                                                    ></span
+                                                ><span class="trail"
+                                                    ><button
+                                                        class="p-icon-btn"
+                                                        aria-label="Remove from Recent"
+                                                    >
+                                                        <svg>
+                                                            <use href="#i-x" />
+                                                        </svg></button
+                                                ></span>
+                                            </div>
+                                            <div class="p-row" tabindex="0">
+                                                <span class="ic"
+                                                    ><svg>
+                                                        <use
+                                                            href="#i-grid"
+                                                        /></svg></span
+                                                ><span class="body"
+                                                    ><span class="title"
+                                                        >Morning Brief</span
+                                                    ><span class="meta"
+                                                        ><span
+                                                            class="dot"
+                                                            style="
+                                                                background: var(
+                                                                    --amber
+                                                                );
+                                                            "
+                                                        ></span
+                                                        >Waiting for Gmail · 1h
+                                                        ago</span
+                                                    ></span
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="p-group">
+                                            <span class="p-label"
+                                                >Unfinished widgets</span
+                                            >
+                                            <div class="p-row" tabindex="0">
+                                                <span class="ic"
+                                                    ><svg>
+                                                        <use
+                                                            href="#i-pen"
+                                                        /></svg></span
+                                                ><span class="body"
+                                                    ><span class="title"
+                                                        >Tokyo clock</span
+                                                    ><span class="meta"
+                                                        >Continue in Widget
+                                                        Builder · 8d ago</span
+                                                    ></span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="frame aurora-light"
+                                    data-mode="light"
+                                >
+                                    <div class="p-pad" style="gap: 16px">
+                                        <div class="p-group">
+                                            <span class="p-label"
+                                                >Questions &amp; plans</span
+                                            >
+                                            <div class="p-row" tabindex="0">
+                                                <span class="ic"
+                                                    ><svg>
+                                                        <use
+                                                            href="#i-chat"
+                                                        /></svg></span
+                                                ><span class="body"
+                                                    ><span class="title"
+                                                        >What did my bots find
+                                                        today?</span
+                                                    ><span class="meta"
+                                                        >Answered · 2m ago</span
+                                                    ></span
+                                                ><span class="trail"
+                                                    ><button
+                                                        class="p-icon-btn"
+                                                        aria-label="Remove from Recent"
+                                                    >
+                                                        <svg>
+                                                            <use href="#i-x" />
+                                                        </svg></button
+                                                ></span>
+                                            </div>
+                                            <div class="p-row" tabindex="0">
+                                                <span class="ic"
+                                                    ><svg>
+                                                        <use
+                                                            href="#i-grid"
+                                                        /></svg></span
+                                                ><span class="body"
+                                                    ><span class="title"
+                                                        >Morning Brief</span
+                                                    ><span class="meta"
+                                                        ><span
+                                                            class="dot"
+                                                            style="
+                                                                background: var(
+                                                                    --amber
+                                                                );
+                                                            "
+                                                        ></span
+                                                        >Waiting for Gmail · 1h
+                                                        ago</span
+                                                    ></span
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="p-group">
+                                            <span class="p-label"
+                                                >Unfinished widgets</span
+                                            >
+                                            <div class="p-row" tabindex="0">
+                                                <span class="ic"
+                                                    ><svg>
+                                                        <use
+                                                            href="#i-pen"
+                                                        /></svg></span
+                                                ><span class="body"
+                                                    ><span class="title"
+                                                        >Tokyo clock</span
+                                                    ><span class="meta"
+                                                        >Continue in Widget
+                                                        Builder · 8d ago</span
+                                                    ></span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="verdict dont">
+                            <span class="tag"
+                                >Don't — the dock, before the fix</span
+                            >
+                            <div class="frame aurora-dark">
+                                <div class="p-pad">
+                                    <span class="p-label">Recent</span>
+                                    <div
+                                        style="
+                                            display: flex;
+                                            gap: 8px;
+                                            align-items: center;
+                                        "
+                                    >
+                                        <div class="bad-center" style="flex: 1">
+                                            <span>ComposedWidget6</span
+                                            ><span style="font-size: 13px"
+                                                >Widget draft · 13m ago</span
+                                            >
+                                        </div>
+                                        <button
+                                            class="bad-big-x"
+                                            aria-label="Remove"
+                                        >
+                                            <svg width="14" height="14">
+                                                <use href="#i-x" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <button
+                                        class="p-btn ghost"
+                                        style="align-self: flex-start"
+                                    >
+                                        Open Create
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="why">
+                                Centered text inside a button; "Recent" mixing
+                                conversations with drafts; "Widget draft"
+                                doesn't say clicking opens the Widget Builder; a
+                                filled X that outweighs the row; "Open Create"
+                                inside the panel called Create.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chat">
+                    <span class="proposed-flag"
+                        >Proposed component — drawn here, not built yet</span
+                    >
+                    <h2>One chat, everywhere</h2>
+                    <p>
+                        The AI Assistant, Ask the lead, Create's Planner, Ask,
+                        and the Widget Builder all render the same
+                        <code>ChatMessage</code>, <code>ChatToolCall</code> and
+                        <code>ChatComposer</code>. Yours: right, accent-soft
+                        fill, no label. Replies: left, a raised surface with a
+                        hairline edge so they always stand off the panel, named
+                        by who answered, with model and tokens beside the name.
+                        Tool calls are compact mono rows. Session breaks and
+                        system notes are centered dividers.
+                    </p>
+                    <div class="frames">
+                        <div class="frame aurora-dark">
+                            <div class="frame-cap">Aurora dark</div>
+                            <div class="p-chat">
+                                <div class="p-you">
+                                    What did my bots find today?
+                                </div>
+                                <div class="p-tool">
+                                    <svg
+                                        width="12"
+                                        height="12"
+                                        style="color: var(--green)"
+                                    >
+                                        <use href="#i-check" /></svg
+                                    >bot_results
+                                    <span class="src">· Dash team</span>
+                                </div>
+                                <div class="p-reply">
+                                    <div class="who">
+                                        <span class="p-label">Planner</span
+                                        ><span class="meta"
+                                            >Opus · 7.4k tokens</span
+                                        >
+                                    </div>
+                                    <div class="bubble">
+                                        Morning Briefer sent a brief at 7:02 AM
+                                        with two items: the server bill went up
+                                        18%, and two PRs are waiting on your
+                                        review.
+                                    </div>
+                                </div>
+                                <div class="p-note">New conversation</div>
+                            </div>
+                            <div class="p-composer">
+                                <div class="box">
+                                    <div class="field">Ask a follow-up…</div>
+                                    <button class="p-btn primary">Send</button>
+                                </div>
+                                <span class="hint"
+                                    >Enter to send · Shift+Enter for a new
+                                    line</span
+                                >
+                            </div>
+                        </div>
+                        <div class="frame aurora-light" data-mode="light">
+                            <div class="frame-cap">Aurora light</div>
+                            <div class="p-chat">
+                                <div class="p-you">
+                                    What did my bots find today?
+                                </div>
+                                <div class="p-tool">
+                                    <svg
+                                        width="12"
+                                        height="12"
+                                        style="color: var(--green)"
+                                    >
+                                        <use href="#i-check" /></svg
+                                    >bot_results
+                                    <span class="src">· Dash team</span>
+                                </div>
+                                <div class="p-reply">
+                                    <div class="who">
+                                        <span class="p-label">Planner</span
+                                        ><span class="meta"
+                                            >Opus · 7.4k tokens</span
+                                        >
+                                    </div>
+                                    <div class="bubble">
+                                        Morning Briefer sent a brief at 7:02 AM
+                                        with two items: the server bill went up
+                                        18%, and two PRs are waiting on your
+                                        review.
+                                    </div>
+                                </div>
+                                <div class="p-note">New conversation</div>
+                            </div>
+                            <div class="p-composer">
+                                <div class="box">
+                                    <div class="field">Ask a follow-up…</div>
+                                    <button class="p-btn primary">Send</button>
+                                </div>
+                                <span class="hint"
+                                    >Enter to send · Shift+Enter for a new
+                                    line</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pair">
+                        <div class="verdict dont">
+                            <span class="tag">Don't — Ask the lead today</span>
+                            <div class="frame aurora-dark">
+                                <div class="p-chat">
+                                    <div class="bad-red">
+                                        what is the latest now?
+                                    </div>
+                                    <span
+                                        style="
+                                            font-size: 12px;
+                                            color: var(--text-2);
+                                        "
+                                        >Algolia Search Lead</span
+                                    >
+                                    <div
+                                        style="
+                                            background: #0f1118;
+                                            padding: 10px 12px;
+                                            border-radius: 14px;
+                                            border: 1px solid var(--hairline);
+                                        "
+                                    >
+                                        There's nothing to report yet.
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                Your bubble takes the theme's raw primary (red
+                                here); the reply is nearly the panel color; the
+                                name label uses a third style.
+                            </p>
+                        </div>
+                        <div class="verdict dont">
+                            <span class="tag"
+                                >Don't — Create's Planner, before 5e</span
+                            >
+                            <div class="frame aurora-dark">
+                                <div class="p-chat">
+                                    <div
+                                        style="
+                                            align-self: flex-end;
+                                            border: 1px solid var(--hairline);
+                                            padding: 8px 12px;
+                                            border-radius: 8px;
+                                        "
+                                    >
+                                        A greeter dashboard
+                                    </div>
+                                    <span
+                                        style="
+                                            font-size: 11px;
+                                            font-weight: 700;
+                                            letter-spacing: 0.1em;
+                                        "
+                                        >PLANNER</span
+                                    >
+                                    <div class="bad-flat-bubble">
+                                        Here's the plan.
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                No fill on either side and no text color set, so
+                                the reply fell back to black on dark.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="empty">
+                    <h2>Say what will appear and how to get it</h2>
+                    <p>
+                        Use <code>EmptyState</code>: a short title, one sentence
+                        naming what shows up here and how to add the first one,
+                        and at most one action. No emoji.
+                    </p>
+                    <div class="frames">
+                        <div class="frame aurora-dark">
+                            <div class="p-empty">
+                                <span class="t">Nothing here yet</span
+                                ><span class="d"
+                                    >Questions you ask, plans you start and
+                                    widgets you leave unfinished show up
+                                    here.</span
+                                >
+                            </div>
+                        </div>
+                        <div class="frame aurora-light" data-mode="light">
+                            <div class="p-empty">
+                                <span class="t">Nothing here yet</span
+                                ><span class="d"
+                                    >Questions you ask, plans you start and
+                                    widgets you leave unfinished show up
+                                    here.</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="words">
+                    <h2>Labels say what happens</h2>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Instead of</th>
+                                    <th>Write</th>
+                                    <th>Why</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Open Create (inside Create)</td>
+                                    <td>Make something new…</td>
+                                    <td>
+                                        Names the outcome; the ellipsis says
+                                        more UI follows
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Widget draft</td>
+                                    <td>Continue in Widget Builder</td>
+                                    <td>Says where clicking takes you</td>
+                                </tr>
+                                <tr>
+                                    <td>Recent</td>
+                                    <td>
+                                        Questions &amp; plans · Unfinished
+                                        widgets
+                                    </td>
+                                    <td>Groups by what things are</td>
+                                </tr>
+                                <tr>
+                                    <td>Submit / OK</td>
+                                    <td>
+                                        Build · Save · Send · Remove dashboard
+                                    </td>
+                                    <td>The verb is the result</td>
+                                </tr>
+                                <tr>
+                                    <td>Error occurred</td>
+                                    <td>
+                                        Couldn't reach the registry. Your
+                                        widgets still work; try again in a
+                                        minute.
+                                    </td>
+                                    <td>
+                                        What happened, what still works, what to
+                                        do
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        Sentence case everywhere. Name things the way people
+                        know them (notifications, not webhook config). Status
+                        words are fixed: Draft plan, Building 3/7, Built,
+                        Waiting for Gmail, Answered.
+                    </p>
+                </section>
+
+                <section id="checklist">
+                    <h2>Before a UI change is called done</h2>
+                    <p>
+                        Run on screenshots in Aurora dark
+                        <strong>and</strong> light, at the real panel width,
+                        with real-looking content — long titles, empty lists,
+                        many items.
+                    </p>
+                    <ul class="checklist">
+                        <li>
+                            Every control, row and bubble is a dash-react
+                            component
+                        </li>
+                        <li>
+                            No palette shades, opacity-muting or arbitrary
+                            values (lint:safelist passes)
+                        </li>
+                        <li>Text readable on its surface in both modes</li>
+                        <li>
+                            Replies stand off the panel; yours is clearly yours
+                        </li>
+                        <li>Rows left-aligned; title, then status and age</li>
+                        <li>
+                            Spacing and radii from the scale, nothing in between
+                        </li>
+                        <li>At most one primary button in the pane</li>
+                        <li>Every label says what clicking does</li>
+                        <li>No label repeats the panel it sits in</li>
+                        <li>
+                            Empty groups hidden; a fully empty view uses
+                            EmptyState
+                        </li>
+                        <li>
+                            Truncate only where the full text is reachable
+                            (tooltip or detail); nothing overflows the panel
+                        </li>
+                        <li>
+                            Every control works with the keyboard alone; focus
+                            is visible
+                        </li>
+                        <li>Hit areas at least 28×28px (never under 20×20)</li>
+                        <li>Readable with Increase Contrast on</li>
+                        <li>Motion respects Reduce Motion</li>
+                        <li>Nothing functional under 11px</li>
+                        <li>
+                            <code>npx impeccable detect</code> shows no new
+                            findings
+                        </li>
+                        <li>
+                            No hex or arbitrary color values in widgets (palette
+                            classes follow the theme)
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="review">
+                    <h2>Reviewed against impeccable and Apple's HIG</h2>
+                    <p>
+                        October 2026: this guide and its live gallery were
+                        checked with impeccable's deterministic detector (<code
+                            >npx impeccable detect</code
+                        >, 59 rules, run on the rendered page) and against
+                        Apple's Human Interface Guidelines for macOS (layout,
+                        buttons, typography, color, accessibility, dark mode).
+                        What changed as a result:
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Finding</th>
+                                    <th>Source</th>
+                                    <th>Resolution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Faint text 3.0–3.8:1 (labels, hints,
+                                        placeholders)
+                                    </td>
+                                    <td>impeccable · HIG 4.5:1</td>
+                                    <td>
+                                        Aurora <code>--text-3</code> raised to
+                                        <code>#868c9d</code> /
+                                        <code>#626876</code> (≥5:1)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        White on the violet primary button
+                                        3.1–3.7:1
+                                    </td>
+                                    <td>impeccable · HIG</td>
+                                    <td>
+                                        Fill deepened to
+                                        <code>#6a5cf0 → #5b4fe0</code> (4.8:1+);
+                                        accent unchanged elsewhere
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Colored glow on dark buttons</td>
+                                    <td>impeccable</td>
+                                    <td>Removed from primary buttons</td>
+                                </tr>
+                                <tr>
+                                    <td>Violet-to-cyan gradient on UI</td>
+                                    <td>impeccable</td>
+                                    <td>
+                                        Reserved for brand moments; not on
+                                        controls
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Labels and pills at 10.5px</td>
+                                    <td>
+                                        impeccable (11px floor); HIG floor 10pt
+                                    </td>
+                                    <td>Section labels and pills now 11px</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Secondary button white with dark text in
+                                        light mode
+                                    </td>
+                                    <td>HIG (toggled-state look)</td>
+                                    <td>Faint tinted fill</td>
+                                </tr>
+                                <tr>
+                                    <td>No hit-area or control-spacing rule</td>
+                                    <td>
+                                        HIG 28×28 default, 20×20 minimum; ~12pt
+                                        between
+                                    </td>
+                                    <td>
+                                        Added to Spacing; button-to-button is
+                                        12px
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Checklist lacked Increase Contrast,
+                                        Reduce Motion, keyboard-only use
+                                    </td>
+                                    <td>HIG</td>
+                                    <td>Added to the checklist</td>
+                                </tr>
+                                <tr>
+                                    <td>Truncation allowed everywhere</td>
+                                    <td>HIG</td>
+                                    <td>
+                                        Only where the full text is reachable
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        <strong>Still open:</strong> component-level issues —
+                        light-mode theme pairs, a few unnamed or unfocusable
+                        controls, Reduce Motion, small hit areas — carry a
+                        “Known issue” pill in the
+                        <a href="component-gallery.html">component gallery</a>
+                        and are listed in Rollout step 2. Findings that come
+                        from showing components inside preview frames (“card
+                        inside card”, repeated sample text) are expected and not
+                        product issues.
+                    </p>
+                </section>
+
+                <section id="rollout">
+                    <h2>From guide to every screen</h2>
+                    <ol class="steps">
+                        <li>
+                            <div>
+                                <h3>Approve this guide</h3>
+                                <p>
+                                    Then it ships as
+                                    <code>docs/design-guide.html</code> in
+                                    dash-react, linked from the README and from
+                                    CLAUDE.md in all three repos.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>Fix what the review found in dash-react</h3>
+                                <p>
+                                    Aurora contrast, button fill, glow and label
+                                    size (done with this guide); a visible
+                                    button focus ring and accessible names for
+                                    icon buttons and inputs (done with this
+                                    guide); then the light-mode theme pairs
+                                    (Alert2/3, ProgressBar, Tag, Toast, Table
+                                    header, opacity-faded text), light-mode
+                                    status colors, checkbox and radio hit areas,
+                                    Reduce Motion for pulses, Breadcrumb links,
+                                    Switch2/3 tracks, and the duplicate
+                                    <code>InputText</code> export. Each “Known
+                                    issue” pill comes off as its fix lands.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>Tailwind palette follows Aurora</h3>
+                                <p>
+                                    Shipped in dash-react 1.0.70: every Tailwind
+                                    color family has a luminance-matched Dash
+                                    scale (<code>aurora-palette.cjs</code>);
+                                    dash-electron reads it in its next release.
+                                    Remaining: screenshot pass of the main
+                                    screens in both modes before release; teach
+                                    the widget validator and the AI Widget
+                                    Builder to flag hex and arbitrary colors;
+                                    optional semantic names; widget-only
+                                    light-mode flipping as a later option.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>Add the missing pieces to dash-react</h3>
+                                <p>
+                                    <code>useDashTokens</code>,
+                                    <code>PanelHeader</code>,
+                                    <code>ListRow</code>,
+                                    <code>ChatMessage</code>,
+                                    <code>ChatToolCall</code>,
+                                    <code>ChatComposer</code> — each with an
+                                    AllVariants story in dark and light.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>Move the chats onto them</h3>
+                                <p>
+                                    AI Assistant (ChatCore), Ask the lead
+                                    (BotChat and AskLead), Create's Planner and
+                                    Ask, then the Widget Builder — one surface
+                                    per PR, each with checklist screenshots.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>Move the lists and headers</h3>
+                                <p>
+                                    The dock, Create's start screen, Manage
+                                    pages and the Dashboard Config modal;
+                                    replace hard-coded
+                                    <code>border-indigo-400</code>,
+                                    <code>bg-amber-400</code> and
+                                    <code>text-red-300</code>.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>Retire the old doc</h3>
+                                <p>
+                                    Mark
+                                    <code
+                                        >dash-electron/docs/design/DESIGN.md</code
+                                    >
+                                    superseded and point it here.
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+            </main>
+        </div>
+        <script>
+            // Highlight the contents link for the section in view.
+            (function () {
+                var links = Array.prototype.slice.call(
+                    document.querySelectorAll('nav.toc a[href^="#"]')
+                );
+                var byId = {};
+                links.forEach(function (a) {
+                    byId[a.getAttribute("href").slice(1)] = a;
+                });
+                if (!("IntersectionObserver" in window)) return;
+                var io = new IntersectionObserver(
+                    function (entries) {
+                        entries.forEach(function (e) {
+                            if (!e.isIntersecting) return;
+                            links.forEach(function (a) {
+                                a.removeAttribute("aria-current");
+                            });
+                            var a = byId[e.target.id];
+                            if (a) a.setAttribute("aria-current", "true");
+                        });
+                    },
+                    { rootMargin: "-20% 0px -70% 0px" }
+                );
+                Object.keys(byId).forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) io.observe(el);
+                });
+            })();
+        </script>
+        <script>
+            // Page theme for reviewers: System, Light or Dark (remembered per browser).
+            (function () {
+                var root = document.documentElement;
+                var buttons = Array.prototype.slice.call(
+                    document.querySelectorAll("[data-set-theme]")
+                );
+                function apply(v) {
+                    if (v) root.setAttribute("data-theme", v);
+                    else root.removeAttribute("data-theme");
+                    buttons.forEach(function (b) {
+                        b.setAttribute(
+                            "aria-pressed",
+                            String(b.getAttribute("data-set-theme") === v)
+                        );
+                    });
+                }
+                var saved = "";
+                try {
+                    saved = localStorage.getItem("dash-guide-theme") || "";
+                } catch (e) {}
+                apply(saved);
+                buttons.forEach(function (b) {
+                    b.addEventListener("click", function () {
+                        var v = b.getAttribute("data-set-theme");
+                        apply(v);
+                        try {
+                            localStorage.setItem("dash-guide-theme", v);
+                        } catch (e) {}
+                    });
+                });
+            })();
+        </script>
+    </body>
+</html>

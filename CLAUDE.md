@@ -46,6 +46,17 @@ These steps are NON-NEGOTIABLE and must happen in this exact order before writin
 
 ---
 
+## MANDATORY: Design Guide
+
+UI work follows [docs/design-guide.html](docs/design-guide.html): components from
+dash-react only (add a missing one here first, with a story), Aurora color roles
+instead of palette shades in app code, the 4–24px spacing scale, and the review
+checklist in dark **and** light before a change is called done. When you add or
+change a component, rebuild the live gallery (`npm run build:gallery`) and check
+its card in [docs/component-gallery.html](docs/component-gallery.html).
+
+---
+
 ## MANDATORY: PRD Gate
 
 Before writing any code for a feature:
