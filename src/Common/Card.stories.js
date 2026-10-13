@@ -91,14 +91,33 @@ const TemplateSimple = (args) => {
 const TemplateClickable = (args) => {
     return (
         <MockWrapper api={mock.api} theme={mock.themes}>
-            <Card {...args} onClick={() => alert("Card clicked!")} hover={true}>
-                <Card.Header>
-                    <Heading title="Clickable Card" padding={false} />
-                </Card.Header>
-                <Card.Body>
-                    <Paragraph text="This card is clickable and has hover effects." />
-                </Card.Body>
-            </Card>
+            {/* A clickable card is a button: Tab to it, Enter or Space opens
+                it. `ariaLabel` names it; `disabled` makes it inert. */}
+            <div className="flex flex-row gap-4">
+                <Card
+                    {...args}
+                    onClick={() => {}}
+                    ariaLabel="Clickable card"
+                    hover={true}
+                >
+                    <Card.Header>
+                        <Heading title="Clickable Card" padding={false} />
+                    </Card.Header>
+                    <Card.Body>
+                        <Paragraph text="Tab to it; Enter or Space opens it." />
+                    </Card.Body>
+                </Card>
+                <Card
+                    {...args}
+                    onClick={() => {}}
+                    disabled
+                    ariaLabel="Disabled card"
+                >
+                    <Card.Body>
+                        <Paragraph text="Disabled: not focusable, does nothing." />
+                    </Card.Body>
+                </Card>
+            </div>
         </MockWrapper>
     );
 };
