@@ -9,6 +9,8 @@ const Switch = ({
     onChange = () => {},
     id = null,
     className = "",
+    // Accessible name when there's no visible `label` (e.g. icon-flanked switches).
+    ariaLabel = null,
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
@@ -40,6 +42,8 @@ const Switch = ({
                 type="button"
                 role="switch"
                 aria-checked={checked}
+                aria-labelledby={label ? `${switchId}-label` : undefined}
+                aria-label={label ? undefined : ariaLabel || undefined}
                 onClick={handleToggle}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${styles.backgroundColor} ${checked ? "opacity-100" : "opacity-60"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
             >
@@ -50,9 +54,13 @@ const Switch = ({
                 />
             </button>
             {label && (
-                <span className={`text-sm ${labelStyles.textColor}`}>
+                <label
+                    id={`${switchId}-label`}
+                    htmlFor={switchId}
+                    className={`text-sm cursor-pointer ${labelStyles.textColor}`}
+                >
                     {label}
-                </span>
+                </label>
             )}
         </div>
     );

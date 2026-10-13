@@ -16,6 +16,8 @@ import { InputText } from "./Input/InputText";
 import { TextArea } from "./Input/TextArea";
 import { SelectInput } from "./Input/SelectInput";
 import { FormField } from "./Composites/FormField";
+import { Switch } from "./Input/Switch";
+import { Toggle, Toggle3 } from "./Toggle";
 
 jest.mock("@fortawesome/react-fontawesome", () => ({
     FontAwesomeIcon: () => null,
@@ -148,5 +150,52 @@ describe("FormField wiring", () => {
             "id",
             "my-name"
         );
+    });
+});
+
+describe("Switch and Toggle names", () => {
+    test("a Switch is named by its visible label", () => {
+        renderWithTheme(
+            <Switch
+                label="Enable notifications"
+                checked={false}
+                onChange={() => {}}
+            />
+        );
+        expect(
+            screen.getByRole("switch", { name: "Enable notifications" })
+        ).toBeInTheDocument();
+    });
+
+    test("an unlabeled Switch takes ariaLabel", () => {
+        renderWithTheme(
+            <Switch ariaLabel="Dark mode" checked onChange={() => {}} />
+        );
+        expect(
+            screen.getByRole("switch", { name: "Dark mode" })
+        ).toBeInTheDocument();
+    });
+
+    test("Toggle variants are named by their text, or ariaLabel", () => {
+        renderWithTheme(
+            <>
+                <Toggle
+                    text="Auto-update"
+                    enabled={false}
+                    setEnabled={() => {}}
+                />
+                <Toggle3
+                    ariaLabel="Lead enabled"
+                    enabled
+                    setEnabled={() => {}}
+                />
+            </>
+        );
+        expect(
+            screen.getByRole("switch", { name: "Auto-update" })
+        ).toBeInTheDocument();
+        expect(
+            screen.getByRole("switch", { name: "Lead enabled" })
+        ).toBeInTheDocument();
     });
 });

@@ -6104,7 +6104,7 @@ var RadioGroup = function RadioGroup(_ref) {
 };
 
 function _typeof$r(o) { "@babel/helpers - typeof"; return _typeof$r = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$r(o); }
-var _excluded$j = ["label", "checked", "onChange", "id", "className"];
+var _excluded$j = ["label", "checked", "onChange", "id", "className", "ariaLabel"];
 function ownKeys$m(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$m(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$m(Object(t), !0).forEach(function (r) { _defineProperty$n(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$m(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$n(e, r, t) { return (r = _toPropertyKey$r(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -6123,6 +6123,8 @@ var Switch = function Switch(_ref) {
     id = _ref$id === void 0 ? null : _ref$id,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$ariaLabel = _ref.ariaLabel,
+    ariaLabel = _ref$ariaLabel === void 0 ? null : _ref$ariaLabel,
     props = _objectWithoutProperties$j(_ref, _excluded$j);
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
@@ -6145,13 +6147,17 @@ var Switch = function Switch(_ref) {
       type: "button",
       role: "switch",
       "aria-checked": checked,
+      "aria-labelledby": label ? "".concat(switchId, "-label") : undefined,
+      "aria-label": label ? undefined : ariaLabel || undefined,
       onClick: handleToggle,
       className: "relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ".concat(styles.backgroundColor, " ").concat(checked ? "opacity-100" : "opacity-60", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed"),
       children: /*#__PURE__*/jsx("span", {
         className: "inline-block h-4 w-4 transform rounded-full ".concat(styles.activeBackgroundColor || "bg-white", " transition ").concat(checked ? "translate-x-6" : "translate-x-1")
       })
-    }), label && /*#__PURE__*/jsx("span", {
-      className: "text-sm ".concat(labelStyles.textColor),
+    }), label && /*#__PURE__*/jsx("label", {
+      id: "".concat(switchId, "-label"),
+      htmlFor: switchId,
+      className: "text-sm cursor-pointer ".concat(labelStyles.textColor),
       children: label
     })]
   });
@@ -6308,9 +6314,9 @@ var SearchInput = function SearchInput(_ref) {
 };
 
 function _typeof$o(o) { "@babel/helpers - typeof"; return _typeof$o = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$o(o); }
-var _excluded$g = ["text", "enabled", "setEnabled", "disabled", "className", "children"],
-  _excluded2$7 = ["text", "enabled", "setEnabled", "disabled", "className", "children"],
-  _excluded3$7 = ["text", "enabled", "setEnabled", "disabled", "className", "children"];
+var _excluded$g = ["text", "enabled", "setEnabled", "disabled", "className", "children", "ariaLabel", "id"],
+  _excluded2$7 = ["text", "enabled", "setEnabled", "disabled", "className", "children", "ariaLabel", "id"],
+  _excluded3$7 = ["text", "enabled", "setEnabled", "disabled", "className", "children", "ariaLabel", "id"];
 function ownKeys$j(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$j(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$j(Object(t), !0).forEach(function (r) { _defineProperty$k(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$j(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$k(e, r, t) { return (r = _toPropertyKey$o(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -6330,7 +6336,13 @@ function Toggle(_ref) {
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     children = _ref.children,
+    _ref$ariaLabel = _ref.ariaLabel,
+    ariaLabel = _ref$ariaLabel === void 0 ? null : _ref$ariaLabel,
+    _ref$id = _ref.id,
+    id = _ref$id === void 0 ? null : _ref$id,
     props = _objectWithoutProperties$g(_ref, _excluded$g);
+  var toggleId = id || getUUID$1("", "toggle");
+  var hasText = Boolean(text) || children !== undefined;
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme;
   var styles = getStylesForItem(themeObjects.TOGGLE, currentTheme, _objectSpread$j({}, props));
@@ -6343,8 +6355,11 @@ function Toggle(_ref) {
     className: "flex flex-row items-center space-x-2 ".concat(className),
     children: [/*#__PURE__*/jsx("button", {
       type: "button",
+      id: toggleId,
       role: "switch",
       "aria-checked": enabled,
+      "aria-labelledby": hasText ? "".concat(toggleId, "-label") : undefined,
+      "aria-label": hasText ? undefined : ariaLabel || undefined,
       disabled: disabled,
       onClick: handleToggle,
       style: enabled ? (_styles$inlineStyle = styles.inlineStyle) === null || _styles$inlineStyle === void 0 ? void 0 : _styles$inlineStyle.backgroundColor : (_styles$inlineStyle2 = styles.inlineStyle) === null || _styles$inlineStyle2 === void 0 ? void 0 : _styles$inlineStyle2.hoverBackgroundColor,
@@ -6355,6 +6370,7 @@ function Toggle(_ref) {
         className: "".concat(enabled ? "translate-x-5" : "translate-x-0", " pointer-events-none inline-block h-5 w-5 transform rounded-full ").concat((_styles$inlineStyle4 = styles.inlineStyle) !== null && _styles$inlineStyle4 !== void 0 && _styles$inlineStyle4.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
     }), (text || children !== undefined) && /*#__PURE__*/jsx("span", {
+      id: "".concat(toggleId, "-label"),
       style: (_styles$inlineStyle5 = styles.inlineStyle) === null || _styles$inlineStyle5 === void 0 ? void 0 : _styles$inlineStyle5.textColor,
       className: "text-sm ".concat(styles.textColor || ""),
       children: children !== undefined ? children : text
@@ -6373,7 +6389,13 @@ function Toggle2(_ref2) {
     _ref2$className = _ref2.className,
     className = _ref2$className === void 0 ? "" : _ref2$className,
     children = _ref2.children,
+    _ref2$ariaLabel = _ref2.ariaLabel,
+    ariaLabel = _ref2$ariaLabel === void 0 ? null : _ref2$ariaLabel,
+    _ref2$id = _ref2.id,
+    id = _ref2$id === void 0 ? null : _ref2$id,
     props = _objectWithoutProperties$g(_ref2, _excluded2$7);
+  var toggleId = id || getUUID$1("", "toggle");
+  var hasText = Boolean(text) || children !== undefined;
   var _useContext2 = useContext(ThemeContext),
     currentTheme = _useContext2.currentTheme;
   var styles = getStylesForItem(themeObjects.TOGGLE_2, currentTheme, _objectSpread$j({}, props));
@@ -6386,8 +6408,11 @@ function Toggle2(_ref2) {
     className: "flex flex-row items-center space-x-2 ".concat(className),
     children: [/*#__PURE__*/jsx("button", {
       type: "button",
+      id: toggleId,
       role: "switch",
       "aria-checked": enabled,
+      "aria-labelledby": hasText ? "".concat(toggleId, "-label") : undefined,
+      "aria-label": hasText ? undefined : ariaLabel || undefined,
       disabled: disabled,
       onClick: handleToggle,
       style: enabled ? (_styles$inlineStyle6 = styles.inlineStyle) === null || _styles$inlineStyle6 === void 0 ? void 0 : _styles$inlineStyle6.backgroundColor : (_styles$inlineStyle7 = styles.inlineStyle) === null || _styles$inlineStyle7 === void 0 ? void 0 : _styles$inlineStyle7.hoverBackgroundColor,
@@ -6398,6 +6423,7 @@ function Toggle2(_ref2) {
         className: "".concat(enabled ? "translate-x-4" : "translate-x-0", " pointer-events-none inline-block h-4 w-4 transform rounded-full ").concat((_styles$inlineStyle9 = styles.inlineStyle) !== null && _styles$inlineStyle9 !== void 0 && _styles$inlineStyle9.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
     }), (text || children !== undefined) && /*#__PURE__*/jsx("span", {
+      id: "".concat(toggleId, "-label"),
       style: (_styles$inlineStyle0 = styles.inlineStyle) === null || _styles$inlineStyle0 === void 0 ? void 0 : _styles$inlineStyle0.textColor,
       className: "text-sm ".concat(styles.textColor || ""),
       children: children !== undefined ? children : text
@@ -6416,7 +6442,13 @@ function Toggle3(_ref3) {
     _ref3$className = _ref3.className,
     className = _ref3$className === void 0 ? "" : _ref3$className,
     children = _ref3.children,
+    _ref3$ariaLabel = _ref3.ariaLabel,
+    ariaLabel = _ref3$ariaLabel === void 0 ? null : _ref3$ariaLabel,
+    _ref3$id = _ref3.id,
+    id = _ref3$id === void 0 ? null : _ref3$id,
     props = _objectWithoutProperties$g(_ref3, _excluded3$7);
+  var toggleId = id || getUUID$1("", "toggle");
+  var hasText = Boolean(text) || children !== undefined;
   var _useContext3 = useContext(ThemeContext),
     currentTheme = _useContext3.currentTheme;
   var styles = getStylesForItem(themeObjects.TOGGLE_3, currentTheme, _objectSpread$j({}, props));
@@ -6429,8 +6461,11 @@ function Toggle3(_ref3) {
     className: "flex flex-row items-center space-x-1.5 ".concat(className),
     children: [/*#__PURE__*/jsx("button", {
       type: "button",
+      id: toggleId,
       role: "switch",
       "aria-checked": enabled,
+      "aria-labelledby": hasText ? "".concat(toggleId, "-label") : undefined,
+      "aria-label": hasText ? undefined : ariaLabel || undefined,
       disabled: disabled,
       onClick: handleToggle,
       style: enabled ? (_styles$inlineStyle1 = styles.inlineStyle) === null || _styles$inlineStyle1 === void 0 ? void 0 : _styles$inlineStyle1.backgroundColor : (_styles$inlineStyle10 = styles.inlineStyle) === null || _styles$inlineStyle10 === void 0 ? void 0 : _styles$inlineStyle10.hoverBackgroundColor,
@@ -6441,6 +6476,7 @@ function Toggle3(_ref3) {
         className: "".concat(enabled ? "translate-x-3" : "translate-x-0", " pointer-events-none inline-block h-3 w-3 transform rounded-full ").concat((_styles$inlineStyle12 = styles.inlineStyle) !== null && _styles$inlineStyle12 !== void 0 && _styles$inlineStyle12.activeBackgroundColor ? "" : styles.activeBackgroundColor || "bg-white", " shadow-lg ring-0 transition duration-200 ease-in-out")
       })
     }), (text || children !== undefined) && /*#__PURE__*/jsx("span", {
+      id: "".concat(toggleId, "-label"),
       style: (_styles$inlineStyle13 = styles.inlineStyle) === null || _styles$inlineStyle13 === void 0 ? void 0 : _styles$inlineStyle13.textColor,
       className: "text-xs ".concat(styles.textColor || ""),
       children: children !== undefined ? children : text
