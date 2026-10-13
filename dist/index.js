@@ -4385,9 +4385,9 @@ var Button3 = function Button3(_ref3) {
 };
 
 function _typeof$F(o) { "@babel/helpers - typeof"; return _typeof$F = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$F(o); }
-var _excluded$w = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "children"],
-  _excluded2$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "children"],
-  _excluded3$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "children"];
+var _excluded$w = ["onClick", "icon", "text", "block", "textSize", "textColor", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "ariaPressed", "children"],
+  _excluded2$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "ariaPressed", "children"],
+  _excluded3$9 = ["onClick", "icon", "text", "block", "textSize", "iconSize", "backgroundColor", "selected", "selectedBackgroundColor", "selectedTextColor", "disabled", "className", "size", "ariaLabel", "ariaPressed", "children"];
 function ownKeys$A(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$A(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$A(Object(t), !0).forEach(function (r) { _defineProperty$B(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$A(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$B(e, r, t) { return (r = _toPropertyKey$F(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -4455,6 +4455,8 @@ var ButtonIcon = function ButtonIcon(_ref) {
     size = _ref$size === void 0 ? "md" : _ref$size,
     _ref$ariaLabel = _ref.ariaLabel,
     ariaLabel = _ref$ariaLabel === void 0 ? null : _ref$ariaLabel,
+    _ref$ariaPressed = _ref.ariaPressed,
+    ariaPressed = _ref$ariaPressed === void 0 ? null : _ref$ariaPressed,
     children = _ref.children,
     props = _objectWithoutProperties$w(_ref, _excluded$w);
   var _useContext = useContext(ThemeContext),
@@ -4482,6 +4484,8 @@ var ButtonIcon = function ButtonIcon(_ref) {
     onClick: onClick,
     disabled: disabled,
     "aria-label": ariaLabel || (hasText ? undefined : iconLabel(icon)),
+    "aria-pressed": ariaPressed === null ? undefined : !!ariaPressed,
+    "data-selected": selected ? "true" : undefined,
     className: "dr-btn-icon inline-flex items-center justify-center ".concat(hasIcon && hasText ? "gap-2" : "", " ").concat(block ? "w-full" : "", " ").concat(bgColor, " ").concat(txtColor, " ").concat(styles.borderColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.hoverBorderColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "px-3 py-2", " ").concat(styles.textSize || "text-base", " ").concat(styles.shadow || "", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.fontWeight || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(styles.disabledOpacity || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " whitespace-nowrap ").concat(className),
     children: [hasIcon && /*#__PURE__*/jsx(FontAwesomeIcon, {
       icon: icon,
@@ -4519,6 +4523,8 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     size = _ref2$size === void 0 ? "md" : _ref2$size,
     _ref2$ariaLabel = _ref2.ariaLabel,
     ariaLabel = _ref2$ariaLabel === void 0 ? null : _ref2$ariaLabel,
+    _ref2$ariaPressed = _ref2.ariaPressed,
+    ariaPressed = _ref2$ariaPressed === void 0 ? null : _ref2$ariaPressed,
     children = _ref2.children,
     props = _objectWithoutProperties$w(_ref2, _excluded2$9);
   var _useContext2 = useContext(ThemeContext),
@@ -4545,6 +4551,8 @@ var ButtonIcon2 = function ButtonIcon2(_ref2) {
     onClick: onClick,
     disabled: disabled,
     "aria-label": ariaLabel || (hasText ? undefined : iconLabel(icon)),
+    "aria-pressed": ariaPressed === null ? undefined : !!ariaPressed,
+    "data-selected": selected ? "true" : undefined,
     className: "dr-btn-icon inline-flex items-center justify-center ".concat(hasIcon && hasText ? "gap-1.5" : "", " ").concat(block ? "w-full" : "", " ").concat(bgColor, " ").concat(txtColor, " ").concat(styles.borderColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.hoverBorderColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "px-2.5 py-1.5", " ").concat(styles.textSize || "text-sm", " ").concat(styles.shadow || "", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.fontWeight || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(styles.disabledOpacity || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " whitespace-nowrap ").concat(className),
     children: [hasIcon && /*#__PURE__*/jsx(FontAwesomeIcon, {
       icon: icon,
@@ -4582,6 +4590,8 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     size = _ref3$size === void 0 ? "md" : _ref3$size,
     _ref3$ariaLabel = _ref3.ariaLabel,
     ariaLabel = _ref3$ariaLabel === void 0 ? null : _ref3$ariaLabel,
+    _ref3$ariaPressed = _ref3.ariaPressed,
+    ariaPressed = _ref3$ariaPressed === void 0 ? null : _ref3$ariaPressed,
     children = _ref3.children,
     props = _objectWithoutProperties$w(_ref3, _excluded3$9);
   var _useContext3 = useContext(ThemeContext),
@@ -4608,6 +4618,8 @@ var ButtonIcon3 = function ButtonIcon3(_ref3) {
     onClick: onClick,
     disabled: disabled,
     "aria-label": ariaLabel || (hasText ? undefined : iconLabel(icon)),
+    "aria-pressed": ariaPressed === null ? undefined : !!ariaPressed,
+    "data-selected": selected ? "true" : undefined,
     className: "dr-btn-icon inline-flex items-center justify-center ".concat(hasIcon && hasText ? "gap-1" : "", " ").concat(block ? "w-full" : "", " ").concat(bgColor, " ").concat(txtColor, " ").concat(styles.borderColor || "", " ").concat(styles.hoverBackgroundColor || "", " ").concat(styles.hoverTextColor || "", " ").concat(styles.hoverBorderColor || "", " ").concat(styles.borderRadius || "rounded-md", " ").concat(styles.spacing || "px-2 py-1", " ").concat(styles.textSize || "text-xs", " ").concat(styles.shadow || "", " ").concat(styles.transition || "transition-colors duration-150", " ").concat(styles.fontWeight || "", " ").concat(styles.cursor || "cursor-pointer", " ").concat(styles.disabledOpacity || "", " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ").concat(styles.focusRingColor || "", " whitespace-nowrap ").concat(className),
     children: [hasIcon && /*#__PURE__*/jsx(FontAwesomeIcon, {
       icon: icon,
@@ -10121,29 +10133,35 @@ var EmptyState = function EmptyState(_ref) {
     _ref$children = _ref.children,
     children = _ref$children === void 0 ? null : _ref$children,
     _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className;
-  var _useContext = useContext(ThemeContext),
-    currentTheme = _useContext.currentTheme;
+    className = _ref$className === void 0 ? "" : _ref$className,
+    testId = _ref.testId;
+  var _ref2 = useContext(ThemeContext) || {},
+    _ref2$currentTheme = _ref2.currentTheme,
+    currentTheme = _ref2$currentTheme === void 0 ? {} : _ref2$currentTheme;
   var styles = getStylesForItem(themeObjects.EMPTY_STATE, currentTheme, {
     scrollable: false,
     grow: false
   });
+  var muted = currentTheme["text-neutral-medium"] || "";
   return /*#__PURE__*/jsxs("div", {
-    className: "flex flex-col items-center justify-center text-center ".concat(styles.spacing || "p-8", " ").concat(styles.borderRadius || "rounded-lg", " ").concat(className),
+    className: "dr-empty flex flex-col items-center justify-center text-center gap-1 ".concat(styles.spacing || "p-8", " ").concat(styles.borderRadius || "rounded-lg", " ").concat(className),
+    "data-testid": testId,
     children: [icon && /*#__PURE__*/jsx("div", {
-      className: "".concat(styles.textColor || "", " opacity-40 mb-4"),
+      className: "dr-empty-icon mb-3 ".concat(muted),
+      "aria-hidden": "true",
       children: icon
     }), title && /*#__PURE__*/jsx(SubHeading3, {
       title: title,
       padding: false,
-      className: "justify-center mb-1"
-    }), description && /*#__PURE__*/jsx(Paragraph2, {
-      text: description,
-      padding: false,
-      width: "max-w-sm",
-      className: "opacity-60 mb-4"
+      className: "dr-empty-title justify-center"
+    }), description && /*#__PURE__*/jsx("p", {
+      className: "dr-empty-desc text-sm max-w-sm ".concat(muted),
+      style: {
+        margin: 0
+      },
+      children: description
     }), children && /*#__PURE__*/jsx("div", {
-      className: "mt-2",
+      className: "mt-3",
       children: children
     })]
   });
@@ -11978,7 +11996,7 @@ var ChatComposer = /*#__PURE__*/forwardRef(function ChatComposer(_ref4, ref) {
     if (canSend) onSend(value);
   };
   return /*#__PURE__*/jsxs("div", {
-    className: "dr-chat-composer flex flex-col gap-1.5 px-3 py-2 border-t ".concat(t.hairline, " ").concat(className),
+    className: "dr-chat-composer flex flex-col gap-1.5 px-4 pt-3 pb-3 border-t ".concat(t.hairline, " ").concat(className),
     children: [above, /*#__PURE__*/jsxs("div", {
       className: "flex flex-row items-end gap-2",
       children: [/*#__PURE__*/jsx("textarea", {
@@ -12070,7 +12088,10 @@ var ListRow = function ListRow(_ref) {
       }) : null, /*#__PURE__*/jsxs("span", {
         className: "flex flex-col min-w-0",
         children: [/*#__PURE__*/jsx("span", {
-          className: "dr-list-row-title text-sm font-medium truncate ".concat(mono ? "font-mono" : "", " ").concat(strong),
+          className: "dr-list-row-title text-sm font-medium truncate ".concat(mono ? "font-mono" : "", " ").concat(strong)
+          // A truncated title stays reachable (guide checklist).
+          ,
+          title: typeof title === "string" ? title : undefined,
           children: title
         }), meta ? /*#__PURE__*/jsx("span", {
           className: "dr-list-row-meta text-xs ".concat(muted),

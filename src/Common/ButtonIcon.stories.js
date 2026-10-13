@@ -1,3 +1,4 @@
+import React from "react";
 import { ButtonIcon, ButtonIcon2, ButtonIcon3 } from "./ButtonIcon";
 import { mock, MockWrapper } from "@dash";
 
@@ -96,6 +97,34 @@ export const IconOnly = () => (
         </div>
     </MockWrapper>
 );
+
+// A rail of panel toggles: the open one is `selected` (filled in both modes)
+// and every toggle reports its state with `ariaPressed`.
+export const RailToggles = () => {
+    const [open, setOpen] = React.useState("create");
+    const toggle = (which) => setOpen((cur) => (cur === which ? null : which));
+    const items = [
+        ["create", "plus", "Create"],
+        ["ai", "wand-magic-sparkles", "AI Assistant"],
+        ["bots", "robot", "Bot Activity"],
+    ];
+    return (
+        <MockWrapper api={mock.api} theme={mock.themes}>
+            <div className="flex flex-col items-center gap-1 p-2 w-12">
+                {items.map(([which, icon, label]) => (
+                    <ButtonIcon2
+                        key={which}
+                        icon={icon}
+                        ariaLabel={label}
+                        ariaPressed={open === which}
+                        selected={open === which}
+                        onClick={() => toggle(which)}
+                    />
+                ))}
+            </div>
+        </MockWrapper>
+    );
+};
 
 export const AllVariants = () => (
     <MockWrapper api={mock.api} theme={mock.themes}>

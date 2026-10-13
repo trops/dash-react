@@ -64,6 +64,37 @@ describe("ButtonIcon names", () => {
     });
 });
 
+describe("ButtonIcon as a toggle", () => {
+    test("ariaPressed reports the toggle's state; selected is marked", () => {
+        renderWithTheme(
+            <ButtonIcon3 icon="plus" ariaLabel="Create" ariaPressed selected />
+        );
+        const b = screen.getByRole("button", { name: "Create" });
+        expect(b).toHaveAttribute("aria-pressed", "true");
+        expect(b).toHaveAttribute("data-selected", "true");
+    });
+
+    test("a plain button is not announced as a toggle", () => {
+        renderWithTheme(<ButtonIcon icon="xmark" />);
+        const b = screen.getByRole("button", { name: "Close" });
+        expect(b).not.toHaveAttribute("aria-pressed");
+        expect(b).not.toHaveAttribute("data-selected");
+    });
+
+    test("an unpressed toggle says so", () => {
+        renderWithTheme(
+            <ButtonIcon
+                icon="robot"
+                ariaLabel="Bot Activity"
+                ariaPressed={false}
+            />
+        );
+        expect(
+            screen.getByRole("button", { name: "Bot Activity" })
+        ).toHaveAttribute("aria-pressed", "false");
+    });
+});
+
 describe("Input names", () => {
     test("no label: the placeholder names the input", () => {
         renderWithTheme(
