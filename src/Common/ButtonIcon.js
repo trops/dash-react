@@ -4,6 +4,43 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
+// Icon-only buttons need an accessible name (WCAG 4.1.2). Callers should pass
+// `ariaLabel`; without one, the icon's name stands in ("xmark" → "Close").
+const ICON_NAMES = {
+    xmark: "Close",
+    times: "Close",
+    plus: "Add",
+    trash: "Delete",
+    "trash-can": "Delete",
+    pen: "Edit",
+    pencil: "Edit",
+    "pen-to-square": "Edit",
+    gear: "Settings",
+    cog: "Settings",
+    "magnifying-glass": "Search",
+    search: "Search",
+    "arrow-left": "Back",
+    "chevron-left": "Back",
+    ellipsis: "More",
+    "ellipsis-vertical": "More",
+    "rotate-right": "Refresh",
+    rotate: "Refresh",
+    copy: "Copy",
+    check: "Done",
+};
+export function iconLabel(icon) {
+    const name = Array.isArray(icon)
+        ? icon[1]
+        : typeof icon === "string"
+          ? icon
+          : icon && icon.iconName;
+    if (!name) return undefined;
+    const key = String(name).replace(/^fa-/, "");
+    if (ICON_NAMES[key]) return ICON_NAMES[key];
+    const words = key.replace(/-/g, " ");
+    return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 const ButtonIcon = ({
     onClick = null,
     icon = "",
@@ -64,7 +101,7 @@ const ButtonIcon = ({
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            aria-label={ariaLabel}
+            aria-label={ariaLabel || (hasText ? undefined : iconLabel(icon))}
             className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-2" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-3 py-2"} ${styles.textSize || "text-base"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
@@ -133,7 +170,7 @@ const ButtonIcon2 = ({
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            aria-label={ariaLabel}
+            aria-label={ariaLabel || (hasText ? undefined : iconLabel(icon))}
             className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1.5" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2.5 py-1.5"} ${styles.textSize || "text-sm"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
@@ -202,7 +239,7 @@ const ButtonIcon3 = ({
             id={uuid}
             onClick={onClick}
             disabled={disabled}
-            aria-label={ariaLabel}
+            aria-label={ariaLabel || (hasText ? undefined : iconLabel(icon))}
             className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (

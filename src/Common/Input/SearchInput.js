@@ -12,6 +12,8 @@ const SearchInput = ({
     placeholder = "Search...",
     icon = "magnifying-glass",
     id = null,
+    // Accessible name when there's no visible `label` (falls back to the placeholder).
+    ariaLabel = null,
     className = "",
     inputClassName = "",
     disabled = false,
@@ -46,6 +48,9 @@ const SearchInput = ({
     );
 
     const inputId = id || getUUID("", "search-input");
+    const unlabeledName = label
+        ? undefined
+        : ariaLabel || placeholder || undefined;
 
     return (
         <div className={`flex flex-col space-y-1 ${className}`}>
@@ -66,6 +71,7 @@ const SearchInput = ({
                 <input
                     {...htmlProps}
                     id={inputId}
+                    aria-label={unlabeledName}
                     type="search"
                     value={value}
                     onChange={(event) => dispatchInputChange(onChange, event)}

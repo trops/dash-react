@@ -36,6 +36,8 @@ const SelectInput = ({
     id = null,
     className = "",
     inputClassName = "",
+    // Accessible name when there's no visible `label` (falls back to the placeholder).
+    ariaLabel = null,
     ...props
 }) => {
     const { currentTheme, themeVariant } = useContext(ThemeContext);
@@ -60,6 +62,9 @@ const SelectInput = ({
     });
 
     const inputId = id || getUUID("", "select-input");
+    const unlabeledName = label
+        ? undefined
+        : ariaLabel || placeholder || undefined;
     const hasIcons = options.some((opt) => opt.icon);
 
     // Custom dropdown state (only used when options have icons)
@@ -102,7 +107,10 @@ const SelectInput = ({
                 ref={dropdownRef}
             >
                 {label && (
-                    <label className={`text-sm ${labelStyles.textColor}`}>
+                    <label
+                        id={`${inputId}-label`}
+                        className={`text-sm ${labelStyles.textColor}`}
+                    >
                         {label}
                     </label>
                 )}
@@ -110,6 +118,12 @@ const SelectInput = ({
                     <button
                         type="button"
                         id={inputId}
+                        aria-haspopup="listbox"
+                        aria-expanded={isOpen}
+                        aria-labelledby={
+                            label ? `${inputId}-label ${inputId}` : undefined
+                        }
+                        aria-label={unlabeledName}
                         disabled={props.disabled}
                         onClick={() => setIsOpen(!isOpen)}
                         className={`dr-input w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed text-left flex items-center justify-between gap-2 ${inputClassName}`}
@@ -201,6 +215,7 @@ const SelectInput = ({
             )}
             <select
                 id={inputId}
+                aria-label={unlabeledName}
                 // Native dropdown list follows the light/dark variant.
                 style={{ colorScheme: colorSchemeFor(themeVariant) }}
                 value={value}

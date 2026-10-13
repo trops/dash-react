@@ -39,7 +39,7 @@
     /* Text */
     --text: #f0f1f5;
     --text-2: #a4a9b8;
-    --text-3: #676d7e;
+    --text-3: #868c9d; /* ≥5:1 on --bg, panels and --raised (was #676d7e, 3.3–3.8:1) */
 
     /* Accent — FIXED Aurora violet→cyan signature (the mockup look), so the
        mesh/glow/buttons/active-pill pop regardless of the theme's primary.
@@ -48,13 +48,13 @@
     --accent: #8f82f9;
     --accent-2: #45c8e0;
     --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
-    --accent-grad: linear-gradient(
-        135deg,
-        var(--accent),
-        color-mix(in srgb, var(--accent) 80%, black)
-    );
+    /* Primary button fill: deep enough for a white label at 4.5:1+
+       (the old accent→darker gradient started at 3.1:1). */
+    --accent-grad: linear-gradient(135deg, #6a5cf0, #5b4fe0);
+    /* Brand moments only (logo mark, onboarding) — never controls or panels. */
     --brand-grad: linear-gradient(140deg, var(--accent), var(--accent-2));
     --accent-glow: 0 4px 18px color-mix(in srgb, var(--accent) 35%, transparent);
+    --focus-ring: #8f82f9; /* 6:1 on the dark surfaces */
 
     /* Semantic */
     --green: #52d59a;
@@ -111,7 +111,8 @@
     --hairline-strong: rgba(16, 18, 24, 0.16);
     --text: #1a1d23;
     --text-2: #5b616e;
-    --text-3: #8a909c;
+    --text-3: #626876; /* ≥5:1 on light surfaces (was #8a909c, 2.9–3.2:1) */
+    --focus-ring: #5b4fe0; /* 5.4:1 on the light surfaces */
     --shadow: 0 6px 20px rgba(16, 18, 24, 0.08);
     --shadow-lg: 0 16px 44px rgba(16, 18, 24, 0.16);
     --card-shadow: 0 8px 26px rgba(16, 18, 24, 0.08);
@@ -137,11 +138,11 @@
         background 0.14s,
         border-color 0.14s !important;
 }
-/* Primary — accent gradient + glow (Button) */
+/* Primary — accent fill (Button). No glow: depth comes from the fill. */
 [data-design="aurora"] .dr-btn-primary {
     background: var(--accent-grad) !important;
     color: #fff !important;
-    box-shadow: var(--accent-glow) !important;
+    box-shadow: none !important;
 }
 [data-design="aurora"] .dr-btn-primary:hover:not(:disabled) {
     filter: brightness(1.08);
@@ -156,6 +157,19 @@
 }
 [data-design="aurora"] .dr-btn-secondary:hover:not(:disabled) {
     border-color: var(--hairline-strong) !important;
+}
+[data-design="aurora"][data-mode="light"] .dr-btn-secondary,
+[data-mode="light"] [data-design="aurora"] .dr-btn-secondary,
+[data-design="aurora"] [data-mode="light"] .dr-btn-secondary {
+    background: color-mix(in srgb, var(--accent) 7%, var(--solid)) !important;
+    border-color: var(--hairline-strong) !important;
+}
+/* Keyboard focus: a visible 2px ring on every button (WCAG 2.4.7). The
+   ring color passes 3:1 against both modes' surfaces. */
+[data-design="aurora"] .dr-btn:focus-visible,
+[data-design="aurora"] .dr-btn-icon:focus-visible {
+    outline: 2px solid var(--focus-ring) !important;
+    outline-offset: 2px !important;
 }
 /* Ghost — quiet (Button3) */
 [data-design="aurora"] .dr-btn-ghost {
@@ -353,7 +367,7 @@
 [data-design="aurora"] .dr-section-label,
 [data-design="aurora"] .dr-panel .uppercase.tracking-wide {
     font-family: var(--mono) !important;
-    font-size: 10.5px !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;

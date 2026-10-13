@@ -1,4 +1,6 @@
 const tailwindColors = require("./node_modules/tailwindcss/colors");
+// Palette names follow Aurora (design guide: "Colors in widgets").
+const { auroraColors } = require("./aurora-palette.cjs");
 const colorSafeList = [];
 
 // Skip these to avoid a load of deprecated warnings when tailwind starts up
@@ -248,6 +250,7 @@ module.exports = {
     content: ["./src/**/*.js"],
     theme: {
         extend: {
+            colors: auroraColors(),
             padding: {
                 "1/2": "50%",
                 "1/5": "20%",
