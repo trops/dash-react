@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
-import { getStylesForItem } from "@dash/Utils";
+import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 
 function Toggle({
@@ -10,8 +10,13 @@ function Toggle({
     disabled = false,
     className = "",
     children,
+    // Accessible name when there's no visible text.
+    ariaLabel = null,
+    id = null,
     ...props
 }) {
+    const toggleId = id || getUUID("", "toggle");
+    const hasText = Boolean(text) || children !== undefined;
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TOGGLE, currentTheme, {
         ...props,
@@ -27,8 +32,11 @@ function Toggle({
         <div className={`flex flex-row items-center space-x-2 ${className}`}>
             <button
                 type="button"
+                id={toggleId}
                 role="switch"
                 aria-checked={enabled}
+                aria-labelledby={hasText ? `${toggleId}-label` : undefined}
+                aria-label={hasText ? undefined : ariaLabel || undefined}
                 disabled={disabled}
                 onClick={handleToggle}
                 style={
@@ -56,6 +64,7 @@ function Toggle({
             </button>
             {(text || children !== undefined) && (
                 <span
+                    id={`${toggleId}-label`}
                     style={styles.inlineStyle?.textColor}
                     className={`text-sm ${styles.textColor || ""}`}
                 >
@@ -73,8 +82,13 @@ function Toggle2({
     disabled = false,
     className = "",
     children,
+    // Accessible name when there's no visible text.
+    ariaLabel = null,
+    id = null,
     ...props
 }) {
+    const toggleId = id || getUUID("", "toggle");
+    const hasText = Boolean(text) || children !== undefined;
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TOGGLE_2, currentTheme, {
         ...props,
@@ -90,8 +104,11 @@ function Toggle2({
         <div className={`flex flex-row items-center space-x-2 ${className}`}>
             <button
                 type="button"
+                id={toggleId}
                 role="switch"
                 aria-checked={enabled}
+                aria-labelledby={hasText ? `${toggleId}-label` : undefined}
+                aria-label={hasText ? undefined : ariaLabel || undefined}
                 disabled={disabled}
                 onClick={handleToggle}
                 style={
@@ -119,6 +136,7 @@ function Toggle2({
             </button>
             {(text || children !== undefined) && (
                 <span
+                    id={`${toggleId}-label`}
                     style={styles.inlineStyle?.textColor}
                     className={`text-sm ${styles.textColor || ""}`}
                 >
@@ -136,8 +154,13 @@ function Toggle3({
     disabled = false,
     className = "",
     children,
+    // Accessible name when there's no visible text.
+    ariaLabel = null,
+    id = null,
     ...props
 }) {
+    const toggleId = id || getUUID("", "toggle");
+    const hasText = Boolean(text) || children !== undefined;
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.TOGGLE_3, currentTheme, {
         ...props,
@@ -153,8 +176,11 @@ function Toggle3({
         <div className={`flex flex-row items-center space-x-1.5 ${className}`}>
             <button
                 type="button"
+                id={toggleId}
                 role="switch"
                 aria-checked={enabled}
+                aria-labelledby={hasText ? `${toggleId}-label` : undefined}
+                aria-label={hasText ? undefined : ariaLabel || undefined}
                 disabled={disabled}
                 onClick={handleToggle}
                 style={
@@ -182,6 +208,7 @@ function Toggle3({
             </button>
             {(text || children !== undefined) && (
                 <span
+                    id={`${toggleId}-label`}
                     style={styles.inlineStyle?.textColor}
                     className={`text-xs ${styles.textColor || ""}`}
                 >
