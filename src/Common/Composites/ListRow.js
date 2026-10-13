@@ -58,6 +58,8 @@ export const ListRow = ({
                 <span className="flex flex-col min-w-0">
                     <span
                         className={`dr-list-row-title text-sm font-medium truncate ${mono ? "font-mono" : ""} ${strong}`}
+                        // A truncated title stays reachable (guide checklist).
+                        title={typeof title === "string" ? title : undefined}
                     >
                         {title}
                     </span>

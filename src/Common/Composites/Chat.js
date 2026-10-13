@@ -217,7 +217,7 @@ export const ChatComposer = forwardRef(function ChatComposer(
     };
     return (
         <div
-            className={`dr-chat-composer flex flex-col gap-1.5 px-3 py-2 border-t ${t.hairline} ${className}`}
+            className={`dr-chat-composer flex flex-col gap-1.5 px-4 pt-3 pb-3 border-t ${t.hairline} ${className}`}
         >
             {above}
             <div className="flex flex-row items-end gap-2">

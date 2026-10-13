@@ -6,6 +6,9 @@ import { themeObjects } from "@dash/Utils/themeObjects";
 
 // Icon-only buttons need an accessible name (WCAG 4.1.2). Callers should pass
 // `ariaLabel`; without one, the icon's name stands in ("xmark" → "Close").
+// A toggle (a rail or toolbar button that shows a panel) passes `ariaPressed`;
+// `selected` also marks the button `data-selected` so the Aurora treatment can
+// show it in both modes (design guide, rule 13).
 const ICON_NAMES = {
     xmark: "Close",
     times: "Close",
@@ -57,6 +60,7 @@ const ButtonIcon = ({
     className = "",
     size = "md",
     ariaLabel = null,
+    ariaPressed = null,
     children,
     ...props
 }) => {
@@ -102,6 +106,8 @@ const ButtonIcon = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel || (hasText ? undefined : iconLabel(icon))}
+            aria-pressed={ariaPressed === null ? undefined : !!ariaPressed}
+            data-selected={selected ? "true" : undefined}
             className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-2" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-3 py-2"} ${styles.textSize || "text-base"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
@@ -127,6 +133,7 @@ const ButtonIcon2 = ({
     className = "",
     size = "md",
     ariaLabel = null,
+    ariaPressed = null,
     children,
     ...props
 }) => {
@@ -171,6 +178,8 @@ const ButtonIcon2 = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel || (hasText ? undefined : iconLabel(icon))}
+            aria-pressed={ariaPressed === null ? undefined : !!ariaPressed}
+            data-selected={selected ? "true" : undefined}
             className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1.5" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2.5 py-1.5"} ${styles.textSize || "text-sm"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (
@@ -196,6 +205,7 @@ const ButtonIcon3 = ({
     className = "",
     size = "md",
     ariaLabel = null,
+    ariaPressed = null,
     children,
     ...props
 }) => {
@@ -240,6 +250,8 @@ const ButtonIcon3 = ({
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel || (hasText ? undefined : iconLabel(icon))}
+            aria-pressed={ariaPressed === null ? undefined : !!ariaPressed}
+            data-selected={selected ? "true" : undefined}
             className={`dr-btn-icon inline-flex items-center justify-center ${hasIcon && hasText ? "gap-1" : ""} ${block ? "w-full" : ""} ${bgColor} ${txtColor} ${styles.borderColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} ${styles.hoverBorderColor || ""} ${styles.borderRadius || "rounded-md"} ${styles.spacing || "px-2 py-1"} ${styles.textSize || "text-xs"} ${styles.shadow || ""} ${styles.transition || "transition-colors duration-150"} ${styles.fontWeight || ""} ${styles.cursor || "cursor-pointer"} ${styles.disabledOpacity || ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles.focusRingColor || ""} whitespace-nowrap ${className}`}
         >
             {hasIcon && (

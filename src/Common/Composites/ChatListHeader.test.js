@@ -176,6 +176,12 @@ describe("ListRow", () => {
         wrap(<ListRow title="Static" />);
         expect(screen.queryByRole("button")).toBeNull();
     });
+
+    test("a long title can be read in full on hover", () => {
+        const long = "How many dashboards do I have? Answer in one sentence.";
+        wrap(<ListRow title={long} onClick={() => {}} />);
+        expect(screen.getByText(long)).toHaveAttribute("title", long);
+    });
 });
 
 describe("PanelHeader", () => {
