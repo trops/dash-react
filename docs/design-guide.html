@@ -163,6 +163,8 @@
                 <a href="#widget-colors">Colors in widgets</a>
                 <a href="#type">Type</a>
                 <a href="#spacing">Spacing &amp; shape</a>
+                <span class="toc-group">Layout</span>
+                <a href="#layout">Screen layout</a>
                 <span class="toc-group">Components</span>
                 <a href="#components">Which component</a>
                 <a href="component-gallery.html">Component gallery ↗</a>
@@ -1830,6 +1832,414 @@
                     </p>
                 </section>
 
+                <section id="layout">
+                    <h2>Every region has an edge; every group has a home</h2>
+                    <span class="status target"
+                        >Target · screens are being brought up to it</span
+                    >
+                    <p>
+                        The rules above size and color single components. These
+                        rules size the screen they sit on. The October 2026
+                        screen audit found that most of what looked wrong in the
+                        app was layout: regions sharing one surface, groups with
+                        no container, text set below its role, and the chat laid
+                        out differently in each place. A screen is not done
+                        until it passes these in dark and light.
+                    </p>
+
+                    <h3>Regions and surfaces</h3>
+                    <div class="pair">
+                        <div class="verdict dont">
+                            <span class="tag">Don't — one surface</span>
+                            <div class="frame aurora-dark">
+                                <div class="lx-screen">
+                                    <div class="lx-top flat">
+                                        Widgets
+                                        <span class="lx-tiny">Publish…</span>
+                                    </div>
+                                    <div class="lx-split flat">
+                                        <div class="lx-list flat">
+                                            <span class="lx-row"
+                                                >slack-pack</span
+                                            ><span class="lx-row"
+                                                >My Workspace</span
+                                            ><span class="lx-row"
+                                                >My Workspace</span
+                                            >
+                                        </div>
+                                        <div class="lx-detail flat">
+                                            <span class="lx-row"
+                                                >10 widgets · not used</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                Header, list and detail share the page color, so
+                                nothing says where one ends and the next begins.
+                            </p>
+                        </div>
+                        <div class="verdict do">
+                            <span class="tag"
+                                >Do — regions, then raised groups</span
+                            >
+                            <div class="frame aurora-dark">
+                                <div class="lx-screen">
+                                    <div class="lx-top">
+                                        Widgets
+                                        <button class="p-btn primary sm">
+                                            New widget
+                                        </button>
+                                    </div>
+                                    <div class="lx-split">
+                                        <div class="lx-list">
+                                            <div class="p-row">
+                                                <span class="body"
+                                                    ><span class="title"
+                                                        >Slack Pack</span
+                                                    ><span class="meta"
+                                                        >10 widgets · 2d
+                                                        ago</span
+                                                    ></span
+                                                >
+                                            </div>
+                                            <div class="p-row lx-sel">
+                                                <span class="body"
+                                                    ><span class="title"
+                                                        >Morning Brief</span
+                                                    ><span class="meta"
+                                                        >2 widgets · today</span
+                                                    ></span
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="lx-detail">
+                                            <span class="lx-title"
+                                                >Morning Brief</span
+                                            ><span class="lx-meta"
+                                                >2 widgets · 1 bot</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                The header ends at a hairline; the list and the
+                                detail are each a raised panel; the selected row
+                                is filled, not just bolder.
+                            </p>
+                        </div>
+                    </div>
+                    <ol class="lx-rules">
+                        <li>
+                            <strong>Regions are separated.</strong> A screen is
+                            header, main and side regions. Neighbouring regions
+                            differ by a 1px hairline, a surface step, or both —
+                            never neither. In a modal the title bar, toolbar and
+                            body are separate; split panes get a divider.
+                        </li>
+                        <li>
+                            <strong>Three surface levels.</strong> Page
+                            (<code>--bg</code>), region panel, raised group
+                            (<code>--raised</code> with a hairline and
+                            <code>--r-md</code>). Content groups sit on the
+                            raised level. No surface is pure black on a black
+                            backdrop; a modal is raised above what it covers.
+                        </li>
+                        <li>
+                            <strong>List and detail.</strong> On a page with a
+                            list and a detail, the list is its own panel with
+                            the search and filters inside its top bar. Every
+                            such page uses the same header: title and its one
+                            primary on the first row, tabs under it.
+                        </li>
+                        <li>
+                            <strong
+                                >Docks share one header and one width.</strong
+                            >
+                            Every dock panel uses <code>PanelHeader</code> and
+                            the same width, and its body is one surface with
+                            hairlines between header, content and composer.
+                        </li>
+                    </ol>
+
+                    <h3>Groups and sections</h3>
+                    <div class="pair">
+                        <div class="verdict dont">
+                            <span class="tag"
+                                >Don't — headings over loose rows</span
+                            >
+                            <div class="frame aurora-light" data-mode="light">
+                                <div class="p-pad">
+                                    <span class="lx-caps">PREFERENCES</span>
+                                    <span class="lx-loose"
+                                        >Check for updates<i
+                                            >Looks for a new version when Dash
+                                            starts.</i
+                                        ></span
+                                    >
+                                    <span class="lx-loose"
+                                        >Debug mode<i
+                                            >Shows extra logs in the console.</i
+                                        ></span
+                                    >
+                                </div>
+                            </div>
+                            <p class="why">
+                                Spaced capitals as the heading, italic 11px
+                                descriptions, no container: the rows float and
+                                read as one block of text.
+                            </p>
+                        </div>
+                        <div class="verdict do">
+                            <span class="tag">Do — a titled card</span>
+                            <div class="frame aurora-light" data-mode="light">
+                                <div class="p-pad">
+                                    <div class="lx-card">
+                                        <span class="lx-card-t"
+                                            >Preferences</span
+                                        >
+                                        <div class="lx-set">
+                                            <span
+                                                ><b>Check for updates</b
+                                                ><span
+                                                    >Looks for a new version
+                                                    when Dash starts.</span
+                                                ></span
+                                            ><span class="lx-switch on"></span>
+                                        </div>
+                                        <div class="lx-set">
+                                            <span
+                                                ><b>Debug mode</b
+                                                ><span
+                                                    >Shows extra logs in the
+                                                    console.</span
+                                                ></span
+                                            ><span class="lx-switch"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                One card per group, a 14px semibold title,
+                                hairlines between rows, 12px descriptions, and a
+                                switch whose track shows on or off.
+                            </p>
+                        </div>
+                    </div>
+                    <ol class="lx-rules" start="5">
+                        <li>
+                            <strong
+                                >A titled group lives in a container.</strong
+                            >
+                            <code>Card</code> or <code>Panel</code>, 14px
+                            semibold title, hairlines between its rows.
+                            <code>SectionLabel</code> labels a list; it never
+                            heads a whole section.
+                        </li>
+                        <li>
+                            <strong>Readable text.</strong> Anything people read
+                            — descriptions, empty states, field values, row
+                            titles — is 14px. 12px is only for status and meta
+                            lines. Controls (buttons, tabs, segments, filter
+                            pills) use 13–14px labels. No italic body text.
+                        </li>
+                        <li>
+                            <strong>Forms.</strong> Label (13px) above the
+                            field, the field on <code>--raised-2</code> with an
+                            edge, help text (12px) below. A select always shows
+                            its value or a placeholder, never blank.
+                        </li>
+                        <li>
+                            <strong>Padding and measure.</strong> At least 16px
+                            inside panels and 20px in modal bodies. Running text
+                            stops at about 70 characters; settings and forms cap
+                            at 640px wide.
+                        </li>
+                        <li>
+                            <strong>Icons are Font Awesome.</strong> Never
+                            emoji, including on cards and quick-start tiles.
+                        </li>
+                    </ol>
+
+                    <h3>Actions, status and selection</h3>
+                    <div class="pair">
+                        <div class="verdict dont">
+                            <span class="tag"
+                                >Don't — text actions, a bare dot</span
+                            >
+                            <div class="frame aurora-dark">
+                                <div class="p-pad">
+                                    <div class="lx-headrow">
+                                        <span class="lx-title"
+                                            >Slack Pack
+                                            <span
+                                                class="dot"
+                                                style="background: var(--amber)"
+                                            ></span></span
+                                        ><span class="lx-tiny"
+                                            >Pause &nbsp;Edit
+                                            &nbsp;Uninstall</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                11px text with no frame, a destructive action at
+                                rest, and a color with no word.
+                            </p>
+                        </div>
+                        <div class="verdict do">
+                            <span class="tag"
+                                >Do — buttons, a badge, an overflow</span
+                            >
+                            <div class="frame aurora-dark">
+                                <div class="p-pad">
+                                    <div class="lx-headrow">
+                                        <span class="lx-title"
+                                            >Slack Pack
+                                            <span class="lx-badge amber"
+                                                >Needs Slack</span
+                                            ></span
+                                        ><span class="lx-actions"
+                                            ><button class="p-btn secondary sm">
+                                                Pause</button
+                                            ><button class="p-btn secondary sm">
+                                                Edit</button
+                                            ><button
+                                                class="p-icon-btn"
+                                                aria-label="More actions"
+                                            >
+                                                …
+                                            </button></span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                Secondary buttons at 28px, status as a word in a
+                                badge, Uninstall inside "…" behind a
+                                confirmation.
+                            </p>
+                        </div>
+                    </div>
+                    <ol class="lx-rules" start="10">
+                        <li>
+                            <strong>Actions are buttons.</strong> Secondary
+                            actions are real buttons at least 28px tall with
+                            13–14px labels. Destructive actions live in the "…"
+                            menu and confirm. Each pane uses one action pattern:
+                            one primary, secondaries, then "…".
+                        </li>
+                        <li>
+                            <strong>Toolbars hold filters.</strong> Every
+                            control in a toolbar is the same height (32px).
+                            Settings go to Settings or "…"; links go to the page
+                            header.
+                        </li>
+                        <li>
+                            <strong>Status is a word.</strong> Use
+                            <code>StatusBadge</code> (dot plus word). No bare
+                            colored dots, no caps text standing in for a tag,
+                            and the same word for the same state everywhere.
+                        </li>
+                        <li>
+                            <strong>Selection is visible in both modes.</strong>
+                            Selected rows, nav items, rail icons, segments and
+                            filter chips get an <code>--accent-soft</code> fill
+                            (or a filled segment), never only a weight or
+                            opacity change. Switch tracks show on and off.
+                        </li>
+                        <li>
+                            <strong>Accent text passes in light mode.</strong>
+                            Accent-colored text uses the light-mode accent text
+                            shade, at least 4.5:1 on light surfaces. Body text
+                            is never accent-colored.
+                        </li>
+                        <li>
+                            <strong>One widget header.</strong> Every widget
+                            uses the same header: title (14px), status line
+                            under it, actions on the right. A widget never
+                            repeats its title inside its body.
+                        </li>
+                    </ol>
+
+                    <h3>Chats</h3>
+                    <div class="pair">
+                        <div class="verdict dont">
+                            <span class="tag">Don't — the box on top</span>
+                            <div class="frame aurora-dark">
+                                <div class="p-composer lx-composer-top">
+                                    <div class="box">
+                                        <div class="field">
+                                            Ask about your dashboards…
+                                        </div>
+                                        <button class="p-btn primary">
+                                            Ask
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-chat">
+                                    <span class="lx-tiny"
+                                        >Nothing yet. Questions show up
+                                        here.</span
+                                    >
+                                </div>
+                            </div>
+                            <p class="why">
+                                Every other chat types at the bottom; here the
+                                answer lands under the box you typed in.
+                            </p>
+                        </div>
+                        <div class="verdict do">
+                            <span class="tag">Do — thread, then the box</span>
+                            <div class="frame aurora-dark">
+                                <div class="p-chat">
+                                    <div class="p-you">
+                                        How many dashboards do I have?
+                                    </div>
+                                    <div class="p-reply">
+                                        <div class="who">
+                                            <span class="p-label">Dash</span>
+                                        </div>
+                                        <div class="bubble">
+                                            You have 12 dashboards.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-composer">
+                                    <div class="box">
+                                        <div class="field">
+                                            Ask a follow-up…
+                                        </div>
+                                        <button class="p-btn primary">
+                                            Ask
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="why">
+                                Same order as every chat in Dash: the
+                                conversation, then <code>ChatComposer</code>
+                                pinned at the bottom.
+                            </p>
+                        </div>
+                    </div>
+                    <ol class="lx-rules" start="16">
+                        <li>
+                            <strong
+                                >The message box is always at the
+                                bottom.</strong
+                            >
+                            In every chat — dock, modal, Bots view, Widget
+                            Builder — the thread scrolls and
+                            <code>ChatComposer</code> stays pinned at the bottom
+                            and in view from the first screen.
+                        </li>
+                    </ol>
+                </section>
+
                 <section id="components">
                     <h2>One answer per pattern</h2>
                     <div class="table-wrap">
@@ -2573,6 +2983,27 @@
                         many items.
                     </p>
                     <ul class="checklist">
+                        <li>
+                            The whole screen was checked, not only the changed
+                            component
+                        </li>
+                        <li>
+                            Neighbouring regions differ by a hairline or a
+                            surface step
+                        </li>
+                        <li>Every titled group sits in a Card or Panel</li>
+                        <li>
+                            Read text is 14px; 12px only for status and meta
+                        </li>
+                        <li>
+                            Secondary actions are buttons; destructive ones sit
+                            in “…”
+                        </li>
+                        <li>Status is a word, not a bare dot</li>
+                        <li>Selection is visible in both modes</li>
+                        <li>
+                            The chat's message box is at the bottom and in view
+                        </li>
                         <li>
                             Every control, row and bubble is a dash-react
                             component
