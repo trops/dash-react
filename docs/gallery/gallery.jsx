@@ -69,6 +69,7 @@ import * as SubHeadingS from "@dash/Common/Text/SubHeading.stories";
 import * as ToastS from "@dash/Common/Toast.stories";
 import * as ToggleS from "@dash/Common/Toggle.stories";
 import * as WidgetChromeS from "@dash/Common/WidgetChrome.stories";
+import * as ChatS from "@dash/Common/Composites/ChatListHeader.stories";
 
 library.add(
     ...Object.keys(SolidIcons)
@@ -360,6 +361,9 @@ const REGISTRY = {
         </div>
     ),
     useStatusTokens: samples.useStatusTokens,
+    Chat: stories(ChatS, "Conversation", "ToolCalls"),
+    ListRow: stories(ChatS, "Rows"),
+    PanelHeader: stories(ChatS, "Headers"),
 };
 
 // ---- Mounting -------------------------------------------------------------

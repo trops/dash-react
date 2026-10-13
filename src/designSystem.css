@@ -461,3 +461,115 @@
         color-mix(in srgb, var(--brand, var(--accent)) 38%, transparent) !important;
     border-radius: 9px !important;
 }
+
+/* ---- Chat, list rows, panel headers (design guide) -------------------------
+   ChatMessage / ChatToolCall / ChatComposer / ListRow / PanelHeader. Yours:
+   accent-soft, right, no label. Replies: a raised surface with an edge so
+   they always stand off the panel. */
+[data-design="aurora"] .dr-chat-you {
+    background: var(--accent-soft) !important;
+    color: var(--text) !important;
+    border-radius: var(--r-md) var(--r-md) 4px var(--r-md) !important;
+}
+[data-design="aurora"] .dr-chat-reply {
+    background: var(--raised) !important;
+    border-color: var(--hairline) !important;
+    color: var(--text) !important;
+    border-radius: 4px var(--r-md) var(--r-md) var(--r-md) !important;
+}
+[data-design="aurora"] .dr-chat-streaming {
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-chat-label {
+    font-family: var(--mono) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.16em !important;
+    color: var(--text-3) !important;
+}
+[data-design="aurora"] .dr-chat-meta,
+[data-design="aurora"] .dr-chat-hint,
+[data-design="aurora"] .dr-chat-note {
+    color: var(--text-3) !important;
+}
+[data-design="aurora"] .dr-chat-note > span[aria-hidden] {
+    border-color: var(--hairline) !important;
+}
+[data-design="aurora"] .dr-chat-tool {
+    border-color: var(--hairline) !important;
+    border-radius: var(--r-sm) !important;
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-chat-tool-head:hover {
+    background: var(--raised) !important;
+}
+[data-design="aurora"] .dr-chat-tool-source {
+    color: var(--text-3) !important;
+}
+[data-design="aurora"] .dr-chat-tool-done {
+    background: var(--green) !important;
+}
+[data-design="aurora"] .dr-chat-tool-error {
+    background: var(--red) !important;
+}
+[data-design="aurora"] .dr-chat-tool-running {
+    background: var(--amber) !important;
+}
+[data-design="aurora"] .dr-chat-composer {
+    border-color: var(--hairline) !important;
+}
+[data-design="aurora"] .dr-list-row:hover,
+[data-design="aurora"] .dr-list-row-selected {
+    background: var(--raised) !important;
+}
+[data-design="aurora"] .dr-list-row-selected {
+    box-shadow: inset 2px 0 0 var(--accent) !important;
+}
+[data-design="aurora"] .dr-list-row-title {
+    color: var(--text) !important;
+}
+[data-design="aurora"] .dr-list-row-meta {
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-list-row-icon {
+    color: var(--text-3) !important;
+}
+[data-design="aurora"] .dr-list-row-trail {
+    opacity: 0;
+}
+[data-design="aurora"] .dr-list-row:hover .dr-list-row-trail,
+[data-design="aurora"] .dr-list-row:focus-within .dr-list-row-trail {
+    opacity: 1;
+}
+[data-design="aurora"] .dr-list-row-main:focus-visible {
+    outline: 2px solid var(--focus-ring) !important;
+    outline-offset: -2px !important;
+    border-radius: var(--r-sm) !important;
+}
+/* Icon actions in headers and rows are quiet until hovered. */
+[data-design="aurora"] .dr-panel-head .dr-btn-icon,
+[data-design="aurora"] .dr-list-row-trail .dr-btn-icon {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: var(--text-3) !important;
+    box-shadow: none !important;
+}
+[data-design="aurora"] .dr-panel-head .dr-btn-icon:hover,
+[data-design="aurora"] .dr-list-row-trail .dr-btn-icon:hover {
+    background: var(--raised) !important;
+    color: var(--text) !important;
+}
+[data-design="aurora"] .dr-panel-head {
+    border-color: var(--hairline) !important;
+}
+[data-design="aurora"] .dr-panel-head-title {
+    color: var(--text) !important;
+}
+[data-design="aurora"] .dr-panel-head-glyph {
+    color: var(--text-3) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-design="aurora"] .dr-list-row-trail {
+        transition: none !important;
+    }
+}

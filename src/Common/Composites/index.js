@@ -17,3 +17,6 @@ export { ThemeFromUrlPane } from "./ThemeFromUrlPane";
 export { PalettePreviewPane } from "./PalettePreviewPane";
 export { ThemePreviewBanner } from "./ThemePreviewBanner";
 export { SelectableCard } from "./SelectableCard";
+export { ChatMessage, ChatToolCall, ChatComposer } from "./Chat";
+export { ListRow } from "./ListRow";
+export { PanelHeader } from "./PanelHeader";
