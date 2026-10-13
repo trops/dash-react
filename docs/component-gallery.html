@@ -1,0 +1,2217 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>Dash Component Gallery</title>
+        <meta
+            name="description"
+            content="Every dash-react component rendered live in Aurora dark and light, with what it is for, whether to use it, and known issues."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        />
+        <link rel="stylesheet" href="gallery/dist/gallery.css" />
+        <link rel="stylesheet" href="design-guide.css" />
+    </head>
+    <body>
+        <a class="skip" href="#catalog">Skip to the components</a>
+        <div class="shell">
+            <nav class="toc" aria-label="Component groups">
+                <span class="eyebrow">Component gallery</span>
+                <a href="design-guide.html">← Design guide</a>
+                <div class="theme-toggle" role="group" aria-label="Page theme">
+                    <button type="button" data-set-theme="" aria-pressed="true">
+                        System
+                    </button>
+                    <button
+                        type="button"
+                        data-set-theme="light"
+                        aria-pressed="false"
+                    >
+                        Light
+                    </button>
+                    <button
+                        type="button"
+                        data-set-theme="dark"
+                        aria-pressed="false"
+                    >
+                        Dark
+                    </button>
+                </div>
+                <span class="toc-group">Groups</span>
+                <a href="#group-0">Actions</a>
+                <a href="#group-1">Text</a>
+                <a href="#group-2">Inputs</a>
+                <a href="#group-3">Navigation</a>
+                <a href="#group-4">Containers & overlays</a>
+                <a href="#group-5">Feedback & status</a>
+                <a href="#group-6">Data display</a>
+                <a href="#group-7">Themes & widgets</a>
+                <a href="#group-8">Context, hooks & utilities</a>
+                <a href="#group-9">To add (from this guide)</a>
+            </nav>
+            <main>
+                <section id="catalog" aria-labelledby="catalog-title">
+                    <h1 id="catalog-title">Component gallery</h1>
+                    <p>
+                        Everything <code>@trops/dash-react</code> exports today,
+                        grouped by job. Each component below is the
+                        <strong>real one</strong>, rendered from dash-react's
+                        own source and Storybook stories, in Aurora dark and
+                        light. Most families come in three variants (X, X2, X3)
+                        that step down in emphasis and padding. If what you need
+                        isn't here, it's added to dash-react before a screen
+                        uses it.
+                    </p>
+                    <div class="legend">
+                        <span
+                            ><span class="pill issue">Known issue</span> fails a
+                            rule in this guide; fix tracked</span
+                        >
+                        <span
+                            ><span class="pill use">Use</span> build screens
+                            with it</span
+                        >
+                        <span
+                            ><span class="pill shell">App shell</span> only for
+                            the app frame itself</span
+                        >
+                        <span
+                            ><span class="pill widget">Widgets</span> inside
+                            widgets or the Widget Builder</span
+                        >
+                        <span
+                            ><span class="pill avoid">Avoid</span> legacy; use
+                            the named replacement</span
+                        >
+                        <span
+                            ><span class="pill internal">Internal</span>
+                            dash-react plumbing</span
+                        >
+                        <span
+                            ><span class="pill proposed">Proposed</span> to be
+                            added</span
+                        >
+                    </div>
+                    <p class="gx-note">
+                        Previews use a test theme in the Aurora palette (neutral
+                        gray with violet and purple accents) under Aurora, not
+                        any one user's theme. Rebuild them with
+                        <code>npm run build:gallery</code>.
+                    </p>
+                    <div class="filter" role="search">
+                        <label class="skip" for="comp-search"
+                            >Find a component</label
+                        >
+                        <input
+                            id="comp-search"
+                            type="search"
+                            placeholder="Find a component — e.g. Button, Tabs"
+                            autocomplete="off"
+                        />
+                        <button
+                            type="button"
+                            data-filter="all"
+                            aria-pressed="true"
+                        >
+                            All
+                        </button>
+                        <button
+                            type="button"
+                            data-filter="use"
+                            aria-pressed="false"
+                        >
+                            Use
+                        </button>
+                        <button
+                            type="button"
+                            data-filter="issue"
+                            aria-pressed="false"
+                        >
+                            Known issue
+                        </button>
+                        <button
+                            type="button"
+                            data-filter="avoid"
+                            aria-pressed="false"
+                        >
+                            Avoid
+                        </button>
+                        <span class="count-shown" aria-live="polite"></span>
+                    </div>
+                    <div class="cat">
+                        <div class="cat-group" id="group-0">
+                            <h2>Actions <span class="count">2</span></h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Button</code>
+                                    <span class="vars"
+                                        >Button · Button2 · Button3</span
+                                    >
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Primary, secondary and quiet text actions.
+                                    <code>size</code> xs/sm/md,
+                                    <code>block</code>, <code>danger</code>.
+                                    <span class="comp-note"
+                                        >One <code>Button</code> per pane.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-Button"
+                                    class="comp-preview"
+                                    data-gallery="Button"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">ButtonIcon</code>
+                                    <span class="vars">ButtonIcon · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Icon-only or icon + short label action;
+                                    <code>selected</code> state.
+                                    <span class="comp-note"
+                                        >Always pass <code>ariaLabel</code>; use
+                                        3 for row and header actions.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-ButtonIcon"
+                                    class="comp-preview"
+                                    data-gallery="ButtonIcon"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-1">
+                            <h2>Text <span class="count">7</span></h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Heading</code>
+                                    <span class="vars">Heading · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Page-level titles.
+                                    <span class="comp-note"
+                                        >Page title = text-xl; don't stack two
+                                        headings.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-Heading"
+                                    class="comp-preview"
+                                    data-gallery="Heading"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">SubHeading</code>
+                                    <span class="vars">SubHeading · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use"
+                                            >Use<span class="pill issue"
+                                                >Known issue</span
+                                            ></span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-issue">
+                                    Variant 2/3 fills fail contrast (2.5:1).
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <p class="comp-what">
+                                    Section and detail titles.
+                                </p>
+                                <div
+                                    id="comp-SubHeading"
+                                    class="comp-preview"
+                                    data-gallery="SubHeading"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Paragraph</code>
+                                    <span class="vars">Paragraph · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Body copy in descending emphasis.
+                                </p>
+                                <div
+                                    id="comp-Paragraph"
+                                    class="comp-preview"
+                                    data-gallery="Paragraph"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Caption</code>
+                                    <span class="vars">Caption · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Small meta text; Caption2 is the standard
+                                    status line.
+                                </p>
+                                <div
+                                    id="comp-Caption"
+                                    class="comp-preview"
+                                    data-gallery="Caption"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">SectionLabel</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Mono uppercase label over a group of rows or
+                                    fields.
+                                    <span class="comp-note"
+                                        >The only group label.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-SectionLabel"
+                                    class="comp-preview"
+                                    data-gallery="SectionLabel"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Code</code>
+                                    <span class="vars">Code · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use"
+                                            >Use<span class="pill issue"
+                                                >Known issue</span
+                                            ></span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-issue">
+                                    Code2/Code3 chips 3.8–4.0:1. Tracked in the
+                                    design guide's Rollout.
+                                </p>
+                                <p class="comp-what">
+                                    Inline mono for ids, package and tool names
+                                    in prose.
+                                </p>
+                                <div
+                                    id="comp-Code"
+                                    class="comp-preview"
+                                    data-gallery="Code"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">RichText</code>
+
+                                    <span class="pills"
+                                        ><span class="pill widget"
+                                            >Widgets</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Renders provider-flavored text (Slack) to
+                                    React.
+                                </p>
+                                <div
+                                    id="comp-RichText"
+                                    class="comp-preview"
+                                    data-gallery="RichText"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-2">
+                            <h2>Inputs <span class="count">14</span></h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">InputText</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Single-line text field
+                                    (<code>Common/Input</code>).
+                                </p>
+                                <p class="comp-issue">
+                                    Placeholder text 2.8–3.9:1. Tracked in the
+                                    design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-InputText"
+                                    class="comp-preview"
+                                    data-gallery="InputText"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">TextArea</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Multi-line field; <code>rows</code>,
+                                    <code>autoGrow</code>.
+                                    <span class="comp-note"
+                                        >Chat input goes through ChatComposer
+                                        once it exists.</span
+                                    >
+                                </p>
+                                <p class="comp-issue">
+                                    Placeholder below 4.5:1. Tracked in the
+                                    design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-TextArea"
+                                    class="comp-preview"
+                                    data-gallery="TextArea"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">SelectInput</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Select from a known list; grouped options.
+                                </p>
+                                <div
+                                    id="comp-SelectInput"
+                                    class="comp-preview"
+                                    data-gallery="SelectInput"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">SearchInput</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Field with a search affordance for filtering
+                                    lists.
+                                </p>
+                                <p class="comp-issue">
+                                    Placeholder below 4.5:1. Tracked in the
+                                    design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-SearchInput"
+                                    class="comp-preview"
+                                    data-gallery="SearchInput"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Checkbox</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Independent on/off options in a list.
+                                </p>
+                                <p class="comp-issue">
+                                    Hit area 16px — under the 20px minimum.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Checkbox"
+                                    class="comp-preview"
+                                    data-gallery="Checkbox"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">RadioGroup</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    One of a few options, all visible.
+                                </p>
+                                <p class="comp-issue">
+                                    Hit area 16px — under the 20px minimum.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-RadioGroup"
+                                    class="comp-preview"
+                                    data-gallery="RadioGroup"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Switch</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A setting that applies immediately.
+                                </p>
+                                <p class="comp-issue">
+                                    Switch2 and Switch3 tracks are barely
+                                    visible; the switch isn't named by its
+                                    label. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-Switch"
+                                    class="comp-preview"
+                                    data-gallery="Switch"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Slider</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">A number in a range.</p>
+                                <div
+                                    id="comp-Slider"
+                                    class="comp-preview"
+                                    data-gallery="Slider"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >SegmentedControl</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    One of 2–4 views or modes, switched in
+                                    place.
+                                </p>
+                                <div
+                                    id="comp-SegmentedControl"
+                                    class="comp-preview"
+                                    data-gallery="SegmentedControl"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">ChoiceMenu</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    One choice from a short list behind a
+                                    button: “Type: Auto ▾”.
+                                </p>
+                                <div
+                                    id="comp-ChoiceMenu"
+                                    class="comp-preview"
+                                    data-gallery="ChoiceMenu"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">FilterMenu</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Searchable multi-select filter for long
+                                    lists.
+                                </p>
+                                <div
+                                    id="comp-FilterMenu"
+                                    class="comp-preview"
+                                    data-gallery="FilterMenu"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">FormField</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use"
+                                            >Use<span class="pill issue"
+                                                >Known issue</span
+                                            ></span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-issue">
+                                    Description and error text 3.3–3.5:1.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <p class="comp-what">
+                                    Label, description, required mark and error
+                                    around any input.
+                                    <span class="comp-note"
+                                        >Wrap every labelled input in it.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-FormField"
+                                    class="comp-preview"
+                                    data-gallery="FormField"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Toggle</code>
+                                    <span class="vars">Toggle · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill avoid"
+                                            >Avoid<span class="pill issue"
+                                                >Known issue</span
+                                            ></span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-issue">
+                                    Toggles have no accessible name. Tracked in
+                                    the design guide's Rollout.
+                                </p>
+                                <p class="comp-what">
+                                    Older on/off control.
+                                    <span class="comp-note"
+                                        >Use <code>Switch</code>.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-Toggle"
+                                    class="comp-preview"
+                                    data-gallery="Toggle"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Form InputText · SelectMenu ·
+                                        FormLabel</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill avoid"
+                                            >Avoid</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Legacy form set (<code>Common/Form</code>).
+                                    <span class="comp-note"
+                                        >Use the
+                                        <code>Common/Input</code> versions
+                                        inside <code>FormField</code>. The
+                                        package root exports two components
+                                        named <code>InputText</code>, so
+                                        <code>import { InputText }</code> is
+                                        ambiguous.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-FormLegacy"
+                                    class="comp-preview"
+                                    data-gallery="FormLegacy"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-3">
+                            <h2>Navigation <span class="count">8</span></h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Tabs</code>
+                                    <span class="vars">Tabs · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Compound tabs: <code>Tabs.List</code>,
+                                    <code>Tabs.Trigger</code>,
+                                    <code>Tabs.Content</code>.
+                                    <span class="comp-note"
+                                        >Active tab uses the accent.</span
+                                    >
+                                </p>
+                                <p class="comp-issue">
+                                    Muted text on fills 3.9–4.1:1; no visible
+                                    keyboard focus; the active tab reads dimmer
+                                    than the rest. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-Tabs"
+                                    class="comp-preview"
+                                    data-gallery="Tabs"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Menu · MenuItem</code
+                                    >
+                                    <span class="vars">Menu · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Lists of actions or destinations.
+                                </p>
+                                <p class="comp-issue">
+                                    “+ Create New” is 1.7:1 in light mode.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Menu"
+                                    class="comp-preview"
+                                    data-gallery="Menu"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">DropdownPanel</code>
+                                    <span class="vars"
+                                        >DropdownPanel · 2 · 3</span
+                                    >
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A panel that opens under a trigger.
+                                </p>
+                                <div
+                                    id="comp-DropdownPanel"
+                                    class="comp-preview"
+                                    data-gallery="DropdownPanel"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Breadcrumbs</code>
+                                    <span class="vars"
+                                        >Breadcrumbs · 2 · 3</span
+                                    >
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Path back through nested pages.
+                                </p>
+                                <p class="comp-issue">
+                                    Links show the browser's default blue in
+                                    dark mode. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-Breadcrumbs"
+                                    class="comp-preview"
+                                    data-gallery="Breadcrumbs"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >CommandPalette</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Searchable command list with groups (⌘K).
+                                </p>
+                                <div
+                                    id="comp-CommandPalette"
+                                    class="comp-preview"
+                                    data-gallery="CommandPalette"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Stepper</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Steps of a sequential flow.
+                                    <span class="comp-note"
+                                        >Only for real sequences.</span
+                                    >
+                                </p>
+                                <p class="comp-issue">
+                                    Step labels faded with opacity fail
+                                    contrast. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-Stepper"
+                                    class="comp-preview"
+                                    data-gallery="Stepper"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Sidebar · useSidebar</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    The app's left navigation.
+                                </p>
+                                <div
+                                    id="comp-Sidebar"
+                                    class="comp-preview"
+                                    data-gallery="Sidebar"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Navbar · TabbedNavbar</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell<span class="pill issue"
+                                                >Known issue</span
+                                            ></span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-issue">
+                                    Icon-only buttons have no accessible name;
+                                    landmarks unlabeled. Tracked in the design
+                                    guide's Rollout.
+                                </p>
+                                <p class="comp-what">
+                                    Top bars with brand, content and tabs.
+                                </p>
+                                <div
+                                    id="comp-Navbar"
+                                    class="comp-preview"
+                                    data-gallery="Navbar"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-4">
+                            <h2>
+                                Containers & overlays
+                                <span class="count">16</span>
+                            </h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Panel</code>
+                                    <span class="vars">Panel · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A bordered region with
+                                    <code>Panel.Header/Body/Footer</code>.
+                                </p>
+                                <div
+                                    id="comp-Panel"
+                                    class="comp-preview"
+                                    data-gallery="Panel"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Card</code>
+                                    <span class="vars">Card · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A self-contained item; <code>hover</code>,
+                                    <code>selected</code>, <code>onClick</code>.
+                                    <span class="comp-note"
+                                        >Don't card every block.</span
+                                    >
+                                </p>
+                                <p class="comp-issue">
+                                    Footer text faded with opacity fails
+                                    contrast on tinted fills. Tracked in the
+                                    design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Card"
+                                    class="comp-preview"
+                                    data-gallery="Card"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >SelectableCard</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A card picked from a set (icon, label,
+                                    description).
+                                </p>
+                                <div
+                                    id="comp-SelectableCard"
+                                    class="comp-preview"
+                                    data-gallery="SelectableCard"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Accordion</code>
+                                    <span class="vars">Accordion · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">Collapsible sections.</p>
+                                <div
+                                    id="comp-Accordion"
+                                    class="comp-preview"
+                                    data-gallery="Accordion"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Modal</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">Blocking dialog.</p>
+                                <div class="comp-none">
+                                    Opens as a full-screen overlay;
+                                    ConfirmationModal below shows the same
+                                    dialog frame.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >ConfirmationModal</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Confirm a destructive or irreversible
+                                    action.
+                                    <span class="comp-note"
+                                        >The only home for
+                                        <code>danger</code> buttons.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-ConfirmationModal"
+                                    class="comp-preview"
+                                    data-gallery="ConfirmationModal"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Drawer</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Side sheet with header, body and footer.
+                                </p>
+                                <div
+                                    id="comp-Drawer"
+                                    class="comp-preview"
+                                    data-gallery="Drawer"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Tooltip</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Short hint on hover or focus.
+                                    <span class="comp-note"
+                                        >Hover the examples.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-Tooltip"
+                                    class="comp-preview"
+                                    data-gallery="Tooltip"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Divider</code>
+                                    <span class="vars">Divider · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">Hairline separator.</p>
+                                <div
+                                    id="comp-Divider"
+                                    class="comp-preview"
+                                    data-gallery="Divider"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >ResizeHandle · useResizableWidth</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Drag handle that resizes a column; width
+                                    hook.
+                                </p>
+                                <div
+                                    id="comp-ResizeHandle"
+                                    class="comp-preview"
+                                    data-gallery="ResizeHandle"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">SettingsModal</code>
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    The app's settings shell (title, sidebar,
+                                    body).
+                                </p>
+                                <div
+                                    id="comp-SettingsModal"
+                                    class="comp-preview"
+                                    data-gallery="SettingsModal"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">DashPanel</code>
+                                    <span class="vars">DashPanel · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Dashboard panel with title and ping.
+                                </p>
+                                <div
+                                    id="comp-DashPanel"
+                                    class="comp-preview"
+                                    data-gallery="DashPanel"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">WidgetChrome</code>
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A widget's frame: title, actions, settings,
+                                    remove.
+                                </p>
+                                <div
+                                    id="comp-WidgetChrome"
+                                    class="comp-preview"
+                                    data-gallery="WidgetChrome"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Container · MainSection ·
+                                        LayoutContainer</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Layout scaffolding for the dashboard grid.
+                                </p>
+                                <div class="comp-none">
+                                    Only meaningful inside the dashboard grid.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >DragComponent · DropComponent</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Drag and drop on the dashboard grid.
+                                </p>
+                                <div class="comp-none">
+                                    Needs the dashboard's drag-and-drop context.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Header · SubHeader · Footer ·
+                                        MainContent · SlidePanelOverlay</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill avoid"
+                                            >Avoid</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">Old page scaffolding.</p>
+                                <div class="comp-none">
+                                    Default exports only: they can't be imported
+                                    by name from the package.
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-5">
+                            <h2>
+                                Feedback & status <span class="count">9</span>
+                            </h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Alert</code>
+                                    <span class="vars">Alert · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Inline message with title and close.
+                                </p>
+                                <p class="comp-issue">
+                                    Text on solid fills fails contrast (down to
+                                    2.9:1); variants look like statuses but
+                                    aren't. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-Alert"
+                                    class="comp-preview"
+                                    data-gallery="Alert"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">AlertBanner</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Banner with a colored edge for page-level
+                                    notices.
+                                </p>
+                                <div
+                                    id="comp-AlertBanner"
+                                    class="comp-preview"
+                                    data-gallery="AlertBanner"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Toast</code>
+                                    <span class="vars">Toast · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Transient confirmation (“Saved”).
+                                </p>
+                                <p class="comp-issue">
+                                    Text on solid fills fails contrast. Tracked
+                                    in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Toast"
+                                    class="comp-preview"
+                                    data-gallery="Toast"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">ProgressBar</code>
+                                    <span class="vars"
+                                        >ProgressBar · 2 · 3</span
+                                    >
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">Determinate progress.</p>
+                                <div
+                                    id="comp-ProgressBar"
+                                    class="comp-preview"
+                                    data-gallery="ProgressBar"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Skeleton</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Placeholder while content loads.
+                                </p>
+                                <p class="comp-issue">
+                                    Pulse keeps animating with Reduce Motion on.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Skeleton"
+                                    class="comp-preview"
+                                    data-gallery="Skeleton"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">EmptyState</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Nothing here yet: title, one sentence, one
+                                    action.
+                                </p>
+                                <p class="comp-issue">
+                                    Description faded with opacity fails
+                                    contrast on tinted fills. Tracked in the
+                                    design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-EmptyState"
+                                    class="comp-preview"
+                                    data-gallery="EmptyState"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">StatusBadge</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Semantic state pill with fixed meaning
+                                    colors.
+                                </p>
+                                <p class="comp-issue">
+                                    Ping keeps animating with Reduce Motion on.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-StatusBadge"
+                                    class="comp-preview"
+                                    data-gallery="StatusBadge"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >WebSocketStatus</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill widget">Widgets</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Connection state dot and label.
+                                </p>
+                                <p class="comp-issue">
+                                    Ping keeps animating with Reduce Motion on.
+                                    Tracked in the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-WebSocketStatus"
+                                    class="comp-preview"
+                                    data-gallery="WebSocketStatus"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">ErrorMessage</code>
+
+                                    <span class="pills"
+                                        ><span class="pill avoid"
+                                            >Avoid</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Older error box.
+                                    <span class="comp-note"
+                                        >Use <code>Alert</code>.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-ErrorMessage"
+                                    class="comp-preview"
+                                    data-gallery="ErrorMessage"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-6">
+                            <h2>Data display <span class="count">6</span></h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Table</code>
+                                    <span class="vars">Table · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Rows and columns of records.
+                                </p>
+                                <p class="comp-issue">
+                                    Light mode: header text 1.8:1. Tracked in
+                                    the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Table"
+                                    class="comp-preview"
+                                    data-gallery="Table"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">DataList</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Label / value pairs down a list.
+                                </p>
+                                <p class="comp-issue">
+                                    Labels faded with opacity, 3–4:1 on tinted
+                                    fills. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-DataList"
+                                    class="comp-preview"
+                                    data-gallery="DataList"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">StatCard</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A single figure with label and change.
+                                    <span class="comp-note"
+                                        >Only when the number is the
+                                        point.</span
+                                    >
+                                </p>
+                                <p class="comp-issue">
+                                    Secondary text faded with opacity fails
+                                    contrast. Tracked in the design guide's
+                                    Rollout.
+                                </p>
+                                <div
+                                    id="comp-StatCard"
+                                    class="comp-preview"
+                                    data-gallery="StatCard"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">Tag</code>
+                                    <span class="vars">Tag · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span
+                                        ><span class="pill issue"
+                                            >Known issue</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Short label (category, provider).
+                                </p>
+                                <p class="comp-issue">
+                                    Light mode: text on fill 1.2:1. Tracked in
+                                    the design guide's Rollout.
+                                </p>
+                                <div
+                                    id="comp-Tag"
+                                    class="comp-preview"
+                                    data-gallery="Tag"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >Icon · FontAwesomeIcon</code
+                                    >
+                                    <span class="vars">Icon · 2 · 3</span>
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Icons; every Font Awesome solid icon is
+                                    re-exported.
+                                    <span class="comp-note"
+                                        >Import FontAwesomeIcon from dash-react
+                                        only.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-Icon"
+                                    class="comp-preview"
+                                    data-gallery="Icon"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >CodeRenderer · CodeEditorInline ·
+                                        CodeEditorVS</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill widget"
+                                            >Widgets</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Rendered code and editors.
+                                    <span class="comp-note"
+                                        >Also used by the Widget Builder.
+                                        CodeEditorVS needs the editor runtime
+                                        and isn't shown.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-CodeRenderer"
+                                    class="comp-preview"
+                                    data-gallery="CodeRenderer"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-7">
+                            <h2>
+                                Themes & widgets <span class="count">2</span>
+                            </h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >PalettePreviewPane · ThemeFromUrlPane ·
+                                        ThemePreviewBanner</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">Theme editor parts.</p>
+                                <div class="comp-none">
+                                    Need the theme editor's state; see Manage ›
+                                    Themes in the app.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >AlgoliaSearchBox ·
+                                        AlgoliaRefinementList</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill widget"
+                                            >Widgets</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Algolia InstantSearch UI.
+                                </p>
+                                <div class="comp-none">
+                                    Need a live Algolia index.
+                                </div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-8">
+                            <h2>
+                                Context, hooks & utilities
+                                <span class="count">8</span>
+                            </h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >useStatusTokens</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Status colors (error, success, warning,
+                                    info).
+                                    <span class="comp-note"
+                                        >The only source of status color.</span
+                                    >
+                                </p>
+                                <div
+                                    id="comp-useStatusTokens"
+                                    class="comp-preview"
+                                    data-gallery="useStatusTokens"
+                                >
+                                    <div class="gx-loading">
+                                        Loading the live component…
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">ThemeContext</code>
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    The current theme; read tokens from it,
+                                    never a local copy.
+                                </p>
+                                <div class="comp-none">
+                                    No visual — every preview on this page reads
+                                    from it.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >ThemePreviewProvider ·
+                                        ThemePreviewContext ·
+                                        useThemePreview</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill shell"
+                                            >App shell</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">Live theme preview.</p>
+                                <div class="comp-none">
+                                    No visual on its own.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">WidgetContext</code>
+
+                                    <span class="pills"
+                                        ><span class="pill widget"
+                                            >Widgets</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    A widget's own context (id, config, API).
+                                </p>
+                                <div class="comp-none">No visual.</div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >useLazyEnrichment</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill use">Use</span></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Fetch extra data for visible list items.
+                                </p>
+                                <div class="comp-none">No visual.</div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >WS_STATES · slackEmojiForName ·
+                                        SLACK_QUICK_REACTION_SHORTCODES</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill widget"
+                                            >Widgets</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Constants and helpers behind WebSocketStatus
+                                    and RichText.
+                                </p>
+                                <div class="comp-none">No visual.</div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">withRouter</code>
+
+                                    <span class="pills"
+                                        ><span class="pill avoid"
+                                            >Avoid</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Old routing wrapper behind Header.
+                                    <span class="comp-note"
+                                        >Nothing new should need it.</span
+                                    >
+                                </p>
+                                <div class="comp-none">No visual.</div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >getStylesForItem · themeObjects · color
+                                        utils</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill internal"
+                                            >Internal</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    How components resolve theme styles; palette
+                                    math.
+                                    <span class="comp-note"
+                                        >For dash-react itself, not
+                                        screens.</span
+                                    >
+                                </p>
+                                <div class="comp-none">No visual.</div>
+                            </article>
+                        </div>
+                        <div class="cat-group" id="group-9">
+                            <h2>
+                                To add (from this guide)
+                                <span class="count">4</span>
+                            </h2>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">useDashTokens</code>
+
+                                    <span class="pills"
+                                        ><span class="pill proposed"
+                                            >Proposed</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    The seven color roles as one hook.
+                                    <span class="comp-note"
+                                        >Replaces useConfigTokens,
+                                        useBubbleTokens, builderTheme.</span
+                                    >
+                                </p>
+                                <div class="comp-none">Not built yet.</div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">PanelHeader</code>
+
+                                    <span class="pills"
+                                        ><span class="pill proposed"
+                                            >Proposed</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Back, glyph, title, quiet actions.
+                                </p>
+                                <div class="comp-none">
+                                    Not built yet — drawn under Panel header
+                                    below.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name">ListRow</code>
+
+                                    <span class="pills"
+                                        ><span class="pill proposed"
+                                            >Proposed</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    Icon, title, meta, trailing actions.
+                                    <span class="comp-note"
+                                        >From dash-core ConfigListRow.</span
+                                    >
+                                </p>
+                                <div class="comp-none">
+                                    Not built yet — drawn under List rows below.
+                                </div>
+                            </article>
+                            <article class="comp">
+                                <header class="comp-head">
+                                    <code class="comp-name"
+                                        >ChatMessage · ChatToolCall ·
+                                        ChatComposer</code
+                                    >
+
+                                    <span class="pills"
+                                        ><span class="pill proposed"
+                                            >Proposed</span
+                                        ></span
+                                    >
+                                </header>
+                                <p class="comp-what">
+                                    The one chat.
+                                    <span class="comp-note"
+                                        >Lifted from ChatCore's display
+                                        parts.</span
+                                    >
+                                </p>
+                                <div class="comp-none">
+                                    Not built yet — drawn under Chat below.
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script src="gallery/dist/gallery.js" defer></script>
+        <script>
+            // Highlight the contents link for the section in view.
+            (function () {
+                var links = Array.prototype.slice.call(
+                    document.querySelectorAll('nav.toc a[href^="#"]')
+                );
+                var byId = {};
+                links.forEach(function (a) {
+                    byId[a.getAttribute("href").slice(1)] = a;
+                });
+                if (!("IntersectionObserver" in window)) return;
+                var io = new IntersectionObserver(
+                    function (entries) {
+                        entries.forEach(function (e) {
+                            if (!e.isIntersecting) return;
+                            links.forEach(function (a) {
+                                a.removeAttribute("aria-current");
+                            });
+                            var a = byId[e.target.id];
+                            if (a) a.setAttribute("aria-current", "true");
+                        });
+                    },
+                    { rootMargin: "-20% 0px -70% 0px" }
+                );
+                Object.keys(byId).forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) io.observe(el);
+                });
+            })();
+        </script>
+        <script>
+            // Gallery filter: search by name, filter by verdict.
+            (function () {
+                var cards = Array.prototype.slice.call(
+                    document.querySelectorAll("article.comp")
+                );
+                var groups = Array.prototype.slice.call(
+                    document.querySelectorAll(".cat-group")
+                );
+                var input = document.getElementById("comp-search");
+                var buttons = Array.prototype.slice.call(
+                    document.querySelectorAll("[data-filter]")
+                );
+                var shown = document.querySelector(".count-shown");
+                var mode = "all";
+                function run() {
+                    var q = (input.value || "").trim().toLowerCase();
+                    var n = 0;
+                    cards.forEach(function (c) {
+                        var name =
+                            (c.querySelector(".comp-name") || {}).textContent ||
+                            "";
+                        var okQ =
+                            !q ||
+                            name.toLowerCase().indexOf(q) >= 0 ||
+                            c.textContent.toLowerCase().indexOf(q) >= 0;
+                        var okF =
+                            mode === "all" ||
+                            (mode === "issue" &&
+                                c.querySelector(".pill.issue")) ||
+                            (mode === "use" &&
+                                c.querySelector(".pill.use") &&
+                                !c.querySelector(".pill.issue")) ||
+                            (mode === "avoid" &&
+                                c.querySelector(".pill.avoid"));
+                        c.hidden = !(okQ && okF);
+                        if (!c.hidden) n++;
+                    });
+                    groups.forEach(function (g) {
+                        g.hidden = !g.querySelector(
+                            "article.comp:not([hidden])"
+                        );
+                    });
+                    shown.textContent = n + " of " + cards.length + " shown";
+                }
+                input.addEventListener("input", run);
+                buttons.forEach(function (b) {
+                    b.addEventListener("click", function () {
+                        mode = b.getAttribute("data-filter");
+                        buttons.forEach(function (x) {
+                            x.setAttribute("aria-pressed", String(x === b));
+                        });
+                        run();
+                    });
+                });
+                run();
+            })();
+        </script>
+        <script>
+            // Page theme for reviewers: System, Light or Dark (remembered per browser).
+            (function () {
+                var root = document.documentElement;
+                var buttons = Array.prototype.slice.call(
+                    document.querySelectorAll("[data-set-theme]")
+                );
+                function apply(v) {
+                    if (v) root.setAttribute("data-theme", v);
+                    else root.removeAttribute("data-theme");
+                    buttons.forEach(function (b) {
+                        b.setAttribute(
+                            "aria-pressed",
+                            String(b.getAttribute("data-set-theme") === v)
+                        );
+                    });
+                }
+                var saved = "";
+                try {
+                    saved = localStorage.getItem("dash-guide-theme") || "";
+                } catch (e) {}
+                apply(saved);
+                buttons.forEach(function (b) {
+                    b.addEventListener("click", function () {
+                        var v = b.getAttribute("data-set-theme");
+                        apply(v);
+                        try {
+                            localStorage.setItem("dash-guide-theme", v);
+                        } catch (e) {}
+                    });
+                });
+            })();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,106 @@
+/* Gallery stylesheet source: Aurora + the Tailwind utilities dash-react
+   components use. Built (minified) by scripts/build-gallery.js.
+   Preflight is off so the guide page keeps its own type; the small reset
+   below gives components what they expect, inside previews only. */
+@import "../../src/designSystem.css";
+
+@tailwind components;
+@tailwind utilities;
+
+.gx-body,
+.gx-body *,
+.gx-body *::before,
+.gx-body *::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: currentColor;
+}
+.gx-body button,
+.gx-body input,
+.gx-body select,
+.gx-body textarea {
+    font: inherit;
+    color: inherit;
+    margin: 0;
+    background: transparent;
+}
+.gx-body button {
+    cursor: pointer;
+}
+.gx-body h1,
+.gx-body h2,
+.gx-body h3,
+.gx-body h4,
+.gx-body p,
+.gx-body ul,
+.gx-body ol {
+    margin: 0;
+    padding: 0;
+}
+.gx-body li {
+    list-style: none;
+}
+.gx-body svg {
+    display: inline-block;
+}
+
+/* Pair of frames: dark, then light */
+.gx-pair {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+}
+.gx-frame {
+    border-radius: 14px;
+    border: 1px solid var(--hairline-strong);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+    min-width: 0;
+}
+.gx-cap {
+    font: 500 11px var(--mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--hairline);
+}
+.gx-body {
+    padding: 16px;
+    overflow-x: auto;
+    position: relative;
+    /* A transform makes position:fixed overlays (palettes, drawers, modals)
+       stay inside their preview instead of covering the page. */
+    transform: translateZ(0);
+}
+.gx-tall .gx-body {
+    min-height: 420px;
+}
+.gx-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.gx-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+.gx-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+}
+.gx-error {
+    font: 12px var(--mono);
+    color: var(--red);
+    border: 1px dashed var(--red);
+    border-radius: 8px;
+    padding: 10px;
+}
