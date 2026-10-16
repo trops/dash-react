@@ -204,3 +204,39 @@ describe("PanelHeader", () => {
         ).toBeInTheDocument();
     });
 });
+
+describe("ChatMessage while a reply is arriving", () => {
+    test("a streaming reply shows a working indicator beside its label", () => {
+        wrap(
+            <ChatMessage role="reply" label="Planner" streaming>
+                Drafting a plan…
+            </ChatMessage>
+        );
+        const working = screen.getByRole("status", { name: "Working" });
+        expect(working).toBeInTheDocument();
+        expect(working.closest(".dr-chat-row-reply")).toHaveAttribute(
+            "aria-busy",
+            "true"
+        );
+    });
+
+    test("it shows even when the reply has no label", () => {
+        wrap(
+            <ChatMessage role="reply" streaming>
+                …
+            </ChatMessage>
+        );
+        expect(
+            screen.getByRole("status", { name: "Working" })
+        ).toBeInTheDocument();
+    });
+
+    test("a finished reply has no indicator", () => {
+        wrap(
+            <ChatMessage role="reply" label="Planner">
+                Here's the plan.
+            </ChatMessage>
+        );
+        expect(screen.queryByRole("status")).toBeNull();
+    });
+});

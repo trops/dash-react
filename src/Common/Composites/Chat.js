@@ -1,5 +1,6 @@
 import React, { forwardRef, useContext, useState } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "../Button";
 
 /**
@@ -36,7 +37,8 @@ function useChatTokens() {
  * - `role="note"`: a centered divider ("New conversation", "Planner asked the Scout…").
  *
  * `children` is the content; callers render markdown themselves.
- * `streaming` marks a reply that's still arriving.
+ * `streaming` marks a reply that's still arriving: a spinner beside the
+ * label (role=status, "Working") shows it's being worked on.
  */
 export const ChatMessage = ({
     role = "reply",
@@ -89,7 +91,7 @@ export const ChatMessage = ({
             data-testid={testId}
             aria-busy={streaming || undefined}
         >
-            {label || meta ? (
+            {label || meta || streaming ? (
                 <div className="flex flex-row items-baseline gap-2">
                     {label ? (
                         <span
@@ -101,6 +103,18 @@ export const ChatMessage = ({
                     {meta ? (
                         <span className={`dr-chat-meta text-xs ${t.muted}`}>
                             {meta}
+                        </span>
+                    ) : null}
+                    {streaming ? (
+                        <span
+                            className={`dr-chat-working self-center text-xs ${t.muted}`}
+                            role="status"
+                            aria-label="Working"
+                        >
+                            <FontAwesomeIcon
+                                icon="spinner"
+                                className="h-3 w-3 animate-spin"
+                            />
                         </span>
                     ) : null}
                 </div>
