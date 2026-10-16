@@ -11901,7 +11901,8 @@ function useChatTokens() {
  * - `role="note"`: a centered divider ("New conversation", "Planner asked the Scout…").
  *
  * `children` is the content; callers render markdown themselves.
- * `streaming` marks a reply that's still arriving.
+ * `streaming` marks a reply that's still arriving: a spinner beside the
+ * label (role=status, "Working") shows it's being worked on.
  */
 var ChatMessage = function ChatMessage(_ref) {
   var _ref$role = _ref.role,
@@ -11952,7 +11953,7 @@ var ChatMessage = function ChatMessage(_ref) {
     className: "dr-chat-row-reply flex flex-col gap-1 ".concat(className),
     "data-testid": testId,
     "aria-busy": streaming || undefined,
-    children: [label || meta ? /*#__PURE__*/jsxs("div", {
+    children: [label || meta || streaming ? /*#__PURE__*/jsxs("div", {
       className: "flex flex-row items-baseline gap-2",
       children: [label ? /*#__PURE__*/jsx("span", {
         className: "dr-chat-label text-xs font-semibold uppercase tracking-wider ".concat(t.muted),
@@ -11960,6 +11961,14 @@ var ChatMessage = function ChatMessage(_ref) {
       }) : null, meta ? /*#__PURE__*/jsx("span", {
         className: "dr-chat-meta text-xs ".concat(t.muted),
         children: meta
+      }) : null, streaming ? /*#__PURE__*/jsx("span", {
+        className: "dr-chat-working self-center text-xs ".concat(t.muted),
+        role: "status",
+        "aria-label": "Working",
+        children: /*#__PURE__*/jsx(FontAwesomeIcon, {
+          icon: "spinner",
+          className: "h-3 w-3 animate-spin"
+        })
       }) : null]
     }) : null, /*#__PURE__*/jsx("div", {
       className: "dr-chat-reply px-3 py-2 rounded-lg border text-sm break-words leading-relaxed ".concat(t.reply, " ").concat(t.text, " ").concat(t.hairline, " ").concat(streaming ? "dr-chat-streaming" : ""),
