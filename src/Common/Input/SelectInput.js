@@ -66,6 +66,7 @@ const SelectInput = ({
         ? undefined
         : ariaLabel || placeholder || undefined;
     const hasIcons = options.some((opt) => opt.icon);
+    const hasEmptyOption = options.some((opt) => String(opt.value) === "");
 
     // Custom dropdown state (only used when options have icons)
     const [isOpen, setIsOpen] = useState(false);
@@ -223,9 +224,13 @@ const SelectInput = ({
                 disabled={props.disabled}
                 className={`dr-input w-full rounded-md border px-3 py-2 transition-colors duration-150 ${styles.backgroundColor} ${styles.borderColor} ${styles.textColor} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed ${inputClassName}`}
             >
-                <option value="" disabled>
-                    {placeholder}
-                </option>
+                {/* An option with an empty value (e.g. "Unassigned") takes the
+                    placeholder's place — sharing "" would hide it. */}
+                {hasEmptyOption ? null : (
+                    <option value="" disabled>
+                        {placeholder}
+                    </option>
+                )}
                 {groupOptions(options).map((entry) =>
                     entry.group ? (
                         <optgroup

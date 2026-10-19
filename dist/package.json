@@ -1,6 +1,6 @@
 {
     "name": "@trops/dash-react",
-    "version": "1.0.64",
+    "version": "1.0.78",
     "description": "A Dashboard Generator Package.",
     "main": "dist/index.js",
     "typescript": "^2.6.2",
@@ -18,7 +18,7 @@
         "dry": "npm run prettify && yarn bump && rm -r ./dist/* && rm -r ./package/* && npm run roll && yarn copy && yarn pack-local-esm && yarn copy-package",
         "clean-dist": "rm -r ./dist/* || exit 0",
         "clean-package": "rm -r ./package/* || exit 0",
-        "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css && cp src/designSystem.css dist/designSystem.css && \\cp .npmrc dist/.npmrc",
+        "copy": "\\cp package.json dist/ && cp README.md dist/ && \\cp jsconfig.json dist/ && cp src/tailwind.css dist/tailwind.css && cp src/designSystem.css dist/designSystem.css && cp aurora-palette.cjs dist/aurora-palette.cjs && \\cp .npmrc dist/.npmrc",
         "copy-package": "cd ./package && cp trops-dash-react-*.tgz trops-dash-react.tgz || exit 0",
         "pack-local-esm": "mkdir -p ./package && cd ./dist && npm pack --pack-destination ../package",
         "link-package-1": "cd ./dist && npm link",
@@ -37,7 +37,8 @@
         "ci:commit": "./scripts/ci.sh --commit",
         "ci:push": "./scripts/ci.sh --push",
         "ci:pr": "./scripts/ci.sh --pr",
-        "ci:release": "./scripts/ci.sh --release"
+        "ci:release": "./scripts/ci.sh --release",
+        "build:gallery": "node scripts/build-gallery.js"
     },
     "keywords": [
         "Dash"
@@ -117,6 +118,7 @@
         "deep-equal": "^2.2.0",
         "dot-object": "^2.1.4",
         "dotenv": "^16.0.0",
+        "esbuild": "^0.25.10",
         "fast-mhtml": "^2.1.0",
         "instantsearch.js": "^4.41.0",
         "jest": "^29.5.0",

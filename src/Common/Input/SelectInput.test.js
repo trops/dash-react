@@ -106,6 +106,46 @@ describe("SelectInput option groups", () => {
     });
 });
 
+describe("an option whose value is empty", () => {
+    const options = [
+        { value: "", label: "Unassigned" },
+        { value: "d1", label: "Daily Brief" },
+    ];
+
+    it("shows as selected instead of the placeholder", () => {
+        renderWithTheme(
+            <SelectInput label="Team" value="" options={options} />
+        );
+        const select = screen.getByLabelText("Team");
+        expect(select.selectedOptions[0]).toHaveTextContent("Unassigned");
+        expect(select.selectedOptions[0].disabled).toBe(false);
+        expect(screen.queryByText("Select an option")).toBeNull();
+    });
+
+    it("can be picked", () => {
+        const onChange = jest.fn();
+        renderWithTheme(
+            <SelectInput
+                label="Team"
+                value="d1"
+                onChange={onChange}
+                options={options}
+            />
+        );
+        fireEvent.change(screen.getByLabelText("Team"), {
+            target: { value: "" },
+        });
+        expect(onChange.mock.calls[0][0]).toBe("");
+    });
+
+    it("keeps the placeholder when no option is empty", () => {
+        renderWithTheme(
+            <SelectInput label="Team" value="" options={[options[1]]} />
+        );
+        expect(screen.getByText("Select an option")).toBeInTheDocument();
+    });
+});
+
 describe("color-scheme follows the theme variant", () => {
     test.each([
         ["light", "light"],

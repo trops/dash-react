@@ -745,3 +745,8 @@
     background: var(--solid) !important;
     box-shadow: 0 0 0 1px var(--hairline-strong) !important;
 }
+
+/* Data list labels are secondary text, readable in both modes (not faded). */
+[data-design="aurora"] .dr-datalist-label {
+    color: var(--text-2) !important;
+}

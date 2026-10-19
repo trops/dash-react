@@ -5954,6 +5954,9 @@ var SelectInput = function SelectInput(_ref) {
   var hasIcons = options.some(function (opt) {
     return opt.icon;
   });
+  var hasEmptyOption = options.some(function (opt) {
+    return String(opt.value) === "";
+  });
 
   // Custom dropdown state (only used when options have icons)
   var _useState = useState(false),
@@ -6078,7 +6081,7 @@ var SelectInput = function SelectInput(_ref) {
       },
       disabled: props.disabled,
       className: "dr-input w-full rounded-md border px-3 py-2 transition-colors duration-150 ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " ").concat(styles.textColor, " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ").concat(styles.focusRingColor || "", " disabled:opacity-50 disabled:cursor-not-allowed ").concat(inputClassName),
-      children: [/*#__PURE__*/jsx("option", {
+      children: [hasEmptyOption ? null : /*#__PURE__*/jsx("option", {
         value: "",
         disabled: true,
         children: placeholder
