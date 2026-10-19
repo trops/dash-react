@@ -13,6 +13,8 @@
 
 **Primary Consumers:** [@trops/dash-core](https://github.com/trops/dash-core) (framework) and [dash-electron](https://github.com/trops/dash-electron) (template)
 
+**Design guide:** [docs/design-guide.html](docs/design-guide.html) — how Dash screens are built: which component to use, Aurora color roles, the Dash Tailwind palette, spacing, patterns and the review checklist. Every component is shown live in [docs/component-gallery.html](docs/component-gallery.html) (rebuild with `npm run build:gallery`).
+
 ---
 
 ## What's Included
