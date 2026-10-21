@@ -35,6 +35,7 @@ import * as ButtonS from "@dash/Common/Button.stories";
 import * as ButtonIconS from "@dash/Common/ButtonIcon.stories";
 import * as CardS from "@dash/Common/Card.stories";
 import * as ChoiceMenuS from "@dash/Common/ChoiceMenu.stories";
+import * as ActionMenuS from "@dash/Common/ActionMenu.stories";
 import * as CodeEditorInlineS from "@dash/Common/CodeEditor/CodeEditorInline.stories";
 import * as CodeRendererS from "@dash/Common/CodeRenderer/CodeRenderer.stories";
 import * as CompositesS from "@dash/Common/Composites/Composites.stories";
@@ -299,6 +300,7 @@ const REGISTRY = {
         "WithValuesAndDisabled"
     ),
     ChoiceMenu: stories(ChoiceMenuS, "Type"),
+    ActionMenu: stories(ActionMenuS, "WidgetCard"),
     FilterMenu: stories(FilterMenuS, "Orgs"),
     FormField: samples.FormField,
     Toggle: stories(ToggleS, "Primary", "Secondary", "Tertiary"),
