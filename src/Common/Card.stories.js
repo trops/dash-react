@@ -25,7 +25,7 @@ const Template = (args) => {
                     />
                 </Card.Body>
                 <Card.Footer>
-                    <span className="text-sm opacity-75">Card Footer</span>
+                    <span className="text-sm">Card Footer</span>
                 </Card.Footer>
             </Card>
         </MockWrapper>
@@ -48,7 +48,7 @@ const Template2 = (args) => {
                     />
                 </Card2.Body>
                 <Card2.Footer>
-                    <span className="text-sm opacity-75">Card Footer 2</span>
+                    <span className="text-sm">Card Footer 2</span>
                 </Card2.Footer>
             </Card2>
         </MockWrapper>
@@ -71,7 +71,7 @@ const Template3 = (args) => {
                     />
                 </Card3.Body>
                 <Card3.Footer>
-                    <span className="text-sm opacity-75">Card Footer 3</span>
+                    <span className="text-sm">Card Footer 3</span>
                 </Card3.Footer>
             </Card3>
         </MockWrapper>
@@ -213,7 +213,7 @@ export const AllVariants = () => (
                         <Paragraph text="This is the primary card variant with default theme colors." />
                     </Card.Body>
                     <Card.Footer>
-                        <span className="text-sm opacity-75">Card Footer</span>
+                        <span className="text-sm">Card Footer</span>
                     </Card.Footer>
                 </Card>
                 <div className="text-sm text-gray-600 mt-2 font-mono">
@@ -240,9 +240,7 @@ export const AllVariants = () => (
                         <Paragraph text="This is the secondary card variant with theme colors." />
                     </Card2.Body>
                     <Card2.Footer>
-                        <span className="text-sm opacity-75">
-                            Card Footer 2
-                        </span>
+                        <span className="text-sm">Card Footer 2</span>
                     </Card2.Footer>
                 </Card2>
                 <div className="text-sm text-gray-600 mt-2 font-mono">
@@ -269,9 +267,7 @@ export const AllVariants = () => (
                         <Paragraph text="This is the tertiary card variant with theme colors." />
                     </Card3.Body>
                     <Card3.Footer>
-                        <span className="text-sm opacity-75">
-                            Card Footer 3
-                        </span>
+                        <span className="text-sm">Card Footer 3</span>
                     </Card3.Footer>
                 </Card3>
                 <div className="text-sm text-gray-600 mt-2 font-mono">

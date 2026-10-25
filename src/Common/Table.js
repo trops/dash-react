@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 
 const Table = ({
     columns = [],
@@ -82,7 +83,9 @@ const Table = ({
                                 <div className="flex items-center space-x-2">
                                     <span>{column.label}</span>
                                     {sortable && column.sortable !== false && (
-                                        <span className="text-xs opacity-50">
+                                        <span
+                                            className={`text-xs ${getDashTokens(currentTheme).faint}`}
+                                        >
                                             {sortConfig.key === column.key ? (
                                                 sortConfig.direction ===
                                                 "asc" ? (
@@ -106,7 +109,7 @@ const Table = ({
                             key={rowIndex}
                             className={`border-b ${styles.borderColor} ${hoverClass} ${
                                 striped && rowIndex % 2 === 1
-                                    ? "opacity-90"
+                                    ? getDashTokens(currentTheme).well
                                     : ""
                             } ${onRowClick ? "cursor-pointer" : ""}`}
                             onClick={() => onRowClick && onRowClick(row)}
@@ -127,7 +130,7 @@ const Table = ({
             </table>
             {sortedData.length === 0 && (
                 <div
-                    className={`text-center ${paddingClass} ${styles.textColor} opacity-50`}
+                    className={`text-center ${paddingClass} ${getDashTokens(currentTheme).muted}`}
                 >
                     No data available
                 </div>
@@ -214,7 +217,9 @@ const Table2 = ({
                                 <div className="flex items-center space-x-2">
                                     <span>{column.label}</span>
                                     {sortable && column.sortable !== false && (
-                                        <span className="text-xs opacity-50">
+                                        <span
+                                            className={`text-xs ${getDashTokens(currentTheme).faint}`}
+                                        >
                                             {sortConfig.key === column.key ? (
                                                 sortConfig.direction ===
                                                 "asc" ? (
@@ -238,7 +243,7 @@ const Table2 = ({
                             key={rowIndex}
                             className={`border-b ${styles.borderColor} ${hoverClass} ${
                                 striped && rowIndex % 2 === 1
-                                    ? "opacity-90"
+                                    ? getDashTokens(currentTheme).well
                                     : ""
                             } ${onRowClick ? "cursor-pointer" : ""}`}
                             onClick={() => onRowClick && onRowClick(row)}
@@ -259,7 +264,7 @@ const Table2 = ({
             </table>
             {sortedData.length === 0 && (
                 <div
-                    className={`text-center ${paddingClass} ${styles.textColor} opacity-50`}
+                    className={`text-center ${paddingClass} ${getDashTokens(currentTheme).muted}`}
                 >
                     No data available
                 </div>
@@ -346,7 +351,9 @@ const Table3 = ({
                                 <div className="flex items-center space-x-2">
                                     <span>{column.label}</span>
                                     {sortable && column.sortable !== false && (
-                                        <span className="text-xs opacity-50">
+                                        <span
+                                            className={`text-xs ${getDashTokens(currentTheme).faint}`}
+                                        >
                                             {sortConfig.key === column.key ? (
                                                 sortConfig.direction ===
                                                 "asc" ? (
@@ -370,7 +377,7 @@ const Table3 = ({
                             key={rowIndex}
                             className={`border-b ${styles.borderColor} ${hoverClass} ${
                                 striped && rowIndex % 2 === 1
-                                    ? "opacity-90"
+                                    ? getDashTokens(currentTheme).well
                                     : ""
                             } ${onRowClick ? "cursor-pointer" : ""}`}
                             onClick={() => onRowClick && onRowClick(row)}
@@ -391,7 +398,7 @@ const Table3 = ({
             </table>
             {sortedData.length === 0 && (
                 <div
-                    className={`text-center ${paddingClass} ${styles.textColor} opacity-50`}
+                    className={`text-center ${paddingClass} ${getDashTokens(currentTheme).muted}`}
                 >
                     No data available
                 </div>

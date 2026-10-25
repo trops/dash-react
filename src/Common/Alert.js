@@ -40,7 +40,7 @@ const Alert = ({
                     {title && (
                         <div className="font-semibold text-base">{title}</div>
                     )}
-                    {message && <div className="opacity-90">{message}</div>}
+                    {message && <div>{message}</div>}
                     {children}
                 </div>
                 {onClose && (
@@ -85,9 +85,7 @@ const Alert2 = (props) => {
                     {props.title && (
                         <div className="font-medium text-sm">{props.title}</div>
                     )}
-                    {props.message && (
-                        <div className="opacity-90">{props.message}</div>
-                    )}
+                    {props.message && <div>{props.message}</div>}
                     {props.children}
                 </div>
                 {props.onClose && (
@@ -132,9 +130,7 @@ const Alert3 = (props) => {
                     {props.title && (
                         <div className="font-normal text-sm">{props.title}</div>
                     )}
-                    {props.message && (
-                        <div className="opacity-90">{props.message}</div>
-                    )}
+                    {props.message && <div>{props.message}</div>}
                     {props.children}
                 </div>
                 {props.onClose && (

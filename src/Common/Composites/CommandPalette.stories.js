@@ -19,9 +19,7 @@ export const Default = () => {
                     title="Open Command Palette"
                     onClick={() => setIsOpen(true)}
                 />
-                <p className="text-sm opacity-50 mt-2">
-                    Or press Cmd+K / Ctrl+K
-                </p>
+                <p className="text-sm mt-2">Or press Cmd+K / Ctrl+K</p>
             </div>
 
             <CommandPalette

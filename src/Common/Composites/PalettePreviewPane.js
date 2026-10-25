@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { useDashTokens, getDashTokens } from "@dash/Hooks/useDashTokens";
 import { Card3 } from "../Card";
 
 const ROLES = ["primary", "secondary", "tertiary", "neutral"];
@@ -28,6 +29,7 @@ const ColorSwatch = ({
     focused = false,
     className = "",
 }) => {
+    const tokens = useDashTokens();
     const hex = color?.hex || color?.value || "#888";
     const label = color?.family || color?.name || hex;
 
@@ -58,10 +60,12 @@ const ColorSwatch = ({
                 }`}
                 style={{ backgroundColor: hex }}
             />
-            <span className="text-[10px] opacity-60 font-medium uppercase tracking-wide">
+            <span
+                className={`text-xs font-medium uppercase tracking-wide ${tokens.muted}`}
+            >
                 {ROLE_LABELS[role] || role}
             </span>
-            <span className="text-[10px] opacity-40 truncate max-w-full">
+            <span className={`text-xs truncate max-w-full ${tokens.faint}`}>
                 {label}
             </span>
         </div>
@@ -256,7 +260,9 @@ const PalettePreviewPane = ({
                 })}
             </div>
             {(onSwapRole || hasReorder) && (
-                <span className="text-[10px] opacity-30 text-center">
+                <span
+                    className={`text-xs text-center ${getDashTokens(currentTheme).faint}`}
+                >
                     {helpText}
                 </span>
             )}

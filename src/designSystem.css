@@ -55,6 +55,7 @@
     --brand-grad: linear-gradient(140deg, var(--accent), var(--accent-2));
     --accent-glow: 0 4px 18px color-mix(in srgb, var(--accent) 35%, transparent);
     --focus-ring: #8f82f9; /* 6:1 on the dark surfaces */
+    --accent-text: #8f82f9; /* accent as text (useDashTokens accent role) */
 
     /* Semantic */
     --green: #52d59a;
@@ -121,6 +122,7 @@
     --red: #b42323;
     --red-soft: rgba(180, 35, 35, 0.1);
     --focus-ring: #5b4fe0; /* 5.4:1 on the light surfaces */
+    --accent-text: #4c40cc; /* ≥4.5:1 on light surfaces and accent-soft fills */
     --shadow: 0 6px 20px rgba(16, 18, 24, 0.08);
     --shadow-lg: 0 16px 44px rgba(16, 18, 24, 0.16);
     --card-shadow: 0 8px 26px rgba(16, 18, 24, 0.08);
@@ -227,6 +229,11 @@
 [data-design="aurora"] .dr-card[data-clickable="true"]:focus-visible {
     outline: 2px solid var(--focus-ring) !important;
     outline-offset: 2px !important;
+}
+/* A selected choice card (SelectableCard) carries the accent. */
+[data-design="aurora"] .dr-card[aria-pressed="true"] {
+    background: var(--accent-soft) !important;
+    border-color: var(--accent) !important;
 }
 [data-design="aurora"] .dr-card[aria-disabled="true"] {
     opacity: 0.6;
@@ -736,6 +743,11 @@
     box-shadow: none !important;
     font-size: 13px !important;
 }
+/* Keyboard focus shows (the fill rule above clears the ring's shadow). */
+[data-design="aurora"] .dr-tabs-trigger:focus-visible {
+    outline: 2px solid var(--focus-ring) !important;
+    outline-offset: 2px !important;
+}
 [data-design="aurora"] .dr-tabs-trigger:hover {
     color: var(--text) !important;
 }
@@ -749,4 +761,59 @@
 /* Data list labels are secondary text, readable in both modes (not faded). */
 [data-design="aurora"] .dr-datalist-label {
     color: var(--text-2) !important;
+}
+
+/* A selected choice card keeps the accent on hover and inside modals
+   (after the modal's card rule, at higher specificity than both). */
+[data-design="aurora"] .dr-card[aria-pressed="true"],
+[data-design="aurora"] .dr-card[aria-pressed="true"]:hover,
+[data-design="aurora"] .dr-modal-surface .dr-card[aria-pressed="true"],
+[data-design="aurora"] .dr-modal-surface .dr-card[aria-pressed="true"]:hover {
+    background: var(--accent-soft) !important;
+    border-color: var(--accent) !important;
+}
+
+/* Color roles (useDashTokens): screens ask for a role, Aurora supplies the
+   variable. Outside Aurora the theme key paired with each class applies. */
+[data-design="aurora"] .dr-role-text {
+    color: var(--text) !important;
+}
+[data-design="aurora"] .dr-role-muted {
+    color: var(--text-2) !important;
+}
+[data-design="aurora"] .dr-role-faint {
+    color: var(--text-3) !important;
+}
+[data-design="aurora"] .dr-role-surface {
+    background: var(--raised) !important;
+}
+[data-design="aurora"] .dr-role-well {
+    background: var(--raised-2) !important;
+}
+[data-design="aurora"] .dr-role-hairline {
+    border-color: var(--hairline) !important;
+}
+/* Accent as text has its own shade: the bright accent is ~3:1 on light
+   surfaces. */
+[data-design="aurora"] .dr-role-accent {
+    color: var(--accent-text) !important;
+}
+[data-design="aurora"] .dr-role-accent-soft {
+    background: var(--accent-soft) !important;
+}
+
+/* A muted control that brightens on hover (TabbedNavbar's inactive tabs). */
+[data-design="aurora"] .dr-role-muted.dr-hover-text:hover {
+    color: var(--text) !important;
+}
+
+/* Reduce Motion: status pulses and skeleton shimmer hold still (not gated
+   by Aurora — this is an accessibility setting). Spinners keep turning so
+   work in progress never looks frozen. The :root prefix outranks Tailwind's
+   own !important animate-* rules, which load after this file. */
+@media (prefers-reduced-motion: reduce) {
+    :root .animate-pulse,
+    :root .animate-ping {
+        animation: none !important;
+    }
 }

@@ -206,7 +206,7 @@ export const StatCards = () => {
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                         <StatCard.Change trend="up">+2.1 GB</StatCard.Change>
-                        <span className="text-xs opacity-50">this week</span>
+                        <span className="text-xs">this week</span>
                     </div>
                 </StatCard>
 
@@ -232,7 +232,7 @@ export const Skeletons = () => {
                 <div>
                     <Paragraph3
                         text="BASIC SHAPES"
-                        className="font-semibold uppercase tracking-wider opacity-60 mb-3"
+                        className="font-semibold uppercase tracking-wider mb-3"
                         padding={false}
                     />
                     <div className="space-y-3">
@@ -257,7 +257,7 @@ export const Skeletons = () => {
                 <div>
                     <Paragraph3
                         text="SKELETON.TEXT"
-                        className="font-semibold uppercase tracking-wider opacity-60 mb-3"
+                        className="font-semibold uppercase tracking-wider mb-3"
                         padding={false}
                     />
                     <Skeleton.Text lines={4} />
@@ -267,7 +267,7 @@ export const Skeletons = () => {
                 <div>
                     <Paragraph3
                         text="SKELETON.CARD"
-                        className="font-semibold uppercase tracking-wider opacity-60 mb-3"
+                        className="font-semibold uppercase tracking-wider mb-3"
                         padding={false}
                     />
                     <div className="grid grid-cols-2 gap-4">
@@ -413,7 +413,7 @@ export const StepperExample = () => {
                             >
                                 <div className="space-y-2 py-4">
                                     <Paragraph2 text="Review your provider configuration before saving." />
-                                    <div className="text-sm opacity-60 space-y-1">
+                                    <div className="text-sm space-y-1">
                                         <div>
                                             Type: {type || "Not selected"}
                                         </div>

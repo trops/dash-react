@@ -21,7 +21,7 @@ export const Primary = Template.bind({});
 
 Primary.args = {
     title: "CodeRenderer",
-    template: '<div class="bg-green-500 p-10">{{something}}</div>',
+    template: '<div class="p-10">{{something}}</div>',
     data: { something: "test" },
 };
 

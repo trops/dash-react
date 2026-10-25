@@ -2,19 +2,22 @@ import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getStatusColors } from "@dash/Utils/statusColors";
+import { useDashTokens, getDashTokens } from "@dash/Hooks/useDashTokens";
 import { SubHeading } from "../Text/Heading";
 import { Paragraph3 } from "../Text/Paragraph";
 
 // ─── Sub-components ─────────────────────────────────────────────────────────────
 
 const StatCardLabel = ({ children, className = "" }) => {
+    const tokens = useDashTokens();
     return (
         <Paragraph3
             text={children}
             padding={false}
             fontWeight="font-semibold"
             width=""
-            className={`uppercase tracking-wider opacity-60 ${className}`}
+            className={`uppercase tracking-wider ${tokens.muted} ${className}`}
         />
     );
 };
@@ -30,11 +33,13 @@ const StatCardChange = ({
     trend = "neutral", // "up" | "down" | "neutral"
     className = "",
 }) => {
+    const { themeVariant } = useContext(ThemeContext);
+    const status = getStatusColors(themeVariant);
     const trendColor =
         trend === "up"
-            ? "text-emerald-500"
+            ? status.success.text
             : trend === "down"
-              ? "text-red-500"
+              ? status.error.text
               : "";
 
     const trendIcon =
@@ -89,7 +94,7 @@ const StatCard = ({
                         )}
                         {helpText && (
                             <span
-                                className={`text-xs ${styles.textColor || ""} opacity-50`}
+                                className={`text-xs ${getDashTokens(currentTheme).muted}`}
                             >
                                 {helpText}
                             </span>

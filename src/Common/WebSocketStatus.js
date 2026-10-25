@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ThemeContext } from "@dash/Context";
 import { getStylesForItem, themeObjects, getUUID } from "@dash/Utils";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 
 const WS_STATES = {
     CONNECTED: "connected",
@@ -115,7 +116,9 @@ const WebSocketStatus = ({
                 <span className="text-sm font-medium leading-tight">
                     {providerName || config.label}
                 </span>
-                <span className="text-xs opacity-60 leading-tight">
+                <span
+                    className={`text-xs leading-tight ${getDashTokens(currentTheme).muted}`}
+                >
                     {config.label}
                     {timestamp ? ` \u00b7 ${timestamp}` : ""}
                 </span>

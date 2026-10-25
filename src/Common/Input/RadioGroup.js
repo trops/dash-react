@@ -41,18 +41,20 @@ const RadioGroup = ({
             {options.map((option) => (
                 <label
                     key={option.value}
-                    className="flex items-center space-x-2"
+                    className="flex items-center min-h-6 space-x-2"
                 >
-                    <input
-                        type="radio"
-                        name={groupName}
-                        value={option.value}
-                        checked={value === option.value}
-                        onChange={(event) =>
-                            onChange(event.target.value, event)
-                        }
-                        className={`h-4 w-4 ${styles.borderColor} ${styles.backgroundColor} focus-visible:ring-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
-                    />
+                    <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center">
+                        <input
+                            type="radio"
+                            name={groupName}
+                            value={option.value}
+                            checked={value === option.value}
+                            onChange={(event) =>
+                                onChange(event.target.value, event)
+                            }
+                            className={`h-4 w-4 ${styles.borderColor} ${styles.backgroundColor} focus-visible:ring-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
+                        />
+                    </span>
                     <span className={`text-sm ${labelStyles.textColor}`}>
                         {option.label}
                     </span>

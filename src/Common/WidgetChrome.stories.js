@@ -20,7 +20,7 @@ const TemplateWithFooter = (args) => (
     <MockWrapper api={mock.api} theme={mock.themes}>
         <WidgetChrome
             {...args}
-            footer={<div className="text-sm opacity-75">Updated 2 min ago</div>}
+            footer={<div className="text-sm">Updated 2 min ago</div>}
         >
             <Paragraph text="Widget content with footer." />
         </WidgetChrome>

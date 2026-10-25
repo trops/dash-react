@@ -7,6 +7,7 @@ import {
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 
 const TabbedNavbarContext = createContext({
     activeTab: "",
@@ -48,7 +49,7 @@ const TabbedNavbarTab = ({
             className={`relative flex items-center px-3 py-1 text-sm font-medium transition-colors duration-150 whitespace-nowrap ${
                 isActive
                     ? `${styles.textColor || ""} opacity-100`
-                    : `${styles.textColor || ""} opacity-50 hover:opacity-80`
+                    : `${getDashTokens(currentTheme).muted} ${styles.hoverTextColor || ""} dr-hover-text`
             } ${disabled ? "opacity-30 pointer-events-none" : "cursor-pointer"} ${className}`}
         >
             {children}
@@ -92,6 +93,8 @@ const TabbedNavbar = ({
     padding = "px-4",
     height = "h-12",
     className = "",
+    // Names the tab list for screen readers.
+    ariaLabel = "Sections",
 }) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
     const activeTab = value !== undefined ? value : internalValue;
@@ -131,6 +134,7 @@ const TabbedNavbar = ({
             <div className="flex flex-col">
                 <nav
                     role="tablist"
+                    aria-label={ariaLabel}
                     className={`flex flex-row items-end flex-shrink-0 ${height} ${padding} gap-1 ${border ? "border-b" : ""} ${styles.backgroundColor || ""} ${styles.borderColor || ""} ${styles.textColor || ""} ${className}`}
                 >
                     {barChildren}

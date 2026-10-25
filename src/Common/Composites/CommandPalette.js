@@ -2,12 +2,14 @@ import { useContext, useState, useEffect, useRef, useCallback } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { useDashTokens, getDashTokens } from "@dash/Hooks/useDashTokens";
 import { Dialog } from "@headlessui/react";
 import { Paragraph3 } from "../Text/Paragraph";
 
 // ─── Sub-components ─────────────────────────────────────────────────────────────
 
 const CommandPaletteGroup = ({ label = null, children, className = "" }) => {
+    const tokens = useDashTokens();
     return (
         <div className={`${className}`}>
             {label && (
@@ -16,7 +18,7 @@ const CommandPaletteGroup = ({ label = null, children, className = "" }) => {
                     padding={false}
                     fontWeight="font-semibold"
                     width=""
-                    className="uppercase tracking-wider opacity-40 px-3 py-1.5"
+                    className={`uppercase tracking-wider px-3 py-1.5 ${tokens.faint}`}
                 />
             )}
             <div className="space-y-0.5">{children}</div>
@@ -52,7 +54,9 @@ const CommandPaletteItem = ({
             {icon && <span className="flex-shrink-0 opacity-60">{icon}</span>}
             <span className="flex-1 text-left truncate">{children}</span>
             {shortcut && (
-                <kbd className="flex-shrink-0 text-xs opacity-40 font-mono">
+                <kbd
+                    className={`flex-shrink-0 text-xs font-mono ${getDashTokens(currentTheme).faint}`}
+                >
                     {shortcut}
                 </kbd>
             )}
@@ -155,10 +159,10 @@ const CommandPalette = ({
                             value={query}
                             onChange={(e) => handleQueryChange(e.target.value)}
                             placeholder={placeholder}
-                            className={`w-full bg-transparent border-none outline-none focus:ring-0 focus:outline-none px-3 py-3 ${inputStyles.textSize || "text-base"} ${inputStyles.textColor || ""} placeholder:opacity-40`}
+                            className={`w-full bg-transparent border-none outline-none focus:ring-0 focus:outline-none px-3 py-3 ${inputStyles.textSize || "text-base"} ${inputStyles.textColor || ""} ${inputStyles.placeholderTextColor || ""}`}
                         />
                         <kbd
-                            className={`flex-shrink-0 text-xs opacity-30 border px-1.5 py-0.5 rounded ${styles.borderColor || ""} ${styles.textColor || ""}`}
+                            className={`flex-shrink-0 text-xs border px-1.5 py-0.5 rounded ${styles.borderColor || ""} ${getDashTokens(currentTheme).faint}`}
                         >
                             esc
                         </kbd>
