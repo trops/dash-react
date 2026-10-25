@@ -22,7 +22,7 @@ jest.mock("@dash/Utils/themeObjects", () => ({
 function renderBadge(props = {}) {
     return render(
         <ThemeContext.Provider value={{ currentTheme: {} }}>
-            <StatusBadge state="success" label="OK" {...props} />
+            <StatusBadge state="success" label="OK" live {...props} />
         </ThemeContext.Provider>
     );
 }
@@ -39,9 +39,23 @@ describe("StatusBadge", () => {
         expect(screen.queryByText("Hidden")).not.toBeInTheDocument();
     });
 
-    test("has role=status for assistive tech", () => {
+    test("live: role=status for assistive tech", () => {
         renderBadge();
         expect(screen.getByRole("status")).toBeInTheDocument();
+    });
+
+    // A list of rows with badges isn't a list of live regions (design
+    // audit follow-up): only a badge asked to be live announces.
+    test("not live by default", () => {
+        render(
+            <ThemeContext.Provider value={{ currentTheme: {} }}>
+                <StatusBadge state="success" label="OK" />
+                <StatusBadge state="error" label="Failed" compact />
+            </ThemeContext.Provider>
+        );
+        expect(screen.queryByRole("status")).toBeNull();
+        expect(screen.getByText("OK")).toBeInTheDocument();
+        expect(screen.getByText("Failed")).toBeInTheDocument();
     });
 
     test.each([
@@ -89,9 +103,10 @@ describe("StatusBadge", () => {
 
     test("compact mode hides label when not provided", () => {
         renderBadge({ compact: true, state: "success", label: null });
-        // Only the role=status wrapper and the dot inside — no text.
+        // No visible text — the state is there for screen readers only.
         const badge = screen.getByRole("status");
-        expect(badge.textContent).toBe("");
+        expect(badge.querySelector(".text-xs")).toBeNull();
+        expect(badge.querySelector(".sr-only").textContent).toBe("success");
     });
 
     // --- Light / dark theme variant ---
@@ -99,7 +114,7 @@ describe("StatusBadge", () => {
     function renderInVariant(themeVariant, props) {
         return render(
             <ThemeContext.Provider value={{ currentTheme: {}, themeVariant }}>
-                <StatusBadge state="success" label="OK" {...props} />
+                <StatusBadge state="success" label="OK" live {...props} />
             </ThemeContext.Provider>
         );
     }

@@ -10631,7 +10631,7 @@ Skeleton.Text = SkeletonText;
 Skeleton.Card = SkeletonCard;
 
 function _typeof$4(o) { "@babel/helpers - typeof"; return _typeof$4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$4(o); }
-var _excluded$2 = ["state", "label", "compact", "className", "children"];
+var _excluded$2 = ["state", "label", "compact", "live", "className", "children"];
 function ownKeys$4(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread$4(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys$4(Object(t), !0).forEach(function (r) { _defineProperty$4(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$4(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty$4(e, r, t) { return (r = _toPropertyKey$4(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -10743,6 +10743,13 @@ var STATE_STYLES = {
     }
   }
 };
+
+/**
+ * @param {boolean} live  announce changes to screen readers (role=status).
+ *   Off by default: a list of rows each with a badge would otherwise be a
+ *   list of live regions, all read out whenever anything changes. Turn it on
+ *   for a single badge whose state changes while you look at it.
+ */
 var StatusBadge = function StatusBadge(_ref) {
   var _ref$state = _ref.state,
     state = _ref$state === void 0 ? "neutral" : _ref$state,
@@ -10750,6 +10757,8 @@ var StatusBadge = function StatusBadge(_ref) {
     label = _ref$label === void 0 ? null : _ref$label,
     _ref$compact = _ref.compact,
     compact = _ref$compact === void 0 ? false : _ref$compact,
+    _ref$live = _ref.live,
+    live = _ref$live === void 0 ? false : _ref$live,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
     _ref$children = _ref.children,
@@ -10769,28 +10778,36 @@ var StatusBadge = function StatusBadge(_ref) {
   var palette = themeVariant === "light" ? STATE_STYLES.light : STATE_STYLES.dark;
   var stateStyle = palette[state] || palette.neutral;
   var borderRadius = styles.borderRadius || "rounded-full";
+  var liveProps = live ? {
+    role: "status"
+  } : {};
   if (compact) {
-    return /*#__PURE__*/jsxs("span", {
-      className: "inline-flex items-center gap-1.5 ".concat(className),
-      role: "status",
-      "aria-label": label || state,
+    return /*#__PURE__*/jsxs("span", _objectSpread$4(_objectSpread$4({
+      className: "inline-flex items-center gap-1.5 ".concat(className)
+    }, liveProps), {}, {
       children: [/*#__PURE__*/jsx("span", {
         className: "inline-block w-2 h-2 rounded-full ".concat(stateStyle.dot, " ").concat(stateStyle.dotAnimation || ""),
         "aria-hidden": "true"
-      }), (label || children) && /*#__PURE__*/jsx("span", {
+      }), label || children ? /*#__PURE__*/jsx("span", {
         className: "text-xs ".concat(stateStyle.compactText),
         children: children !== null ? children : label
+      }) :
+      /*#__PURE__*/
+      // A dot alone still says what it means.
+      jsx("span", {
+        className: "sr-only",
+        children: state
       })]
-    });
+    }));
   }
-  return /*#__PURE__*/jsxs("span", {
-    className: "inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium ".concat(borderRadius, " ").concat(stateStyle.bg, " ").concat(stateStyle.text, " ").concat(className),
-    role: "status",
+  return /*#__PURE__*/jsxs("span", _objectSpread$4(_objectSpread$4({
+    className: "inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium ".concat(borderRadius, " ").concat(stateStyle.bg, " ").concat(stateStyle.text, " ").concat(className)
+  }, liveProps), {}, {
     children: [/*#__PURE__*/jsx("span", {
       className: "inline-block w-1.5 h-1.5 rounded-full ".concat(stateStyle.dot, " ").concat(stateStyle.dotAnimation || ""),
       "aria-hidden": "true"
     }), children !== null ? children : label]
-  });
+  }));
 };
 
 function _slicedToArray$6(r, e) { return _arrayWithHoles$6(r) || _iterableToArrayLimit$6(r, e) || _unsupportedIterableToArray$7(r, e) || _nonIterableRest$6(); }
