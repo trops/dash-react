@@ -1835,7 +1835,8 @@
                 <section id="layout">
                     <h2>Every region has an edge; every group has a home</h2>
                     <span class="status target"
-                        >Target · screens are being brought up to it</span
+                        >Applied · every audited screen was brought up to it
+                        (dash-react 1.0.77, dash-core 0.1.761)</span
                     >
                     <p>
                         The rules above size and color single components. These
@@ -2350,6 +2351,17 @@
                                         <strong>Exists</strong> (dash-react
                                         1.0.73) — from
                                         <code>ToolCallBlock</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Row or header "…" actions</td>
+                                    <td>
+                                        <code>ActionMenu</code> (quiet ⋯ button,
+                                        a list of actions, danger last)
+                                    </td>
+                                    <td>
+                                        <strong>Exists</strong> (dash-react
+                                        1.0.80)
                                     </td>
                                 </tr>
                                 <tr>
@@ -3174,29 +3186,35 @@
                     <ol class="steps">
                         <li>
                             <div>
-                                <h3>Approve this guide</h3>
+                                <h3>Approve this guide — waiting</h3>
                                 <p>
-                                    Then it ships as
+                                    It already ships as
                                     <code>docs/design-guide.html</code> in
                                     dash-react, linked from the README and from
-                                    CLAUDE.md in all three repos.
+                                    CLAUDE.md in all three repos. Approval makes
+                                    it the rule new work is checked against.
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>Fix what the review found in dash-react</h3>
+                                <h3>
+                                    Fix what the review found in dash-react — in
+                                    progress
+                                </h3>
                                 <p>
-                                    Aurora contrast, button fill, glow and label
-                                    size (done with this guide); a visible
-                                    button focus ring and accessible names for
-                                    icon buttons and inputs (done with this
-                                    guide); then the light-mode theme pairs
-                                    (Alert2/3, ProgressBar, Tag, Toast, Table
-                                    header, opacity-faded text), light-mode
-                                    status colors, checkbox and radio hit areas,
-                                    Reduce Motion for pulses, Breadcrumb links,
-                                    Switch2/3 tracks, and the duplicate
+                                    Done: Aurora contrast, button fill, glow and
+                                    label size; a visible button focus ring;
+                                    accessible names for icon buttons, inputs,
+                                    Switch and Toggle (1.0.72); StatusBadge no
+                                    longer makes every list badge a live region
+                                    (1.0.81). Still open: the light-mode theme
+                                    pairs (Alert2/3, ProgressBar, Tag, Toast,
+                                    Table header, opacity-faded text),
+                                    light-mode status colors, checkbox and radio
+                                    hit areas, Reduce Motion for pulses,
+                                    Breadcrumb links, Switch2/3 tracks, and the
+                                    duplicate
                                     <code>InputText</code> export. Each “Known
                                     issue” pill comes off as its fix lands.
                                 </p>
@@ -3206,13 +3224,13 @@
                             <div>
                                 <h3>Tailwind palette follows Aurora</h3>
                                 <p>
-                                    Shipped in dash-react 1.0.70: every Tailwind
-                                    color family has a luminance-matched Dash
-                                    scale (<code>aurora-palette.cjs</code>);
-                                    dash-electron reads it in its next release.
-                                    Remaining: screenshot pass of the main
-                                    screens in both modes before release; teach
-                                    the widget validator and the AI Widget
+                                    Done: every Tailwind color family has a
+                                    luminance-matched Dash scale
+                                    (<code>aurora-palette.cjs</code>, dash-react
+                                    1.0.70), read by dash-electron since
+                                    v0.0.959. Remaining: screenshot pass of the
+                                    main screens in both modes before release;
+                                    teach the widget validator and the AI Widget
                                     Builder to flag hex and arbitrary colors;
                                     optional semantic names; widget-only
                                     light-mode flipping as a later option.
@@ -3221,51 +3239,55 @@
                         </li>
                         <li>
                             <div>
-                                <h3>Add the missing pieces to dash-react</h3>
+                                <h3>
+                                    Add the missing pieces to dash-react — done,
+                                    one left
+                                </h3>
                                 <p>
-                                    <code>useDashTokens</code>,
-                                    <code>PanelHeader</code>,
+                                    Done: <code>PanelHeader</code>,
                                     <code>ListRow</code>,
                                     <code>ChatMessage</code>,
                                     <code>ChatToolCall</code>,
-                                    <code>ChatComposer</code> — each with an
-                                    AllVariants story in dark and light.
+                                    <code>ChatComposer</code> (1.0.73) and
+                                    <code>ActionMenu</code> (1.0.80), each in
+                                    the gallery. Not built yet:
+                                    <code>useDashTokens</code>.
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>Move the chats onto them</h3>
+                                <h3>Move the chats onto them — done</h3>
                                 <p>
-                                    AI Assistant (ChatCore), Ask the lead
-                                    (BotChat and AskLead), Create's Planner and
-                                    Ask, then the Widget Builder — one surface
-                                    per PR, each with checklist screenshots.
+                                    The AI Assistant (ChatCore, which is also
+                                    the Widget Builder's chat), Create's Planner
+                                    and Ask (dash-core 0.1.758), and Ask the
+                                    lead (BotChat) render the shared chat
+                                    components.
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>Move the lists and headers</h3>
+                                <h3>Move the lists and headers — done</h3>
                                 <p>
-                                    The dock, Create's start screen, Manage
-                                    pages and the Dashboard Config modal;
-                                    replace hard-coded
-                                    <code>border-indigo-400</code>,
-                                    <code>bg-amber-400</code> and
-                                    <code>text-red-300</code>.
+                                    Every screen in the October 2026 screen
+                                    audit — the dock, Create, the Widget
+                                    Builder, dashboards, Manage pages, Settings
+                                    — was fixed against the layout rules
+                                    (dash-react 1.0.77, dash-core 0.1.761,
+                                    dash-electron 0.0.963).
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>Retire the old doc</h3>
+                                <h3>Retire the old doc — done</h3>
                                 <p>
-                                    Mark
                                     <code
                                         >dash-electron/docs/design/DESIGN.md</code
                                     >
-                                    superseded and point it here.
+                                    is marked superseded and points here.
                                 </p>
                             </div>
                         </li>
