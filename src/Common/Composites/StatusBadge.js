@@ -127,10 +127,17 @@ const STATE_STYLES = {
     },
 };
 
+/**
+ * @param {boolean} live  announce changes to screen readers (role=status).
+ *   Off by default: a list of rows each with a badge would otherwise be a
+ *   list of live regions, all read out whenever anything changes. Turn it on
+ *   for a single badge whose state changes while you look at it.
+ */
 const StatusBadge = ({
     state = "neutral",
     label = null,
     compact = false,
+    live = false,
     className = "",
     children = null,
     ...props
@@ -150,22 +157,25 @@ const StatusBadge = ({
         themeVariant === "light" ? STATE_STYLES.light : STATE_STYLES.dark;
     const stateStyle = palette[state] || palette.neutral;
     const borderRadius = styles.borderRadius || "rounded-full";
+    const liveProps = live ? { role: "status" } : {};
 
     if (compact) {
         return (
             <span
                 className={`inline-flex items-center gap-1.5 ${className}`}
-                role="status"
-                aria-label={label || state}
+                {...liveProps}
             >
                 <span
                     className={`inline-block w-2 h-2 rounded-full ${stateStyle.dot} ${stateStyle.dotAnimation || ""}`}
                     aria-hidden="true"
                 />
-                {(label || children) && (
+                {label || children ? (
                     <span className={`text-xs ${stateStyle.compactText}`}>
                         {children !== null ? children : label}
                     </span>
+                ) : (
+                    // A dot alone still says what it means.
+                    <span className="sr-only">{state}</span>
                 )}
             </span>
         );
@@ -174,7 +184,7 @@ const StatusBadge = ({
     return (
         <span
             className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium ${borderRadius} ${stateStyle.bg} ${stateStyle.text} ${className}`}
-            role="status"
+            {...liveProps}
         >
             <span
                 className={`inline-block w-1.5 h-1.5 rounded-full ${stateStyle.dot} ${stateStyle.dotAnimation || ""}`}
