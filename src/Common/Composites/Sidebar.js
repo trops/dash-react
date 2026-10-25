@@ -7,6 +7,7 @@ import {
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 
 const SidebarContext = createContext({
     collapsed: false,
@@ -79,7 +80,7 @@ const SidebarItem = ({
 
     const activeClasses = active
         ? `${styles.activeBackgroundColor || ""} ${styles.activeTextColor || ""}`
-        : `${styles.textColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""} opacity-80 hover:opacity-100`;
+        : `${styles.textColor || ""} ${styles.hoverBackgroundColor || ""} ${styles.hoverTextColor || ""}`;
 
     return (
         <button
@@ -99,7 +100,9 @@ const SidebarItem = ({
                 <span className="flex-1 text-left truncate">{children}</span>
             )}
             {!collapsed && badge && (
-                <span className="flex-shrink-0 text-xs opacity-60">
+                <span
+                    className={`flex-shrink-0 text-xs ${getDashTokens(currentTheme).muted}`}
+                >
                     {badge}
                 </span>
             )}

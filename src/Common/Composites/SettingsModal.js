@@ -2,6 +2,7 @@ import { useContext, Children } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 import { Modal } from "../Modal";
 
 const SettingsModalSidebar = ({ children, className = "", width = "w-56" }) => {
@@ -82,7 +83,9 @@ const SettingsModalFooter = ({
             className={`flex flex-row items-center flex-shrink-0 border-t ${padding} ${styles.backgroundColor || ""} ${styles.borderColor || ""} ${styles.textColor || ""} rounded-b-lg ${leftContent ? "justify-between" : "justify-end"} ${className}`}
         >
             {leftContent && (
-                <div className="flex items-center text-sm opacity-70">
+                <div
+                    className={`flex items-center text-sm ${getDashTokens(currentTheme).muted}`}
+                >
                     {leftContent}
                 </div>
             )}

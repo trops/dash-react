@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,6 +17,7 @@ const SelectableCard = ({
     ...props
 }) => {
     const { currentTheme } = useContext(ThemeContext);
+    const tokens = getDashTokens(currentTheme);
     const styles = getStylesForItem(themeObjects.CARD, currentTheme, {
         ...props,
         scrollable: false,
@@ -58,7 +60,8 @@ const SelectableCard = ({
             aria-disabled={disabled}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            className={`${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} p-4 rounded-lg shadow-sm transition-all duration-200 ${hoverStyles} border cursor-pointer relative flex flex-col items-center text-center gap-2 ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
+            data-clickable={disabled ? undefined : "true"}
+            className={`dr-card ${selected ? selectedBg : styles.backgroundColor} ${selected ? selectedBorder : styles.borderColor} ${styles.textColor} p-4 rounded-lg shadow-sm transition-all duration-200 ${hoverStyles} border cursor-pointer relative flex flex-col items-center text-center gap-2 ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
         >
             {selected && (
                 <div className="absolute top-2 right-2">
@@ -71,7 +74,7 @@ const SelectableCard = ({
             {icon && <div className="text-2xl mb-1">{icon}</div>}
             <div className="font-medium text-sm">{label}</div>
             {description && (
-                <div className="text-xs opacity-70">{description}</div>
+                <div className={`text-xs ${tokens.muted}`}>{description}</div>
             )}
         </div>
     );

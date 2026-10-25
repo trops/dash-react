@@ -238,7 +238,7 @@ export const SidebarDemo = () => {
                     />
                     <Paragraph2
                         text={`You are viewing the ${active} section.`}
-                        className="mt-2 opacity-60"
+                        className="mt-2"
                     />
                 </div>
             </div>
@@ -323,7 +323,7 @@ export const SidebarCollapsible = () => {
                     />
                     <Paragraph2
                         text="Click the collapse toggle in the sidebar header to see it shrink to icon-only mode."
-                        className="mt-2 opacity-60"
+                        className="mt-2"
                     />
                 </div>
             </div>
@@ -357,7 +357,8 @@ export const NavbarDemo = () => {
                         <Navbar.Divider />
                         <button
                             type="button"
-                            className="p-2 rounded-md opacity-60 hover:opacity-100 transition-opacity"
+                            aria-label="Notifications"
+                            className="p-2 rounded-md"
                         >
                             <IconBell />
                         </button>
@@ -372,7 +373,7 @@ export const NavbarDemo = () => {
                     <SubHeading2 title="Dashboard" padding={false} />
                     <Paragraph2
                         text="Navbar provides Brand (left), Content (center), and Actions (right) slots."
-                        className="mt-2 opacity-60"
+                        className="mt-2"
                     />
                 </div>
             </div>
@@ -410,13 +411,15 @@ export const NavbarWithSidebar = () => {
                     <Navbar.Actions>
                         <button
                             type="button"
-                            className="p-1.5 rounded-md opacity-60 hover:opacity-100 transition-opacity"
+                            aria-label="Notifications"
+                            className="p-1.5 rounded-md"
                         >
                             <IconBell />
                         </button>
                         <button
                             type="button"
-                            className="p-1.5 rounded-md opacity-60 hover:opacity-100 transition-opacity"
+                            aria-label="Settings"
+                            className="p-1.5 rounded-md"
                         >
                             <IconSettings />
                         </button>
@@ -466,7 +469,7 @@ export const NavbarWithSidebar = () => {
                         />
                         <Paragraph2
                             text="A common dashboard layout: top Navbar for global actions + side Sidebar for navigation."
-                            className="mt-2 opacity-60"
+                            className="mt-2"
                         />
                     </div>
                 </div>
@@ -524,7 +527,7 @@ export const TabbedNavbarDemo = () => {
                                 >
                                     <Paragraph3
                                         text="AVG USAGE"
-                                        className="font-semibold uppercase tracking-wider opacity-60"
+                                        className="font-semibold uppercase tracking-wider"
                                         padding={false}
                                     />
                                     <div className="text-2xl font-bold mt-2">
@@ -539,7 +542,7 @@ export const TabbedNavbarDemo = () => {
                                 >
                                     <Paragraph3
                                         text="PEAK"
-                                        className="font-semibold uppercase tracking-wider opacity-60"
+                                        className="font-semibold uppercase tracking-wider"
                                         padding={false}
                                     />
                                     <div className="text-2xl font-bold mt-2">
@@ -583,10 +586,7 @@ export const TabbedNavbarDemo = () => {
                                 title="Connected Data Sources"
                                 padding={false}
                             />
-                            <Paragraph2
-                                text="No data sources configured yet. Add a provider to start collecting CPU metrics."
-                                className="opacity-60"
-                            />
+                            <Paragraph2 text="No data sources configured yet. Add a provider to start collecting CPU metrics." />
                             <Button2 title="Add Provider" onClick={() => {}} />
                         </div>
                     </TabbedNavbar.Content>
@@ -622,7 +622,8 @@ export const FullAppLayout = () => {
                     <Navbar.Actions>
                         <button
                             type="button"
-                            className="p-1.5 rounded-md opacity-60 hover:opacity-100 transition-opacity"
+                            aria-label="Notifications"
+                            className="p-1.5 rounded-md"
                         >
                             <IconBell />
                         </button>
@@ -692,10 +693,7 @@ export const FullAppLayout = () => {
 
                             <TabbedNavbar.Content value="all">
                                 <div className="p-4 space-y-3">
-                                    <Paragraph2
-                                        text="Showing all 12 widgets across your dashboards."
-                                        className="opacity-60"
-                                    />
+                                    <Paragraph2 text="Showing all 12 widgets across your dashboards." />
                                     <div className="grid grid-cols-3 gap-3">
                                         {[
                                             "CPU Monitor",
@@ -724,19 +722,13 @@ export const FullAppLayout = () => {
 
                             <TabbedNavbar.Content value="active">
                                 <div className="p-4">
-                                    <Paragraph2
-                                        text="8 widgets currently running."
-                                        className="opacity-60"
-                                    />
+                                    <Paragraph2 text="8 widgets currently running." />
                                 </div>
                             </TabbedNavbar.Content>
 
                             <TabbedNavbar.Content value="drafts">
                                 <div className="p-4">
-                                    <Paragraph2
-                                        text="4 draft widgets waiting to be published."
-                                        className="opacity-60"
-                                    />
+                                    <Paragraph2 text="4 draft widgets waiting to be published." />
                                 </div>
                             </TabbedNavbar.Content>
                         </TabbedNavbar>

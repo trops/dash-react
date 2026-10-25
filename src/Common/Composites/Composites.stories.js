@@ -51,7 +51,7 @@ export const FormPanel = () => {
                             <div className="space-y-4">
                                 <Paragraph3
                                     text="Provider Details"
-                                    className="font-semibold uppercase tracking-wider opacity-60"
+                                    className="font-semibold uppercase tracking-wider"
                                     padding={false}
                                 />
                                 <FormField
@@ -106,7 +106,7 @@ export const FormPanel = () => {
                             <div className="space-y-4">
                                 <Paragraph3
                                     text="Authentication"
-                                    className="font-semibold uppercase tracking-wider opacity-60"
+                                    className="font-semibold uppercase tracking-wider"
                                     padding={false}
                                 />
                                 <FormField
@@ -136,7 +136,7 @@ export const FormPanel = () => {
                             <div className="space-y-4">
                                 <Paragraph3
                                     text="Options"
-                                    className="font-semibold uppercase tracking-wider opacity-60"
+                                    className="font-semibold uppercase tracking-wider"
                                     padding={false}
                                 />
                                 <FormField label="Enable Caching">
@@ -210,7 +210,7 @@ export const SettingsModalStatic = () => {
                                     className={`text-left px-3 py-2 rounded-md text-sm transition-colors duration-150 ${
                                         tab === btn.id
                                             ? "bg-white/10 font-medium"
-                                            : "opacity-60 hover:opacity-100 hover:bg-white/5"
+                                            : ""
                                     }`}
                                 >
                                     {btn.label}
@@ -334,7 +334,7 @@ export const SettingsModalStatic = () => {
 
                             {/* Footer */}
                             <div className="flex flex-row items-center justify-between flex-shrink-0 px-4 py-3 border-t border-gray-700 bg-black/20 rounded-b-lg">
-                                <span className="text-sm opacity-50">
+                                <span className="text-sm">
                                     Widget: CPU Monitor
                                 </span>
                                 <div className="flex flex-row items-center space-x-2">
@@ -425,17 +425,13 @@ export const DashboardCardGrid = () => {
                     <div className="flex flex-row justify-between items-start mb-3">
                         <Paragraph3
                             text="CONNECTIONS"
-                            className="font-semibold uppercase tracking-wider opacity-60"
+                            className="font-semibold uppercase tracking-wider"
                             padding={false}
                         />
                         <Tag text="Live" />
                     </div>
                     <div className="text-3xl font-bold mb-1">247</div>
-                    <Paragraph3
-                        text="+12 in the last hour"
-                        className="opacity-60"
-                        padding={false}
-                    />
+                    <Paragraph3 text="+12 in the last hour" padding={false} />
                 </Card2>
 
                 {/* Progress card */}
@@ -443,7 +439,7 @@ export const DashboardCardGrid = () => {
                     <div className="flex flex-row justify-between items-start mb-3">
                         <Paragraph3
                             text="STORAGE"
-                            className="font-semibold uppercase tracking-wider opacity-60"
+                            className="font-semibold uppercase tracking-wider"
                             padding={false}
                         />
                         <Tag2 text="72%" />
@@ -457,24 +453,20 @@ export const DashboardCardGrid = () => {
                     <div className="flex flex-row justify-between items-start mb-3">
                         <Paragraph3
                             text="API HEALTH"
-                            className="font-semibold uppercase tracking-wider opacity-60"
+                            className="font-semibold uppercase tracking-wider"
                             padding={false}
                         />
                         <Tag text="Healthy" />
                     </div>
                     <div className="text-3xl font-bold mb-1">99.9%</div>
-                    <Paragraph3
-                        text="Uptime last 30 days"
-                        className="opacity-60"
-                        padding={false}
-                    />
+                    <Paragraph3 text="Uptime last 30 days" padding={false} />
                 </Card2>
 
                 {/* Actions card */}
                 <Card2>
                     <Paragraph3
                         text="QUICK ACTIONS"
-                        className="font-semibold uppercase tracking-wider opacity-60 mb-3"
+                        className="font-semibold uppercase tracking-wider mb-3"
                         padding={false}
                     />
                     <div className="space-y-2">
@@ -545,7 +537,7 @@ export const ContentPage = () => {
                                 <Card2>
                                     <Paragraph3
                                         text="AVG CPU"
-                                        className="font-semibold uppercase tracking-wider opacity-60"
+                                        className="font-semibold uppercase tracking-wider"
                                         padding={false}
                                     />
                                     <div className="text-2xl font-bold mt-2">
@@ -555,7 +547,7 @@ export const ContentPage = () => {
                                 <Card2>
                                     <Paragraph3
                                         text="PEAK CPU"
-                                        className="font-semibold uppercase tracking-wider opacity-60"
+                                        className="font-semibold uppercase tracking-wider"
                                         padding={false}
                                     />
                                     <div className="text-2xl font-bold mt-2">
@@ -645,7 +637,7 @@ export const NotificationCenter = () => {
                         <div className="space-y-3">
                             <Paragraph3
                                 text="ALERT BANNERS"
-                                className="font-semibold uppercase tracking-wider opacity-60"
+                                className="font-semibold uppercase tracking-wider"
                                 padding={false}
                             />
                             <AlertBanner
@@ -676,7 +668,7 @@ export const NotificationCenter = () => {
                             <div className="pt-4">
                                 <Paragraph3
                                     text="THEME ALERTS"
-                                    className="font-semibold uppercase tracking-wider opacity-60"
+                                    className="font-semibold uppercase tracking-wider"
                                     padding={false}
                                 />
                             </div>

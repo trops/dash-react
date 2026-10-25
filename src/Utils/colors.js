@@ -177,18 +177,18 @@ const colorMap = {
         [styleClassNames.TEXT_SIZE]: "text-xs",
     },
     [themeObjects.ALERT]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
-        [styleClassNames.BORDER_COLOR]: "border-primary-light",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
     },
     [themeObjects.ALERT_2]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
-        [styleClassNames.BORDER_COLOR]: "border-secondary-light",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
     },
     [themeObjects.ALERT_3]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
-        [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
     },
     [themeObjects.ALERT_BANNER]: {
@@ -212,18 +212,18 @@ const colorMap = {
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
     },
     [themeObjects.TOAST]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-light",
-        [styleClassNames.BORDER_COLOR]: "border-primary-light",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-primary-dark",
         [styleClassNames.TEXT_COLOR]: "text-primary-medium",
     },
     [themeObjects.TOAST_2]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-light",
-        [styleClassNames.BORDER_COLOR]: "border-secondary-light",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-secondary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-secondary-dark",
         [styleClassNames.TEXT_COLOR]: "text-secondary-medium",
     },
     [themeObjects.TOAST_3]: {
-        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-light",
-        [styleClassNames.BORDER_COLOR]: "border-tertiary-light",
+        [styleClassNames.BACKGROUND_COLOR]: "bg-tertiary-very-dark",
+        [styleClassNames.BORDER_COLOR]: "border-tertiary-dark",
         [styleClassNames.TEXT_COLOR]: "text-tertiary-medium",
     },
     [themeObjects.WIDGET_CHROME]: {
@@ -999,6 +999,8 @@ const colorMap = {
         [styleClassNames.BACKGROUND_COLOR]: "bg-primary-very-dark",
         [styleClassNames.BORDER_COLOR]: "border-primary-dark",
         [styleClassNames.TEXT_COLOR]: "text-primary-light",
+        [styleClassNames.PLACEHOLDER_TEXT_COLOR]:
+            "placeholder-text-primary-light",
         [styleClassNames.TEXT_SIZE]: "text-base",
     },
     [themeObjects.COMMAND_PALETTE_ITEM]: {

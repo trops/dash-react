@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { useDashTokens, getDashTokens } from "@dash/Hooks/useDashTokens";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PalettePreviewPane, ROLES } from "./PalettePreviewPane";
 
@@ -286,7 +287,9 @@ const ThemeFromUrlPane = ({
                         icon="spinner"
                         className="h-4 w-4 animate-spin opacity-50"
                     />
-                    <span className="text-sm opacity-50">
+                    <span
+                        className={`text-sm ${getDashTokens(currentTheme).muted}`}
+                    >
                         Scanning page for colors...
                     </span>
                 </div>

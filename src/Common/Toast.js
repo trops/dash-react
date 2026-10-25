@@ -115,7 +115,7 @@ const Toast = ({
             <div className="flex items-start justify-between">
                 <div className="space-y-1">
                     {title && <div className="font-semibold">{title}</div>}
-                    {message && <div className="opacity-90">{message}</div>}
+                    {message && <div>{message}</div>}
                     {children}
                 </div>
                 {onClose && (
@@ -160,9 +160,7 @@ const Toast2 = (props) => {
                     {props.title && (
                         <div className="font-semibold">{props.title}</div>
                     )}
-                    {props.message && (
-                        <div className="opacity-90">{props.message}</div>
-                    )}
+                    {props.message && <div>{props.message}</div>}
                     {props.children}
                 </div>
                 {props.onClose && (
@@ -207,9 +205,7 @@ const Toast3 = (props) => {
                     {props.title && (
                         <div className="font-semibold">{props.title}</div>
                     )}
-                    {props.message && (
-                        <div className="opacity-90">{props.message}</div>
-                    )}
+                    {props.message && <div>{props.message}</div>}
                     {props.children}
                 </div>
                 {props.onClose && (

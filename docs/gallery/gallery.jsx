@@ -26,6 +26,7 @@ import { WebSocketStatus, WS_STATES } from "@dash/Common/WebSocketStatus";
 import { CommandPalette } from "@dash/Common/Composites/CommandPalette";
 import { Button2 } from "@dash/Common/Button";
 import { useStatusTokens } from "@dash/Hooks/useStatusTokens";
+import { useDashTokens } from "@dash/Hooks/useDashTokens";
 
 import * as AccordionS from "@dash/Common/Accordion.stories";
 import * as AlertS from "@dash/Common/Alert.stories";
@@ -120,6 +121,35 @@ function StatusTokensDemo() {
                     {k}
                 </span>
             ))}
+        </div>
+    );
+}
+
+// The color roles on a raised surface: each text role, a well, a hairline
+// and the accent.
+function DashTokensDemo() {
+    const t = useDashTokens();
+    return (
+        <div className={`p-3 rounded-lg border ${t.surface} ${t.hairline}`}>
+            <div className={`text-sm font-medium ${t.text}`}>
+                text — Morning Brief
+            </div>
+            <div className={`text-sm ${t.muted}`}>
+                muted — Updated 2 minutes ago
+            </div>
+            <div className={`text-xs uppercase tracking-wider ${t.faint}`}>
+                faint — section label
+            </div>
+            <div
+                className={`mt-2 px-2 py-1 rounded border text-sm ${t.well} ${t.hairline} ${t.text}`}
+            >
+                well — an input
+            </div>
+            <div
+                className={`mt-2 inline-block px-2 py-1 rounded text-sm ${t.accentSoft} ${t.accent}`}
+            >
+                accent
+            </div>
         </div>
     );
 }
@@ -266,6 +296,7 @@ const samples = {
         <ErrorMessage title="Couldn't reach the registry." onClose={() => {}} />
     ),
     useStatusTokens: () => <StatusTokensDemo />,
+    DashTokens: () => <DashTokensDemo />,
 };
 
 // ---- The registry: catalog key → what to render ---------------------------
@@ -363,6 +394,7 @@ const REGISTRY = {
         </div>
     ),
     useStatusTokens: samples.useStatusTokens,
+    DashTokens: samples.DashTokens,
     Chat: stories(ChatS, "Conversation", "ToolCalls"),
     ListRow: stories(ChatS, "Rows"),
     PanelHeader: stories(ChatS, "Headers"),

@@ -2,6 +2,7 @@ import { useContext, useMemo } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 
 const BreadcrumbsBase = ({
     items = [],
@@ -19,6 +20,7 @@ const BreadcrumbsBase = ({
         grow: false,
     });
 
+    const tokens = getDashTokens(currentTheme);
     const uuid = getUUID("", "breadcrumbs");
 
     const displayItems = useMemo(() => {
@@ -52,15 +54,17 @@ const BreadcrumbsBase = ({
                         className="flex items-center"
                     >
                         {index > 0 && (
-                            <span className="mx-2 opacity-60">{separator}</span>
+                            <span className={`mx-2 ${tokens.faint}`}>
+                                {separator}
+                            </span>
                         )}
                         {item.isEllipsis ? (
-                            <span className="opacity-60">{item.label}</span>
+                            <span className={tokens.faint}>{item.label}</span>
                         ) : item.href ? (
                             <a
                                 href={item.href}
                                 onClick={(event) => handleClick(item, event)}
-                                className="hover:underline transition-colors duration-150"
+                                className="text-inherit no-underline hover:underline transition-colors duration-150"
                             >
                                 {item.label}
                             </a>
@@ -68,7 +72,7 @@ const BreadcrumbsBase = ({
                             <button
                                 type="button"
                                 onClick={(event) => handleClick(item, event)}
-                                className="hover:underline transition-colors duration-150"
+                                className="text-inherit no-underline hover:underline transition-colors duration-150"
                             >
                                 {item.label}
                             </button>

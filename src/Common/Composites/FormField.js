@@ -2,6 +2,8 @@ import React, { useContext, useId } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getStatusColors } from "@dash/Utils/statusColors";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 
 const FormField = ({
     label,
@@ -11,7 +13,8 @@ const FormField = ({
     className = "",
     children,
 }) => {
-    const { currentTheme } = useContext(ThemeContext);
+    const { currentTheme, themeVariant } = useContext(ThemeContext);
+    const status = getStatusColors(themeVariant);
     // Tie the label, description and error to the field (WCAG 1.3.1 / 3.3.1):
     // a single child element gets an id (unless it has one) plus
     // aria-describedby, aria-invalid and aria-required.
@@ -50,7 +53,10 @@ const FormField = ({
                 >
                     {label}
                     {required && (
-                        <span className="text-red-500 ml-1" aria-hidden="true">
+                        <span
+                            className={`${status.error.icon} ml-1`}
+                            aria-hidden="true"
+                        >
                             *
                         </span>
                     )}
@@ -59,14 +65,14 @@ const FormField = ({
             {description && (
                 <p
                     id={descId}
-                    className={`text-xs ${labelStyles.textColor || ""} opacity-60`}
+                    className={`text-xs ${getDashTokens(currentTheme).muted}`}
                 >
                     {description}
                 </p>
             )}
             {field}
             {error && (
-                <p id={errId} className="text-xs text-red-500">
+                <p id={errId} className={`text-xs ${status.error.icon}`}>
                     {error}
                 </p>
             )}

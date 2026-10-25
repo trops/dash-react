@@ -332,7 +332,7 @@
                                         ></span
                                         ><code>--text-3</code>
                                     </td>
-                                    <td><code>text-neutral-dark</code>*</td>
+                                    <td><code>text-neutral-medium</code></td>
                                     <td>
                                         Section labels, icons, hints,
                                         placeholders
@@ -376,7 +376,7 @@
                                         ></span
                                         ><code>--raised-2</code>
                                     </td>
-                                    <td><code>bg-neutral-very-dark</code>*</td>
+                                    <td><code>bg-neutral-very-dark</code></td>
                                     <td>Inputs, text areas, code</td>
                                 </tr>
                                 <tr>
@@ -437,27 +437,29 @@
                         <code>#575d69</code> light.
                     </p>
                     <p>
-                        Keys marked * are proposed, not yet used anywhere; the
-                        <code>useDashTokens</code> stories confirm them in both
-                        modes before any screen relies on them.
+                        Outside Aurora, faint shares muted's key and well shares
+                        surface's: the theme's "dark" text shade is lighter than
+                        its "light" one in dark mode, so it can't be the fainter
+                        role.
                     </p>
                     <p>
                         Status colors (<code>--green</code>,
                         <code>--amber</code>, <code>--red</code> and their
                         <code>-soft</code> fills) come only from
                         <code>useStatusTokens()</code>. One hook —
-                        <code>useDashTokens()</code>, added in dash-react,
-                        replacing <code>useConfigTokens</code>,
-                        <code>useBubbleTokens</code> and
-                        <code>builderTheme</code> — returns these roles so no
-                        screen picks keys itself.
+                        <code>useDashTokens()</code> (dash-react 1.0.83) —
+                        returns these roles as class strings (<code>text</code>,
+                        <code>muted</code>, <code>faint</code>,
+                        <code>surface</code>, <code>well</code>,
+                        <code>hairline</code>, <code>accent</code>,
+                        <code>accentSoft</code>) so no screen picks keys itself.
+                        dash-core's <code>useConfigTokens</code> reads its keys.
                     </p>
                 </section>
 
                 <section id="widget-colors">
                     <span class="proposed-flag"
-                        >Shipped in dash-react 1.0.70 — dash-electron picks it
-                        up in its next release</span
+                        >Shipped in dash-react 1.0.70</span
                     >
                     <h2>Colors in widgets</h2>
                     <p>
@@ -3169,14 +3171,15 @@
                         </table>
                     </div>
                     <p>
-                        <strong>Still open:</strong> component-level issues —
-                        light-mode theme pairs, a few unnamed or unfocusable
-                        controls, Reduce Motion, small hit areas — carry a
-                        “Known issue” pill in the
+                        <strong>Fixed:</strong> every component-level issue the
+                        review found — light-mode theme pairs, faded text,
+                        unnamed or unfocusable controls, Reduce Motion, small
+                        hit areas — is fixed in dash-react 1.0.83, and every
+                        component in the
                         <a href="component-gallery.html">component gallery</a>
-                        and are listed in Rollout step 2. Findings that come
-                        from showing components inside preview frames (“card
-                        inside card”, repeated sample text) are expected and not
+                        passes contrast in both modes. Findings that come from
+                        showing components inside preview frames (“card inside
+                        card”, repeated sample text) are expected and not
                         product issues.
                     </p>
                 </section>
@@ -3186,21 +3189,21 @@
                     <ol class="steps">
                         <li>
                             <div>
-                                <h3>Approve this guide — waiting</h3>
+                                <h3>Approve this guide — done</h3>
                                 <p>
-                                    It already ships as
+                                    Approved 25 October 2026. It ships as
                                     <code>docs/design-guide.html</code> in
                                     dash-react, linked from the README and from
-                                    CLAUDE.md in all three repos. Approval makes
-                                    it the rule new work is checked against.
+                                    CLAUDE.md in all three repos, and is the
+                                    rule new work is checked against.
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <h3>
-                                    Fix what the review found in dash-react — in
-                                    progress
+                                    Fix what the review found in dash-react —
+                                    done
                                 </h3>
                                 <p>
                                     Done: Aurora contrast, button fill, glow and
@@ -3208,40 +3211,38 @@
                                     accessible names for icon buttons, inputs,
                                     Switch and Toggle (1.0.72); StatusBadge no
                                     longer makes every list badge a live region
-                                    (1.0.81). Still open: the light-mode theme
-                                    pairs (Alert2/3, ProgressBar, Tag, Toast,
-                                    Table header, opacity-faded text),
-                                    light-mode status colors, checkbox and radio
-                                    hit areas, Reduce Motion for pulses,
-                                    Breadcrumb links, Switch2/3 tracks, and the
-                                    duplicate
-                                    <code>InputText</code> export. Each “Known
-                                    issue” pill comes off as its fix lands.
+                                    (1.0.81); then (1.0.83) light-mode theme
+                                    pairs, opacity-faded text replaced by the
+                                    muted and faint roles, light-mode status
+                                    colors, Alert and Toast fills in dark mode,
+                                    20px checkbox and radio targets, Reduce
+                                    Motion for pulses, Breadcrumb links, Tabs
+                                    keyboard focus, named Navbar landmarks, and
+                                    one <code>InputText</code> export. No “Known
+                                    issue” pills remain.
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>Tailwind palette follows Aurora</h3>
+                                <h3>Tailwind palette follows Aurora — done</h3>
                                 <p>
                                     Done: every Tailwind color family has a
                                     luminance-matched Dash scale
                                     (<code>aurora-palette.cjs</code>, dash-react
                                     1.0.70), read by dash-electron since
-                                    v0.0.959. Remaining: screenshot pass of the
-                                    main screens in both modes before release;
-                                    teach the widget validator and the AI Widget
-                                    Builder to flag hex and arbitrary colors;
-                                    optional semantic names; widget-only
-                                    light-mode flipping as a later option.
+                                    v0.0.959. Later ideas, kept on the backlog
+                                    rather than this rollout: teach the widget
+                                    checks to flag hex and arbitrary colors,
+                                    semantic color names, widget-only light-mode
+                                    flipping.
                                 </p>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <h3>
-                                    Add the missing pieces to dash-react — done,
-                                    one left
+                                    Add the missing pieces to dash-react — done
                                 </h3>
                                 <p>
                                     Done: <code>PanelHeader</code>,
@@ -3250,8 +3251,8 @@
                                     <code>ChatToolCall</code>,
                                     <code>ChatComposer</code> (1.0.73) and
                                     <code>ActionMenu</code> (1.0.80), each in
-                                    the gallery. Not built yet:
-                                    <code>useDashTokens</code>.
+                                    the gallery, and
+                                    <code>useDashTokens</code> (1.0.83).
                                 </p>
                             </div>
                         </li>

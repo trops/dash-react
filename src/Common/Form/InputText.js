@@ -1,48 +1,6 @@
-import { ThemeContext } from "@dash/Context";
-import { getStylesForItem, themeObjects } from "@dash/Utils";
-import { useContext } from "react";
-import { dispatchInputChange } from "../Input/dispatchInputChange";
-
-export const InputText = ({
-    key = "inputText",
-    onChange,
-    onKeyDown,
-    onClick = null,
-    name,
-    value,
-    type = "text",
-    padding = "p-2",
-    placeholder = "",
-    hasBorder = true,
-    disabled = false,
-    textSize = "text-sm lg:text-base 2xl:text-lg",
-    ...props
-}) => {
-    const { currentTheme } = useContext(ThemeContext);
-    const styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
-        ...props,
-    });
-
-    function renderComponent(styles) {
-        return (
-            <input
-                key={key}
-                type={type}
-                name={name}
-                value={value !== null ? value : ""}
-                onChange={(event) => dispatchInputChange(onChange, event)}
-                onKeyDown={onKeyDown}
-                onClick={onClick}
-                placeholder={placeholder}
-                className={`dr-input ${padding} rounded focus:outline-0 outline-0 border-0 focus:border-0 ${
-                    styles.string
-                } font-bold ${textSize} w-full ${
-                    hasBorder === false && "border-0"
-                }`}
-                disabled={disabled}
-            />
-        );
-    }
-
-    return renderComponent(styles);
-};
+/**
+ * The package root exported two components named InputText (this one and
+ * Common/Input's); the bundle only ever shipped Common/Input's. This path
+ * now points at that one so there is a single InputText.
+ */
+export { InputText } from "../Input/InputText";

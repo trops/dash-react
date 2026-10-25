@@ -31,17 +31,20 @@ const Checkbox = ({
 
     return (
         <label
-            className={`flex items-center space-x-2 ${className}`}
+            className={`flex items-center min-h-6 space-x-2 ${className}`}
             htmlFor={inputId}
         >
-            <input
-                id={inputId}
-                type="checkbox"
-                checked={checked}
-                onChange={(event) => onChange(event.target.checked, event)}
-                disabled={props.disabled}
-                className={`h-4 w-4 rounded border ${styles.borderColor} ${styles.backgroundColor} focus-visible:ring-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
-            />
+            {/* The box stays 16px; the span gives it a 20px target. */}
+            <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center">
+                <input
+                    id={inputId}
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(event) => onChange(event.target.checked, event)}
+                    disabled={props.disabled}
+                    className={`h-4 w-4 rounded border ${styles.borderColor} ${styles.backgroundColor} focus-visible:ring-2 ${styles.focusRingColor || ""} disabled:opacity-50 disabled:cursor-not-allowed`}
+                />
+            </span>
             {label && (
                 <span className={`text-sm ${labelStyles.textColor}`}>
                     {label}

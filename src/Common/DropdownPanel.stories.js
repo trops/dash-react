@@ -48,7 +48,7 @@ export const Primary = () => {
                     </MenuItem>
                     <DropdownPanel.Divider />
                     <MenuItem onClick={() => {}}>
-                        <span className="text-blue-400">+ Create New</span>
+                        <span>+ Create New</span>
                     </MenuItem>
                 </DropdownPanel>
             </div>
@@ -87,7 +87,7 @@ export const Secondary = () => {
                     </MenuItem2>
                     <DropdownPanel2.Divider />
                     <MenuItem2 onClick={() => {}}>
-                        <span className="text-blue-400">+ Create New</span>
+                        <span>+ Create New</span>
                     </MenuItem2>
                 </DropdownPanel2>
             </div>
@@ -126,7 +126,7 @@ export const Tertiary = () => {
                     </MenuItem3>
                     <DropdownPanel3.Divider />
                     <MenuItem3 onClick={() => {}}>
-                        <span className="text-blue-400">+ Create New</span>
+                        <span>+ Create New</span>
                     </MenuItem3>
                 </DropdownPanel3>
             </div>
@@ -160,7 +160,7 @@ export const WithDescriptions = () => {
                         >
                             <div>
                                 <div className="font-medium">{p.name}</div>
-                                <div className="text-xs opacity-60 mt-0.5">
+                                <div className="text-xs mt-0.5">
                                     {p.description}
                                 </div>
                             </div>
@@ -168,9 +168,7 @@ export const WithDescriptions = () => {
                     ))}
                     <DropdownPanel.Divider />
                     <MenuItem2 onClick={() => {}}>
-                        <span className="text-blue-400">
-                            + Create New Provider
-                        </span>
+                        <span>+ Create New Provider</span>
                     </MenuItem2>
                 </DropdownPanel>
             </div>
@@ -194,13 +192,11 @@ export const EmptyState = () => {
                     Toggle Dropdown
                 </button>
                 <DropdownPanel isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                    <div className="px-3 py-2 text-xs opacity-50 italic">
+                    <div className="px-3 py-2 text-xs italic">
                         No providers configured
                     </div>
                     <MenuItem2 onClick={() => {}}>
-                        <span className="text-blue-400">
-                            + Create New Provider
-                        </span>
+                        <span>+ Create New Provider</span>
                     </MenuItem2>
                 </DropdownPanel>
             </div>
@@ -233,7 +229,7 @@ export const AllVariants = () => (
                         <MenuItem onClick={() => {}}>Local Dev</MenuItem>
                         <DropdownPanel.Divider />
                         <MenuItem onClick={() => {}}>
-                            <span className="text-blue-400">+ Create New</span>
+                            <span>+ Create New</span>
                         </MenuItem>
                     </DropdownPanel>
                 </div>
@@ -268,7 +264,7 @@ export const AllVariants = () => (
                         <MenuItem2 onClick={() => {}}>Local Dev</MenuItem2>
                         <DropdownPanel2.Divider />
                         <MenuItem2 onClick={() => {}}>
-                            <span className="text-blue-400">+ Create New</span>
+                            <span>+ Create New</span>
                         </MenuItem2>
                     </DropdownPanel2>
                 </div>
@@ -303,7 +299,7 @@ export const AllVariants = () => (
                         <MenuItem3 onClick={() => {}}>Local Dev</MenuItem3>
                         <DropdownPanel3.Divider />
                         <MenuItem3 onClick={() => {}}>
-                            <span className="text-blue-400">+ Create New</span>
+                            <span>+ Create New</span>
                         </MenuItem3>
                     </DropdownPanel3>
                 </div>

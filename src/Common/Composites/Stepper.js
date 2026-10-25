@@ -2,6 +2,7 @@ import { useContext, Children } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { getDashTokens } from "@dash/Hooks/useDashTokens";
 import { Button2, Button3 } from "../Button";
 
 // ─── Sub-components ─────────────────────────────────────────────────────────────
@@ -32,6 +33,7 @@ const Stepper = ({
     className = "",
 }) => {
     const { currentTheme } = useContext(ThemeContext);
+    const tokens = getDashTokens(currentTheme);
     const stepStyles = getStylesForItem(
         themeObjects.STEPPER_STEP,
         currentTheme,
@@ -88,7 +90,7 @@ const Stepper = ({
                                         ? `${stepStyles.activeBackgroundColor || ""} ${stepStyles.activeTextColor || ""}`
                                         : isActive
                                           ? `${stepStyles.activeBackgroundColor || ""} ${stepStyles.activeTextColor || ""} ring-2 ring-offset-2 ring-offset-transparent ${stepStyles.activeBackgroundColor || ""}`
-                                          : `${stepStyles.backgroundColor || ""} ${stepStyles.textColor || ""} opacity-50`
+                                          : `${stepStyles.backgroundColor || ""} ${tokens.muted}`
                                 } ${i <= activeStep ? "cursor-pointer" : "cursor-default"}`}
                             >
                                 {isCompleted ? (
@@ -113,13 +115,13 @@ const Stepper = ({
                             {/* Label */}
                             <div className="flex flex-col ml-2 min-w-0">
                                 <span
-                                    className={`text-sm font-medium truncate ${isActive || isCompleted ? stepStyles.activeTextColor || "" : `${stepStyles.textColor || ""} opacity-50`}`}
+                                    className={`text-sm font-medium truncate ${isActive || isCompleted ? stepStyles.activeTextColor || "" : tokens.muted}`}
                                 >
                                     {step.props.label}
                                 </span>
                                 {step.props.description && (
                                     <span
-                                        className={`text-xs truncate ${stepStyles.textColor || ""} opacity-40`}
+                                        className={`text-xs truncate ${tokens.faint}`}
                                     >
                                         {step.props.description}
                                     </span>
@@ -155,7 +157,7 @@ const Stepper = ({
                         onClick={goBack}
                         disabled={activeStep === 0}
                     />
-                    <span className="text-xs opacity-40">
+                    <span className={`text-xs ${tokens.faint}`}>
                         Step {activeStep + 1} of {totalSteps}
                     </span>
                     <Button2

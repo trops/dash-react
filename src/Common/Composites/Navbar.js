@@ -61,6 +61,8 @@ const Navbar = ({
     height = "h-14",
     className = "",
     position = "top", // "top" | "bottom"
+    // Names the landmark when a screen has more than one nav ("Main", "Dashboard").
+    ariaLabel = null,
 }) => {
     const { currentTheme } = useContext(ThemeContext);
     const styles = getStylesForItem(themeObjects.NAVBAR, currentTheme, {
@@ -76,6 +78,7 @@ const Navbar = ({
 
     return (
         <nav
+            aria-label={ariaLabel || undefined}
             className={`flex flex-row items-center flex-shrink-0 ${height} ${padding} ${borderClass} ${styles.backgroundColor || ""} ${styles.borderColor || ""} ${styles.textColor || ""} ${className}`}
         >
             {children}
