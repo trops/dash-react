@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStatusColors } from "@dash/Utils/statusColors";
+import { themeVarsStyle } from "@dash/Utils/themeVars";
 
 /**
  * ActionMenu — a short list of actions behind one quiet button (⋯ / ⋮):
@@ -189,7 +190,11 @@ const ActionMenu = ({
             // Clicks inside don't reach a parent that selects on click (a
             // dashboard cell).
             onClick={(e) => e.stopPropagation()}
-            style={portalStyle}
+            style={
+                portalStyle
+                    ? { ...themeVarsStyle(currentTheme), ...portalStyle }
+                    : portalStyle
+            }
             className={`dr-action-menu-panel ${placement} z-50 w-60 flex flex-col gap-0.5 p-1.5 rounded-lg border shadow-lg ${panelBg} ${border}`}
         >
             {items.map((item, i) => {

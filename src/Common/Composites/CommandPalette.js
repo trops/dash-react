@@ -2,6 +2,7 @@ import { useContext, useState, useEffect, useRef, useCallback } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { themeVarsStyle } from "@dash/Utils/themeVars";
 import { useDashTokens, getDashTokens } from "@dash/Hooks/useDashTokens";
 import { Dialog } from "@headlessui/react";
 import { Paragraph3 } from "../Text/Paragraph";
@@ -121,6 +122,7 @@ const CommandPalette = ({
             open={isOpen}
             onClose={() => setIsOpen(false)}
             className="relative z-50"
+            style={themeVarsStyle(currentTheme)}
             initialFocus={inputRef}
         >
             <div
