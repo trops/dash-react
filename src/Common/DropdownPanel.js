@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { themeVarsStyle } from "@dash/Utils/themeVars";
 
 // ─── Sub-component Factories ────────────────────────────────────────────────────
 
@@ -138,6 +139,7 @@ const createDropdownPanel = (panelKey, headerKey, dividerKey) => {
                                 <div
                                     className={panelClasses}
                                     style={{
+                                        ...themeVarsStyle(currentTheme),
                                         position: "fixed",
                                         zIndex: 9999,
                                         ...portalStyle,

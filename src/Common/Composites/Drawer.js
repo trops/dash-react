@@ -2,6 +2,7 @@ import { useContext, Fragment } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
+import { themeVarsStyle } from "@dash/Utils/themeVars";
 import { Dialog, Transition } from "@headlessui/react";
 import { ButtonIcon2 } from "../ButtonIcon";
 
@@ -101,6 +102,7 @@ const Drawer = ({
             <Dialog
                 as="div"
                 className="relative z-50"
+                style={themeVarsStyle(currentTheme)}
                 onClose={() => setIsOpen(false)}
             >
                 <Transition.Child

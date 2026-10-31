@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { Dialog } from "@headlessui/react";
+import { ThemeContext } from "@dash/Context/ThemeContext";
+import { themeVarsStyle } from "@dash/Utils/themeVars";
 
 const ModalFooter = ({ children }) => {
     return <div className="flex flex-row justify-end p-4">{children}</div>;
@@ -11,11 +14,13 @@ const Modal = ({
     width = "w-5/6",
     height = "5/6",
 }) => {
+    const { currentTheme } = useContext(ThemeContext) || {};
     return (
         <Dialog
             open={isOpen}
             onClose={() => setIsOpen(false)}
             className="relative z-40 overflow-clip rounded-lg"
+            style={themeVarsStyle(currentTheme)}
         >
             {/* The backdrop, rendered as a fixed sibling to the panel container */}
             <div

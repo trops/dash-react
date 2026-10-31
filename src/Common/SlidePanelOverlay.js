@@ -1,5 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import { ThemeContext } from "@dash/Context/ThemeContext";
+import { themeVarsStyle } from "@dash/Utils/themeVars";
 import { Dialog, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -10,13 +12,14 @@ export default function SlidePanelOverlay({
     children,
     onClose,
 }) {
-    // const [open, setOpen] = useState(open)
+    const { currentTheme } = useContext(ThemeContext) || {};
 
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog
                 as="div"
                 className="fixed inset-0 overflow-clip"
+                style={themeVarsStyle(currentTheme)}
                 onClose={setOpen}
             >
                 <div className="absolute inset-0 overflow-clip">
