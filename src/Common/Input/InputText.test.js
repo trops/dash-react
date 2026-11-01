@@ -12,7 +12,11 @@ import { InputText } from "./InputText";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 
 jest.mock("@dash/Utils", () => ({
-    getStylesForItem: () => ({ string: "", textColor: "", focusRingColor: "" }),
+    getStylesForItem: (_item, _theme, over = {}) => ({
+        string: over.borderColor || "",
+        textColor: "",
+        focusRingColor: "",
+    }),
     getUUID: (id, prefix) => id || `${prefix}-test-id`,
 }));
 jest.mock("@dash/Utils/themeObjects", () => ({
@@ -79,4 +83,46 @@ test("caller style is merged with color-scheme", () => {
     const input = container.querySelector("input");
     expect(input.style.width).toBe("10rem");
     expect(input.style.colorScheme).toBe("light");
+});
+
+describe("a field that fails its check", () => {
+    test("aria-invalid gives it the error border", () => {
+        const { container } = render(
+            <ThemeContext.Provider
+                value={{ currentTheme: {}, themeVariant: "dark" }}
+            >
+                <InputText aria-invalid={true} />
+            </ThemeContext.Provider>
+        );
+        const input = container.querySelector("input");
+        expect(input.getAttribute("aria-invalid")).toBe("true");
+        expect(input.className).toMatch(/border-red-/);
+    });
+
+    test("any invalid value counts, false does not", () => {
+        const one = renderWithTheme(<InputText aria-invalid="spelling" />);
+        expect(one.container.querySelector("input").className).toMatch(
+            /border-red-/
+        );
+        const two = renderWithTheme(<InputText aria-invalid="false" />);
+        expect(two.container.querySelector("input").className).not.toMatch(
+            /border-red-/
+        );
+    });
+
+    test("a valid field keeps the theme border", () => {
+        const { container } = renderWithTheme(<InputText />);
+        expect(container.querySelector("input").className).not.toMatch(
+            /border-red-/
+        );
+    });
+
+    test("an explicit borderColor still wins", () => {
+        const { container } = renderWithTheme(
+            <InputText aria-invalid={true} borderColor="border-blue-500" />
+        );
+        expect(container.querySelector("input").className).toMatch(
+            /border-blue-500/
+        );
+    });
 });

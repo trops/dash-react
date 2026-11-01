@@ -6051,10 +6051,16 @@ var InputText = function InputText(_ref) {
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme,
     themeVariant = _useContext.themeVariant;
+  // A field that fails its check (aria-invalid, e.g. set by FormField's
+  // error) gets the error border, so the message isn't the only sign.
+  // Any aria-invalid value but false counts (true, "grammar", "spelling").
+  // Aurora draws the same edge in CSS (designSystem.css), focus included.
+  var ariaInvalid = htmlProps["aria-invalid"];
+  var invalid = ariaInvalid !== undefined && ariaInvalid !== null && ariaInvalid !== false && ariaInvalid !== "false";
   var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
     backgroundColor: backgroundColor,
     textColor: textColor,
-    borderColor: borderColor,
+    borderColor: borderColor || (invalid ? getStatusColors(themeVariant).error.accentBorder : null),
     placeholderTextColor: placeholderTextColor,
     focusRingColor: focusRingColor,
     focusBorderColor: focusBorderColor,

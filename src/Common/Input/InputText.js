@@ -4,6 +4,7 @@ import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
 import { dispatchInputChange } from "./dispatchInputChange";
 import { colorSchemeFor } from "../CodeEditor/editorTheme";
+import { getStatusColors } from "@dash/Utils/statusColors";
 
 const InputText = ({
     label = "",
@@ -32,10 +33,22 @@ const InputText = ({
     ...htmlProps
 }) => {
     const { currentTheme, themeVariant } = useContext(ThemeContext);
+    // A field that fails its check (aria-invalid, e.g. set by FormField's
+    // error) gets the error border, so the message isn't the only sign.
+    // Any aria-invalid value but false counts (true, "grammar", "spelling").
+    // Aurora draws the same edge in CSS (designSystem.css), focus included.
+    const ariaInvalid = htmlProps["aria-invalid"];
+    const invalid =
+        ariaInvalid !== undefined &&
+        ariaInvalid !== null &&
+        ariaInvalid !== false &&
+        ariaInvalid !== "false";
     const styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
         backgroundColor,
         textColor,
-        borderColor,
+        borderColor:
+            borderColor ||
+            (invalid ? getStatusColors(themeVariant).error.accentBorder : null),
         placeholderTextColor,
         focusRingColor,
         focusBorderColor,
