@@ -3430,6 +3430,12 @@ var ActionMenu = function ActionMenu(_ref) {
   var panelRef = useRef(null);
   var buttonRef = useRef(null);
   var itemRefs = useRef([]);
+  // An open submenu: { index, side: "right" | "left" }.
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray$i(_useState5, 2),
+    sub = _useState6[0],
+    setSub = _useState6[1];
+  var subRefs = useRef([]);
   var actions = items.filter(function (i) {
     return i && i !== "separator";
   });
@@ -3478,18 +3484,76 @@ var ActionMenu = function ActionMenu(_ref) {
     if (!open && portal && buttonRef.current) {
       setRect(buttonRef.current.getBoundingClientRect());
     }
+    setSub(null);
     setOpen(function (v) {
       return !v;
     });
   };
   var close = function close() {
     setOpen(false);
+    setSub(null);
     if (buttonRef.current) buttonRef.current.focus();
   };
-  var run = function run(action) {
+  var openSub = function openSub(index) {
+    var el = itemRefs.current[index];
+    var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    var side = r && typeof window !== "undefined" && r.right + 248 > window.innerWidth ? "left" : "right";
+    setSub({
+      index: index,
+      side: side
+    });
+  };
+  var run = function run(action, index) {
     if (action.disabled) return;
+    if (Array.isArray(action.items)) {
+      openSub(index);
+      return;
+    }
     close();
     if (action.onSelect) action.onSelect();
+  };
+
+  // An opened submenu focuses its first action that can run.
+  useEffect(function () {
+    if (!sub) return;
+    var list = actions[sub.index] && actions[sub.index].items || [];
+    var first = list.filter(function (i) {
+      return i && i !== "separator";
+    }).findIndex(function (i) {
+      return !i.disabled;
+    });
+    var el = first >= 0 ? subRefs.current[first] : null;
+    if (el && typeof el.focus === "function") el.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sub]);
+  var backToParent = function backToParent() {
+    var at = sub ? itemRefs.current[sub.index] : null;
+    setSub(null);
+    if (at && typeof at.focus === "function") at.focus();
+  };
+  var onSubKeyDown = function onSubKeyDown(e, list) {
+    var enabled = list.filter(function (i) {
+      return i && i !== "separator";
+    }).map(function (a, i) {
+      return a.disabled ? -1 : i;
+    }).filter(function (i) {
+      return i >= 0;
+    });
+    if (e.key === "Escape" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      e.stopPropagation();
+      backToParent();
+    } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!enabled.length) return;
+      var cur = subRefs.current.indexOf(document.activeElement);
+      var pos = enabled.indexOf(cur);
+      var step = e.key === "ArrowDown" ? 1 : -1;
+      var next = pos < 0 ? enabled[0] : enabled[(pos + step + enabled.length) % enabled.length];
+      var el = subRefs.current[next];
+      if (el) el.focus();
+    }
   };
   var moveFocus = function moveFocus(step) {
     if (!enabledIndexes.length) return;
@@ -3509,6 +3573,12 @@ var ActionMenu = function ActionMenu(_ref) {
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       moveFocus(-1);
+    } else if (e.key === "ArrowRight") {
+      var i = itemRefs.current.indexOf(document.activeElement);
+      if (i >= 0 && actions[i] && Array.isArray(actions[i].items)) {
+        e.preventDefault();
+        if (!actions[i].disabled) openSub(i);
+      }
     } else if (e.key === "Tab") {
       setOpen(false);
     }
@@ -3546,16 +3616,20 @@ var ActionMenu = function ActionMenu(_ref) {
       actionIndex += 1;
       var index = actionIndex;
       var tone = item.disabled ? "".concat(idleText, " cursor-not-allowed") : item.danger ? "".concat(status.error.icon, " cursor-pointer") : "".concat(strongText, " cursor-pointer");
-      return /*#__PURE__*/jsxs("button", {
+      var hasSub = Array.isArray(item.items);
+      var subOpen = hasSub && sub && sub.index === index;
+      var itemButton = /*#__PURE__*/jsxs("button", {
         ref: function ref(el) {
           itemRefs.current[index] = el;
         },
         type: "button",
         role: "menuitem",
         "aria-disabled": item.disabled ? true : undefined,
+        "aria-haspopup": hasSub ? "menu" : undefined,
+        "aria-expanded": hasSub ? !!subOpen : undefined,
         tabIndex: -1,
         onClick: function onClick() {
-          return run(item);
+          return run(item, index);
         },
         className: "dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:".concat(hoverBg, " ").concat(tone),
         children: [/*#__PURE__*/jsxs("span", {
@@ -3566,10 +3640,61 @@ var ActionMenu = function ActionMenu(_ref) {
           }), item.badge ? /*#__PURE__*/jsx("span", {
             className: "text-xs font-bold ".concat(status.warning.icon),
             children: item.badge
+          }) : null, hasSub ? /*#__PURE__*/jsx("span", {
+            "aria-hidden": "true",
+            className: idleText,
+            children: "\u25B8"
           }) : null]
         }), item.description ? /*#__PURE__*/jsx("span", {
           className: "text-xs ".concat(idleText),
           children: item.description
+        }) : null]
+      }, item.key || item.label);
+      if (!hasSub) return itemButton;
+      var subIndex = -1;
+      return /*#__PURE__*/jsxs("div", {
+        className: "relative flex flex-col",
+        children: [itemButton, subOpen ? /*#__PURE__*/jsx("div", {
+          role: "menu",
+          "aria-label": item.label,
+          onKeyDown: function onKeyDown(e) {
+            return onSubKeyDown(e, item.items);
+          },
+          className: "dr-action-menu-panel absolute top-0 ".concat(sub.side === "left" ? "right-full mr-1" : "left-full ml-1", " z-50 w-56 flex flex-col gap-0.5 p-1.5 rounded-lg border shadow-lg ").concat(panelBg, " ").concat(border),
+          children: item.items.map(function (child, j) {
+            if (child === "separator") {
+              return /*#__PURE__*/jsx("div", {
+                role: "separator",
+                className: "my-1 border-t ".concat(border)
+              }, "sub-sep-".concat(j));
+            }
+            if (!child) return null;
+            subIndex += 1;
+            var k = subIndex;
+            return /*#__PURE__*/jsxs("button", {
+              ref: function ref(el) {
+                subRefs.current[k] = el;
+              },
+              type: "button",
+              role: "menuitem",
+              "aria-disabled": child.disabled ? true : undefined,
+              tabIndex: -1,
+              onClick: function onClick(e) {
+                e.stopPropagation();
+                if (child.disabled) return;
+                close();
+                if (child.onSelect) child.onSelect();
+              },
+              className: "dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:".concat(hoverBg, " ").concat(child.disabled ? "".concat(idleText, " cursor-not-allowed") : "".concat(strongText, " cursor-pointer")),
+              children: [/*#__PURE__*/jsx("span", {
+                className: "truncate w-full",
+                children: child.label
+              }), child.description ? /*#__PURE__*/jsx("span", {
+                className: "text-xs ".concat(idleText),
+                children: child.description
+              }) : null]
+            }, child.key || child.label);
+          })
         }) : null]
       }, item.key || item.label);
     })

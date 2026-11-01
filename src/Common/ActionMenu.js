@@ -22,9 +22,12 @@ import { themeVarsStyle } from "@dash/Utils/themeVars";
  *   icon       — the button's icon: "ellipsis" (⋯, default) or
  *                "ellipsis-vertical" (⋮)
  *   items      — array of { key?, label, description?, onSelect, danger?,
- *                badge?, disabled? } or the string "separator". `danger`
- *                colours it as destructive (Remove); `badge` is a short
- *                warning mark ("!") after the label.
+ *                badge?, disabled?, items? } or the string "separator".
+ *                `danger` colours it as destructive (Remove); `badge` is
+ *                a short warning mark ("!") after the label. `items` (the
+ *                same shapes) makes it a submenu ("Move to page ▸"): click,
+ *                Enter or → opens it beside the menu (on the left when the
+ *                right edge is too close); ← or Escape goes back to it.
  *   dot        — a warning dot on the button (something in the menu needs
  *                attention)
  *   align      — "left" | "right": which edge the menu lines up with
@@ -64,6 +67,9 @@ const ActionMenu = ({
     const panelRef = useRef(null);
     const buttonRef = useRef(null);
     const itemRefs = useRef([]);
+    // An open submenu: { index, side: "right" | "left" }.
+    const [sub, setSub] = useState(null);
+    const subRefs = useRef([]);
 
     const actions = items.filter((i) => i && i !== "separator");
     const enabledIndexes = actions
@@ -111,18 +117,80 @@ const ActionMenu = ({
         if (!open && portal && buttonRef.current) {
             setRect(buttonRef.current.getBoundingClientRect());
         }
+        setSub(null);
         setOpen((v) => !v);
     };
 
     const close = () => {
         setOpen(false);
+        setSub(null);
         if (buttonRef.current) buttonRef.current.focus();
     };
 
-    const run = (action) => {
+    const openSub = (index) => {
+        const el = itemRefs.current[index];
+        const r =
+            el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+        const side =
+            r &&
+            typeof window !== "undefined" &&
+            r.right + 248 > window.innerWidth
+                ? "left"
+                : "right";
+        setSub({ index, side });
+    };
+
+    const run = (action, index) => {
         if (action.disabled) return;
+        if (Array.isArray(action.items)) {
+            openSub(index);
+            return;
+        }
         close();
         if (action.onSelect) action.onSelect();
+    };
+
+    // An opened submenu focuses its first action that can run.
+    useEffect(() => {
+        if (!sub) return;
+        const list = (actions[sub.index] && actions[sub.index].items) || [];
+        const first = list
+            .filter((i) => i && i !== "separator")
+            .findIndex((i) => !i.disabled);
+        const el = first >= 0 ? subRefs.current[first] : null;
+        if (el && typeof el.focus === "function") el.focus();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sub]);
+
+    const backToParent = () => {
+        const at = sub ? itemRefs.current[sub.index] : null;
+        setSub(null);
+        if (at && typeof at.focus === "function") at.focus();
+    };
+
+    const onSubKeyDown = (e, list) => {
+        const enabled = list
+            .filter((i) => i && i !== "separator")
+            .map((a, i) => (a.disabled ? -1 : i))
+            .filter((i) => i >= 0);
+        if (e.key === "Escape" || e.key === "ArrowLeft") {
+            e.preventDefault();
+            e.stopPropagation();
+            backToParent();
+        } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!enabled.length) return;
+            const cur = subRefs.current.indexOf(document.activeElement);
+            const pos = enabled.indexOf(cur);
+            const step = e.key === "ArrowDown" ? 1 : -1;
+            const next =
+                pos < 0
+                    ? enabled[0]
+                    : enabled[(pos + step + enabled.length) % enabled.length];
+            const el = subRefs.current[next];
+            if (el) el.focus();
+        }
     };
 
     const moveFocus = (step) => {
@@ -150,6 +218,12 @@ const ActionMenu = ({
         } else if (e.key === "ArrowUp") {
             e.preventDefault();
             moveFocus(-1);
+        } else if (e.key === "ArrowRight") {
+            const i = itemRefs.current.indexOf(document.activeElement);
+            if (i >= 0 && actions[i] && Array.isArray(actions[i].items)) {
+                e.preventDefault();
+                if (!actions[i].disabled) openSub(i);
+            }
         } else if (e.key === "Tab") {
             setOpen(false);
         }
@@ -215,7 +289,9 @@ const ActionMenu = ({
                     : item.danger
                       ? `${status.error.icon} cursor-pointer`
                       : `${strongText} cursor-pointer`;
-                return (
+                const hasSub = Array.isArray(item.items);
+                const subOpen = hasSub && sub && sub.index === index;
+                const itemButton = (
                     <button
                         key={item.key || item.label}
                         ref={(el) => {
@@ -224,8 +300,10 @@ const ActionMenu = ({
                         type="button"
                         role="menuitem"
                         aria-disabled={item.disabled ? true : undefined}
+                        aria-haspopup={hasSub ? "menu" : undefined}
+                        aria-expanded={hasSub ? !!subOpen : undefined}
                         tabIndex={-1}
-                        onClick={() => run(item)}
+                        onClick={() => run(item, index)}
                         className={`dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:${hoverBg} ${tone}`}
                     >
                         <span className="flex w-full items-center gap-2">
@@ -239,6 +317,11 @@ const ActionMenu = ({
                                     {item.badge}
                                 </span>
                             ) : null}
+                            {hasSub ? (
+                                <span aria-hidden="true" className={idleText}>
+                                    ▸
+                                </span>
+                            ) : null}
                         </span>
                         {item.description ? (
                             <span className={`text-xs ${idleText}`}>
@@ -246,6 +329,82 @@ const ActionMenu = ({
                             </span>
                         ) : null}
                     </button>
+                );
+                if (!hasSub) return itemButton;
+                let subIndex = -1;
+                return (
+                    <div
+                        key={item.key || item.label}
+                        className="relative flex flex-col"
+                    >
+                        {itemButton}
+                        {subOpen ? (
+                            <div
+                                role="menu"
+                                aria-label={item.label}
+                                onKeyDown={(e) => onSubKeyDown(e, item.items)}
+                                className={`dr-action-menu-panel absolute top-0 ${
+                                    sub.side === "left"
+                                        ? "right-full mr-1"
+                                        : "left-full ml-1"
+                                } z-50 w-56 flex flex-col gap-0.5 p-1.5 rounded-lg border shadow-lg ${panelBg} ${border}`}
+                            >
+                                {item.items.map((child, j) => {
+                                    if (child === "separator") {
+                                        return (
+                                            <div
+                                                key={`sub-sep-${j}`}
+                                                role="separator"
+                                                className={`my-1 border-t ${border}`}
+                                            />
+                                        );
+                                    }
+                                    if (!child) return null;
+                                    subIndex += 1;
+                                    const k = subIndex;
+                                    return (
+                                        <button
+                                            key={child.key || child.label}
+                                            ref={(el) => {
+                                                subRefs.current[k] = el;
+                                            }}
+                                            type="button"
+                                            role="menuitem"
+                                            aria-disabled={
+                                                child.disabled
+                                                    ? true
+                                                    : undefined
+                                            }
+                                            tabIndex={-1}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (child.disabled) return;
+                                                close();
+                                                if (child.onSelect)
+                                                    child.onSelect();
+                                            }}
+                                            className={`dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:${hoverBg} ${
+                                                child.disabled
+                                                    ? `${idleText} cursor-not-allowed`
+                                                    : `${strongText} cursor-pointer`
+                                            }`}
+                                        >
+                                            <span className="truncate w-full">
+                                                {child.label}
+                                            </span>
+                                            {child.description ? (
+                                                <span
+                                                    className={`text-xs ${idleText}`}
+                                                >
+                                                    {child.description}
+                                                </span>
+                                            ) : null}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        ) : null}
+                    </div>
                 );
             })}
         </div>
