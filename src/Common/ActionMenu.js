@@ -25,9 +25,11 @@ import { themeVarsStyle } from "@dash/Utils/themeVars";
  *                badge?, disabled?, items? } or the string "separator".
  *                `danger` colours it as destructive (Remove); `badge` is
  *                a short warning mark ("!") after the label. `items` (the
- *                same shapes) makes it a submenu ("Move to page ▸"): click,
- *                Enter or → opens it beside the menu (on the left when the
- *                right edge is too close); ← or Escape goes back to it.
+ *                same shapes, one level — a submenu has no submenus) makes
+ *                it a submenu ("Move to page ▸"): click, Enter or → opens it
+ *                beside the menu (on the left when there's no room on the
+ *                right; growing up near the bottom); its row again, ←,
+ *                Escape or moving on in the menu closes it.
  *   dot        — a warning dot on the button (something in the menu needs
  *                attention)
  *   align      — "left" | "right": which edge the menu lines up with
@@ -67,14 +69,27 @@ const ActionMenu = ({
     const panelRef = useRef(null);
     const buttonRef = useRef(null);
     const itemRefs = useRef([]);
-    // An open submenu: { index, side: "right" | "left" }.
+    // An open submenu: { key, side: "right" | "left", up: boolean } — by
+    // its item's key or label, so a list that changes can't move it.
     const [sub, setSub] = useState(null);
     const subRefs = useRef([]);
+    const subPanelRef = useRef(null);
 
     const actions = items.filter((i) => i && i !== "separator");
     const enabledIndexes = actions
         .map((a, i) => (a.disabled ? -1 : i))
         .filter((i) => i >= 0);
+    const keyOf = (a) => (a && (a.key || a.label)) || "";
+    const subIndex = sub ? actions.findIndex((a) => keyOf(a) === sub.key) : -1;
+    const subItems =
+        subIndex >= 0 && Array.isArray(actions[subIndex].items)
+            ? actions[subIndex].items
+            : null;
+
+    // Closed by any path (Tab, a click outside): no submenu left behind.
+    useEffect(() => {
+        if (!open) setSub(null);
+    }, [open]);
 
     // Close on a click outside (the button's container or the menu).
     useEffect(() => {
@@ -117,7 +132,6 @@ const ActionMenu = ({
         if (!open && portal && buttonRef.current) {
             setRect(buttonRef.current.getBoundingClientRect());
         }
-        setSub(null);
         setOpen((v) => !v);
     };
 
@@ -127,45 +141,67 @@ const ActionMenu = ({
         if (buttonRef.current) buttonRef.current.focus();
     };
 
+    // The submenu (w-56 + its 4px gap) goes right unless it would leave the
+    // window there and fits on the left; it grows up from the row's bottom
+    // when it would run off the bottom.
+    const SUB_WIDTH = 228;
     const openSub = (index) => {
         const el = itemRefs.current[index];
         const r =
             el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+        const w = typeof window !== "undefined" ? window.innerWidth : 0;
+        const h = typeof window !== "undefined" ? window.innerHeight : 0;
+        const list = actions[index].items || [];
+        const tall = 12 + list.length * 38;
         const side =
-            r &&
-            typeof window !== "undefined" &&
-            r.right + 248 > window.innerWidth
+            r && r.right + SUB_WIDTH > w && r.left - SUB_WIDTH >= 0
                 ? "left"
                 : "right";
-        setSub({ index, side });
+        const up = !!(r && r.top + tall > h && r.bottom - tall >= 0);
+        setSub({ key: keyOf(actions[index]), side, up });
     };
 
     const run = (action, index) => {
         if (action.disabled) return;
         if (Array.isArray(action.items)) {
-            openSub(index);
+            // Its row again closes it.
+            if (sub && sub.key === keyOf(action)) setSub(null);
+            else openSub(index);
             return;
         }
         close();
         if (action.onSelect) action.onSelect();
     };
 
-    // An opened submenu focuses its first action that can run.
+    // An opened submenu focuses its first action that can run — or itself,
+    // when none can, so ← and Escape still go back.
     useEffect(() => {
-        if (!sub) return;
-        const list = (actions[sub.index] && actions[sub.index].items) || [];
-        const first = list
+        if (!sub || !subItems) return;
+        const first = subItems
             .filter((i) => i && i !== "separator")
             .findIndex((i) => !i.disabled);
-        const el = first >= 0 ? subRefs.current[first] : null;
+        const el = first >= 0 ? subRefs.current[first] : subPanelRef.current;
         if (el && typeof el.focus === "function") el.focus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sub]);
+    }, [sub && sub.key]);
 
     const backToParent = () => {
-        const at = sub ? itemRefs.current[sub.index] : null;
+        const at = subIndex >= 0 ? itemRefs.current[subIndex] : null;
         setSub(null);
         if (at && typeof at.focus === "function") at.focus();
+    };
+
+    // Roving focus over the enabled rows of a list (the menu or a submenu).
+    const rove = (refs, enabled, step) => {
+        if (!enabled.length) return;
+        const cur = refs.indexOf(document.activeElement);
+        const pos = enabled.indexOf(cur);
+        const next =
+            pos < 0
+                ? enabled[0]
+                : enabled[(pos + step + enabled.length) % enabled.length];
+        const el = refs[next];
+        if (el) el.focus();
     };
 
     const onSubKeyDown = (e, list) => {
@@ -180,32 +216,14 @@ const ActionMenu = ({
         } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
             e.preventDefault();
             e.stopPropagation();
-            if (!enabled.length) return;
-            const cur = subRefs.current.indexOf(document.activeElement);
-            const pos = enabled.indexOf(cur);
-            const step = e.key === "ArrowDown" ? 1 : -1;
-            const next =
-                pos < 0
-                    ? enabled[0]
-                    : enabled[(pos + step + enabled.length) % enabled.length];
-            const el = subRefs.current[next];
-            if (el) el.focus();
+            rove(subRefs.current, enabled, e.key === "ArrowDown" ? 1 : -1);
         }
     };
 
     const moveFocus = (step) => {
-        if (!enabledIndexes.length) return;
-        const current = itemRefs.current.indexOf(document.activeElement);
-        const pos = enabledIndexes.indexOf(current);
-        const next =
-            pos < 0
-                ? enabledIndexes[0]
-                : enabledIndexes[
-                      (pos + step + enabledIndexes.length) %
-                          enabledIndexes.length
-                  ];
-        const el = itemRefs.current[next];
-        if (el) el.focus();
+        // Moving on in the menu leaves a submenu behind.
+        setSub(null);
+        rove(itemRefs.current, enabledIndexes, step);
     };
 
     const onMenuKeyDown = (e) => {
@@ -228,6 +246,14 @@ const ActionMenu = ({
             setOpen(false);
         }
     };
+
+    // A row's look: disabled, destructive, or plain.
+    const toneOf = (a) =>
+        a.disabled
+            ? `${idleText} cursor-not-allowed`
+            : a.danger
+              ? `${status.error.icon} cursor-pointer`
+              : `${strongText} cursor-pointer`;
 
     const placement = portal
         ? ""
@@ -284,13 +310,9 @@ const ActionMenu = ({
                 if (!item) return null;
                 actionIndex += 1;
                 const index = actionIndex;
-                const tone = item.disabled
-                    ? `${idleText} cursor-not-allowed`
-                    : item.danger
-                      ? `${status.error.icon} cursor-pointer`
-                      : `${strongText} cursor-pointer`;
+                const tone = toneOf(item);
                 const hasSub = Array.isArray(item.items);
-                const subOpen = hasSub && sub && sub.index === index;
+                const subOpen = hasSub && subIndex === index;
                 const itemButton = (
                     <button
                         key={item.key || item.label}
@@ -331,7 +353,7 @@ const ActionMenu = ({
                     </button>
                 );
                 if (!hasSub) return itemButton;
-                let subIndex = -1;
+                let childIndex = -1;
                 return (
                     <div
                         key={item.key || item.label}
@@ -340,10 +362,14 @@ const ActionMenu = ({
                         {itemButton}
                         {subOpen ? (
                             <div
+                                ref={subPanelRef}
                                 role="menu"
                                 aria-label={item.label}
+                                tabIndex={-1}
                                 onKeyDown={(e) => onSubKeyDown(e, item.items)}
-                                className={`dr-action-menu-panel absolute top-0 ${
+                                className={`dr-action-menu-submenu absolute ${
+                                    sub.up ? "bottom-0" : "top-0"
+                                } ${
                                     sub.side === "left"
                                         ? "right-full mr-1"
                                         : "left-full ml-1"
@@ -360,8 +386,8 @@ const ActionMenu = ({
                                         );
                                     }
                                     if (!child) return null;
-                                    subIndex += 1;
-                                    const k = subIndex;
+                                    childIndex += 1;
+                                    const k = childIndex;
                                     return (
                                         <button
                                             key={child.key || child.label}
@@ -383,14 +409,21 @@ const ActionMenu = ({
                                                 if (child.onSelect)
                                                     child.onSelect();
                                             }}
-                                            className={`dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:${hoverBg} ${
-                                                child.disabled
-                                                    ? `${idleText} cursor-not-allowed`
-                                                    : `${strongText} cursor-pointer`
-                                            }`}
+                                            className={`dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:${hoverBg} ${toneOf(
+                                                child
+                                            )}`}
                                         >
-                                            <span className="truncate w-full">
-                                                {child.label}
+                                            <span className="flex w-full items-center gap-2">
+                                                <span className="flex-1 truncate">
+                                                    {child.label}
+                                                </span>
+                                                {child.badge ? (
+                                                    <span
+                                                        className={`text-xs font-bold ${status.warning.icon}`}
+                                                    >
+                                                        {child.badge}
+                                                    </span>
+                                                ) : null}
                                             </span>
                                             {child.description ? (
                                                 <span

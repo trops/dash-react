@@ -238,70 +238,55 @@ describe("a submenu (Move to page ▸)", () => {
     });
 });
 
-describe("a submenu (Move to page ▸)", () => {
-    function setupSub() {
-        const calls = [];
+describe("submenu review fixes", () => {
+    const render2 = (subItems) => {
         render(
             <ActionMenu
                 label="Player options"
                 items={[
-                    {
-                        label: "Edit in panel",
-                        onSelect: () => calls.push("edit"),
-                    },
-                    {
-                        label: "Move to page",
-                        items: [
-                            {
-                                label: "Home",
-                                onSelect: () => calls.push("home"),
-                            },
-                            { label: "Music (here now)", disabled: true },
-                            "separator",
-                            {
-                                label: "+ New page…",
-                                onSelect: () => calls.push("new"),
-                            },
-                        ],
-                    },
+                    { label: "Edit", onSelect: () => {} },
+                    { label: "Move to page", items: subItems },
                 ]}
             />
         );
         fireEvent.click(screen.getByRole("button", { name: "Player options" }));
-        return calls;
-    }
+        return screen.getByRole("menuitem", { name: /Move to page/ });
+    };
 
-    test("opens beside the menu, says it has one, and runs a page", () => {
-        const calls = setupSub();
-        const parent = screen.getByRole("menuitem", { name: /Move to page/ });
-        expect(parent).toHaveAttribute("aria-haspopup", "menu");
-        expect(parent).toHaveAttribute("aria-expanded", "false");
+    test("its row again closes it", () => {
+        const parent = render2([{ label: "Home", onSelect: () => {} }]);
         fireEvent.click(parent);
-        expect(parent).toHaveAttribute("aria-expanded", "true");
-        const sub = screen.getByRole("menu", { name: "Move to page" });
         expect(
-            within(sub).getByRole("menuitem", { name: "Home" })
-        ).toHaveFocus();
-        expect(
-            within(sub).getByRole("menuitem", { name: "Music (here now)" })
-        ).toHaveAttribute("aria-disabled", "true");
-        fireEvent.click(within(sub).getByRole("menuitem", { name: "Home" }));
-        expect(calls).toEqual(["home"]);
-        expect(screen.queryByRole("menu")).toBeNull();
+            screen.getByRole("menu", { name: "Move to page" })
+        ).toBeInTheDocument();
+        fireEvent.click(parent);
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
     });
 
-    test("keys: → opens it, ↓ skips the disabled page, ← goes back", () => {
-        setupSub();
-        const parent = screen.getByRole("menuitem", { name: /Move to page/ });
-        parent.focus();
-        fireEvent.keyDown(parent, { key: "ArrowRight" });
+    test("all its pages disabled: ← still goes back", () => {
+        const parent = render2([{ label: "Music (here now)", disabled: true }]);
+        fireEvent.click(parent);
         const sub = screen.getByRole("menu", { name: "Move to page" });
-        fireEvent.keyDown(sub, { key: "ArrowDown" });
-        expect(
-            within(sub).getByRole("menuitem", { name: "+ New page…" })
-        ).toHaveFocus();
+        expect(sub).toHaveFocus();
         fireEvent.keyDown(sub, { key: "ArrowLeft" });
         expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
-        expect(parent).toHaveFocus();
+        expect(
+            screen.getByRole("menu", { name: "Player options" })
+        ).toBeInTheDocument();
+    });
+
+    test("moving on in the menu closes it; a destructive child reads as one", () => {
+        const parent = render2([
+            { label: "Remove from page", danger: true, badge: "!" },
+        ]);
+        fireEvent.click(parent);
+        expect(screen.getByText("!")).toBeInTheDocument();
+        fireEvent.keyDown(
+            screen.getByRole("menu", { name: "Player options" }),
+            {
+                key: "ArrowDown",
+            }
+        );
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
     });
 });
