@@ -6051,10 +6051,13 @@ var InputText = function InputText(_ref) {
   var _useContext = useContext(ThemeContext),
     currentTheme = _useContext.currentTheme,
     themeVariant = _useContext.themeVariant;
+  // A field that fails its check (aria-invalid, e.g. set by FormField's
+  // error) gets the error border, so the message isn't the only sign.
+  var invalid = htmlProps["aria-invalid"] === true || htmlProps["aria-invalid"] === "true";
   var styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
     backgroundColor: backgroundColor,
     textColor: textColor,
-    borderColor: borderColor,
+    borderColor: borderColor || (invalid ? getStatusColors(themeVariant).error.accentBorder : null),
     placeholderTextColor: placeholderTextColor,
     focusRingColor: focusRingColor,
     focusBorderColor: focusBorderColor,
