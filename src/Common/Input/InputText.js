@@ -35,9 +35,14 @@ const InputText = ({
     const { currentTheme, themeVariant } = useContext(ThemeContext);
     // A field that fails its check (aria-invalid, e.g. set by FormField's
     // error) gets the error border, so the message isn't the only sign.
+    // Any aria-invalid value but false counts (true, "grammar", "spelling").
+    // Aurora draws the same edge in CSS (designSystem.css), focus included.
+    const ariaInvalid = htmlProps["aria-invalid"];
     const invalid =
-        htmlProps["aria-invalid"] === true ||
-        htmlProps["aria-invalid"] === "true";
+        ariaInvalid !== undefined &&
+        ariaInvalid !== null &&
+        ariaInvalid !== false &&
+        ariaInvalid !== "false";
     const styles = getStylesForItem(themeObjects.INPUT_TEXT, currentTheme, {
         backgroundColor,
         textColor,

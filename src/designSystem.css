@@ -379,6 +379,37 @@
     box-shadow: 0 0 0 3px var(--accent-soft) !important;
 }
 
+/* A field that fails its check (aria-invalid, set by FormField's error):
+   the red edge stays while you type in it, so focus never hides the error. */
+[data-design="aurora"] .dr-input[aria-invalid]:not([aria-invalid="false"]),
+[data-design="aurora"]
+    .dr-panel
+    input[aria-invalid]:not([aria-invalid="false"]),
+[data-design="aurora"]
+    .dr-panel
+    textarea[aria-invalid]:not([aria-invalid="false"]),
+[data-design="aurora"]
+    .dr-panel
+    select[aria-invalid]:not([aria-invalid="false"]),
+[data-design="aurora"]
+    textarea.dr-input[aria-invalid]:not([aria-invalid="false"]) {
+    border-color: var(--red) !important;
+}
+[data-design="aurora"]
+    .dr-input[aria-invalid]:not([aria-invalid="false"]):focus,
+[data-design="aurora"]
+    .dr-panel
+    input[aria-invalid]:not([aria-invalid="false"]):focus,
+[data-design="aurora"]
+    .dr-panel
+    textarea[aria-invalid]:not([aria-invalid="false"]):focus,
+[data-design="aurora"]
+    .dr-panel
+    select[aria-invalid]:not([aria-invalid="false"]):focus {
+    border-color: var(--red) !important;
+    box-shadow: 0 0 0 3px var(--red-soft) !important;
+}
+
 /* ---- Segmented control -------------------------------------------------------
    One-of-N picker: a recessed well; the selected segment is a glass chip
    (selection is state, not an action — so no accent fill). */

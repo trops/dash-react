@@ -99,6 +99,17 @@ describe("a field that fails its check", () => {
         expect(input.className).toMatch(/border-red-/);
     });
 
+    test("any invalid value counts, false does not", () => {
+        const one = renderWithTheme(<InputText aria-invalid="spelling" />);
+        expect(one.container.querySelector("input").className).toMatch(
+            /border-red-/
+        );
+        const two = renderWithTheme(<InputText aria-invalid="false" />);
+        expect(two.container.querySelector("input").className).not.toMatch(
+            /border-red-/
+        );
+    });
+
     test("a valid field keeps the theme border", () => {
         const { container } = renderWithTheme(<InputText />);
         expect(container.querySelector("input").className).not.toMatch(
