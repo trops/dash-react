@@ -150,3 +150,143 @@ test("design-system hooks", () => {
         "dr-action-menu-item"
     );
 });
+
+describe("a submenu (Move to page ▸)", () => {
+    function setupSub() {
+        const calls = [];
+        render(
+            <ActionMenu
+                label="Player options"
+                items={[
+                    {
+                        label: "Edit in panel",
+                        onSelect: () => calls.push("edit"),
+                    },
+                    {
+                        label: "Move to page",
+                        items: [
+                            {
+                                label: "Home",
+                                onSelect: () => calls.push("home"),
+                            },
+                            { label: "Music (here now)", disabled: true },
+                            "separator",
+                            {
+                                label: "New page…",
+                                onSelect: () => calls.push("new"),
+                            },
+                        ],
+                    },
+                ]}
+            />
+        );
+        fireEvent.click(screen.getByRole("button", { name: "Player options" }));
+        return calls;
+    }
+
+    test("opens beside the menu; picking one runs it and closes everything", () => {
+        const calls = setupSub();
+        const parent = screen.getByRole("menuitem", { name: /Move to page/ });
+        expect(parent).toHaveAttribute("aria-haspopup", "menu");
+        expect(parent).toHaveAttribute("aria-expanded", "false");
+        fireEvent.click(parent);
+        expect(parent).toHaveAttribute("aria-expanded", "true");
+        const sub = screen.getByRole("menu", { name: "Move to page" });
+        expect(
+            within(sub).getByRole("menuitem", { name: "Home" })
+        ).toHaveFocus();
+        fireEvent.click(
+            within(sub).getByRole("menuitem", { name: "Music (here now)" })
+        );
+        expect(calls).toEqual([]);
+        fireEvent.click(
+            within(sub).getByRole("menuitem", { name: "New page…" })
+        );
+        expect(calls).toEqual(["new"]);
+        expect(screen.queryByRole("menu")).toBeNull();
+    });
+
+    test("→ opens it, arrows skip what can't run, ← goes back", () => {
+        setupSub();
+        const parent = screen.getByRole("menuitem", { name: /Move to page/ });
+        parent.focus();
+        fireEvent.keyDown(parent, { key: "ArrowRight" });
+        const sub = screen.getByRole("menu", { name: "Move to page" });
+        const home = within(sub).getByRole("menuitem", { name: "Home" });
+        expect(home).toHaveFocus();
+        fireEvent.keyDown(home, { key: "ArrowDown" });
+        expect(
+            within(sub).getByRole("menuitem", { name: "New page…" })
+        ).toHaveFocus();
+        fireEvent.keyDown(document.activeElement, { key: "ArrowLeft" });
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
+        expect(parent).toHaveFocus();
+        // The main menu is still open.
+        expect(
+            screen.getByRole("menu", { name: "Player options" })
+        ).toBeInTheDocument();
+    });
+
+    test("Escape in the submenu closes only the submenu", () => {
+        setupSub();
+        fireEvent.click(screen.getByRole("menuitem", { name: /Move to page/ }));
+        fireEvent.keyDown(document.activeElement, { key: "Escape" });
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
+        expect(
+            screen.getByRole("menu", { name: "Player options" })
+        ).toBeInTheDocument();
+    });
+});
+
+describe("submenu review fixes", () => {
+    const render2 = (subItems) => {
+        render(
+            <ActionMenu
+                label="Player options"
+                items={[
+                    { label: "Edit", onSelect: () => {} },
+                    { label: "Move to page", items: subItems },
+                ]}
+            />
+        );
+        fireEvent.click(screen.getByRole("button", { name: "Player options" }));
+        return screen.getByRole("menuitem", { name: /Move to page/ });
+    };
+
+    test("its row again closes it", () => {
+        const parent = render2([{ label: "Home", onSelect: () => {} }]);
+        fireEvent.click(parent);
+        expect(
+            screen.getByRole("menu", { name: "Move to page" })
+        ).toBeInTheDocument();
+        fireEvent.click(parent);
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
+    });
+
+    test("all its pages disabled: ← still goes back", () => {
+        const parent = render2([{ label: "Music (here now)", disabled: true }]);
+        fireEvent.click(parent);
+        const sub = screen.getByRole("menu", { name: "Move to page" });
+        expect(sub).toHaveFocus();
+        fireEvent.keyDown(sub, { key: "ArrowLeft" });
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
+        expect(
+            screen.getByRole("menu", { name: "Player options" })
+        ).toBeInTheDocument();
+    });
+
+    test("moving on in the menu closes it; a destructive child reads as one", () => {
+        const parent = render2([
+            { label: "Remove from page", danger: true, badge: "!" },
+        ]);
+        fireEvent.click(parent);
+        expect(screen.getByText("!")).toBeInTheDocument();
+        fireEvent.keyDown(
+            screen.getByRole("menu", { name: "Player options" }),
+            {
+                key: "ArrowDown",
+            }
+        );
+        expect(screen.queryByRole("menu", { name: "Move to page" })).toBeNull();
+    });
+});

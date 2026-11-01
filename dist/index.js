@@ -3430,6 +3430,14 @@ var ActionMenu = function ActionMenu(_ref) {
   var panelRef = useRef(null);
   var buttonRef = useRef(null);
   var itemRefs = useRef([]);
+  // An open submenu: { key, side: "right" | "left", up: boolean } — by
+  // its item's key or label, so a list that changes can't move it.
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray$i(_useState5, 2),
+    sub = _useState6[0],
+    setSub = _useState6[1];
+  var subRefs = useRef([]);
+  var subPanelRef = useRef(null);
   var actions = items.filter(function (i) {
     return i && i !== "separator";
   });
@@ -3438,6 +3446,18 @@ var ActionMenu = function ActionMenu(_ref) {
   }).filter(function (i) {
     return i >= 0;
   });
+  var keyOf = function keyOf(a) {
+    return a && (a.key || a.label) || "";
+  };
+  var subIndex = sub ? actions.findIndex(function (a) {
+    return keyOf(a) === sub.key;
+  }) : -1;
+  var subItems = subIndex >= 0 && Array.isArray(actions[subIndex].items) ? actions[subIndex].items : null;
+
+  // Closed by any path (Tab, a click outside): no submenu left behind.
+  useEffect(function () {
+    if (!open) setSub(null);
+  }, [open]);
 
   // Close on a click outside (the button's container or the menu).
   useEffect(function () {
@@ -3484,20 +3504,90 @@ var ActionMenu = function ActionMenu(_ref) {
   };
   var close = function close() {
     setOpen(false);
+    setSub(null);
     if (buttonRef.current) buttonRef.current.focus();
   };
-  var run = function run(action) {
+
+  // The submenu (w-56 + its 4px gap) goes right unless it would leave the
+  // window there and fits on the left; it grows up from the row's bottom
+  // when it would run off the bottom.
+  var SUB_WIDTH = 228;
+  var openSub = function openSub(index) {
+    var el = itemRefs.current[index];
+    var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    var w = typeof window !== "undefined" ? window.innerWidth : 0;
+    var h = typeof window !== "undefined" ? window.innerHeight : 0;
+    var list = actions[index].items || [];
+    var tall = 12 + list.length * 38;
+    var side = r && r.right + SUB_WIDTH > w && r.left - SUB_WIDTH >= 0 ? "left" : "right";
+    var up = !!(r && r.top + tall > h && r.bottom - tall >= 0);
+    setSub({
+      key: keyOf(actions[index]),
+      side: side,
+      up: up
+    });
+  };
+  var run = function run(action, index) {
     if (action.disabled) return;
+    if (Array.isArray(action.items)) {
+      // Its row again closes it.
+      if (sub && sub.key === keyOf(action)) setSub(null);else openSub(index);
+      return;
+    }
     close();
     if (action.onSelect) action.onSelect();
   };
-  var moveFocus = function moveFocus(step) {
-    if (!enabledIndexes.length) return;
-    var current = itemRefs.current.indexOf(document.activeElement);
-    var pos = enabledIndexes.indexOf(current);
-    var next = pos < 0 ? enabledIndexes[0] : enabledIndexes[(pos + step + enabledIndexes.length) % enabledIndexes.length];
-    var el = itemRefs.current[next];
+
+  // An opened submenu focuses its first action that can run — or itself,
+  // when none can, so ← and Escape still go back.
+  useEffect(function () {
+    if (!sub || !subItems) return;
+    var first = subItems.filter(function (i) {
+      return i && i !== "separator";
+    }).findIndex(function (i) {
+      return !i.disabled;
+    });
+    var el = first >= 0 ? subRefs.current[first] : subPanelRef.current;
+    if (el && typeof el.focus === "function") el.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sub && sub.key]);
+  var backToParent = function backToParent() {
+    var at = subIndex >= 0 ? itemRefs.current[subIndex] : null;
+    setSub(null);
+    if (at && typeof at.focus === "function") at.focus();
+  };
+
+  // Roving focus over the enabled rows of a list (the menu or a submenu).
+  var rove = function rove(refs, enabled, step) {
+    if (!enabled.length) return;
+    var cur = refs.indexOf(document.activeElement);
+    var pos = enabled.indexOf(cur);
+    var next = pos < 0 ? enabled[0] : enabled[(pos + step + enabled.length) % enabled.length];
+    var el = refs[next];
     if (el) el.focus();
+  };
+  var onSubKeyDown = function onSubKeyDown(e, list) {
+    var enabled = list.filter(function (i) {
+      return i && i !== "separator";
+    }).map(function (a, i) {
+      return a.disabled ? -1 : i;
+    }).filter(function (i) {
+      return i >= 0;
+    });
+    if (e.key === "Escape" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      e.stopPropagation();
+      backToParent();
+    } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      e.stopPropagation();
+      rove(subRefs.current, enabled, e.key === "ArrowDown" ? 1 : -1);
+    }
+  };
+  var moveFocus = function moveFocus(step) {
+    // Moving on in the menu leaves a submenu behind.
+    setSub(null);
+    rove(itemRefs.current, enabledIndexes, step);
   };
   var onMenuKeyDown = function onMenuKeyDown(e) {
     if (e.key === "Escape") {
@@ -3509,9 +3599,20 @@ var ActionMenu = function ActionMenu(_ref) {
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       moveFocus(-1);
+    } else if (e.key === "ArrowRight") {
+      var i = itemRefs.current.indexOf(document.activeElement);
+      if (i >= 0 && actions[i] && Array.isArray(actions[i].items)) {
+        e.preventDefault();
+        if (!actions[i].disabled) openSub(i);
+      }
     } else if (e.key === "Tab") {
       setOpen(false);
     }
+  };
+
+  // A row's look: disabled, destructive, or plain.
+  var toneOf = function toneOf(a) {
+    return a.disabled ? "".concat(idleText, " cursor-not-allowed") : a.danger ? "".concat(status.error.icon, " cursor-pointer") : "".concat(strongText, " cursor-pointer");
   };
   var placement = portal ? "" : "absolute ".concat(align === "right" ? "right-0" : "left-0", " ").concat(direction === "up" ? "bottom-full mb-1" : "top-full mt-1");
   var portalStyle = portal && rect ? {
@@ -3545,17 +3646,21 @@ var ActionMenu = function ActionMenu(_ref) {
       if (!item) return null;
       actionIndex += 1;
       var index = actionIndex;
-      var tone = item.disabled ? "".concat(idleText, " cursor-not-allowed") : item.danger ? "".concat(status.error.icon, " cursor-pointer") : "".concat(strongText, " cursor-pointer");
-      return /*#__PURE__*/jsxs("button", {
+      var tone = toneOf(item);
+      var hasSub = Array.isArray(item.items);
+      var subOpen = hasSub && subIndex === index;
+      var itemButton = /*#__PURE__*/jsxs("button", {
         ref: function ref(el) {
           itemRefs.current[index] = el;
         },
         type: "button",
         role: "menuitem",
         "aria-disabled": item.disabled ? true : undefined,
+        "aria-haspopup": hasSub ? "menu" : undefined,
+        "aria-expanded": hasSub ? !!subOpen : undefined,
         tabIndex: -1,
         onClick: function onClick() {
-          return run(item);
+          return run(item, index);
         },
         className: "dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:".concat(hoverBg, " ").concat(tone),
         children: [/*#__PURE__*/jsxs("span", {
@@ -3566,10 +3671,69 @@ var ActionMenu = function ActionMenu(_ref) {
           }), item.badge ? /*#__PURE__*/jsx("span", {
             className: "text-xs font-bold ".concat(status.warning.icon),
             children: item.badge
+          }) : null, hasSub ? /*#__PURE__*/jsx("span", {
+            "aria-hidden": "true",
+            className: idleText,
+            children: "\u25B8"
           }) : null]
         }), item.description ? /*#__PURE__*/jsx("span", {
           className: "text-xs ".concat(idleText),
           children: item.description
+        }) : null]
+      }, item.key || item.label);
+      if (!hasSub) return itemButton;
+      var childIndex = -1;
+      return /*#__PURE__*/jsxs("div", {
+        className: "relative flex flex-col",
+        children: [itemButton, subOpen ? /*#__PURE__*/jsx("div", {
+          ref: subPanelRef,
+          role: "menu",
+          "aria-label": item.label,
+          tabIndex: -1,
+          onKeyDown: function onKeyDown(e) {
+            return onSubKeyDown(e, item.items);
+          },
+          className: "dr-action-menu-submenu absolute ".concat(sub.up ? "bottom-0" : "top-0", " ").concat(sub.side === "left" ? "right-full mr-1" : "left-full ml-1", " z-50 w-56 flex flex-col gap-0.5 p-1.5 rounded-lg border shadow-lg ").concat(panelBg, " ").concat(border),
+          children: item.items.map(function (child, j) {
+            if (child === "separator") {
+              return /*#__PURE__*/jsx("div", {
+                role: "separator",
+                className: "my-1 border-t ".concat(border)
+              }, "sub-sep-".concat(j));
+            }
+            if (!child) return null;
+            childIndex += 1;
+            var k = childIndex;
+            return /*#__PURE__*/jsxs("button", {
+              ref: function ref(el) {
+                subRefs.current[k] = el;
+              },
+              type: "button",
+              role: "menuitem",
+              "aria-disabled": child.disabled ? true : undefined,
+              tabIndex: -1,
+              onClick: function onClick(e) {
+                e.stopPropagation();
+                if (child.disabled) return;
+                close();
+                if (child.onSelect) child.onSelect();
+              },
+              className: "dr-action-menu-item flex flex-col items-start text-left px-2.5 py-2 rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 hover:".concat(hoverBg, " ").concat(toneOf(child)),
+              children: [/*#__PURE__*/jsxs("span", {
+                className: "flex w-full items-center gap-2",
+                children: [/*#__PURE__*/jsx("span", {
+                  className: "flex-1 truncate",
+                  children: child.label
+                }), child.badge ? /*#__PURE__*/jsx("span", {
+                  className: "text-xs font-bold ".concat(status.warning.icon),
+                  children: child.badge
+                }) : null]
+              }), child.description ? /*#__PURE__*/jsx("span", {
+                className: "text-xs ".concat(idleText),
+                children: child.description
+              }) : null]
+            }, child.key || child.label);
+          })
         }) : null]
       }, item.key || item.label);
     })
