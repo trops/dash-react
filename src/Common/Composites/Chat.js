@@ -39,6 +39,9 @@ function useChatTokens() {
  * `children` is the content; callers render markdown themselves.
  * `streaming` marks a reply that's still arriving: a spinner beside the
  * label (role=status, "Working") shows it's being worked on.
+ * A reply has an avatar beside it — the label's first letter, or `avatar`
+ * (a letter or a node; `false` for none) — and its `footer` takes the
+ * column's full width, so a card can sit under the question it answers.
  */
 export const ChatMessage = ({
     role = "reply",
@@ -46,6 +49,7 @@ export const ChatMessage = ({
     meta = null,
     footer = null,
     streaming = false,
+    avatar = null,
     testId,
     className = "",
     children,
@@ -78,55 +82,79 @@ export const ChatMessage = ({
             >
                 <div
                     className={`dr-chat-you px-3 py-2 rounded-lg text-sm whitespace-pre-wrap break-words leading-relaxed ${t.you} ${t.text}`}
-                    style={{ maxWidth: "80%" }}
+                    // Readable however wide the column is.
+                    style={{ maxWidth: "min(80%, 40rem)" }}
                 >
                     {children}
                 </div>
             </div>
         );
     }
+    const face =
+        avatar === false
+            ? null
+            : avatar !== null
+              ? avatar
+              : label && typeof label === "string"
+                ? label.trim().charAt(0).toUpperCase()
+                : null;
     return (
         <div
-            className={`dr-chat-row-reply flex flex-col gap-1 ${className}`}
+            className={`dr-chat-row-reply flex flex-row items-start gap-3 ${className}`}
             data-testid={testId}
             aria-busy={streaming || undefined}
         >
-            {label || meta || streaming ? (
-                <div className="flex flex-row items-baseline gap-2">
-                    {label ? (
-                        <span
-                            className={`dr-chat-label text-xs font-semibold uppercase tracking-wider ${t.muted}`}
-                        >
-                            {label}
-                        </span>
-                    ) : null}
-                    {meta ? (
-                        <span className={`dr-chat-meta text-xs ${t.muted}`}>
-                            {meta}
-                        </span>
-                    ) : null}
-                    {streaming ? (
-                        <span
-                            className={`dr-chat-working self-center text-xs ${t.muted}`}
-                            role="status"
-                            aria-label="Working"
-                        >
-                            <FontAwesomeIcon
-                                icon="spinner"
-                                className="h-3 w-3 animate-spin"
-                            />
-                        </span>
-                    ) : null}
-                </div>
+            {face !== null ? (
+                <span
+                    className={`dr-chat-avatar flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full text-sm font-bold ${t.you} ${t.text}`}
+                    aria-hidden="true"
+                >
+                    {face}
+                </span>
             ) : null}
-            <div
-                className={`dr-chat-reply px-3 py-2 rounded-lg border text-sm break-words leading-relaxed ${t.reply} ${t.text} ${t.hairline} ${
-                    streaming ? "dr-chat-streaming" : ""
-                }`}
-            >
-                {children}
+            <div className="flex-1 min-w-0 flex flex-col items-start gap-1">
+                {label || meta || streaming ? (
+                    <div className="flex flex-row items-baseline gap-2">
+                        {label ? (
+                            <span
+                                className={`dr-chat-label text-xs font-semibold ${t.text}`}
+                            >
+                                {label}
+                            </span>
+                        ) : null}
+                        {meta ? (
+                            <span className={`dr-chat-meta text-xs ${t.muted}`}>
+                                {meta}
+                            </span>
+                        ) : null}
+                        {streaming ? (
+                            <span
+                                className={`dr-chat-working self-center text-xs ${t.muted}`}
+                                role="status"
+                                aria-label="Working"
+                            >
+                                <FontAwesomeIcon
+                                    icon="spinner"
+                                    className="h-3 w-3 animate-spin"
+                                />
+                            </span>
+                        ) : null}
+                    </div>
+                ) : null}
+                <div
+                    className={`dr-chat-reply px-3 py-2 rounded-lg border text-sm break-words leading-relaxed ${t.reply} ${t.text} ${t.hairline} ${
+                        streaming ? "dr-chat-streaming" : ""
+                    }`}
+                    // A bubble on the left, with room on the right — a chat,
+                    // not a log.
+                    style={{ maxWidth: "min(85%, 46rem)" }}
+                >
+                    {children}
+                </div>
+                {footer ? (
+                    <div className="dr-chat-footer w-full">{footer}</div>
+                ) : null}
             </div>
-            {footer ? <div className="dr-chat-footer">{footer}</div> : null}
         </div>
     );
 };
