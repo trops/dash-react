@@ -12446,6 +12446,9 @@ function useChatTokens() {
  * `children` is the content; callers render markdown themselves.
  * `streaming` marks a reply that's still arriving: a spinner beside the
  * label (role=status, "Working") shows it's being worked on.
+ * A reply has an avatar beside it — the label's first letter, or `avatar`
+ * (a letter or a node; `false` for none) — and its `footer` takes the
+ * column's full width, so a card can sit under the question it answers.
  */
 var ChatMessage = function ChatMessage(_ref) {
   var _ref$role = _ref.role,
@@ -12458,6 +12461,8 @@ var ChatMessage = function ChatMessage(_ref) {
     footer = _ref$footer === void 0 ? null : _ref$footer,
     _ref$streaming = _ref.streaming,
     streaming = _ref$streaming === void 0 ? false : _ref$streaming,
+    _ref$avatar = _ref.avatar,
+    avatar = _ref$avatar === void 0 ? null : _ref$avatar,
     testId = _ref.testId,
     _ref$className = _ref.className,
     className = _ref$className === void 0 ? "" : _ref$className,
@@ -12484,42 +12489,58 @@ var ChatMessage = function ChatMessage(_ref) {
       className: "dr-chat-row-you flex flex-row justify-end ".concat(className),
       "data-testid": testId,
       children: /*#__PURE__*/jsx("div", {
-        className: "dr-chat-you px-3 py-2 rounded-lg text-sm whitespace-pre-wrap break-words leading-relaxed ".concat(t.you, " ").concat(t.text),
+        className: "dr-chat-you px-3 py-2 rounded-lg text-sm whitespace-pre-wrap break-words leading-relaxed ".concat(t.you, " ").concat(t.text)
+        // Readable however wide the column is.
+        ,
         style: {
-          maxWidth: "80%"
+          maxWidth: "min(80%, 40rem)"
         },
         children: children
       })
     });
   }
+  var face = avatar === false ? null : avatar !== null ? avatar : label && typeof label === "string" ? label.trim().charAt(0).toUpperCase() : null;
   return /*#__PURE__*/jsxs("div", {
-    className: "dr-chat-row-reply flex flex-col gap-1 ".concat(className),
+    className: "dr-chat-row-reply flex flex-row items-start gap-3 ".concat(className),
     "data-testid": testId,
     "aria-busy": streaming || undefined,
-    children: [label || meta || streaming ? /*#__PURE__*/jsxs("div", {
-      className: "flex flex-row items-baseline gap-2",
-      children: [label ? /*#__PURE__*/jsx("span", {
-        className: "dr-chat-label text-xs font-semibold uppercase tracking-wider ".concat(t.muted),
-        children: label
-      }) : null, meta ? /*#__PURE__*/jsx("span", {
-        className: "dr-chat-meta text-xs ".concat(t.muted),
-        children: meta
-      }) : null, streaming ? /*#__PURE__*/jsx("span", {
-        className: "dr-chat-working self-center text-xs ".concat(t.muted),
-        role: "status",
-        "aria-label": "Working",
-        children: /*#__PURE__*/jsx(FontAwesomeIcon, {
-          icon: "spinner",
-          className: "h-3 w-3 animate-spin"
-        })
+    children: [face !== null ? /*#__PURE__*/jsx("span", {
+      className: "dr-chat-avatar flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full text-sm font-bold ".concat(t.you, " ").concat(t.text),
+      "aria-hidden": "true",
+      children: face
+    }) : null, /*#__PURE__*/jsxs("div", {
+      className: "flex-1 min-w-0 flex flex-col items-start gap-1",
+      children: [label || meta || streaming ? /*#__PURE__*/jsxs("div", {
+        className: "flex flex-row items-baseline gap-2",
+        children: [label ? /*#__PURE__*/jsx("span", {
+          className: "dr-chat-label text-xs font-semibold ".concat(t.text),
+          children: label
+        }) : null, meta ? /*#__PURE__*/jsx("span", {
+          className: "dr-chat-meta text-xs ".concat(t.muted),
+          children: meta
+        }) : null, streaming ? /*#__PURE__*/jsx("span", {
+          className: "dr-chat-working self-center text-xs ".concat(t.muted),
+          role: "status",
+          "aria-label": "Working",
+          children: /*#__PURE__*/jsx(FontAwesomeIcon, {
+            icon: "spinner",
+            className: "h-3 w-3 animate-spin"
+          })
+        }) : null]
+      }) : null, /*#__PURE__*/jsx("div", {
+        className: "dr-chat-reply px-3 py-2 rounded-lg border text-sm break-words leading-relaxed ".concat(t.reply, " ").concat(t.text, " ").concat(t.hairline, " ").concat(streaming ? "dr-chat-streaming" : "")
+        // A bubble on the left, with room on the right — a chat,
+        // not a log.
+        ,
+        style: {
+          maxWidth: "min(85%, 46rem)"
+        },
+        children: children
+      }), footer ? /*#__PURE__*/jsx("div", {
+        className: "dr-chat-footer w-full",
+        children: footer
       }) : null]
-    }) : null, /*#__PURE__*/jsx("div", {
-      className: "dr-chat-reply px-3 py-2 rounded-lg border text-sm break-words leading-relaxed ".concat(t.reply, " ").concat(t.text, " ").concat(t.hairline, " ").concat(streaming ? "dr-chat-streaming" : ""),
-      children: children
-    }), footer ? /*#__PURE__*/jsx("div", {
-      className: "dr-chat-footer",
-      children: footer
-    }) : null]
+    })]
   });
 };
 

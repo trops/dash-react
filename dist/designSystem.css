@@ -30,6 +30,9 @@
 :root {
     /* Surfaces */
     --bg: #0a0b10;
+    /* A chat window: quiet sides (shell), the conversation lifted (stage). */
+    --chat-shell: #0d0e13;
+    --chat-stage: #1a1b22;
     --raised: rgba(23, 25, 34, 0.55); /* glass cards / panels */
     --raised-2: rgba(0, 0, 0, 0.25); /* inputs / wells */
     --solid: #16181d; /* opaque fallback where blur can't be used */
@@ -105,6 +108,8 @@
 /* ---- 2. LIGHT MODE — inverted surfaces/text (dash-core sets data-mode) ----- */
 [data-mode="light"] {
     --bg: #f6f7fb;
+    --chat-shell: #ececf1;
+    --chat-stage: #ffffff;
     --raised: rgba(255, 255, 255, 0.7);
     --raised-2: rgba(16, 18, 24, 0.04);
     --solid: #ffffff;
@@ -545,28 +550,56 @@
 
 /* ---- Chat, list rows, panel headers (design guide) -------------------------
    ChatMessage / ChatToolCall / ChatComposer / ListRow / PanelHeader. Yours:
-   accent-soft, right, no label. Replies: a raised surface with an edge so
-   they always stand off the panel. */
+   solid accent, right, no label. Replies: an avatar and a name, then a
+   filled bubble on the left (a tint of the text colour, so it shows on any
+   panel in dark and light), so who said what is clear at a glance. */
 [data-design="aurora"] .dr-chat-you {
-    background: var(--accent-soft) !important;
-    color: var(--text) !important;
-    border-radius: var(--r-md) var(--r-md) 4px var(--r-md) !important;
+    background: var(--accent-grad) !important;
+    color: #ffffff !important;
+    border-radius: 16px 4px 16px 16px !important;
 }
 [data-design="aurora"] .dr-chat-reply {
-    background: var(--raised) !important;
-    border-color: var(--hairline) !important;
+    background: color-mix(in srgb, var(--text) 8%, transparent) !important;
+    border-color: transparent !important;
     color: var(--text) !important;
-    border-radius: 4px var(--r-md) var(--r-md) var(--r-md) !important;
+    border-radius: 4px 16px 16px 16px !important;
+}
+[data-design="aurora"] .dr-chat-avatar {
+    background: var(--accent-grad) !important;
+    color: #ffffff !important;
 }
 [data-design="aurora"] .dr-chat-streaming {
     color: var(--text-2) !important;
 }
 [data-design="aurora"] .dr-chat-label {
-    font-family: var(--mono) !important;
-    font-size: 11px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.16em !important;
-    color: var(--text-3) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    color: var(--text) !important;
+}
+/* A chat window (ChatShell / ChatStage): the sides recessed and quiet, the
+   conversation lifted, its messages in a readable column. */
+[data-design="aurora"] .dr-chat-shell {
+    background: var(--chat-shell) !important;
+    border-color: var(--hairline) !important;
+}
+[data-design="aurora"] .dr-chat-shell-side {
+    border-color: transparent !important;
+}
+[data-design="aurora"] .dr-chat-stage {
+    background: var(--chat-stage) !important;
+    border-color: var(--hairline) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+[data-design="aurora"] .dr-chat-stage .dr-chat-composer {
+    border-color: transparent !important;
+}
+/* The one thing to answer now, under the question that asks it. */
+[data-design="aurora"] .dr-chat-answer {
+    background: var(--chat-stage) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent) !important;
 }
 [data-design="aurora"] .dr-chat-meta,
 [data-design="aurora"] .dr-chat-hint,
@@ -823,6 +856,27 @@
 }
 [data-design="aurora"] .dr-role-hairline {
     border-color: var(--hairline) !important;
+}
+/* A card the team puts in the chat (a plan, a step, a build log): the same
+   fill as its reply bubbles, so it reads as theirs. */
+[data-design="aurora"] .dr-chat-card {
+    background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+/* Something you click as a whole (a card, a tile): it lights up under the
+   pointer, so it reads as clickable. */
+[data-design="aurora"] .dr-clickable {
+    cursor: pointer;
+    transition:
+        background-color 0.12s ease,
+        border-color 0.12s ease;
+}
+[data-design="aurora"] .dr-clickable:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent) !important;
+}
+[data-design="aurora"] .dr-clickable:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 /* Accent as text has its own shade: the bright accent is ~3:1 on light
    surfaces. */
