@@ -6452,22 +6452,64 @@ var SelectInput = function SelectInput(_ref) {
   var hasIcons = options.some(function (opt) {
     return opt.icon;
   });
+  // A second line under an option ("now Haiku 5.5") needs the custom
+  // dropdown too; so does dimming one (`muted`).
+  var custom = hasIcons || options.some(function (opt) {
+    return opt.description;
+  });
   var hasEmptyOption = options.some(function (opt) {
     return String(opt.value) === "";
   });
 
-  // Custom dropdown state (only used when options have icons)
+  // Custom dropdown state (only used when options have icons or descriptions)
   var _useState = useState(false),
     _useState2 = _slicedToArray$f(_useState, 2),
     isOpen = _useState2[0],
     setIsOpen = _useState2[1];
   var dropdownRef = useRef(null);
+  var triggerRef = useRef(null);
+  var listRef = useRef(null);
+  // Where the open list sits on screen (it floats above everything).
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray$f(_useState3, 2),
+    place = _useState4[0],
+    setPlace = _useState4[1];
+  useEffect(function () {
+    if (!isOpen) return;
+    // Below the field, or above it when there's more room there; never
+    // taller than the room it has.
+    function measure() {
+      var el = triggerRef.current;
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      var gap = 4;
+      var margin = 8;
+      var below = window.innerHeight - r.bottom - gap - margin;
+      var above = r.top - gap - margin;
+      var up = below < 240 && above > below;
+      setPlace(_objectSpread$q({
+        left: r.left,
+        minWidth: r.width,
+        maxHeight: Math.max(120, Math.min(320, up ? above : below))
+      }, up ? {
+        bottom: window.innerHeight - r.top + gap
+      } : {
+        top: r.bottom + gap
+      }));
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, true);
+    return function () {
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure, true);
+    };
+  }, [isOpen]);
   useEffect(function () {
     if (!isOpen) return;
     function handleClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
+      var inside = dropdownRef.current && dropdownRef.current.contains(e.target) || listRef.current && listRef.current.contains(e.target);
+      if (!inside) setIsOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return function () {
@@ -6476,20 +6518,27 @@ var SelectInput = function SelectInput(_ref) {
   }, [isOpen]);
   useEffect(function () {
     if (!isOpen) return;
+    // Escape closes the open list, and only the list: caught first (on
+    // the window, while capturing) so a Modal or panel around the select
+    // doesn't close too.
     function handleKeyDown(e) {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key !== "Escape") return;
+      // Not even other listeners on the window (a Modal may listen there).
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+      setIsOpen(false);
     }
-    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, true);
     return function () {
-      return document.removeEventListener("keydown", handleKeyDown);
+      return window.removeEventListener("keydown", handleKeyDown, true);
     };
   }, [isOpen]);
   var selectedOption = options.find(function (opt) {
     return String(opt.value) === String(value);
   });
 
-  // Custom dropdown for options with icons
-  if (hasIcons) {
+  // Custom dropdown for options with icons or descriptions
+  if (custom) {
     return /*#__PURE__*/jsxs("div", {
       className: "flex flex-col space-y-1 ".concat(className),
       ref: dropdownRef,
@@ -6500,6 +6549,7 @@ var SelectInput = function SelectInput(_ref) {
       }), /*#__PURE__*/jsxs("div", {
         className: "relative",
         children: [/*#__PURE__*/jsxs("button", {
+          ref: triggerRef,
           type: "button",
           id: inputId,
           "aria-haspopup": "listbox",
@@ -6516,9 +6566,15 @@ var SelectInput = function SelectInput(_ref) {
             children: [(selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.icon) && /*#__PURE__*/jsx(FontAwesomeIcon, {
               icon: selectedOption.icon,
               className: "h-3.5 w-3.5 shrink-0 opacity-70"
-            }), /*#__PURE__*/jsx("span", {
-              className: "truncate",
-              children: selectedOption ? selectedOption.label : placeholder
+            }), /*#__PURE__*/jsxs("span", {
+              className: "flex flex-col min-w-0",
+              children: [/*#__PURE__*/jsx("span", {
+                className: "truncate",
+                children: selectedOption ? selectedOption.label : placeholder
+              }), (selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.description) && /*#__PURE__*/jsx("span", {
+                className: "truncate text-xs opacity-70",
+                children: selectedOption.description
+              })]
             })]
           }), (selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.badge) && /*#__PURE__*/jsx("span", {
             className: "flex-shrink-0",
@@ -6527,33 +6583,75 @@ var SelectInput = function SelectInput(_ref) {
             icon: "chevron-down",
             className: "h-3 w-3 shrink-0 opacity-50 transition-transform duration-150 ".concat(isOpen ? "rotate-180" : "")
           })]
-        }), isOpen && /*#__PURE__*/jsx("div", {
-          className: "absolute z-50 mt-1 min-w-full w-max rounded-md border shadow-lg ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " overflow-hidden"),
+        }), isOpen && /*#__PURE__*/createPortal(/*#__PURE__*/jsx("div", {
+          ref: listRef,
+          className: "fixed z-50 w-max rounded-md border shadow-lg ".concat(styles.backgroundColor, " ").concat(styles.borderColor, " overflow-hidden"),
+          style: place ? {
+            left: place.left,
+            top: place.top,
+            bottom: place.bottom,
+            minWidth: place.minWidth
+          } : {
+            visibility: "hidden"
+          },
           children: /*#__PURE__*/jsx("div", {
-            className: "max-h-60 overflow-y-auto py-1",
-            children: options.map(function (option) {
-              var isSelected = String(option.value) === String(value);
-              return /*#__PURE__*/jsxs("button", {
-                type: "button",
-                onClick: function onClick() {
-                  _onChange(option.value);
-                  setIsOpen(false);
-                },
-                className: "w-full text-left px-3 py-1.5 flex items-center gap-2 text-sm transition-colors duration-150 ".concat(isSelected ? "".concat(itemStyles.selectedBackgroundColor || itemStyles.hoverBackgroundColor, " ").concat(itemStyles.selectedTextColor || styles.textColor) : "".concat(styles.textColor, " ").concat(itemStyles.hoverBackgroundColor, " ").concat(itemStyles.hoverTextColor)),
-                children: [option.icon && /*#__PURE__*/jsx(FontAwesomeIcon, {
-                  icon: isSelected ? "check" : option.icon,
-                  className: "h-3.5 w-3.5 shrink-0 opacity-70"
-                }), /*#__PURE__*/jsx("span", {
-                  className: "truncate",
-                  children: option.label
-                }), option.badge && /*#__PURE__*/jsx("span", {
-                  className: "flex-shrink-0 ml-auto",
-                  children: option.badge
+            role: "listbox",
+            "aria-label": label || unlabeledName,
+            className: "overflow-y-auto py-1",
+            style: {
+              maxHeight: place ? place.maxHeight : 320
+            },
+            children: groupOptions(options).map(function (entry) {
+              return /*#__PURE__*/jsxs("div", {
+                role: entry.group ? "group" : undefined,
+                "aria-label": entry.group || undefined,
+                children: [entry.group && /*#__PURE__*/jsx("div", {
+                  "aria-hidden": "true",
+                  className: "px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide opacity-60 ".concat(styles.textColor),
+                  children: entry.group
+                }), entry.options.map(function (option) {
+                  var isSelected = String(option.value) === String(value);
+                  return /*#__PURE__*/jsxs("button", {
+                    type: "button",
+                    role: "option",
+                    "aria-selected": isSelected,
+                    onClick: function onClick() {
+                      _onChange(option.value);
+                      setIsOpen(false);
+                    },
+                    className: "w-full text-left px-3 py-1.5 flex items-center gap-2 text-sm transition-colors duration-150 ".concat(isSelected ? "".concat(itemStyles.selectedBackgroundColor || itemStyles.hoverBackgroundColor, " ").concat(itemStyles.selectedTextColor || styles.textColor) : "".concat(styles.textColor, " ").concat(itemStyles.hoverBackgroundColor, " ").concat(itemStyles.hoverTextColor)),
+                    children: [option.icon ? /*#__PURE__*/jsx(FontAwesomeIcon, {
+                      icon: isSelected ? "check" : option.icon,
+                      className: "h-3.5 w-3.5 shrink-0 opacity-70"
+                    }) : hasIcons ? null :
+                    /*#__PURE__*/
+                    // Without icons: a check
+                    // marks the chosen one.
+                    jsx("span", {
+                      className: "h-3.5 w-3.5 shrink-0 flex items-center justify-center",
+                      children: isSelected && /*#__PURE__*/jsx(FontAwesomeIcon, {
+                        icon: "check",
+                        className: "h-3 w-3 opacity-80"
+                      })
+                    }), /*#__PURE__*/jsxs("span", {
+                      className: "flex flex-col min-w-0 ".concat(option.muted ? "opacity-60" : ""),
+                      children: [/*#__PURE__*/jsx("span", {
+                        className: "truncate",
+                        children: option.label
+                      }), option.description && /*#__PURE__*/jsx("span", {
+                        className: "truncate text-xs opacity-70",
+                        children: option.description
+                      })]
+                    }), option.badge && /*#__PURE__*/jsx("span", {
+                      className: "flex-shrink-0 ml-auto pl-2",
+                      children: option.badge
+                    })]
+                  }, option.value);
                 })]
-              }, option.value);
+              }, "group-".concat(entry.key));
             })
           })
-        })]
+        }), document.body)]
       })]
     });
   }
