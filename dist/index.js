@@ -6522,17 +6522,45 @@ var SelectInput = function SelectInput(_ref) {
     // the window, while capturing) so a Modal or panel around the select
     // doesn't close too.
     function handleKeyDown(e) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        // Up and down move between the options.
+        var items = listRef.current ? Array.from(listRef.current.querySelectorAll('[role="option"]')) : [];
+        if (!items.length) return;
+        e.preventDefault();
+        var at = items.indexOf(document.activeElement);
+        var step = e.key === "ArrowDown" ? 1 : -1;
+        var next = at < 0 ? 0 : Math.min(items.length - 1, Math.max(0, at + step));
+        items[next].focus();
+        return;
+      }
       if (e.key !== "Escape") return;
       // Not even other listeners on the window (a Modal may listen there).
       e.stopImmediatePropagation();
       e.stopPropagation();
       setIsOpen(false);
+      if (triggerRef.current) triggerRef.current.focus();
     }
     window.addEventListener("keydown", handleKeyDown, true);
     return function () {
       return window.removeEventListener("keydown", handleKeyDown, true);
     };
   }, [isOpen]);
+  useEffect(function () {
+    if (!isOpen || !place || !listRef.current) return;
+    // Once the list shows, focus the chosen option (or the first) so the
+    // keyboard can reach it.
+    var target = listRef.current.querySelector('[aria-selected="true"]') || listRef.current.querySelector('[role="option"]');
+    if (target) target.focus({
+      preventScroll: false
+    });
+  }, [isOpen, !!place]);
+
+  // The open list floats above everything. Inside a dialog it's placed in
+  // the dialog itself, so the dialog doesn't treat a click on it as a
+  // click outside (and close), and its focus trap lets the keyboard in.
+  var listHost = function listHost() {
+    return triggerRef.current && triggerRef.current.closest('[role="dialog"], [aria-modal="true"]') || document.body;
+  };
   var selectedOption = options.find(function (opt) {
     return String(opt.value) === String(value);
   });
@@ -6651,7 +6679,7 @@ var SelectInput = function SelectInput(_ref) {
               }, "group-".concat(entry.key));
             })
           })
-        }), document.body)]
+        }), listHost())]
       })]
     });
   }
