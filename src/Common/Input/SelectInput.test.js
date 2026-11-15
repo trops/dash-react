@@ -281,3 +281,66 @@ test("the list floats above the page, and opens upward near the bottom", () => {
     fireEvent.mouseDown(screen.getByRole("option", { name: /A/ }));
     expect(screen.getByRole("listbox")).toBeInTheDocument();
 });
+
+describe("inside a Modal", () => {
+    const { Modal } = require("../Modal");
+    // The dialog watches its own visibility; the test page has no observer.
+    beforeAll(() => {
+        if (!window.IntersectionObserver) {
+            window.IntersectionObserver = class {
+                observe() {}
+                unobserve() {}
+                disconnect() {}
+            };
+        }
+    });
+    const OPTIONS = [
+        { value: "a", label: "A", description: "first" },
+        { value: "b", label: "B", description: "second" },
+        { value: "c", label: "C", description: "third" },
+    ];
+    function Inside({ onChange, onClose }) {
+        return (
+            <Modal isOpen setIsOpen={onClose}>
+                <SelectInput
+                    ariaLabel="Model"
+                    value="a"
+                    options={OPTIONS}
+                    onChange={onChange}
+                />
+            </Modal>
+        );
+    }
+
+    it("picking an option keeps the Modal open", () => {
+        const onChange = jest.fn();
+        const onClose = jest.fn();
+        renderWithTheme(<Inside onChange={onChange} onClose={onClose} />);
+        fireEvent.click(screen.getByRole("button", { name: "Model" }));
+        const list = screen.getByRole("listbox");
+        // The list lives in the dialog, so a click on it isn't "outside".
+        expect(screen.getByRole("dialog").contains(list)).toBe(true);
+        const b = screen.getByRole("option", { name: /B/ });
+        fireEvent.mouseDown(b);
+        fireEvent.click(b);
+        expect(onChange).toHaveBeenCalledWith("b");
+        expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it("the keyboard reaches the options: chosen one first, then up and down", () => {
+        renderWithTheme(<Inside onChange={jest.fn()} onClose={jest.fn()} />);
+        const trigger = screen.getByRole("button", { name: "Model" });
+        fireEvent.click(trigger);
+        expect(screen.getByRole("option", { name: /A/ })).toHaveFocus();
+        fireEvent.keyDown(window, { key: "ArrowDown" });
+        expect(screen.getByRole("option", { name: /B/ })).toHaveFocus();
+        fireEvent.keyDown(window, { key: "ArrowDown" });
+        fireEvent.keyDown(window, { key: "ArrowDown" });
+        expect(screen.getByRole("option", { name: /C/ })).toHaveFocus();
+        fireEvent.keyDown(window, { key: "ArrowUp" });
+        expect(screen.getByRole("option", { name: /B/ })).toHaveFocus();
+        fireEvent.keyDown(window, { key: "Escape" });
+        expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+        expect(trigger).toHaveFocus();
+    });
+});
