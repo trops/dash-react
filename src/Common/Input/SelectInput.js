@@ -1,4 +1,5 @@
 import { useContext, useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem, getUUID } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
@@ -7,8 +8,8 @@ import { colorSchemeFor } from "../CodeEditor/editorTheme";
 
 /**
  * Consecutive options with the same `group` become one <optgroup>; options
- * without a group stay top-level. Order is preserved. Groups apply to the
- * plain <select>; the icon dropdown (options with `icon`) ignores them.
+ * without a group stay top-level. Order is preserved. In the custom dropdown
+ * (options with an `icon` or a `description`) each group gets a heading.
  */
 function groupOptions(options) {
     const out = [];
@@ -66,21 +67,58 @@ const SelectInput = ({
         ? undefined
         : ariaLabel || placeholder || undefined;
     const hasIcons = options.some((opt) => opt.icon);
+    // A second line under an option ("now Haiku 5.5") needs the custom
+    // dropdown too; so does dimming one (`muted`).
+    const custom = hasIcons || options.some((opt) => opt.description);
     const hasEmptyOption = options.some((opt) => String(opt.value) === "");
 
-    // Custom dropdown state (only used when options have icons)
+    // Custom dropdown state (only used when options have icons or descriptions)
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const triggerRef = useRef(null);
+    const listRef = useRef(null);
+    // Where the open list sits on screen (it floats above everything).
+    const [place, setPlace] = useState(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        // Below the field, or above it when there's more room there; never
+        // taller than the room it has.
+        function measure() {
+            const el = triggerRef.current;
+            if (!el) return;
+            const r = el.getBoundingClientRect();
+            const gap = 4;
+            const margin = 8;
+            const below = window.innerHeight - r.bottom - gap - margin;
+            const above = r.top - gap - margin;
+            const up = below < 240 && above > below;
+            setPlace({
+                left: r.left,
+                minWidth: r.width,
+                maxHeight: Math.max(120, Math.min(320, up ? above : below)),
+                ...(up
+                    ? { bottom: window.innerHeight - r.top + gap }
+                    : { top: r.bottom + gap }),
+            });
+        }
+        measure();
+        window.addEventListener("resize", measure);
+        window.addEventListener("scroll", measure, true);
+        return () => {
+            window.removeEventListener("resize", measure);
+            window.removeEventListener("scroll", measure, true);
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         if (!isOpen) return;
         function handleClickOutside(e) {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(e.target)
-            ) {
-                setIsOpen(false);
-            }
+            const inside =
+                (dropdownRef.current &&
+                    dropdownRef.current.contains(e.target)) ||
+                (listRef.current && listRef.current.contains(e.target));
+            if (!inside) setIsOpen(false);
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () =>
@@ -89,19 +127,26 @@ const SelectInput = ({
 
     useEffect(() => {
         if (!isOpen) return;
+        // Escape closes the open list, and only the list: caught first (on
+        // the window, while capturing) so a Modal or panel around the select
+        // doesn't close too.
         function handleKeyDown(e) {
-            if (e.key === "Escape") setIsOpen(false);
+            if (e.key !== "Escape") return;
+            // Not even other listeners on the window (a Modal may listen there).
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            setIsOpen(false);
         }
-        document.addEventListener("keydown", handleKeyDown);
-        return () => document.removeEventListener("keydown", handleKeyDown);
+        window.addEventListener("keydown", handleKeyDown, true);
+        return () => window.removeEventListener("keydown", handleKeyDown, true);
     }, [isOpen]);
 
     const selectedOption = options.find(
         (opt) => String(opt.value) === String(value)
     );
 
-    // Custom dropdown for options with icons
-    if (hasIcons) {
+    // Custom dropdown for options with icons or descriptions
+    if (custom) {
         return (
             <div
                 className={`flex flex-col space-y-1 ${className}`}
@@ -117,6 +162,7 @@ const SelectInput = ({
                 )}
                 <div className="relative">
                     <button
+                        ref={triggerRef}
                         type="button"
                         id={inputId}
                         aria-haspopup="listbox"
@@ -136,10 +182,17 @@ const SelectInput = ({
                                     className="h-3.5 w-3.5 shrink-0 opacity-70"
                                 />
                             )}
-                            <span className="truncate">
-                                {selectedOption
-                                    ? selectedOption.label
-                                    : placeholder}
+                            <span className="flex flex-col min-w-0">
+                                <span className="truncate">
+                                    {selectedOption
+                                        ? selectedOption.label
+                                        : placeholder}
+                                </span>
+                                {selectedOption?.description && (
+                                    <span className="truncate text-xs opacity-70">
+                                        {selectedOption.description}
+                                    </span>
+                                )}
                             </span>
                         </span>
                         {selectedOption?.badge && (
@@ -152,52 +205,125 @@ const SelectInput = ({
                             className={`h-3 w-3 shrink-0 opacity-50 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
                         />
                     </button>
-                    {isOpen && (
-                        <div
-                            className={`absolute z-50 mt-1 min-w-full w-max rounded-md border shadow-lg ${styles.backgroundColor} ${styles.borderColor} overflow-hidden`}
-                        >
-                            <div className="max-h-60 overflow-y-auto py-1">
-                                {options.map((option) => {
-                                    const isSelected =
-                                        String(option.value) === String(value);
-                                    return (
-                                        <button
-                                            type="button"
-                                            key={option.value}
-                                            onClick={() => {
-                                                onChange(option.value);
-                                                setIsOpen(false);
-                                            }}
-                                            className={`w-full text-left px-3 py-1.5 flex items-center gap-2 text-sm transition-colors duration-150 ${
-                                                isSelected
-                                                    ? `${itemStyles.selectedBackgroundColor || itemStyles.hoverBackgroundColor} ${itemStyles.selectedTextColor || styles.textColor}`
-                                                    : `${styles.textColor} ${itemStyles.hoverBackgroundColor} ${itemStyles.hoverTextColor}`
-                                            }`}
+                    {isOpen &&
+                        createPortal(
+                            <div
+                                ref={listRef}
+                                className={`fixed z-50 w-max rounded-md border shadow-lg ${styles.backgroundColor} ${styles.borderColor} overflow-hidden`}
+                                style={
+                                    place
+                                        ? {
+                                              left: place.left,
+                                              top: place.top,
+                                              bottom: place.bottom,
+                                              minWidth: place.minWidth,
+                                          }
+                                        : { visibility: "hidden" }
+                                }
+                            >
+                                <div
+                                    role="listbox"
+                                    aria-label={label || unlabeledName}
+                                    className="overflow-y-auto py-1"
+                                    style={{
+                                        maxHeight: place
+                                            ? place.maxHeight
+                                            : 320,
+                                    }}
+                                >
+                                    {groupOptions(options).map((entry) => (
+                                        <div
+                                            key={`group-${entry.key}`}
+                                            role={
+                                                entry.group
+                                                    ? "group"
+                                                    : undefined
+                                            }
+                                            aria-label={
+                                                entry.group || undefined
+                                            }
                                         >
-                                            {option.icon && (
-                                                <FontAwesomeIcon
-                                                    icon={
-                                                        isSelected
-                                                            ? "check"
-                                                            : option.icon
-                                                    }
-                                                    className="h-3.5 w-3.5 shrink-0 opacity-70"
-                                                />
+                                            {entry.group && (
+                                                <div
+                                                    aria-hidden="true"
+                                                    className={`px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide opacity-60 ${styles.textColor}`}
+                                                >
+                                                    {entry.group}
+                                                </div>
                                             )}
-                                            <span className="truncate">
-                                                {option.label}
-                                            </span>
-                                            {option.badge && (
-                                                <span className="flex-shrink-0 ml-auto">
-                                                    {option.badge}
-                                                </span>
-                                            )}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
+                                            {entry.options.map((option) => {
+                                                const isSelected =
+                                                    String(option.value) ===
+                                                    String(value);
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        role="option"
+                                                        aria-selected={
+                                                            isSelected
+                                                        }
+                                                        key={option.value}
+                                                        onClick={() => {
+                                                            onChange(
+                                                                option.value
+                                                            );
+                                                            setIsOpen(false);
+                                                        }}
+                                                        className={`w-full text-left px-3 py-1.5 flex items-center gap-2 text-sm transition-colors duration-150 ${
+                                                            isSelected
+                                                                ? `${itemStyles.selectedBackgroundColor || itemStyles.hoverBackgroundColor} ${itemStyles.selectedTextColor || styles.textColor}`
+                                                                : `${styles.textColor} ${itemStyles.hoverBackgroundColor} ${itemStyles.hoverTextColor}`
+                                                        }`}
+                                                    >
+                                                        {option.icon ? (
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    isSelected
+                                                                        ? "check"
+                                                                        : option.icon
+                                                                }
+                                                                className="h-3.5 w-3.5 shrink-0 opacity-70"
+                                                            />
+                                                        ) : hasIcons ? null : (
+                                                            // Without icons: a check
+                                                            // marks the chosen one.
+                                                            <span className="h-3.5 w-3.5 shrink-0 flex items-center justify-center">
+                                                                {isSelected && (
+                                                                    <FontAwesomeIcon
+                                                                        icon="check"
+                                                                        className="h-3 w-3 opacity-80"
+                                                                    />
+                                                                )}
+                                                            </span>
+                                                        )}
+                                                        <span
+                                                            className={`flex flex-col min-w-0 ${option.muted ? "opacity-60" : ""}`}
+                                                        >
+                                                            <span className="truncate">
+                                                                {option.label}
+                                                            </span>
+                                                            {option.description && (
+                                                                <span className="truncate text-xs opacity-70">
+                                                                    {
+                                                                        option.description
+                                                                    }
+                                                                </span>
+                                                            )}
+                                                        </span>
+                                                        {option.badge && (
+                                                            <span className="flex-shrink-0 ml-auto pl-2">
+                                                                {option.badge}
+                                                            </span>
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>,
+                            document.body
+                        )}
                 </div>
             </div>
         );

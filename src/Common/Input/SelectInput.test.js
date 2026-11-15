@@ -163,3 +163,121 @@ describe("color-scheme follows the theme variant", () => {
         );
     });
 });
+
+describe("options with a description", () => {
+    const options = [
+        {
+            value: "latest:opus",
+            label: "Latest Opus",
+            description: "now Opus 5.5",
+            group: "Follows the newest",
+        },
+        {
+            value: "latest:fable",
+            label: "Latest Fable",
+            description: "now Fable 5.2",
+            group: "Follows the newest",
+            badge: <span>New</span>,
+        },
+        {
+            value: "claude-opus-4-8",
+            label: "Opus 4.8",
+            description: "older",
+            group: "Stays on one version",
+            muted: true,
+        },
+    ];
+
+    it("shows the chosen one with its second line", () => {
+        renderWithTheme(
+            <SelectInput
+                ariaLabel="Model"
+                value="latest:opus"
+                options={options}
+            />
+        );
+        const trigger = screen.getByRole("button", { name: "Model" });
+        expect(trigger).toHaveTextContent("Latest Opus");
+        expect(trigger).toHaveTextContent("now Opus 5.5");
+    });
+
+    it("opens a list with a heading per group, second lines and badges", () => {
+        const onChange = jest.fn();
+        renderWithTheme(
+            <SelectInput
+                ariaLabel="Model"
+                value="latest:opus"
+                onChange={onChange}
+                options={options}
+            />
+        );
+        fireEvent.click(screen.getByRole("button", { name: "Model" }));
+        const groups = screen.getAllByRole("group");
+        expect(groups.map((g) => g.getAttribute("aria-label"))).toEqual([
+            "Follows the newest",
+            "Stays on one version",
+        ]);
+        expect(screen.getByText("Stays on one version")).toBeInTheDocument();
+        const chosen = screen.getByRole("option", { selected: true });
+        expect(chosen).toHaveTextContent("Latest Opus");
+        expect(screen.getByText("New")).toBeInTheDocument();
+        expect(screen.getByText("Opus 4.8").parentElement.className).toMatch(
+            /opacity-60/
+        );
+        fireEvent.click(screen.getByRole("option", { name: /Latest Fable/ }));
+        expect(onChange).toHaveBeenCalledWith("latest:fable");
+        expect(screen.queryByRole("listbox")).toBeNull();
+    });
+});
+
+test("Escape closes the open list without reaching what's around it", () => {
+    const outer = jest.fn();
+    document.addEventListener("keydown", outer);
+    renderWithTheme(
+        <SelectInput
+            ariaLabel="Model"
+            value="a"
+            options={[{ value: "a", label: "A", description: "first" }]}
+        />
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Model" }));
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+    fireEvent.keyDown(document.body, { key: "Escape" });
+    expect(screen.queryByRole("listbox")).toBeNull();
+    expect(outer).not.toHaveBeenCalled();
+    // Closed: Escape goes on as usual.
+    fireEvent.keyDown(document.body, { key: "Escape" });
+    expect(outer).toHaveBeenCalledTimes(1);
+    document.removeEventListener("keydown", outer);
+});
+
+test("the list floats above the page, and opens upward near the bottom", () => {
+    renderWithTheme(
+        <div style={{ overflow: "hidden" }} data-testid="clip">
+            <SelectInput
+                ariaLabel="Model"
+                value="a"
+                options={[{ value: "a", label: "A", description: "first" }]}
+            />
+        </div>
+    );
+    const trigger = screen.getByRole("button", { name: "Model" });
+    trigger.getBoundingClientRect = () => ({
+        top: window.innerHeight - 60,
+        bottom: window.innerHeight - 20,
+        left: 40,
+        width: 200,
+        height: 40,
+    });
+    fireEvent.click(trigger);
+    const list = screen.getByRole("listbox");
+    // Not inside the clipping box: on the page itself.
+    expect(screen.getByTestId("clip").contains(list)).toBe(false);
+    const panel = list.parentElement;
+    expect(panel.style.bottom).toBe("" + (60 + 4) + "px");
+    expect(panel.style.top).toBe("");
+    expect(panel.style.left).toBe("40px");
+    // A click on the list doesn't count as outside.
+    fireEvent.mouseDown(screen.getByRole("option", { name: /A/ }));
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+});
