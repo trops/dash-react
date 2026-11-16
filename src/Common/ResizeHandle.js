@@ -20,6 +20,8 @@ import { ThemeContext } from "@dash/Context/ThemeContext";
  *   onReset()          double-click
  *   ariaLabel          what it resizes, e.g. "Resize bot panel"
  *   className          extra classes (margins)
+ *   quiet              no line until hovered, focused or dragged — for a
+ *                      handle beside a column that has its own border
  */
 export function ResizeHandle({
     value,
@@ -30,12 +32,15 @@ export function ResizeHandle({
     onReset = () => {},
     ariaLabel = "Resize",
     className = "",
+    quiet = false,
 }) {
     const currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
     const [active, setActive] = useState(false);
     const drag = useRef(null);
 
-    const lineIdle = currentTheme["bg-primary-medium"] || "bg-gray-700";
+    const lineIdle = quiet
+        ? "bg-transparent"
+        : currentTheme["bg-primary-medium"] || "bg-gray-700";
     const lineActive = currentTheme["bg-primary-light"] || "bg-gray-500";
 
     const onPointerDown = (e) => {
