@@ -141,6 +141,28 @@ test("portal: the menu renders on document.body", () => {
     expect(document.body.contains(menu)).toBe(true);
 });
 
+test("portal: inside a dialog, the menu renders in the dialog", () => {
+    const { container } = render(
+        <div role="dialog" aria-modal="true">
+            <div style={{ overflow: "auto" }} data-testid="list">
+                <ActionMenu
+                    label="Conversation options"
+                    portal
+                    items={[{ label: "Delete", onSelect: () => {} }]}
+                />
+            </div>
+        </div>
+    );
+    fireEvent.click(
+        screen.getByRole("button", { name: "Conversation options" })
+    );
+    const menu = screen.getByRole("menu", { name: "Conversation options" });
+    expect(screen.getByTestId("list").contains(menu)).toBe(false);
+    expect(container.querySelector('[role="dialog"]').contains(menu)).toBe(
+        true
+    );
+});
+
 test("design-system hooks", () => {
     setup();
     expect(button()).toHaveClass("dr-action-menu");

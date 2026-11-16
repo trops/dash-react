@@ -3615,10 +3615,16 @@ var ActionMenu = function ActionMenu(_ref) {
     return a.disabled ? "".concat(idleText, " cursor-not-allowed") : a.danger ? "".concat(status.error.icon, " cursor-pointer") : "".concat(strongText, " cursor-pointer");
   };
   var placement = portal ? "" : "absolute ".concat(align === "right" ? "right-0" : "left-0", " ").concat(direction === "up" ? "bottom-full mb-1" : "top-full mt-1");
+  // A portalled menu goes up when it wouldn't fit below its button.
+  // (a row with a description is a line taller).
+  var tall = actions.reduce(function (h, a) {
+    return h + (a.description ? 60 : 40);
+  }, 12);
+  var up = direction === "up" || !!(portal && rect && typeof window !== "undefined" && rect.bottom + 4 + tall > window.innerHeight && rect.top - 4 - tall >= 0);
   var portalStyle = portal && rect ? {
     position: "fixed",
-    top: direction === "up" ? undefined : Math.round(rect.bottom + 4),
-    bottom: direction === "up" ? Math.round(window.innerHeight - rect.top + 4) : undefined,
+    top: up ? undefined : Math.round(rect.bottom + 4),
+    bottom: up ? Math.round(window.innerHeight - rect.top + 4) : undefined,
     left: align === "right" ? undefined : Math.round(rect.left),
     right: align === "right" ? Math.round(window.innerWidth - rect.right) : undefined
   } : undefined;
@@ -3765,7 +3771,7 @@ var ActionMenu = function ActionMenu(_ref) {
         "aria-hidden": "true",
         className: "absolute top-1 right-1 h-2 w-2 rounded-full ".concat(status.warning.solidBg)
       }) : null]
-    }), menu && portal && typeof document !== "undefined" ? /*#__PURE__*/createPortal(menu, document.body) : menu]
+    }), menu && portal && typeof document !== "undefined" ? /*#__PURE__*/createPortal(menu, rootRef.current && rootRef.current.closest('[role="dialog"], [aria-modal="true"]') || document.body) : menu]
   });
 };
 
@@ -4227,14 +4233,16 @@ function ResizeHandle(_ref) {
     _ref$ariaLabel = _ref.ariaLabel,
     ariaLabel = _ref$ariaLabel === void 0 ? "Resize" : _ref$ariaLabel,
     _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className;
+    className = _ref$className === void 0 ? "" : _ref$className,
+    _ref$quiet = _ref.quiet,
+    quiet = _ref$quiet === void 0 ? false : _ref$quiet;
   var currentTheme = (useContext(ThemeContext) || {}).currentTheme || {};
   var _useState = useState(false),
     _useState2 = _slicedToArray$h(_useState, 2),
     active = _useState2[0],
     setActive = _useState2[1];
   var drag = useRef(null);
-  var lineIdle = currentTheme["bg-primary-medium"] || "bg-gray-700";
+  var lineIdle = quiet ? "bg-transparent" : currentTheme["bg-primary-medium"] || "bg-gray-700";
   var lineActive = currentTheme["bg-primary-light"] || "bg-gray-500";
   var onPointerDown = function onPointerDown(e) {
     if (e.button != null && e.button !== 0) return;

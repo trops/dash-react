@@ -34,8 +34,11 @@ import { themeVarsStyle } from "@dash/Utils/themeVars";
  *                attention)
  *   align      — "left" | "right": which edge the menu lines up with
  *   direction  — "down" | "up"
- *   portal     — render the menu on document.body, so a clipped container
- *                (a dashboard cell) can't cut it off
+ *   portal     — render the menu outside its container, so a clipped one
+ *                (a dashboard cell, a scrolling list) can't cut it off: on
+ *                document.body, or inside the dialog it's in (so the dialog
+ *                doesn't take a click on it as a click outside). It opens
+ *                upward when there's no room below.
  *   className  — layout classes for the container
  *
  * Styling: neutral theme tokens (the item colour fills of MenuItem don't
@@ -260,18 +263,26 @@ const ActionMenu = ({
         : `absolute ${align === "right" ? "right-0" : "left-0"} ${
               direction === "up" ? "bottom-full mb-1" : "top-full mt-1"
           }`;
+    // A portalled menu goes up when it wouldn't fit below its button.
+    // (a row with a description is a line taller).
+    const tall = actions.reduce((h, a) => h + (a.description ? 60 : 40), 12);
+    const up =
+        direction === "up" ||
+        !!(
+            portal &&
+            rect &&
+            typeof window !== "undefined" &&
+            rect.bottom + 4 + tall > window.innerHeight &&
+            rect.top - 4 - tall >= 0
+        );
     const portalStyle =
         portal && rect
             ? {
                   position: "fixed",
-                  top:
-                      direction === "up"
-                          ? undefined
-                          : Math.round(rect.bottom + 4),
-                  bottom:
-                      direction === "up"
-                          ? Math.round(window.innerHeight - rect.top + 4)
-                          : undefined,
+                  top: up ? undefined : Math.round(rect.bottom + 4),
+                  bottom: up
+                      ? Math.round(window.innerHeight - rect.top + 4)
+                      : undefined,
                   left: align === "right" ? undefined : Math.round(rect.left),
                   right:
                       align === "right"
@@ -475,7 +486,14 @@ const ActionMenu = ({
                 ) : null}
             </button>
             {menu && portal && typeof document !== "undefined"
-                ? createPortal(menu, document.body)
+                ? createPortal(
+                      menu,
+                      (rootRef.current &&
+                          rootRef.current.closest(
+                              '[role="dialog"], [aria-modal="true"]'
+                          )) ||
+                          document.body
+                  )
                 : menu}
         </div>
     );

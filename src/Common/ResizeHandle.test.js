@@ -113,4 +113,14 @@ describe("useResizableWidth + ResizeHandle", () => {
         expect(handle()).toHaveAttribute("aria-valuemax", "700");
         expect(handle()).toHaveAttribute("tabindex", "0");
     });
+
+    test("quiet: no line until hovered", () => {
+        render(<ResizeHandle quiet value={400} ariaLabel="Resize panel" />);
+        const line = handle().firstChild;
+        expect(line).toHaveClass("bg-transparent");
+        fireEvent.mouseEnter(handle());
+        expect(line).not.toHaveClass("bg-transparent");
+        fireEvent.mouseLeave(handle());
+        expect(line).toHaveClass("bg-transparent");
+    });
 });
