@@ -29,6 +29,7 @@ import { useStatusTokens } from "@dash/Hooks/useStatusTokens";
 import { useDashTokens } from "@dash/Hooks/useDashTokens";
 
 import * as AccordionS from "@dash/Common/Accordion.stories";
+import * as FlowGraphS from "@dash/Common/Composites/FlowGraph.stories";
 import * as AlertS from "@dash/Common/Alert.stories";
 import * as AlertBannerS from "@dash/Common/AlertBanner.stories";
 import * as BreadcrumbsS from "@dash/Common/Breadcrumbs.stories";
@@ -398,11 +399,14 @@ const REGISTRY = {
     Chat: stories(ChatS, "Conversation", "ToolCalls"),
     ListRow: stories(ChatS, "Rows"),
     PanelHeader: stories(ChatS, "Headers"),
+    FlowGraph: stories(FlowGraphS, "TicketToPr", "Warnings", "NoFlows"),
+    DiffView: stories(FlowGraphS, "Diff"),
 };
 
 // ---- Mounting -------------------------------------------------------------
 
 const TALL = new Set([
+    "FlowGraph",
     "Drawer",
     "ConfirmationModal",
     "SettingsModal",
