@@ -378,14 +378,14 @@ const FlowGraph = ({
                 if (!p) return null;
                 const k = kinds[s.kind] || kinds.bot;
                 const selected = selectedId === s.id;
-                const border = s.warn
-                    ? variant === "light"
-                        ? "border-amber-500"
-                        : "border-amber-400"
-                    : k.border || t.hairline;
-                const ring = selected
-                    ? "ring-2 ring-violet-400 ring-offset-2 ring-offset-transparent"
-                    : "";
+                const border = selected
+                    ? ""
+                    : s.warn
+                      ? variant === "light"
+                          ? "border-amber-500"
+                          : "border-amber-400"
+                      : k.border || t.hairline;
+                const ring = selected ? "border-2 border-violet-400" : "";
                 const clickable = !!onSelect;
                 const Tag = clickable ? "button" : "div";
                 return (
@@ -402,7 +402,7 @@ const FlowGraph = ({
                             aria-pressed={clickable ? selected : undefined}
                             aria-label={`${KIND_LABEL[s.kind] || "Step"}: ${s.name}${s.note ? `. ${s.note}` : ""}`}
                             data-testid={`flow-step-${s.id}`}
-                            className={`w-full text-left flex flex-col gap-1 p-2.5 rounded-lg border ${s.dashed ? "border-dashed" : ""} ${border} ${ring} ${t.surface} ${t.text} ${s.faded ? "opacity-50" : ""}`}
+                            className={`w-full text-left flex flex-col gap-1 p-2 rounded-lg border ${s.dashed ? "border-dashed" : ""} ${border} ${ring} ${t.surface} ${t.text} ${s.faded ? "opacity-50" : ""}`}
                             style={{ height: NODE_H }}
                         >
                             <span

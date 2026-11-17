@@ -83,3 +83,15 @@ describe("DiffView", () => {
         expect(screen.getByLabelText("3 changed lines")).toBeInTheDocument();
     });
 });
+
+describe("diffLines past its limit", () => {
+    test("never hides lines: the rest of the new text shows, as new", () => {
+        const before = Array.from({ length: 2005 }, (_, i) => `l${i}`).join(
+            "\n"
+        );
+        const after = before + "\nevil();";
+        const out = diffLines(before, after);
+        expect(out.some((l) => l.type === "note")).toBe(true);
+        expect(out.at(-1)).toEqual({ type: "add", text: "evil();" });
+    });
+});

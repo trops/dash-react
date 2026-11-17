@@ -29,12 +29,10 @@ const TONES = {
 
 /** Line diff by longest common subsequence: [{ type, text }]. */
 export function diffLines(before, after) {
-    const a = String(before == null ? "" : before)
-        .split("\n")
-        .slice(0, MAX_LINES);
-    const b = String(after == null ? "" : after)
-        .split("\n")
-        .slice(0, MAX_LINES);
+    const allA = String(before == null ? "" : before).split("\n");
+    const allB = String(after == null ? "" : after).split("\n");
+    const a = allA.slice(0, MAX_LINES);
+    const b = allB.slice(0, MAX_LINES);
     const n = a.length;
     const m = b.length;
     // lcs[i][j]: common lines in a[i..] and b[j..]
@@ -63,6 +61,17 @@ export function diffLines(before, after) {
     }
     while (i < n) out.push({ type: "remove", text: a[i++] });
     while (j < m) out.push({ type: "add", text: b[j++] });
+    // Past the limit nothing is compared, and nothing is hidden: the rest
+    // of the new text shows in full, as new.
+    if (allA.length > MAX_LINES || allB.length > MAX_LINES) {
+        out.push({
+            type: "note",
+            text: `Past line ${MAX_LINES} the changes aren't compared: the rest of the new version shows below in full.`,
+        });
+        for (const line of allB.slice(MAX_LINES)) {
+            out.push({ type: "add", text: line });
+        }
+    }
     return out;
 }
 
@@ -126,6 +135,17 @@ const DiffView = ({
                 aria-label={`${changed} changed line${changed === 1 ? "" : "s"}`}
             >
                 {rows.map((r, i) => {
+                    if (r.type === "note") {
+                        return (
+                            <div
+                                key={`n${i}`}
+                                className={`px-3 italic whitespace-pre-wrap ${t.muted}`}
+                                data-diff="note"
+                            >
+                                {r.text}
+                            </div>
+                        );
+                    }
                     if (r.type === "fold") {
                         return (
                             <div
