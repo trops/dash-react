@@ -156,11 +156,70 @@ describe("wrapping and room under rows", () => {
         const xs = pts.map((p) => p[0]);
         expect(Math.min(...xs)).toBeLessThan(l.pos.src.x);
         expect(pts[pts.length - 1]).toEqual([
-            l.pos.b.x + FLOW_NODE_W / 2,
+            l.pos.b.x + FLOW_NODE_W / 3,
             l.pos.b.y + FLOW_NODE_H + 4,
         ]);
         // Its lane in the upper gap is clear of the wrap line's.
         expect(route.ys[1]).not.toBe(l.routes["ci>r>next"].ys[0]);
+    });
+
+    const six = [
+        { id: "t", kind: "source", name: "Ticket reader" },
+        { id: "bu", kind: "bot", name: "Builder" },
+        { id: "l", kind: "check", name: "Lint" },
+        { id: "rv", kind: "bot", name: "Reviewer" },
+        { id: "tp", kind: "check", name: "Tests pass" },
+        { id: "y", kind: "you", name: "You" },
+    ];
+    const sixEdges = [
+        { from: "t", to: "bu", kind: "next" },
+        { from: "bu", to: "l", kind: "next" },
+        { from: "l", to: "rv", kind: "next" },
+        { from: "rv", to: "tp", kind: "next" },
+        { from: "tp", to: "y", kind: "next" },
+        {
+            from: "l",
+            to: "bu",
+            kind: "fail",
+            label: "failed → fix list · up to 3 rounds",
+        },
+    ];
+
+    test("a line back up to a card never runs on the line leaving it for the next row", () => {
+        // Two cards a row: Builder ends row 0, Lint starts row 1.
+        const l = flowLayout(six, sixEdges, null, { width: 560 });
+        expect(l.rows[0]).toEqual(["t", "bu"]);
+        const bu = l.pos.bu;
+        const wrap = lanePoints(bu, l.pos.l, l.routes["bu>l>next"]);
+        const back = lanePoints(l.pos.l, bu, l.routes["l>bu>fail"]);
+        // The wrap leaves the middle of Builder's bottom; the line back
+        // comes into it a third of the way along.
+        expect(wrap[0][0]).toBe(bu.x + FLOW_NODE_W / 2);
+        const end = back[back.length - 1];
+        expect(end[1]).toBe(bu.y + FLOW_NODE_H + 4);
+        expect(end[0]).toBeCloseTo(bu.x + FLOW_NODE_W / 3);
+        // Its lane under Builder's row is its own, nearer the row.
+        const backLane = back[back.length - 2][1];
+        const wrapLane = wrap[1][1];
+        expect(backLane).toBeLessThan(wrapLane);
+        // Its stretch along that lane stops before the wrap's way down.
+        expect(
+            Math.max(back[back.length - 2][0], back[back.length - 3][0])
+        ).toBeLessThan(wrap[0][0]);
+    });
+
+    test("an arrow's label stays inside the drawing", () => {
+        render(
+            <ThemeContext.Provider
+                value={{ currentTheme: {}, themeVariant: "dark" }}
+            >
+                <FlowGraph steps={six} edges={sixEdges} width={300} />
+            </ThemeContext.Provider>
+        );
+        const label = screen.getByText("failed → fix list · up to 3 rounds");
+        const x = parseFloat(label.getAttribute("x"));
+        const half = ("failed → fix list · up to 3 rounds".length * 6.4) / 2;
+        expect(x - half).toBeGreaterThanOrEqual(0);
     });
 
     test("a row with a fail arrow underneath gets room for it", () => {

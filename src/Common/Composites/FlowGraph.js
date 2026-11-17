@@ -38,6 +38,10 @@ const PAD_BOTTOM = 16;
 // The left margin a line runs up or down when it joins rows that aren't
 // next to each other.
 const CHANNEL_X = 10;
+// About how wide one character of an arrow's label is (11px, semibold).
+const LABEL_CHAR_W = 6.4;
+
+const edgeKey = (e) => `${e.from}>${e.to}>${e.kind}`;
 
 const KIND_LABEL = {
     source: "Source",
@@ -237,22 +241,49 @@ export function flowLayout(steps, edges, rows, opts = {}) {
             const r = pos[e.from].row;
             failDepth[`${e.from}>${e.to}`] = failsIn[r]++;
         });
+    // A line back up to an earlier step (b not below a) arrives along the
+    // gap under b's row, on a lane of its own nearest that row, and goes
+    // into b's bottom a third of the way in; the line leaving b's bottom
+    // for the next row starts from the middle, below it. So the two never
+    // run on top of each other, and their arrowheads don't meet.
     let channels = 0;
-    for (const e of live) {
+    const laneEdges = live.filter(
+        (e) => edgeRoute(pos[e.from], pos[e.to], e.kind) === "lane"
+    );
+    const arrivals = Array(n).fill(0);
+    const arriveLane = {};
+    for (const e of laneEdges) {
         const a = pos[e.from];
         const b = pos[e.to];
-        if (edgeRoute(a, b, e.kind) !== "lane") continue;
-        const lanes = [{ row: a.row, i: lanesIn[a.row]++ }];
+        if (b.row <= a.row) arriveLane[edgeKey(e)] = arrivals[b.row]++;
+    }
+    const departs = Array(n).fill(0);
+    for (const e of laneEdges) {
+        const a = pos[e.from];
+        const b = pos[e.to];
+        const key = edgeKey(e);
+        const back = b.row <= a.row;
         // The gap it runs along to reach b: above b going down, below b
         // going back up. The gap under a's row when that's the same one.
-        const target =
-            b.row > a.row ? b.row - 1 : b.row < a.row ? b.row : a.row;
-        if (target !== a.row) lanes.push({ row: target, i: lanesIn[target]++ });
-        routes[`${e.from}>${e.to}>${e.kind}`] = {
+        const target = b.row > a.row ? b.row - 1 : b.row;
+        const lanes =
+            back && target === a.row
+                ? [{ row: a.row, i: arriveLane[key] }]
+                : [{ row: a.row, i: arrivals[a.row] + departs[a.row]++ }];
+        if (target !== a.row) {
+            lanes.push(
+                back
+                    ? { row: target, i: arriveLane[key] }
+                    : { row: target, i: arrivals[target] + departs[target]++ }
+            );
+        }
+        routes[key] = {
             lanes,
+            back,
             channel: target !== a.row ? channels++ : null,
         };
     }
+    for (let r = 0; r < n; r++) lanesIn[r] = arrivals[r] + departs[r];
 
     // Room under each row: its "below" text, then its fail arrows, then
     // its lanes, then the way down into the next row.
@@ -323,14 +354,13 @@ export function roundedPath(points, radius = 8) {
 
 /** The points of a line through the gaps (see edgeRoute). */
 export function lanePoints(a, b, route) {
-    const ax = a.x + NODE_W / 2;
-    const bx = b.x + NODE_W / 2;
+    // Forward: from the middle of a's bottom into the middle of b's top.
+    // Back up: from two thirds along a's bottom into one third along b's.
+    const ax = a.x + (route.back ? (NODE_W * 2) / 3 : NODE_W / 2);
+    const bx = b.x + (route.back ? NODE_W / 3 : NODE_W / 2);
     const [y1, y2] = route.ys;
     const start = [ax, a.y + NODE_H];
-    // Into b from above when b is below the lane it arrives along, else
-    // from below.
-    const arriveY = route.ys[route.ys.length - 1];
-    const end = b.y > arriveY ? [bx, b.y - 4] : [bx, b.y + NODE_H + 4];
+    const end = route.back ? [bx, b.y + NODE_H + 4] : [bx, b.y - 4];
     if (route.channel == null) {
         return [start, [ax, y1], [bx, y1], end];
     }
@@ -364,12 +394,20 @@ function edgePath(a, b, kind, depth, route) {
     }
     if (how === "lane" && route) {
         const pts = lanePoints(a, b, route);
-        // The label sits on the first stretch along the gap.
-        const [p1, p2] = [pts[1], pts[2]];
+        // The label (and the +) on its longest stretch along a gap.
+        let best = null;
+        for (let i = 1; i < pts.length; i++) {
+            const [p, q] = [pts[i - 1], pts[i]];
+            if (p[1] !== q[1]) continue;
+            const len = Math.abs(q[0] - p[0]);
+            if (!best || len > best.len)
+                best = { len, x: (p[0] + q[0]) / 2, y: p[1] };
+        }
+        const at = best || { x: pts[1][0], y: pts[1][1] };
         return {
             d: roundedPath(pts),
-            label: { x: (p1[0] + p2[0]) / 2, y: p1[1] - 5 },
-            mid: { x: (p1[0] + p2[0]) / 2, y: p1[1] },
+            label: { x: at.x, y: at.y - 5 },
+            mid: { x: at.x, y: at.y },
         };
     }
     // A suggested step: from a's bottom, round to its left.
@@ -432,7 +470,11 @@ const FlowGraph = ({
     );
 
     const height = layout.height;
-    const edgeKey = (e) => `${e.from}>${e.to}>${e.kind}`;
+    // A label stays inside the drawing, whatever line it's on.
+    const labelX = (x, text) => {
+        const half = (String(text).length * LABEL_CHAR_W) / 2;
+        return Math.max(half + 4, Math.min(x, layout.width - half - 4));
+    };
     const pathOf = (e) =>
         edgePath(
             layout.pos[e.from],
@@ -499,7 +541,7 @@ const FlowGraph = ({
                             />
                             {e.label ? (
                                 <text
-                                    x={p.label.x}
+                                    x={labelX(p.label.x, e.label)}
                                     y={p.label.y}
                                     textAnchor="middle"
                                     fontSize="11"
