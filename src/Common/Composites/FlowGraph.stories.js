@@ -75,6 +75,22 @@ export const TicketToPr = () => {
     );
 };
 
+/**
+ * The same flow in a narrow space: the chain wraps onto the next row, the
+ * line running back under the first row; the reviewer's fix list goes round
+ * by the left margin.
+ */
+export const Wrapped = () => (
+    <div style={{ width: 760 }}>
+        <FlowGraph
+            steps={ticketSteps}
+            edges={ticketEdges}
+            onSelect={() => {}}
+            onAdd={() => {}}
+        />
+    </div>
+);
+
 /** A setup with a gap: Sender takes the draft unchecked (frame 7). */
 export const Warnings = () => (
     <FlowGraph
