@@ -20,3 +20,12 @@ export { SelectableCard } from "./SelectableCard";
 export { ChatMessage, ChatToolCall, ChatComposer } from "./Chat";
 export { ListRow } from "./ListRow";
 export { PanelHeader } from "./PanelHeader";
+export {
+    FlowGraph,
+    FlowGraphLegend,
+    FlowKindChip,
+    FLOW_KIND_LABEL,
+    flowRows,
+    flowLayout,
+} from "./FlowGraph";
+export { DiffView, diffLines, foldLines } from "./DiffView";
