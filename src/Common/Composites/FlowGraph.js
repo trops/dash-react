@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getDashTokens } from "@dash/Hooks/useDashTokens";
 import { StatusBadge } from "./StatusBadge";
@@ -23,12 +23,25 @@ import { StatusBadge } from "./StatusBadge";
  * (frame 11); `onSelect(stepId)` opens a step.
  */
 
-const NODE_W = 140;
-const NODE_H = 124;
+const NODE_W = 208;
+const NODE_H = 128;
 const GAP_X = 64;
-const ROW_GAP = 116;
+// Room under a row: tight when nothing runs under it; more for a step's
+// "below" text, a line through the gap, or a fail arrow curving underneath.
+const ROW_GAP = 32;
+const BELOW_ROOM = 24;
+// Lanes under one row sit far enough apart for a label above each.
+const LANE_STEP = 18;
 const PAD_X = 24;
 const PAD_TOP = 36;
+const PAD_BOTTOM = 16;
+// The left margin a line runs up or down when it joins rows that aren't
+// next to each other.
+const CHANNEL_X = 10;
+// About how wide one character of an arrow's label is (11px, semibold).
+const LABEL_CHAR_W = 6.4;
+
+const edgeKey = (e) => `${e.from}>${e.to}>${e.kind}`;
 
 const KIND_LABEL = {
     source: "Source",
@@ -147,40 +160,230 @@ export function flowRows(steps, edges) {
 }
 
 /**
- * Where each step sits, and how big the drawing is. A null in a row leaves
- * its place empty (a suggested step under the gap it would fill).
+ * Rows wrapped to a width, like text: a row with more steps than fit
+ * carries on in the next row, from the left. No width: no wrapping.
  */
-export function flowLayout(steps, edges, rows) {
-    const theRows = rows && rows.length ? rows : flowRows(steps, edges);
+export function wrapRows(rows, width) {
+    const w = Number(width) || 0;
+    if (!w) return rows;
+    const perRow = Math.max(
+        1,
+        Math.floor((w - PAD_X * 2 + GAP_X) / (NODE_W + GAP_X))
+    );
+    const out = [];
+    for (const row of rows) {
+        for (let i = 0; i < row.length; i += perRow) {
+            out.push(row.slice(i, i + perRow));
+        }
+        if (!row.length) out.push(row);
+    }
+    return out;
+}
+
+/**
+ * How an edge is drawn: "side" (straight across to the next step in its
+ * row), "fail" (curving back underneath its row), "suggested" (down to a
+ * suggested step), or "lane" (through the gaps: down under its row, along,
+ * and into the other step; to a row that isn't the next one, by the left
+ * margin).
+ */
+function edgeRoute(a, b, kind) {
+    if (kind === "suggested") return "suggested";
+    if (kind === "fail" && a.row === b.row) return "fail";
+    if (kind !== "fail" && a.row === b.row && b.col === a.col + 1)
+        return "side";
+    return "lane";
+}
+
+/**
+ * Where each step sits, how big the drawing is, and the room under each
+ * row (for the lines that run through it). A null in a row leaves its
+ * place empty (a suggested step under the gap it would fill).
+ *
+ * `opts.width`: the room there is; a chain that doesn't fit wraps onto the
+ * next row. Rows passed in are kept as they are.
+ */
+export function flowLayout(steps, edges, rows, opts = {}) {
+    const given = rows && rows.length;
+    const theRows = given ? rows : wrapRows(flowRows(steps, edges), opts.width);
     const pos = {};
     let width = 0;
     theRows.forEach((row, r) => {
         row.forEach((id, c) => {
             if (id == null) return;
             const x = PAD_X + c * (NODE_W + GAP_X);
-            const y = PAD_TOP + r * (NODE_H + ROW_GAP);
-            pos[id] = { x, y, row: r, col: c };
+            pos[id] = { x, y: 0, row: r, col: c };
             width = Math.max(width, x + NODE_W + PAD_X);
         });
     });
-    const height = PAD_TOP + theRows.length * (NODE_H + ROW_GAP) - ROW_GAP / 2;
-    return { pos, width, height, rows: theRows };
+    const n = theRows.length;
+    const byId = Object.fromEntries((steps || []).map((s) => [s.id, s]));
+    const below = theRows.map((row) =>
+        row.some((id) => id != null && byId[id] && byId[id].below)
+            ? BELOW_ROOM
+            : 0
+    );
+
+    // Fail arrows in their own row curve underneath it, the longer jump
+    // the deeper; lines through the gap under a row each get their own lane.
+    const failDepth = {};
+    const failsIn = Array(n).fill(0);
+    const lanesIn = Array(n).fill(0);
+    const routes = {};
+    const live = (edges || []).filter((e) => pos[e.from] && pos[e.to]);
+    live.filter((e) => edgeRoute(pos[e.from], pos[e.to], e.kind) === "fail")
+        .sort(
+            (x, y) =>
+                Math.abs(pos[x.from].col - pos[x.to].col) -
+                Math.abs(pos[y.from].col - pos[y.to].col)
+        )
+        .forEach((e) => {
+            const r = pos[e.from].row;
+            failDepth[`${e.from}>${e.to}`] = failsIn[r]++;
+        });
+    // A line back up to an earlier step (b not below a) arrives along the
+    // gap under b's row, on a lane of its own nearest that row, and goes
+    // into b's bottom a third of the way in; the line leaving b's bottom
+    // for the next row starts from the middle, below it. So the two never
+    // run on top of each other, and their arrowheads don't meet.
+    let channels = 0;
+    const laneEdges = live.filter(
+        (e) => edgeRoute(pos[e.from], pos[e.to], e.kind) === "lane"
+    );
+    const arrivals = Array(n).fill(0);
+    const arriveLane = {};
+    for (const e of laneEdges) {
+        const a = pos[e.from];
+        const b = pos[e.to];
+        if (b.row <= a.row) arriveLane[edgeKey(e)] = arrivals[b.row]++;
+    }
+    const departs = Array(n).fill(0);
+    for (const e of laneEdges) {
+        const a = pos[e.from];
+        const b = pos[e.to];
+        const key = edgeKey(e);
+        const back = b.row <= a.row;
+        // The gap it runs along to reach b: above b going down, below b
+        // going back up. The gap under a's row when that's the same one.
+        const target = b.row > a.row ? b.row - 1 : b.row;
+        const lanes =
+            back && target === a.row
+                ? [{ row: a.row, i: arriveLane[key] }]
+                : [{ row: a.row, i: arrivals[a.row] + departs[a.row]++ }];
+        if (target !== a.row) {
+            lanes.push(
+                back
+                    ? { row: target, i: arriveLane[key] }
+                    : { row: target, i: arrivals[target] + departs[target]++ }
+            );
+        }
+        routes[key] = {
+            lanes,
+            back,
+            channel: target !== a.row ? channels++ : null,
+        };
+    }
+    for (let r = 0; r < n; r++) lanesIn[r] = arrivals[r] + departs[r];
+
+    // Room under each row: its "below" text, then its fail arrows, then
+    // its lanes, then the way down into the next row.
+    const failExtent = (k) =>
+        k ? Math.round((34 + (k - 1) * 40) * 0.75) + 20 : 0;
+    const laneTop = theRows.map(
+        (_, r) => below[r] + failExtent(failsIn[r]) + 16
+    );
+    const gap = theRows.map((_, r) =>
+        lanesIn[r]
+            ? laneTop[r] + (lanesIn[r] - 1) * LANE_STEP + 24
+            : Math.max(ROW_GAP, below[r] + failExtent(failsIn[r]) + 8)
+    );
+    const rowY = [];
+    let y = PAD_TOP;
+    theRows.forEach((_, r) => {
+        rowY.push(y);
+        y += NODE_H + gap[r];
+    });
+    for (const id of Object.keys(pos)) pos[id].y = rowY[pos[id].row];
+    const last = n - 1;
+    const height = n
+        ? rowY[last] +
+          NODE_H +
+          Math.max(
+              PAD_BOTTOM,
+              below[last] + failExtent(failsIn[last]) + 8,
+              lanesIn[last] ? gap[last] : 0
+          )
+        : PAD_TOP;
+    const laneY = (lane) =>
+        rowY[lane.row] + NODE_H + laneTop[lane.row] + lane.i * LANE_STEP;
+    for (const k of Object.keys(routes)) {
+        routes[k].ys = routes[k].lanes.map(laneY);
+    }
+    return {
+        pos,
+        width,
+        height,
+        rows: theRows,
+        failDepth,
+        routes,
+    };
 }
 
-function edgePath(a, b, kind, depth) {
-    if (kind === "fail") {
+/** A path through these points, its corners rounded. */
+export function roundedPath(points, radius = 8) {
+    if (points.length < 2) return "";
+    let d = `M ${points[0][0]} ${points[0][1]}`;
+    for (let i = 1; i < points.length - 1; i++) {
+        const [px, py] = points[i - 1];
+        const [x, y] = points[i];
+        const [nx, ny] = points[i + 1];
+        const r = Math.min(
+            radius,
+            Math.hypot(x - px, y - py) / 2,
+            Math.hypot(nx - x, ny - y) / 2
+        );
+        const inX = x - Math.sign(x - px) * r;
+        const inY = y - Math.sign(y - py) * r;
+        const outX = x + Math.sign(nx - x) * r;
+        const outY = y + Math.sign(ny - y) * r;
+        d += ` L ${inX} ${inY} Q ${x} ${y}, ${outX} ${outY}`;
+    }
+    const [lx, ly] = points[points.length - 1];
+    return `${d} L ${lx} ${ly}`;
+}
+
+/** The points of a line through the gaps (see edgeRoute). */
+export function lanePoints(a, b, route) {
+    // Forward: from the middle of a's bottom into the middle of b's top.
+    // Back up: from two thirds along a's bottom into one third along b's.
+    const ax = a.x + (route.back ? (NODE_W * 2) / 3 : NODE_W / 2);
+    const bx = b.x + (route.back ? NODE_W / 3 : NODE_W / 2);
+    const [y1, y2] = route.ys;
+    const start = [ax, a.y + NODE_H];
+    const end = route.back ? [bx, b.y + NODE_H + 4] : [bx, b.y - 4];
+    if (route.channel == null) {
+        return [start, [ax, y1], [bx, y1], end];
+    }
+    const cx = CHANNEL_X + (route.channel % 3) * 4;
+    return [start, [ax, y1], [cx, y1], [cx, y2], [bx, y2], end];
+}
+
+function edgePath(a, b, kind, depth, route) {
+    const how = edgeRoute(a, b, kind);
+    if (how === "fail") {
         // Back along the bottom: from the middle of `a` down, round to `b`.
         const x1 = a.x + NODE_W / 2;
         const y1 = a.y + NODE_H;
-        const x2 = b.x + NODE_W / 2 + (depth ? 0 : 0);
+        const x2 = b.x + NODE_W / 2;
         const y2 = b.y + NODE_H;
         const dip = 34 + depth * 40;
         return {
             d: `M ${x1} ${y1} C ${x1} ${y1 + dip}, ${x2} ${y2 + dip}, ${x2} ${y2 + 6}`,
-            label: { x: (x1 + x2) / 2, y: Math.max(y1, y2) + dip * 0.8 + 6 },
+            // Its label just under the lowest point of the curve.
+            label: { x: (x1 + x2) / 2, y: Math.max(y1, y2) + dip * 0.75 + 14 },
         };
     }
-    if (a.row === b.row && b.col === a.col + 1) {
+    if (how === "side") {
         const x1 = a.x + NODE_W;
         const y = a.y + NODE_H / 2;
         const x2 = b.x - 4;
@@ -189,19 +392,50 @@ function edgePath(a, b, kind, depth) {
             label: { x: (x1 + x2) / 2, y: y - 10 },
         };
     }
-    // Anywhere else: a gentle curve from a's right (or bottom) to b's left.
-    const x1 = a.x + (kind === "suggested" ? NODE_W / 2 : NODE_W);
-    const y1 = a.y + (kind === "suggested" ? NODE_H : NODE_H / 2);
+    if (how === "lane" && route) {
+        const pts = lanePoints(a, b, route);
+        // The label (and the +) on its longest stretch along a gap.
+        let best = null;
+        for (let i = 1; i < pts.length; i++) {
+            const [p, q] = [pts[i - 1], pts[i]];
+            if (p[1] !== q[1]) continue;
+            const len = Math.abs(q[0] - p[0]);
+            if (!best || len > best.len)
+                best = { len, x: (p[0] + q[0]) / 2, y: p[1] };
+        }
+        const at = best || { x: pts[1][0], y: pts[1][1] };
+        return {
+            d: roundedPath(pts),
+            label: { x: at.x, y: at.y - 5 },
+            mid: { x: at.x, y: at.y },
+        };
+    }
+    // A suggested step: from a's bottom, round to its left.
+    const x1 = a.x + NODE_W / 2;
+    const y1 = a.y + NODE_H;
     const x2 = b.x - 4;
     const y2 = b.y + NODE_H / 2;
-    const mx = (x1 + x2) / 2;
     return {
-        d:
-            kind === "suggested"
-                ? `M ${x1} ${y1} C ${x1} ${y2}, ${x1} ${y2}, ${x2} ${y2}`
-                : `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`,
-        label: { x: kind === "suggested" ? x1 - 30 : mx, y: (y1 + y2) / 2 - 8 },
+        d: `M ${x1} ${y1} C ${x1} ${y2}, ${x1} ${y2}, ${x2} ${y2}`,
+        label: { x: x1 - 30, y: (y1 + y2) / 2 - 8 },
     };
+}
+
+/** The size of the room a FlowGraph gets: its container's width. */
+function useAvailableWidth(ref, fixed) {
+    const [width, setWidth] = useState(fixed || 0);
+    useLayoutEffect(() => {
+        if (fixed) return undefined;
+        const el = ref.current;
+        if (!el) return undefined;
+        const measure = () => setWidth(el.clientWidth || 0);
+        measure();
+        if (typeof ResizeObserver === "undefined") return undefined;
+        const ro = new ResizeObserver(measure);
+        ro.observe(el);
+        return () => ro.disconnect();
+    }, [ref, fixed]);
+    return fixed || width;
 }
 
 const FlowGraph = ({
@@ -213,6 +447,9 @@ const FlowGraph = ({
     onAdd = null,
     className = "",
     ariaLabel = "Flow",
+    // The room to lay out in (px); by default the container's width. A
+    // chain longer than fits wraps onto the next row (not with `rows`).
+    width = 0,
 }) => {
     const { currentTheme, themeVariant } = useContext(ThemeContext) || {};
     const t = getDashTokens(currentTheme);
@@ -220,36 +457,34 @@ const FlowGraph = ({
     const kinds = KIND_STYLES[variant];
     const colors = EDGE_COLOR[variant];
     const [hoverEdge, setHoverEdge] = useState(null);
+    const boxRef = useRef(null);
+    const room = useAvailableWidth(boxRef, width);
 
     const layout = useMemo(
-        () => flowLayout(steps, edges, rows),
-        [steps, edges, rows]
+        () => flowLayout(steps, edges, rows, { width: room }),
+        [steps, edges, rows, room]
     );
     const byId = useMemo(
         () => Object.fromEntries(steps.map((s) => [s.id, s])),
         [steps]
     );
 
-    // Back arrows are stacked: the longer the jump, the deeper the curve.
-    const failDepth = {};
-    edges
-        .filter(
-            (e) => e.kind === "fail" && layout.pos[e.from] && layout.pos[e.to]
-        )
-        .sort(
-            (x, y) =>
-                Math.abs(layout.pos[x.from].col - layout.pos[x.to].col) -
-                Math.abs(layout.pos[y.from].col - layout.pos[y.to].col)
-        )
-        .forEach((e, i) => {
-            failDepth[`${e.from}>${e.to}`] = i;
-        });
-    const maxDepth = Object.keys(failDepth).length;
-    const height = layout.height + (maxDepth ? 30 + maxDepth * 40 : 0);
+    const height = layout.height;
+    // A label stays inside the drawing, whatever line it's on.
+    const labelX = (x, text) => {
+        const half = (String(text).length * LABEL_CHAR_W) / 2;
+        return Math.max(half + 4, Math.min(x, layout.width - half - 4));
+    };
+    const pathOf = (e) =>
+        edgePath(
+            layout.pos[e.from],
+            layout.pos[e.to],
+            e.kind,
+            layout.failDepth[`${e.from}>${e.to}`] || 0,
+            layout.routes[edgeKey(e)]
+        );
 
-    const edgeKey = (e) => `${e.from}>${e.to}>${e.kind}`;
-
-    return (
+    const graph = (
         <div
             className={`relative ${className}`}
             style={{ width: layout.width, height }}
@@ -280,12 +515,7 @@ const FlowGraph = ({
                     const a = layout.pos[e.from];
                     const b = layout.pos[e.to];
                     if (!a || !b) return null;
-                    const p = edgePath(
-                        a,
-                        b,
-                        e.kind,
-                        failDepth[`${e.from}>${e.to}`] || 0
-                    );
+                    const p = pathOf(e);
                     const tone =
                         e.state === "error" || (e.kind === "fail" && !e.state)
                             ? colors.error
@@ -311,7 +541,7 @@ const FlowGraph = ({
                             />
                             {e.label ? (
                                 <text
-                                    x={p.label.x}
+                                    x={labelX(p.label.x, e.label)}
                                     y={p.label.y}
                                     textAnchor="middle"
                                     fontSize="11"
@@ -337,11 +567,16 @@ const FlowGraph = ({
                       .map((e) => {
                           const a = layout.pos[e.from];
                           const b = layout.pos[e.to];
-                          if (!a || !b || a.row !== b.row) return null;
+                          if (!a || !b) return null;
                           const key = edgeKey(e);
-                          const x1 = a.x + NODE_W;
-                          const x2 = b.x;
-                          const y = a.y + NODE_H / 2;
+                          const side = a.row === b.row && b.col === a.col + 1;
+                          // Along a line through the gaps: a + on its
+                          // stretch under the row.
+                          const mid = side ? null : pathOf(e).mid;
+                          if (!side && !mid) return null;
+                          const x1 = side ? a.x + NODE_W : mid.x - 24;
+                          const x2 = side ? b.x : mid.x + 24;
+                          const y = side ? a.y + NODE_H / 2 : mid.y;
                           const hovered = hoverEdge === key;
                           return (
                               <div
@@ -362,7 +597,12 @@ const FlowGraph = ({
                                       type="button"
                                       aria-label={`Add a step between ${byId[e.from] ? byId[e.from].name : "this step"} and ${byId[e.to] ? byId[e.to].name : "the next"}`}
                                       onClick={() =>
-                                          onAdd({ from: e.from, to: e.to })
+                                          onAdd({
+                                              from: e.from,
+                                              to: e.to,
+                                              x: (x1 + x2) / 2,
+                                              y,
+                                          })
                                       }
                                       className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-base font-semibold transition-opacity duration-150 ${t.surface} ${hovered ? "opacity-100" : "opacity-0"} border-violet-400 text-violet-400`}
                                   >
@@ -410,12 +650,16 @@ const FlowGraph = ({
                             >
                                 {KIND_LABEL[s.kind] || "Step"}
                             </span>
-                            <span className="text-sm font-semibold leading-tight line-clamp-2">
+                            <span
+                                className="text-sm font-semibold leading-tight line-clamp-3"
+                                title={s.name}
+                            >
                                 {s.name}
                             </span>
                             {s.note ? (
                                 <span
-                                    className={`text-xs leading-snug line-clamp-3 ${t.muted}`}
+                                    className={`text-xs leading-snug line-clamp-2 ${t.muted}`}
+                                    title={s.note}
                                 >
                                     {s.note}
                                 </span>
@@ -439,6 +683,15 @@ const FlowGraph = ({
                     </div>
                 );
             })}
+        </div>
+    );
+
+    // Rows passed in are drawn as they are; otherwise the graph measures
+    // the room it has, to wrap a long chain.
+    if (rows && rows.length) return graph;
+    return (
+        <div ref={boxRef} className="w-full">
+            {graph}
         </div>
     );
 };
@@ -483,6 +736,8 @@ const FlowKindChip = ({ kind = "bot", label = null, className = "" }) => {
 
 export {
     FlowGraph,
+    NODE_W as FLOW_NODE_W,
+    NODE_H as FLOW_NODE_H,
     FlowGraphLegend,
     FlowKindChip,
     KIND_LABEL as FLOW_KIND_LABEL,
