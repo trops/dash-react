@@ -12949,12 +12949,26 @@ function _arrayWithHoles$2(r) { if (Array.isArray(r)) return r; }
 function _createForOfIteratorHelper$2(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray$4(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _unsupportedIterableToArray$4(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray$4(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$4(r, a) : void 0; } }
 function _arrayLikeToArray$4(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-var NODE_W = 140;
-var NODE_H = 124;
+var NODE_W = 208;
+var NODE_H = 128;
 var GAP_X = 64;
-var ROW_GAP = 116;
+// Room under a row: tight when nothing runs under it; more for a step's
+// "below" text, a line through the gap, or a fail arrow curving underneath.
+var ROW_GAP = 32;
+var BELOW_ROOM = 24;
+// Lanes under one row sit far enough apart for a label above each.
+var LANE_STEP = 18;
 var PAD_X = 24;
 var PAD_TOP = 36;
+var PAD_BOTTOM = 16;
+// The left margin a line runs up or down when it joins rows that aren't
+// next to each other.
+var CHANNEL_X = 10;
+// About how wide one character of an arrow's label is (11px, semibold).
+var LABEL_CHAR_W = 6.4;
+var edgeKey = function edgeKey(e) {
+  return "".concat(e.from, ">").concat(e.to, ">").concat(e.kind);
+};
 var KIND_LABEL = {
   source: "Source",
   bot: "AI",
@@ -13109,52 +13123,271 @@ function flowRows(steps, edges) {
 }
 
 /**
- * Where each step sits, and how big the drawing is. A null in a row leaves
- * its place empty (a suggested step under the gap it would fill).
+ * Rows wrapped to a width, like text: a row with more steps than fit
+ * carries on in the next row, from the left. No width: no wrapping.
+ */
+function wrapRows(rows, width) {
+  var w = Number(width) || 0;
+  if (!w) return rows;
+  var perRow = Math.max(1, Math.floor((w - PAD_X * 2 + GAP_X) / (NODE_W + GAP_X)));
+  var out = [];
+  var _iterator4 = _createForOfIteratorHelper$2(rows),
+    _step4;
+  try {
+    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+      var row = _step4.value;
+      for (var i = 0; i < row.length; i += perRow) {
+        out.push(row.slice(i, i + perRow));
+      }
+      if (!row.length) out.push(row);
+    }
+  } catch (err) {
+    _iterator4.e(err);
+  } finally {
+    _iterator4.f();
+  }
+  return out;
+}
+
+/**
+ * How an edge is drawn: "side" (straight across to the next step in its
+ * row), "fail" (curving back underneath its row), "suggested" (down to a
+ * suggested step), or "lane" (through the gaps: down under its row, along,
+ * and into the other step; to a row that isn't the next one, by the left
+ * margin).
+ */
+function edgeRoute(a, b, kind) {
+  if (kind === "suggested") return "suggested";
+  if (kind === "fail" && a.row === b.row) return "fail";
+  if (kind !== "fail" && a.row === b.row && b.col === a.col + 1) return "side";
+  return "lane";
+}
+
+/**
+ * Where each step sits, how big the drawing is, and the room under each
+ * row (for the lines that run through it). A null in a row leaves its
+ * place empty (a suggested step under the gap it would fill).
+ *
+ * `opts.width`: the room there is; a chain that doesn't fit wraps onto the
+ * next row. Rows passed in are kept as they are.
  */
 function flowLayout(steps, edges, rows) {
-  var theRows = rows && rows.length ? rows : flowRows(steps, edges);
+  var opts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+  var given = rows && rows.length;
+  var theRows = given ? rows : wrapRows(flowRows(steps, edges), opts.width);
   var pos = {};
   var width = 0;
   theRows.forEach(function (row, r) {
     row.forEach(function (id, c) {
       if (id == null) return;
       var x = PAD_X + c * (NODE_W + GAP_X);
-      var y = PAD_TOP + r * (NODE_H + ROW_GAP);
       pos[id] = {
         x: x,
-        y: y,
+        y: 0,
         row: r,
         col: c
       };
       width = Math.max(width, x + NODE_W + PAD_X);
     });
   });
-  var height = PAD_TOP + theRows.length * (NODE_H + ROW_GAP) - ROW_GAP / 2;
+  var n = theRows.length;
+  var byId = Object.fromEntries((steps || []).map(function (s) {
+    return [s.id, s];
+  }));
+  var below = theRows.map(function (row) {
+    return row.some(function (id) {
+      return id != null && byId[id] && byId[id].below;
+    }) ? BELOW_ROOM : 0;
+  });
+
+  // Fail arrows in their own row curve underneath it, the longer jump
+  // the deeper; lines through the gap under a row each get their own lane.
+  var failDepth = {};
+  var failsIn = Array(n).fill(0);
+  var lanesIn = Array(n).fill(0);
+  var routes = {};
+  var live = (edges || []).filter(function (e) {
+    return pos[e.from] && pos[e.to];
+  });
+  live.filter(function (e) {
+    return edgeRoute(pos[e.from], pos[e.to], e.kind) === "fail";
+  }).sort(function (x, y) {
+    return Math.abs(pos[x.from].col - pos[x.to].col) - Math.abs(pos[y.from].col - pos[y.to].col);
+  }).forEach(function (e) {
+    var r = pos[e.from].row;
+    failDepth["".concat(e.from, ">").concat(e.to)] = failsIn[r]++;
+  });
+  // A line back up to an earlier step (b not below a) arrives along the
+  // gap under b's row, on a lane of its own nearest that row, and goes
+  // into b's bottom a third of the way in; the line leaving b's bottom
+  // for the next row starts from the middle, below it. So the two never
+  // run on top of each other, and their arrowheads don't meet.
+  var channels = 0;
+  var laneEdges = live.filter(function (e) {
+    return edgeRoute(pos[e.from], pos[e.to], e.kind) === "lane";
+  });
+  var arrivals = Array(n).fill(0);
+  var arriveLane = {};
+  var _iterator5 = _createForOfIteratorHelper$2(laneEdges),
+    _step5;
+  try {
+    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+      var e = _step5.value;
+      var a = pos[e.from];
+      var b = pos[e.to];
+      if (b.row <= a.row) arriveLane[edgeKey(e)] = arrivals[b.row]++;
+    }
+  } catch (err) {
+    _iterator5.e(err);
+  } finally {
+    _iterator5.f();
+  }
+  var departs = Array(n).fill(0);
+  var _iterator6 = _createForOfIteratorHelper$2(laneEdges),
+    _step6;
+  try {
+    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+      var _e = _step6.value;
+      var _a = pos[_e.from];
+      var _b = pos[_e.to];
+      var key = edgeKey(_e);
+      var back = _b.row <= _a.row;
+      // The gap it runs along to reach b: above b going down, below b
+      // going back up. The gap under a's row when that's the same one.
+      var target = _b.row > _a.row ? _b.row - 1 : _b.row;
+      var lanes = back && target === _a.row ? [{
+        row: _a.row,
+        i: arriveLane[key]
+      }] : [{
+        row: _a.row,
+        i: arrivals[_a.row] + departs[_a.row]++
+      }];
+      if (target !== _a.row) {
+        lanes.push(back ? {
+          row: target,
+          i: arriveLane[key]
+        } : {
+          row: target,
+          i: arrivals[target] + departs[target]++
+        });
+      }
+      routes[key] = {
+        lanes: lanes,
+        back: back,
+        channel: target !== _a.row ? channels++ : null
+      };
+    }
+  } catch (err) {
+    _iterator6.e(err);
+  } finally {
+    _iterator6.f();
+  }
+  for (var r = 0; r < n; r++) lanesIn[r] = arrivals[r] + departs[r];
+
+  // Room under each row: its "below" text, then its fail arrows, then
+  // its lanes, then the way down into the next row.
+  var failExtent = function failExtent(k) {
+    return k ? Math.round((34 + (k - 1) * 40) * 0.75) + 20 : 0;
+  };
+  var laneTop = theRows.map(function (_, r) {
+    return below[r] + failExtent(failsIn[r]) + 16;
+  });
+  var gap = theRows.map(function (_, r) {
+    return lanesIn[r] ? laneTop[r] + (lanesIn[r] - 1) * LANE_STEP + 24 : Math.max(ROW_GAP, below[r] + failExtent(failsIn[r]) + 8);
+  });
+  var rowY = [];
+  var y = PAD_TOP;
+  theRows.forEach(function (_, r) {
+    rowY.push(y);
+    y += NODE_H + gap[r];
+  });
+  for (var _i = 0, _Object$keys = Object.keys(pos); _i < _Object$keys.length; _i++) {
+    var id = _Object$keys[_i];
+    pos[id].y = rowY[pos[id].row];
+  }
+  var last = n - 1;
+  var height = n ? rowY[last] + NODE_H + Math.max(PAD_BOTTOM, below[last] + failExtent(failsIn[last]) + 8, lanesIn[last] ? gap[last] : 0) : PAD_TOP;
+  var laneY = function laneY(lane) {
+    return rowY[lane.row] + NODE_H + laneTop[lane.row] + lane.i * LANE_STEP;
+  };
+  for (var _i2 = 0, _Object$keys2 = Object.keys(routes); _i2 < _Object$keys2.length; _i2++) {
+    var k = _Object$keys2[_i2];
+    routes[k].ys = routes[k].lanes.map(laneY);
+  }
   return {
     pos: pos,
     width: width,
     height: height,
-    rows: theRows
+    rows: theRows,
+    failDepth: failDepth,
+    routes: routes
   };
 }
-function edgePath(a, b, kind, depth) {
-  if (kind === "fail") {
+
+/** A path through these points, its corners rounded. */
+function roundedPath(points) {
+  var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 8;
+  if (points.length < 2) return "";
+  var d = "M ".concat(points[0][0], " ").concat(points[0][1]);
+  for (var i = 1; i < points.length - 1; i++) {
+    var _points = _slicedToArray$2(points[i - 1], 2),
+      px = _points[0],
+      py = _points[1];
+    var _points$i = _slicedToArray$2(points[i], 2),
+      x = _points$i[0],
+      y = _points$i[1];
+    var _points2 = _slicedToArray$2(points[i + 1], 2),
+      nx = _points2[0],
+      ny = _points2[1];
+    var r = Math.min(radius, Math.hypot(x - px, y - py) / 2, Math.hypot(nx - x, ny - y) / 2);
+    var inX = x - Math.sign(x - px) * r;
+    var inY = y - Math.sign(y - py) * r;
+    var outX = x + Math.sign(nx - x) * r;
+    var outY = y + Math.sign(ny - y) * r;
+    d += " L ".concat(inX, " ").concat(inY, " Q ").concat(x, " ").concat(y, ", ").concat(outX, " ").concat(outY);
+  }
+  var _points3 = _slicedToArray$2(points[points.length - 1], 2),
+    lx = _points3[0],
+    ly = _points3[1];
+  return "".concat(d, " L ").concat(lx, " ").concat(ly);
+}
+
+/** The points of a line through the gaps (see edgeRoute). */
+function lanePoints(a, b, route) {
+  // Forward: from the middle of a's bottom into the middle of b's top.
+  // Back up: from two thirds along a's bottom into one third along b's.
+  var ax = a.x + (route.back ? NODE_W * 2 / 3 : NODE_W / 2);
+  var bx = b.x + (route.back ? NODE_W / 3 : NODE_W / 2);
+  var _route$ys = _slicedToArray$2(route.ys, 2),
+    y1 = _route$ys[0],
+    y2 = _route$ys[1];
+  var start = [ax, a.y + NODE_H];
+  var end = route.back ? [bx, b.y + NODE_H + 4] : [bx, b.y - 4];
+  if (route.channel == null) {
+    return [start, [ax, y1], [bx, y1], end];
+  }
+  var cx = CHANNEL_X + route.channel % 3 * 4;
+  return [start, [ax, y1], [cx, y1], [cx, y2], [bx, y2], end];
+}
+function edgePath(a, b, kind, depth, route) {
+  var how = edgeRoute(a, b, kind);
+  if (how === "fail") {
     // Back along the bottom: from the middle of `a` down, round to `b`.
     var _x = a.x + NODE_W / 2;
     var _y = a.y + NODE_H;
-    var _x2 = b.x + NODE_W / 2 + (depth ? 0 : 0);
+    var _x2 = b.x + NODE_W / 2;
     var _y2 = b.y + NODE_H;
     var dip = 34 + depth * 40;
     return {
       d: "M ".concat(_x, " ").concat(_y, " C ").concat(_x, " ").concat(_y + dip, ", ").concat(_x2, " ").concat(_y2 + dip, ", ").concat(_x2, " ").concat(_y2 + 6),
+      // Its label just under the lowest point of the curve.
       label: {
         x: (_x + _x2) / 2,
-        y: Math.max(_y, _y2) + dip * 0.8 + 6
+        y: Math.max(_y, _y2) + dip * 0.75 + 14
       }
     };
   }
-  if (a.row === b.row && b.col === a.col + 1) {
+  if (how === "side") {
     var _x3 = a.x + NODE_W;
     var y = a.y + NODE_H / 2;
     var _x4 = b.x - 4;
@@ -13166,72 +13399,127 @@ function edgePath(a, b, kind, depth) {
       }
     };
   }
-  // Anywhere else: a gentle curve from a's right (or bottom) to b's left.
-  var x1 = a.x + (kind === "suggested" ? NODE_W / 2 : NODE_W);
-  var y1 = a.y + (kind === "suggested" ? NODE_H : NODE_H / 2);
+  if (how === "lane" && route) {
+    var pts = lanePoints(a, b, route);
+    // The label (and the +) on its longest stretch along a gap.
+    var best = null;
+    for (var i = 1; i < pts.length; i++) {
+      var _ref = [pts[i - 1], pts[i]],
+        p = _ref[0],
+        q = _ref[1];
+      if (p[1] !== q[1]) continue;
+      var len = Math.abs(q[0] - p[0]);
+      if (!best || len > best.len) best = {
+        len: len,
+        x: (p[0] + q[0]) / 2,
+        y: p[1]
+      };
+    }
+    var at = best || {
+      x: pts[1][0],
+      y: pts[1][1]
+    };
+    return {
+      d: roundedPath(pts),
+      label: {
+        x: at.x,
+        y: at.y - 5
+      },
+      mid: {
+        x: at.x,
+        y: at.y
+      }
+    };
+  }
+  // A suggested step: from a's bottom, round to its left.
+  var x1 = a.x + NODE_W / 2;
+  var y1 = a.y + NODE_H;
   var x2 = b.x - 4;
   var y2 = b.y + NODE_H / 2;
-  var mx = (x1 + x2) / 2;
   return {
-    d: kind === "suggested" ? "M ".concat(x1, " ").concat(y1, " C ").concat(x1, " ").concat(y2, ", ").concat(x1, " ").concat(y2, ", ").concat(x2, " ").concat(y2) : "M ".concat(x1, " ").concat(y1, " C ").concat(mx, " ").concat(y1, ", ").concat(mx, " ").concat(y2, ", ").concat(x2, " ").concat(y2),
+    d: "M ".concat(x1, " ").concat(y1, " C ").concat(x1, " ").concat(y2, ", ").concat(x1, " ").concat(y2, ", ").concat(x2, " ").concat(y2),
     label: {
-      x: kind === "suggested" ? x1 - 30 : mx,
+      x: x1 - 30,
       y: (y1 + y2) / 2 - 8
     }
   };
 }
-var FlowGraph = function FlowGraph(_ref) {
-  var _ref$steps = _ref.steps,
-    steps = _ref$steps === void 0 ? [] : _ref$steps,
-    _ref$edges = _ref.edges,
-    edges = _ref$edges === void 0 ? [] : _ref$edges,
-    _ref$rows = _ref.rows,
-    rows = _ref$rows === void 0 ? null : _ref$rows,
-    _ref$selectedId = _ref.selectedId,
-    selectedId = _ref$selectedId === void 0 ? null : _ref$selectedId,
-    _ref$onSelect = _ref.onSelect,
-    onSelect = _ref$onSelect === void 0 ? null : _ref$onSelect,
-    _ref$onAdd = _ref.onAdd,
-    onAdd = _ref$onAdd === void 0 ? null : _ref$onAdd,
-    _ref$className = _ref.className,
-    className = _ref$className === void 0 ? "" : _ref$className,
-    _ref$ariaLabel = _ref.ariaLabel,
-    ariaLabel = _ref$ariaLabel === void 0 ? "Flow" : _ref$ariaLabel;
-  var _ref2 = useContext(ThemeContext) || {},
-    currentTheme = _ref2.currentTheme,
-    themeVariant = _ref2.themeVariant;
+
+/** The size of the room a FlowGraph gets: its container's width. */
+function useAvailableWidth(ref, fixed) {
+  var _useState = useState(fixed || 0),
+    _useState2 = _slicedToArray$2(_useState, 2),
+    width = _useState2[0],
+    setWidth = _useState2[1];
+  useLayoutEffect(function () {
+    if (fixed) return undefined;
+    var el = ref.current;
+    if (!el) return undefined;
+    var measure = function measure() {
+      return setWidth(el.clientWidth || 0);
+    };
+    measure();
+    if (typeof ResizeObserver === "undefined") return undefined;
+    var ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return function () {
+      return ro.disconnect();
+    };
+  }, [ref, fixed]);
+  return fixed || width;
+}
+var FlowGraph = function FlowGraph(_ref2) {
+  var _ref2$steps = _ref2.steps,
+    steps = _ref2$steps === void 0 ? [] : _ref2$steps,
+    _ref2$edges = _ref2.edges,
+    edges = _ref2$edges === void 0 ? [] : _ref2$edges,
+    _ref2$rows = _ref2.rows,
+    rows = _ref2$rows === void 0 ? null : _ref2$rows,
+    _ref2$selectedId = _ref2.selectedId,
+    selectedId = _ref2$selectedId === void 0 ? null : _ref2$selectedId,
+    _ref2$onSelect = _ref2.onSelect,
+    onSelect = _ref2$onSelect === void 0 ? null : _ref2$onSelect,
+    _ref2$onAdd = _ref2.onAdd,
+    onAdd = _ref2$onAdd === void 0 ? null : _ref2$onAdd,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$ariaLabel = _ref2.ariaLabel,
+    ariaLabel = _ref2$ariaLabel === void 0 ? "Flow" : _ref2$ariaLabel,
+    _ref2$width = _ref2.width,
+    width = _ref2$width === void 0 ? 0 : _ref2$width;
+  var _ref3 = useContext(ThemeContext) || {},
+    currentTheme = _ref3.currentTheme,
+    themeVariant = _ref3.themeVariant;
   var t = getDashTokens(currentTheme);
   var variant = themeVariant === "light" ? "light" : "dark";
   var kinds = KIND_STYLES[variant];
   var colors = EDGE_COLOR[variant];
-  var _useState = useState(null),
-    _useState2 = _slicedToArray$2(_useState, 2),
-    hoverEdge = _useState2[0],
-    setHoverEdge = _useState2[1];
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray$2(_useState3, 2),
+    hoverEdge = _useState4[0],
+    setHoverEdge = _useState4[1];
+  var boxRef = useRef(null);
+  var room = useAvailableWidth(boxRef, width);
   var layout = useMemo(function () {
-    return flowLayout(steps, edges, rows);
-  }, [steps, edges, rows]);
+    return flowLayout(steps, edges, rows, {
+      width: room
+    });
+  }, [steps, edges, rows, room]);
   var byId = useMemo(function () {
     return Object.fromEntries(steps.map(function (s) {
       return [s.id, s];
     }));
   }, [steps]);
-
-  // Back arrows are stacked: the longer the jump, the deeper the curve.
-  var failDepth = {};
-  edges.filter(function (e) {
-    return e.kind === "fail" && layout.pos[e.from] && layout.pos[e.to];
-  }).sort(function (x, y) {
-    return Math.abs(layout.pos[x.from].col - layout.pos[x.to].col) - Math.abs(layout.pos[y.from].col - layout.pos[y.to].col);
-  }).forEach(function (e, i) {
-    failDepth["".concat(e.from, ">").concat(e.to)] = i;
-  });
-  var maxDepth = Object.keys(failDepth).length;
-  var height = layout.height + (maxDepth ? 30 + maxDepth * 40 : 0);
-  var edgeKey = function edgeKey(e) {
-    return "".concat(e.from, ">").concat(e.to, ">").concat(e.kind);
+  var height = layout.height;
+  // A label stays inside the drawing, whatever line it's on.
+  var labelX = function labelX(x, text) {
+    var half = String(text).length * LABEL_CHAR_W / 2;
+    return Math.max(half + 4, Math.min(x, layout.width - half - 4));
   };
-  return /*#__PURE__*/jsxs("div", {
+  var pathOf = function pathOf(e) {
+    return edgePath(layout.pos[e.from], layout.pos[e.to], e.kind, layout.failDepth["".concat(e.from, ">").concat(e.to)] || 0, layout.routes[edgeKey(e)]);
+  };
+  var graph = /*#__PURE__*/jsxs("div", {
     className: "relative ".concat(className),
     style: {
       width: layout.width,
@@ -13263,7 +13551,7 @@ var FlowGraph = function FlowGraph(_ref) {
         var a = layout.pos[e.from];
         var b = layout.pos[e.to];
         if (!a || !b) return null;
-        var p = edgePath(a, b, e.kind, failDepth["".concat(e.from, ">").concat(e.to)] || 0);
+        var p = pathOf(e);
         var tone = e.state === "error" || e.kind === "fail" && !e.state ? colors.error : e.state === "warning" ? colors.warning : e.kind === "suggested" ? colors.suggested : colors.next;
         var hovered = hoverEdge === edgeKey(e);
         return /*#__PURE__*/jsxs("g", {
@@ -13276,7 +13564,7 @@ var FlowGraph = function FlowGraph(_ref) {
             strokeDasharray: e.kind === "suggested" || e.dashed ? "5 4" : undefined,
             markerEnd: "url(#flowgraph-arrow)"
           }), e.label ? /*#__PURE__*/jsx("text", {
-            x: p.label.x,
+            x: labelX(p.label.x, e.label),
             y: p.label.y,
             textAnchor: "middle",
             fontSize: "11",
@@ -13292,11 +13580,16 @@ var FlowGraph = function FlowGraph(_ref) {
     }).map(function (e) {
       var a = layout.pos[e.from];
       var b = layout.pos[e.to];
-      if (!a || !b || a.row !== b.row) return null;
+      if (!a || !b) return null;
       var key = edgeKey(e);
-      var x1 = a.x + NODE_W;
-      var x2 = b.x;
-      var y = a.y + NODE_H / 2;
+      var side = a.row === b.row && b.col === a.col + 1;
+      // Along a line through the gaps: a + on its
+      // stretch under the row.
+      var mid = side ? null : pathOf(e).mid;
+      if (!side && !mid) return null;
+      var x1 = side ? a.x + NODE_W : mid.x - 24;
+      var x2 = side ? b.x : mid.x + 24;
+      var y = side ? a.y + NODE_H / 2 : mid.y;
       var hovered = hoverEdge === key;
       return /*#__PURE__*/jsx("div", {
         className: "absolute flex items-center justify-center",
@@ -13324,7 +13617,9 @@ var FlowGraph = function FlowGraph(_ref) {
           onClick: function onClick() {
             return onAdd({
               from: e.from,
-              to: e.to
+              to: e.to,
+              x: (x1 + x2) / 2,
+              y: y
             });
           },
           className: "w-7 h-7 rounded-full border-2 flex items-center justify-center text-base font-semibold transition-opacity duration-150 ".concat(t.surface, " ").concat(hovered ? "opacity-100" : "opacity-0", " border-violet-400 text-violet-400"),
@@ -13363,10 +13658,12 @@ var FlowGraph = function FlowGraph(_ref) {
             className: "self-start text-xs font-semibold px-1.5 py-0.5 rounded ".concat(k.chip),
             children: KIND_LABEL[s.kind] || "Step"
           }), /*#__PURE__*/jsx("span", {
-            className: "text-sm font-semibold leading-tight line-clamp-2",
+            className: "text-sm font-semibold leading-tight line-clamp-3",
+            title: s.name,
             children: s.name
           }), s.note ? /*#__PURE__*/jsx("span", {
-            className: "text-xs leading-snug line-clamp-3 ".concat(t.muted),
+            className: "text-xs leading-snug line-clamp-2 ".concat(t.muted),
+            title: s.note,
             children: s.note
           }) : null, s.badge ? /*#__PURE__*/jsx("span", {
             className: "mt-auto",
@@ -13382,17 +13679,26 @@ var FlowGraph = function FlowGraph(_ref) {
       }, s.id);
     })]
   });
+
+  // Rows passed in are drawn as they are; otherwise the graph measures
+  // the room it has, to wrap a long chain.
+  if (rows && rows.length) return graph;
+  return /*#__PURE__*/jsx("div", {
+    ref: boxRef,
+    className: "w-full",
+    children: graph
+  });
 };
 
 /** The key under the graph: AI, Code check, You. */
-var FlowGraphLegend = function FlowGraphLegend(_ref3) {
-  var _ref3$kinds = _ref3.kinds,
-    kinds = _ref3$kinds === void 0 ? ["bot", "check", "you"] : _ref3$kinds,
-    _ref3$className = _ref3.className,
-    className = _ref3$className === void 0 ? "" : _ref3$className;
-  var _ref4 = useContext(ThemeContext) || {},
-    themeVariant = _ref4.themeVariant,
-    currentTheme = _ref4.currentTheme;
+var FlowGraphLegend = function FlowGraphLegend(_ref4) {
+  var _ref4$kinds = _ref4.kinds,
+    kinds = _ref4$kinds === void 0 ? ["bot", "check", "you"] : _ref4$kinds,
+    _ref4$className = _ref4.className,
+    className = _ref4$className === void 0 ? "" : _ref4$className;
+  var _ref5 = useContext(ThemeContext) || {},
+    themeVariant = _ref5.themeVariant,
+    currentTheme = _ref5.currentTheme;
   var t = getDashTokens(currentTheme);
   var k = KIND_STYLES[themeVariant === "light" ? "light" : "dark"];
   return /*#__PURE__*/jsx("span", {
@@ -13410,15 +13716,15 @@ var FlowGraphLegend = function FlowGraphLegend(_ref3) {
 };
 
 /** A step-kind chip on its own (lists, proposals, panels). */
-var FlowKindChip = function FlowKindChip(_ref5) {
-  var _ref5$kind = _ref5.kind,
-    kind = _ref5$kind === void 0 ? "bot" : _ref5$kind,
-    _ref5$label = _ref5.label,
-    label = _ref5$label === void 0 ? null : _ref5$label,
-    _ref5$className = _ref5.className,
-    className = _ref5$className === void 0 ? "" : _ref5$className;
-  var _ref6 = useContext(ThemeContext) || {},
-    themeVariant = _ref6.themeVariant;
+var FlowKindChip = function FlowKindChip(_ref6) {
+  var _ref6$kind = _ref6.kind,
+    kind = _ref6$kind === void 0 ? "bot" : _ref6$kind,
+    _ref6$label = _ref6.label,
+    label = _ref6$label === void 0 ? null : _ref6$label,
+    _ref6$className = _ref6.className,
+    className = _ref6$className === void 0 ? "" : _ref6$className;
+  var _ref7 = useContext(ThemeContext) || {},
+    themeVariant = _ref7.themeVariant;
   var k = KIND_STYLES[themeVariant === "light" ? "light" : "dark"];
   return /*#__PURE__*/jsx("span", {
     className: "inline-flex text-xs font-semibold px-1.5 py-0.5 rounded ".concat((k[kind] || k.bot).chip, " ").concat(className),
