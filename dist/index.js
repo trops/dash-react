@@ -11478,6 +11478,14 @@ var Stepper = function Stepper(_ref2) {
     _useState2 = _slicedToArray$7(_useState, 2),
     fits = _useState2[0],
     setFits = _useState2[1];
+  // Steps added or taken away: measure again with every name shown — the
+  // width needed before was for a different number of steps.
+  var countRef = useRef(totalSteps);
+  if (countRef.current !== totalSteps) {
+    countRef.current = totalSteps;
+    neededRef.current = 0;
+    if (!fits) setFits(true);
+  }
   useLayoutEffect(function () {
     var row = rowRef.current;
     if (!row) return undefined;

@@ -69,4 +69,25 @@ describe("Stepper in a narrow space", () => {
         );
         restore();
     });
+
+    test("a step taken away: every name is measured again", () => {
+        const restore = widths(1100, 640);
+        const steps = (names) => (
+            <ThemeContext.Provider value={{ currentTheme: {} }}>
+                <Stepper activeStep={0} showNavigation={false}>
+                    {names.map((n) => (
+                        <Stepper.Step key={n} label={n} />
+                    ))}
+                </Stepper>
+            </ThemeContext.Provider>
+        );
+        const { rerender } = render(steps(NAMES));
+        expect(screen.queryByText("Publish")).toBeNull();
+        restore();
+        // Two steps now fit in the same space.
+        const back = widths(300, 640);
+        rerender(steps(["Account", "Publish"]));
+        expect(screen.getByText("Publish")).toBeInTheDocument();
+        back();
+    });
 });

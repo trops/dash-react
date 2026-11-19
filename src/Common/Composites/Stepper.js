@@ -56,6 +56,14 @@ const Stepper = ({
     const rowRef = useRef(null);
     const neededRef = useRef(0);
     const [fits, setFits] = useState(true);
+    // Steps added or taken away: measure again with every name shown — the
+    // width needed before was for a different number of steps.
+    const countRef = useRef(totalSteps);
+    if (countRef.current !== totalSteps) {
+        countRef.current = totalSteps;
+        neededRef.current = 0;
+        if (!fits) setFits(true);
+    }
     useLayoutEffect(() => {
         const row = rowRef.current;
         if (!row) return undefined;
