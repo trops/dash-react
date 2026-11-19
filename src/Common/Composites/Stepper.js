@@ -1,4 +1,4 @@
-import { useContext, Children } from "react";
+import { useContext, Children, useLayoutEffect, useRef, useState } from "react";
 import { ThemeContext } from "@dash/Context/ThemeContext";
 import { getStylesForItem } from "@dash/Utils";
 import { themeObjects } from "@dash/Utils/themeObjects";
@@ -49,6 +49,41 @@ const Stepper = ({
     );
     const totalSteps = steps.length;
 
+    // Every step's name when they fit; when they don't (many steps, a
+    // narrow dialog), only the current one's — the others keep their
+    // circle, with the name on hover. Back to all names once there's room
+    // for the width they needed.
+    const rowRef = useRef(null);
+    const neededRef = useRef(0);
+    const [fits, setFits] = useState(true);
+    // Steps added or taken away: measure again with every name shown — the
+    // width needed before was for a different number of steps.
+    const countRef = useRef(totalSteps);
+    if (countRef.current !== totalSteps) {
+        countRef.current = totalSteps;
+        neededRef.current = 0;
+        if (!fits) setFits(true);
+    }
+    useLayoutEffect(() => {
+        const row = rowRef.current;
+        if (!row) return undefined;
+        const measure = () => {
+            if (fits) {
+                if (row.scrollWidth > row.clientWidth + 1) {
+                    neededRef.current = row.scrollWidth;
+                    setFits(false);
+                }
+            } else if (row.clientWidth >= neededRef.current) {
+                setFits(true);
+            }
+        };
+        measure();
+        if (typeof ResizeObserver === "undefined") return undefined;
+        const watch = new ResizeObserver(measure);
+        watch.observe(row);
+        return () => watch.disconnect();
+    }, [fits, totalSteps]);
+
     const goNext = () => {
         if (onStepChange && activeStep < totalSteps - 1) {
             onStepChange(activeStep + 1);
@@ -70,10 +105,15 @@ const Stepper = ({
     return (
         <div className={`flex flex-col ${className}`}>
             {/* Step indicators */}
-            <div className="flex flex-row items-center mb-6">
+            <div
+                ref={rowRef}
+                className="flex flex-row items-center mb-6 min-w-0"
+                data-fits={fits ? "true" : "false"}
+            >
                 {steps.map((step, i) => {
                     const isActive = i === activeStep;
                     const isCompleted = i < activeStep;
+                    const named = fits || isActive;
 
                     return (
                         <div
@@ -85,6 +125,10 @@ const Stepper = ({
                                 type="button"
                                 onClick={() => goTo(i)}
                                 disabled={i > activeStep}
+                                title={named ? undefined : step.props.label}
+                                aria-label={
+                                    named ? undefined : step.props.label
+                                }
                                 className={`flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full text-sm font-medium ${stepStyles.transition || "transition-colors duration-200"} ${
                                     isCompleted
                                         ? `${stepStyles.activeBackgroundColor || ""} ${stepStyles.activeTextColor || ""}`
@@ -113,25 +157,27 @@ const Stepper = ({
                             </button>
 
                             {/* Label */}
-                            <div className="flex flex-col ml-2 min-w-0">
-                                <span
-                                    className={`text-sm font-medium truncate ${isActive || isCompleted ? stepStyles.activeTextColor || "" : tokens.muted}`}
-                                >
-                                    {step.props.label}
-                                </span>
-                                {step.props.description && (
+                            {named ? (
+                                <div className="flex flex-col ml-2 min-w-0">
                                     <span
-                                        className={`text-xs truncate ${tokens.faint}`}
+                                        className={`text-sm font-medium truncate ${isActive || isCompleted ? stepStyles.activeTextColor || "" : tokens.muted}`}
                                     >
-                                        {step.props.description}
+                                        {step.props.label}
                                     </span>
-                                )}
-                            </div>
+                                    {step.props.description && (
+                                        <span
+                                            className={`text-xs truncate ${tokens.faint}`}
+                                        >
+                                            {step.props.description}
+                                        </span>
+                                    )}
+                                </div>
+                            ) : null}
 
                             {/* Connector line */}
                             {i < totalSteps - 1 && (
                                 <div
-                                    className={`flex-1 h-px mx-4 ${
+                                    className={`flex-1 h-px ${fits ? "mx-4" : "mx-2"} ${
                                         i < activeStep
                                             ? connectorStyles.activeBackgroundColor ||
                                               ""
