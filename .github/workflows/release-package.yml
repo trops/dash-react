@@ -11,6 +11,9 @@ jobs:
         permissions:
             contents: read
             id-token: write
+        env:
+            # Optional (DASH-48): only whether the token is set, not the token.
+            HAS_DASH_BOT_TOKEN: ${{ secrets.DASH_BOT_TOKEN != '' }}
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
@@ -22,3 +25,17 @@ jobs:
             - run: npm publish --provenance --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            # DASH-48: tell dash-electron a new version is out, so its
+            # bump-deps workflow opens a "take @trops/dash-react X" PR now
+            # instead of on its next 15-minute check. Needs DASH_BOT_TOKEN
+            # (fine-grained, Actions + Contents on trops/dash-electron);
+            # skipped without it.
+            - name: Tell dash-electron
+              if: ${{ env.HAS_DASH_BOT_TOKEN == 'true' }}
+              env:
+                  GH_TOKEN: ${{ secrets.DASH_BOT_TOKEN }}
+              run: |
+                  VERSION="$(node -p "require('./package.json').version")"
+                  gh api repos/trops/dash-electron/dispatches \
+                      -f event_type=dash-react-published \
+                      -f "client_payload[version]=$VERSION"
