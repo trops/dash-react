@@ -55,16 +55,20 @@ step() {
 # VALIDATION STEPS
 # ============================================================================
 
-# 1. Ensure Node 20 via nvm
-step "Ensuring Node 20 via nvm"
-unset npm_config_prefix
-export NVM_DIR="$HOME/.nvm"
-if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
-    echo "Error: nvm not found at $NVM_DIR/nvm.sh"
-    exit 1
+# 1. Ensure Node 20 via nvm (on GitHub Actions the workflow sets up Node)
+if [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+    step "Using the runner's Node (GitHub Actions)"
+else
+    step "Ensuring Node 20 via nvm"
+    unset npm_config_prefix
+    export NVM_DIR="$HOME/.nvm"
+    if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
+        echo "Error: nvm not found at $NVM_DIR/nvm.sh"
+        exit 1
+    fi
+    source "$NVM_DIR/nvm.sh" --no-use
+    nvm use --delete-prefix v20.20.0
 fi
-source "$NVM_DIR/nvm.sh" --no-use
-nvm use --delete-prefix v20.20.0
 echo "Node version: $(node -v)"
 echo "npm version: $(npm -v)"
 
@@ -76,6 +80,10 @@ npx prettier --write .
 # directly — without this step, failing jest suites shipped unnoticed.
 step "Running Jest tests"
 npm run test-jest
+
+# 2c. The release script (DASH-48): resumable, worktree-safe git workflow.
+step "Testing the release script"
+node --test scripts/release.test.js
 
 # 3. Build with Rollup
 step "Building library with Rollup"
@@ -95,16 +103,21 @@ echo "OK: dist/index.js ($(ls -lh dist/index.js | awk '{print $5}'))"
 step "Verifying dist is pure ESM"
 node --test scripts/test-no-cjs-require-in-dist.js
 
-# 6. Create package
+# 6. Create package. Start from an empty package/ so the check below sees
+# this run's tarball, not one left over from an earlier run (a stale
+# package/trops-dash-react.tgz made this pass while npm pack actually writes
+# trops-dash-react-<version>.tgz; a fresh checkout, like PR CI, failed).
 step "Creating npm package"
+rm -rf package
 npm run pack-local-esm
 
 # 6. Verify package
-if [[ ! -f "package/trops-dash-react.tgz" ]]; then
-    echo "Error: package/trops-dash-react.tgz not found"
+PACKED="$(ls package/trops-dash-react-*.tgz 2>/dev/null | head -1)"
+if [[ -z "$PACKED" || ! -s "$PACKED" ]]; then
+    echo "Error: npm pack wrote no package/trops-dash-react-*.tgz"
     exit 1
 fi
-echo "OK: package/trops-dash-react.tgz ($(ls -lh package/trops-dash-react.tgz | awk '{print $5}'))"
+echo "OK: $PACKED ($(ls -lh "$PACKED" | awk '{print $5}'))"
 
 echo ""
 echo "All validation steps passed."
@@ -115,98 +128,21 @@ if [[ "$MODE" == "validate" ]]; then
 fi
 
 # ============================================================================
-# GIT WORKFLOW
+# GIT WORKFLOW (DASH-48: scripts/release.js)
 # ============================================================================
+# Resumable: after --pr, run --release on the same branch to merge, tag and
+# clean up. Safe to run again. Works in a git worktree.
 
-BRANCH="$(git branch --show-current)"
-MAIN_BRANCH="main"
-
-if [[ "$BRANCH" == "$MAIN_BRANCH" ]]; then
-    echo "Error: Cannot run --$MODE from $MAIN_BRANCH. Create a feature branch first."
-    exit 1
-fi
-
-# --- Ensure git credentials via gh ---
-step "Configuring git credentials via gh"
-gh auth setup-git
-
-# --- Commit ---
-step "Committing changes"
-git add -u
-git commit -m "$COMMIT_MSG"
-
-# --- Rebase on latest remote ---
-step "Rebasing on latest origin"
-git fetch origin
-REBASE_TARGET=""
-if git rev-parse --verify "origin/$BRANCH" >/dev/null 2>&1; then
-    REBASE_TARGET="origin/$BRANCH"
-elif [[ "$BRANCH" != "$MAIN_BRANCH" ]]; then
-    REBASE_TARGET="origin/$MAIN_BRANCH"
-fi
-if [[ -n "$REBASE_TARGET" ]]; then
-    git rebase "$REBASE_TARGET" || {
-        echo "Error: Rebase on $REBASE_TARGET failed (conflicts)."
-        echo "Aborting rebase. Resolve manually and re-run."
-        git rebase --abort 2>/dev/null || true
-        exit 1
-    }
-fi
-
-step "Bumping version"
-npm version patch --no-git-tag-version
-VERSION="$(node -p "require('./package.json').version")"
-git add package.json package-lock.json
-git commit -m "Bump version to $VERSION"
-
-echo "New version: $VERSION"
-
-if [[ "$MODE" == "commit" ]]; then
-    exit 0
-fi
-
-# --- Push ---
-step "Pushing branch to origin"
-git push -u origin "$BRANCH"
-
-if [[ "$MODE" == "push" ]]; then
-    exit 0
-fi
-
-# --- PR ---
-step "Creating pull request"
-PR_URL="$(gh pr create --title "$COMMIT_MSG" --body "## Summary
+export RELEASE_PR_BODY="## Summary
 $COMMIT_MSG
 
-Version: $VERSION
+Version: {{VERSION}}
 
 ## Validation
 - Prettier: passed
+- Jest tests: passed
 - Rollup build: passed
 - Output verification: passed
-- Package creation: passed")"
+- Package creation: passed"
 
-echo "PR created: $PR_URL"
-
-if [[ "$MODE" == "pr" ]]; then
-    exit 0
-fi
-
-# --- Release ---
-step "Merging pull request"
-gh pr merge --merge
-
-step "Switching to main and pulling"
-git checkout main
-git pull
-
-step "Tagging v$VERSION"
-git tag "v$VERSION"
-git push origin "v$VERSION"
-
-step "Cleaning up branch: $BRANCH"
-git branch -d "$BRANCH" 2>/dev/null || true
-git push origin --delete "$BRANCH" 2>/dev/null || true
-
-echo ""
-echo "Release complete: v$VERSION"
+node scripts/release.js --mode "$MODE" -m "$COMMIT_MSG" --main main
