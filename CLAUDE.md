@@ -280,6 +280,15 @@ npm run ci:release -- -m "Your commit message"
 
 Each flag is cumulative. `--release` runs all prior steps automatically.
 
+### What the release commits (DASH-163)
+
+The commit step commits exactly the tracked files changed (or staged) before validation
+ran; never `git add -u`. A brand-new file must be `git add`ed first or it's left out. If
+validation (or anything else) changed another tracked file, it stops, commits nothing, and
+names the file: undo it with `git checkout HEAD -- <file>`. `package-lock.json` is committed
+only when a dependency in package.json changed on the branch (or only its version moved);
+`RELEASE_ALLOW_LOCKFILE=1` overrides that (a person's call, not a bot's).
+
 ### Resuming and rerunning (DASH-48)
 
 The git half of `ci.sh` is `scripts/release.js` (tested by `scripts/release.test.js`).
