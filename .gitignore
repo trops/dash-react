@@ -12,7 +12,9 @@ node_modules
 /coverage
 
 # production
-# /dist
+# dist/ is built (rollup + `npm run copy`) by ci.sh, the release workflow
+# and `npm run build`; never commit it (DASH-155).
+/dist
 /build
 /out
 src/Widgets

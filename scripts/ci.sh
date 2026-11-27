@@ -72,30 +72,43 @@ fi
 echo "Node version: $(node -v)"
 echo "npm version: $(npm -v)"
 
-# 2. Prettify
-step "Running Prettier"
-npx prettier --write .
+# 2. Formatting check (DASH-155). Validation must not rewrite tracked files:
+# the release step commits with `git add -u`, so a `--write` here used to
+# sweep reformatted, out-of-plan files into the commit. Fix with
+# `npm run prettify`, then run again.
+step "Checking formatting (Prettier)"
+if ! npx prettier --check .; then
+    echo ""
+    echo "Error: the files above aren't Prettier-formatted. Run \`npm run prettify\` and commit the result."
+    exit 1
+fi
 
-# 2b. Unit tests. `npm test` is a no-op ("exit 0"), so call the jest script
-# directly — without this step, failing jest suites shipped unnoticed.
+# 2b. Unit tests (DASH-155: `npm test` now runs jest, so dash-check's
+# node.testsPass and plain `npm test` see the real suite).
 step "Running Jest tests"
-npm run test-jest
+npm test
 
 # 2c. The release script (DASH-48): resumable, worktree-safe git workflow.
 step "Testing the release script"
 node --test scripts/release.test.js
 
-# 3. Build with Rollup
+# 3. Build with Rollup, then copy in the rest of the published files, the
+# same steps the release workflow runs before `npm publish`. dist/ isn't
+# tracked (DASH-155), so this is the only thing that makes it.
 step "Building library with Rollup"
+npm run clean-dist
 NODE_ENV=prod npx rollup -c
+npm run copy
 
-# 4. Verify dist/index.js
+# 4. Verify the published files
 step "Verifying build output"
-if [[ ! -s "dist/index.js" ]]; then
-    echo "Error: dist/index.js not found or empty"
-    exit 1
-fi
-echo "OK: dist/index.js ($(ls -lh dist/index.js | awk '{print $5}'))"
+for f in dist/index.js dist/index.css dist/tailwind.css dist/designSystem.css dist/aurora-palette.cjs dist/package.json; do
+    if [[ ! -s "$f" ]]; then
+        echo "Error: $f not found or empty"
+        exit 1
+    fi
+    echo "OK: $f ($(ls -lh "$f" | awk '{print $5}'))"
+done
 
 # 5. Pin: dist must be pure ESM (no inline require()).
 # Node 22+/24's syntax-detected ESM rejects inline require() in modules
@@ -139,7 +152,7 @@ $COMMIT_MSG
 Version: {{VERSION}}
 
 ## Validation
-- Prettier: passed
+- Prettier check: passed
 - Jest tests: passed
 - Rollup build: passed
 - Output verification: passed

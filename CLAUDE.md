@@ -227,9 +227,15 @@ have downstream consequences. The mandatory order is:
 
 ## ci.sh — The Only Approved Release Path
 
-The `scripts/ci.sh` script handles the full pipeline: Node 20 via nvm, Prettier,
-Tailwind CSS, Rollup build, output verification, package creation, commit, version bump,
-push, PR, merge, tag, and cleanup.
+The `scripts/ci.sh` script handles the full pipeline: Node 20 via nvm, a Prettier
+**check** (it never rewrites files; run `npm run prettify` when it fails), Jest (`npm test`),
+Rollup build plus `npm run copy` into `dist/`, output verification, package creation, commit,
+version bump, push, PR, merge, tag, and cleanup.
+
+`dist/` is **not tracked** (DASH-155). It is built by `ci.sh`, by `npm run build`/`prod`, and
+by `release-package.yml` (`clean-dist`, `roll`, `copy`, then `npm publish` from the repo root;
+`files: ["dist"]` decides what ships). dash-core and dash-electron get it from npm, or from
+`dash-electron`'s `link-react`, which runs `npm run build` first. Never commit `dist/`.
 
 ```bash
 # Validate only

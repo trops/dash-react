@@ -81,7 +81,7 @@ dash-react/
 │   ├── Mock/                    # Mock data for testing
 │   ├── index.js                 # Main export file
 │   └── tailwind.css             # Compiled Tailwind CSS
-├── dist/                        # Build output (published)
+├── dist/                        # Build output (published; not tracked, built by ci.sh)
 ├── package/                     # npm package output
 ├── rollup.config.js             # Rollup build config
 ├── tailwind.config.js           # TailwindCSS config
