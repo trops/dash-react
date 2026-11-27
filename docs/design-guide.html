@@ -169,6 +169,7 @@
                 <a href="#components">Which component</a>
                 <a href="component-gallery.html">Component gallery ↗</a>
                 <a href="#buttons">Buttons</a>
+                <a href="#variants">Numbered variants</a>
                 <span class="toc-group">Patterns</span>
                 <a href="#headers">Panel header</a>
                 <a href="#rows">List rows</a>
@@ -2417,6 +2418,225 @@
                         href="component-gallery.html#comp-Button"
                         >See Button, Button2 and Button3 live →</a
                     >
+                </section>
+
+                <section id="variants">
+                    <h2>Numbered variants: 1 is the loudest, 3 the quietest</h2>
+                    <p>
+                        <code>Button</code>, <code>Panel</code>,
+                        <code>Tag</code>, <code>Heading</code>,
+                        <code>SubHeading</code>, <code>Paragraph</code> and
+                        <code>Caption</code> each come as 1 / 2 / 3. The number
+                        is a step down in emphasis, never a different job: each
+                        reads its own theme object (<code>button</code>,
+                        <code>button-2</code>, <code>button-3</code>, …), and
+                        the number picks the theme's primary, secondary or
+                        tertiary color family plus a smaller default size. The
+                        props are the same across a family. Pick the variant by
+                        how much the thing should stand out; don't add a
+                        <code>4</code> and don't pass classes to make a
+                        <code>2</code> look like a <code>1</code>. dash-core use
+                        counts (origin, Nov 2026) show what is normal.
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>What it is (defaults)</th>
+                                    <th>Use it for</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>Button</code></td>
+                                    <td>
+                                        Primary: accent fill, white label
+                                        (<code>dr-btn-primary</code>)
+                                    </td>
+                                    <td>
+                                        The one main action of a pane: Save,
+                                        Create, Install. At most one per pane.
+                                        (303 uses)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Button2</code></td>
+                                    <td>
+                                        Secondary: glass fill with a hairline
+                                        border (<code>dr-btn-secondary</code>)
+                                    </td>
+                                    <td>
+                                        Other actions next to the primary:
+                                        Cancel, Back, Edit, a second option.
+                                        (104)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Button3</code></td>
+                                    <td>
+                                        Ghost: no fill, muted text until hover
+                                        (<code>dr-btn-ghost</code>)
+                                    </td>
+                                    <td>
+                                        Quiet and repeated actions: row actions,
+                                        toolbars, "Show more", links that act.
+                                        The usual choice in lists. (306)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        All three take
+                                        <code>size</code> (xs/sm/md),
+                                        <code>block</code>,
+                                        <code>danger</code> (soft red, any
+                                        tier), <code>type</code>,
+                                        <code>tooltip</code>,
+                                        <code>ariaLabel</code>. Icon-only:
+                                        <code>ButtonIcon3</code>.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Panel</code></td>
+                                    <td>
+                                        Full-height region: <code>p-6</code>,
+                                        <code>h-full</code>, primary family;
+                                        takes <code>brand</code>
+                                    </td>
+                                    <td>
+                                        The main surface of a screen, modal body
+                                        or widget card; the only one with the
+                                        provider <code>brand</code>
+                                        treatment. Use this unless you need a
+                                        nested one. (52)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Panel2</code></td>
+                                    <td>
+                                        <code>p-4</code>, height from content,
+                                        secondary family
+                                    </td>
+                                    <td>
+                                        A section inside a screen or a
+                                        <code>Panel</code> (e.g. the welcome and
+                                        dashboard-loader cards). (4)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Panel3</code></td>
+                                    <td>
+                                        <code>p-2</code>, height from content,
+                                        tertiary family
+                                    </td>
+                                    <td>
+                                        A small box nested in another panel: a
+                                        menu section, a details column, a list
+                                        well. (5)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Each has its own
+                                        <code>.Header</code>,
+                                        <code>.Body</code> and
+                                        <code>.Footer</code>; use the parts of
+                                        the same number (<code
+                                            >Panel2.Body</code
+                                        >
+                                        inside <code>Panel2</code>). In Aurora
+                                        all three render as the same glass card
+                                        (<code>dr-panel</code>), so the number
+                                        only changes padding, height and the
+                                        non-Aurora theme colors.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Tag</code></td>
+                                    <td>
+                                        <code>text-sm</code>,
+                                        <code>px-3 py-1.5</code>, medium weight,
+                                        primary family
+                                    </td>
+                                    <td>
+                                        The default label chip: status
+                                        ("Editing", "Needs setup"), category,
+                                        provider. (27)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Tag2</code></td>
+                                    <td>
+                                        <code>text-xs</code>,
+                                        <code>px-2 py-1</code>, secondary
+                                        family; has <code>active</code>
+                                    </td>
+                                    <td>
+                                        A chip that toggles (filter chips): pass
+                                        <code>active</code> for the selected
+                                        one. The only Tag with an active state.
+                                        (1, the theme studio)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Tag3</code></td>
+                                    <td>
+                                        <code>text-xs</code>,
+                                        <code>px-1.5 py-0.5</code>, normal
+                                        weight, tertiary family
+                                    </td>
+                                    <td>
+                                        Small inline chips in a dense list: a
+                                        row's "Active" badge, widget names in a
+                                        list. (5)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Heading</code></td>
+                                    <td><code>text-5xl</code> bold</td>
+                                    <td>
+                                        Display titles on splash-style screens
+                                        ("Dash.", "Load.", "Build."), usually
+                                        with <code>padding={false}</code>. Not
+                                        for a pane title. (14)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Heading2</code></td>
+                                    <td><code>text-4xl</code> bold</td>
+                                    <td>
+                                        The title of a step in a full-screen
+                                        flow (onboarding: "Welcome to Dash",
+                                        "Install Failed"). (6)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>Heading3</code></td>
+                                    <td><code>text-3xl</code> semibold</td>
+                                    <td>
+                                        The title inside a large modal or an
+                                        empty result ("Split Cell 2", "No
+                                        packages found"). (5)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Pane, panel and section titles are
+                                        smaller than any Heading: use
+                                        <code>SubHeading3</code> (text-lg, 53
+                                        uses) or a panel header (see
+                                        <a href="#headers">Panel header</a>).
+                                        <code>SubHeading</code>/<code>2</code>
+                                        are text-2xl/xl. Body text is
+                                        <code>Paragraph</code> (base),
+                                        <code>Paragraph2</code> (sm),
+                                        <code>Paragraph3</code> (xs); meta and
+                                        status lines are <code>Caption2</code>.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
 
                 <section id="headers">

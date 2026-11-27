@@ -83,6 +83,12 @@ if ! npx prettier --check .; then
     exit 1
 fi
 
+# 2a. ESLint (react, react-hooks) against scripts/eslint-baseline.json
+# (DASH-159): only problems the baseline doesn't already count fail.
+step "Running ESLint (new problems only)"
+npm run lint
+node --test scripts/lint.test.js
+
 # 2b. Unit tests (DASH-155: `npm test` now runs jest, so dash-check's
 # node.testsPass and plain `npm test` see the real suite).
 step "Running Jest tests"
@@ -153,6 +159,7 @@ Version: {{VERSION}}
 
 ## Validation
 - Prettier check: passed
+- ESLint (vs baseline): passed
 - Jest tests: passed
 - Rollup build: passed
 - Output verification: passed

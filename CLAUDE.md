@@ -69,6 +69,29 @@ checklist in dark **and** light before a change is called done. When you add or
 change a component, rebuild the live gallery (`npm run build:gallery`) and check
 its card in [docs/component-gallery.html](docs/component-gallery.html).
 
+### Numbered variants (DASH-159): pick by emphasis, 1 = loudest
+
+`Button`, `Panel`, `Tag`, `Heading`, `SubHeading`, `Paragraph` and `Caption` come as 1/2/3.
+The number steps down in emphasis (theme primary → secondary → tertiary color family, smaller
+defaults); the props are the same. Never add a `4`; never restyle a `2` into a `1`. Full table:
+[docs/design-guide.html#variants](docs/design-guide.html#variants).
+
+| Use                   | For                                                                                                                                                             |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`              | The one main action of a pane (Save, Create). At most one per pane.                                                                                             |
+| `Button2`             | Other actions beside it (Cancel, Back, Edit).                                                                                                                   |
+| `Button3`             | Quiet/repeated actions: row actions, toolbars, "Show more". Icon-only: `ButtonIcon3`.                                                                           |
+| `Panel`               | The main surface: screen, modal body, widget card (`p-6`, `h-full`, has `brand`). Default.                                                                      |
+| `Panel2`              | A section inside a screen or Panel (`p-4`, content height).                                                                                                     |
+| `Panel3`              | A small box nested in a panel: menu section, details column (`p-2`).                                                                                            |
+| `Tag`                 | The default label chip: status, category, provider (`text-sm`).                                                                                                 |
+| `Tag2`                | A toggling filter chip: the only Tag with `active` (`text-xs`).                                                                                                 |
+| `Tag3`                | Small inline chips in dense lists (`text-xs`, tighter).                                                                                                         |
+| `Heading` / `2` / `3` | Display titles only: splash (5xl) / full-screen flow step (4xl) / big modal or empty result (3xl). Pane and section titles use `SubHeading3` or a panel header. |
+
+Use a Panel's own parts (`Panel2.Body` inside `Panel2`). In Aurora all three Panels render the
+same glass card; the number changes padding and height.
+
 ---
 
 ## MANDATORY: PRD Gate
@@ -228,7 +251,8 @@ have downstream consequences. The mandatory order is:
 ## ci.sh — The Only Approved Release Path
 
 The `scripts/ci.sh` script handles the full pipeline: Node 20 via nvm, a Prettier
-**check** (it never rewrites files; run `npm run prettify` when it fails), Jest (`npm test`),
+**check** (it never rewrites files; run `npm run prettify` when it fails), ESLint against
+its baseline (`npm run lint`), Jest (`npm test`),
 Rollup build plus `npm run copy` into `dist/`, output verification, package creation, commit,
 version bump, push, PR, merge, tag, and cleanup.
 
@@ -318,7 +342,12 @@ Verify components render correctly with proper theming, interactive states, and 
 
 ## Code Style
 
-- **Formatting:** Prettier (`.prettierrc`), 4-space indentation
+- **Formatting:** Prettier (`.prettierrc`), 4-space indentation. `ci.sh` only checks; `npm run prettify` fixes.
+- **Lint (DASH-159):** ESLint with `react` and `react-hooks` (`.eslintrc.json`), run by `ci.sh` as
+  `npm run lint` over `src/`. Problems already in `scripts/eslint-baseline.json` (22 when it was made) are
+  allowed; any new one fails. Fix it, or disable one line with a reason
+  (`// eslint-disable-next-line <rule> -- <why>`). Never raise the baseline to pass. After fixing old
+  problems, `npm run lint -- --update` lowers it.
 - **Components:** PascalCase (`Panel.js`)
 - **Utilities:** camelCase (`colors.js`)
 - **Constants:** SCREAMING_SNAKE_CASE (`PANEL_HEADER`)

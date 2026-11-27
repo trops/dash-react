@@ -1,0 +1,32 @@
+{
+    "src/Common/AlgoliaUI/AlgoliaSearchBox.js": {
+        "react-hooks/exhaustive-deps": 1
+    },
+    "src/Common/AlgoliaUI/templates/hits/Templates.js": {
+        "react/no-unknown-property": 1
+    },
+    "src/Common/Aurora.stories.js": {
+        "react/no-unescaped-entities": 6
+    },
+    "src/Common/Card.js": {
+        "react/display-name": 6
+    },
+    "src/Common/Composites/ChatListHeader.test.js": {
+        "react/no-unescaped-entities": 1
+    },
+    "src/Common/Composites/ThemePreviewBanner.js": {
+        "react-hooks/rules-of-hooks": 1
+    },
+    "src/Common/Input/SelectInput.js": {
+        "react-hooks/exhaustive-deps": 2
+    },
+    "src/Common/Panel.js": {
+        "react-hooks/rules-of-hooks": 1
+    },
+    "src/Common/ResizeHandle.stories.js": {
+        "react/no-unescaped-entities": 1
+    },
+    "src/Common/Toast.js": {
+        "react-hooks/exhaustive-deps": 2
+    }
+}
