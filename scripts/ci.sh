@@ -51,6 +51,14 @@ step() {
     echo ""
 }
 
+# What the release may commit (DASH-163): every tracked file changed against
+# HEAD before validation runs, staged or not. scripts/release.js commits these
+# files and no others (never `git add -u`), and stops if validation changed
+# any other tracked file.
+CHANGED_LIST="$(mktemp "${TMPDIR:-/tmp}/dash-ci-changed.XXXXXX")"
+trap 'rm -f "$CHANGED_LIST"' EXIT
+git diff --name-only --no-renames HEAD > "$CHANGED_LIST"
+
 # ============================================================================
 # VALIDATION STEPS
 # ============================================================================
@@ -73,8 +81,9 @@ echo "Node version: $(node -v)"
 echo "npm version: $(npm -v)"
 
 # 2. Formatting check (DASH-155). Validation must not rewrite tracked files:
-# the release step commits with `git add -u`, so a `--write` here used to
-# sweep reformatted, out-of-plan files into the commit. Fix with
+# the release step once committed with `git add -u`, so a `--write` here
+# swept reformatted, out-of-plan files into the commit (it now stops instead,
+# DASH-163). Fix with
 # `npm run prettify`, then run again.
 step "Checking formatting (Prettier)"
 if ! npx prettier --check .; then
@@ -96,7 +105,7 @@ npm test
 
 # 2c. The release script (DASH-48): resumable, worktree-safe git workflow.
 step "Testing the release script"
-node --test scripts/release.test.js
+node --test scripts/release.test.js scripts/release-staging-pin.test.js
 
 # 3. Build with Rollup, then copy in the rest of the published files, the
 # same steps the release workflow runs before `npm publish`. dist/ isn't
@@ -150,7 +159,11 @@ fi
 # GIT WORKFLOW (DASH-48: scripts/release.js)
 # ============================================================================
 # Resumable: after --pr, run --release on the same branch to merge, tag and
-# clean up. Safe to run again. Works in a git worktree.
+# clean up. Safe to run again. Works in a git worktree. It commits only the
+# files in $CHANGED_LIST (changed before validation ran) and stops if
+# validation changed any other; package-lock.json only with a package.json
+# dependency change (RELEASE_ALLOW_LOCKFILE=1 overrides: a person's call).
+# Only tracked (or staged) files are committed: `git add` a new file first.
 
 export RELEASE_PR_BODY="## Summary
 $COMMIT_MSG
@@ -165,4 +178,5 @@ Version: {{VERSION}}
 - Output verification: passed
 - Package creation: passed"
 
-node scripts/release.js --mode "$MODE" -m "$COMMIT_MSG" --main main
+node scripts/release.js --mode "$MODE" -m "$COMMIT_MSG" --main main \
+    --files-from "$CHANGED_LIST"
